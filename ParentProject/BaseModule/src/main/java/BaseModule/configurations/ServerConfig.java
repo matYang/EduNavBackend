@@ -86,5 +86,6 @@ public class ServerConfig {
 		public static final String AliyunPassengerVerificationBucket = "passengerverification";
 		
 		public static final int AdminRefLength = 6;
+		public static final String ImgFolder = "imgs/";
 		public static final String resourcePrefix = "src/main/resources/";
 }

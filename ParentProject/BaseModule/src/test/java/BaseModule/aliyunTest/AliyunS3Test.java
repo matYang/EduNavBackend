@@ -19,6 +19,6 @@ public class AliyunS3Test {
 		String imgSize = ImgConfig.imgSize_m;
 		String imgName = teacherImgPrefix + imgSize +userId;
 		File file = new File(ServerConfig.resourcePrefix + ServerConfig.ImgFolder + imgName+".png");
-		AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunEduCatTeacherImgBucket,false);
+		AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunTeacherImgBucket,false);
 	}
 }
