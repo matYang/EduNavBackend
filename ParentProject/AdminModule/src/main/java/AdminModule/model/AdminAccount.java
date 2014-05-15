@@ -35,11 +35,17 @@ public class AdminAccount {
 	}
 
 	//Normal Construction
-	public AdminAccount(String name, String phone) {
+	public AdminAccount(String name, String phone,String reference, Privilege privilege, Status status) {
 		super();
 		this.name = name;
 		this.phone = phone;
+		this.reference = reference;
+		this.privilege = privilege;
+		this.status = status;
 		this.creationTime = DateUtility.getCurTimeInstance();
+		if(this.lastLogin==null){
+			this.lastLogin = (Calendar) this.creationTime.clone();
+		}
 	}
 
 	public int getId() {

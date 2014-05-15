@@ -40,7 +40,7 @@ public class User {
 		this.status = status;
 		this.creationTime = DateUtility.getCurTimeInstance();
 		if(this.lastLogin==null){
-			this.lastLogin = this.creationTime;
+			this.lastLogin = (Calendar) this.creationTime.clone();
 		}		
 	}
 	
