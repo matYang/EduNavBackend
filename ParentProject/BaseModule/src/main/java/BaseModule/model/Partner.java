@@ -40,7 +40,7 @@ public class Partner {
 
 	//Normal Construction
 	public Partner(String name, String licence, String organizationNum,
-			String reference, String password, String phone) {
+			String reference, String password, String phone,Status status) {
 		super();
 		this.name = name;
 		this.licence = licence;
@@ -48,7 +48,11 @@ public class Partner {
 		this.reference = reference;
 		this.password = password;
 		this.phone = phone;
+		this.status = status;
 		this.creationTime = DateUtility.getCurTimeInstance();
+		if(this.lastLogin==null){
+			this.lastLogin=this.creationTime;
+		}
 	}
 
 
@@ -133,7 +137,6 @@ public class Partner {
 	public boolean equals(Partner p){
 		return this.id==p.getId() && this.name.equals(p.getName()) && this.password.equals(p.getPassword()) &&
 				this.organizationNum.equals(p.getOrganizationNum()) && this.reference.equals(p.getReference()) &&
-				this.phone.equals(p.getPhone()) && this.licence.equals(p.getLicence()) && this.creationTime.getTime().toString().equals(p.getCreationTime().getTime().toString()) &&
-				this.status.code == p.getStatus().code;				
+				this.phone.equals(p.getPhone()) && this.licence.equals(p.getLicence()) && this.status.code == p.getStatus().code;				
 	}
 }

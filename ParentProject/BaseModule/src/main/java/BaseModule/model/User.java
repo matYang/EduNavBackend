@@ -28,16 +28,20 @@ public class User {
 		this.creationTime = creationTime;
 		this.lastLogin = lastLogin;
 		this.password = password;
-		this.status = status;
+		this.status = status;		
 	}
 	
 	//Normal Construction
-	public User(String name, String phone, String password) {
+	public User(String name, String phone, String password,Status status) {
 		super();		
 		this.name = name;
 		this.phone = phone;
 		this.password = password;
+		this.status = status;
 		this.creationTime = DateUtility.getCurTimeInstance();
+		if(this.lastLogin==null){
+			this.lastLogin = this.creationTime;
+		}		
 	}
 	
 	public int getUserId() {
@@ -97,10 +101,10 @@ public class User {
 
 	}
 
-	public boolean equals(User another){
+	public boolean equals(User another){	
+
 		return this.name.equals(another.getName()) && this.password.equals(another.getPassword()) &&
 				this.phone.equals(another.getPhone()) && this.status.code == another.getStatus().code &&
-				this.userId == another.getUserId() && this.creationTime.getTime().toString().equals(another.getCreationTime().getTime().toString()) &&
-				this.lastLogin.getTime().toString().equals(another.getLastLogin().getTime().toString());
+				this.userId == another.getUserId();
 	}
 }

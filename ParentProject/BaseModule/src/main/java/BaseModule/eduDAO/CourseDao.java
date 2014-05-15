@@ -124,7 +124,8 @@ public class CourseDao {
 		try{
 			conn = EduDaoBasic.getSQLConnection();
 			stmt = conn.prepareStatement(query);
-
+			
+			stmt.setInt(1, p_Id);
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				clist.add(createCourseByResultSet(rs,conn));

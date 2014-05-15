@@ -46,10 +46,11 @@ public class Booking {
 	}
 
 	//Normal Construction
-	public Booking(Calendar startTime, Calendar finishTime, int price,
+	public Booking(Calendar timeStamp,Calendar startTime, Calendar finishTime, int price,
 			int userId, int partnerId, int courseId, String name, String phone,
-			String reference) {
+			String reference,Status status) {
 		super();
+		this.timeStamp = timeStamp;
 		this.startTime = startTime;
 		this.finishTime = finishTime;
 		this.price = price;
@@ -59,6 +60,7 @@ public class Booking {
 		this.name = name;
 		this.phone = phone;
 		this.reference = reference;
+		this.status = status;
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 

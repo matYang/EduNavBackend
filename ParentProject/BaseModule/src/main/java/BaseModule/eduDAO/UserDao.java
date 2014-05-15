@@ -20,7 +20,7 @@ public class UserDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO UserDao (name,password,phone,creationTime,lastLogin,status)" +
-				" values (?,?,?,?,?,?,?);";
+				" values (?,?,?,?,?,?);";		
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);			
 			

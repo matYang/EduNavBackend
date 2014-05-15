@@ -59,7 +59,7 @@ public class Course {
 	//Normal Construction
 	public Course(int p_Id, Calendar startTime, Calendar finishTime,
 			String instName, int seatsTotal, int seatsLeft, String category,
-			String subCategory) {
+			String subCategory,Status status) {
 		super();
 		this.p_Id = p_Id;
 		this.startTime = startTime;
@@ -69,6 +69,7 @@ public class Course {
 		this.seatsLeft = seatsLeft;
 		this.category = category;
 		this.subCategory = subCategory;
+		this.status = status;
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 
@@ -240,16 +241,7 @@ public class Course {
 		return jsonSearchRepresentation;
 	}
 
-	public boolean equals(Course c){
-		if(this.partner==null)
-			return this.backgroundURL.equals(c.getBackgroundURL()) && this.category.equals(c.getCategory()) &&
-					this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() &&
-					this.title.equals(c.getTitle()) && this.t_Info.equals(c.getT_Info()) && this.t_ImgURL.equals(c.getT_ImgURL()) &&
-					this.t_Material.equals(c.getT_Material()) && this.price == c.getPrice() && this.seatsTotal == c.getSeatsTotal() &&
-					this.seatsLeft == c.getSeatsLeft() && this.status.code == c.getStatus().code && this.instName.equals(c.getInstName()) &&
-					this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) && this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
-					this.finishTime.getTime().toString().equals(c.getFinishTime().getTime().toString());
-		else
+	public boolean equals(Course c){			
 			return this.backgroundURL.equals(c.getBackgroundURL()) && this.category.equals(c.getCategory()) &&
 					this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() && this.partner.equals(c.getPartner()) &&
 					this.title.equals(c.getTitle()) && this.t_Info.equals(c.getT_Info()) && this.t_ImgURL.equals(c.getT_ImgURL()) &&
