@@ -1,6 +1,21 @@
 package BaseModule.resources;
 
+import java.io.UnsupportedEncodingException;
+
+import org.json.JSONObject;
+import org.restlet.data.Status;
+import org.restlet.engine.header.Header;
+import org.restlet.ext.json.JsonRepresentation;
+import org.restlet.representation.Representation;
+import org.restlet.representation.StringRepresentation;
+import org.restlet.resource.Options;
+import org.restlet.resource.ServerResource;
+import org.restlet.util.Series;
+
+import BaseModule.common.DebugLog;
+import BaseModule.configurations.ValidationConfig;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.validation.ValidationException;
 
 public class PseudoResource extends ServerResource{
 	
@@ -26,15 +41,15 @@ public class PseudoResource extends ServerResource{
 		return null;
 	}
 	
-	public void checkEntity(Representation entity) throws EntityTooLargeException{
+	public void checkEntity(Representation entity) throws ValidationException{
 		if (entity != null && entity.getSize() > ValidationConfig.max_PostLength){
-			throw new EntityTooLargeException();
+			throw new ValidationException("发送内容过大");
 		}
 	}
 	
-	public void checkFileEntity(Representation entity) throws NullPointerException, EntityTooLargeException{
+	public void checkFileEntity(Representation entity) throws NullPointerException, ValidationException{
 		if (entity != null && entity.getSize() > ValidationConfig.max_FileLength){
-			throw new EntityTooLargeException();
+			throw new ValidationException("发送内容过大");
 		}
 	}
 
@@ -100,50 +115,9 @@ public class PseudoResource extends ServerResource{
 	public StringRepresentation doPseudoException(PseudoException e){
 		DebugLog.d(e);
 		switch(e.getCode()){
-			case 1: case 2: case 4: case 8: case 19: case 21:
+			case 1: case 2: case 4: case 5: 
 				//Not Found
 				setStatus(Status.CLIENT_ERROR_NOT_FOUND);
-				break;
-			case 3: case 5: case 9: case 20:
-				//OwnerNotMatch
-				setStatus(Status.CLIENT_ERROR_NOT_ACCEPTABLE);
-				break;
-			case 6:
-				//TransactionAccessViolation
-				setStatus(Status.CLIENT_ERROR_FAILED_DEPENDENCY);
-				break;
-			case 7:
-				//TransactionStateViolation
-				setStatus(Status.CLIENT_ERROR_PRECONDITION_FAILED);
-				break;
-			case 10: case 11:
-				//DuplicateSessionCookie: //SessionEncoding
-				this.getResponse().getCookieSettings().clear();
-				setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
-				break;
-//			case 12:  gone
-//				//UnacceptableSearchState
-//				setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
-//				break;
-			case 13:
-				//UnexceppedCookie
-				setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
-				break;
-			case 14:
-				//AccountAuthentication
-				setStatus(Status.CLIENT_ERROR_UNAUTHORIZED);
-				break;
-			case 15:
-				//EntityTooLarge
-				setStatus(Status.CLIENT_ERROR_REQUEST_ENTITY_TOO_LARGE);
-				break;
-			case 16:
-				//LocationNotFoundException
-				setStatus(Status.CLIENT_ERROR_NOT_FOUND);
-				break;
-			case 17:
-				//LocationException
-				setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
 				break;
 			case 18:
 				//ValidationException
@@ -162,15 +136,10 @@ public class PseudoResource extends ServerResource{
 		return new StringRepresentation("不好意思..哪里弄错了，请稍后重试");
 	}
 	
-	public Representation buildQuickResponse(String responseText){
-		JSONObject response = new JSONObject();	
-		response = JSONFactory.toJSON(responseText);
-		return new JsonRepresentation(response);
-	}
-	
+
 	public Representation quickRespond(String responseText){
 		addCORSHeader();
-		return buildQuickResponse(responseText);
+		return new StringRepresentation(responseText);
 	}
 	
 	/******************

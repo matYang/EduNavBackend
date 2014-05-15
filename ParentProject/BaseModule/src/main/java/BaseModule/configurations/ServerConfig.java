@@ -56,7 +56,6 @@ public class ServerConfig {
 			
 		}
 		
-		public static final int max_recents = 10;
 		public static final String domainName = configurationMap.get("domainName");
 		public static final boolean cookieEnabled = false;
 		public static final String cookie_userSession = "userSessionCookie";
@@ -66,33 +65,22 @@ public class ServerConfig {
 		public static final String urlSeperator = "+";
 		public static final String urlSeperatorRegx = "\\+";
 
-		public static final String ImgFolder = "imgs/";
-		public static final String searchHistoryFileSufix = "_sr.txt";
 		
-		
-		public static final String AccessKeyID="AKIAIE53WCAFSYLUGH2A";
-		public static final String SecretKey="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";
 		
 		/*API level constants*/
 		public static final int category_DM = 0;
 		public static final String applicationPrefix = "/api";
 		public static final String versionPrefix = "/v1.0";
-
-
-		public static final String timeZoneIdNY = "America/New_York";
+		
+		/*Time constants*/
 		public static final String timeZoneIdCH = "asia/shanghai";
-		public static final String timeZoneStandard = "UTC";
 		
-		/* AWS Bucket*/
-		public static final String ProfileBucket = "Badstudent";
-		public static final String DriverVerificationBucket = "DriverVerification";
-		public static final String PassengerVerificationBucket = "PassengerVerification";	
-		
+
 		/* ALIYUN Bucket*/
 		public static final String AliyunGetImgPrefix = "http://badstudent-aliyun.oss-cn-hangzhou.aliyuncs.com/";
 		public static final String AliyunAccessKeyID = "UBnwEnaFUdBewFF9";
 		public static final String AliyunAccessKeySecrete = "L8hyNuKRXo5bfQ9HWURDq0bprDSDYO";
-		public static final String AliyunEduCatTeacherImgBucket = "teacherimgbucket";
+		public static final String AliyunEduCatImgBucket = "educationalservice-imgbucket";
 		public static final String AliyunProfileBucket = "badstudent-aliyun";
 		public static final String AliyunDriverVerificationBucket = "driververification";
 		public static final String AliyunPassengerVerificationBucket = "passengerverification";

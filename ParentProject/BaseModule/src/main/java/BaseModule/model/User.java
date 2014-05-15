@@ -7,8 +7,9 @@ import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.interfaces.PseudoModel;
 
-public class User {
+public class User implements PseudoModel{
 
 	private int userId;
 	private String name;
