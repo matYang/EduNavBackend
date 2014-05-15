@@ -8,7 +8,8 @@ import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.Status;
-public class AdminAccount {
+import BaseModule.interfaces.PseudoModel;
+public class AdminAccount implements PseudoModel{
 
 	private int id;
 	private Calendar creationTime;

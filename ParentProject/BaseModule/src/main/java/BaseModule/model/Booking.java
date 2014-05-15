@@ -7,8 +7,9 @@ import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.interfaces.PseudoModel;
 
-public class Booking {
+public class Booking implements PseudoModel{
 
 	private int id;
 	private Calendar creationTime;

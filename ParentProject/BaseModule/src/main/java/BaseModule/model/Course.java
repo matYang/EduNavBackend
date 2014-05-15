@@ -7,8 +7,9 @@ import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.interfaces.PseudoModel;
 
-public class Course {
+public class Course implements PseudoModel{
 
 	private int courseId;
 	private int p_Id;
