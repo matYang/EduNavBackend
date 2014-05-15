@@ -19,7 +19,7 @@ public class AliyunMain {
 
 	private static final String myAccessKeyID = ServerConfig.AliyunAccessKeyID;
 	private static final String mySecretKey = ServerConfig.AliyunAccessKeySecrete;
-	private static final String ImgBucket = ServerConfig.AliyunEduCatTeacherImgBucket;	
+	private static final String ImgBucket = ServerConfig.AliyunTeacherImgBucket;	
 
 
 	static Logger logger = Logger.getLogger(AliyunMain.class);

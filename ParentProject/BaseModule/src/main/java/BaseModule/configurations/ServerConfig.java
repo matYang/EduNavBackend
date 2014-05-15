@@ -80,7 +80,7 @@ public class ServerConfig {
 		public static final String AliyunGetImgPrefix = "http://badstudent-aliyun.oss-cn-hangzhou.aliyuncs.com/";
 		public static final String AliyunAccessKeyID = "UBnwEnaFUdBewFF9";
 		public static final String AliyunAccessKeySecrete = "L8hyNuKRXo5bfQ9HWURDq0bprDSDYO";
-		public static final String AliyunEduCatImgBucket = "educationalservice-imgbucket";
+		public static final String AliyunTeacherImgBucket = "teacherimgbucket";
 		public static final String AliyunProfileBucket = "badstudent-aliyun";
 		public static final String AliyunDriverVerificationBucket = "driververification";
 		public static final String AliyunPassengerVerificationBucket = "passengerverification";
