@@ -187,8 +187,8 @@ public class Booking {
 
 	}
 
-	public boolean equals(Booking booking){
-		return this.id==booking.getId() && this.name.equals(booking.getName()) && this.partnerId == booking.getCourseId() &&
+	public boolean equals(Booking booking){		
+		return this.id==booking.getId() && this.name.equals(booking.getName()) && this.courseId == booking.getCourseId() &&
 				this.partnerId == booking.getPartnerId() && this.phone.equals(booking.getPhone()) && this.price == booking.getPrice() &&
 				this.creationTime.getTime().toString().equals(booking.getCreationTime().getTime().toString()) && this.startTime.getTime().toString().equals(booking.getStartTime().getTime().toString()) &&
 				this.finishTime.getTime().toString().equals(booking.getFinishTime().getTime().toString()) && this.timeStamp.getTime().toString().equals(booking.getTimeStamp().getTime().toString()) &&
