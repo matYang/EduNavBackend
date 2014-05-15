@@ -1,0 +1,28 @@
+package BaseModule.configurations;
+
+public class EnumConfig {
+
+	public static enum Status{
+        activated(0),deactivated(1),deleted(2);
+        public int code;
+        Status(int code){
+            this.code = code;
+        }
+        private final static Status[] map = Status.values();
+        public static Status fromInt(int n){
+            return map[n];
+        }
+    }
+	
+	public static enum Privilege{
+        first(0),business(1),economy(2);
+        public int code;
+        Privilege(int code){
+            this.code = code;
+        }
+        private final static Privilege[] map = Privilege.values();
+        public static Privilege fromInt(int n){
+            return map[n];
+        }
+    }
+}
