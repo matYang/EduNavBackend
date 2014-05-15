@@ -5,3 +5,7 @@ dump.rdb
 *.class
 */log4j
 */target
+ParentProject/AdminModule/.classpath
+ParentProject/BaseModule/.classpath
+ParentProject/PartnerModule/.classpath
+ParentProject/UserModule/.classpath
