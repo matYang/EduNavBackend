@@ -1,0 +1,7 @@
+.DS_Store
+*.prefs
+*.pref
+dump.rdb
+*.class
+*/log4j
+*/target
