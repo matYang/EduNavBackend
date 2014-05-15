@@ -150,7 +150,7 @@ public class BookingDao {
 	}
 
 	private static Booking createBookingByResultSet(ResultSet rs) throws SQLException {
-		return new Booking(rs.getInt("rs"), DateUtility.DateToCalendar(rs.getDate("creationTime")), DateUtility.DateToCalendar(rs.getDate("timeStamp")),
+		return new Booking(rs.getInt("id"), DateUtility.DateToCalendar(rs.getDate("creationTime")), DateUtility.DateToCalendar(rs.getDate("timeStamp")),
 				DateUtility.DateToCalendar(rs.getDate("startTime")),DateUtility.DateToCalendar(rs.getDate("finishTime")), rs.getInt("price"), rs.getInt("u_Id"),
 				rs.getInt("p_Id"), rs.getInt("course_Id"), rs.getString("name"), rs.getString("phone"),Status.fromInt(rs.getInt("status")), rs.getString("reference"));
 	}

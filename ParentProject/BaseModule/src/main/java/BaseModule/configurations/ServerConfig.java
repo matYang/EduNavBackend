@@ -25,7 +25,7 @@ public class ServerConfig {
 
 				//local env
 				configurationMap.put("env", "local");			
-				configurationMap.put("jdbcUri", "localhost:3306/test?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
+				configurationMap.put("jdbcUri", "localhost:3306/EduModel?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 				configurationMap.put("redisUri", "localhost");
 				configurationMap.put("domainName", "localhost:8015");
 				configurationMap.put("redisSearchHistoryUpbound", "6");
@@ -92,6 +92,7 @@ public class ServerConfig {
 		public static final String AliyunGetImgPrefix = "http://badstudent-aliyun.oss-cn-hangzhou.aliyuncs.com/";
 		public static final String AliyunAccessKeyID = "UBnwEnaFUdBewFF9";
 		public static final String AliyunAccessKeySecrete = "L8hyNuKRXo5bfQ9HWURDq0bprDSDYO";
+		public static final String AliyunEduCatImgBucket = "educationalservice-imgbucket";
 		public static final String AliyunProfileBucket = "badstudent-aliyun";
 		public static final String AliyunDriverVerificationBucket = "driververification";
 		public static final String AliyunPassengerVerificationBucket = "passengerverification";

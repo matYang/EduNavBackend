@@ -21,7 +21,7 @@ public class PartnerDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO PartnerDao (name,licence,organizationNum,reference,password,phone,creationTime,lastLogin,status)" +
-				" values (?,?,?,?,?,?,?);";
+				" values (?,?,?,?,?,?,?,?,?);";
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
@@ -52,7 +52,7 @@ public class PartnerDao {
 	public static void updatePartnerInDatabases(Partner p) throws PartnerNotFoundException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;
-		String query = "UPDATE UserDao SET name=?,licence=?,organizationNum=?,reference=?,password=?,phone=?," +
+		String query = "UPDATE PartnerDao SET name=?,licence=?,organizationNum=?,reference=?,password=?,phone=?," +
 				"lastLogin=?,status=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
