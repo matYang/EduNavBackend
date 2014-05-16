@@ -26,14 +26,17 @@ public class SMSTask implements PseudoAsyncTask{
 	public SMSTask(SMSEvent event, String cellNum, String payload){
 		this.cellNum = cellNum;
 		this.event = event;
-		if (event == SMSEvent.registration){
+		if (event == SMSEvent.user_registration){
 			this.content = "您的验证码是：" + payload;
 		}
-		else if (event == SMSEvent.bookingConfirmation){
+		else if (event == SMSEvent.user_bookingConfirmation){
 			this.content = "您的确认码是：" + payload;
 		}
-		else if (event == SMSEvent.forgetPassword){
-			this.content = "您的临时密码是：" + payload + ", 请尽快更改密码";
+		else if (event == SMSEvent.user_forgetPassword){
+			this.content = "您的修改密码验证码是：" + payload + ", 请尽快更改密码";
+		}
+		else if (event == SMSEvent.partner_forgetPassword){
+			this.content = "您的修改密码验证码是：" + payload + ", 请尽快更改密码";
 		}
 		else{
 			throw new RuntimeException("Unrecognizable SMS event");

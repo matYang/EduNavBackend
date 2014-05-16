@@ -54,22 +54,22 @@ public class SMSTaskTest {
 	
 	@Test
 	public void testSMSTask(){
-		SMSTask smsTask = new SMSTask(SMSEvent.registration, "18662241356", "testSMSTask");
+		SMSTask smsTask = new SMSTask(SMSEvent.user_registration, "18662241356", "testSMSTask");
 		smsTask.execute();
 	}
 	
 	@Test
 	public void testSMSRelay() throws InterruptedException{
-		SMSTask smsTask = new SMSTask(SMSEvent.bookingConfirmation, "18662241356", "testSMSRelay");
+		SMSTask smsTask = new SMSTask(SMSEvent.user_bookingConfirmation, "18662241356", "testSMSRelay");
 		ExecutorProvider.executeRelay(smsTask);
 		Thread.sleep(5000);
 	}
 	
 	@Test
 	public void testSMSForgetPassword() throws InterruptedException{
-		SMSTask smsTaska = new SMSTask(SMSEvent.forgetPassword, "18662241356", "testSMSForgetPassword");
+		SMSTask smsTaska = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "testSMSForgetPassword");
 		ExecutorProvider.executeRelay(smsTaska);
-		SMSTask smsTaskb = new SMSTask(SMSEvent.forgetPassword, "18662241356", "ku79DS3drR");
+		SMSTask smsTaskb = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "ku79DS3drR");
 		ExecutorProvider.executeRelay(smsTaskb);
 		Thread.sleep(5000);
 	}

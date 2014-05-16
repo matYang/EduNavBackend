@@ -1,13 +1,9 @@
 package UserModule.service;
 
-import org.restlet.data.CookieSetting;
-
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.DatabaseConfig;
-import BaseModule.encryption.SessionCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.validation.ValidationException;
 
 public class UserAuthenticationService {
 	
