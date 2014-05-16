@@ -3,6 +3,7 @@ package BaseModule.resources;
 import java.io.UnsupportedEncodingException;
 
 import org.json.JSONObject;
+import org.restlet.data.CookieSetting;
 import org.restlet.data.Status;
 import org.restlet.engine.header.Header;
 import org.restlet.ext.json.JsonRepresentation;
@@ -13,6 +14,7 @@ import org.restlet.resource.ServerResource;
 import org.restlet.util.Series;
 
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.ValidationConfig;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
