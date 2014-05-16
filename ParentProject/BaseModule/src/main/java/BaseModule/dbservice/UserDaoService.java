@@ -21,6 +21,10 @@ public class UserDaoService {
 		return UserDao.getUserByPhone(phone);
 	}
 	
+	public static User createUser(User user) throws ValidationException{
+		return UserDao.addUserToDatabase(user);
+	}
+	
 	public static void updateUser(User user) throws ValidationException{
 		UserDao.updateUserInDatabases(user);
 	}
