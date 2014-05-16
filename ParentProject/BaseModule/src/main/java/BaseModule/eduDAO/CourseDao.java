@@ -58,8 +58,8 @@ public class CourseDao {
 		return course;
 	}
 
-	public static void updateCourseInDatabases(Course course) throws CourseNotFoundException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static void updateCourseInDatabases(Course course,Connection...connections) throws CourseNotFoundException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;
 		String query = "UPDATE CourseDao SET p_Id=?,startTime=?,finishTime=?,t_Info=?,t_ImgURL=?,backgroundURL=?,price=?," +
 				"seatsTotal=?,seatsLeft=?,t_Material=?,status=?,instName=?,category=?,subCategory=?,title=? where id=?";
@@ -90,7 +90,7 @@ public class CourseDao {
 		}catch(SQLException e){
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, null,true);
+			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}
 	}
 	
@@ -107,7 +107,7 @@ public class CourseDao {
 			stmt.setInt(1, courseId);
 			rs = stmt.executeQuery();
 			if(rs.next()){
-				course = createCourseByResultSet(rs,null,conn);
+				course = createCourseByResultSet(rs,null,conn);				
 			}else throw new CourseNotFoundException();
 		}catch(SQLException e){
 			DebugLog.d(e);
@@ -151,7 +151,7 @@ public class CourseDao {
 		return clist;
 	}
 	
-	private static Course createCourseByResultSet(ResultSet rs,Partner partner,Connection...connections) throws SQLException {
+	protected static Course createCourseByResultSet(ResultSet rs,Partner partner,Connection...connections) throws SQLException {
 		int p_Id =  rs.getInt("p_Id");
 		if(partner == null){
 			try {
@@ -161,10 +161,18 @@ public class CourseDao {
 				DebugLog.d(e);
 			}
 		}
-		return new Course(rs.getInt("id"), p_Id, DateUtility.DateToCalendar(rs.getDate("creationTime")),
-				DateUtility.DateToCalendar(rs.getDate("startTime")), DateUtility.DateToCalendar(rs.getDate("finishTime")), 
+		return new Course(rs.getInt("id"), p_Id, DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
+				DateUtility.DateToCalendar(rs.getTimestamp("startTime")), DateUtility.DateToCalendar(rs.getTimestamp("finishTime")), 
 				rs.getString("t_Info"),rs.getString("t_ImgURL"), rs.getString("t_Material"), rs.getString("backgroundURL"),
 				rs.getString("instName"), rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),Status.fromInt(rs.getInt("status")), 
 				rs.getString("category"), rs.getString("subCategory"), partner,rs.getString("title"));
+	}
+
+	protected static Course createCourseByResultSet(ResultSet rs) throws SQLException {
+		return new Course(rs.getInt("id"), rs.getInt("p_Id"), DateUtility.DateToCalendar(rs.getDate("creationTime")),
+				DateUtility.DateToCalendar(rs.getDate("startTime")), DateUtility.DateToCalendar(rs.getDate("finishTime")), 
+				rs.getString("t_Info"),rs.getString("t_ImgURL"), rs.getString("t_Material"), rs.getString("backgroundURL"),
+				rs.getString("instName"), rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),Status.fromInt(rs.getInt("status")), 
+				rs.getString("category"), rs.getString("subCategory"), null,rs.getString("title"));
 	}
 }

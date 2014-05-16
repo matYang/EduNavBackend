@@ -153,8 +153,8 @@ public class UserDao {
 	}
 	
 	private static User createUserByResultSet(ResultSet rs) throws SQLException {
-		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getDate("creationTime")),
-				DateUtility.DateToCalendar(rs.getDate("lastLogin")), rs.getString("password"), Status.fromInt(rs.getInt("status")));
+		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
+				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")), rs.getString("password"), Status.fromInt(rs.getInt("status")));
 	}
 	
 	
