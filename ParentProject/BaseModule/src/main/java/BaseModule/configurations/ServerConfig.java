@@ -1,10 +1,9 @@
 package BaseModule.configurations;
 
-import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import BaseModule.common.DateUtility;
+
 
 public class ServerConfig {
 
@@ -81,6 +80,8 @@ public class ServerConfig {
 		public static final String AliyunAccessKeyID = "UBnwEnaFUdBewFF9";
 		public static final String AliyunAccessKeySecrete = "L8hyNuKRXo5bfQ9HWURDq0bprDSDYO";
 		public static final String AliyunTeacherImgBucket = "teacherimgbucket";
+		public static final String AliyunBackgroundImgBucket = "backimgbucket";
+		public static final String AliyunLogoBucket = "logobucket";
 		public static final String AliyunProfileBucket = "badstudent-aliyun";
 		public static final String AliyunDriverVerificationBucket = "driververification";
 		public static final String AliyunPassengerVerificationBucket = "passengerverification";

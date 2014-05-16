@@ -19,7 +19,6 @@ public class AliyunMain {
 
 	private static final String myAccessKeyID = ServerConfig.AliyunAccessKeyID;
 	private static final String mySecretKey = ServerConfig.AliyunAccessKeySecrete;
-	private static final String ImgBucket = ServerConfig.AliyunTeacherImgBucket;	
 
 
 	static Logger logger = Logger.getLogger(AliyunMain.class);
@@ -40,7 +39,7 @@ public class AliyunMain {
 			InputStream content = new FileInputStream(file);
 			ObjectMetadata meta = new ObjectMetadata();
 			meta.setContentLength(file.length());
-			client.putObject(ImgBucket, tempImageKey, content, meta);
+			client.putObject(Bucket, tempImageKey, content, meta);
 			imgAddress = ServerConfig.AliyunGetImgPrefix + tempImageKey;
 
 		} catch(ClientException | OSSException e){
