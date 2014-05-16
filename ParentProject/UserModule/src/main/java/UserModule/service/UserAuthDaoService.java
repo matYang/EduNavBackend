@@ -12,10 +12,8 @@ public class UserAuthDaoService {
 	
 	private static final String userSession_web_keyPrefix = "user-session-web-";
 	private static final int userSession_web_authCodeLength = 15;
-	
-	public static final long userSession_updateThreshold = 259200000l;		//3 days
-	public static final long userSession_expireThreshold = 604800000l;		//7 days
-	
+	private static final long userSession_updateThreshold = 259200000l;		//3 days
+	private static final long userSession_expireThreshold = 604800000l;		//7 days
 
 	public static boolean validateSession(int id, String authCode, long timeStamp){
 		Jedis jedis = EduDaoBasic.getJedis();
@@ -30,7 +28,7 @@ public class UserAuthDaoService {
 				String redis_authCode = UserAuthenticationService.getAuthCodeFromSessionString(sessionString);
 				long redis_timeStamp = UserAuthenticationService.getTimeStampFromSessionString(sessionString);
 				
-				if(id != redis_userId || !authCode.equals(redis_authCode)){
+				if(id != redis_userId || !redis_authCode.equals(authCode)){
 					return false;
 				}
 				if((DateUtility.getCurTime() - redis_timeStamp) > userSession_expireThreshold){

@@ -31,7 +31,7 @@ public class UserPseudoResource extends PseudoResource{
 	}
 
 	
-	public void addAuthentication(int userId) throws Exception{
+	public void openAuthentication(int userId) throws Exception{
 		String encryptedString = SessionCrypto.encrypt(UserAuthenticationService.openSession(userId));
 		
 		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings();
