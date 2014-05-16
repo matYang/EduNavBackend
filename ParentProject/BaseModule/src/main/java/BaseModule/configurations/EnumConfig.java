@@ -25,4 +25,16 @@ public class EnumConfig {
             return map[n];
         }
     }
+	
+	public static enum SMSEvent{
+		registration(0), bookingConfirmation(1), forgetPassword(2);
+		public int code;
+		SMSEvent(int code){
+			this.code = code;
+		}
+		private final static SMSEvent[] map = SMSEvent.values();
+		public static SMSEvent fromInt(int n){
+			return map[n];
+		}
+	}
 }
