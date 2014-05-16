@@ -14,10 +14,11 @@ public class User implements PseudoModel{
 	private int userId;
 	private String name;
 	private String phone;
-	private Calendar creationTime;
-	private Calendar lastLogin;
 	private String password;
 	private Status status;
+	
+	private Calendar creationTime;
+	private Calendar lastLogin;
 
 	//SQL Retrieving
 	public User(int userId, String name, String phone, Calendar creationTime,
