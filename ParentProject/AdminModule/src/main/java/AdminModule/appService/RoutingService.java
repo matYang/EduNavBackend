@@ -1,4 +1,4 @@
-package AdminModule.service;
+package AdminModule.appService;
 
 public class RoutingService {
 

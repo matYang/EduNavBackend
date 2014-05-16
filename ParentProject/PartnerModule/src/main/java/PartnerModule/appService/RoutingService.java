@@ -1,4 +1,4 @@
-package PartnerModule.service;
+package PartnerModule.appService;
 
 public class RoutingService {
 
