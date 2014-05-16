@@ -12,6 +12,7 @@ import BaseModule.configurations.EnumConfig.Status;
 import BaseModule.exception.booking.BookingNotFoundException;
 import BaseModule.model.Booking;
 
+
 public class BookingDao {
 
 	public static Booking addBookingToDatabases(Booking booking){
@@ -88,13 +89,13 @@ public class BookingDao {
 		ArrayList<Booking> blist = new ArrayList<Booking>();
 		PreparedStatement stmt = null;
 		Connection conn = null;
-		ResultSet rs = null;
+		ResultSet rs = null;		
 		try{
 			conn = EduDaoBasic.getSQLConnection();
 			stmt = conn.prepareStatement(query);
 
 			rs = stmt.executeQuery();
-			while(rs.next()){
+			while(rs.next()){					
 				blist.add(createBookingByResultSet(rs));
 			}
 		}catch(SQLException e){

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.Status;
@@ -92,11 +94,11 @@ public class CourseDao {
 		}
 	}
 	
-	public static Course getCourseById(int courseId) throws CourseNotFoundException{
+	public static Course getCourseById(int courseId,Connection...connections) throws CourseNotFoundException{
 		String query = "SELECT * FROM CourseDao where id = ?";
 		Course course = null;
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
 		
 		try{
@@ -105,12 +107,12 @@ public class CourseDao {
 			stmt.setInt(1, courseId);
 			rs = stmt.executeQuery();
 			if(rs.next()){
-				course = createCourseByResultSet(rs,conn);
+				course = createCourseByResultSet(rs,null,conn);
 			}else throw new CourseNotFoundException();
 		}catch(SQLException e){
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return course;
 	}
@@ -121,6 +123,8 @@ public class CourseDao {
 		PreparedStatement stmt = null;
 		Connection conn = null;
 		ResultSet rs = null;
+		HashMap<Integer,Partner> pmap = new HashMap<Integer,Partner>();
+		Partner partner = null;		
 		try{
 			conn = EduDaoBasic.getSQLConnection();
 			stmt = conn.prepareStatement(query);
@@ -128,9 +132,17 @@ public class CourseDao {
 			stmt.setInt(1, p_Id);
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				clist.add(createCourseByResultSet(rs,conn));
+				partner = pmap.get(p_Id);
+				if(partner==null){
+					partner = PartnerDao.getPartnerById(p_Id, conn);
+					pmap.put(p_Id, partner);
+				}
+				clist.add(createCourseByResultSet(rs,partner,conn));
 			}
 		}catch(SQLException e){
+			DebugLog.d(e);
+		} catch (PartnerNotFoundException e) {			
+			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,true);
@@ -139,14 +151,15 @@ public class CourseDao {
 		return clist;
 	}
 	
-	private static Course createCourseByResultSet(ResultSet rs,Connection...connections) throws SQLException {
-		int p_Id = rs.getInt("p_Id");
-		Partner partner = null;
-		try {
-			partner = PartnerDao.getPartnerById(p_Id, connections);
-		} catch (PartnerNotFoundException e) {			
-			e.printStackTrace();
-			DebugLog.d(e);			
+	private static Course createCourseByResultSet(ResultSet rs,Partner partner,Connection...connections) throws SQLException {
+		int p_Id =  rs.getInt("p_Id");
+		if(partner == null){
+			try {
+				partner = PartnerDao.getPartnerById(p_Id, connections);
+			} catch (PartnerNotFoundException e) {				
+				e.printStackTrace();
+				DebugLog.d(e);
+			}
 		}
 		return new Course(rs.getInt("id"), p_Id, DateUtility.DateToCalendar(rs.getDate("creationTime")),
 				DateUtility.DateToCalendar(rs.getDate("startTime")), DateUtility.DateToCalendar(rs.getDate("finishTime")), 

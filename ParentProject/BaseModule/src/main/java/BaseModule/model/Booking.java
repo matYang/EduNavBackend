@@ -25,6 +25,7 @@ public class Booking implements PseudoModel{
 	private Status status;
 	private String reference;
 
+
 	//SQL Retrieving
 	public Booking(int id, Calendar creationTime, Calendar timeStamp,
 			Calendar startTime, Calendar finishTime, int price, int userId,
@@ -159,7 +160,7 @@ public class Booking implements PseudoModel{
 
 	public void setReference(String reference) {
 		this.reference = reference;
-	}
+	}	
 
 	public Calendar getCreationTime() {
 		return creationTime;
