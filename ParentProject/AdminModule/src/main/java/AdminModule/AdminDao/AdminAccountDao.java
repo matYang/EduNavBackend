@@ -174,7 +174,7 @@ public class AdminAccountDao {
 	}
 	
 	private static AdminAccount createAdminAccountByResultSet(ResultSet rs) throws SQLException {
-		return new AdminAccount(rs.getInt("id"), DateUtility.DateToCalendar(rs.getDate("creationTime")), DateUtility.DateToCalendar(rs.getDate("lastLogin")),
+		return new AdminAccount(rs.getInt("id"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),
 				rs.getString("reference"), Privilege.fromInt(rs.getInt("privilege")), Status.fromInt(rs.getInt("status")), rs.getString("name"),rs.getString("phone"));
 	}
 }

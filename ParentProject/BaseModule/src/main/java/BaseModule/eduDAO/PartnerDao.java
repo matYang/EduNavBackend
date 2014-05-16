@@ -153,8 +153,8 @@ public class PartnerDao {
 
 	private static Partner createPartnerByResultSet(ResultSet rs) throws SQLException {
 		return new Partner(rs.getInt("id"), rs.getString("name"), rs.getString("licence"), rs.getString("organizationNum"),
-				rs.getString("reference"), rs.getString("password"), DateUtility.DateToCalendar(rs.getDate("creationTime")),
-				DateUtility.DateToCalendar(rs.getDate("lastLogin")), rs.getString("phone"), Status.fromInt(rs.getInt("status")));
+				rs.getString("reference"), rs.getString("password"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
+				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")), rs.getString("phone"), Status.fromInt(rs.getInt("status")));
 	}
 
 

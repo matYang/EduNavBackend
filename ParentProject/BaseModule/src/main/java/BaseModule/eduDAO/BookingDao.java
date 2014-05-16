@@ -28,8 +28,8 @@ public class BookingDao {
 			stmt.setString(2, booking.getPhone());
 			stmt.setString(3, DateUtility.toSQLDateTime(booking.getCreationTime()));
 			stmt.setString(4, DateUtility.toSQLDateTime(booking.getTimeStamp()));
-			stmt.setString(5, DateUtility.toSQLDateTime(booking.getStartTime()));
-			stmt.setString(6, DateUtility.toSQLDateTime(booking.getFinishTime()));
+			stmt.setString(5, DateUtility.toSQLDateTime(booking.getStartTime()));		
+			stmt.setString(6, DateUtility.toSQLDateTime(booking.getFinishTime()));			
 			stmt.setInt(7, booking.getPrice());
 			stmt.setInt(8, booking.getStatus().code);
 			stmt.setInt(9, booking.getUserId());
@@ -51,8 +51,8 @@ public class BookingDao {
 		return booking;
 	}
 
-	public static void updateBookingInDatabases(Booking booking) throws BookingNotFoundException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static void updateBookingInDatabases(Booking booking,Connection...connections) throws BookingNotFoundException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;
 		String query = "UPDATE BookingDao SET name=?,phone=?,timeStamp=?,startTime=?,finishTime=?,price=?," +
 				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=? where id=?";
@@ -79,7 +79,7 @@ public class BookingDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, null,true);
+			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}
 
 	}
@@ -150,9 +150,9 @@ public class BookingDao {
 		return booking;
 	}
 
-	private static Booking createBookingByResultSet(ResultSet rs) throws SQLException {
-		return new Booking(rs.getInt("id"), DateUtility.DateToCalendar(rs.getDate("creationTime")), DateUtility.DateToCalendar(rs.getDate("timeStamp")),
-				DateUtility.DateToCalendar(rs.getDate("startTime")),DateUtility.DateToCalendar(rs.getDate("finishTime")), rs.getInt("price"), rs.getInt("u_Id"),
+	protected static Booking createBookingByResultSet(ResultSet rs) throws SQLException {
+		return new Booking(rs.getInt("id"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), DateUtility.DateToCalendar(rs.getTimestamp("timeStamp")),
+				DateUtility.DateToCalendar(rs.getTimestamp("startTime")),DateUtility.DateToCalendar(rs.getTimestamp("finishTime")), rs.getInt("price"), rs.getInt("u_Id"),
 				rs.getInt("p_Id"), rs.getInt("course_Id"), rs.getString("name"), rs.getString("phone"),Status.fromInt(rs.getInt("status")), rs.getString("reference"));
 	}
 
