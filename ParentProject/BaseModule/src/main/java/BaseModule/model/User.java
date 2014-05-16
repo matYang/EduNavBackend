@@ -41,7 +41,7 @@ public class User implements PseudoModel{
 		this.status = status;
 		this.creationTime = DateUtility.getCurTimeInstance();
 		if(this.lastLogin==null){
-			this.lastLogin = this.creationTime;
+			this.lastLogin = (Calendar) this.creationTime.clone();
 		}		
 	}
 	
