@@ -26,7 +26,6 @@ public class ServerConfig {
 				configurationMap.put("env", "local");			
 				configurationMap.put("jdbcUri", "localhost:3306/EduModel?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 				configurationMap.put("redisUri", "localhost");
-				configurationMap.put("domainName", "localhost:8015");
 				configurationMap.put("redisSearchHistoryUpbound", "6");
 				configurationMap.put("sqlPass", "");
 				configurationMap.put("sqlUser", "root");
@@ -37,7 +36,6 @@ public class ServerConfig {
 				configurationMap.put("env", "test");
 				configurationMap.put("jdbcUri", "badstudent.cunzg2tyzsud.us-west-2.rds.amazonaws.com:3306/test?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 				configurationMap.put("redisUri", "redisserver.ppomgu.0001.usw2.cache.amazonaws.com");
-				configurationMap.put("domainName", "www.routea.ca");
 				configurationMap.put("redisSearchHistoryUpbound", "50");
 				configurationMap.put("sqlPass", "badstudent");
 				configurationMap.put("sqlUser", "test");
@@ -47,18 +45,12 @@ public class ServerConfig {
 				configurationMap.put("env", "prod");
 				configurationMap.put("jdbcUri", "badstudent.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 				configurationMap.put("redisUri", "localhost");
-				configurationMap.put("domainName", "www.routea.ca");
 				configurationMap.put("redisSearchHistoryUpbound", "50");
 				configurationMap.put("sqlPass", "LIFECENTRICo2o");
 				configurationMap.put("sqlUser", "db19r3708gdzx5d1");
 			}
 			
 		}
-		
-		public static final String domainName = configurationMap.get("domainName");
-		public static final boolean cookieEnabled = false;
-		public static final String cookie_userSession = "userSessionCookie";
-		public static final int cookie_maxAge = 5184000; //2 month
 		
 		
 		public static final String urlSeperator = "+";

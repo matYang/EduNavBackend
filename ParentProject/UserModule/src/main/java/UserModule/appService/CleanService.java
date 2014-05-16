@@ -1,4 +1,4 @@
-package UserModule.service;
+package UserModule.appService;
 
 import BaseModule.clean.cleanScheduler.ScheduledClean;
 import BaseModule.common.DebugLog;
