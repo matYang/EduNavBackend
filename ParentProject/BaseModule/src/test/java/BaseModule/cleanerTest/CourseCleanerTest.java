@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import BaseModule.clean.cleanTasks.CourseCleaner;
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
@@ -29,7 +29,7 @@ public class CourseCleanerTest {
 		String reference = "dsf4r";
 		String password = "sdf234r";
 		String phone = "123545451";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
 		PartnerDao.addPartnerToDatabases(partner);
 		int p_Id = partner.getPartnerId();
@@ -79,9 +79,9 @@ public class CourseCleanerTest {
 		
 		ArrayList<Course> clist = new ArrayList<Course>();
 		clist = CourseDao.getCoursesFromPartner(p_Id);
-		if(clist.size()==3&&clist.get(0).getStatus().code==Status.activated.code&&
-				clist.get(1).getStatus().code==Status.deactivated.code&&
-				clist.get(2).getStatus().code==Status.activated.code){
+		if(clist.size()==3&&clist.get(0).getStatus().code==AccountStatus.activated.code&&
+				clist.get(1).getStatus().code==AccountStatus.deactivated.code&&
+				clist.get(2).getStatus().code==AccountStatus.activated.code){
 			//Passed;
 		}else fail();
 				

@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import BaseModule.clean.cleanTasks.BookingCleaner;
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
@@ -30,7 +30,7 @@ public class BookingCleanerTest {
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		User user = new User(name, userphone, password,status);
 		UserDao.addUserToDatabase(user);
 		
@@ -93,8 +93,8 @@ public class BookingCleanerTest {
 		
 		ArrayList<Booking> list = new ArrayList<Booking>();
 		list = BookingDao.getAllBookings();
-		if(list.size()==3 && list.get(0).getStatus().code==Status.activated.code && 
-				list.get(1).getStatus().code==Status.deactivated.code&&list.get(2).getStatus().code==Status.activated.code){
+		if(list.size()==3 && list.get(0).getStatus().code==AccountStatus.activated.code && 
+				list.get(1).getStatus().code==AccountStatus.deactivated.code&&list.get(2).getStatus().code==AccountStatus.activated.code){
 			//Passed;
 		}else{
 			fail();

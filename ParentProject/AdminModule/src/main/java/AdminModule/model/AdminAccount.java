@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.Privilege;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
 public class AdminAccount implements PseudoModel{
 
@@ -16,13 +16,13 @@ public class AdminAccount implements PseudoModel{
 	private Calendar lastLogin;
 	private String reference;
 	private Privilege privilege;
-	private Status status;
+	private AccountStatus status;
 	private String name;
 	private String phone;
 
 	//SQL Retrieving
 	public AdminAccount(int adminId, Calendar creationTime, Calendar lastLogin,
-			String reference, Privilege privilege, Status status, String name,
+			String reference, Privilege privilege, AccountStatus status, String name,
 			String phone) {
 		super();
 		this.adminId = adminId;
@@ -36,7 +36,7 @@ public class AdminAccount implements PseudoModel{
 	}
 
 	//Normal Construction
-	public AdminAccount(String name, String phone,String reference, Privilege privilege, Status status) {
+	public AdminAccount(String name, String phone,String reference, Privilege privilege, AccountStatus status) {
 		super();
 		this.name = name;
 		this.phone = phone;
@@ -81,11 +81,11 @@ public class AdminAccount implements PseudoModel{
 		this.privilege = privilege;
 	}
 
-	public Status getStatus() {
+	public AccountStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(AccountStatus status) {
 		this.status = status;
 	}
 

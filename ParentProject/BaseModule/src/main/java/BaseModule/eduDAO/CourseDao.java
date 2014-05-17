@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.course.CourseNotFoundException;
 import BaseModule.exception.partner.PartnerNotFoundException;
 import BaseModule.model.Course;
@@ -171,7 +171,7 @@ public class CourseDao {
 		return new Course(rs.getInt("id"), p_Id, DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
 				DateUtility.DateToCalendar(rs.getTimestamp("startTime")), DateUtility.DateToCalendar(rs.getTimestamp("finishTime")), 
 				rs.getString("t_Info"),rs.getString("t_ImgURL"), rs.getString("t_Material"), rs.getString("backgroundURL"),
-				rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),Status.fromInt(rs.getInt("status")), 
+				rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),AccountStatus.fromInt(rs.getInt("status")), 
 				rs.getString("category"), rs.getString("subCategory"), partner,rs.getString("title"),rs.getString("location"),
 				rs.getString("city"),rs.getString("district"),rs.getString("reference"));
 	}
@@ -180,7 +180,7 @@ public class CourseDao {
 		return new Course(rs.getInt("id"), rs.getInt("p_Id"), DateUtility.DateToCalendar(rs.getDate("creationTime")),
 				DateUtility.DateToCalendar(rs.getDate("startTime")), DateUtility.DateToCalendar(rs.getDate("finishTime")), 
 				rs.getString("t_Info"),rs.getString("t_ImgURL"), rs.getString("t_Material"), rs.getString("backgroundURL"),
-				rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),Status.fromInt(rs.getInt("status")), 
+				rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),AccountStatus.fromInt(rs.getInt("status")), 
 				rs.getString("category"), rs.getString("subCategory"), null,rs.getString("title"),rs.getString("location"),
 				rs.getString("city"),rs.getString("district"),rs.getString("reference"));
 	}

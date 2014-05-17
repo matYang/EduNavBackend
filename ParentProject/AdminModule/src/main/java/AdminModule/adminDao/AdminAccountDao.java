@@ -11,7 +11,7 @@ import AdminModule.model.AdminAccount;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.Privilege;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 
 
@@ -175,6 +175,6 @@ public class AdminAccountDao {
 	
 	private static AdminAccount createAdminAccountByResultSet(ResultSet rs) throws SQLException {
 		return new AdminAccount(rs.getInt("id"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),
-				rs.getString("reference"), Privilege.fromInt(rs.getInt("privilege")), Status.fromInt(rs.getInt("status")), rs.getString("name"),rs.getString("phone"));
+				rs.getString("reference"), Privilege.fromInt(rs.getInt("privilege")), AccountStatus.fromInt(rs.getInt("status")), rs.getString("name"),rs.getString("phone"));
 	}
 }

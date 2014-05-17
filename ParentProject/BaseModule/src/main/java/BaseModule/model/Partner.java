@@ -6,7 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
 
 public class Partner implements PseudoModel{
@@ -20,7 +20,7 @@ public class Partner implements PseudoModel{
 	private Calendar creationTime;
 	private Calendar lastLogin;
 	private String phone;
-	private Status status;	
+	private AccountStatus status;	
 	private String instName;
 	//TODO added
 	private String logoUrl;
@@ -28,7 +28,7 @@ public class Partner implements PseudoModel{
 	//SQL Retrieving	
 	public Partner(int id, String name, String licence, String organizationNum,
 			String reference, String password, Calendar creationTime,
-			Calendar lastLogin, String phone, Status status, String instName,String logoUrl) {
+			Calendar lastLogin, String phone, AccountStatus status, String instName,String logoUrl) {
 		super();
 		this.partnerId = id;
 		this.name = name;
@@ -46,7 +46,7 @@ public class Partner implements PseudoModel{
 
 	//Normal Construction
 	public Partner(String name, String instName,String licence, String organizationNum,
-			String reference, String password, String phone,Status status) {
+			String reference, String password, String phone,AccountStatus status) {
 		super();
 		this.name = name;
 		this.instName = instName;
@@ -112,10 +112,10 @@ public class Partner implements PseudoModel{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public Status getStatus() {
+	public AccountStatus getStatus() {
 		return status;
 	}
-	public void setStatus(Status status) {
+	public void setStatus(AccountStatus status) {
 		this.status = status;
 	}
 	public String getInstName() {

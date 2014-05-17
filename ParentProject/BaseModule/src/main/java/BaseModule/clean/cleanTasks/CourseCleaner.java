@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.course.CourseNotFoundException;
@@ -27,12 +27,12 @@ public class CourseCleaner extends CourseDao{
 		try{
 			conn = EduDaoBasic.getSQLConnection();
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, Status.activated.code);
+			stmt.setInt(1, AccountStatus.activated.code);
 			stmt.setString(2, ct);
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				course = CourseDao.createCourseByResultSet(rs);
-				course.setStatus(Status.deactivated);
+				course.setStatus(AccountStatus.deactivated);
 				CourseDao.updateCourseInDatabases(course,conn);
 			}
 		}catch (SQLException e) {

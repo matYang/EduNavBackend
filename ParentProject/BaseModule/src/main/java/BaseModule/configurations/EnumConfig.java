@@ -2,14 +2,14 @@ package BaseModule.configurations;
 
 public class EnumConfig {
 
-	public static enum Status{
+	public static enum AccountStatus{
         activated(0),deactivated(1),deleted(2);
         public int code;
-        Status(int code){
+        AccountStatus(int code){
             this.code = code;
         }
-        private final static Status[] map = Status.values();
-        public static Status fromInt(int n){
+        private final static AccountStatus[] map = AccountStatus.values();
+        public static AccountStatus fromInt(int n){
             return map[n];
         }
     }

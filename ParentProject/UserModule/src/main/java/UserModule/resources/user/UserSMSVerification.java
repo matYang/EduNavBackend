@@ -25,14 +25,13 @@ public class UserSMSVerification extends UserPseudoResource{
 		try{
 			String cellNum = this.getQueryVal("cellNum");
 			if (ValidationService.isCellNumValid(cellNum)){
-				User user = UserDaoService.getUserByPhone(cellNum);
-				if (user == null){
+				if (UserDaoService.isCellPhoneAvailable(cellNum)){
 					String authCode = UserCellVerificationDaoService.openSession(cellNum);
 					SMSService.sendUserCellVerificationSMS(cellNum, authCode);
 					setStatus(Status.SUCCESS_OK);
 				}
 				else{
-					setStatus(Status.CLIENT_ERROR_CONFLICT);
+					throw new ValidationException("手机号码已经被注册");
 				}
 			}
 			else{

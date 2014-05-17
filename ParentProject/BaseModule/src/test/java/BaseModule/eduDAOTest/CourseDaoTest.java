@@ -8,7 +8,7 @@ import java.util.Calendar;
 import org.junit.Test;
 
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
@@ -30,7 +30,7 @@ public class CourseDaoTest {
 		int seatsLeft = 5;
 		String category = "Physics";
 		String subCategory = "sub-Phy";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		Course course = new Course(p_Id, startTime, finishTime,seatsTotal, seatsLeft, category,subCategory,status);
 		try{
 			CourseDao.addCourseToDatabases(course);
@@ -50,7 +50,7 @@ public class CourseDaoTest {
 		String reference = "dsf4r";
 		String password = "sdf234r";
 		String phone = "123545451";	
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		int p_Id = partner.getPartnerId();

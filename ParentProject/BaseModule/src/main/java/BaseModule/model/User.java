@@ -6,7 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
 
 public class User implements PseudoModel{
@@ -15,14 +15,14 @@ public class User implements PseudoModel{
 	private String name;
 	private String phone;
 	private String password;
-	private Status status;
+	private AccountStatus status;
 	
 	private Calendar creationTime;
 	private Calendar lastLogin;
 
 	//SQL Retrieving
 	public User(int userId, String name, String phone, Calendar creationTime,
-			Calendar lastLogin, String password, Status status) {
+			Calendar lastLogin, String password, AccountStatus status) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -34,7 +34,7 @@ public class User implements PseudoModel{
 	}
 	
 	//Normal Construction
-	public User(String name, String phone, String password,Status status) {
+	public User(String name, String phone, String password,AccountStatus status) {
 		super();		
 		this.name = name;
 		this.phone = phone;
@@ -76,10 +76,10 @@ public class User implements PseudoModel{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Status getStatus() {
+	public AccountStatus getStatus() {
 		return status;
 	}
-	public void setStatus(Status status) {
+	public void setStatus(AccountStatus status) {
 		this.status = status;
 	}
 	public Calendar getCreationTime() {
