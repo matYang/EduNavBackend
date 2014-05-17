@@ -11,7 +11,7 @@ import BaseModule.configurations.EnumConfig.Status;
 import BaseModule.interfaces.PseudoModel;
 public class AdminAccount implements PseudoModel{
 
-	private int id;
+	private int adminId;
 	private Calendar creationTime;
 	private Calendar lastLogin;
 	private String reference;
@@ -21,11 +21,11 @@ public class AdminAccount implements PseudoModel{
 	private String phone;
 
 	//SQL Retrieving
-	public AdminAccount(int id, Calendar creationTime, Calendar lastLogin,
+	public AdminAccount(int adminId, Calendar creationTime, Calendar lastLogin,
 			String reference, Privilege privilege, Status status, String name,
 			String phone) {
 		super();
-		this.id = id;
+		this.adminId = adminId;
 		this.creationTime = creationTime;
 		this.lastLogin = lastLogin;
 		this.reference = reference;
@@ -49,12 +49,12 @@ public class AdminAccount implements PseudoModel{
 		}
 	}
 
-	public int getId() {
-		return id;
+	public int getAdminId() {
+		return adminId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setAdminId(int id) {
+		this.adminId = id;
 	}
 
 	public Calendar getLastLogin() {
@@ -112,7 +112,7 @@ public class AdminAccount implements PseudoModel{
 	public JSONObject toJSON(){
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
-			jsonSearchRepresentation.put("id", this.id);
+			jsonSearchRepresentation.put("adminId", this.adminId);
 			jsonSearchRepresentation.put("name", this.name);
 			jsonSearchRepresentation.put("phone", this.phone);			
 			jsonSearchRepresentation.put("reference", this.reference);
@@ -128,7 +128,7 @@ public class AdminAccount implements PseudoModel{
 	}
 
 	public boolean equals(AdminAccount a){
-		return this.id == a.getId() && this.name.equals(a.getName()) && this.phone.equals(a.getPhone()) &&
+		return this.adminId == a.getAdminId() && this.name.equals(a.getName()) && this.phone.equals(a.getPhone()) &&
 				this.privilege.code == a.getPrivilege().code && this.status.code == a.getStatus().code &&
 				this.reference.equals(a.getReference()) && this.creationTime.getTime().toString().equals(a.getCreationTime().getTime().toString()) &&
 				this.lastLogin.getTime().toString().equals(a.getLastLogin().getTime().toString());

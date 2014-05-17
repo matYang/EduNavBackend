@@ -40,7 +40,7 @@ public class BookingDao {
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
-			booking.setId(rs.getInt(1));
+			booking.setBookingId(rs.getInt(1));
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
@@ -70,7 +70,7 @@ public class BookingDao {
 			stmt.setInt(9, booking.getPartnerId());
 			stmt.setInt(10, booking.getCourseId());
 			stmt.setString(11, booking.getReference());
-			stmt.setInt(12, booking.getId());
+			stmt.setInt(12, booking.getBookingId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new BookingNotFoundException();

@@ -10,8 +10,8 @@ import BaseModule.configurations.EnumConfig.Status;
 import BaseModule.interfaces.PseudoModel;
 
 public class Partner implements PseudoModel{
-
-	private int id;
+	
+	private int partnerId;
 	private String name;
 	private String licence;
 	private String organizationNum;
@@ -21,13 +21,17 @@ public class Partner implements PseudoModel{
 	private Calendar lastLogin;
 	private String phone;
 	private Status status;
+	
+	//TODO modified
+	private String instName;
+	private String logoUrl;
 
 	//SQL Retrieving	
 	public Partner(int id, String name, String licence, String organizationNum,
 			String reference, String password, Calendar creationTime,
 			Calendar lastLogin, String phone, Status status) {
 		super();
-		this.id = id;
+		this.partnerId = id;
 		this.name = name;
 		this.licence = licence;
 		this.organizationNum = organizationNum;
@@ -57,11 +61,11 @@ public class Partner implements PseudoModel{
 	}
 
 
-	public int getId() {
-		return id;
+	public int getPartnerId() {
+		return partnerId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setPartnerId(int id) {
+		this.partnerId = id;
 	}
 	public String getName() {
 		return name;
@@ -118,7 +122,7 @@ public class Partner implements PseudoModel{
 	public JSONObject toJSON(){
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
-			jsonSearchRepresentation.put("id", this.id);
+			jsonSearchRepresentation.put("partnerId", this.partnerId);
 			jsonSearchRepresentation.put("name", this.name);
 			jsonSearchRepresentation.put("phone", this.phone);
 			jsonSearchRepresentation.put("password", this.password);
@@ -136,7 +140,7 @@ public class Partner implements PseudoModel{
 	}
 
 	public boolean equals(Partner p){
-		return this.id==p.getId() && this.name.equals(p.getName()) && this.password.equals(p.getPassword()) &&
+		return this.partnerId==p.getPartnerId() && this.name.equals(p.getName()) && this.password.equals(p.getPassword()) &&
 				this.organizationNum.equals(p.getOrganizationNum()) && this.reference.equals(p.getReference()) &&
 				this.phone.equals(p.getPhone()) && this.licence.equals(p.getLicence()) && this.status.code == p.getStatus().code;				
 	}

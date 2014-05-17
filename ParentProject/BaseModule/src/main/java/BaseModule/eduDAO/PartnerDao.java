@@ -38,7 +38,7 @@ public class PartnerDao {
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
-			p.setId(rs.getInt(1));
+			p.setPartnerId(rs.getInt(1));
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
@@ -64,7 +64,7 @@ public class PartnerDao {
 			stmt.setString(6, p.getPhone());			
 			stmt.setString(7, DateUtility.toSQLDateTime(p.getLastLogin()));
 			stmt.setInt(8, p.getStatus().code);
-			stmt.setInt(9, p.getId());
+			stmt.setInt(9, p.getPartnerId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new PartnerNotFoundException();

@@ -11,7 +11,7 @@ import BaseModule.interfaces.PseudoModel;
 
 public class Booking implements PseudoModel{
 
-	private int id;
+	private int bookingId;
 	private Calendar creationTime;
 	private Calendar timeStamp;
 	private Calendar startTime;
@@ -27,12 +27,12 @@ public class Booking implements PseudoModel{
 
 
 	//SQL Retrieving
-	public Booking(int id, Calendar creationTime, Calendar timeStamp,
+	public Booking(int bookingId, Calendar creationTime, Calendar timeStamp,
 			Calendar startTime, Calendar finishTime, int price, int userId,
 			int partnerId, int courseId, String name, String phone,
 			Status status, String reference) {
 		super();
-		this.id = id;
+		this.bookingId = bookingId;
 		this.creationTime = creationTime;
 		this.timeStamp = timeStamp;
 		this.startTime = startTime;
@@ -66,12 +66,12 @@ public class Booking implements PseudoModel{
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 
-	public int getId() {
-		return id;
+	public int getBookingId() {
+		return bookingId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setBookingId(int id) {
+		this.bookingId = id;
 	}
 
 	public Calendar getTimeStamp() {
@@ -169,7 +169,7 @@ public class Booking implements PseudoModel{
 	public JSONObject toJSON(){
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
-			jsonSearchRepresentation.put("id", this.userId);
+			jsonSearchRepresentation.put("bookingId", this.userId);
 			jsonSearchRepresentation.put("name", this.name);
 			jsonSearchRepresentation.put("phone", this.phone);
 			jsonSearchRepresentation.put("price", this.price);
@@ -190,7 +190,7 @@ public class Booking implements PseudoModel{
 	}
 
 	public boolean equals(Booking booking){		
-		return this.id==booking.getId() && this.name.equals(booking.getName()) && this.courseId == booking.getCourseId() &&
+		return this.bookingId==booking.getBookingId() && this.name.equals(booking.getName()) && this.courseId == booking.getCourseId() &&
 				this.partnerId == booking.getPartnerId() && this.phone.equals(booking.getPhone()) && this.price == booking.getPrice() &&
 				this.creationTime.getTime().toString().equals(booking.getCreationTime().getTime().toString()) && this.startTime.getTime().toString().equals(booking.getStartTime().getTime().toString()) &&
 				this.finishTime.getTime().toString().equals(booking.getFinishTime().getTime().toString()) && this.timeStamp.getTime().toString().equals(booking.getTimeStamp().getTime().toString()) &&

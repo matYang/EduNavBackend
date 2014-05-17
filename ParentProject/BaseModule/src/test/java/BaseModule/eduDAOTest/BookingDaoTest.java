@@ -136,7 +136,7 @@ public class BookingDaoTest {
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
 		Booking booking = new Booking(timeStamp,course.getStartTime(), course.getFinishTime(), course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),partner.getReference(),status);
 		BookingDao.addBookingToDatabases(booking);
-		booking = BookingDao.getBookingById(booking.getId());
+		booking = BookingDao.getBookingById(booking.getBookingId());
 		
 		String category2 = "English";
 		String subCategory2 = "sub-En";	
@@ -155,9 +155,9 @@ public class BookingDaoTest {
 		int course2Id = course2.getCourseId();
 		Booking booking2 = new Booking(timeStamp,course2.getStartTime(), course2.getFinishTime(), course2.getPrice(), userId, partnerId, course2Id, user.getName(), partner2.getPhone(),partner2.getReference(),status);
 		BookingDao.addBookingToDatabases(booking2);
-		booking2 = BookingDao.getBookingById(booking2.getId());
+		booking2 = BookingDao.getBookingById(booking2.getBookingId());
 		
-		Booking test = BookingDao.getBookingById(booking.getId());
+		Booking test = BookingDao.getBookingById(booking.getBookingId());
 		if(test.equals(booking)){
 			//Passed;
 		}else fail();
@@ -227,11 +227,11 @@ public class BookingDaoTest {
 			e.printStackTrace();
 			fail();
 		}
-		booking = BookingDao.getBookingById(booking.getId());
+		booking = BookingDao.getBookingById(booking.getBookingId());
 		booking.setStatus(Status.deactivated);
 		booking.setPhone("18502877744");
 		BookingDao.updateBookingInDatabases(booking);
-		Booking test = BookingDao.getBookingById(booking.getId());
+		Booking test = BookingDao.getBookingById(booking.getBookingId());
 		if(test.equals(booking)&&test.getPhone().equals("18502877744")){
 			//Passed;
 		}else fail();

@@ -41,7 +41,7 @@ public class AdminAccountDaoTest {
 		Status status = Status.activated;
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status);
 		AdminAccountDao.addAdminAccountToDatabases(account);
-		account = AdminAccountDao.getAdminAccountById(account.getId());
+		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
 		AdminAccount test = AdminAccountDao.getAdminAccountByName(account.getName());
 		if(account.equals(test)&&test.getPhone().equals(phone)){
 			//Passed;
@@ -78,11 +78,11 @@ public class AdminAccountDaoTest {
 		Status status = Status.activated;
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status);
 		AdminAccountDao.addAdminAccountToDatabases(account);
-		account = AdminAccountDao.getAdminAccountById(account.getId());
+		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
 		account.setPhone("234234234");
 		account.setStatus(Status.deleted);
 		AdminAccountDao.updateAdminAccountInDatabases(account);
-		account = AdminAccountDao.getAdminAccountById(account.getId());
+		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
 		if(account.getName().equals(name)&&account.getPhone().equals("234234234")&&account.getStatus().code==Status.deleted.code){
 			//Passed;
 		}else fail();

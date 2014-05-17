@@ -37,7 +37,7 @@ public class AdminAccountDao {
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
-			account.setId(rs.getInt(1));
+			account.setAdminId(rs.getInt(1));
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
@@ -61,7 +61,7 @@ public class AdminAccountDao {
 			stmt.setInt(4, account.getPrivilege().code);
 			stmt.setString(5, account.getName());
 			stmt.setString(6, account.getPhone());
-			stmt.setInt(7, account.getId());
+			stmt.setInt(7, account.getAdminId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new AdminAccountNotFoundException();
