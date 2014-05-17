@@ -47,11 +47,12 @@ public class UserForgotPasswordDaoService {
 		Jedis jedis = EduDaoBasic.getJedis();
 		
 		String redisKey = userForgotPassword_keyPrefix + cellNum;
-		String sessionString = RandomStringUtils.randomAlphanumeric(userForgotPassword_authCodeLength) + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+		String authCode = RandomStringUtils.randomAlphanumeric(userForgotPassword_authCodeLength);
+		String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
 		
 		jedis.set(redisKey, sessionString);
 		EduDaoBasic.returnJedis(jedis);
-		return sessionString;
+		return authCode;
 	}
 	
 	

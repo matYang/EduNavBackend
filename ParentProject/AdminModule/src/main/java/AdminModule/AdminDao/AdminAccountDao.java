@@ -1,4 +1,4 @@
-package AdminModule.AdminDao;
+package AdminModule.adminDao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

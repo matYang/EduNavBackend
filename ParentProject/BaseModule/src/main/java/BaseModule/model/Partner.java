@@ -22,6 +22,7 @@ public class Partner implements PseudoModel{
 	private String phone;
 	private Status status;	
 	private String instName;
+	//TODO added
 	private String logoUrl;
 
 	//SQL Retrieving	

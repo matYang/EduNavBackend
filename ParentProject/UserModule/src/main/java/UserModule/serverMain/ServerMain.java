@@ -6,7 +6,6 @@ import org.restlet.data.Protocol;
 
 import BaseModule.common.DebugLog;
 import BaseModule.staticDataService.SystemDataInit;
-import UserModule.appService.CleanService;
 import UserModule.appService.RoutingService;
 
 public class ServerMain {
@@ -75,7 +74,6 @@ public class ServerMain {
 		} catch (Exception e) {
 			DebugLog.d(e);
 		}
-		Thread thread = new CleanService();
-		thread.start();
 	}
+	
 }
