@@ -7,6 +7,8 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.DatabaseConfig;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.exception.validation.ValidationException;
+import BaseModule.service.RedisUtilityService;
 
 public class UserCellVerificationDaoService {
 	
@@ -14,6 +16,7 @@ public class UserCellVerificationDaoService {
 	private static final String userCellVerification_keyPrefix = "user-cellVerification-";
 	private static final int userCellVerification_authCodeLength = 6;
 	private static final long userCellVerification_expireThreshold = 21600000l;		//6h
+	private static final long userCellVerification_resendThreshold = 60000;			//1min
 	
 	
 	
@@ -23,7 +26,7 @@ public class UserCellVerificationDaoService {
 			String redisKey = userCellVerification_keyPrefix + cellNum;
 			String sessionString = jedis.get(redisKey);
 			
-			if(sessionString == null || sessionString.length() == 0){
+			if(!RedisUtilityService.isValuedStored(sessionString)){
 				return false;
 			}else{
 				String redis_authCode = sessionString.split(DatabaseConfig.redisSeperatorRegex)[0];
@@ -46,10 +49,19 @@ public class UserCellVerificationDaoService {
 		}
 	}
 	
-	public static String openSession(String cellNum){
+	public static String openSession(String cellNum) throws ValidationException{
 		Jedis jedis = EduDaoBasic.getJedis();
 		
 		String redisKey = userCellVerification_keyPrefix + cellNum;
+		String previousRecord = jedis.get(redisKey);
+		if (RedisUtilityService.isValuedStored(previousRecord)){
+			//check if should resend
+			long redis_timeStamp = DateUtility.getLongFromTimeStamp(previousRecord.split(DatabaseConfig.redisSeperatorRegex)[1]);
+			if((DateUtility.getCurTime() - redis_timeStamp) <= userCellVerification_resendThreshold){
+				throw new ValidationException("连续请求过快");
+			}
+		}
+		
 		String authCode = RandomStringUtils.randomAlphanumeric(userCellVerification_authCodeLength).toUpperCase();
 		String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
 		

@@ -7,6 +7,7 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.DatabaseConfig;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.service.RedisUtilityService;
 
 
 public class AdminAuthDaoService {
@@ -22,7 +23,7 @@ public class AdminAuthDaoService {
 			String redisKey = adminSession_web_keyPrefix + id;
 			String sessionString = jedis.get(redisKey);
 			
-			if(sessionString == null || sessionString.length() == 0){
+			if(!RedisUtilityService.isValuedStored(sessionString)){
 				return false;
 			}else{
 				int redis_adminId = AdminAuthenticationService.getAdminIdFromSessionString(sessionString);

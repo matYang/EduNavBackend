@@ -7,6 +7,7 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.DatabaseConfig;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.service.RedisUtilityService;
 
 
 public class UserAuthDaoService {
@@ -21,7 +22,7 @@ public class UserAuthDaoService {
 			String redisKey = userSession_web_keyPrefix + id;
 			String sessionString = jedis.get(redisKey);
 			
-			if(sessionString == null || sessionString.length() == 0){
+			if(!RedisUtilityService.isValuedStored(sessionString)){
 				return false;
 			}else{
 				int redis_partnerId = UserAuthenticationService.getUserIdFromSessionString(sessionString);
