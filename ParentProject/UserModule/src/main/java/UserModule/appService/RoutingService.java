@@ -30,20 +30,20 @@ public class RoutingService extends Application {
 		
 		
 		/** -------------------- APIs for user module ------------------ **/
-		String userServicePrefix = "/users";
+		String userServicePrefix = "/user";
 
 		String SessionRedirectPrefix = "/findSession";
-		//	API for session redirection upon non-session pages: /api/v1.0/users/findSession
-		router.attach(ServerConfig.applicationPrefix + ServerConfig.versionPrefix + userServicePrefix + SessionRedirectPrefix, UserSessionRedirect.class);
+		//	API for session redirection upon non-session pages: /api/v1.0/user/findSession
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + SessionRedirectPrefix, UserSessionRedirect.class);
 		
 		String SMSVerificationPrefix = "/smsVerification";
-		//	API for sms verification: /api/v1.0/users/smsVerification
-		router.attach(ServerConfig.applicationPrefix + ServerConfig.versionPrefix + userServicePrefix + SMSVerificationPrefix, UserSMSVerification.class);
+		//	API for sms verification: /api/v1.0/user/smsVerification
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + SMSVerificationPrefix, UserSMSVerification.class);
 		
 		String UserPrefix = "/user";
-		//	API for direct user crud operations: /api/v1.0/users/user
-		router.attach(ServerConfig.applicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix, UserResource.class);
-		router.attach(ServerConfig.applicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix + "/{id}", UserIdResource.class);
+		//	API for direct user crud operations: /api/v1.0/user/user
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix, UserResource.class);
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix + "/{id}", UserIdResource.class);
 		
 		
 		

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import org.junit.Test;
 
-import AdminModule.AdminDao.AdminAccountDao;
+import AdminModule.adminDao.AdminAccountDao;
 import AdminModule.exception.AdminAccountNotFoundException;
 import AdminModule.model.AdminAccount;
 import BaseModule.configurations.EnumConfig.Privilege;

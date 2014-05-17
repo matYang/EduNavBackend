@@ -60,7 +60,9 @@ public class ServerConfig {
 		
 		/*API level constants*/
 		public static final int category_DM = 0;
-		public static final String applicationPrefix = "/api";
+		public static final String userApplicationPrefix = "/api";
+		public static final String partnerApplicationPrefix = "/p-api";
+		public static final String adminApplicationPrefix = "/a-api";
 		public static final String versionPrefix = "/v1.0";
 		
 		/*Time constants*/

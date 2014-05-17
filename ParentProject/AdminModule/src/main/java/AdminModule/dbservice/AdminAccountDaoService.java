@@ -2,7 +2,7 @@ package AdminModule.dbservice;
 
 import java.util.ArrayList;
 
-import AdminModule.AdminDao.AdminAccountDao;
+import AdminModule.adminDao.AdminAccountDao;
 import AdminModule.exception.AdminAccountNotFoundException;
 import AdminModule.model.AdminAccount;
 

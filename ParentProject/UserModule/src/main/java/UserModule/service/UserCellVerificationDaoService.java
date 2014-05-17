@@ -50,11 +50,12 @@ public class UserCellVerificationDaoService {
 		Jedis jedis = EduDaoBasic.getJedis();
 		
 		String redisKey = userCellVerification_keyPrefix + cellNum;
-		String sessionString = RandomStringUtils.randomAlphanumeric(userCellVerification_authCodeLength).toUpperCase() + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+		String authCode = RandomStringUtils.randomAlphanumeric(userCellVerification_authCodeLength).toUpperCase();
+		String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
 		
 		jedis.set(redisKey, sessionString);
 		EduDaoBasic.returnJedis(jedis);
-		return sessionString;
+		return authCode;
 	}
 	
 	

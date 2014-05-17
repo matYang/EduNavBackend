@@ -46,11 +46,12 @@ public class UserBookingVerificationDaoService {
 		Jedis jedis = EduDaoBasic.getJedis();
 		
 		String redisKey = userBookingVerification_keyPrefix + id;
-		String sessionString = RandomStringUtils.randomAlphanumeric(userBookingVerification_authCodeLength).toUpperCase() + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+		String authCode = RandomStringUtils.randomAlphanumeric(userBookingVerification_authCodeLength).toUpperCase();
+		String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
 		
 		jedis.set(redisKey, sessionString);
 		EduDaoBasic.returnJedis(jedis);
-		return sessionString;
+		return authCode;
 	}
 	
 	

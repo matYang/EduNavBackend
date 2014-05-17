@@ -24,6 +24,7 @@ public class Partner implements PseudoModel{
 	
 	//TODO modified
 	private String instName;
+	//TODO added
 	private String logoUrl;
 
 	//SQL Retrieving	
