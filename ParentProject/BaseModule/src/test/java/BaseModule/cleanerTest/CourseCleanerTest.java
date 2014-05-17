@@ -23,36 +23,56 @@ public class CourseCleanerTest {
 	public void test() throws ValidationException{
 		EduDaoBasic.clearBothDatabase();
 		String name = "XDF";
+		String instName ="TseTingFeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
 		String password = "sdf234r";
 		String phone = "123545451";
 		Status status = Status.activated;
-		Partner partner = new Partner(name, licence, organizationNum,reference, password, phone,status);
+		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
 		PartnerDao.addPartnerToDatabases(partner);
-		int p_Id = partner.getId();
+		int p_Id = partner.getPartnerId();
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();		
-		finishTime.add(Calendar.DAY_OF_YEAR, 1);
-		String instName = partner.getName();
+		finishTime.add(Calendar.DAY_OF_YEAR, 1);		
 		int seatsTotal = 50;
 		int seatsLeft = 5;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		Course course = new Course(p_Id, startTime, finishTime, instName, seatsTotal, seatsLeft, category,subCategory,status);
+		Course course = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category,subCategory,status);
+		String location = "China";
+		String city = "NanJing";
+		String district = "JiangNing";
+		String reference2 = "testr";
+		course.setLocation(location);
+		course.setCity(city);
+		course.setDistrict(district);
+		course.setReference(reference2);
 		CourseDao.addCourseToDatabases(course);
 		
 		
 		Calendar finishTime2 = DateUtility.getCurTimeInstance();		
 		finishTime2.add(Calendar.DAY_OF_YEAR, -1);		
-		Course course2 = new Course(p_Id, startTime, finishTime2, instName, seatsTotal, seatsLeft, category,subCategory,status);
+		Course course2 = new Course(p_Id, startTime, finishTime2, seatsTotal, seatsLeft, category,subCategory,status);		
+		course2.setLocation(location);
+		course2.setCity(city);
+		course2.setDistrict(district);
+		course2.setReference(reference2);
 		CourseDao.addCourseToDatabases(course2);
 		
 				
 		Calendar finishTime3 = DateUtility.getCurTimeInstance();		
 		finishTime3.add(Calendar.MINUTE, 1);		
-		Course course3 = new Course(p_Id, startTime, finishTime3, instName, seatsTotal, seatsLeft, category,subCategory,status);
+		Course course3 = new Course(p_Id, startTime, finishTime3, seatsTotal, seatsLeft, category,subCategory,status);
+		String location2= "China";
+		String city2 = "ChengDu";
+		String district2 = "ChengHua";
+		String reference3 = "Tse";
+		course3.setLocation(location2);
+		course3.setCity(city2);
+		course3.setDistrict(district2);
+		course3.setReference(reference3);
 		CourseDao.addCourseToDatabases(course3);
 		
 		CourseCleaner.clean();

@@ -20,8 +20,8 @@ public class PartnerDao {
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO PartnerDao (name,licence,organizationNum,reference,password,phone,creationTime,lastLogin,status)" +
-				" values (?,?,?,?,?,?,?,?,?);";
+		String query = "INSERT INTO PartnerDao (name,licence,organizationNum,reference,password,phone,creationTime,lastLogin,status,instName,logoUrl)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
@@ -34,7 +34,9 @@ public class PartnerDao {
 			stmt.setString(7, DateUtility.toSQLDateTime(p.getCreationTime()));
 			stmt.setString(8, DateUtility.toSQLDateTime(p.getLastLogin()));
 			stmt.setInt(9, p.getStatus().code);
-
+			stmt.setString(10, p.getInstName());
+			stmt.setString(11, p.getLogoUrl());
+			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -53,7 +55,7 @@ public class PartnerDao {
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;
 		String query = "UPDATE PartnerDao SET name=?,licence=?,organizationNum=?,reference=?,password=?,phone=?," +
-				"lastLogin=?,status=? where id=?";
+				"lastLogin=?,status=?, instName=?, logoUrl=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, p.getName());
@@ -64,7 +66,9 @@ public class PartnerDao {
 			stmt.setString(6, p.getPhone());			
 			stmt.setString(7, DateUtility.toSQLDateTime(p.getLastLogin()));
 			stmt.setInt(8, p.getStatus().code);
-			stmt.setInt(9, p.getPartnerId());
+			stmt.setString(9, p.getInstName());
+			stmt.setString(10, p.getLogoUrl());
+			stmt.setInt(11, p.getPartnerId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new PartnerNotFoundException();
@@ -154,7 +158,8 @@ public class PartnerDao {
 	private static Partner createPartnerByResultSet(ResultSet rs) throws SQLException {
 		return new Partner(rs.getInt("id"), rs.getString("name"), rs.getString("licence"), rs.getString("organizationNum"),
 				rs.getString("reference"), rs.getString("password"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
-				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")), rs.getString("phone"), Status.fromInt(rs.getInt("status")));
+				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")), rs.getString("phone"), Status.fromInt(rs.getInt("status")),
+				rs.getString("instName"),rs.getString("logoUrl"));
 	}
 
 

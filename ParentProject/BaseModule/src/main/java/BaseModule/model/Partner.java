@@ -20,16 +20,14 @@ public class Partner implements PseudoModel{
 	private Calendar creationTime;
 	private Calendar lastLogin;
 	private String phone;
-	private Status status;
-	
-	//TODO modified
+	private Status status;	
 	private String instName;
 	private String logoUrl;
 
 	//SQL Retrieving	
 	public Partner(int id, String name, String licence, String organizationNum,
 			String reference, String password, Calendar creationTime,
-			Calendar lastLogin, String phone, Status status) {
+			Calendar lastLogin, String phone, Status status, String instName,String logoUrl) {
 		super();
 		this.partnerId = id;
 		this.name = name;
@@ -41,13 +39,16 @@ public class Partner implements PseudoModel{
 		this.lastLogin = lastLogin;
 		this.phone = phone;
 		this.status = status;
+		this.instName = instName;
+		this.logoUrl = logoUrl;
 	}
 
 	//Normal Construction
-	public Partner(String name, String licence, String organizationNum,
+	public Partner(String name, String instName,String licence, String organizationNum,
 			String reference, String password, String phone,Status status) {
 		super();
 		this.name = name;
+		this.instName = instName;
 		this.licence = licence;
 		this.organizationNum = organizationNum;
 		this.reference = reference;
@@ -55,6 +56,7 @@ public class Partner implements PseudoModel{
 		this.phone = phone;
 		this.status = status;
 		this.creationTime = DateUtility.getCurTimeInstance();
+		this.logoUrl = "";
 		if(this.lastLogin==null){
 			this.lastLogin = (Calendar) this.creationTime.clone();
 		}
@@ -115,6 +117,22 @@ public class Partner implements PseudoModel{
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	public String getInstName() {
+		return instName;
+	}
+
+	public void setInstName(String instName) {
+		this.instName = instName;
+	}
+
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
+
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
@@ -130,6 +148,8 @@ public class Partner implements PseudoModel{
 			jsonSearchRepresentation.put("organizationNum", this.organizationNum);
 			jsonSearchRepresentation.put("reference", this.reference);
 			jsonSearchRepresentation.put("status", this.status.code);
+			jsonSearchRepresentation.put("instName", this.instName);
+			jsonSearchRepresentation.put("logoUrl", this.logoUrl);
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));		
 			jsonSearchRepresentation.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
 
@@ -142,6 +162,7 @@ public class Partner implements PseudoModel{
 	public boolean equals(Partner p){
 		return this.partnerId==p.getPartnerId() && this.name.equals(p.getName()) && this.password.equals(p.getPassword()) &&
 				this.organizationNum.equals(p.getOrganizationNum()) && this.reference.equals(p.getReference()) &&
-				this.phone.equals(p.getPhone()) && this.licence.equals(p.getLicence()) && this.status.code == p.getStatus().code;				
+				this.phone.equals(p.getPhone()) && this.licence.equals(p.getLicence()) && this.status.code == p.getStatus().code &&
+				this.instName.equals(p.getInstName()) && this.logoUrl.equals(p.getLogoUrl());				
 	}
 }

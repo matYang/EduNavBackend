@@ -19,13 +19,14 @@ public class PartnerDaoTest {
 	public void testCreate(){
 		EduDaoBasic.clearBothDatabase();
 		String name = "XDF";
+		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
 		String password = "sdf234r";
 		String phone = "123545451";
 		Status status = Status.activated;
-		Partner partner = new Partner(name, licence, organizationNum,reference, password, phone,status);
+		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
 		try{
 			PartnerDao.addPartnerToDatabases(partner);
 		}catch(Exception e){
@@ -38,15 +39,16 @@ public class PartnerDaoTest {
 	public void testGet() throws ValidationException, PartnerNotFoundException{
 		EduDaoBasic.clearBothDatabase();
 		String name = "XDF";
+		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
 		String password = "sdf234r";
 		String phone = "123545451";
 		Status status = Status.activated;
-		Partner partner = new Partner(name, licence, organizationNum,reference, password, phone,status);
+		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
 		PartnerDao.addPartnerToDatabases(partner);
-		Partner partner2 = PartnerDao.getPartnerById(partner.getId());
+		Partner partner2 = PartnerDao.getPartnerById(partner.getPartnerId());
 		
 		if(partner2.getName().equals(name)&&partner2.getLicence().equals(licence)
 				&&partner2.getOrganizationNum().equals(organizationNum)){
@@ -59,13 +61,14 @@ public class PartnerDaoTest {
 		}else fail();
 		
 		String name2 = "HQYS";
+		String instName2 = "daofeng";
 		String licence2 = "2sdfdsf34545dsfsdgergf-dsv,.!@";
 		String organizationNum2 = "12334361234";
 		String reference2 = "dsdsfr";
 		String password2 = "sdsdf34r";
 		String phone2 = "12335451";
 		Status status2 = Status.activated;
-		Partner test = new Partner(name2, licence2, organizationNum2,reference2, password2, phone2,status2);
+		Partner test = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2, phone2,status2);
 		PartnerDao.addPartnerToDatabases(test);
 		
 		ArrayList<Partner> plist = new ArrayList<Partner>();
@@ -79,13 +82,14 @@ public class PartnerDaoTest {
 	public void testUpdate() throws ValidationException, PartnerNotFoundException{
 		EduDaoBasic.clearBothDatabase();
 		String name = "XDF";
+		String instName = "daofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
 		String password = "sdf234r";
 		String phone = "123545451";
 		Status status = Status.activated;
-		Partner partner = new Partner(name, licence, organizationNum,reference, password, phone,status);
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		
 		if(!partner.getName().equals(name)){

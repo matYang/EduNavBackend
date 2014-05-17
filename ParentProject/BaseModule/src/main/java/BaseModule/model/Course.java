@@ -12,7 +12,7 @@ import BaseModule.interfaces.PseudoModel;
 public class Course implements PseudoModel{
 
 	private int courseId;
-	
+	private int partnerId;
 	private Calendar creationTime;
 	private Calendar startTime;
 	private Calendar finishTime;
@@ -24,28 +24,22 @@ public class Course implements PseudoModel{
 	private String subCategory;
 	private String title;
 	private Partner partner;
-	
-	//TODO added
 	private String location;
 	private String city;
 	private String district;
 	private String reference;
-	//TODO modified
-	private int partnerId;
 	private String teacherInfo;
-	private String teacherImgURL;
+	private String teacherImgUrl;
 	private String teachingMaterial;
 	private String backgroundUrl;
-	//removed instName
-	
-	
 
 	//SQL Retrieving
 	public Course(int courseId, int p_Id, Calendar creationTime,
 			Calendar startTime, Calendar finishTime, String t_Info,
 			String t_ImgURL, String t_Material, String backgroundURL,
 			int price, int seatsTotal, int seatsLeft,Status status, 
-			String category, String subCategory, Partner partner,String title) {
+			String category, String subCategory, Partner partner,String title,
+			String location, String city, String district, String reference) {
 		super();
 		this.courseId = courseId;
 		this.partnerId = p_Id;
@@ -53,7 +47,7 @@ public class Course implements PseudoModel{
 		this.startTime = startTime;
 		this.finishTime = finishTime;
 		this.teacherInfo = t_Info;
-		this.teacherImgURL = t_ImgURL;
+		this.teacherImgUrl = t_ImgURL;
 		this.teachingMaterial = t_Material;
 		this.backgroundUrl = backgroundURL;
 		this.price = price;
@@ -64,6 +58,10 @@ public class Course implements PseudoModel{
 		this.subCategory = subCategory;
 		this.partner = partner;
 		this.title = title;
+		this.location = location;
+		this.city = city;
+		this.district = district;
+		this.reference = reference;
 	}
 
 	//Normal Construction
@@ -90,12 +88,76 @@ public class Course implements PseudoModel{
 		this.courseId = courseId;
 	}
 
-	public int getP_Id() {
+	public int getPartnerId() {
 		return partnerId;
 	}
 
-	public void setP_Id(int p_Id) {
-		this.partnerId = p_Id;
+	public void setPartnerId(int partnerId) {
+		this.partnerId = partnerId;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public String getReference() {
+		return reference;
+	}
+
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	public String getTeacherInfo() {
+		return teacherInfo;
+	}
+
+	public void setTeacherInfo(String teacherInfo) {
+		this.teacherInfo = teacherInfo;
+	}
+
+	public String getTeacherImgUrl() {
+		return teacherImgUrl;
+	}
+
+	public void setTeacherImgUrl(String teacherImgURL) {
+		this.teacherImgUrl = teacherImgURL;
+	}
+
+	public String getTeachingMaterial() {
+		return teachingMaterial;
+	}
+
+	public void setTeachingMaterial(String teachingMaterial) {
+		this.teachingMaterial = teachingMaterial;
+	}
+
+	public String getBackgroundUrl() {
+		return backgroundUrl;
+	}
+
+	public void setBackgroundUrl(String backgroundUrl) {
+		this.backgroundUrl = backgroundUrl;
 	}
 
 	public Calendar getStartTime() {
@@ -112,38 +174,6 @@ public class Course implements PseudoModel{
 
 	public void setFinishTime(Calendar finishTime) {
 		this.finishTime = finishTime;
-	}
-
-	public String getT_Info() {
-		return teacherInfo;
-	}
-
-	public void setT_Info(String t_Info) {
-		this.teacherInfo = t_Info;
-	}
-
-	public String getT_ImgURL() {
-		return teacherImgURL;
-	}
-
-	public void setT_ImgURL(String t_ImgURL) {
-		this.teacherImgURL = t_ImgURL;
-	}
-
-	public String getT_Material() {
-		return teachingMaterial;
-	}
-
-	public void setT_Material(String t_Material) {
-		this.teachingMaterial = t_Material;
-	}
-
-	public String getBackgroundURL() {
-		return backgroundUrl;
-	}
-
-	public void setBackgroundURL(String backgroundURL) {
-		this.backgroundUrl = backgroundURL;
 	}
 
 	public int getPrice() {
@@ -218,13 +248,14 @@ public class Course implements PseudoModel{
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
 			jsonSearchRepresentation.put("id", this.courseId);
-			jsonSearchRepresentation.put("partner_Id", this.partnerId);
+			jsonSearchRepresentation.put("partnerId", this.partnerId);
 			jsonSearchRepresentation.put("partner", this.partner.toJSON());
 			jsonSearchRepresentation.put("title", this.title);
-			jsonSearchRepresentation.put("teaching_Info", this.teacherInfo);
-			jsonSearchRepresentation.put("teaching_ImgURL", this.teacherImgURL);
-			jsonSearchRepresentation.put("teaching_Material", this.teachingMaterial);
-			jsonSearchRepresentation.put("backgroundURL", this.backgroundUrl);
+			jsonSearchRepresentation.put("teacherInfo", this.teacherInfo);
+			jsonSearchRepresentation.put("teacherImgUrl", this.teacherImgUrl);
+			jsonSearchRepresentation.put("teachingMaterial", this.teachingMaterial);
+			jsonSearchRepresentation.put("backgroundUrl", this.backgroundUrl);
+			jsonSearchRepresentation.put("reference", this.reference);
 			jsonSearchRepresentation.put("category", this.category);
 			jsonSearchRepresentation.put("subcategory", this.subCategory);
 			jsonSearchRepresentation.put("price", this.price);
@@ -243,21 +274,27 @@ public class Course implements PseudoModel{
 
 	public boolean equals(Course c){		
 		if(this.partner==null){
-			return this.backgroundUrl.equals(c.getBackgroundURL()) && this.category.equals(c.getCategory()) &&
+			return this.backgroundUrl.equals(c.getBackgroundUrl()) && this.category.equals(c.getCategory()) &&
 					this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() && this.title.equals(c.getTitle()) &&
-					this.teacherInfo.equals(c.getT_Info()) && this.teacherImgURL.equals(c.getT_ImgURL()) &&
-					this.teachingMaterial.equals(c.getT_Material()) && this.price == c.getPrice() && this.seatsTotal == c.getSeatsTotal() &&
+					this.teacherInfo.equals(c.getTeacherInfo()) && this.teacherImgUrl.equals(c.getTeacherImgUrl()) &&
+					this.teachingMaterial.equals(c.getTeachingMaterial()) && this.price == c.getPrice() && this.seatsTotal == c.getSeatsTotal() &&
 					this.seatsLeft == c.getSeatsLeft() && this.status.code == c.getStatus().code  &&
-					this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) && this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
-					this.finishTime.getTime().toString().equals(c.getFinishTime().getTime().toString());
+					this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) && 
+					this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
+					this.finishTime.getTime().toString().equals(c.getFinishTime().getTime().toString()) &&
+					this.location.equals(c.getLocation()) && this.city.equals(c.getCity()) && this.district.equals(c.getDistrict()) &&
+					this.reference.equals(c.getReference());
 		}else{
-			return this.backgroundUrl.equals(c.getBackgroundURL()) && this.category.equals(c.getCategory()) &&
-					this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() && this.partner.equals(c.getPartner()) &&
-					this.title.equals(c.getTitle()) && this.teacherInfo.equals(c.getT_Info()) && this.teacherImgURL.equals(c.getT_ImgURL()) &&
-					this.teachingMaterial.equals(c.getT_Material()) && this.price == c.getPrice() && this.seatsTotal == c.getSeatsTotal() &&
+			return this.backgroundUrl.equals(c.getBackgroundUrl()) && this.category.equals(c.getCategory()) &&
+					this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() && this.title.equals(c.getTitle()) &&
+					this.teacherInfo.equals(c.getTeacherInfo()) && this.teacherImgUrl.equals(c.getTeacherImgUrl()) &&
+					this.teachingMaterial.equals(c.getTeachingMaterial()) && this.price == c.getPrice() && this.seatsTotal == c.getSeatsTotal() &&
 					this.seatsLeft == c.getSeatsLeft() && this.status.code == c.getStatus().code  &&
-					this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) && this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
-					this.finishTime.getTime().toString().equals(c.getFinishTime().getTime().toString());
+					this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) && 
+					this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
+					this.finishTime.getTime().toString().equals(c.getFinishTime().getTime().toString()) &&
+					this.location.equals(c.getLocation()) && this.city.equals(c.getCity()) && this.district.equals(c.getDistrict()) &&
+					this.reference.equals(c.getReference()) && this.partner.equals(c.getPartner());
 		}			
 	}
 }
