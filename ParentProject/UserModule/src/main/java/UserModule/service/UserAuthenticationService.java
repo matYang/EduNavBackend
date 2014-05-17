@@ -18,7 +18,7 @@ public class UserAuthenticationService {
 		else{
 			String authCode = getAuthCodeFromSessionString(sessionString);
 			long mili = getTimeStampFromSessionString(sessionString);
-			boolean login =  UserAuthDaoService.validateSession(userId, authCode, mili);
+			boolean login = UserAuthDaoService.validateSession(userId, authCode, mili);
 			if (!login){
 				throw new AuthenticationException();
 			}

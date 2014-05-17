@@ -8,8 +8,8 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.DatabaseConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 
+
 public class UserAuthDaoService {
-	
 	private static final String userSession_web_keyPrefix = "user-session-web-";
 	private static final int userSession_web_authCodeLength = 15;
 	private static final long userSession_updateThreshold = 259200000l;		//3 days
@@ -24,11 +24,11 @@ public class UserAuthDaoService {
 			if(sessionString == null || sessionString.length() == 0){
 				return false;
 			}else{
-				int redis_userId = UserAuthenticationService.getUserIdFromSessionString(sessionString);
+				int redis_partnerId = UserAuthenticationService.getUserIdFromSessionString(sessionString);
 				String redis_authCode = UserAuthenticationService.getAuthCodeFromSessionString(sessionString);
 				long redis_timeStamp = UserAuthenticationService.getTimeStampFromSessionString(sessionString);
 				
-				if(id != redis_userId || !redis_authCode.equals(authCode)){
+				if(id != redis_partnerId || !redis_authCode.equals(authCode)){
 					return false;
 				}
 				if((DateUtility.getCurTime() - redis_timeStamp) > userSession_expireThreshold){
@@ -69,7 +69,4 @@ public class UserAuthDaoService {
 		EduDaoBasic.returnJedis(jedis);
 		return result;
 	}
-	
-	
-
 }
