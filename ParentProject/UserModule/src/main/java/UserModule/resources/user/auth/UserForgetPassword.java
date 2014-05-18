@@ -58,16 +58,16 @@ public class UserForgetPassword extends UserPseudoResource{
 	}
 	
 	protected String[] validateForgetPasswordJSON(Representation entity) throws ValidationException{
-		JSONObject jsonPasswords = null;
+		JSONObject jsonPair = null;
 		String[] newPair = new String[2];
 		
 		try{
-			jsonPasswords = (new JsonRepresentation(entity)).getJsonObject();
+			jsonPair = (new JsonRepresentation(entity)).getJsonObject();
 			
-			String cellNum = jsonPasswords.getString("phone");
-			String newPassword = jsonPasswords.getString("newPassword");
-			String confirmNewPassword = jsonPasswords.getString("confirmNewPassword");
-			String authCode = jsonPasswords.getString("authCode");
+			String cellNum = jsonPair.getString("phone");
+			String newPassword = jsonPair.getString("newPassword");
+			String confirmNewPassword = jsonPair.getString("confirmNewPassword");
+			String authCode = jsonPair.getString("authCode");
 
 			if (!ValidationService.isCellNumValid(cellNum)){
 				throw new ValidationException("电话号码格式不正确");

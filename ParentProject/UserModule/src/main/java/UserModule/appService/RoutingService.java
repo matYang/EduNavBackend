@@ -11,6 +11,7 @@ import UserModule.resources.user.UserChangeInfoResource;
 import UserModule.resources.user.UserIdResource;
 import UserModule.resources.user.UserResource;
 import UserModule.resources.user.auth.UserCellVerification;
+import UserModule.resources.user.auth.UserChangeCellPhone;
 import UserModule.resources.user.auth.UserChangePassword;
 import UserModule.resources.user.auth.UserForgetPassword;
 import UserModule.resources.user.auth.UserLogin;
@@ -65,7 +66,9 @@ public class RoutingService extends Application {
 		String ForgetPasswordPrefix = "/forgetPassword";
 		//	API for user logout: /api/v1.0/user/forgetPassword
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + ForgetPasswordPrefix + "/{id}", UserForgetPassword.class);
-
+		String ChangeCellPhonePrefix = "/changePhone";
+		//	API for user change cellphone: /api/v1.0/user/changePhone
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + ChangeCellPhonePrefix + "/{id}", UserChangeCellPhone.class);
 		
 		
 		/** -------------------- APIs for general module ------------------ **/
