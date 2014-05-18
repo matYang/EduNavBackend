@@ -16,7 +16,6 @@ public class UserLogout extends UserPseudoResource {
 	public Representation logoutAuthentication(Representation entity){
 
 		try {
-			this.checkEntity(entity);
 
 			this.closeAuthentication();
 			setStatus(Status.SUCCESS_OK);

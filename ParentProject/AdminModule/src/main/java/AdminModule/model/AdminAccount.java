@@ -12,6 +12,7 @@ import BaseModule.interfaces.PseudoModel;
 public class AdminAccount implements PseudoModel{
 
 	private int adminId;
+	private String password;
 	private Calendar creationTime;
 	private Calendar lastLogin;
 	private String reference;
@@ -36,13 +37,14 @@ public class AdminAccount implements PseudoModel{
 	}
 
 	//Normal Construction
-	public AdminAccount(String name, String phone,String reference, Privilege privilege, AccountStatus status) {
+	public AdminAccount(String name, String phone,String reference, Privilege privilege, AccountStatus status,String password) {
 		super();
 		this.name = name;
 		this.phone = phone;
 		this.reference = reference;
 		this.privilege = privilege;
 		this.status = status;
+		this.password = password;
 		this.creationTime = DateUtility.getCurTimeInstance();
 		if(this.lastLogin==null){
 			this.lastLogin = (Calendar) this.creationTime.clone();
@@ -55,6 +57,14 @@ public class AdminAccount implements PseudoModel{
 
 	public void setAdminId(int id) {
 		this.adminId = id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Calendar getLastLogin() {
