@@ -48,5 +48,9 @@ public class UserDaoService {
 	public static void changePassword(int userId, String oldPassword, String newPassword) throws AuthenticationException{
 		UserDao.changeUserPassword(userId, oldPassword, newPassword);
 	}
+	
+	public static void recoverPassword(String phone, String newPassword){
+		//TODO recover user's password to the new password
+	}
 
 }

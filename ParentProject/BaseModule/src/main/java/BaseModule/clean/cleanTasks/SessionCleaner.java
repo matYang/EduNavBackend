@@ -30,7 +30,7 @@ public class SessionCleaner {
 				}
 			}
 			//UserBooking
-			keys = redis.keys(RedisPrefixConfig.userBookingVerification_keyPrefix+"*");		
+			keys = redis.keys(RedisPrefixConfig.userChangePasswordVerification_keyPrefix+"*");		
 			for(String key : keys){
 				String sessionString = redis.get(key);
 				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			

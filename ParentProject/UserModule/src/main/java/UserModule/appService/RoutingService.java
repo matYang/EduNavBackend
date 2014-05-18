@@ -10,9 +10,11 @@ import UserModule.resources.general.*;
 import UserModule.resources.user.UserChangeInfoResource;
 import UserModule.resources.user.UserIdResource;
 import UserModule.resources.user.UserResource;
-import UserModule.resources.user.UserSMSVerification;
-import UserModule.resources.user.auth.UserLoginResource;
-import UserModule.resources.user.auth.UserLogoutResource;
+import UserModule.resources.user.auth.UserCellVerification;
+import UserModule.resources.user.auth.UserChangePassword;
+import UserModule.resources.user.auth.UserForgetPassword;
+import UserModule.resources.user.auth.UserLogin;
+import UserModule.resources.user.auth.UserLogout;
 import UserModule.resources.user.auth.UserSessionRedirect;
 
 import BaseModule.common.DebugLog;
@@ -42,7 +44,7 @@ public class RoutingService extends Application {
 		
 		String SMSVerificationPrefix = "/smsVerification";
 		//	API for sms verification: /api/v1.0/user/smsVerification
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + SMSVerificationPrefix, UserSMSVerification.class);
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + SMSVerificationPrefix, UserCellVerification.class);
 		
 		String UserPrefix = "/user";
 		//	API for direct user crud operations: /api/v1.0/user/user
@@ -52,12 +54,18 @@ public class RoutingService extends Application {
 		
 		String LoginPrefix = "/login";
 		//	API for user login: /api/v1.0/user/login
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + LoginPrefix, UserLoginResource.class);
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + LoginPrefix, UserLogin.class);
 		String LogoutPrefix = "/logout";
 		//	API for user logout: /api/v1.0/user/logout
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + LogoutPrefix + "/{id}", UserLogoutResource.class);
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + LogoutPrefix + "/{id}", UserLogout.class);
 		
-		
+		String ChangePasswordPrefix = "/changePassword";
+		//	API for user logout: /api/v1.0/user/changePassword
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + ChangePasswordPrefix + "/{id}", UserChangePassword.class);
+		String ForgetPasswordPrefix = "/forgetPassword";
+		//	API for user logout: /api/v1.0/user/forgetPassword
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + ForgetPasswordPrefix + "/{id}", UserForgetPassword.class);
+
 		
 		
 		/** -------------------- APIs for general module ------------------ **/

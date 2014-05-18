@@ -10,7 +10,7 @@ import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import UserModule.resources.UserPseudoResource;
 
-public class UserLogoutResource extends UserPseudoResource {
+public class UserLogout extends UserPseudoResource {
 	
 	@Put
 	public Representation logoutAuthentication(Representation entity){

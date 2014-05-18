@@ -3,7 +3,7 @@ package BaseModule.configurations;
 public class RedisPrefixConfig {
 	/* UserModule */
 	public static final String userSession_web_keyPrefix = "user-session-web-";
-	public static final String userBookingVerification_keyPrefix = "user-bookingVerification-";
+	public static final String userChangePasswordVerification_keyPrefix = "user-changePasswordVerification-";
 	public static final String userCellVerification_keyPrefix = "user-cellVerification-";
 	public static final String userForgotPassword_keyPrefix = "user-forgotPassword-";
 	

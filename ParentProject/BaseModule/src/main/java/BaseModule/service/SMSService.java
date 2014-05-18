@@ -8,7 +8,7 @@ public class SMSService {
 	
 	//user sms
 	public static void sendUserCellVerificationSMS(String cellNum, String authCode){
-		SMSTask task = new SMSTask(SMSEvent.user_registration, cellNum, authCode);
+		SMSTask task = new SMSTask(SMSEvent.user_cellVerification, cellNum, authCode);
 		ExecutorProvider.executeRelay(task);
 	}
 	
@@ -17,8 +17,8 @@ public class SMSService {
 		ExecutorProvider.executeRelay(task);
 	}
 	
-	public static void sendUserBookingConfirmationSMS(String cellNum, String authCode){
-		SMSTask task = new SMSTask(SMSEvent.user_bookingConfirmation, cellNum, authCode);
+	public static void sendUserChangePasswordSMS(String cellNum, String authCode){
+		SMSTask task = new SMSTask(SMSEvent.user_changePassword, cellNum, authCode);
 		ExecutorProvider.executeRelay(task);
 	}
 	

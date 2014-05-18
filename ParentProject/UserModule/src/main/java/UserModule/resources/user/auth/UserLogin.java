@@ -15,7 +15,7 @@ import BaseModule.model.User;
 import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
-public class UserLoginResource extends UserPseudoResource {
+public class UserLogin extends UserPseudoResource {
 	
 	@Post
 	public Representation loginAuthentication(Representation entity){
