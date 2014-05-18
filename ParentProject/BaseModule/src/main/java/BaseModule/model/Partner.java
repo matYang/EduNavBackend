@@ -22,7 +22,6 @@ public class Partner implements PseudoModel{
 	private String phone;
 	private AccountStatus status;	
 	private String instName;
-	//TODO added
 	private String logoUrl;
 
 	//SQL Retrieving	
@@ -143,8 +142,7 @@ public class Partner implements PseudoModel{
 		try{
 			jsonSearchRepresentation.put("partnerId", this.partnerId);
 			jsonSearchRepresentation.put("name", this.name);
-			jsonSearchRepresentation.put("phone", this.phone);
-			jsonSearchRepresentation.put("password", this.password);
+			jsonSearchRepresentation.put("phone", this.phone);			
 			jsonSearchRepresentation.put("licence", this.licence);
 			jsonSearchRepresentation.put("organizationNum", this.organizationNum);
 			jsonSearchRepresentation.put("reference", this.reference);
@@ -161,7 +159,7 @@ public class Partner implements PseudoModel{
 	}
 
 	public boolean equals(Partner p){
-		return this.partnerId==p.getPartnerId() && this.name.equals(p.getName()) && this.password.equals(p.getPassword()) &&
+		return this.partnerId==p.getPartnerId() && this.name.equals(p.getName()) &&
 				this.organizationNum.equals(p.getOrganizationNum()) && this.reference.equals(p.getReference()) &&
 				this.phone.equals(p.getPhone()) && this.licence.equals(p.getLicence()) && this.status.code == p.getStatus().code &&
 				this.instName.equals(p.getInstName()) && this.logoUrl.equals(p.getLogoUrl());				

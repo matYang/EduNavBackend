@@ -91,8 +91,7 @@ public class User implements PseudoModel{
 		try{
 			jsonSearchRepresentation.put("id", this.userId);
 			jsonSearchRepresentation.put("name", this.name);
-			jsonSearchRepresentation.put("phone", this.phone);
-			jsonSearchRepresentation.put("password", this.password);
+			jsonSearchRepresentation.put("phone", this.phone);			
 			jsonSearchRepresentation.put("status", this.status.code);
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
 			jsonSearchRepresentation.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
@@ -105,7 +104,7 @@ public class User implements PseudoModel{
 
 	public boolean equals(User another){	
 
-		return this.name.equals(another.getName()) && this.password.equals(another.getPassword()) &&
+		return this.name.equals(another.getName()) &&
 				this.phone.equals(another.getPhone()) && this.status.code == another.getStatus().code &&
 				this.userId == another.getUserId();
 	}

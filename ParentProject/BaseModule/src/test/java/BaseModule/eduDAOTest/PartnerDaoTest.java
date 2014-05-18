@@ -9,9 +9,12 @@ import org.junit.Test;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.partner.PartnerNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
+import BaseModule.model.User;
 
 public class PartnerDaoTest {
 
@@ -104,5 +107,106 @@ public class PartnerDaoTest {
 		if(partner.getName().equals("HQYS")&&partner.getPassword().equals("dsfds23234")){
 			
 		}
+	}
+	
+	@Test
+	public void testUpdatePartnerPassword() throws ValidationException{
+		EduDaoBasic.clearBothDatabase();
+		String name = "XDF";
+		String instName = "daofeng";
+		String licence = "234fdsfsdgergf-dsv,.!@";
+		String organizationNum = "1235454361234";
+		String reference = "dsf4r";
+		String password = "sdf234r";
+		String phone = "123545451";
+		AccountStatus status = AccountStatus.activated;
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
+		partner = PartnerDao.addPartnerToDatabases(partner);
+
+		try{
+			PartnerDao.changePartnerPassword(partner.getPartnerId(), "sdf234r", "xcf");
+		}catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+
+		boolean fail = false;
+
+		try{
+			PartnerDao.changePartnerPassword(partner.getPartnerId(), "xcf", "3432fdsf");
+		}catch(AuthenticationException e){
+			fail = true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+
+		if(fail) fail();
+
+		fail = true;
+		try{
+			PartnerDao.changePartnerPassword(partner.getPartnerId(), "xcf", "");
+		}catch(AuthenticationException e){
+			fail = false;
+		}
+		catch(Exception e){			
+			fail();
+		}
+
+		if(fail) fail();
+
+		fail = true;
+		try{
+			PartnerDao.changePartnerPassword(2, "xcf", "sdf3");
+		}catch(AuthenticationException e){
+			fail = false;
+		}
+		catch(Exception e){			
+			fail();
+		}
+
+		if(fail) fail();
+
+	}
+
+	@Test
+	public void testAuthUser() throws ValidationException{
+		String name = "XDF";
+		String instName = "daofeng";
+		String licence = "234fdsfsdgergf-dsv,.!@";
+		String organizationNum = "1235454361234";
+		String reference = "dsf4r";
+		String password = "sdf234r";
+		String phone = "123545451";
+		AccountStatus status = AccountStatus.activated;
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
+		partner = PartnerDao.addPartnerToDatabases(partner);
+		Partner test = null;
+		try {
+			test = PartnerDao.authenticatePartner(phone, password);
+		} catch (AuthenticationException e) {
+			fail();
+		}
+		if(test==null) fail();
+		
+		test = null;
+		try {
+			test = PartnerDao.authenticatePartner("12345612311", password);
+		} catch (AuthenticationException e) {
+			//Passed;
+		}
+		
+		if(test != null) fail();
+		
+		test = null;
+		try {
+			test = PartnerDao.authenticatePartner(phone, "36krfinai");
+		} catch (AuthenticationException e) {
+			//Passed;
+		}
+		
+		if(test != null) fail();
+
 	}
 }
