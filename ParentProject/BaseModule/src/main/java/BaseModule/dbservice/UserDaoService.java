@@ -3,6 +3,7 @@ package BaseModule.dbservice;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.User;
@@ -38,6 +39,18 @@ public class UserDaoService {
 		}
 
 		return false;
+	}
+	
+	public static User authenticateUser(String phone, String password) throws AuthenticationException{ 
+		//TODO return user if authenticated, return null if not 
+		
+		throw new AuthenticationException("手机号码或密码输入错误");
+		//return null;
+	}
+	
+	public static void changePassword(int userId, String oldPassword, String newPassword) throws AuthenticationException{
+		//TODO change users password under DAO layer
+		throw new AuthenticationException("密码输入错误");
 	}
 
 }

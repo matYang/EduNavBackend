@@ -9,6 +9,7 @@ import org.restlet.util.Series;
 
 import UserModule.service.UserAuthenticationService;
 import BaseModule.encryption.SessionCrypto;
+import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.resources.PseudoResource;
@@ -38,7 +39,7 @@ public class UserPseudoResource extends PseudoResource{
 		CookieSetting newCookie = new CookieSetting(0, cookie_userSession, encryptedString);
 		newCookie.setMaxAge(cookie_maxAge);
 		
-		cookieSettings.clear();
+		cookieSettings.removeAll(cookie_userSession);
 		cookieSettings.add(newCookie);
 		this.setCookieSettings(cookieSettings);
 	}
@@ -47,7 +48,7 @@ public class UserPseudoResource extends PseudoResource{
 		UserAuthenticationService.closeSession(this.getSessionString());
 		
 		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings(); 
-		cookieSettings.clear();
+		cookieSettings.removeAll(cookie_userSession);
 		this.setCookieSettings(cookieSettings);
 	}
     
@@ -79,7 +80,7 @@ public class UserPseudoResource extends PseudoResource{
 		}
 
 		if (sessionString.size() == 0){
-			return "";
+			return null;
 		}
 		else{
 			try{

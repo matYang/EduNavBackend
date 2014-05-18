@@ -39,7 +39,7 @@ public class PartnerPseudoResource extends PseudoResource{
 		CookieSetting newCookie = new CookieSetting(0, cookie_partnerSession, encryptedString);
 		newCookie.setMaxAge(cookie_maxAge);
 		
-		cookieSettings.clear();
+		cookieSettings.removeAll(cookie_partnerSession);
 		cookieSettings.add(newCookie);
 		this.setCookieSettings(cookieSettings);
 	}
@@ -48,7 +48,7 @@ public class PartnerPseudoResource extends PseudoResource{
 		PartnerAuthenticationService.closeSession(this.getSessionString());
 		
 		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings(); 
-		cookieSettings.clear();
+		cookieSettings.removeAll(cookie_partnerSession);
 		this.setCookieSettings(cookieSettings);
 	}
     
@@ -80,7 +80,7 @@ public class PartnerPseudoResource extends PseudoResource{
 		}
 
 		if (sessionString.size() == 0){
-			return "";
+			return null;
 		}
 		else{
 			try{

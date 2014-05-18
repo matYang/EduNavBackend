@@ -25,6 +25,7 @@ public class UserDao {
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);			
 			
 			stmt.setString(1, user.getName());
+			//TODO encrypt
 			stmt.setString(2, user.getPassword());
 			stmt.setString(3, user.getPhone());
 			stmt.setString(4, DateUtility.toSQLDateTime(user.getCreationTime()));
@@ -60,6 +61,7 @@ public class UserDao {
 			stmt = conn.prepareStatement(query);
 			
 			stmt.setString(1, user.getName());
+			//TODO remove
 			stmt.setString(2, user.getPassword());
 			stmt.setString(3, user.getPhone());			
 			stmt.setString(4, DateUtility.toSQLDateTime(user.getLastLogin()));
@@ -153,6 +155,7 @@ public class UserDao {
 	}
 	
 	private static User createUserByResultSet(ResultSet rs) throws SQLException {
+		//TODO remove password
 		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
 				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")), rs.getString("password"), AccountStatus.fromInt(rs.getInt("status")));
 	}
