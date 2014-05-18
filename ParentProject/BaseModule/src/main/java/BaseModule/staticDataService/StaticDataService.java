@@ -20,46 +20,68 @@ public class StaticDataService {
 	
 	public static void storeCatData(ArrayList<String> catData){
 		Jedis jedis = EduDaoBasic.getJedis();
-		String[] catDataArray = new String[catData.size()];
-		catDataArray = catData.toArray(catDataArray);
-		jedis.del(catDataRedisKey);
-		jedis.rpush(catDataRedisKey, catDataArray);
-		EduDaoBasic.returnJedis(jedis);
+		
+		try{
+			String[] catDataArray = new String[catData.size()];
+			catDataArray = catData.toArray(catDataArray);
+			jedis.del(catDataRedisKey);
+			jedis.rpush(catDataRedisKey, catDataArray);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
+		
 	}
 	
 	public static void storeLocationData(ArrayList<String> locationData){
 		Jedis jedis = EduDaoBasic.getJedis();
-		String[] locationDataArray = new String[locationData.size()];
-		locationDataArray = locationData.toArray(locationDataArray);
-		jedis.del(locationDataRedisKey);
-		jedis.rpush(locationDataRedisKey, locationDataArray);
-		EduDaoBasic.returnJedis(jedis);
+		
+		try{
+			String[] locationDataArray = new String[locationData.size()];
+			locationDataArray = locationData.toArray(locationDataArray);
+			jedis.del(locationDataRedisKey);
+			jedis.rpush(locationDataRedisKey, locationDataArray);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
+		
 	}
 	
 	
 	public static void storePData(ArrayList<String> pData){
 		Jedis jedis = EduDaoBasic.getJedis();
-		//partner data, insert iff original pdata is empty, checked using llen method which returns 0 if key not found or empty
-		if (jedis.llen(pDataRedisKey) == 0){
-			String[] pDataArray = new String[pData.size()];
-			pDataArray = pData.toArray(pDataArray);
-			jedis.rpush(pDataRedisKey, pDataArray);
+		try{
+			//partner data, insert iff original pdata is empty, checked using llen method which returns 0 if key not found or empty
+			if (jedis.llen(pDataRedisKey) == 0){
+				String[] pDataArray = new String[pData.size()];
+				pDataArray = pData.toArray(pDataArray);
+				jedis.rpush(pDataRedisKey, pDataArray);
+			}
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
 		}
-		EduDaoBasic.returnJedis(jedis);
+		
 	}
 	
 	public static void appendPData(String newPData){
 		Jedis jedis = EduDaoBasic.getJedis();
-		jedis.rpush(pDataRedisKey, newPData);
-		EduDaoBasic.returnJedis(jedis);
+		try{
+			jedis.rpush(pDataRedisKey, newPData);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
 	}
 	
 	
 	
 	public static LinkedHashMap<String, ArrayList<String>> getCatDataMap(){
 		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> catDataList = jedis.lrange(catDataRedisKey, 0, jedis.llen(catDataRedisKey)-1);
-		EduDaoBasic.returnJedis(jedis);
+		List<String> catDataList;
+		try{
+			catDataList = jedis.lrange(catDataRedisKey, 0, jedis.llen(catDataRedisKey)-1);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
+		
 		
 		LinkedHashMap<String, ArrayList<String>> catDataMap = new LinkedHashMap<String, ArrayList<String>>();
 		
@@ -85,8 +107,13 @@ public class StaticDataService {
 	
 	public static LinkedHashMap<String, ArrayList<String>> getLocationDataMap(){
 		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> locationDataList = jedis.lrange(locationDataRedisKey, 0, jedis.llen(locationDataRedisKey)-1);
-		EduDaoBasic.returnJedis(jedis);
+		List<String> locationDataList;
+		try{
+			locationDataList = jedis.lrange(locationDataRedisKey, 0, jedis.llen(locationDataRedisKey)-1);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
+
 		
 		LinkedHashMap<String, ArrayList<String>> locationDataMap = new LinkedHashMap<String, ArrayList<String>>();
 		
@@ -111,8 +138,12 @@ public class StaticDataService {
 	
 	public static List<String> getPDataList(){
 		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> pDataList = jedis.lrange(pDataRedisKey, 0, jedis.llen(pDataRedisKey)-1);
-		EduDaoBasic.returnJedis(jedis);
+		List<String> pDataList;
+		try{
+			pDataList = jedis.lrange(pDataRedisKey, 0, jedis.llen(pDataRedisKey)-1);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
 		
 		return pDataList;
 	}
@@ -120,8 +151,13 @@ public class StaticDataService {
 	
 	public static JSONArray getCatDataJSON(){
 		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> catDataList = jedis.lrange(catDataRedisKey, 0, jedis.llen(catDataRedisKey)-1);
-		EduDaoBasic.returnJedis(jedis);
+		List<String> catDataList;
+		try{
+			catDataList = jedis.lrange(catDataRedisKey, 0, jedis.llen(catDataRedisKey)-1);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
+		
 		
 		JSONArray catDataArr = new JSONArray();
 		
@@ -135,8 +171,13 @@ public class StaticDataService {
 	
 	public static JSONArray getLocationDataJSON(){
 		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> locationDataList = jedis.lrange(locationDataRedisKey, 0, jedis.llen(locationDataRedisKey)-1);
-		EduDaoBasic.returnJedis(jedis);
+		List<String> locationDataList;
+		try{
+			locationDataList = jedis.lrange(locationDataRedisKey, 0, jedis.llen(locationDataRedisKey)-1);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
+		
 		
 		JSONArray locationDataArr = new JSONArray();
 		for (String singleLocation : locationDataList){

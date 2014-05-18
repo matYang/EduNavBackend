@@ -56,20 +56,31 @@ public class AdminAuthDaoService {
 	
 	public static String openSession(int id){
 		Jedis jedis = EduDaoBasic.getJedis();
+		String sessionString;
 		
-		String redisKey = adminSession_web_keyPrefix + id;
-		String sessionString = id + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(adminSession_web_authCodeLength) + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+		try{
+			String redisKey = adminSession_web_keyPrefix + id;
+			sessionString = id + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(adminSession_web_authCodeLength) + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+			
+			jedis.set(redisKey, sessionString);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
 		
-		jedis.set(redisKey, sessionString);
-		EduDaoBasic.returnJedis(jedis);
 		return sessionString;
 	}
 
 
 	public static boolean closeSession(int id){
 		Jedis jedis = EduDaoBasic.getJedis();
-		boolean result = jedis.del(adminSession_web_keyPrefix + id) == 1;
-		EduDaoBasic.returnJedis(jedis);
+		boolean result;
+		
+		try{
+			result = jedis.del(adminSession_web_keyPrefix + id) == 1;
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
+		
 		return result;
 	}
 

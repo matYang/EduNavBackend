@@ -49,30 +49,40 @@ public class UserChangePasswordVerificationDaoService {
 	
 	public static String openSession(int id) throws ValidationException{
 		Jedis jedis = EduDaoBasic.getJedis();
+		String authCode;
 		
-		String redisKey = userChangePasswordVerification_keyPrefix + id;
-		String previousRecord = jedis.get(redisKey);
-		if (RedisUtilityService.isValuedStored(previousRecord)){
-			//check if should resend
-			long redis_timeStamp = DateUtility.getLongFromTimeStamp(previousRecord.split(DatabaseConfig.redisSeperatorRegex)[1]);
-			if((DateUtility.getCurTime() - redis_timeStamp) <= userChangePasswordVerification_resendThreshold){
-				throw new ValidationException("连续请求过快");
+		try{
+			String redisKey = userChangePasswordVerification_keyPrefix + id;
+			String previousRecord = jedis.get(redisKey);
+			if (RedisUtilityService.isValuedStored(previousRecord)){
+				//check if should resend
+				long redis_timeStamp = DateUtility.getLongFromTimeStamp(previousRecord.split(DatabaseConfig.redisSeperatorRegex)[1]);
+				if((DateUtility.getCurTime() - redis_timeStamp) <= userChangePasswordVerification_resendThreshold){
+					throw new ValidationException("连续请求过快");
+				}
 			}
+			
+			authCode = RandomStringUtils.randomAlphanumeric(userChangePasswordVerification_authCodeLength).toUpperCase();
+			String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+			
+			jedis.set(redisKey, sessionString);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
 		}
 		
-		String authCode = RandomStringUtils.randomAlphanumeric(userChangePasswordVerification_authCodeLength).toUpperCase();
-		String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
-		
-		jedis.set(redisKey, sessionString);
-		EduDaoBasic.returnJedis(jedis);
 		return authCode;
 	}
 	
 	
 	public static boolean closeSession(int id){
 		Jedis jedis = EduDaoBasic.getJedis();
-		boolean result = jedis.del(userChangePasswordVerification_keyPrefix + id) == 1;
-		EduDaoBasic.returnJedis(jedis);
+		boolean result;
+		try{
+			result = jedis.del(userChangePasswordVerification_keyPrefix + id) == 1;
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
+		
 		return result;
 	}
 	
