@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import AdminModule.adminDao.AdminAccountDao;
 import AdminModule.exception.AdminAccountNotFoundException;
 import AdminModule.model.AdminAccount;
+import BaseModule.exception.AuthenticationException;
 
 public class AdminAccountDaoService {
 
@@ -28,7 +29,15 @@ public class AdminAccountDaoService {
 		return AdminAccountDao.addAdminAccountToDatabases(account);
 	}
 	
-	public void updateAdminAccount(AdminAccount account) throws AdminAccountNotFoundException{
+	public static void updateAdminAccount(AdminAccount account) throws AdminAccountNotFoundException{
 		AdminAccountDao.updateAdminAccountInDatabases(account);
+	}
+	
+	public static void changePassword(int adminId, String oldPassword, String newPassword) throws AuthenticationException{
+		AdminAccountDao.changeAdminAccountPassword(adminId, oldPassword, newPassword);
+	}
+	
+	public static AdminAccount authenticateAdminAccount(String phone, String password) throws AuthenticationException{
+		return AdminAccountDao.authenticateAdminAccount(phone, password);
 	}
 }

@@ -149,6 +149,37 @@ public class UserDaoTest {
 	}
 
 	@Test
+	public void testRecoverPassword() throws ValidationException{
+		EduDaoBasic.clearBothDatabase();
+		String name = "Harry";
+		String phone = "12345612312";
+		String password = "36krfinal";
+		AccountStatus status = AccountStatus.activated;
+		User user = new User(name, phone, password,status);		
+		user.setName("Matt");		
+		user = UserDao.addUserToDatabase(user);
+		
+		try{
+			UserDao.recoverUserPassword(phone, "xch1234");
+		}catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+		
+		boolean fail = true;		
+		String badPhone = "12345612315";
+	
+		try{
+			UserDao.recoverUserPassword(badPhone, "fdgfg");
+		}catch(AuthenticationException e){
+			fail =false;
+		}
+		
+		if(fail) fail();
+		
+	}
+	
+	@Test
 	public void testAuthUser() throws ValidationException{
 		EduDaoBasic.clearBothDatabase();
 		String name = "Harry";
