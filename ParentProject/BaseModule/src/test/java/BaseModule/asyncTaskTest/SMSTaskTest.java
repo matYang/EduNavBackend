@@ -54,13 +54,13 @@ public class SMSTaskTest {
 	
 	@Test
 	public void testSMSTask(){
-		SMSTask smsTask = new SMSTask(SMSEvent.user_registration, "18662241356", "testSMSTask");
+		SMSTask smsTask = new SMSTask(SMSEvent.user_cellVerification, "18662241356", "testSMSTask");
 		smsTask.execute();
 	}
 	
 	@Test
 	public void testSMSRelay() throws InterruptedException{
-		SMSTask smsTask = new SMSTask(SMSEvent.user_bookingConfirmation, "18662241356", "testSMSRelay");
+		SMSTask smsTask = new SMSTask(SMSEvent.user_changePassword, "18662241356", "testSMSRelay");
 		ExecutorProvider.executeRelay(smsTask);
 		Thread.sleep(5000);
 	}

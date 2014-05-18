@@ -52,5 +52,9 @@ public class UserDaoService {
 		//TODO change users password under DAO layer
 		throw new AuthenticationException("密码输入错误");
 	}
+	
+	public static void recoverPassword(String phone, String newPassword){
+		//TODO recover user's password to the new password
+	}
 
 }

@@ -55,12 +55,12 @@ public class SessionCleanerTest {
 
 		//UserBookingOpenSession
 		userId++;			
-		redisKey = RedisPrefixConfig.userBookingVerification_keyPrefix + userId;
+		redisKey = RedisPrefixConfig.userChangePasswordVerification_keyPrefix + userId;
 		String sessionString3 = RandomStringUtils.randomAlphanumeric(userBookingVerification_authCodeLength).toUpperCase() + DatabaseConfig.redisSeperator + nowTimeStamp;
 		redis.set(redisKey, sessionString3);
 
 		userId++;		
-		redisKey = RedisPrefixConfig.userBookingVerification_keyPrefix + userId;
+		redisKey = RedisPrefixConfig.userChangePasswordVerification_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.MINUTE, -5);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -174,7 +174,7 @@ public class SessionCleanerTest {
 		}
 
 		//UserBooking		
-		keys = redis.keys(RedisPrefixConfig.userBookingVerification_keyPrefix+"*");	
+		keys = redis.keys(RedisPrefixConfig.userChangePasswordVerification_keyPrefix+"*");	
 		if(keys.size() != 0){
 			fail();
 		}		

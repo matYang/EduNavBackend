@@ -1,4 +1,4 @@
-package UserModule.resources.user;
+package UserModule.resources.user.auth;
 
 import org.json.JSONObject;
 import org.restlet.data.Status;
@@ -17,14 +17,15 @@ import BaseModule.resources.PseudoResource;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 
-public class UserSMSVerification extends UserPseudoResource{
+public class UserCellVerification extends UserPseudoResource{
 	
 	@Get
 	public Representation smsVerification() {
 		
 		try{
-			String cellNum = this.getQueryVal("cellNum");
+			String cellNum = this.getQueryVal("phone");
 			if (ValidationService.isCellNumValid(cellNum)){
+				
 				if (UserDaoService.isCellPhoneAvailable(cellNum)){
 					String authCode = UserCellVerificationDaoService.openSession(cellNum);
 					SMSService.sendUserCellVerificationSMS(cellNum, authCode);
