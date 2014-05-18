@@ -11,6 +11,9 @@ import AdminModule.model.AdminAccount;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.exception.AuthenticationException;
+import BaseModule.exception.validation.ValidationException;
+
 
 public class AdminAccountDaoTest {
 
@@ -22,7 +25,8 @@ public class AdminAccountDaoTest {
 		String reference = "dsfdsf";
 		Privilege privilege = Privilege.business;
 		AccountStatus status = AccountStatus.activated;
-		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status);
+		String password = "hgfudifhg3489";
+		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
 		try{
 			AdminAccountDao.addAdminAccountToDatabases(account);
 		}catch(Exception e){
@@ -39,7 +43,8 @@ public class AdminAccountDaoTest {
 		String reference = "dsfdsf";
 		Privilege privilege = Privilege.business;
 		AccountStatus status = AccountStatus.activated;
-		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status);
+		String password = "hgfudifhg3489";
+		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
 		AdminAccountDao.addAdminAccountToDatabases(account);
 		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
 		AdminAccount test = AdminAccountDao.getAdminAccountByName(account.getName());
@@ -56,8 +61,8 @@ public class AdminAccountDaoTest {
 		String phone2 = "12344";
 		String reference2 = "dsfsersf";
 		Privilege privilege2 = Privilege.economy;
-		AccountStatus status2 = AccountStatus.activated;
-		AdminAccount account2 = new AdminAccount(name2,phone2,reference2,privilege2,status2);
+		AccountStatus status2 = AccountStatus.activated;		
+		AdminAccount account2 = new AdminAccount(name2,phone2,reference2,privilege2,status2,password);
 		AdminAccountDao.addAdminAccountToDatabases(account2);
 		account2 = AdminAccountDao.getAdminAccountByPhone(phone2);
 		
@@ -76,7 +81,8 @@ public class AdminAccountDaoTest {
 		String reference = "dsfdsf";
 		Privilege privilege = Privilege.business;
 		AccountStatus status = AccountStatus.activated;
-		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status);
+		String password = "hgfudifhg3489";
+		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
 		AdminAccountDao.addAdminAccountToDatabases(account);
 		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
 		account.setPhone("234234234");
@@ -87,6 +93,103 @@ public class AdminAccountDaoTest {
 			//Passed;
 		}else fail();
 		
+	}
+	
+	@Test
+	public void testUpdateAdminAccountPassword() throws ValidationException{
+		EduDaoBasic.clearBothDatabase();
+		String name = "Harry";
+		String phone = "123445676543";
+		String reference = "dsfdsf";
+		Privilege privilege = Privilege.business;
+		AccountStatus status = AccountStatus.activated;
+		String password = "hgfudifhg3489";
+		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
+		AdminAccountDao.addAdminAccountToDatabases(account);
+		try{
+			AdminAccountDao.changeAdminAccountPassword(account.getAdminId(), "hgfudifhg3489", "sdfe3r");
+		}catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+
+		boolean fail = false;
+
+		try{
+			AdminAccountDao.changeAdminAccountPassword(account.getAdminId(), "sdfe3r", "s123213");
+		}catch(AuthenticationException e){
+			fail = true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+
+		if(fail) fail();
+
+		fail = true;
+		try{
+			AdminAccountDao.changeAdminAccountPassword(account.getAdminId(), "sdfe3r", "");
+		}catch(AuthenticationException e){
+			fail = false;
+		}
+		catch(Exception e){			
+			fail();
+		}
+
+		if(fail) fail();
+
+		fail = true;
+		try{
+			AdminAccountDao.changeAdminAccountPassword(account.getAdminId(), "sdfe3r", "s123");
+		}catch(AuthenticationException e){
+			fail = false;
+		}
+		catch(Exception e){			
+			fail();
+		}
+
+		if(fail) fail();
+
+	}
+
+	@Test
+	public void testAuthUser() throws ValidationException{
+		EduDaoBasic.clearBothDatabase();
+		String name = "Harry";
+		String phone = "123445676543";
+		String reference = "dsfdsf";
+		Privilege privilege = Privilege.business;
+		AccountStatus status = AccountStatus.activated;
+		String password = "hgfudifhg3489";
+		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
+		AdminAccountDao.addAdminAccountToDatabases(account);
+		AdminAccount test = null;
+		try {
+			test = AdminAccountDao.authenticateAdminAccount(phone, password);
+		} catch (AuthenticationException e) {
+			fail();
+		}
+		if(test==null) fail();
+		
+		test = null;
+		try {
+			test = AdminAccountDao.authenticateAdminAccount("12345612311", password);
+		} catch (AuthenticationException e) {
+			//Passed;
+		}
+		
+		if(test != null) fail();
+		
+		test = null;
+		try {
+			test = AdminAccountDao.authenticateAdminAccount(phone, "36krfinai");
+		} catch (AuthenticationException e) {
+			//Passed;
+		}
+		
+		if(test != null) fail();
+
 	}
 
 }
