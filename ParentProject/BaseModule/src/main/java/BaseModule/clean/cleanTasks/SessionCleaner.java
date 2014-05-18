@@ -25,7 +25,7 @@ public class SessionCleaner {
 			for(String key : keys){
 				String sessionString = redis.get(key);
 				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[2]);			
-				if(timeStamp < now){
+				if(timeStamp + RedisPrefixConfig.userSession_expireThreshold < now){
 					redis.del(key);
 				}
 			}
@@ -34,7 +34,7 @@ public class SessionCleaner {
 			for(String key : keys){
 				String sessionString = redis.get(key);
 				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
-				if(timeStamp < now){
+				if(timeStamp + RedisPrefixConfig.userChangePasswordVerification_expireThreshold < now){
 					redis.del(key);
 				}
 			}
@@ -43,7 +43,7 @@ public class SessionCleaner {
 			for(String key : keys){
 				String sessionString = redis.get(key);
 				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
-				if(timeStamp < now){
+				if(timeStamp + RedisPrefixConfig.userCellVerification_expireThreshold < now){
 					redis.del(key);
 				}
 			}
@@ -52,7 +52,7 @@ public class SessionCleaner {
 			for(String key : keys){
 				String sessionString = redis.get(key);
 				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
-				if(timeStamp < now){
+				if(timeStamp + RedisPrefixConfig.userForgotPassword_expireThreshold < now){
 					redis.del(key);
 				}
 			}
@@ -64,7 +64,7 @@ public class SessionCleaner {
 			for(String key : keys){
 				String sessionString = redis.get(key);
 				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[2]);			
-				if(timeStamp < now){
+				if(timeStamp + RedisPrefixConfig.partnerSession_expireThreshold < now){
 					redis.del(key);
 				}
 			}
@@ -73,7 +73,7 @@ public class SessionCleaner {
 			for(String key : keys){
 				String sessionString = redis.get(key);
 				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
-				if(timeStamp < now){
+				if(timeStamp + RedisPrefixConfig.partnerForgotPassword_expireThreshold < now){
 					redis.del(key);
 				}
 			}
@@ -85,7 +85,7 @@ public class SessionCleaner {
 			for(String key : keys){
 				String sessionString = redis.get(key);
 				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[2]);			
-				if(timeStamp < now){
+				if(timeStamp + RedisPrefixConfig.adminSession_expireThreshold < now){
 					redis.del(key);
 				}
 			}

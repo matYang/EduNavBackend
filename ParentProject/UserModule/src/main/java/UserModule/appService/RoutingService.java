@@ -7,6 +7,7 @@ import org.restlet.routing.Router;
 
 import UserModule.resources.*;
 import UserModule.resources.general.*;
+import UserModule.resources.user.UserChangeInfoResource;
 import UserModule.resources.user.UserIdResource;
 import UserModule.resources.user.UserResource;
 import UserModule.resources.user.auth.UserCellVerification;
@@ -48,6 +49,7 @@ public class RoutingService extends Application {
 		String UserPrefix = "/user";
 		//	API for direct user crud operations: /api/v1.0/user/user
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix, UserResource.class);
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix, UserChangeInfoResource.class);
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix + "/{id}", UserIdResource.class);
 		
 		String LoginPrefix = "/login";
