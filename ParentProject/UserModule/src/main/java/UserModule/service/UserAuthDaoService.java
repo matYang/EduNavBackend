@@ -55,20 +55,31 @@ public class UserAuthDaoService {
 	
 	public static String openSession(int id){
 		Jedis jedis = EduDaoBasic.getJedis();
+		String sessionString;
 		
-		String redisKey = userSession_web_keyPrefix + id;
-		String sessionString = id + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(userSession_web_authCodeLength) + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+		try{
+			String redisKey = userSession_web_keyPrefix + id;
+			sessionString = id + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(userSession_web_authCodeLength) + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+			
+			jedis.set(redisKey, sessionString);
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
 		
-		jedis.set(redisKey, sessionString);
-		EduDaoBasic.returnJedis(jedis);
 		return sessionString;
 	}
 
 
 	public static boolean closeSession(int id){
 		Jedis jedis = EduDaoBasic.getJedis();
-		boolean result = jedis.del(userSession_web_keyPrefix + id) == 1;
-		EduDaoBasic.returnJedis(jedis);
+		boolean result;
+		
+		try{
+			result = jedis.del(userSession_web_keyPrefix + id) == 1;
+		} finally{
+			EduDaoBasic.returnJedis(jedis);
+		}
+
 		return result;
 	}
 }

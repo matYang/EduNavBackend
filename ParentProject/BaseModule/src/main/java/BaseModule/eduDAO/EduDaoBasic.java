@@ -100,9 +100,7 @@ public class EduDaoBasic {
 
     public static void clearBothDatabase(){
     	Jedis jedis = getJedis();
-        jedis.flushAll();
-        returnJedis(jedis);
-        
+    	
         Statement stmt = null;
 		Connection conn = null;
         String query0 = "SET FOREIGN_KEY_CHECKS=0 ";       
@@ -124,9 +122,12 @@ public class EduDaoBasic {
         	stmt.addBatch(query5);
         	stmt.addBatch(query6);        	
         	stmt.executeBatch();
+        	
+            jedis.flushAll();
         } catch(SQLException e) {
         	DebugLog.d(e);
         } finally {
+        	returnJedis(jedis);
 			try{
 				if (stmt != null)  stmt.close();  
 	            if (conn != null)  conn.close(); 
