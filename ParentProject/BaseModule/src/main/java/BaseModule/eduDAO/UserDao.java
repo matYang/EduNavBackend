@@ -173,6 +173,7 @@ public class UserDao {
 			DebugLog.d(e);
 		}
 		catch(Exception e){
+			validOldPassword = false;
 			e.printStackTrace();
 			DebugLog.d(e);				
 		}
@@ -187,10 +188,14 @@ public class UserDao {
 				e.printStackTrace();
 				DebugLog.d(e);
 			}catch(Exception e){
+				validOldPassword = false;
 				e.printStackTrace();
 				DebugLog.d(e);						
 			}finally{
-				EduDaoBasic.closeResources(conn, stmt, rs, true);				
+				EduDaoBasic.closeResources(conn, stmt, rs, true);
+				if(!validOldPassword){
+					throw new AuthenticationException();
+				}
 			}
 		}else {
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
@@ -221,6 +226,7 @@ public class UserDao {
 			DebugLog.d(e);
 		}
 		catch(Exception e){
+			validPassword = false;
 			e.printStackTrace();
 			DebugLog.d(e);			
 		}finally{
@@ -231,6 +237,36 @@ public class UserDao {
 		}
 		return user;
 	}
+	
+	public static void recoverUserPassword(String phone,String newPassword) throws AuthenticationException{
+		Connection conn = EduDaoBasic.getSQLConnection();
+		PreparedStatement stmt = null;		
+		ResultSet rs = null;
+		String query = "UPDATE UserDao set password = ? where phone = ?";
+		boolean success = true;
+		try{
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, SessionCrypto.encrypt(newPassword));				
+			stmt.setString(2, phone);
+			int recordsAffected = stmt.executeUpdate();
+			if(recordsAffected==0){
+				success = false;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			DebugLog.d(e);
+		}catch(Exception e){
+			success = false;
+			e.printStackTrace();
+			DebugLog.d(e);			
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			if(!success){
+				throw new AuthenticationException("手机号码或密码输入有误");
+			}
+		}
+	}
+	
 	private static User createUserByResultSet(ResultSet rs) throws SQLException {		
 		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
 				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),"", AccountStatus.fromInt(rs.getInt("status")));
