@@ -6,12 +6,13 @@ import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.DatabaseConfig;
+import BaseModule.configurations.RedisPrefixConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.service.RedisUtilityService;
 
 public class UserBookingVerificationDaoService {
-	private static final String userBookingVerification_keyPrefix = "user-bookingVerification-";
+	private static final String userBookingVerification_keyPrefix = RedisPrefixConfig.userBookingVerification_keyPrefix;
 	private static final int userBookingVerification_authCodeLength = 6;
 	private static final long userBookingVerification_expireThreshold = 3600000l;	//1h
 	private static final long userBookingVerification_resendThreshold = 60000l;	//1h

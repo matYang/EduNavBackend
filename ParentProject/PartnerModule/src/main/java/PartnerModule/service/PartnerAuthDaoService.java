@@ -6,12 +6,13 @@ import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.DatabaseConfig;
+import BaseModule.configurations.RedisPrefixConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.service.RedisUtilityService;
 
 public class PartnerAuthDaoService {
 
-	private static final String partnerSession_web_keyPrefix = "partner-session-web-";
+	private static final String partnerSession_web_keyPrefix = RedisPrefixConfig.partnerSession_web_keyPrefix;
 	private static final int partnerSession_web_authCodeLength = 15;
 	private static final long partnerSession_updateThreshold = 259200000l;		//3 days
 	private static final long partnerSession_expireThreshold = 604800000l;		//7 days

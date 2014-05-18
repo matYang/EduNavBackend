@@ -6,13 +6,14 @@ import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.DatabaseConfig;
+import BaseModule.configurations.RedisPrefixConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.service.RedisUtilityService;
 
 public class PartnerForgotPasswordDaoService {
 
-	private static final String partnerForgotPassword_keyPrefix = "partner-forgotPassword-";
+	private static final String partnerForgotPassword_keyPrefix = RedisPrefixConfig.partnerForgotPassword_keyPrefix;
 	private static final int partnerForgotPassword_authCodeLength = 8;
 	private static final long partnerForgotPassword_expireThreshold = 21600000l;		//6h
 	private static final long partnerForgotPassword_resendThreshould = 60000l;			//1min

@@ -6,6 +6,7 @@ import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.DatabaseConfig;
+import BaseModule.configurations.RedisPrefixConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.service.RedisUtilityService;
@@ -13,7 +14,7 @@ import BaseModule.service.RedisUtilityService;
 public class UserCellVerificationDaoService {
 	
 	
-	private static final String userCellVerification_keyPrefix = "user-cellVerification-";
+	private static final String userCellVerification_keyPrefix =  RedisPrefixConfig.userCellVerification_keyPrefix;
 	private static final int userCellVerification_authCodeLength = 6;
 	private static final long userCellVerification_expireThreshold = 21600000l;		//6h
 	private static final long userCellVerification_resendThreshold = 60000;			//1min

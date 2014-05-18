@@ -6,13 +6,14 @@ import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.DatabaseConfig;
+import BaseModule.configurations.RedisPrefixConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.service.RedisUtilityService;
 
 
 public class AdminAuthDaoService {
 
-	private static final String adminSession_web_keyPrefix = "admin-session-web-";
+	private static final String adminSession_web_keyPrefix = RedisPrefixConfig.adminSession_web_keyPrefix;
 	private static final int adminSession_web_authCodeLength = 15;
 	private static final long adminSession_updateThreshold = 259200000l;		//3 days
 	private static final long adminSession_expireThreshold = 604800000l;		//7 days
