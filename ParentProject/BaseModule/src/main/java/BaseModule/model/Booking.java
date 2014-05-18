@@ -6,7 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
 
 public class Booking implements PseudoModel{
@@ -22,7 +22,7 @@ public class Booking implements PseudoModel{
 	private int courseId;
 	private String name;
 	private String phone;
-	private Status status;
+	private AccountStatus status;
 	private String reference;
 
 
@@ -30,7 +30,7 @@ public class Booking implements PseudoModel{
 	public Booking(int bookingId, Calendar creationTime, Calendar timeStamp,
 			Calendar startTime, Calendar finishTime, int price, int userId,
 			int partnerId, int courseId, String name, String phone,
-			Status status, String reference) {
+			AccountStatus status, String reference) {
 		super();
 		this.bookingId = bookingId;
 		this.creationTime = creationTime;
@@ -50,7 +50,7 @@ public class Booking implements PseudoModel{
 	//Normal Construction
 	public Booking(Calendar timeStamp,Calendar startTime, Calendar finishTime, int price,
 			int userId, int partnerId, int courseId, String name, String phone,
-			String reference,Status status) {
+			String reference,AccountStatus status) {
 		super();
 		this.timeStamp = timeStamp;
 		this.startTime = startTime;
@@ -146,11 +146,11 @@ public class Booking implements PseudoModel{
 		this.phone = phone;
 	}
 
-	public Status getStatus() {
+	public AccountStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(AccountStatus status) {
 		this.status = status;
 	}
 

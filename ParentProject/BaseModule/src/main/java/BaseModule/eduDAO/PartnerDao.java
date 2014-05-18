@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.partner.PartnerNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
@@ -158,7 +158,7 @@ public class PartnerDao {
 	private static Partner createPartnerByResultSet(ResultSet rs) throws SQLException {
 		return new Partner(rs.getInt("id"), rs.getString("name"), rs.getString("licence"), rs.getString("organizationNum"),
 				rs.getString("reference"), rs.getString("password"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
-				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")), rs.getString("phone"), Status.fromInt(rs.getInt("status")),
+				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")), rs.getString("phone"), AccountStatus.fromInt(rs.getInt("status")),
 				rs.getString("instName"),rs.getString("logoUrl"));
 	}
 

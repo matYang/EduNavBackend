@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.User;
@@ -154,7 +154,7 @@ public class UserDao {
 	
 	private static User createUserByResultSet(ResultSet rs) throws SQLException {
 		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
-				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")), rs.getString("password"), Status.fromInt(rs.getInt("status")));
+				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")), rs.getString("password"), AccountStatus.fromInt(rs.getInt("status")));
 	}
 	
 	

@@ -9,8 +9,10 @@ import org.restlet.resource.Post;
 
 import UserModule.resources.UserPseudoResource;
 import UserModule.service.UserCellVerificationDaoService;
+import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.model.User;
 import BaseModule.resources.PseudoResource;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
@@ -23,9 +25,14 @@ public class UserSMSVerification extends UserPseudoResource{
 		try{
 			String cellNum = this.getQueryVal("cellNum");
 			if (ValidationService.isCellNumValid(cellNum)){
-				String authCode = UserCellVerificationDaoService.openSession(cellNum);
-				SMSService.sendUserCellVerificationSMS(cellNum, authCode);
-				setStatus(Status.SUCCESS_OK);
+				if (UserDaoService.isCellPhoneAvailable(cellNum)){
+					String authCode = UserCellVerificationDaoService.openSession(cellNum);
+					SMSService.sendUserCellVerificationSMS(cellNum, authCode);
+					setStatus(Status.SUCCESS_OK);
+				}
+				else{
+					throw new ValidationException("手机号码已经被注册");
+				}
 			}
 			else{
 				throw new ValidationException("手机号码格式不正确");

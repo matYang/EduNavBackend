@@ -11,7 +11,7 @@ public class ValidationService {
 		return true;
 	}
 	
-	public static boolean isPasswordValid(String password, String confirmPassword){
+	public static boolean isPasswordValid(String password){
 		return true;
 	}
 

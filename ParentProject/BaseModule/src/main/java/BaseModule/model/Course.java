@@ -6,7 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
 
 public class Course implements PseudoModel{
@@ -19,7 +19,7 @@ public class Course implements PseudoModel{
 	private int price;
 	private int seatsTotal;
 	private int seatsLeft;
-	private Status status;
+	private AccountStatus status;
 	private String category;
 	private String subCategory;
 	private String title;
@@ -37,7 +37,7 @@ public class Course implements PseudoModel{
 	public Course(int courseId, int p_Id, Calendar creationTime,
 			Calendar startTime, Calendar finishTime, String t_Info,
 			String t_ImgURL, String t_Material, String backgroundURL,
-			int price, int seatsTotal, int seatsLeft,Status status, 
+			int price, int seatsTotal, int seatsLeft,AccountStatus status, 
 			String category, String subCategory, Partner partner,String title,
 			String location, String city, String district, String reference) {
 		super();
@@ -67,7 +67,7 @@ public class Course implements PseudoModel{
 	//Normal Construction
 	public Course(int p_Id, Calendar startTime, Calendar finishTime,
 			int seatsTotal, int seatsLeft, String category,
-			String subCategory,Status status) {
+			String subCategory,AccountStatus status) {
 		super();
 		this.partnerId = p_Id;
 		this.startTime = startTime;
@@ -200,11 +200,11 @@ public class Course implements PseudoModel{
 		this.seatsLeft = seatsLeft;
 	}
 
-	public Status getStatus() {
+	public AccountStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(AccountStatus status) {
 		this.status = status;
 	}
 

@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.booking.BookingNotFoundException;
 import BaseModule.model.Booking;
 
@@ -153,7 +153,7 @@ public class BookingDao {
 	protected static Booking createBookingByResultSet(ResultSet rs) throws SQLException {
 		return new Booking(rs.getInt("id"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), DateUtility.DateToCalendar(rs.getTimestamp("timeStamp")),
 				DateUtility.DateToCalendar(rs.getTimestamp("startTime")),DateUtility.DateToCalendar(rs.getTimestamp("finishTime")), rs.getInt("price"), rs.getInt("u_Id"),
-				rs.getInt("p_Id"), rs.getInt("course_Id"), rs.getString("name"), rs.getString("phone"),Status.fromInt(rs.getInt("status")), rs.getString("reference"));
+				rs.getInt("p_Id"), rs.getInt("course_Id"), rs.getString("name"), rs.getString("phone"),AccountStatus.fromInt(rs.getInt("status")), rs.getString("reference"));
 	}
 
 

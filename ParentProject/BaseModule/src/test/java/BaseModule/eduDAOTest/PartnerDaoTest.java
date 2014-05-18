@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.exception.partner.PartnerNotFoundException;
@@ -25,7 +25,7 @@ public class PartnerDaoTest {
 		String reference = "dsf4r";
 		String password = "sdf234r";
 		String phone = "123545451";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
 		try{
 			PartnerDao.addPartnerToDatabases(partner);
@@ -45,7 +45,7 @@ public class PartnerDaoTest {
 		String reference = "dsf4r";
 		String password = "sdf234r";
 		String phone = "123545451";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
 		PartnerDao.addPartnerToDatabases(partner);
 		Partner partner2 = PartnerDao.getPartnerById(partner.getPartnerId());
@@ -67,7 +67,7 @@ public class PartnerDaoTest {
 		String reference2 = "dsdsfr";
 		String password2 = "sdsdf34r";
 		String phone2 = "12335451";
-		Status status2 = Status.activated;
+		AccountStatus status2 = AccountStatus.activated;
 		Partner test = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2, phone2,status2);
 		PartnerDao.addPartnerToDatabases(test);
 		
@@ -88,7 +88,7 @@ public class PartnerDaoTest {
 		String reference = "dsf4r";
 		String password = "sdf234r";
 		String phone = "123545451";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		

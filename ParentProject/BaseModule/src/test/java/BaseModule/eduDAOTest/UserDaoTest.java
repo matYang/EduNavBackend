@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.user.UserNotFoundException;
@@ -21,7 +21,7 @@ public class UserDaoTest {
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		User user = new User(name, phone, password,status);
 		
 		try{
@@ -38,7 +38,7 @@ public class UserDaoTest {
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		User user = new User(name, phone, password,status);
 		
 		user = UserDao.addUserToDatabase(user);
@@ -60,7 +60,7 @@ public class UserDaoTest {
 		String name2 = "Matt";
 		String phone2 = "1324234234";
 		String password2 = "36krl";
-		Status status2 = Status.activated;
+		AccountStatus status2 = AccountStatus.activated;
 		User user2 = new User(name2, phone2, password2,status2);
 		UserDao.addUserToDatabase(user2);
 		
@@ -77,7 +77,7 @@ public class UserDaoTest {
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		User user = new User(name, phone, password,status);
 		
 		user = UserDao.addUserToDatabase(user);

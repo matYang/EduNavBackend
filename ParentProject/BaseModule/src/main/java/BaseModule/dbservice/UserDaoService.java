@@ -34,10 +34,10 @@ public class UserDaoService {
 		try{
 			user = UserDao.getUserByPhone(phone);
 		}catch(UserNotFoundException ex){
-			return false;
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 }

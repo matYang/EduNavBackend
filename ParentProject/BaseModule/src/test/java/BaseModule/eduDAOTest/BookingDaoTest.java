@@ -8,7 +8,7 @@ import java.util.Calendar;
 import org.junit.Test;
 
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
@@ -30,7 +30,7 @@ public class BookingDaoTest {
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		User user = new User(name, userphone, password,status);
 		UserDao.addUserToDatabase(user);
 		
@@ -92,7 +92,7 @@ public class BookingDaoTest {
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		User user = new User(name, userphone, password,status);
 		UserDao.addUserToDatabase(user);
 		
@@ -198,7 +198,7 @@ public class BookingDaoTest {
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";
-		Status status = Status.activated;
+		AccountStatus status = AccountStatus.activated;
 		User user = new User(name, userphone, password,status);
 		UserDao.addUserToDatabase(user);
 		
@@ -254,7 +254,7 @@ public class BookingDaoTest {
 			fail();
 		}
 		booking = BookingDao.getBookingById(booking.getBookingId());
-		booking.setStatus(Status.deactivated);
+		booking.setStatus(AccountStatus.deactivated);
 		booking.setPhone("18502877744");
 		BookingDao.updateBookingInDatabases(booking);
 		Booking test = BookingDao.getBookingById(booking.getBookingId());

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.Status;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.booking.BookingNotFoundException;
@@ -27,12 +27,12 @@ public class BookingCleaner extends BookingDao{
 		try{
 			conn = EduDaoBasic.getSQLConnection();
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, Status.activated.code);
+			stmt.setInt(1, AccountStatus.activated.code);
 			stmt.setString(2, ct);
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				booking = BookingDao.createBookingByResultSet(rs);
-				booking.setStatus(Status.deactivated);				
+				booking.setStatus(AccountStatus.deactivated);				
 				BookingDao.updateBookingInDatabases(booking,conn);
 			}
 		}catch (SQLException e) {
