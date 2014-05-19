@@ -249,7 +249,7 @@ public class Course implements PseudoModel{
 		try{
 			jsonSearchRepresentation.put("id", this.courseId);
 			jsonSearchRepresentation.put("partnerId", this.partnerId);
-			jsonSearchRepresentation.put("partner", this.partner.toJSON());
+			jsonSearchRepresentation.put("partner", this.partner == null ? new JSONObject() : this.partner.toJSON());
 			jsonSearchRepresentation.put("title", this.title);
 			jsonSearchRepresentation.put("teacherInfo", this.teacherInfo);
 			jsonSearchRepresentation.put("teacherImgUrl", this.teacherImgUrl);
