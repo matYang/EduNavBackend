@@ -53,12 +53,26 @@ public class DateUtility {
 		}
 		return cal;
 	}
-	
 	public static String castToAPIFormat(Calendar c){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(c.getTime());
 	}
-
+	
+	//representation format must be url-friendly
+	public static Calendar castFromRepresentationFormat(String dateString){
+		Calendar cal = getCurTimeInstance();
+		try {
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+			cal.setTime(sdf1.parse(dateString));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return cal;
+	}
+	public static String castToRepresentationFormat(Calendar c){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(c.getTime());
+	}
 	
 	public static String getTimeStamp(){
 		return getCurTime() +"";
