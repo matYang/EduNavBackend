@@ -8,15 +8,15 @@ import BaseModule.model.Booking;
 
 public class BookingDaoService {
 
-	public ArrayList<Booking> getAllBookings(){
+	public static ArrayList<Booking> getAllBookings(){
 		return BookingDao.getAllBookings();
 	}
 	
-	public Booking getBookingById(int id) throws BookingNotFoundException{
+	public static Booking getBookingById(int id) throws BookingNotFoundException{
 		return BookingDao.getBookingById(id);
 	}
 	
-	public Booking getBookingByReference(String reference) throws BookingNotFoundException{
+	public static Booking getBookingByReference(String reference) throws BookingNotFoundException{
 		return BookingDao.getBookingByReference(reference);
 	}
 	

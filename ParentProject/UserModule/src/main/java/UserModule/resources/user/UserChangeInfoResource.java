@@ -13,7 +13,6 @@ import java.io.IOException;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.User;
