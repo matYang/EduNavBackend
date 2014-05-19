@@ -52,5 +52,11 @@ public class UserDaoService {
 	public static void recoverPassword(String phone, String newPassword) throws AuthenticationException{
 		UserDao.recoverUserPassword(phone, newPassword);
 	}
+	
+	public static void updatePhone(int userId, String phone) throws UserNotFoundException, ValidationException{
+		User user = UserDao.getUserById(userId);
+		user.setPhone(phone);
+		UserDao.updateUserInDatabases(user);
+	}
 
 }
