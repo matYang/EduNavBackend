@@ -16,26 +16,14 @@ public class UserIdResource extends UserPseudoResource{
 
 	 @Get 	    
 	    public Representation getUerById() {
-	        int id = -1;
-	        int intendedUserId = -1;
 	        JSONObject jsonObject = new JSONObject();
 	        
 	        try {
-				id = Integer.parseInt(this.getReqAttr("id"));
-				String intendedIdString = this.getQueryVal("intendedUserId"); 
-				intendedUserId = intendedIdString != null ? Integer.parseInt(this.getQueryVal("intendedUserId")) : id;				
+				int userId = this.validateAuthentication();
 				
-				this.validateAuthentication();
-				
-				//used for personal page, able to retrieve any user's information
-		    	User user = UserDaoService.getUserById(intendedUserId);
-		    	if (user != null){
-		            jsonObject = JSONFactory.toJSON(user);
-		    	}
-		    	else{
-		    		setStatus(Status.CLIENT_ERROR_FORBIDDEN);
-		    	}
-				
+		    	User user = UserDaoService.getUserById(userId);
+		        jsonObject = JSONFactory.toJSON(user);
+		        
 			} catch (PseudoException e){
 				this.addCORSHeader();
 				return this.doPseudoException(e);
