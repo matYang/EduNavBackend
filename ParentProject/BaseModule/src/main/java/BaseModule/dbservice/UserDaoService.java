@@ -7,6 +7,7 @@ import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.User;
+import BaseModule.model.representation.SearchRepresentation;
 
 public class UserDaoService {
 
@@ -57,6 +58,11 @@ public class UserDaoService {
 		User user = UserDao.getUserById(userId);
 		user.setPhone(phone);
 		UserDao.updateUserInDatabases(user);
+	}
+
+	public static ArrayList<User> searchCourse(SearchRepresentation sr) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -43,6 +43,8 @@ public class RoutingService extends Application {
 		// 	API for partner get/post : /api/v1.0/partner/:id
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + "/{id}", PartnerIdResource.class);
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + "/{id}", PartnerChangeInfoResource.class);
+		
+		
 		return router;
 	}
 
