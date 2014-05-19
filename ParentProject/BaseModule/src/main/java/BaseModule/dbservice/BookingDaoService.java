@@ -5,18 +5,19 @@ import java.util.ArrayList;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.exception.booking.BookingNotFoundException;
 import BaseModule.model.Booking;
+import BaseModule.model.representation.SearchRepresentation;
 
 public class BookingDaoService {
 
-	public ArrayList<Booking> getAllBookings(){
+	public static ArrayList<Booking> getAllBookings(){
 		return BookingDao.getAllBookings();
 	}
 	
-	public Booking getBookingById(int id) throws BookingNotFoundException{
+	public static Booking getBookingById(int id) throws BookingNotFoundException{
 		return BookingDao.getBookingById(id);
 	}
 	
-	public Booking getBookingByReference(String reference) throws BookingNotFoundException{
+	public static Booking getBookingByReference(String reference) throws BookingNotFoundException{
 		return BookingDao.getBookingByReference(reference);
 	}
 	
@@ -26,6 +27,11 @@ public class BookingDaoService {
 	
 	public static Booking createBooking(Booking booking){
 		return BookingDao.addBookingToDatabases(booking);
+	}
+
+	public static ArrayList<Booking> searchCourse(SearchRepresentation sr) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

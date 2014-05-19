@@ -169,7 +169,7 @@ public class Booking implements PseudoModel{
 	public JSONObject toJSON(){
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
-			jsonSearchRepresentation.put("bookingId", this.userId);
+			jsonSearchRepresentation.put("bookingId", this.bookingId);
 			jsonSearchRepresentation.put("name", this.name);
 			jsonSearchRepresentation.put("phone", this.phone);
 			jsonSearchRepresentation.put("price", this.price);

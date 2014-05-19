@@ -1,7 +1,6 @@
 package UserModule.resources.user;
 
 import org.json.JSONObject;
-import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
@@ -15,7 +14,7 @@ import BaseModule.model.User;
 public class UserIdResource extends UserPseudoResource{
 
 	 @Get 	    
-	    public Representation getUerById() {
+	    public Representation getUserById() {
 	        JSONObject jsonObject = new JSONObject();
 	        
 	        try {

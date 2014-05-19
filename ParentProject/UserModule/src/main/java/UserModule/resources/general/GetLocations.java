@@ -1,7 +1,5 @@
 package UserModule.resources.general;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;

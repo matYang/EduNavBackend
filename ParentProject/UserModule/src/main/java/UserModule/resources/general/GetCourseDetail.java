@@ -1,7 +1,6 @@
 package UserModule.resources.general;
 
 import org.json.JSONObject;
-import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
@@ -18,15 +17,10 @@ public class GetCourseDetail extends UserPseudoResource {
 	public Representation getCourseById(){
 		int courseId = -1;
 		JSONObject courseObject = new JSONObject();
-		try{
-			
+		try{			
 			courseId =Integer.parseInt(this.getReqAttr("id"));
 			Course course = CourseDaoService.getCourseById(courseId);
-			if(course != null){
-				courseObject = JSONFactory.toJSON(course);
-			}else{
-				setStatus(Status.CLIENT_ERROR_NOT_FOUND);
-			}
+			courseObject = JSONFactory.toJSON(course);
 		}catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

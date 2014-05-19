@@ -1,23 +1,23 @@
-package UserModule.resources.user;
+package AdminModule.resources.admin;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
-import org.json.JSONException;
-
-import UserModule.resources.UserPseudoResource;
-
-import java.io.IOException;
+import AdminModule.dbservice.AdminAccountDaoService;
+import AdminModule.model.AdminAccount;
+import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
-import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
-import BaseModule.model.User;
+import AdminModule.factory.JSONFactory;
 
-public class UserChangeInfoResource extends UserPseudoResource{
+
+public class AdminAccountChangeInfoResource extends AdminPseudoResource{
 
 	protected JSONObject parseJSON(Representation entity) throws ValidationException{
 		JSONObject jsonContact = null;
@@ -46,24 +46,24 @@ public class UserChangeInfoResource extends UserPseudoResource{
 	
 	@Put
 	/**
-	 * allows user to change name
+	 * allows admin to change name
 	 */
 	public Representation changeContactInfo(Representation entity) {
-		int userId = -1;
+		int adminId = -1;
 		JSONObject response = new JSONObject();
 		JSONObject contact = new JSONObject();
 		
 		try {
 			this.checkEntity(entity);
-			userId = this.validateAuthentication();
+			adminId = this.validateAuthentication();
 			
 			contact = parseJSON(entity);
 				
-			User user = UserDaoService.getUserById(userId);
-			user.setName(contact.getString("name"));					
-			UserDaoService.updateUser(user);
+			AdminAccount account = AdminAccountDaoService.getAdminAccountById(adminId);
+			account.setName(contact.getString("name"));					
+			AdminAccountDaoService.updateAdminAccount(account);
 			
-			response = JSONFactory.toJSON(user);
+			response = JSONFactory.toJSON(account);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){
