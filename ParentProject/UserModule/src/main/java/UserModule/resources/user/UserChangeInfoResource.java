@@ -12,6 +12,7 @@ import UserModule.resources.UserPseudoResource;
 import java.io.IOException;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.UserDaoService;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
@@ -36,7 +37,6 @@ public class UserChangeInfoResource extends UserPseudoResource{
 			DebugLog.d(e);
 			throw new ValidationException("姓名格式不正确");
 		}	
-		
 		if (name == null){
 			throw new ValidationException("必填数据不能为空");
 		}
@@ -56,25 +56,18 @@ public class UserChangeInfoResource extends UserPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
-			
-			userId = Integer.parseInt(this.getReqAttr("id"));
-			this.validateAuthentication();
+			userId = this.validateAuthentication();
 			
 			contact = parseJSON(entity);
-			if (contact != null){
 				
-				User user = UserDaoService.getUserById(userId);
-				user.setName(contact.getString("name"));					
-				UserDaoService.updateUser(user);
-				
-				response = JSONFactory.toJSON(user);
-				setStatus(Status.SUCCESS_OK);
-			}
-			else{
-				throw new ValidationException("数据格式不正确");
-			}
+			User user = UserDaoService.getUserById(userId);
+			user.setName(contact.getString("name"));					
+			UserDaoService.updateUser(user);
+			
+			response = JSONFactory.toJSON(user);
+			setStatus(Status.SUCCESS_OK);
 
-		} catch (UserNotFoundException e){
+		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
         } catch (Exception e) {
