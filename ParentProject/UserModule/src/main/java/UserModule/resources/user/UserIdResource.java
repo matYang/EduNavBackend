@@ -14,7 +14,7 @@ import BaseModule.model.User;
 public class UserIdResource extends UserPseudoResource{
 
 	 @Get 	    
-	    public Representation getUerById() {
+	    public Representation getUserById() {
 	        JSONObject jsonObject = new JSONObject();
 	        
 	        try {

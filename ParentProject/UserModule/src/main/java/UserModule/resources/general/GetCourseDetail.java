@@ -17,8 +17,7 @@ public class GetCourseDetail extends UserPseudoResource {
 	public Representation getCourseById(){
 		int courseId = -1;
 		JSONObject courseObject = new JSONObject();
-		try{
-			
+		try{			
 			courseId =Integer.parseInt(this.getReqAttr("id"));
 			Course course = CourseDaoService.getCourseById(courseId);
 			courseObject = JSONFactory.toJSON(course);
