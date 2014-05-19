@@ -11,6 +11,7 @@ import BaseModule.model.Booking;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.User;
+import BaseModule.model.representation.SearchRepresentation;
 
 public class JSONFactory {
 	
@@ -30,6 +31,9 @@ public class JSONFactory {
 		}
 		else if (obj instanceof Booking){
 			return ((Booking)obj).toJSON();
+		}
+		else if (obj instanceof SearchRepresentation){
+			return ((SearchRepresentation)obj).toJSON();
 		}
 		else{
 			return new JSONObject();
