@@ -14,95 +14,42 @@ import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.PartnerDaoService;
+import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Partner;
+import BaseModule.model.User;
+import BaseModule.model.representation.PartnerSearchRepresentation;
+import BaseModule.model.representation.UserSearchRepresentation;
 import BaseModule.service.ValidationService;
 
 public class GetPartners extends AdminPseudoResource{
-
-//	protected Partner validatePartnerJSON(Representation entity) throws ValidationException{
-//		JSONObject jsonPartner = null;
-//		Partner partner = null;
-//		
-//		try {
-//			jsonPartner = (new JsonRepresentation(entity)).getJsonObject();
-//			
-//			
-//			String phone = jsonPartner.getString("phone");
-//			String name = jsonPartner.getString("name");
-//			String instName = jsonPartner.getString("instName");
-//			String licence = jsonPartner.getString("licence");
-//			String organizationNum = jsonPartner.getString("organizationNum");
-//			String reference = jsonPartner.getString("reference");
-//			AccountStatus status = AccountStatus.fromInt(jsonPartner.getInt("status"));
-//			String password = jsonPartner.getString("password");
-//			String confirmPassword = jsonPartner.getString("confirmPassword");			
-//			
-//			partner = new Partner(name,instName,licence, organizationNum,reference,password, phone, status);
-//			if (!ValidationService.isNameValid(name)){
-//				throw new ValidationException("姓名格式不正确");
-//			}
-//			if (!ValidationService.isCellNumValid(phone)){
-//				throw new ValidationException("手机号码格式不正确");
-//			}
-//			if (!ValidationService.isPasswordValid(password)){
-//				throw new ValidationException("密码格式不正确");
-//			}
-//			if (!password.equals(confirmPassword)){
-//				throw new ValidationException("两次输入密码不相符");
-//			}			
-//
-//		} catch (JSONException | IOException e) {
-//			throw new ValidationException("无效数据格式");
-//		}
-//		return partner;
-//	}
-	
 	
 	@Get
-	public Representation getAllPartners(){
+	public Representation searchPartners(){
 
-		ArrayList<Partner> allPartner = PartnerDaoService.getAllPartners();
-		JSONArray jsonArray = JSONFactory.toJSON(allPartner);
+		JSONArray response = new JSONArray();
 		
-		Representation result = new JsonRepresentation(jsonArray);
+		try {
+			
+			PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
+			this.loadRepresentation(p_sr);
 
+			ArrayList<Partner> searchResult = PartnerDaoService.searchPartners(p_sr);
+			response = JSONFactory.toJSON(searchResult);
+			
+		} catch (PseudoException e){
+			this.addCORSHeader();
+			return this.doPseudoException(e);
+	    } catch (Exception e){
+			return this.doException(e);
+		}
+		
+		Representation result = new JsonRepresentation(response);
 		this.addCORSHeader();
 		return result;
 	}
 	
 
-//	@Post
-//	public Representation createUser(Representation entity) {
-//		
-//		JSONObject newJsonPartner = new JSONObject();
-//		Partner creationFeedBack = null;
-//		
-//		try{
-//			this.checkEntity(entity);
-//			Partner newPartner = validatePartnerJSON(entity);
-//			creationFeedBack = PartnerDaoService.createPartner(newPartner);			
-//			
-//			//first close authentication as it is registration, then open brand new authentication
-//			this.closeAuthentication();
-//			this.openAuthentication(creationFeedBack.getPartnerId());
-//
-//			DebugLog.d("@Post::resources::createPartner: available: " + creationFeedBack.getPhone() + " id: " +  creationFeedBack.getPartnerId());
-//			newJsonPartner = JSONFactory.toJSON(creationFeedBack);
-//
-//		} catch(PseudoException e){
-//			this.addCORSHeader();
-//			return this.doPseudoException(e);
-//		} catch (Exception e){
-//			this.addCORSHeader();
-//			return this.doException(e);
-//		}
-//
-//		Representation result = new JsonRepresentation(newJsonPartner);
-//		
-//		this.addCORSHeader(); 
-//		return result;
-//	}
 }

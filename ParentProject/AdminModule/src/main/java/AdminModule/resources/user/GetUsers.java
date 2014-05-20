@@ -13,7 +13,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.User;
-import BaseModule.model.representation.SearchRepresentation;
+import BaseModule.model.representation.UserSearchRepresentation;
 
 public class GetUsers extends AdminPseudoResource{
 
@@ -23,17 +23,11 @@ public class GetUsers extends AdminPseudoResource{
 		JSONArray response = new JSONArray();
 		
 		try {
-			String srStr = this.getPlainQueryVal("searchRepresentation");
-			DebugLog.d("SearchMessage received searchRepresentation: " + srStr);
-			if (srStr == null){
-				throw new ValidationException("搜索条件不能为空");
-			}
 			
-			SearchRepresentation sr = new SearchRepresentation(srStr);
-			
+			UserSearchRepresentation u_sr = new UserSearchRepresentation();
+			this.loadRepresentation(u_sr);
 
-			ArrayList<User> searchResult = new ArrayList<User>();
-			searchResult = UserDaoService.searchCourse(sr);
+			ArrayList<User> searchResult = UserDaoService.searchUser(u_sr);
 			response = JSONFactory.toJSON(searchResult);
 			
 		} catch (PseudoException e){

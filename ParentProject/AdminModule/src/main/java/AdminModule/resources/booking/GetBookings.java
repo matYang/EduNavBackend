@@ -13,7 +13,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Booking;
-import BaseModule.model.representation.SearchRepresentation;
+import BaseModule.model.representation.BookingSearchRepresentation;
 
 public class GetBookings extends AdminPseudoResource{
 
@@ -23,17 +23,12 @@ public class GetBookings extends AdminPseudoResource{
 		JSONArray response = new JSONArray();
 		
 		try {
-			String srStr = this.getPlainQueryVal("searchRepresentation");
-			DebugLog.d("SearchMessage received searchRepresentation: " + srStr);
-			if (srStr == null){
-				throw new ValidationException("搜索条件不能为空");
-			}
 			
-			SearchRepresentation sr = new SearchRepresentation(srStr);
-			
+			BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
+			this.loadRepresentation(b_sr);
 
 			ArrayList<Booking> searchResult = new ArrayList<Booking>();
-			searchResult = BookingDaoService.searchCourse(sr);
+			searchResult = BookingDaoService.searchBooking(b_sr);
 			response = JSONFactory.toJSON(searchResult);
 			
 		} catch (PseudoException e){

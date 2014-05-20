@@ -7,6 +7,8 @@ import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.partner.PartnerNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
+import BaseModule.model.representation.PartnerSearchRepresentation;
+
 import java.sql.Connection;
 public class PartnerDaoService {
 
@@ -36,5 +38,10 @@ public class PartnerDaoService {
 	
 	public static Partner authenticatePartner(String phone,String password) throws AuthenticationException{
 		return PartnerDao.authenticatePartner(phone, password);
+	}
+	
+	public static ArrayList<Partner> searchPartners(PartnerSearchRepresentation sr){
+		//TODO
+		return null;
 	}
 }

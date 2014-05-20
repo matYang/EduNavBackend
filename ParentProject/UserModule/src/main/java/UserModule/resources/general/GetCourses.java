@@ -29,17 +29,8 @@ public class GetCourses extends UserPseudoResource{
 		
 		try {
 			CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
-			Map<String, String> kvps = new HashMap<String, String>();
-			
-			ArrayList<String> keys = c_sr.getKeySet();
-			for (String key: keys){
-				kvps.put(key, this.getQueryVal(key));
-			}
-			c_sr.storeKvps(kvps);
-
-			ArrayList<Course> searchResult = new ArrayList<Course>();
-			searchResult = CourseDaoService.searchCourse(c_sr);
-			response = JSONFactory.toJSON(searchResult);
+			this.loadRepresentation(c_sr);
+			response = JSONFactory.toJSON(CourseDaoService.searchCourse(c_sr));
 			
 		} catch (PseudoException e){
 			this.addCORSHeader();

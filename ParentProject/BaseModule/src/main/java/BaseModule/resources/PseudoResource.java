@@ -1,6 +1,9 @@
 package BaseModule.resources;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONObject;
 import org.restlet.data.CookieSetting;
@@ -18,6 +21,8 @@ import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.ValidationConfig;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.interfaces.PseudoRepresentation;
+import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class PseudoResource extends ServerResource{
 	
@@ -79,6 +84,16 @@ public class PseudoResource extends ServerResource{
 	
 	public String getToUtf(String var) throws UnsupportedEncodingException{
 		return java.net.URLEncoder.encode(var, "utf-8");
+	}
+	
+	public void loadRepresentation(PseudoRepresentation pr) throws Exception{
+		Map<String, String> kvps = new HashMap<String, String>();
+		
+		ArrayList<String> keys = pr.getKeySet();
+		for (String key: keys){
+			kvps.put(key, this.getQueryVal(key));
+		}
+		pr.storeKvps(kvps);
 	}
 	
 	

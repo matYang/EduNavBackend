@@ -13,7 +13,10 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoRepresentation;
+import BaseModule.model.representation.BookingSearchRepresentation;
 import BaseModule.model.representation.CourseSearchRepresentation;
+import BaseModule.model.representation.PartnerSearchRepresentation;
+import BaseModule.model.representation.UserSearchRepresentation;
 
 public class RepresentationReflectiveService {
 	
@@ -158,6 +161,15 @@ public class RepresentationReflectiveService {
 		Field[] fields;
 		if (representation instanceof CourseSearchRepresentation){
 			fields = CourseSearchRepresentation.class.getDeclaredFields();
+		}
+		else if (representation instanceof UserSearchRepresentation){
+			fields = UserSearchRepresentation.class.getDeclaredFields();
+		}
+		else if (representation instanceof PartnerSearchRepresentation){
+			fields = PartnerSearchRepresentation.class.getDeclaredFields();
+		}
+		else if (representation instanceof BookingSearchRepresentation){
+			fields = BookingSearchRepresentation.class.getDeclaredFields();
 		}
 		else{
 			throw new RuntimeException("[ERROR] RepresentationReflectiveService unable to determine representation instance type");

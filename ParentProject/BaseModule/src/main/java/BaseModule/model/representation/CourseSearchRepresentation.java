@@ -79,7 +79,6 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	public JSONObject toJSON() {
 		return RepresentationReflectiveService.toJSON(this);
 	}
-
 	
 	
 	public String getCategory() {

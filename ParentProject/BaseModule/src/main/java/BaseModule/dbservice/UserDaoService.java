@@ -2,13 +2,14 @@ package BaseModule.dbservice;
 
 import java.util.ArrayList;
 
+import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.model.User;
-import BaseModule.model.representation.CourseSearchRepresentation;
+import BaseModule.model.representation.UserSearchRepresentation;
 
 public class UserDaoService {
 
@@ -43,8 +44,11 @@ public class UserDaoService {
 		return false;
 	}
 	
-	public static User authenticateUser(String phone, String password) throws AuthenticationException{ 
-		return UserDao.authenticateUser(phone, password);
+	public static User authenticateUser(String phone, String password) throws AuthenticationException, ValidationException{ 
+		User user = UserDao.authenticateUser(phone, password);
+		user.setLastLogin(DateUtility.getCurTimeInstance());
+		UserDao.updateUserInDatabases(user);
+		return user;
 	}
 	
 	public static void changePassword(int userId, String oldPassword, String newPassword) throws AuthenticationException{
@@ -61,7 +65,7 @@ public class UserDaoService {
 		UserDao.updateUserInDatabases(user);
 	}
 
-	public static ArrayList<User> searchCourse(PseudoRepresentation sr) {
+	public static ArrayList<User> searchUser(UserSearchRepresentation sr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
