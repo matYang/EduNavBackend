@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.exception.booking.BookingNotFoundException;
 import BaseModule.model.Booking;
-import BaseModule.model.representation.SearchRepresentation;
+import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class BookingDaoService {
 
@@ -29,7 +29,7 @@ public class BookingDaoService {
 		return BookingDao.addBookingToDatabases(booking);
 	}
 
-	public static ArrayList<Booking> searchCourse(SearchRepresentation sr) {
+	public static ArrayList<Booking> searchCourse(CourseSearchRepresentation sr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
