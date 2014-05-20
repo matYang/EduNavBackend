@@ -78,7 +78,7 @@ public class PartnerResource extends AdminPseudoResource{
 					imgFile = new File(ServerConfig.resourcePrefix + ServerConfig.ImgFolder+ imgName + ".png");
 					ImageIO.write(bufferedImage, "png", imgFile);
 					//warning: can only call this upload once, as it will delete the image file before it exits
-					path = FileService.upLoadTeacherImg(partnerId, imgFile, imgName, ServerConfig.AliyunLogoBucket);	
+					path = FileService.uploadLogoImg(partnerId, imgFile, imgName);
 
 
 					props.put(fi.getFieldName(), path);
