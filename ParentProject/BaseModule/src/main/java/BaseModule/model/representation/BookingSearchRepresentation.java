@@ -50,7 +50,6 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	@Override
 	public void storeKvps(Map<String, String> kvps) throws IllegalArgumentException, IllegalAccessException, PseudoException {
 		RepresentationReflectiveService.storeKvps(this, kvps);
-
 	}
 	
 	@Override

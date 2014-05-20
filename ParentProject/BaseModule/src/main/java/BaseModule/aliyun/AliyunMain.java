@@ -60,8 +60,9 @@ public class AliyunMain {
 	}	
 	
 	private static String getImageKey(int id, String imageName){
-		long msec = DateUtility.getCurTime();				
-		return id + "/" + imageName + "-" + msec + ".png";
+		//TODO removed msec long msec = DateUtility.getCurTime();				
+		//return id + "/" + imageName + "-" + msec + ".png";
+		return id + "/" + imageName + ".png";
 	}	
 
 	

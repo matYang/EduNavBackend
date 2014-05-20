@@ -33,6 +33,7 @@ public class Course implements PseudoModel{
 	private String teachingMaterial;
 	private String backgroundUrl;
 	private String courseInfo;
+	
 	//SQL Retrieving
 	public Course(int courseId, int p_Id, Calendar creationTime,
 			Calendar startTime, Calendar finishTime, String t_Info,
@@ -83,6 +84,11 @@ public class Course implements PseudoModel{
 		this.courseInfo = courseInfo;
 		this.creationTime = DateUtility.getCurTimeInstance();		
 	}
+	
+	//default
+	public Course() {
+			super();
+		}
 
 	public int getCourseId() {
 		return courseId;
@@ -144,8 +150,8 @@ public class Course implements PseudoModel{
 		return teacherImgUrl;
 	}
 
-	public void setTeacherImgUrl(String teacherImgURL) {
-		this.teacherImgUrl = teacherImgURL;
+	public void setTeacherImgUrl(String teacherImgUrl) {
+		this.teacherImgUrl = teacherImgUrl;
 	}
 
 	public String getTeachingMaterial() {

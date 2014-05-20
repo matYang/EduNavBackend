@@ -33,23 +33,19 @@ import BaseModule.dbservice.FileService;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Course;
 
 public class CourseResource extends AdminPseudoResource{
 
 	@Post
 	public Representation createCourse(Representation entity){
-		int courseId = -1;
 		File imgFile = null;
-		Course course = null;
 		Map<String, String> props = new HashMap<String, String>();
-		Connection conn = EduDaoBasic.getSQLConnection();
 		try{
 			this.checkFileEntity(entity);
-			this.validateAuthentication();
-			course = validateCourseJSON(entity);
-			course = CourseDaoService.createCourse(course,conn);
-			courseId = course.getCourseId();
+			int adminId = this.validateAuthentication();
+
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");
 			}
@@ -61,8 +57,13 @@ public class CourseResource extends AdminPseudoResource{
 			// 2/ Create a new file upload handler
 			RestletFileUpload upload = new RestletFileUpload(factory);
 			List<FileItem> items;
+			
+			// 3/ Create a default empty course to get its id later
+			Course course = new Course();
+			course.setStatus(AccountStatus.deleted);
+			course = CourseDaoService.createCourse(course);
 
-			// 3/ Request is parsed by the handler which generates a list of FileItems
+			// 4/ Request is parsed by the handler which generates a list of FileItems
 			items = upload.parseRepresentation(entity); 
 			for (final Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
 				FileItem fi = it.next();
@@ -72,34 +73,69 @@ public class CourseResource extends AdminPseudoResource{
 					props.put(fi.getFieldName(), new String(fi.get(), "UTF-8"));
 				} else {
 					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
-					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 200, 200, Scalr.OP_ANTIALIAS);
+					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 800, 600, Scalr.OP_ANTIALIAS);
 					String imgName;
 					String path;
-					if (fi.getFieldName().equals("image_1")){
-						imgName = ImgConfig.teacherImgPrefix + ImgConfig.imgSize_m + courseId;
+					if (fi.getFieldName().equals("teacherImg")){
+						imgName = ImgConfig.teacherImgPrefix + ImgConfig.imgSize_m + course.getCourseId();
 						imgFile = new File(ServerConfig.resourcePrefix + ServerConfig.ImgFolder+ imgName + ".png");
 						ImageIO.write(bufferedImage, "png", imgFile);
 						//warning: can only call this upload once, as it will delete the image file before it exits
-						path = FileService.uploadTeacherImg(courseId, imgFile, imgName);
+						path = FileService.uploadTeacherImg(course.getCourseId(), imgFile, imgName);
+						props.put("teacherImgUrl", path);
+						
 					}
 					else{
-						imgName = ImgConfig.backgroundImgPrefix + ImgConfig.imgSize_m + courseId;
+						imgName = ImgConfig.backgroundImgPrefix + ImgConfig.imgSize_m + course.getCourseId();
 						imgFile = new File(ServerConfig.resourcePrefix + ServerConfig.ImgFolder + imgName + ".png");
 						ImageIO.write(bufferedImage, "png", imgFile);
 						//warning: can only call this upload once, as it will delete the image file before it exits
-						path = FileService.uploadBackgroundImg(courseId, imgFile, imgName);
+						path = FileService.uploadBackgroundImg(course.getCourseId(), imgFile, imgName);
+						props.put("backgroundUrl", path);
 					}                   
 
-					props.put(fi.getFieldName(), path);
 				}
 			}
 			
-			String teacherImgUrl = props.get("image_1");
-			String backImgUrl = props.get("image_2");
-			course.setTeacherImgUrl(teacherImgUrl);
-			course.setBackgroundUrl(backImgUrl);
+			int partnerId = Integer.parseInt(props.get("partnerId"));
+			Calendar startTime = DateUtility.castFromAPIFormat(props.get("startTime"));
+			Calendar finishTime = DateUtility.castFromAPIFormat(props.get("finishTime"));
+			String teacherInfo = props.get("teacherInfo");
+			String teachingMaterial = props.get("teachingMaterial");
+			int price = Integer.parseInt(props.get("price"), 10);
+			int seatsTotal = Integer.parseInt(props.get("seatsTotal"));
+			String category = props.get("category");
+			String subCategory = props.get("subCategory");
+			String title = props.get("title");
+			String location = props.get("location");
+			String city = props.get("city");
+			String district = props.get("district");
+			String courseInfo = props.get("courseInfo");
+			String teacherImgUrl = props.get("teacherImgUrl");
+			String backgroundUrl = props.get("backgroundUrl");
+			String reference = ReferenceFactory.generateCourseReference();
 			
-			CourseDaoService.updateCourse(course,conn);
+			course.setPartnerId(partnerId);
+			course.setStartTime(startTime);
+			course.setFinishTime(finishTime);
+			course.setTeacherInfo(teacherInfo);
+			course.setTeachingMaterial(teachingMaterial);
+			course.setPrice(price);
+			course.setSeatsTotal(seatsTotal);
+			course.setSeatsLeft(seatsTotal);
+			course.setStatus(AccountStatus.activated);
+			course.setCategory(category);
+			course.setSubCategory(subCategory);
+			course.setTitle(title);
+			course.setLocation(location);
+			course.setCity(city);
+			course.setDistrict(district);
+			course.setCourseInfo(courseInfo);
+			course.setTeacherImgUrl(teacherImgUrl);
+			course.setBackgroundUrl(backgroundUrl);
+			course.setReference(reference);
+			
+			CourseDaoService.updateCourse(course);
 			
 		}catch (PseudoException e){
 			DebugLog.d(e);
@@ -108,8 +144,6 @@ public class CourseResource extends AdminPseudoResource{
 		} catch (Exception e) {
 			DebugLog.d(e);
 			return this.doException(e);
-		}finally{
-			EduDaoBasic.closeResources(conn, null, null, true);
 		}
 
 		setStatus(Status.SUCCESS_OK);
@@ -117,31 +151,5 @@ public class CourseResource extends AdminPseudoResource{
 
 		this.addCORSHeader();
 		return result;
-	}
-
-	private Course validateCourseJSON(Representation entity) throws ValidationException {
-		JSONObject jsonCourse = null;
-		Course course = null;
-		try{
-			jsonCourse = (new JsonRepresentation(entity)).getJsonObject();
-			
-			int price = jsonCourse.getInt("price");
-			Calendar startTime = DateUtility.castFromAPIFormat(jsonCourse.getString("startTime"));
-			Calendar finishTime = DateUtility.castFromAPIFormat(jsonCourse.getString("finishTime"));
-			String category = jsonCourse.getString("category");
-			String subcategory = jsonCourse.getString("subcategory");
-			String title = jsonCourse.getString("title");
-			String courseInfo = jsonCourse.getString("courseInfo");
-			AccountStatus status = AccountStatus.fromInt(jsonCourse.getInt("status"));
-			int seatsTotal = jsonCourse.getInt("seatsTotal");
-			int seatsLeft = jsonCourse.getInt("seatsLeft");
-			int partnerId = jsonCourse.getInt("partnerId");
-			
-			course = new Course(partnerId, startTime, finishTime,
-					seatsTotal, seatsLeft, category,subcategory, status,price,title,courseInfo);
-		}catch (JSONException | IOException e) {
-			throw new ValidationException("无效数据格式");
-		}
-		return course;
 	}
 }
