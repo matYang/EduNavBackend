@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.exception.course.CourseNotFoundException;
 import BaseModule.model.Course;
-import BaseModule.model.representation.SearchRepresentation;
+import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class CourseDaoService {
 
@@ -28,7 +28,7 @@ public class CourseDaoService {
 	
 	
 	//TODO
-	public static ArrayList<Course> searchCourse(SearchRepresentation sr){
+	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr){
 		return null;
 	}
 	
