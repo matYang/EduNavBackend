@@ -53,7 +53,8 @@ public class BookingDaoTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		Course course = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category,subCategory,status);
+		String title = "New Y";
+		Course course = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category,subCategory,status,price,title);
 		CourseDao.addCourseToDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
 		String location = "China";
@@ -124,7 +125,8 @@ public class BookingDaoTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		Course course = new Course(p_Id, startTime, finishTime,seatsTotal, seatsLeft, category,subCategory,status);
+		String title = "sdfdsfi8";
+		Course course = new Course(p_Id, startTime, finishTime,seatsTotal, seatsLeft, category,subCategory,status,price,title);
 		CourseDao.addCourseToDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
 		String location = "China";
@@ -154,8 +156,8 @@ public class BookingDaoTest {
 		
 		String category2 = "English";
 		String subCategory2 = "sub-En";	
-		int price2 = 20000;		
-		Course course2 = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category2,subCategory2,status);
+		int price2 = 20000;				
+		Course course2 = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category2,subCategory2,status,price2,title);
 		CourseDao.addCourseToDatabases(course2);
 		course2 = CourseDao.getCourseById(course2.getCourseId());				
 		course2.setLocation(location);
@@ -221,7 +223,8 @@ public class BookingDaoTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		Course course = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category,subCategory,status);
+		String title = "dsf";
+		Course course = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category,subCategory,status,price,title);
 		CourseDao.addCourseToDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
 		String location = "China";

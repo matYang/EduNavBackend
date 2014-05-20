@@ -132,13 +132,14 @@ public class CourseResource extends PartnerPseudoResource{
 			Calendar finishTime = DateUtility.castFromAPIFormat(jsonCourse.getString("finishTime"));
 			String category = jsonCourse.getString("category");
 			String subcategory = jsonCourse.getString("subcategory");
+			String title = jsonCourse.getString("title");
 			AccountStatus status = AccountStatus.fromInt(jsonCourse.getInt("status"));
 			int seatsTotal = jsonCourse.getInt("seatsTotal");
 			int seatsLeft = jsonCourse.getInt("seatsLeft");
 			int partnerId = jsonCourse.getInt("partnerId");
 			
 			course = new Course(partnerId, startTime, finishTime,
-					seatsTotal, seatsLeft, category,subcategory, status);
+					seatsTotal, seatsLeft, category,subcategory, status,price,title);
 		}catch (JSONException | IOException e) {
 			throw new ValidationException("无效数据格式");
 		}
