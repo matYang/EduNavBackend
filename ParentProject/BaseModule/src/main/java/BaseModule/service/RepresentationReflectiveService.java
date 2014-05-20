@@ -157,6 +157,48 @@ public class RepresentationReflectiveService {
 		return jsonRepresentation;
 	}
 	
+	public static boolean isEmpty(PseudoRepresentation representation) {
+		Field[] fields = getFields(representation);
+		
+		try{
+			for (Field field : fields){
+				field.setAccessible(true);
+				Class<?> fieldClass = field.getType();
+				if (fieldClass.isAssignableFrom(int.class)){
+					int number = field.getInt(representation);
+					if (number > 0){
+						return false;
+					}
+				}
+				else if (fieldClass.isAssignableFrom(AccountStatus.class)){
+					Object value = field.get(representation);
+					if (value != null){
+						return false;
+					}
+				}
+				else if (fieldClass.isAssignableFrom(String.class)){
+					Object value = field.get(representation);
+					if (value != null){
+						return false;
+					}
+				}
+				else if (fieldClass.isAssignableFrom(Calendar.class)){
+					Object value = field.get(representation);
+					if (value != null){
+						return false;
+					}
+				}
+				else{
+					throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService suffered fatal reflection error, field type not matched");
+				}
+			}
+		} catch (IllegalArgumentException | IllegalAccessException e){
+			throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService reflection failed due to IllegalArgument or IllegalAccess");
+		}
+		
+		return true;
+	}
+	
 	private static Field[] getFields(PseudoRepresentation representation){
 		Field[] fields;
 		if (representation instanceof CourseSearchRepresentation){

@@ -23,6 +23,18 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 	private String phone;
 	private AccountStatus status;	
 	private String instName;
+	
+	public PartnerSearchRepresentation(){
+		this.partnerId = -1;
+		this.name = null;
+		this.licence = null;
+		this.organizationNum = null;
+		this.reference = null;
+		this.creationTime = null;
+		this.phone = null;
+		this.status = null;
+		this.instName = null;
+	}
 
 	@Override
 	public ArrayList<String> getKeySet() {
@@ -32,7 +44,11 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 	@Override
 	public void storeKvps(Map<String, String> kvps) throws IllegalArgumentException, IllegalAccessException, PseudoException {
 		RepresentationReflectiveService.storeKvps(this, kvps);
-
+	}
+	
+	@Override
+	public boolean isEmpty() throws Exception {
+		return RepresentationReflectiveService.isEmpty(this);
 	}
 	
 	@Override
@@ -45,4 +61,86 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 		return RepresentationReflectiveService.toJSON(this);
 	}
 
+	public int getPartnerId() {
+		return partnerId;
+	}
+
+	public void setPartnerId(int partnerId) {
+		this.partnerId = partnerId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLicence() {
+		return licence;
+	}
+
+	public void setLicence(String licence) {
+		this.licence = licence;
+	}
+
+	public String getOrganizationNum() {
+		return organizationNum;
+	}
+
+	public void setOrganizationNum(String organizationNum) {
+		this.organizationNum = organizationNum;
+	}
+
+	public String getReference() {
+		return reference;
+	}
+
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	public Calendar getCreationTime() {
+		return creationTime;
+	}
+
+	public void setCreationTime(Calendar creationTime) {
+		this.creationTime = creationTime;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public AccountStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(AccountStatus status) {
+		this.status = status;
+	}
+
+	public String getInstName() {
+		return instName;
+	}
+
+	public void setInstName(String instName) {
+		this.instName = instName;
+	}
+
+	@Override
+	public String toString() {
+		return "PartnerSearchRepresentation [partnerId=" + partnerId
+				+ ", name=" + name + ", licence=" + licence
+				+ ", organizationNum=" + organizationNum + ", reference="
+				+ reference + ", creationTime=" + creationTime + ", phone="
+				+ phone + ", status=" + status + ", instName=" + instName + "]";
+	}
+	
+	
 }

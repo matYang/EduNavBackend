@@ -19,7 +19,14 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	private String phone;
 	private AccountStatus status;
 	private Calendar creationTime;
-
+	
+	public UserSearchRepresentation(){
+		this.userId = -1;
+		this.name = null;
+		this.phone = null;
+		this.status = null;
+		this.creationTime = null;
+	}
 	
 	@Override
 	public ArrayList<String> getKeySet() {
@@ -29,12 +36,16 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	@Override
 	public void storeKvps(Map<String, String> kvps) throws IllegalArgumentException, IllegalAccessException, PseudoException {
 		RepresentationReflectiveService.storeKvps(this, kvps);
-
 	}
 	
 	@Override
 	public String serialize() throws IllegalArgumentException, IllegalAccessException {
 		return RepresentationReflectiveService.serialize(this);
+	}
+	
+	@Override
+	public boolean isEmpty() throws Exception {
+		return RepresentationReflectiveService.isEmpty(this);
 	}
 
 	@Override
