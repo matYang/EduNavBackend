@@ -61,7 +61,12 @@ public class Partner implements PseudoModel{
 			this.lastLogin = (Calendar) this.creationTime.clone();
 		}
 	}
-
+	
+	//default constructor
+	public Partner(){
+		super();
+		this.creationTime = DateUtility.getCurTimeInstance();
+	}
 
 	public int getPartnerId() {
 		return partnerId;

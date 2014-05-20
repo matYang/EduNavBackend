@@ -87,8 +87,9 @@ public class Course implements PseudoModel{
 	
 	//default
 	public Course() {
-			super();
-		}
+		super();
+		this.creationTime = DateUtility.getCurTimeInstance();	
+	}
 
 	public int getCourseId() {
 		return courseId;
