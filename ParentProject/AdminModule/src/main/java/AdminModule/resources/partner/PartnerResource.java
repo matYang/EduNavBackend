@@ -44,6 +44,7 @@ public class PartnerResource extends AdminPseudoResource{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		try{
 			this.checkFileEntity(entity);
+			this.validateAuthentication();
 			partner = validatePartnerJSON(entity);
 			partner = PartnerDaoService.createPartner(partner,conn);
 			partnerId = partner.getPartnerId();

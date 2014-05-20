@@ -30,6 +30,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 		
 		try{
 			this.checkEntity(entity);
+			this.validateAuthentication();
 			AdminAccount account = validateAdminAccountJSON(entity);
 			creationFeedBack = AdminAccountDaoService.createAdminAccount(account);			
 			

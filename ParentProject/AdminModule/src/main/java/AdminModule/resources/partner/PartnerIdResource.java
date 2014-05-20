@@ -52,6 +52,7 @@ public class PartnerIdResource extends AdminPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
+			this.validateAuthentication();
 			partnerId = Integer.parseInt(this.getReqAttr("id"));
 			
 			contact = parseJSON(entity);

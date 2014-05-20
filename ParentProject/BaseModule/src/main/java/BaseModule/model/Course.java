@@ -63,12 +63,11 @@ public class Course implements PseudoModel{
 		this.district = district;
 		this.reference = reference;
 	}
-
-	//TODO add price, title
+	
 	//Normal Construction
 	public Course(int p_Id, Calendar startTime, Calendar finishTime,
 			int seatsTotal, int seatsLeft, String category,
-			String subCategory,AccountStatus status) {
+			String subCategory,AccountStatus status,int price, String title) {
 		super();
 		this.partnerId = p_Id;
 		this.startTime = startTime;
@@ -78,6 +77,8 @@ public class Course implements PseudoModel{
 		this.category = category;
 		this.subCategory = subCategory;
 		this.status = status;
+		this.price = price;
+		this.title = title;
 		this.creationTime = DateUtility.getCurTimeInstance();		
 	}
 

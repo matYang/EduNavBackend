@@ -52,6 +52,7 @@ public class BookingIdResource extends AdminPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
+			this.validateAuthentication();
 			bookingId = Integer.parseInt(this.getReqAttr("id"));
 			
 			contact =  (new JsonRepresentation(entity)).getJsonObject();

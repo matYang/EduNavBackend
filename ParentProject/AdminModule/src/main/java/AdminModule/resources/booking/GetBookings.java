@@ -7,10 +7,8 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import AdminModule.resources.AdminPseudoResource;
-import BaseModule.common.DebugLog;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Booking;
 import BaseModule.model.representation.BookingSearchRepresentation;
@@ -23,7 +21,7 @@ public class GetBookings extends AdminPseudoResource{
 		JSONArray response = new JSONArray();
 		
 		try {
-			
+			this.validateAuthentication();
 			BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
 			this.loadRepresentation(b_sr);
 

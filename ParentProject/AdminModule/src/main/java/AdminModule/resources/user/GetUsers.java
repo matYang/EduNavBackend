@@ -7,10 +7,8 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import AdminModule.resources.AdminPseudoResource;
-import BaseModule.common.DebugLog;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.User;
 import BaseModule.model.representation.UserSearchRepresentation;
@@ -23,7 +21,7 @@ public class GetUsers extends AdminPseudoResource{
 		JSONArray response = new JSONArray();
 		
 		try {
-			
+			this.validateAuthentication();
 			UserSearchRepresentation u_sr = new UserSearchRepresentation();
 			this.loadRepresentation(u_sr);
 

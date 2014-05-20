@@ -53,6 +53,7 @@ public class CourseIdResource extends PartnerPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
+			this.validateAuthentication();
 			courseId = Integer.parseInt(this.getReqAttr("id"));
 			
 			contact = parseJSON(entity);
