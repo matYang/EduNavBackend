@@ -11,6 +11,8 @@ import PartnerModule.resources.partner.PartnerIdResource;
 import PartnerModule.resources.partner.auth.PartnerLogin;
 import PartnerModule.resources.partner.auth.PartnerLogout;
 import PartnerModule.resources.partner.auth.PartnerSessionRedirect;
+import PartnerModule.resources.partner.course.CourseIdResource;
+import PartnerModule.resources.partner.course.CourseResource;
 
 
 public class RoutingService extends Application {
@@ -39,12 +41,19 @@ public class RoutingService extends Application {
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + LoginPrefix, PartnerLogin.class);
 		String LogoutPrefix = "/logout";
 		//	API for partner logout: /api/v1.0/partner/logout
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + LogoutPrefix + "/{id}", PartnerLogout.class);
-		// 	API for partner get/post : /api/v1.0/partner/:id
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + "/{id}", PartnerIdResource.class);
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + "/{id}", PartnerChangeInfoResource.class);
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + LogoutPrefix, PartnerLogout.class);
+		String PartnerPrefix = "/partner";
+		// 	API for partner get/post : /api/v1.0/partner/partner/:id
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PartnerPrefix + "/{id}", PartnerIdResource.class);
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PartnerPrefix + "/{id}", PartnerChangeInfoResource.class);
 		
+		/** -------------------- APIs for partner module ------------------ **/
+		String courseServicePrefix = "/course";
 		
+		//  API for partner to create course : /api/v1.0/partner/course
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + courseServicePrefix, CourseResource.class);
+		//  API for partner to update course: /api/v1.0/partner/course/:id
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + courseServicePrefix + "/{id}", CourseIdResource.class);
 		return router;
 	}
 

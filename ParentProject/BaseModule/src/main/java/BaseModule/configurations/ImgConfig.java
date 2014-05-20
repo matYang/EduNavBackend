@@ -13,5 +13,4 @@ public class ImgConfig {
 		public static final int img_FactorySize = 3000000;
 		
 		
-		
 }

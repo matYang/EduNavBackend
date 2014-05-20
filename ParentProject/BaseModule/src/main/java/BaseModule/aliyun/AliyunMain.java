@@ -24,18 +24,18 @@ public class AliyunMain {
 	static Logger logger = Logger.getLogger(AliyunMain.class);
 
 	
-	public static String uploadImg(int userId, File file, String imgName, String Bucket){
-		return uploadImg(userId, file, imgName, Bucket,true);
+	public static String uploadImg(int id, File file, String imgName, String Bucket){
+		return uploadImg(id, file, imgName, Bucket,true);
 	}
 
 
 	//the boolean shouldDelete is used for testing so that the sample is not deleted every time
-	public static String uploadImg(int userId, File file, String imgName, String Bucket,boolean shouldDelete){
+	public static String uploadImg(int id, File file, String imgName, String Bucket,boolean shouldDelete){
 
 		OSSClient client = new OSSClient(myAccessKeyID, mySecretKey);		
 		String imgAddress = "";	
 		try{
-			String tempImageKey = getUserImageKey(userId, imgName);
+			String tempImageKey = getImageKey(id, imgName);
 			InputStream content = new FileInputStream(file);
 			ObjectMetadata meta = new ObjectMetadata();
 			meta.setContentLength(file.length());
@@ -59,9 +59,9 @@ public class AliyunMain {
 
 	}	
 	
-	private static String getUserImageKey(int userId, String imageName){
+	private static String getImageKey(int id, String imageName){
 		long msec = DateUtility.getCurTime();				
-		return userId + "/" + imageName + "-" + msec + ".png";
+		return id + "/" + imageName + "-" + msec + ".png";
 	}	
 
 	

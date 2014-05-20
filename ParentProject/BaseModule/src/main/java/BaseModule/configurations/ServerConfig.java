@@ -77,8 +77,7 @@ public class ServerConfig {
 		public static final String AliyunBackgroundImgBucket = "backimgbucket";
 		public static final String AliyunLogoBucket = "logobucket";
 		public static final String AliyunProfileBucket = "badstudent-aliyun";
-		public static final String AliyunDriverVerificationBucket = "driververification";
-		public static final String AliyunPassengerVerificationBucket = "passengerverification";
+
 		
 		public static final int AdminRefLength = 6;
 		public static final String ImgFolder = "imgs/";

@@ -1,5 +1,6 @@
 package BaseModule.dbservice;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.CourseDao;
@@ -17,12 +18,12 @@ public class CourseDaoService {
 		return CourseDao.getCourseById(id);
 	}
 	
-	public static void updateCourse(Course course) throws CourseNotFoundException{
-		CourseDao.updateCourseInDatabases(course);
+	public static void updateCourse(Course course,Connection...connections) throws CourseNotFoundException{
+		CourseDao.updateCourseInDatabases(course,connections);
 	}
 	
-	public static Course createCourse(Course course){
-		return CourseDao.addCourseToDatabases(course);
+	public static Course createCourse(Course course,Connection...connections){
+		return CourseDao.addCourseToDatabases(course,connections);
 	}
 	
 	
