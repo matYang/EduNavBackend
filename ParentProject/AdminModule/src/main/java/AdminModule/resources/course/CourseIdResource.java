@@ -51,6 +51,7 @@ public class CourseIdResource extends AdminPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
+			this.validateAuthentication();
 			courseId = Integer.parseInt(this.getReqAttr("id"));
 			
 			contact = parseJSON(entity);

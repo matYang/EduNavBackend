@@ -23,21 +23,21 @@ import BaseModule.model.User;
 import BaseModule.service.ValidationService;
 
 public class UserResource extends UserPseudoResource{
-	
+
 	protected User validateUserJSON(Representation entity) throws ValidationException{
 		JSONObject jsonUser = null;
 		User user = null;
-		
+
 		try {
 			jsonUser = (new JsonRepresentation(entity)).getJsonObject();
-			
-			
+
+
 			String phone = jsonUser.getString("phone");
 			String name = jsonUser.getString("name");
 			String password = jsonUser.getString("password");
 			String confirmPassword = jsonUser.getString("confirmPassword");
 			String authCode = jsonUser.getString("authCode");
-			
+
 			user = new User(name, phone, password, AccountStatus.activated);
 			if (!ValidationService.isNameValid(name)){
 				throw new ValidationException("姓名格式不正确");
@@ -63,36 +63,36 @@ public class UserResource extends UserPseudoResource{
 		}
 		return user;
 	}
-	
+
 	/**
 	 * Retrieve all users from server. This API is intended solely for testing
 	 */
 	@Get
 	public Representation getAllUsers(){
-
 		ArrayList<User> allUsers = UserDaoService.getAllUsers();
 		JSONArray jsonArray = JSONFactory.toJSON(allUsers);
-		
+
 		Representation result = new JsonRepresentation(jsonArray);
 
 		this.addCORSHeader();
 		return result;
 	}
-	
+
 
 	@Post
 	public Representation createUser(Representation entity) {
-		
+
 		JSONObject newJsonUser = new JSONObject();
 		User creationFeedBack = null;
-		
+
 		try{
 			this.checkEntity(entity);
+			this.validateAuthentication();
 			User newUser = validateUserJSON(entity);
 			creationFeedBack = UserDaoService.createUser(newUser);
 			//close the sms verification session
 			UserCellVerificationDaoService.closeSession(creationFeedBack.getPhone());
-			
+
 			//first close authentication as it is registration, then open brand new authentication
 			this.closeAuthentication();
 			this.openAuthentication(creationFeedBack.getUserId());
@@ -109,7 +109,7 @@ public class UserResource extends UserPseudoResource{
 		}
 
 		Representation result = new JsonRepresentation(newJsonUser);
-		
+
 		this.addCORSHeader(); 
 		return result;
 	}

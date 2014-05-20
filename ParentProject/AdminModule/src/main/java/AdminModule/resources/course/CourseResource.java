@@ -46,6 +46,7 @@ public class CourseResource extends AdminPseudoResource{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		try{
 			this.checkFileEntity(entity);
+			this.validateAuthentication();
 			course = validateCourseJSON(entity);
 			course = CourseDaoService.createCourse(course,conn);
 			courseId = course.getCourseId();

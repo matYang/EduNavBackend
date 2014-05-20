@@ -56,6 +56,7 @@ public class UpdateUserResource extends AdminPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
+			this.validateAuthentication();
 			userId = Integer.parseInt(this.getReqAttr("id"));
 			
 			contact = parseJSON(entity);
