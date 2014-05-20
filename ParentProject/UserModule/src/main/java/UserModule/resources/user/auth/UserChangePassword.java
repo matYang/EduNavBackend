@@ -59,10 +59,10 @@ public class UserChangePassword extends UserPseudoResource{
 				String confirmNewPassword = jsonPasswords.getString("confirmNewPassword");
 				String authCode = jsonPasswords.getString("authCode");
 
-				if (!ValidationService.isPasswordValid(oldPassword)){
+				if (!ValidationService.validatePassword(oldPassword)){
 					throw new ValidationException("旧密码格式不正确");
 				}
-				if (!ValidationService.isPasswordValid(newPassword)){
+				if (!ValidationService.validatePassword(newPassword)){
 					throw new ValidationException("新码格式不正确");
 				}
 				if (!newPassword.equals(confirmNewPassword )){

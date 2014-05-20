@@ -1,4 +1,4 @@
-package PartnerModule.resources.partner.course;
+package PartnerModule.resources.course;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

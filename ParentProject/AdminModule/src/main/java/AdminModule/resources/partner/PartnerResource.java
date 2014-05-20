@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.imgscalr.Scalr;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.MediaType;
@@ -20,6 +22,7 @@ import org.restlet.ext.fileupload.RestletFileUpload;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
+import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
@@ -31,9 +34,40 @@ import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.factory.JSONFactory;
 import BaseModule.model.Partner;
+import BaseModule.model.representation.PartnerSearchRepresentation;
 
 public class PartnerResource extends AdminPseudoResource{
+	
+	
+	@Get
+	public Representation searchPartners(){
+
+		JSONArray response = new JSONArray();
+		
+		try {
+			this.validateAuthentication();
+			PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
+			this.loadRepresentation(p_sr);
+
+			ArrayList<Partner> searchResult = PartnerDaoService.searchPartners(p_sr);
+			response = JSONFactory.toJSON(searchResult);
+			
+		} catch (PseudoException e){
+			this.addCORSHeader();
+			return this.doPseudoException(e);
+	    } catch (Exception e){
+			return this.doException(e);
+		}
+		
+		Representation result = new JsonRepresentation(response);
+		this.addCORSHeader();
+		return result;
+	}
+	
+	
+	
 
 	@Post
 	public Representation createPartner(Representation entity){

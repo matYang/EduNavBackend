@@ -6,13 +6,12 @@ import org.restlet.Restlet;
 import org.restlet.routing.Router;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
-import PartnerModule.resources.partner.PartnerChangeInfoResource;
+import PartnerModule.resources.course.CourseIdResource;
+import PartnerModule.resources.course.CourseResource;
 import PartnerModule.resources.partner.PartnerIdResource;
 import PartnerModule.resources.partner.auth.PartnerLogin;
 import PartnerModule.resources.partner.auth.PartnerLogout;
 import PartnerModule.resources.partner.auth.PartnerSessionRedirect;
-import PartnerModule.resources.partner.course.CourseIdResource;
-import PartnerModule.resources.partner.course.CourseResource;
 
 
 public class RoutingService extends Application {
@@ -45,7 +44,6 @@ public class RoutingService extends Application {
 		String PartnerPrefix = "/partner";
 		// 	API for partner get/post : /api/v1.0/partner/partner/:id
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PartnerPrefix + "/{id}", PartnerIdResource.class);
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PartnerPrefix + "/{id}", PartnerChangeInfoResource.class);
 		
 		/** -------------------- APIs for partner module ------------------ **/
 		String courseServicePrefix = "/course";

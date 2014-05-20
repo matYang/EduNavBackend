@@ -24,7 +24,7 @@ public class UserCellVerification extends UserPseudoResource{
 		
 		try{
 			String cellNum = this.getQueryVal("phone");
-			if (ValidationService.isCellNumValid(cellNum)){
+			if (ValidationService.validatePhone(cellNum)){
 				
 				if (UserDaoService.isCellPhoneAvailable(cellNum)){
 					String authCode = UserCellVerificationDaoService.openSession(cellNum);
@@ -59,7 +59,7 @@ public class UserCellVerification extends UserPseudoResource{
 			String cellNum = this.getQueryVal("cellNum");
 			String authCode = this.getQueryVal("authCode");
 			
-			if (ValidationService.isCellNumValid(cellNum)){
+			if (ValidationService.validatePhone(cellNum)){
 				boolean verified = UserCellVerificationDaoService.valdiateSession(cellNum, authCode);
 				if (verified){
 					setStatus(Status.SUCCESS_OK);

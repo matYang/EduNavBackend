@@ -1,69 +1,65 @@
-package AdminModule.resources.admin;
+package AdminModule.resources.user;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
-import AdminModule.dbservice.AdminAccountDaoService;
-import AdminModule.model.AdminAccount;
+
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import AdminModule.factory.JSONFactory;
+import BaseModule.factory.JSONFactory;
+import BaseModule.model.User;
+import BaseModule.service.ValidationService;
 
+public class UserIdResource extends AdminPseudoResource{
 
-public class AdminAccountChangeInfoResource extends AdminPseudoResource{
-
-	protected JSONObject parseJSON(Representation entity) throws ValidationException{
+	protected User parseJSON(Representation entity, User user) throws ValidationException{
 		JSONObject jsonContact = null;
 
 		try {
 			jsonContact = (new JsonRepresentation(entity)).getJsonObject();
-		} catch (JSONException | IOException e) {
-			DebugLog.d(e);
-			return null;
-		}
-		
-		String name = null;
-		try {
-			name = java.net.URLDecoder.decode(jsonContact.getString("name"), "utf-8");
-		} catch (UnsupportedEncodingException | JSONException e) {
+			String name = java.net.URLDecoder.decode(jsonContact.getString("name"), "utf-8");
+			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(jsonContact.getString("status")));
+			
+			user.setName(name);
+			user.setStatus(status);
+
+			ValidationService.validateUser(user);
+		} catch (NullPointerException | JSONException | IOException e) {
 			DebugLog.d(e);
 			throw new ValidationException("姓名格式不正确");
 		}	
-		if (name == null){
-			throw new ValidationException("必填数据不能为空");
-		}
 		
-		return jsonContact;
-		
+		return user;
 	}
 	
 	@Put
 	/**
-	 * allows admin to change name
+	 * allows admin to change user's name
 	 */
 	public Representation changeContactInfo(Representation entity) {
-		int adminId = -1;
+		int userId = -1;
 		JSONObject response = new JSONObject();
-		JSONObject contact = new JSONObject();
 		
 		try {
 			this.checkEntity(entity);
-			adminId = this.validateAuthentication();
+			this.validateAuthentication();
+			userId = Integer.parseInt(this.getReqAttr("id"));
 			
-			contact = parseJSON(entity);
-				
-			AdminAccount account = AdminAccountDaoService.getAdminAccountById(adminId);
-			account.setName(contact.getString("name"));					
-			AdminAccountDaoService.updateAdminAccount(account);
+			User user = UserDaoService.getUserById(userId);
+			user = parseJSON(entity, user);
+			UserDaoService.updateUser(user);
 			
-			response = JSONFactory.toJSON(account);
+			response = JSONFactory.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){

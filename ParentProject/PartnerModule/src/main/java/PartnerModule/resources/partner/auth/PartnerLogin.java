@@ -32,10 +32,10 @@ public class PartnerLogin extends PartnerPseudoResource{
 			jsonString = (new JsonRepresentation(entity)).getJsonObject();
 			phone = jsonString.getString("phone");
 			password = jsonString.getString("password");
-			if (!ValidationService.isCellNumValid(phone)){
+			if (!ValidationService.validatePhone(phone)){
 				throw new ValidationException("手机号码格式不正确");
 			}
-			if (!ValidationService.isPasswordValid(password)){
+			if (!ValidationService.validatePassword(password)){
 				throw new ValidationException("密码格式不正确");
 			}
 			

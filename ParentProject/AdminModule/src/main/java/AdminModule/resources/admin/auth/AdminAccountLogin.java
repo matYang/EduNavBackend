@@ -21,7 +21,7 @@ public class AdminAccountLogin extends AdminPseudoResource{
 		JSONObject jsonString = null;
 		AdminAccount account = null;
 		JSONObject jsonObject = new JSONObject();
-		String phone = "";
+		String reference = "";
 		String password = "";
 
 
@@ -29,19 +29,14 @@ public class AdminAccountLogin extends AdminPseudoResource{
 			this.checkEntity(entity);
 
 			jsonString = (new JsonRepresentation(entity)).getJsonObject();
-			phone = jsonString.getString("phone");
+			reference = jsonString.getString("reference");
 			password = jsonString.getString("password");
-			if (!ValidationService.isCellNumValid(phone)){
-				throw new ValidationException("手机号码格式不正确");
-			}
-			if (!ValidationService.isPasswordValid(password)){
+
+			if (!ValidationService.validatePassword(password)){
 				throw new ValidationException("密码格式不正确");
 			}
 
-			DebugLog.d("Log in, receving paramters: " + phone + " " + password);
-			account = AdminAccountDaoService.authenticateAdminAccount(phone, password);
-
-
+			account = AdminAccountDaoService.authenticateAdminAccount(reference, password);
 			this.openAuthentication(account.getAdminId());
 
 			jsonObject = JSONFactory.toJSON(account);

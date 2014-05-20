@@ -27,10 +27,10 @@ public class UserChangeCellPhone extends UserPseudoResource{
 		try{
 			String oldPhone = this.getQueryVal("oldPhone");
 			String newPhone = this.getQueryVal("newPhone");
-			if (!ValidationService.isCellNumValid(oldPhone)){
+			if (!ValidationService.validatePhone(oldPhone)){
 				throw new ValidationException("旧手机号码格式不正确");
 			}
-			if (!ValidationService.isCellNumValid(newPhone)){
+			if (!ValidationService.validatePhone(newPhone)){
 				throw new ValidationException("新手机号码格式不正确");
 			}
 			if (!UserDaoService.isCellPhoneAvailable(newPhone)){
@@ -74,10 +74,10 @@ public class UserChangeCellPhone extends UserPseudoResource{
 			String authCode_old = jsonPhones.getString("authCode_old");
 			String authCode_new = jsonPhones.getString("authCode_new");
 
-			if (!ValidationService.isCellNumValid(oldPhone)){
+			if (!ValidationService.validatePhone(oldPhone)){
 				throw new ValidationException("旧手机号码格式不正确");
 			}
-			if (!ValidationService.isCellNumValid(newPhone)){
+			if (!ValidationService.validatePhone(newPhone)){
 				throw new ValidationException("新手机号码格式不正确");
 			}
 

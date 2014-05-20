@@ -4,10 +4,8 @@ import org.restlet.Application;
 import org.restlet.Context;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;
-import UserModule.resources.booking.BookingChangeInfoResource;
+import UserModule.resources.booking.BookingIdResource;
 import UserModule.resources.booking.BookingResource;
-import UserModule.resources.booking.GetBookingDetail;
-import UserModule.resources.booking.GetBookings;
 import UserModule.resources.general.*;
 import UserModule.resources.user.UserChangeInfoResource;
 import UserModule.resources.user.UserIdResource;
@@ -94,11 +92,9 @@ public class RoutingService extends Application {
 		/** -------------------- APIs for booking module ------------------ **/
 		String bookingServicePrefix = "/booking";
 		//	API for booking get/post : /api/v1.0/booking
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix, GetBookings.class);
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix, BookingResource.class);
 		//	API for booking get/put : /api/v1.0/booking/:id
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + "/{id}", GetBookingDetail.class);
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + "/{id}", BookingChangeInfoResource.class);
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + "/{id}", BookingIdResource.class);
 				
 		/** -------------------- APIs for course module ------------------ **/
 		String courseServicePrefix = "/course";

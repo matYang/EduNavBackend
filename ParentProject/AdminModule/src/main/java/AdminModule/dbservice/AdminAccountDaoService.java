@@ -37,7 +37,14 @@ public class AdminAccountDaoService {
 		AdminAccountDao.changeAdminAccountPassword(adminId, oldPassword, newPassword);
 	}
 	
+	//authenticate use reference
+	//TODO using reference instead of phone
 	public static AdminAccount authenticateAdminAccount(String phone, String password) throws AuthenticationException{
 		return AdminAccountDao.authenticateAdminAccount(phone, password);
+	}
+	
+	//TODO
+	public static void forceChangePassword(int targetAdminId, int initiatorAdminId, String newPassword) throws AuthenticationException{
+		
 	}
 }

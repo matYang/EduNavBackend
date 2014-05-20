@@ -1,4 +1,4 @@
-package AdminModule.resources.user;
+package AdminModule.resources.booking;
 
 import java.util.ArrayList;
 
@@ -7,25 +7,26 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import AdminModule.resources.AdminPseudoResource;
-import BaseModule.dbservice.UserDaoService;
+import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.factory.JSONFactory;
-import BaseModule.model.User;
-import BaseModule.model.representation.UserSearchRepresentation;
+import BaseModule.model.Booking;
+import BaseModule.model.representation.BookingSearchRepresentation;
 
-public class GetUsers extends AdminPseudoResource{
+public class BookingResource extends AdminPseudoResource{
 
 	@Get
-	public Representation searchUsers() {
+	public Representation searchBookings() {
 		
 		JSONArray response = new JSONArray();
 		
 		try {
 			this.validateAuthentication();
-			UserSearchRepresentation u_sr = new UserSearchRepresentation();
-			this.loadRepresentation(u_sr);
+			BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
+			this.loadRepresentation(b_sr);
 
-			ArrayList<User> searchResult = UserDaoService.searchUser(u_sr);
+			ArrayList<Booking> searchResult = new ArrayList<Booking>();
+			searchResult = BookingDaoService.searchBooking(b_sr);
 			response = JSONFactory.toJSON(searchResult);
 			
 		} catch (PseudoException e){

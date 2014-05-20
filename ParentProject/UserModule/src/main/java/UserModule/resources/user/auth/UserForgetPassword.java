@@ -30,7 +30,7 @@ public class UserForgetPassword extends UserPseudoResource{
         
 		try{
 			String cellNum = this.getQueryVal("phone");
-			if (ValidationService.isCellNumValid(cellNum)){
+			if (ValidationService.validatePhone(cellNum)){
 				
 				if (!UserDaoService.isCellPhoneAvailable(cellNum)){
 					String authCode = UserForgotPasswordDaoService.openSession(cellNum);
@@ -69,10 +69,10 @@ public class UserForgetPassword extends UserPseudoResource{
 			String confirmNewPassword = jsonPair.getString("confirmNewPassword");
 			String authCode = jsonPair.getString("authCode");
 
-			if (!ValidationService.isCellNumValid(cellNum)){
+			if (!ValidationService.validatePhone(cellNum)){
 				throw new ValidationException("电话号码格式不正确");
 			}
-			if (!ValidationService.isPasswordValid(newPassword)){
+			if (!ValidationService.validatePassword(newPassword)){
 				throw new ValidationException("新码格式不正确");
 			}
 			if (!newPassword.equals(confirmNewPassword )){

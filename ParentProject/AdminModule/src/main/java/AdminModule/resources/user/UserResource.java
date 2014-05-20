@@ -1,32 +1,31 @@
-package AdminModule.resources.partner;
-
+package AdminModule.resources.user;
 
 import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import AdminModule.resources.AdminPseudoResource;
-import BaseModule.dbservice.PartnerDaoService;
+import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.factory.JSONFactory;
-import BaseModule.model.Partner;
-import BaseModule.model.representation.PartnerSearchRepresentation;
+import BaseModule.model.User;
+import BaseModule.model.representation.UserSearchRepresentation;
 
+public class UserResource extends AdminPseudoResource{
 
-public class GetPartners extends AdminPseudoResource{
-	
 	@Get
-	public Representation searchPartners(){
-
+	public Representation searchUsers() {
+		
 		JSONArray response = new JSONArray();
 		
 		try {
 			this.validateAuthentication();
-			PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
-			this.loadRepresentation(p_sr);
+			UserSearchRepresentation u_sr = new UserSearchRepresentation();
+			this.loadRepresentation(u_sr);
 
-			ArrayList<Partner> searchResult = PartnerDaoService.searchPartners(p_sr);
+			ArrayList<User> searchResult = UserDaoService.searchUser(u_sr);
 			response = JSONFactory.toJSON(searchResult);
 			
 		} catch (PseudoException e){
@@ -39,7 +38,6 @@ public class GetPartners extends AdminPseudoResource{
 		Representation result = new JsonRepresentation(response);
 		this.addCORSHeader();
 		return result;
+		
 	}
-	
-
 }

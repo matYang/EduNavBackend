@@ -39,13 +39,13 @@ public class UserResource extends UserPseudoResource{
 			String authCode = jsonUser.getString("authCode");
 
 			user = new User(name, phone, password, AccountStatus.activated);
-			if (!ValidationService.isNameValid(name)){
+			if (!ValidationService.validateName(name)){
 				throw new ValidationException("姓名格式不正确");
 			}
-			if (!ValidationService.isCellNumValid(phone)){
+			if (!ValidationService.validatePhone(phone)){
 				throw new ValidationException("手机号码格式不正确");
 			}
-			if (!ValidationService.isPasswordValid(password)){
+			if (!ValidationService.validatePassword(password)){
 				throw new ValidationException("密码格式不正确");
 			}
 			if (!password.equals(confirmPassword)){

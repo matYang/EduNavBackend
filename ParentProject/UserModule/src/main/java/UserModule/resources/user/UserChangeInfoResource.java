@@ -1,5 +1,4 @@
 package UserModule.resources.user;
-import java.io.UnsupportedEncodingException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
@@ -16,6 +15,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.User;
+import BaseModule.service.ValidationService;
 
 public class UserChangeInfoResource extends UserPseudoResource{
 
@@ -24,20 +24,15 @@ public class UserChangeInfoResource extends UserPseudoResource{
 
 		try {
 			jsonContact = (new JsonRepresentation(entity)).getJsonObject();
-		} catch (JSONException | IOException e) {
-			DebugLog.d(e);
-			return null;
-		}
-		
-		String name = null;
-		try {
-			name = java.net.URLDecoder.decode(jsonContact.getString("name"), "utf-8");
-		} catch (UnsupportedEncodingException | JSONException e) {
+			jsonContact.put("name", java.net.URLDecoder.decode(jsonContact.getString("name"), "utf-8"));
+			
+			if (ValidationService.validateName(jsonContact.getString("name"))){
+				throw new ValidationException("姓名格式不正确");
+			}
+			
+		} catch (NullPointerException | JSONException | IOException e) {
 			DebugLog.d(e);
 			throw new ValidationException("姓名格式不正确");
-		}	
-		if (name == null){
-			throw new ValidationException("必填数据不能为空");
 		}
 		
 		return jsonContact;
