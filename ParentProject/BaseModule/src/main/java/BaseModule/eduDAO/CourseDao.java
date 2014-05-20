@@ -18,8 +18,8 @@ import BaseModule.model.Partner;
 
 public class CourseDao {
 
-	public static Course addCourseToDatabases(Course course){
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static Course addCourseToDatabases(Course course,Connection...connections){
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO CourseDao (p_Id,creationTime,startTime,finishTime,t_Info,t_ImgURL,backgroundURL,price," +
@@ -56,7 +56,7 @@ public class CourseDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return course;
 	}

@@ -1,4 +1,4 @@
-package PartnerModule.resources.partner;
+package AdminModule.resources.partner;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -8,15 +8,16 @@ import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
+import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
-import BaseModule.model.Partner;
-import PartnerModule.resources.PartnerPseudoResource;
 
-public class PartnerChangeInfoResource extends PartnerPseudoResource{
+import BaseModule.model.Partner;
+
+public class PartnerIdResource extends AdminPseudoResource{
 
 	protected JSONObject parseJSON(Representation entity) throws ValidationException{
 		JSONObject jsonContact = null;
@@ -43,7 +44,7 @@ public class PartnerChangeInfoResource extends PartnerPseudoResource{
 		
 	}
 	
-	@Put
+	@Put	
 	public Representation changeContactInfo(Representation entity) {
 		int partnerId = -1;
 		JSONObject response = new JSONObject();
@@ -51,14 +52,12 @@ public class PartnerChangeInfoResource extends PartnerPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
-			partnerId = this.validateAuthentication();
+			partnerId = Integer.parseInt(this.getReqAttr("id"));
 			
 			contact = parseJSON(entity);
 				
 			Partner partner = PartnerDaoService.getPartnerById(partnerId);
-			partner.setName(contact.getString("name"));	
 			partner.setPhone(contact.getString("phone"));
-			partner.setLogoUrl(contact.getString("logoUrl"));
 			
 			PartnerDaoService.updatePartner(partner);
 			

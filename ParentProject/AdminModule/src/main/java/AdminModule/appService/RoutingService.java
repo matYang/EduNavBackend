@@ -13,7 +13,11 @@ import AdminModule.resources.admin.auth.AdminAccountLogout;
 import AdminModule.resources.admin.auth.AdminSessionRedirect;
 import AdminModule.resources.booking.BookingIdResource;
 import AdminModule.resources.booking.GetBookings;
+import AdminModule.resources.course.CourseIdResource;
+import AdminModule.resources.course.CourseResource;
 import AdminModule.resources.partner.GetPartners;
+import AdminModule.resources.partner.PartnerIdResource;
+import AdminModule.resources.partner.PartnerResource;
 import AdminModule.resources.user.GetUsers;
 import AdminModule.resources.user.UpdateUserResource;
 import BaseModule.common.DebugLog;
@@ -55,8 +59,12 @@ public class RoutingService extends Application{
 		/** -------------------- APIs for partner module ------------------ **/
 		String partnerServicePrefix = "/partner";
 		
-		//  API for getting  partners : /a-api/v1.0/admin/partner
+		//  API for admin to get  partners : /a-api/v1.0/admin/partner
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + partnerServicePrefix, GetPartners.class);
+		//  API for admin to create partner : /a-api/v1.0/admin/partner
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + partnerServicePrefix, PartnerResource.class);
+		//  API for admin to update partner : /a-api/v1.0/admin/partner/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + partnerServicePrefix + "/{id}", PartnerIdResource.class);
 		
 		/** -------------------- APIs for user module ------------------ **/
 		String userServicePrefix = "/user";
@@ -73,6 +81,24 @@ public class RoutingService extends Application{
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + bookingServicePrefix + "/{id}", BookingIdResource.class); 
 		//  API for admin to query bookings : /a-api/v1.0/admin/booking
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + bookingServicePrefix, GetBookings.class);
+		
+		
+		/** -------------------- APIs for course module ------------------ **/
+		String courseServicePrefix = "/course";
+		
+		//  API for admin to create course : /a-api/v1.0/admin/course
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + courseServicePrefix, CourseResource.class);
+		//  API for admin to get course : /a-api/v1.0/admin/course/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + courseServicePrefix + "/{id}", CourseIdResource.class);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		return router;
 	}

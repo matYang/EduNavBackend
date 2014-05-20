@@ -22,12 +22,12 @@ public class PartnerDaoService {
 		return PartnerDao.getPartnerByPhone(phone);
 	}
 	
-	public static void updatePartner(Partner partner) throws PartnerNotFoundException{
-		PartnerDao.updatePartnerInDatabases(partner);
+	public static void updatePartner(Partner partner,Connection...connections) throws PartnerNotFoundException{
+		PartnerDao.updatePartnerInDatabases(partner,connections);
 	}
 	
-	public static Partner createPartner(Partner p) throws ValidationException{
-		return PartnerDao.addPartnerToDatabases(p);
+	public static Partner createPartner(Partner p,Connection...connections) throws ValidationException{
+		return PartnerDao.addPartnerToDatabases(p,connections);
 	}
 	
 	public static void changePassword(int partnerId, String oldPassword, String newPassword) throws AuthenticationException{

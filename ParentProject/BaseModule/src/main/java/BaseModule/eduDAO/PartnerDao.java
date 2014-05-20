@@ -17,8 +17,8 @@ import BaseModule.model.Partner;
 
 public class PartnerDao {
 
-	public static Partner addPartnerToDatabases(Partner p) throws ValidationException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static Partner addPartnerToDatabases(Partner p,Connection...connections) throws ValidationException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO PartnerDao (name,licence,organizationNum,reference,password,phone,creationTime,lastLogin,status,instName,logoUrl)" +
@@ -49,14 +49,14 @@ public class PartnerDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		}  finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		p.setPassword("");
 		return p;
 	}
 
-	public static void updatePartnerInDatabases(Partner p) throws PartnerNotFoundException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static void updatePartnerInDatabases(Partner p,Connection...connections) throws PartnerNotFoundException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;
 		String query = "UPDATE PartnerDao SET name=?,licence=?,organizationNum=?,reference=?,phone=?," +
 				"lastLogin=?,status=?, instName=?, logoUrl=? where id=?";
@@ -80,7 +80,7 @@ public class PartnerDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		} finally  {
-			EduDaoBasic.closeResources(conn, stmt, null,true);
+			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}
 	}
 

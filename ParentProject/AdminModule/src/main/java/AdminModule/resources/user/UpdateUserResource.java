@@ -1,22 +1,24 @@
-package PartnerModule.resources.partner;
+package AdminModule.resources.user;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
+
+import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
-import BaseModule.dbservice.PartnerDaoService;
+import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
-import BaseModule.model.Partner;
-import PartnerModule.resources.PartnerPseudoResource;
+import BaseModule.model.User;
 
-public class PartnerChangeInfoResource extends PartnerPseudoResource{
+public class UpdateUserResource extends AdminPseudoResource{
 
 	protected JSONObject parseJSON(Representation entity) throws ValidationException{
 		JSONObject jsonContact = null;
@@ -44,25 +46,25 @@ public class PartnerChangeInfoResource extends PartnerPseudoResource{
 	}
 	
 	@Put
+	/**
+	 * allows admin to change user's name
+	 */
 	public Representation changeContactInfo(Representation entity) {
-		int partnerId = -1;
+		int userId = -1;
 		JSONObject response = new JSONObject();
 		JSONObject contact = new JSONObject();
 		
 		try {
 			this.checkEntity(entity);
-			partnerId = this.validateAuthentication();
+			userId = Integer.parseInt(this.getReqAttr("id"));
 			
 			contact = parseJSON(entity);
 				
-			Partner partner = PartnerDaoService.getPartnerById(partnerId);
-			partner.setName(contact.getString("name"));	
-			partner.setPhone(contact.getString("phone"));
-			partner.setLogoUrl(contact.getString("logoUrl"));
+			User user = UserDaoService.getUserById(userId);
+			user.setName(contact.getString("name"));					
+			UserDaoService.updateUser(user);
 			
-			PartnerDaoService.updatePartner(partner);
-			
-			response = JSONFactory.toJSON(partner);
+			response = JSONFactory.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){

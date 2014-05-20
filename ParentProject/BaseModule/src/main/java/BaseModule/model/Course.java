@@ -64,6 +64,7 @@ public class Course implements PseudoModel{
 		this.reference = reference;
 	}
 
+	//TODO add price, title
 	//Normal Construction
 	public Course(int p_Id, Calendar startTime, Calendar finishTime,
 			int seatsTotal, int seatsLeft, String category,

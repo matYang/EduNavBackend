@@ -50,11 +50,12 @@ public class RoutingService extends Application {
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + SMSVerificationPrefix, UserCellVerification.class);
 		
 		String UserPrefix = "/user";
-		//	API for direct user crud operations: /api/v1.0/user/user
+		//	API for direct user get/post operations: /api/v1.0/user/user
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix, UserResource.class);
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix, UserChangeInfoResource.class);
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix + "/{id}", UserIdResource.class);
-		
+		String UserInfoPrefix = "/info";
+		//  API for user update : /api/v1.0/user/info/:id
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserInfoPrefix + "/{id}", UserChangeInfoResource.class);
 		String LoginPrefix = "/login";
 		//	API for user login: /api/v1.0/user/login
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + LoginPrefix, UserLogin.class);

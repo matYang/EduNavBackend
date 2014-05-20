@@ -1,22 +1,21 @@
-package PartnerModule.resources.partner;
+package AdminModule.resources.course;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
+import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
-import BaseModule.dbservice.PartnerDaoService;
+import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
-import BaseModule.model.Partner;
-import PartnerModule.resources.PartnerPseudoResource;
+import BaseModule.model.Course;
 
-public class PartnerChangeInfoResource extends PartnerPseudoResource{
+public class CourseIdResource extends AdminPseudoResource{
 
 	protected JSONObject parseJSON(Representation entity) throws ValidationException{
 		JSONObject jsonContact = null;
@@ -28,41 +27,45 @@ public class PartnerChangeInfoResource extends PartnerPseudoResource{
 			return null;
 		}
 		
-		String name = null;
-		try {
-			name = java.net.URLDecoder.decode(jsonContact.getString("name"), "utf-8");
-		} catch (UnsupportedEncodingException | JSONException e) {
-			DebugLog.d(e);
-			throw new ValidationException("姓名格式不正确");
-		}	
-		if (name == null){
+		int partnerId = jsonContact.getInt("partnerId");		
+		String category = jsonContact.getString("category");
+		String subCategory = jsonContact.getString("subcategory");
+		String title = jsonContact.getString("title");
+		
+		if(partnerId <= 0){
+			throw new ValidationException("合作伙伴ID不能为0");
+		}
+		if(category == null || subCategory == null || title == null
+		 ||category.length()==0 || subCategory.length() == 0 || title.length() == 0){
 			throw new ValidationException("必填数据不能为空");
 		}
-		
 		return jsonContact;
 		
 	}
 	
-	@Put
+	@Put	
 	public Representation changeContactInfo(Representation entity) {
-		int partnerId = -1;
+		int courseId = -1;
 		JSONObject response = new JSONObject();
 		JSONObject contact = new JSONObject();
 		
 		try {
 			this.checkEntity(entity);
-			partnerId = this.validateAuthentication();
+			courseId = Integer.parseInt(this.getReqAttr("id"));
 			
 			contact = parseJSON(entity);
 				
-			Partner partner = PartnerDaoService.getPartnerById(partnerId);
-			partner.setName(contact.getString("name"));	
-			partner.setPhone(contact.getString("phone"));
-			partner.setLogoUrl(contact.getString("logoUrl"));
+			Course course = CourseDaoService.getCourseById(courseId);
+			course.setPrice(contact.getInt("price"));
+			course.setLocation(contact.getString("location"));
+			course.setCity(contact.getString("city"));
+			course.setDistrict(contact.getString("district"));
+			course.setSeatsTotal(contact.getInt("seatsTotal"));
+			course.setSeatsLeft(contact.getInt("seatsLeft"));
 			
-			PartnerDaoService.updatePartner(partner);
+			CourseDaoService.updateCourse(course);
 			
-			response = JSONFactory.toJSON(partner);
+			response = JSONFactory.toJSON(course);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){
