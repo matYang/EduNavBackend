@@ -80,14 +80,14 @@ public class CourseResource extends AdminPseudoResource{
 						imgFile = new File(ServerConfig.resourcePrefix + ServerConfig.ImgFolder+ imgName + ".png");
 						ImageIO.write(bufferedImage, "png", imgFile);
 						//warning: can only call this upload once, as it will delete the image file before it exits
-						path = FileService.upLoadTeacherImg(courseId, imgFile, imgName, ServerConfig.AliyunTeacherImgBucket);
+						path = FileService.uploadTeacherImg(courseId, imgFile, imgName);
 					}
 					else{
 						imgName = ImgConfig.backgroundImgPrefix + ImgConfig.imgSize_m + courseId;
 						imgFile = new File(ServerConfig.resourcePrefix + ServerConfig.ImgFolder + imgName + ".png");
 						ImageIO.write(bufferedImage, "png", imgFile);
 						//warning: can only call this upload once, as it will delete the image file before it exits
-						path = FileService.upLoadTeacherImg(courseId, imgFile, imgName, ServerConfig.AliyunBackgroundImgBucket);
+						path = FileService.uploadBackgroundImg(courseId, imgFile, imgName);
 					}                   
 
 					props.put(fi.getFieldName(), path);
