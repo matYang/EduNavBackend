@@ -13,5 +13,7 @@ public interface PseudoRepresentation {
 	
 	public void storeKvps(Map<String, String> kvps) throws Exception;
 	
+	public boolean isEmpty() throws Exception;
+	
 	
 }

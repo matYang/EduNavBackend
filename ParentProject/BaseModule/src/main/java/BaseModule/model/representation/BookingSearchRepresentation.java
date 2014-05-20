@@ -26,6 +26,21 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private String phone;
 	private AccountStatus status;
 	private String reference;
+	
+	public BookingSearchRepresentation(){
+		this.bookingId = -1;
+		this.creationTime = null;
+		this.startTime = null;
+		this.finishTime = null;
+		this.price = -1;
+		this.userId = -1;
+		this.partnerId = -1;
+		this.courseId = -1;
+		this.name = null;
+		this.phone = null;
+		this.status = null;
+		this.reference = null;
+	}
 
 	@Override
 	public ArrayList<String> getKeySet() {
@@ -41,6 +56,12 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	@Override
 	public String serialize() throws IllegalArgumentException, IllegalAccessException {
 		return RepresentationReflectiveService.serialize(this);
+	}
+	
+
+	@Override
+	public boolean isEmpty() throws Exception {
+		return RepresentationReflectiveService.isEmpty(this);
 	}
 
 	@Override
@@ -154,5 +175,6 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				+ phone + ", status=" + status + ", reference=" + reference
 				+ "]";
 	}
+
 	
 }
