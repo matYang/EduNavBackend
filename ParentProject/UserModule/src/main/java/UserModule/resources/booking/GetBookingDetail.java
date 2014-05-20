@@ -19,6 +19,7 @@ public class GetBookingDetail extends UserPseudoResource{
 		JSONObject bookingObject = new JSONObject();
 		try{
 			id = Integer.parseInt(this.getReqAttr("id"));
+			this.validateAuthentication();
 			Booking booking = BookingDaoService.getBookingById(id);
 			bookingObject = JSONFactory.toJSON(booking);			
 		}catch (PseudoException e){

@@ -29,8 +29,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 		AdminAccount creationFeedBack = null;
 		
 		try{
-			this.checkEntity(entity);
-			this.validateAuthentication();
+			this.checkEntity(entity);			
 			AdminAccount account = validateAdminAccountJSON(entity);
 			creationFeedBack = AdminAccountDaoService.createAdminAccount(account);			
 			
@@ -94,9 +93,15 @@ public class AdminAccountResource extends AdminPseudoResource{
 	 */
 	@Get
 	public Representation getAllAdminAccounts(){
-
-		ArrayList<AdminAccount> allAdminAccounts = AdminAccountDaoService.getAllAdminAccounts();
-		JSONArray jsonArray = JSONFactory.toJSON(allAdminAccounts);
+		JSONArray jsonArray = null;
+		try {
+			this.validateAuthentication();
+			ArrayList<AdminAccount> allAdminAccounts = AdminAccountDaoService.getAllAdminAccounts();
+			jsonArray = JSONFactory.toJSON(allAdminAccounts);
+		}  catch(PseudoException e){
+			this.addCORSHeader();
+			return this.doPseudoException(e);
+		}	
 		
 		Representation result = new JsonRepresentation(jsonArray);
 

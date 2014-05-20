@@ -27,6 +27,7 @@ public class BookingResource extends UserPseudoResource{
 		JSONObject bookingObject = new JSONObject();
 		try{
 			this.checkEntity(entity);
+			this.validateAuthentication();
 			booking = BookingDaoService.createBooking(parseJSON(entity));
 			DebugLog.d("@Post :: resources::createBooking: avaliable: " + booking.getBookingId() + " partner is: " + booking.getPartnerId() + " course is: " + booking.getCourseId());
 			bookingObject = JSONFactory.toJSON(booking);

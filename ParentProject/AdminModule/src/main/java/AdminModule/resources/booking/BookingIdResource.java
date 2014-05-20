@@ -24,6 +24,7 @@ public class BookingIdResource extends AdminPseudoResource{
         JSONObject jsonObject = new JSONObject();
         
         try {
+        	this.validateAuthentication();
 			int bookingId = Integer.parseInt(this.getReqAttr("id"));
 			
 	    	Booking booking = BookingDaoService.getBookingById(bookingId);

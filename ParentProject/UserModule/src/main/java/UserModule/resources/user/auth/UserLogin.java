@@ -28,7 +28,7 @@ public class UserLogin extends UserPseudoResource {
 
 		try {
 			this.checkEntity(entity);
-			this.validateAuthentication();
+			
 			jsonString = (new JsonRepresentation(entity)).getJsonObject();
 			phone = jsonString.getString("phone");
 			password = jsonString.getString("password");

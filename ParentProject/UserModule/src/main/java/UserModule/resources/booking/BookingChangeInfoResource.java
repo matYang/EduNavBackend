@@ -26,6 +26,7 @@ public class BookingChangeInfoResource extends UserPseudoResource{
 		JSONObject newBooking = new JSONObject();
 		try{
 			this.checkEntity(entity);
+			this.validateAuthentication();
 			bookingId = Integer.parseInt(this.getReqAttr("id"));
 			bookingObject = parseJSON(entity);
 			if(bookingObject != null){

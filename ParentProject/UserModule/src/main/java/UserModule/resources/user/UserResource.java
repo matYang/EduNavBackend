@@ -69,8 +69,18 @@ public class UserResource extends UserPseudoResource{
 	 */
 	@Get
 	public Representation getAllUsers(){
-		ArrayList<User> allUsers = UserDaoService.getAllUsers();
-		JSONArray jsonArray = JSONFactory.toJSON(allUsers);
+		JSONArray jsonArray = null;
+		try {
+			this.validateAuthentication();
+			ArrayList<User> allUsers = UserDaoService.getAllUsers();
+			jsonArray = JSONFactory.toJSON(allUsers);
+		}  catch(PseudoException e){
+			this.addCORSHeader();
+			return this.doPseudoException(e);
+		} catch (Exception e){
+			this.addCORSHeader();
+			return this.doException(e);
+		}
 
 		Representation result = new JsonRepresentation(jsonArray);
 
@@ -87,7 +97,7 @@ public class UserResource extends UserPseudoResource{
 
 		try{
 			this.checkEntity(entity);
-			this.validateAuthentication();
+			
 			User newUser = validateUserJSON(entity);
 			creationFeedBack = UserDaoService.createUser(newUser);
 			//close the sms verification session

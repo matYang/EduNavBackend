@@ -8,6 +8,7 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 
 import BaseModule.dbservice.BookingDaoService;
+import BaseModule.exception.PseudoException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Booking;
 import UserModule.resources.UserPseudoResource;
@@ -16,8 +17,18 @@ public class GetBookings extends UserPseudoResource{
 
 	@Get
 	public Representation getBookings(){
-		ArrayList<Booking> allBookings = BookingDaoService.getAllBookings();
-		JSONArray jsonArray = JSONFactory.toJSON(allBookings);
+		JSONArray jsonArray = null;
+		try {
+			this.validateAuthentication();
+			ArrayList<Booking> allBookings = BookingDaoService.getAllBookings();
+			jsonArray = JSONFactory.toJSON(allBookings);
+		} catch (PseudoException e){
+			this.addCORSHeader();
+			return this.doPseudoException(e);
+		} catch (Exception e) {
+			return this.doException(e);
+		}
+		
 		Representation result = new JsonRepresentation(jsonArray);
 		this.addCORSHeader();
 		return result;
