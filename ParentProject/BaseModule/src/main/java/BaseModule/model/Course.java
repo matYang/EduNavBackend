@@ -32,14 +32,14 @@ public class Course implements PseudoModel{
 	private String teacherImgUrl;
 	private String teachingMaterial;
 	private String backgroundUrl;
-
+	private String courseInfo;
 	//SQL Retrieving
 	public Course(int courseId, int p_Id, Calendar creationTime,
 			Calendar startTime, Calendar finishTime, String t_Info,
 			String t_ImgURL, String t_Material, String backgroundURL,
 			int price, int seatsTotal, int seatsLeft,AccountStatus status, 
 			String category, String subCategory, Partner partner,String title,
-			String location, String city, String district, String reference) {
+			String location, String city, String district, String reference,String courseInfo) {
 		super();
 		this.courseId = courseId;
 		this.partnerId = p_Id;
@@ -62,12 +62,13 @@ public class Course implements PseudoModel{
 		this.city = city;
 		this.district = district;
 		this.reference = reference;
+		this.courseInfo = courseInfo;
 	}
 	
 	//Normal Construction
 	public Course(int p_Id, Calendar startTime, Calendar finishTime,
 			int seatsTotal, int seatsLeft, String category,
-			String subCategory,AccountStatus status,int price, String title) {
+			String subCategory,AccountStatus status,int price, String title,String courseInfo) {
 		super();
 		this.partnerId = p_Id;
 		this.startTime = startTime;
@@ -79,6 +80,7 @@ public class Course implements PseudoModel{
 		this.status = status;
 		this.price = price;
 		this.title = title;
+		this.courseInfo = courseInfo;
 		this.creationTime = DateUtility.getCurTimeInstance();		
 	}
 
@@ -246,6 +248,14 @@ public class Course implements PseudoModel{
 		this.title = title;
 	}
 
+	public String getCourseInfo() {
+		return courseInfo;
+	}
+
+	public void setCourseInfo(String courseInfo) {
+		this.courseInfo = courseInfo;
+	}
+
 	public JSONObject toJSON(){
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
@@ -253,6 +263,7 @@ public class Course implements PseudoModel{
 			jsonSearchRepresentation.put("partnerId", this.partnerId);
 			jsonSearchRepresentation.put("partner", this.partner == null ? new JSONObject() : this.partner.toJSON());
 			jsonSearchRepresentation.put("title", this.title);
+			jsonSearchRepresentation.put("courseInfo",this.courseInfo);
 			jsonSearchRepresentation.put("teacherInfo", this.teacherInfo);
 			jsonSearchRepresentation.put("teacherImgUrl", this.teacherImgUrl);
 			jsonSearchRepresentation.put("teachingMaterial", this.teachingMaterial);
@@ -285,7 +296,7 @@ public class Course implements PseudoModel{
 					this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
 					this.finishTime.getTime().toString().equals(c.getFinishTime().getTime().toString()) &&
 					this.location.equals(c.getLocation()) && this.city.equals(c.getCity()) && this.district.equals(c.getDistrict()) &&
-					this.reference.equals(c.getReference());
+					this.reference.equals(c.getReference()) && this.courseInfo.equals(c.getCourseInfo());
 		}else{
 			return this.backgroundUrl.equals(c.getBackgroundUrl()) && this.category.equals(c.getCategory()) &&
 					this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() && this.title.equals(c.getTitle()) &&
@@ -296,7 +307,7 @@ public class Course implements PseudoModel{
 					this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
 					this.finishTime.getTime().toString().equals(c.getFinishTime().getTime().toString()) &&
 					this.location.equals(c.getLocation()) && this.city.equals(c.getCity()) && this.district.equals(c.getDistrict()) &&
-					this.reference.equals(c.getReference()) && this.partner.equals(c.getPartner());
+					this.reference.equals(c.getReference()) && this.partner.equals(c.getPartner()) && this.courseInfo.equals(c.getCourseInfo());
 		}			
 	}
 }

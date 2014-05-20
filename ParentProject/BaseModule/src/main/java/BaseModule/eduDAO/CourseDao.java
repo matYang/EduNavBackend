@@ -23,8 +23,8 @@ public class CourseDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO CourseDao (p_Id,creationTime,startTime,finishTime,t_Info,t_ImgURL,backgroundURL,price," +
-				"seatsTotal,seatsLeft,t_Material,status,category,subCategory,title,location,city,district,reference)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				"seatsTotal,seatsLeft,t_Material,status,category,subCategory,title,location,city,district,reference,courseInfo)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	
 
@@ -47,7 +47,8 @@ public class CourseDao {
 			stmt.setString(17, course.getCity());
 			stmt.setString(18, course.getDistrict());
 			stmt.setString(19, course.getReference());
-
+			stmt.setString(20, course.getCourseInfo());
+			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -66,7 +67,7 @@ public class CourseDao {
 		PreparedStatement stmt = null;
 		String query = "UPDATE CourseDao SET p_Id=?,startTime=?,finishTime=?,t_Info=?,t_ImgURL=?,backgroundURL=?,price=?," +
 				"seatsTotal=?,seatsLeft=?,t_Material=?,status=?,category=?,subCategory=?,title=?,location=?," +
-				"city=?,district=?,reference=? where id=?";
+				"city=?,district=?,reference=?,courseInfo=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
 
@@ -88,7 +89,8 @@ public class CourseDao {
 			stmt.setString(16, course.getCity());
 			stmt.setString(17, course.getDistrict());
 			stmt.setString(18, course.getReference());
-			stmt.setInt(19, course.getCourseId());
+			stmt.setString(19, course.getCourseInfo());
+			stmt.setInt(20, course.getCourseId());
 
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
@@ -173,7 +175,7 @@ public class CourseDao {
 				rs.getString("t_Info"),rs.getString("t_ImgURL"), rs.getString("t_Material"), rs.getString("backgroundURL"),
 				rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),AccountStatus.fromInt(rs.getInt("status")), 
 				rs.getString("category"), rs.getString("subCategory"), partner,rs.getString("title"),rs.getString("location"),
-				rs.getString("city"),rs.getString("district"),rs.getString("reference"));
+				rs.getString("city"),rs.getString("district"),rs.getString("reference"),rs.getString("courseInfo"));
 	}
 
 	protected static Course createCourseByResultSet(ResultSet rs) throws SQLException {
@@ -182,6 +184,6 @@ public class CourseDao {
 				rs.getString("t_Info"),rs.getString("t_ImgURL"), rs.getString("t_Material"), rs.getString("backgroundURL"),
 				rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),AccountStatus.fromInt(rs.getInt("status")), 
 				rs.getString("category"), rs.getString("subCategory"), null,rs.getString("title"),rs.getString("location"),
-				rs.getString("city"),rs.getString("district"),rs.getString("reference"));
+				rs.getString("city"),rs.getString("district"),rs.getString("reference"),rs.getString("courseInfo"));
 	}
 }

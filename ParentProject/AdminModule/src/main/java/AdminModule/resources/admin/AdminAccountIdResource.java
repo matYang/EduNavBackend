@@ -15,6 +15,8 @@ import AdminModule.dbservice.AdminAccountDaoService;
 import AdminModule.model.AdminAccount;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import AdminModule.factory.JSONFactory;
@@ -42,12 +44,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
         Representation result = new JsonRepresentation(jsonObject);
         this.addCORSHeader();
         return result;
-    }
-	
-	
-	
-	
-	
+    }	
 	
 	protected JSONObject parseJSON(Representation entity) throws ValidationException{
 		JSONObject jsonContact = null;
@@ -90,7 +87,12 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 			contact = parseJSON(entity);
 				
 			AdminAccount account = AdminAccountDaoService.getAdminAccountById(adminId);
-			account.setName(contact.getString("name"));					
+			account.setPhone(contact.getString("phone"));
+			account.setPrivilege(Privilege.fromInt(contact.getInt("privilege")));
+			account.setReference(contact.getString("reference"));
+			account.setStatus(AccountStatus.fromInt(contact.getInt("status")));
+			account.setName(contact.getString("name"));	
+			account.setPassword(contact.getString("password"));
 			AdminAccountDaoService.updateAdminAccount(account);
 			
 			response = JSONFactory.toJSON(account);

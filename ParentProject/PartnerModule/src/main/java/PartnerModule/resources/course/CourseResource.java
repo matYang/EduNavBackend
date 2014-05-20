@@ -134,13 +134,14 @@ public class CourseResource extends PartnerPseudoResource{
 			String category = jsonCourse.getString("category");
 			String subcategory = jsonCourse.getString("subcategory");
 			String title = jsonCourse.getString("title");
+			String courseInfo = jsonCourse.getString("courseInfo");
 			AccountStatus status = AccountStatus.fromInt(jsonCourse.getInt("status"));
 			int seatsTotal = jsonCourse.getInt("seatsTotal");
 			int seatsLeft = jsonCourse.getInt("seatsLeft");
 			int partnerId = jsonCourse.getInt("partnerId");
 			
 			course = new Course(partnerId, startTime, finishTime,
-					seatsTotal, seatsLeft, category,subcategory, status,price,title);
+					seatsTotal, seatsLeft, category,subcategory, status,price,title,courseInfo);
 		}catch (JSONException | IOException e) {
 			throw new ValidationException("无效数据格式");
 		}

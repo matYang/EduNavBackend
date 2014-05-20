@@ -77,7 +77,7 @@ public class AdminAccountDaoTest {
 	public void testUpdate() throws AdminAccountNotFoundException{
 		EduDaoBasic.clearBothDatabase();
 		String name = "Harry";
-		String phone = "123445676543";
+		String phone = "1";
 		String reference = "dsfdsf";
 		Privilege privilege = Privilege.business;
 		AccountStatus status = AccountStatus.activated;
@@ -85,11 +85,11 @@ public class AdminAccountDaoTest {
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
 		AdminAccountDao.addAdminAccountToDatabases(account);
 		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
-		account.setPhone("234234234");
+		account.setPhone("2");
 		account.setStatus(AccountStatus.deleted);
 		AdminAccountDao.updateAdminAccountInDatabases(account);
 		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
-		if(account.getName().equals(name)&&account.getPhone().equals("234234234")&&account.getStatus().code==AccountStatus.deleted.code){
+		if(account.getName().equals(name)&&account.getPhone().equals("2")&&account.getStatus().code==AccountStatus.deleted.code){
 			//Passed;
 		}else fail();
 		
@@ -160,13 +160,13 @@ public class AdminAccountDaoTest {
 		String phone = "123445676543";
 		String reference = "dsfdsf";
 		Privilege privilege = Privilege.business;
-		AccountStatus status = AccountStatus.activated;
-		String password = "hgfudifhg3489";
+		AccountStatus status = AccountStatus.activated;		
+		String password = "dsfdsftewr";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
 		AdminAccountDao.addAdminAccountToDatabases(account);
 		AdminAccount test = null;
 		try {
-			test = AdminAccountDao.authenticateAdminAccount(phone, password);
+			test = AdminAccountDao.authenticateAdminAccount(reference, password);
 		} catch (AuthenticationException e) {
 			fail();
 		}

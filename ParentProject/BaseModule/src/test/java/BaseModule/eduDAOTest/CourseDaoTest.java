@@ -32,8 +32,9 @@ public class CourseDaoTest {
 		String title = "new X";
 		String category = "Physics";
 		String subCategory = "sub-Phy";
+		String courseInfo = "khopyhk";
 		AccountStatus status = AccountStatus.activated;
-		Course course = new Course(p_Id, startTime, finishTime,seatsTotal, seatsLeft, category,subCategory,status,price,title);
+		Course course = new Course(p_Id, startTime, finishTime,seatsTotal, seatsLeft, category,subCategory,status,price,title,courseInfo);
 		try{
 			CourseDao.addCourseToDatabases(course);
 		}catch(Exception e){
@@ -65,7 +66,8 @@ public class CourseDaoTest {
 		String subCategory = "sub-Phy";		
 		int price = 1000;
 		String title = "new X";
-		Course course = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category,subCategory,status,price,title);
+		String courseInfo = "khopyhk";
+		Course course = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category,subCategory,status,price,title,courseInfo);
 		String location = "China";
 		String city = "NanJing";
 		String district = "JiangNing";
@@ -99,7 +101,7 @@ public class CourseDaoTest {
 		int seatsLeft2 = 5;
 		String category2 = "Chineses";
 		String subCategory2 = "sub-Chin";		
-		Course course2 = new Course(p_Id, startTime2, finishTime2, seatsTotal2, seatsLeft2, category2,subCategory2,status,price,title);
+		Course course2 = new Course(p_Id, startTime2, finishTime2, seatsTotal2, seatsLeft2, category2,subCategory2,status,price,title,courseInfo);
 		CourseDao.addCourseToDatabases(course2);
 		course2 = CourseDao.getCourseById(course2.getCourseId());		
 		course2.setLocation(location);

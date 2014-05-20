@@ -42,7 +42,8 @@ public class CourseCleanerTest {
 		String subCategory = "sub-Phy";		
 		String title = "r8ufghfiugh";
 		int price = 124;
-		Course course = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category,subCategory,status,price,title);
+		String courseInfo = "rytyh";
+		Course course = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category,subCategory,status,price,title,courseInfo);
 		String location = "China";
 		String city = "NanJing";
 		String district = "JiangNing";
@@ -56,7 +57,7 @@ public class CourseCleanerTest {
 		
 		Calendar finishTime2 = DateUtility.getCurTimeInstance();		
 		finishTime2.add(Calendar.DAY_OF_YEAR, -1);		
-		Course course2 = new Course(p_Id, startTime, finishTime2, seatsTotal, seatsLeft, category,subCategory,status,price,title);		
+		Course course2 = new Course(p_Id, startTime, finishTime2, seatsTotal, seatsLeft, category,subCategory,status,price,title,courseInfo);		
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
@@ -66,7 +67,7 @@ public class CourseCleanerTest {
 				
 		Calendar finishTime3 = DateUtility.getCurTimeInstance();		
 		finishTime3.add(Calendar.MINUTE, 1);		
-		Course course3 = new Course(p_Id, startTime, finishTime3, seatsTotal, seatsLeft, category,subCategory,status,price,title);
+		Course course3 = new Course(p_Id, startTime, finishTime3, seatsTotal, seatsLeft, category,subCategory,status,price,title,courseInfo);
 		String location2= "China";
 		String city2 = "ChengDu";
 		String district2 = "ChengHua";

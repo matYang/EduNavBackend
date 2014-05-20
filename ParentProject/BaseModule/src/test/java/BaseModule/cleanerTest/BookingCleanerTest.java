@@ -54,7 +54,8 @@ public class BookingCleanerTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
 		String title = "sdfdsfs";
-		Course course = new Course(p_Id, startTime, finishTime,seatsTotal, seatsLeft, category,subCategory,status,price,title);
+		String courseInfo = "sdjgiotjgh";
+		Course course = new Course(p_Id, startTime, finishTime,seatsTotal, seatsLeft, category,subCategory,status,price,title,courseInfo);
 		CourseDao.addCourseToDatabases(course);		
 		course = CourseDao.getCourseById(course.getCourseId());	
 		String location = "China";

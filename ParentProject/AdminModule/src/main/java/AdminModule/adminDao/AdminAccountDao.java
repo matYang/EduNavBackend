@@ -49,15 +49,14 @@ public class AdminAccountDao {
 			DebugLog.d(e);
 		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,true);
-		} 
-		account.setPassword("");
+		} 		
 		return account;
 	}
 	
 	public static void updateAdminAccountInDatabases(AdminAccount account) throws AdminAccountNotFoundException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;
-		String query = "UPDATE AdminAccountDao SET lastLogin=?,status=?,reference=?,privilege=?,name=?,phone=? where id = ?";
+		String query = "UPDATE AdminAccountDao SET lastLogin=?,status=?,reference=?,privilege=?,name=?,phone=?,password=? where id = ?";
 		try{
 			stmt = conn.prepareStatement(query);
 						
@@ -67,7 +66,13 @@ public class AdminAccountDao {
 			stmt.setInt(4, account.getPrivilege().code);
 			stmt.setString(5, account.getName());
 			stmt.setString(6, account.getPhone());
-			stmt.setInt(7, account.getAdminId());
+			if(account.getPassword()!=null){
+				stmt.setString(7, SessionCrypto.encrypt(account.getPassword()));
+			}else{
+				stmt.setString(7, "");
+			}
+			
+			stmt.setInt(8, account.getAdminId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new AdminAccountNotFoundException();
@@ -75,8 +80,11 @@ public class AdminAccountDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+		}catch(Exception e){
+			e.printStackTrace();
+			DebugLog.d(e);
 		} finally  {
-			EduDaoBasic.closeResources(conn, stmt, null,true);
+			EduDaoBasic.closeResources(conn, stmt, null,true);			
 		}
 	}
 	
@@ -224,22 +232,22 @@ public class AdminAccountDao {
 		
 	}
 
-	public static AdminAccount authenticateAdminAccount(String phone, String password) throws AuthenticationException{
+	public static AdminAccount authenticateAdminAccount(String reference, String password) throws AuthenticationException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		AdminAccount account = null;
-		boolean validPassword = true;
-		String query = "SELECT * FROM AdminAccountDao where phone = ? and password = ? ";
+		boolean validReference = true;
+		String query = "SELECT * FROM AdminAccountDao where password = ? and reference = ? ";
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setString(1, phone);
-			stmt.setString(2, SessionCrypto.encrypt(password));
+			stmt.setString(1, SessionCrypto.encrypt(password));
+			stmt.setString(2, reference);
 			rs = stmt.executeQuery();		
 			if(rs.next()){
 				account = createAdminAccountByResultSet(rs);
 			}else{
-				validPassword = false;
+				validReference = false;
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -250,8 +258,8 @@ public class AdminAccountDao {
 			DebugLog.d(e);			
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
-			if(!validPassword){
-				throw new AuthenticationException("手机号码或密码输入错误");
+			if(!validReference){
+				throw new AuthenticationException("编号或密码输入错误");
 			}
 		}
 		return account;

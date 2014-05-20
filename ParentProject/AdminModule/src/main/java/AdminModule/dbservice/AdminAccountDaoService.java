@@ -35,16 +35,10 @@ public class AdminAccountDaoService {
 	
 	public static void changePassword(int adminId, String oldPassword, String newPassword) throws AuthenticationException{
 		AdminAccountDao.changeAdminAccountPassword(adminId, oldPassword, newPassword);
-	}
+	}	
 	
-	//authenticate use reference
-	//TODO using reference instead of phone
-	public static AdminAccount authenticateAdminAccount(String phone, String password) throws AuthenticationException{
-		return AdminAccountDao.authenticateAdminAccount(phone, password);
-	}
+	public static AdminAccount authenticateAdminAccount(String referece, String password) throws AuthenticationException{
+		return AdminAccountDao.authenticateAdminAccount(referece, password);
+	}	
 	
-	//TODO
-	public static void forceChangePassword(int targetAdminId, int initiatorAdminId, String newPassword) throws AuthenticationException{
-		
-	}
 }
