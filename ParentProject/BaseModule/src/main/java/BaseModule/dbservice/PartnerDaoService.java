@@ -41,7 +41,6 @@ public class PartnerDaoService {
 	}
 	
 	public static ArrayList<Partner> searchPartners(PartnerSearchRepresentation sr){
-		//TODO
-		return null;
+		return PartnerDao.searchPartner(sr);
 	}
 }

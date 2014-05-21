@@ -6,7 +6,6 @@ import BaseModule.eduDAO.BookingDao;
 import BaseModule.exception.booking.BookingNotFoundException;
 import BaseModule.model.Booking;
 import BaseModule.model.representation.BookingSearchRepresentation;
-import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class BookingDaoService {
 
@@ -31,8 +30,7 @@ public class BookingDaoService {
 	}
 
 	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr) {
-		// TODO Auto-generated method stub
-		return null;
+		return BookingDao.searchBooking(sr);
 	}
 	
 }
