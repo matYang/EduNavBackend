@@ -18,7 +18,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private Calendar creationTime;
 	private Calendar startTime;
 	private Calendar finishTime;
-	private int price;
+	private int startPrice;
+	private int finishPrice;
 	private int userId;
 	private int partnerId;
 	private int courseId;
@@ -32,7 +33,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.creationTime = null;
 		this.startTime = null;
 		this.finishTime = null;
-		this.price = -1;
+		this.startPrice = -1;
+		this.finishPrice = -1;
 		this.userId = -1;
 		this.partnerId = -1;
 		this.courseId = -1;
@@ -100,12 +102,20 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.finishTime = finishTime;
 	}
 
-	public int getPrice() {
-		return price;
+	public int getStartPrice() {
+		return startPrice;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
+	public void setStartPrice(int price) {
+		this.startPrice = price;
+	}
+
+	public int getFinishPrice() {
+		return finishPrice;
+	}
+
+	public void setFinishPrice(int finishPrice) {
+		this.finishPrice = finishPrice;
 	}
 
 	public int getUserId() {
@@ -168,11 +178,11 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	public String toString() {
 		return "BookingSearchRepresentation [bookingId=" + bookingId
 				+ ", creationTime=" + creationTime + ", startTime=" + startTime
-				+ ", finishTime=" + finishTime + ", price=" + price
-				+ ", userId=" + userId + ", partnerId=" + partnerId
-				+ ", courseId=" + courseId + ", name=" + name + ", phone="
-				+ phone + ", status=" + status + ", reference=" + reference
-				+ "]";
+				+ ", finishTime=" + finishTime + ", startPrice=" + startPrice
+				+ ", finishPrice=" + finishPrice + ", userId=" + userId 
+				+ ", partnerId=" + partnerId + ", courseId=" + courseId 
+				+ ", name=" + name + ", phone=" + phone + ", status=" 
+				+ status + ", reference=" + reference + "]";
 	}
 
 	

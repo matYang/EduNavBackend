@@ -40,7 +40,8 @@ public class BookingDao {
 			if(sr.getUserId() > 0){
 				stmt.setInt(stmtInt++, sr.getUserId());
 			}
-			stmt.setInt(stmtInt++, sr.getPrice());
+			stmt.setInt(stmtInt++, sr.getStartPrice());
+			stmt.setInt(stmtInt++, sr.getFinishPrice());
 			stmt.setInt(stmtInt++, AccountStatus.activated.code);			
 
 			if(sr.getReference() !=null && sr.getReference().length() > 0){
