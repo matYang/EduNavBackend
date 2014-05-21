@@ -17,6 +17,7 @@ import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
+import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import AdminModule.factory.JSONFactory;
@@ -76,26 +77,34 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 	 * allows admin to change name
 	 */
 	public Representation changeContactInfo(Representation entity) {
-		int adminId = -1;
 		JSONObject response = new JSONObject();
 		JSONObject contact = new JSONObject();
 		
 		try {
 			this.checkEntity(entity);
-			adminId = this.validateAuthentication();
+
+			int adminId = this.validateAuthentication();
+			int targetAdminId = Integer.parseInt(this.getReqAttr("id"));
+			
+			AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
+			AdminAccount targetAccount = AdminAccountDaoService.getAdminAccountById(targetAdminId);
+			
+			//smaller the code higher the privilege
+			if (admin.getPrivilege().code >= targetAccount.getPrivilege().code){
+				throw new ValidationException("无权操作");
+			}
 			
 			contact = parseJSON(entity);
-				
-			AdminAccount account = AdminAccountDaoService.getAdminAccountById(adminId);
-			account.setPhone(contact.getString("phone"));
-			account.setPrivilege(Privilege.routine);
-			account.setReference(contact.getString("reference"));
-			account.setStatus(AccountStatus.fromInt(contact.getInt("status")));
-			account.setName(contact.getString("name"));	
-			account.setPassword(contact.getString("password"));
-			AdminAccountDaoService.updateAdminAccount(account);
 			
-			response = JSONFactory.toJSON(account);
+			targetAccount.setPhone(contact.getString("phone"));
+			targetAccount.setPrivilege(Privilege.routine);
+			targetAccount.setReference(contact.getString("reference"));
+			targetAccount.setStatus(AccountStatus.fromInt(contact.getInt("status")));
+			targetAccount.setName(contact.getString("name"));	
+			targetAccount.setPassword(contact.getString("password"));
+			AdminAccountDaoService.updateAdminAccount(targetAccount);
+			
+			response = JSONFactory.toJSON(targetAccount);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){
