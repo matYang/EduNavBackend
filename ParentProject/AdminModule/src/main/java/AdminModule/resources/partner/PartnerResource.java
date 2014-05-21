@@ -2,9 +2,8 @@ package AdminModule.resources.partner;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,8 +13,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.imgscalr.Scalr;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
 import org.restlet.ext.fileupload.RestletFileUpload;
@@ -25,18 +22,22 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import AdminModule.resources.AdminPseudoResource;
+import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ImgConfig;
 import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.dbservice.CourseDaoService;
 import BaseModule.dbservice.FileService;
 import BaseModule.dbservice.PartnerDaoService;
-import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
+import BaseModule.factory.ReferenceFactory;
+import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
+import BaseModule.staticDataService.StaticDataService;
 
 public class PartnerResource extends AdminPseudoResource{
 	
@@ -68,20 +69,14 @@ public class PartnerResource extends AdminPseudoResource{
 	
 	
 	
-
 	@Post
 	public Representation createPartner(Representation entity){
-		int partnerId = -1;
 		File imgFile = null;
-		Partner partner = null;
 		Map<String, String> props = new HashMap<String, String>();
-		Connection conn = EduDaoBasic.getSQLConnection();
 		try{
 			this.checkFileEntity(entity);
-			this.validateAuthentication();
-			partner = validatePartnerJSON(entity);
-			partner = PartnerDaoService.createPartner(partner,conn);
-			partnerId = partner.getPartnerId();
+			int adminId = this.validateAuthentication();
+
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");
 			}
@@ -93,8 +88,13 @@ public class PartnerResource extends AdminPseudoResource{
 			// 2/ Create a new file upload handler
 			RestletFileUpload upload = new RestletFileUpload(factory);
 			List<FileItem> items;
+			
+			// 3/ Create a default empty partner to use its id later
+			Partner partner = new Partner();
+			partner.setStatus(AccountStatus.deleted);
+			partner = PartnerDaoService.createPartner(partner);
 
-			// 3/ Request is parsed by the handler which generates a list of FileItems
+			// 4/ Request is parsed by the handler which generates a list of FileItems
 			items = upload.parseRepresentation(entity); 
 			for (final Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
 				FileItem fi = it.next();
@@ -104,26 +104,42 @@ public class PartnerResource extends AdminPseudoResource{
 					props.put(fi.getFieldName(), new String(fi.get(), "UTF-8"));
 				} else {
 					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
-					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 200, 200, Scalr.OP_ANTIALIAS);
+					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 300, 300, Scalr.OP_ANTIALIAS);
 					String imgName;
 					String path;
 
-					imgName = ImgConfig.logoPrefix + ImgConfig.imgSize_m + partnerId;
+					imgName = ImgConfig.logoPrefix + ImgConfig.imgSize_m + partner.getPartnerId();
 					imgFile = new File(ServerConfig.resourcePrefix + ServerConfig.ImgFolder+ imgName + ".png");
 					ImageIO.write(bufferedImage, "png", imgFile);
 					//warning: can only call this upload once, as it will delete the image file before it exits
-					path = FileService.uploadLogoImg(partnerId, imgFile, imgName);
-
-
-					props.put(fi.getFieldName(), path);
+					path = FileService.uploadLogoImg(partner.getPartnerId(), imgFile, imgName);
+					props.put("logoUrl", path);
 				}
 			}
-
-			String logoImgUrl = props.get("image_1");		
-			partner.setLogoUrl(logoImgUrl);
-			PartnerDaoService.updatePartner(partner, conn);
-
-
+			
+			String name = props.get("name");
+			String licence = props.get("licence");
+			String organizationNum = props.get("organizationNum");
+			String reference = props.get("reference");
+			String password = props.get("password");
+			String phone = props.get("phone");
+			AccountStatus status = AccountStatus.activated;
+			String instName = props.get("instName");
+			String logoUrl = props.get("logoUrl");
+			
+			partner.setName(name);
+			partner.setLicence(licence);
+			partner.setOrganizationNum(organizationNum);
+			partner.setReference(reference);
+			partner.setPassword(password);
+			partner.setPhone(phone);
+			partner.setStatus(status);
+			partner.setInstName(instName);
+			partner.setLogoUrl(logoUrl);
+			
+			StaticDataService.addPName(instName);
+			PartnerDaoService.updatePartner(partner);
+			
 		}catch (PseudoException e){
 			DebugLog.d(e);
 			this.addCORSHeader();
@@ -131,8 +147,6 @@ public class PartnerResource extends AdminPseudoResource{
 		} catch (Exception e) {
 			DebugLog.d(e);
 			return this.doException(e);
-		}finally{
-			EduDaoBasic.closeResources(conn, null, null, true);
 		}
 
 		setStatus(Status.SUCCESS_OK);
@@ -141,28 +155,5 @@ public class PartnerResource extends AdminPseudoResource{
 		this.addCORSHeader();
 		return result;
 	}
-
-	private Partner validatePartnerJSON(Representation entity) throws ValidationException {
-		JSONObject jsonPartner = null;
-		Partner partner = null;
-		try{
-			jsonPartner = (new JsonRepresentation(entity)).getJsonObject();
-
-			String name = jsonPartner.getString("name");
-			String instName = jsonPartner.getString("instName");
-			String licence = jsonPartner.getString("licence");
-			String organizationNum = jsonPartner.getString("organizationNum");
-			String reference = jsonPartner.getString("reference");
-			String password = jsonPartner.getString("password");
-			String phone = jsonPartner.getString("phone");
-			AccountStatus status = AccountStatus.fromInt(jsonPartner.getInt("status"));
-
-			partner = new Partner(name, instName, licence, organizationNum,
-					reference, password, phone,status);
-
-		}catch (JSONException | IOException e) {
-			throw new ValidationException("无效数据格式");
-		}
-		return partner;
-	}
+	
 }

@@ -25,7 +25,7 @@ public class CourseSearchRepresentationTest {
 		kvps.put("subCategory", "托福");
 		kvps.put("partnerReference", "GA3tt90_--+0jlkfhkl990jiof56DFHK83");
 		kvps.put("startTime", "2014-05-15");
-		kvps.put("startPrice", "90");
+		kvps.put("startPrice", null);
 		kvps.put("finishPrice", "1000");
 		kvps.put("creationTime", "2014-05-1");
 		kvps.put("finishTime", "2018-09-1");
