@@ -120,7 +120,7 @@ public class PartnerResource extends AdminPseudoResource{
 			String name = props.get("name");
 			String licence = props.get("licence");
 			String organizationNum = props.get("organizationNum");
-			String reference = props.get("reference");
+			String reference = ReferenceFactory.generatePartnerReference();
 			String password = props.get("password");
 			String phone = props.get("phone");
 			AccountStatus status = AccountStatus.activated;

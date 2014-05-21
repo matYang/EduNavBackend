@@ -200,8 +200,8 @@ public class StaticDataService {
 			pDataList = jedis.lrange(pDataRedisKey, 0, jedis.llen(pDataRedisKey)-1);
 			for (String pData : pDataList){
 				if (pData.equals(pName)){
-					//if name already exists, throw exception
-					throw new ValidationException("该机构名称已经存在");
+					//if name already exists, do nothing
+					return;
 				}
 			}
 			jedis.rpush(pDataRedisKey, pName);
