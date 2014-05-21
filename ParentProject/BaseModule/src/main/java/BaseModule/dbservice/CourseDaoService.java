@@ -24,12 +24,10 @@ public class CourseDaoService {
 	
 	public static Course createCourse(Course course,Connection...connections){
 		return CourseDao.addCourseToDatabases(course,connections);
-	}
+	}	
 	
-	
-	//TODO
 	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr){
-		return null;
+		return CourseDao.searchCourse(sr);
 	}
 	
 }
