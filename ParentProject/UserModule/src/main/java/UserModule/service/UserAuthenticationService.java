@@ -1,11 +1,12 @@
 package UserModule.service;
 
-import BaseModule.common.DateUtility;
-import BaseModule.configurations.DatabaseConfig;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
+import BaseModule.service.RedisAuthenticationService;
 
 public class UserAuthenticationService {
+	
+	public static final int serviceIdentifier = 1;
 	
 	public static int validateSession(String sessionString) throws PseudoException{
 		if (sessionString == null){
@@ -18,7 +19,7 @@ public class UserAuthenticationService {
 		else{
 			String authCode = getAuthCodeFromSessionString(sessionString);
 			long mili = getTimeStampFromSessionString(sessionString);
-			boolean login = UserAuthDaoService.validateSession(userId, authCode, mili);
+			boolean login = RedisAuthenticationService.validateWebSession(serviceIdentifier, userId, authCode, mili);
 			if (!login){
 				throw new AuthenticationException();
 			}
@@ -28,29 +29,23 @@ public class UserAuthenticationService {
 	
 
 	public static String openSession(int id) throws PseudoException{
-	   String sessionString = UserAuthDaoService.openSession(id);
-       return sessionString;
+	   return RedisAuthenticationService.openWebSession(serviceIdentifier, id);
 	}
 	
 
 	public static boolean closeSession(String sessionString) throws PseudoException{
-		boolean logout = UserAuthDaoService.closeSession(getUserIdFromSessionString(sessionString));
-		return logout;
+		return RedisAuthenticationService.closeSession(serviceIdentifier, String.valueOf(getUserIdFromSessionString(sessionString)));
 	}
 	
 	//Session string format: "id+sessionStr+timeStamp"
 	public static int getUserIdFromSessionString(String sessionString)throws PseudoException{
-		String userIdStr = sessionString.split(DatabaseConfig.redisSeperatorRegex)[0];
-		int userId = Integer.parseInt(userIdStr);
-		return userId;
+		return RedisAuthenticationService.getIdFromSessionString(sessionString);
 	}
 	public static String getAuthCodeFromSessionString(String sessionString)throws PseudoException{
-		String authCodeStr = sessionString.split(DatabaseConfig.redisSeperatorRegex)[1];
-		return authCodeStr;
+		return RedisAuthenticationService.getAuthCodeFromSessionString(sessionString);
 	}
 	public static long getTimeStampFromSessionString(String sessionString)throws PseudoException{
-		String timeStampStr = sessionString.split(DatabaseConfig.redisSeperatorRegex)[2];
-		return DateUtility.getLongFromTimeStamp(timeStampStr);
+		return RedisAuthenticationService.getTimeStampFromSessionString(sessionString);
 	}
 
 }
