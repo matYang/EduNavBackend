@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.encryption.SessionCrypto;
+import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
@@ -18,7 +18,7 @@ import BaseModule.model.User;
 import BaseModule.model.representation.UserSearchRepresentation;
 
 public class UserDao {
-	
+
 	public static ArrayList<User> searchUser(UserSearchRepresentation sr){
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
@@ -28,7 +28,7 @@ public class UserDao {
 		int stmtInt = 1;		
 		try{
 			stmt = conn.prepareStatement(query);
-			
+
 			if(sr.getUserId() > 0){
 				stmt.setInt(stmtInt++, sr.getUserId());
 			}
@@ -64,7 +64,7 @@ public class UserDao {
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);			
 
 			stmt.setString(1, user.getName());			
-			stmt.setString(2, SessionCrypto.encrypt(user.getPassword()));
+			stmt.setString(2, PasswordCrypto.createHash(user.getPassword()));
 			stmt.setString(3, user.getPhone());
 			stmt.setString(4, DateUtility.toSQLDateTime(user.getCreationTime()));
 			stmt.setString(5, DateUtility.toSQLDateTime(user.getLastLogin()));
@@ -195,30 +195,27 @@ public class UserDao {
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
-		boolean validOldPassword = true;
-		String query = "SELECT * FROM UserDao where id = ? and password = ? ";
-		try{
+		boolean validOldPassword = false;
+		String query = "SELECT * FROM UserDao WHERE id = ?";		
+		try {
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, userId);
-			stmt.setString(2, SessionCrypto.encrypt(oldPassword));			
-			rs = stmt.executeQuery();						
-			if(!rs.next()){
-				validOldPassword = false;							
-			}		
-		}catch(SQLException e){
+			rs = stmt.executeQuery();
+			if(rs.next()){
+				validOldPassword = PasswordCrypto.validatePassword(oldPassword, rs.getString("password"));
+			}
+		} catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
-		}
-		catch(Exception e){
-			validOldPassword = false;
-			e.printStackTrace();
-			DebugLog.d(e);				
-		}
+		}catch (Exception e) {
+			DebugLog.d(e);
+			e.printStackTrace();			
+		}		
 		if(validOldPassword){
 			query = "UPDATE UserDao set password = ? where id = ?";
 			try{
 				stmt = conn.prepareStatement(query);
-				stmt.setString(1, SessionCrypto.encrypt(newPassword));				
+				stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 				stmt.setInt(2, userId);
 				stmt.executeUpdate();
 			}catch(SQLException e){
@@ -238,7 +235,7 @@ public class UserDao {
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 			throw new AuthenticationException();
 		}
-		
+
 	}
 
 	public static User authenticateUser(String phone, String password) throws AuthenticationException{
@@ -246,24 +243,23 @@ public class UserDao {
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		User user = null;
-		boolean validPassword = true;
-		String query = "SELECT * FROM UserDao where phone = ? and password = ? ";
+		boolean validPassword = false;
+		String query = "SELECT * FROM UserDao where phone = ?  ";
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setString(1, phone);
-			stmt.setString(2, SessionCrypto.encrypt(password));
+			stmt.setString(1, phone);			
 			rs = stmt.executeQuery();		
 			if(rs.next()){
-				user = createUserByResultSet(rs);
-			}else{
-				validPassword = false;
+				validPassword = PasswordCrypto.validatePassword(password, rs.getString("password"));
+				if(validPassword){
+					user = createUserByResultSet(rs);
+				}				
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
 		}
-		catch(Exception e){
-			validPassword = false;
+		catch(Exception e){			
 			e.printStackTrace();
 			DebugLog.d(e);			
 		}finally{
@@ -274,7 +270,7 @@ public class UserDao {
 		}
 		return user;
 	}
-	
+
 	public static void recoverUserPassword(String phone,String newPassword) throws AuthenticationException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
@@ -283,7 +279,7 @@ public class UserDao {
 		boolean success = true;
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setString(1, SessionCrypto.encrypt(newPassword));				
+			stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 			stmt.setString(2, phone);
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
@@ -303,7 +299,7 @@ public class UserDao {
 			}
 		}
 	}
-	
+
 	private static User createUserByResultSet(ResultSet rs) throws SQLException {		
 		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
 				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),"", AccountStatus.fromInt(rs.getInt("status")));

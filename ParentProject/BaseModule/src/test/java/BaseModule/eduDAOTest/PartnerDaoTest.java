@@ -265,7 +265,7 @@ public class PartnerDaoTest {
 		String licence11 = "234fdsfsdgergf-d11sv,.!@";
 		String organizationNum11 = "123545436111234";
 		String reference11 = "ds11f4r";			
-		Partner partner11 = new Partner(name11,instName11, licence11, organizationNum11,reference11, password, phone,status);
+		Partner partner11 = new Partner(name11,instName11, licence11, organizationNum11,reference11, password, phone+"2",status);
 		partner11 = PartnerDao.addPartnerToDatabases(partner11);
 		partner11 = PartnerDao.getPartnerById(partner11.getPartnerId());
 		
@@ -276,7 +276,7 @@ public class PartnerDaoTest {
 		String reference2 = "dgt4yt4yf4r";		
 		
 		AccountStatus status2 = AccountStatus.deactivated;
-		Partner partner2 = new Partner(name2,instName2, licence2, organizationNum2,reference2, password, phone,status2);
+		Partner partner2 = new Partner(name2,instName2, licence2, organizationNum2,reference2, password, phone+"3",status2);
 		partner2 = PartnerDao.addPartnerToDatabases(partner2);
 		partner2 = PartnerDao.getPartnerById(partner2.getPartnerId());
 		
@@ -287,7 +287,7 @@ public class PartnerDaoTest {
 		String reference3= "reference3";		
 		
 		AccountStatus status3 = AccountStatus.deleted;
-		Partner partner3 = new Partner(name3,instName3, licence3, organizationNum3,reference3, password, phone,status3);
+		Partner partner3 = new Partner(name3,instName3, licence3, organizationNum3,reference3, password, phone+"4",status3);
 		partner3 = PartnerDao.addPartnerToDatabases(partner3);
 		partner3 = PartnerDao.getPartnerById(partner3.getPartnerId());
 		
@@ -302,7 +302,7 @@ public class PartnerDaoTest {
 		sr.setInstName(null);
 		sr.setPhone(phone);
 		plist = PartnerDao.searchPartner(sr);
-		if(plist.size()==2 && plist.get(0).equals(partner) && plist.get(1).equals(partner11)){
+		if(plist.size()==1 && plist.get(0).equals(partner)){
 			//Passed;
 		}else fail();
 		

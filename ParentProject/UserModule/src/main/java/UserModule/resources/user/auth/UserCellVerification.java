@@ -12,8 +12,6 @@ import UserModule.service.UserCellVerificationDaoService;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.model.User;
-import BaseModule.resources.PseudoResource;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 
