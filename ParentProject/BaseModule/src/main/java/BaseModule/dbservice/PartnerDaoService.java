@@ -3,10 +3,13 @@ package BaseModule.dbservice;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.partner.PartnerNotFoundException;
+import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
+import BaseModule.model.User;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 
 import java.sql.Connection;
@@ -32,8 +35,21 @@ public class PartnerDaoService {
 		return PartnerDao.addPartnerToDatabases(p,connections);
 	}
 	
+	public static boolean isCellPhoneAvailable(String phone){
+		try{
+			PartnerDao.getPartnerByPhone(phone);
+		}catch(PartnerNotFoundException ex){
+			return true;
+		}
+		return false;
+	}
+	
 	public static void changePassword(int partnerId, String oldPassword, String newPassword) throws AuthenticationException{
 		PartnerDao.changePartnerPassword(partnerId, oldPassword, newPassword);
+	}
+	
+	public static void recoverPassword(String phone, String newPassword) throws AuthenticationException{
+		PartnerDao.recoverUserPassword(phone, newPassword);
 	}
 	
 	public static Partner authenticatePartner(String phone,String password) throws AuthenticationException{

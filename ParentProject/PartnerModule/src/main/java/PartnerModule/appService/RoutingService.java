@@ -9,6 +9,8 @@ import BaseModule.configurations.ServerConfig;
 import PartnerModule.resources.course.CourseIdResource;
 import PartnerModule.resources.course.CourseResource;
 import PartnerModule.resources.partner.PartnerIdResource;
+import PartnerModule.resources.partner.auth.PartnerChangePassword;
+import PartnerModule.resources.partner.auth.PartnerForgetPassword;
 import PartnerModule.resources.partner.auth.PartnerLogin;
 import PartnerModule.resources.partner.auth.PartnerLogout;
 import PartnerModule.resources.partner.auth.PartnerSessionRedirect;
@@ -44,6 +46,13 @@ public class RoutingService extends Application {
 		String PartnerPrefix = "/partner";
 		// 	API for partner get/post : /api/v1.0/partner/partner/:id
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PartnerPrefix + "/{id}", PartnerIdResource.class);
+		
+		String ChangePasswordPrefix = "/changePassword";
+		//	API for partner logout: /api/v1.0/partner/changePassword
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ChangePasswordPrefix + "/{id}", PartnerChangePassword.class);
+		String ForgetPasswordPrefix = "/forgetPassword";
+		//	API for partner logout: /api/v1.0/partner/forgetPassword
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ForgetPasswordPrefix + "/{id}", PartnerForgetPassword.class);
 		
 		/** -------------------- APIs for partner module ------------------ **/
 		String courseServicePrefix = "/course";

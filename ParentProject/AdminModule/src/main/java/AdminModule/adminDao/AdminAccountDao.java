@@ -15,6 +15,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.encryption.SessionCrypto;
 import BaseModule.exception.AuthenticationException;
+import BaseModule.exception.PseudoException;
 
 
 
@@ -263,6 +264,10 @@ public class AdminAccountDao {
 			}
 		}
 		return account;
+	}
+	
+	public static void changeAdminAccountPassword(int adminId, String password) throws PseudoException{
+		//TODO
 	}
 	
 	private static AdminAccount createAdminAccountByResultSet(ResultSet rs) throws SQLException {

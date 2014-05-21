@@ -13,8 +13,10 @@ public class RedisPrefixConfig {
 	/* PartnerModule */
 	public static final String partnerSession_web_keyPrefix = "partner-session-web-";
 	public static final String partnerForgotPassword_keyPrefix = "partner-forgotPassword-";
+	public static final String partnerChangePasswordVerification_keyPrefix= "partner-changePasswordVerification-";
 	public static final long partnerSession_expireThreshold = 604800000l;		//7 days
 	public static final long partnerForgotPassword_expireThreshold = 21600000l;		//6h
+	public static final long partnerChangePasswordVerification_expireThreshold = 3600000l;	//1h
 	
 	/* AdminModule */
 	public static final String adminSession_web_keyPrefix = "admin-session-web-";
