@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.encryption.SessionCrypto;
+import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.partner.PartnerNotFoundException;
 import BaseModule.exception.validation.ValidationException;
@@ -28,7 +28,7 @@ public class PartnerDao {
 		String query = QueryFactory.getSearchQuery(sr);		
 		try{
 			stmt = conn.prepareStatement(query);
-			
+
 			if(sr.getPartnerId()>0){
 				stmt.setInt(stmtInt++, sr.getPartnerId());
 			}
@@ -41,8 +41,8 @@ public class PartnerDao {
 			if(sr.getPhone() != null && sr.getPhone().length() > 0){
 				stmt.setString(stmtInt++, sr.getPhone());
 			}
-				stmt.setInt(stmtInt++, AccountStatus.activated.code);
-			
+			stmt.setInt(stmtInt++, AccountStatus.activated.code);
+
 			if(sr.getInstName() != null && sr.getInstName().length() > 0){
 				stmt.setString(stmtInt++, sr.getInstName());
 			}
@@ -59,7 +59,7 @@ public class PartnerDao {
 			while(rs.next()){
 				plist.add(createPartnerByResultSet(rs));
 			}
-			
+
 		}catch(SQLException e){
 			DebugLog.d(e);
 			e.printStackTrace();
@@ -68,7 +68,7 @@ public class PartnerDao {
 		}
 		return plist;
 	}
-	
+
 	public static Partner addPartnerToDatabases(Partner p,Connection...connections) throws ValidationException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
@@ -82,14 +82,14 @@ public class PartnerDao {
 			stmt.setString(2, p.getLicence());
 			stmt.setString(3, p.getOrganizationNum());
 			stmt.setString(4, p.getReference());
-			stmt.setString(5, SessionCrypto.encrypt(p.getPassword()));
+			stmt.setString(5, PasswordCrypto.createHash(p.getPassword()));
 			stmt.setString(6, p.getPhone());
 			stmt.setString(7, DateUtility.toSQLDateTime(p.getCreationTime()));
 			stmt.setString(8, DateUtility.toSQLDateTime(p.getLastLogin()));
 			stmt.setInt(9, p.getStatus().code);
 			stmt.setString(10, p.getInstName());
 			stmt.setString(11, p.getLogoUrl());
-			
+
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -183,7 +183,7 @@ public class PartnerDao {
 
 		return partner;
 	}
-	
+
 	public static int getPartnerIdByReference(String reference,Connection...connections) throws PartnerNotFoundException{
 		String query = "SELECT * FROM PartnerDao WHERE reference = ?";
 		int partnerId = -1;
@@ -208,7 +208,7 @@ public class PartnerDao {
 
 		return partnerId;
 	}
-	
+
 	public static int getPartnerIdByInstName(String instName,Connection...connections) throws PartnerNotFoundException{
 		String query = "SELECT * FROM PartnerDao WHERE instName = ?";
 		int partnerId = -1;
@@ -233,7 +233,7 @@ public class PartnerDao {
 
 		return partnerId;
 	}
-	
+
 	public static Partner getPartnerByPhone(String phone) throws PartnerNotFoundException{
 		String query = "SELECT * FROM PartnerDao WHERE phone = ?";
 		Partner partner = null;
@@ -259,20 +259,19 @@ public class PartnerDao {
 
 		return partner;
 	}
-	
+
 	public static void changePartnerPassword(int partnerId, String oldPassword, String newPassword) throws AuthenticationException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
-		boolean validOldPassword = true;
-		String query = "SELECT * FROM PartnerDao where id = ? and password = ? ";
+		boolean validOldPassword = false;
+		String query = "SELECT * FROM PartnerDao where id = ? ";
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, partnerId);
-			stmt.setString(2, SessionCrypto.encrypt(oldPassword));			
+			stmt.setInt(1, partnerId);					
 			rs = stmt.executeQuery();						
-			if(!rs.next()){
-				validOldPassword = false;							
+			if(rs.next()){
+				validOldPassword = PasswordCrypto.validatePassword(oldPassword, rs.getString("password"));						
 			}		
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -286,40 +285,44 @@ public class PartnerDao {
 			query = "UPDATE PartnerDao set password = ? where id = ?";
 			try{
 				stmt = conn.prepareStatement(query);
-				stmt.setString(1, SessionCrypto.encrypt(newPassword));				
+				stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 				stmt.setInt(2, partnerId);
 				stmt.executeUpdate();
 			}catch(SQLException e){
 				e.printStackTrace();
 				DebugLog.d(e);
 			}catch(Exception e){
+				validOldPassword = false;
 				e.printStackTrace();
 				DebugLog.d(e);						
 			}finally{
-				EduDaoBasic.closeResources(conn, stmt, rs, true);				
+				EduDaoBasic.closeResources(conn, stmt, rs, true);
+				if(!validOldPassword){
+					throw new AuthenticationException();
+				}
 			}
 		}else {
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 			throw new AuthenticationException();
 		}		
 	}
-	
+
 	public static Partner authenticatePartner(String phone, String password) throws AuthenticationException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		Partner partner = null;
-		boolean validPassword = true;
-		String query = "SELECT * FROM PartnerDao where phone = ? and password = ? ";
+		boolean validPassword = false;
+		String query = "SELECT * FROM PartnerDao where phone = ? ";
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setString(1, phone);
-			stmt.setString(2, SessionCrypto.encrypt(password));
+			stmt.setString(1, phone);			
 			rs = stmt.executeQuery();		
 			if(rs.next()){
-				partner = createPartnerByResultSet(rs);
-			}else{
-				validPassword = false;
+				validPassword = PasswordCrypto.validatePassword(password, rs.getString("password"));
+				if(validPassword){
+					partner = createPartnerByResultSet(rs);
+				}				
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -336,7 +339,7 @@ public class PartnerDao {
 		}
 		return partner;
 	}
-	
+
 	public static void recoverPartnerPassword(String phone, String newPassword) throws AuthenticationException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
@@ -345,7 +348,7 @@ public class PartnerDao {
 		boolean success = true;
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setString(1, SessionCrypto.encrypt(newPassword));				
+			stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 			stmt.setString(2, phone);
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){

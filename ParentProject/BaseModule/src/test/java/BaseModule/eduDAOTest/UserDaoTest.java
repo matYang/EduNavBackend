@@ -230,7 +230,7 @@ public class UserDaoTest {
 		user = UserDao.getUserById(user.getUserId());
 		
 		String name11 = "name11";
-		String phone11 = "phone";
+		String phone11 = "phone1";
 		String password11 = "password11";		
 		User user11 = new User(name11, phone11, password11,status);
 		user11 = UserDao.addUserToDatabase(user11);
@@ -244,14 +244,14 @@ public class UserDaoTest {
 		user2 = UserDao.getUserById(user2.getUserId());
 		
 		String name22 = "name22";
-		String phone22 = "phone";
+		String phone22 = "phone3";
 		String password22 = "password22";		
 		User user22 = new User(name22, phone22, password22,status);
 		user22 = UserDao.addUserToDatabase(user22);
 		user22 = UserDao.getUserById(user22.getUserId());
 		
 		String name3 = "name3";
-		String phone3 = "phone3";
+		String phone3 = "phone4";
 		String password3 = "password3";		
 		User user3 = new User(name3, phone3, password3,status);
 		user3 = UserDao.addUserToDatabase(user3);
@@ -268,9 +268,7 @@ public class UserDaoTest {
 		sr.setName(null);
 		sr.setPhone("phone");
 		ulist = UserDao.searchUser(sr);
-		if(ulist.size()==3 && ulist.get(0).equals(user)
-				&& ulist.get(1).equals(user11)
-				&& ulist.get(2).equals(user22)){
+		if(ulist.size()==1 && ulist.get(0).equals(user)){
 			//Passed;
 		}else fail();
 		

@@ -1,7 +1,6 @@
 package UserModule.resources.user.auth;
 
 import java.io.IOException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
@@ -9,16 +8,11 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
-
 import UserModule.resources.UserPseudoResource;
-import UserModule.service.UserCellVerificationDaoService;
-import UserModule.service.UserChangePasswordVerificationDaoService;
 import UserModule.service.UserForgotPasswordDaoService;
-
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
 import BaseModule.model.User;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
