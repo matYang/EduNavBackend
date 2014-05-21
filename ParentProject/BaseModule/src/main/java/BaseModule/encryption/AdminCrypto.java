@@ -1,55 +1,25 @@
 package BaseModule.encryption;
 
-import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-public class PasswordCrypto {
-	
-	public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
-
-    // The following constants may be changed without breaking existing hashes.
-    public static final int SALT_BYTE_SIZE = 32;
-    public static final int HASH_BYTE_SIZE = 32;
-    public static final int PBKDF2_ITERATIONS = 1000;
-
-    public static final int ITERATION_INDEX = 0;
-    public static final int SALT_INDEX = 1;
-    public static final int PBKDF2_INDEX = 2;
-
-    
-    public static String createHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        return createHash(password.toCharArray());
-    }
-
-
-    private static String createHash(char[] password) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        // Generate a random salt
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[SALT_BYTE_SIZE];
-        random.nextBytes(salt);
-        // Hash the password
-        byte[] hash = pbkdf2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
-        // format iterations:salt:hash
-        return PBKDF2_ITERATIONS + ":" + toHex(salt) + ":" +  toHex(hash);
-    }
+public class AdminCrypto {
+	 private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 
 
     public static boolean validatePassword(String password, String correctHash)throws NoSuchAlgorithmException, InvalidKeySpecException{
         return validatePassword(password.toCharArray(), correctHash);
     }
 
-
     private static boolean validatePassword(char[] password, String correctHash)throws NoSuchAlgorithmException, InvalidKeySpecException{
         // Decode the hash into its parameters
         String[] params = correctHash.split(":");
-        int iterations = Integer.parseInt(params[ITERATION_INDEX]);
-        byte[] salt = fromHex(params[SALT_INDEX]);
-        byte[] hash = fromHex(params[PBKDF2_INDEX]);
+        int iterations = 3000;
+        byte[] salt = fromHex(params[0]);
+        byte[] hash = fromHex(params[1]);
         // Compute the hash of the provided password, using the same salt, 
         // iteration count, and hash length
         byte[] testHash = pbkdf2(password, salt, iterations, hash.length);
@@ -79,17 +49,6 @@ public class PasswordCrypto {
             binary[i] = (byte)Integer.parseInt(hex.substring(2*i, 2*i+2), 16);
         }
         return binary;
-    }
-
-
-    private static String toHex(byte[] array){
-        BigInteger bi = new BigInteger(1, array);
-        String hex = bi.toString(16);
-        int paddingLength = (array.length * 2) - hex.length();
-        if(paddingLength > 0)
-            return String.format("%0" + paddingLength + "d", 0) + hex;
-        else
-            return hex;
     }
 
 }

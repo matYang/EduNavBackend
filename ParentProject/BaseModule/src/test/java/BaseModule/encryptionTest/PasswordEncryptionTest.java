@@ -5,14 +5,14 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import BaseModule.common.DateUtility;
+import BaseModule.encryption.AdminCrypto;
 import BaseModule.encryption.PasswordCrypto;
 
 public class PasswordEncryptionTest {
 
-	@Test
+	//@Test
 	public void test() {
-		try
-        {
+		try{
             // Print out 10 hashes
             for(int i = 0; i < 10; i++)
                 System.out.println(PasswordCrypto.createHash("p\r\nassw0Rd!"));
@@ -43,11 +43,9 @@ public class PasswordEncryptionTest {
             else
                 System.out.println("TESTS PASSED!");
             	System.out.println("System time: " + DateUtility.castToAPIFormat(DateUtility.getCurTimeInstance()));
-        }
-        catch(Exception ex)
-        {
+        } catch(Exception ex) {
             System.out.println("ERROR: " + ex);
         }
 	}
-
+	
 }
