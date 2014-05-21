@@ -29,6 +29,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 
 import BaseModule.model.Partner;
+import BaseModule.staticDataService.StaticDataService;
 
 public class PartnerIdResource extends AdminPseudoResource{
 
@@ -55,7 +56,8 @@ public class PartnerIdResource extends AdminPseudoResource{
 			
 			// 3/ Get the specified partner
 			Partner partner = PartnerDaoService.getPartnerById(partnerId);
-
+			String oldPName = partner.getInstName();
+			
 			// 4/ Request is parsed by the handler which generates a list of FileItems
 			items = upload.parseRepresentation(entity); 
 			for (final Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
@@ -99,6 +101,7 @@ public class PartnerIdResource extends AdminPseudoResource{
 			partner.setInstName(instName);
 			partner.setLogoUrl(logoUrl);
 			
+			StaticDataService.updatePName(oldPName, instName);
 			PartnerDaoService.updatePartner(partner);
 			
 		}catch (PseudoException e){

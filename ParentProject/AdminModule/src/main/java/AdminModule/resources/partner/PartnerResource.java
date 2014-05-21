@@ -37,6 +37,7 @@ import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
+import BaseModule.staticDataService.StaticDataService;
 
 public class PartnerResource extends AdminPseudoResource{
 	
@@ -136,6 +137,7 @@ public class PartnerResource extends AdminPseudoResource{
 			partner.setInstName(instName);
 			partner.setLogoUrl(logoUrl);
 			
+			StaticDataService.addPName(instName);
 			PartnerDaoService.updatePartner(partner);
 			
 		}catch (PseudoException e){
