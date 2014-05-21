@@ -91,7 +91,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			String reference = ReferenceFactory.generateAdminReference();
 			String password = jsonAdmin.getString("password");
 			String confirmPassword = jsonAdmin.getString("confirmPassword");			
-			Privilege privilege = Privilege.fromInt(jsonAdmin.getInt("privilege"));
+			Privilege privilege = Privilege.routine;
 			AccountStatus status = AccountStatus.fromInt(jsonAdmin.getInt("status"));
 			
 			account = new  AdminAccount(name, phone,reference,privilege,status,password);

@@ -15,7 +15,7 @@ public class EnumConfig {
     }
 	
 	public static enum Privilege{
-        first(0),business(1),economy(2);
+        root(0),mamagement(1),routine(2);
         public int code;
         Privilege(int code){
             this.code = code;

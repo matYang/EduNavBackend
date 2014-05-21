@@ -88,7 +88,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 				
 			AdminAccount account = AdminAccountDaoService.getAdminAccountById(adminId);
 			account.setPhone(contact.getString("phone"));
-			account.setPrivilege(Privilege.fromInt(contact.getInt("privilege")));
+			account.setPrivilege(Privilege.routine);
 			account.setReference(contact.getString("reference"));
 			account.setStatus(AccountStatus.fromInt(contact.getInt("status")));
 			account.setName(contact.getString("name"));	
