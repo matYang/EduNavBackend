@@ -29,7 +29,7 @@ public class SessionCleaner {
 					redis.del(key);
 				}
 			}
-			//UserBooking
+			//UserChangePassword
 			keys = redis.keys(RedisPrefixConfig.userChangePasswordVerification_keyPrefix+"*");		
 			for(String key : keys){
 				String sessionString = redis.get(key);
@@ -74,6 +74,15 @@ public class SessionCleaner {
 				String sessionString = redis.get(key);
 				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
 				if(timeStamp + RedisPrefixConfig.partnerForgotPassword_expireThreshold < now){
+					redis.del(key);
+				}
+			}
+			//PartnerChangePassword
+			keys = redis.keys(RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix+"*");		
+			for(String key : keys){
+				String sessionString = redis.get(key);
+				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
+				if(timeStamp + RedisPrefixConfig.partnerChangePasswordVerification_expireThreshold < now){
 					redis.del(key);
 				}
 			}

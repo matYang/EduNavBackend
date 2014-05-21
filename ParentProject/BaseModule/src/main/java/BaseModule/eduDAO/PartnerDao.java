@@ -337,8 +337,33 @@ public class PartnerDao {
 		return partner;
 	}
 	
-	public static void recoverUserPassword(String phone, String newPassword) throws AuthenticationException{
-		//TODO
+	public static void recoverPartnerPassword(String phone, String newPassword) throws AuthenticationException{
+		Connection conn = EduDaoBasic.getSQLConnection();
+		PreparedStatement stmt = null;		
+		ResultSet rs = null;
+		String query = "UPDATE PartnerDao set password = ? where phone = ?";
+		boolean success = true;
+		try{
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, SessionCrypto.encrypt(newPassword));				
+			stmt.setString(2, phone);
+			int recordsAffected = stmt.executeUpdate();
+			if(recordsAffected==0){
+				success = false;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			DebugLog.d(e);
+		}catch(Exception e){
+			success = false;
+			e.printStackTrace();
+			DebugLog.d(e);			
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			if(!success){
+				throw new AuthenticationException("手机号码或密码输入有误");
+			}
+		}
 	}
 
 	private static Partner createPartnerByResultSet(ResultSet rs) throws SQLException {

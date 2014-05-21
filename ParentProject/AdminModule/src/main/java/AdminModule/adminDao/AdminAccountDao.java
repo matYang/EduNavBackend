@@ -267,7 +267,32 @@ public class AdminAccountDao {
 	}
 	
 	public static void changeAdminAccountPassword(int adminId, String password) throws PseudoException{
-		//TODO
+		Connection conn = EduDaoBasic.getSQLConnection();
+		PreparedStatement stmt = null;		
+		ResultSet rs = null;
+		String query = "UPDATE AdminAccountDao set password = ? where id = ?";
+		boolean success = true;
+		try{
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, SessionCrypto.encrypt(password));				
+			stmt.setInt(2, adminId);
+			int recordsAffected = stmt.executeUpdate();
+			if(recordsAffected==0){
+				success = false;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			DebugLog.d(e);
+		}catch(Exception e){
+			success = false;
+			e.printStackTrace();
+			DebugLog.d(e);			
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			if(!success){
+				throw new AuthenticationException("手机号码或密码输入有误");
+			}
+		}
 	}
 	
 	private static AdminAccount createAdminAccountByResultSet(ResultSet rs) throws SQLException {

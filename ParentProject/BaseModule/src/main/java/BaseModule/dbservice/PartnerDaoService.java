@@ -1,15 +1,11 @@
 package BaseModule.dbservice;
 
 import java.util.ArrayList;
-
 import BaseModule.eduDAO.PartnerDao;
-import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.partner.PartnerNotFoundException;
-import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
-import BaseModule.model.User;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 
 import java.sql.Connection;
@@ -49,7 +45,7 @@ public class PartnerDaoService {
 	}
 	
 	public static void recoverPassword(String phone, String newPassword) throws AuthenticationException{
-		PartnerDao.recoverUserPassword(phone, newPassword);
+		PartnerDao.recoverPartnerPassword(phone, newPassword);
 	}
 	
 	public static Partner authenticatePartner(String phone,String password) throws AuthenticationException{

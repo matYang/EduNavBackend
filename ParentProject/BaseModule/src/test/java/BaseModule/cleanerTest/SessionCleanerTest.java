@@ -24,6 +24,8 @@ public class SessionCleanerTest {
 	private static final int userCellVerification_authCodeLength = 6;
 	private static final int userForgotPassword_authCodeLength = 8;
 	private static final int partnerForgotPassword_authCodeLength = 8;
+	private static final int partnerChangePasswordVerification_authCodeLength = 6;
+
 	@Test
 	public void test(){
 		EduDaoBasic.clearBothDatabase();
@@ -132,22 +134,39 @@ public class SessionCleanerTest {
 		String sessionString12 = RandomStringUtils.randomAlphanumeric(partnerForgotPassword_authCodeLength) + DatabaseConfig.redisSeperator + badTimeStamp;		
 		redis.set(redisKey, sessionString12);
 
+		//PartnerChangePassword
+		userId++;			
+		redisKey = RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix+ userId;
+		badTime = DateUtility.getCurTimeInstance();
+		badTime.add(Calendar.MINUTE, 1);
+		badTimeStamp = badTime.getTimeInMillis();
+		String sessionString13 = RandomStringUtils.randomAlphanumeric(partnerChangePasswordVerification_authCodeLength) + DatabaseConfig.redisSeperator + badTimeStamp;
+		redis.set(redisKey, sessionString13);
+
+		userId++;		
+		redisKey = RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix + userId;
+		badTime = DateUtility.getCurTimeInstance();
+		badTime.add(Calendar.HOUR_OF_DAY, -9);
+		badTimeStamp = badTime.getTimeInMillis();
+		String sessionString14 = RandomStringUtils.randomAlphanumeric(partnerChangePasswordVerification_authCodeLength) + DatabaseConfig.redisSeperator + badTimeStamp;		
+		redis.set(redisKey, sessionString14);
+
 		//AdminAuth
 		userId++;			
 		redisKey = RedisPrefixConfig.adminSession_web_keyPrefix+ userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.MINUTE, 1);
 		badTimeStamp = badTime.getTimeInMillis();
-		String sessionString13 = userId + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(adminSession_web_authCodeLength) + DatabaseConfig.redisSeperator + badTimeStamp;
-		redis.set(redisKey, sessionString13);
+		String sessionString15 = userId + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(adminSession_web_authCodeLength) + DatabaseConfig.redisSeperator + badTimeStamp;
+		redis.set(redisKey, sessionString15);
 
 		userId++;		
 		redisKey = RedisPrefixConfig.adminSession_web_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.DAY_OF_WEEK_IN_MONTH, -10);
 		badTimeStamp = badTime.getTimeInMillis();
-		String sessionString14 = userId + DatabaseConfig.redisSeperator +RandomStringUtils.randomAlphanumeric(adminSession_web_authCodeLength) + DatabaseConfig.redisSeperator + badTimeStamp;		
-		redis.set(redisKey, sessionString14);
+		String sessionString16 = userId + DatabaseConfig.redisSeperator +RandomStringUtils.randomAlphanumeric(adminSession_web_authCodeLength) + DatabaseConfig.redisSeperator + badTimeStamp;		
+		redis.set(redisKey, sessionString16);
 
 		EduDaoBasic.returnJedis(redis);
 
@@ -242,6 +261,19 @@ public class SessionCleanerTest {
 			}	
 			itr++;
 		}
+		//PartnerChangePassword
+		itr = 0;
+		keys = redis.keys(RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix+"*");		
+		if(keys.size() != 1){
+			fail();
+		}
+		for(String key : keys){
+			String sessionString = redis.get(key);
+			if(itr==0){
+				if(!sessionString.equals(sessionString13))fail();
+			}	
+			itr++;
+		}
 
 		/* AdminModule */
 
@@ -254,7 +286,7 @@ public class SessionCleanerTest {
 		for(String key : keys){
 			String sessionString = redis.get(key);
 			if(itr==0){
-				if(!sessionString.equals(sessionString13))fail();
+				if(!sessionString.equals(sessionString15))fail();
 			}	
 			itr++;
 		}
