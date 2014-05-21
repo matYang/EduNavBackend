@@ -15,6 +15,7 @@ import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
+import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.ReferenceFactory;
@@ -22,7 +23,7 @@ import AdminModule.factory.JSONFactory;
 import BaseModule.service.ValidationService;
 
 public class AdminAccountResource extends AdminPseudoResource{
-	
+	public static final String superAdminKey = "fhoFSE8932hDFfds9HFS";
 	
 	/**
 	 * Retrieve all admins from server. This API is intended solely for testing
@@ -53,8 +54,31 @@ public class AdminAccountResource extends AdminPseudoResource{
 		AdminAccount creationFeedBack = null;
 		
 		try{
-			this.checkEntity(entity);			
+			this.checkEntity(entity);
 			AdminAccount account = validateAdminAccountJSON(entity);
+			try{
+				int adminId = this.validateAuthentication();
+				AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
+				if (admin.getPrivilege() == Privilege.root){
+					account.setPrivilege(Privilege.mamagement);
+				}
+				else if (admin.getPrivilege() == Privilege.mamagement){
+					account.setPrivilege(Privilege.routine);
+				}
+				else{
+					throw new ValidationException("无权操作");
+				}
+			} catch (AuthenticationException e){
+				String secret = this.getQueryVal("secret");
+				if (!superAdminKey.equals(secret)){
+					throw e;
+				}
+				else{
+					account.setPrivilege(Privilege.root);
+				}
+			}
+				
+			
 			creationFeedBack = AdminAccountDaoService.createAdminAccount(account);			
 			
 			//first close authentication as it is registration, then open brand new authentication
