@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import org.junit.Test;
-
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
@@ -170,7 +169,43 @@ public class PartnerDaoTest {
 	}
 
 	@Test
-	public void testAuthUser() throws ValidationException{
+	public void testRecoverPassword() throws ValidationException, AuthenticationException{
+		EduDaoBasic.clearBothDatabase();
+		String name = "XDF";
+		String instName = "daofeng";
+		String licence = "234fdsfsdgergf-dsv,.!@";
+		String organizationNum = "1235454361234";
+		String reference = "dsf4r";
+		String password = "sdf234r";
+		String phone = "123545451";
+		AccountStatus status = AccountStatus.activated;
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
+		partner = PartnerDao.addPartnerToDatabases(partner);
+		
+		try{
+			PartnerDao.recoverPartnerPassword(phone, "newPassword");
+		}catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+		
+		if(PartnerDao.authenticatePartner(phone, "newPassword").equals(partner)){
+			//Passed;
+		}else fail();
+		
+		boolean fail = true;
+		try{
+			PartnerDao.authenticatePartner(phone, "badPassword");
+		}catch(Exception e){
+			//Passed;
+			fail = false;
+		}
+		
+		if(fail) fail();
+	}
+	
+	@Test
+	public void testAuthPartner() throws ValidationException{
 		EduDaoBasic.clearBothDatabase();
 		String name = "XDF";
 		String instName = "daofeng";

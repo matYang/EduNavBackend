@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import org.junit.Test;
-
 import AdminModule.adminDao.AdminAccountDao;
 import AdminModule.exception.AdminAccountNotFoundException;
 import AdminModule.model.AdminAccount;
@@ -13,6 +12,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
+
 
 
 public class AdminAccountDaoTest {
@@ -154,7 +154,41 @@ public class AdminAccountDaoTest {
 	}
 
 	@Test
-	public void testAuthUser() throws ValidationException{
+	public void testRecoverPassword() throws ValidationException, AuthenticationException{
+		EduDaoBasic.clearBothDatabase();
+		String name = "Harry";
+		String phone = "123445676543";
+		String reference = "dsfdsf";
+		Privilege privilege = Privilege.mamagement;
+		AccountStatus status = AccountStatus.activated;
+		String password = "hgfudifhg3489";
+		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
+		account = AdminAccountDao.addAdminAccountToDatabases(account);
+		
+		try{
+			AdminAccountDao.changeAdminAccountPassword(account.getAdminId(), "newPassword");
+		}catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+		
+		if(AdminAccountDao.addAdminAccountToDatabases(account).equals(account)){
+			//Passed;
+		}else fail();
+		
+		boolean fail = true;
+		try{
+			AdminAccountDao.authenticateAdminAccount(reference, "badPassword");
+		}catch(Exception e){
+			//Passed;
+			fail = false;
+		}
+		
+		if(fail) fail();
+	}
+	
+	@Test
+	public void testAuthAdmin() throws ValidationException{
 		EduDaoBasic.clearBothDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
