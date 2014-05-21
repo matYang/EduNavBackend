@@ -13,15 +13,10 @@ import BaseModule.service.RedisUtilityService;
 
 public class UserChangePasswordVerificationDaoService {
 	
-	private static final String userChangePasswordVerification_keyPrefix = RedisPrefixConfig.userChangePasswordVerification_keyPrefix;
-	private static final int userChangePasswordVerification_authCodeLength = 6;
-	private static final long userChangePasswordVerification_expireThreshold = 3600000l;	//1h
-	private static final long userChangePasswordVerification_resendThreshold = 60000l;	//1h
-	
 	public static boolean valdiateSession(int id, String authCode){
 		Jedis jedis = EduDaoBasic.getJedis();
 		try{
-			String redisKey = userChangePasswordVerification_keyPrefix + id;
+			String redisKey = RedisPrefixConfig.userChangePasswordVerification_keyPrefix + id;
 			String sessionString = jedis.get(redisKey);
 			
 			if(!RedisUtilityService.isValuedStored(sessionString)){
@@ -33,7 +28,7 @@ public class UserChangePasswordVerificationDaoService {
 				if(!redis_authCode.equals(authCode)){
 					return false;
 				}
-				if((DateUtility.getCurTime() - redis_timeStamp) > userChangePasswordVerification_expireThreshold){
+				if((DateUtility.getCurTime() - redis_timeStamp) > RedisPrefixConfig.userChangePasswordVerification_expireThreshold){
 					jedis.del(redisKey);
 					return false;
 				}
@@ -52,17 +47,17 @@ public class UserChangePasswordVerificationDaoService {
 		String authCode;
 		
 		try{
-			String redisKey = userChangePasswordVerification_keyPrefix + id;
+			String redisKey = RedisPrefixConfig.userChangePasswordVerification_keyPrefix + id;
 			String previousRecord = jedis.get(redisKey);
 			if (RedisUtilityService.isValuedStored(previousRecord)){
 				//check if should resend
 				long redis_timeStamp = DateUtility.getLongFromTimeStamp(previousRecord.split(DatabaseConfig.redisSeperatorRegex)[1]);
-				if((DateUtility.getCurTime() - redis_timeStamp) <= userChangePasswordVerification_resendThreshold){
+				if((DateUtility.getCurTime() - redis_timeStamp) <= RedisPrefixConfig.userChangePasswordVerification_resendThreshold){
 					throw new ValidationException("连续请求过快");
 				}
 			}
 			
-			authCode = RandomStringUtils.randomAlphanumeric(userChangePasswordVerification_authCodeLength).toUpperCase();
+			authCode = RandomStringUtils.randomAlphanumeric(RedisPrefixConfig.userChangePasswordVerification_authCodeLength).toUpperCase();
 			String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
 			
 			jedis.set(redisKey, sessionString);
@@ -78,7 +73,7 @@ public class UserChangePasswordVerificationDaoService {
 		Jedis jedis = EduDaoBasic.getJedis();
 		boolean result;
 		try{
-			result = jedis.del(userChangePasswordVerification_keyPrefix + id) == 1;
+			result = jedis.del(RedisPrefixConfig.userChangePasswordVerification_keyPrefix + id) == 1;
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
 		}

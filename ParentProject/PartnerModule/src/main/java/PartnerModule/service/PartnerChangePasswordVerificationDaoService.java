@@ -13,15 +13,10 @@ import BaseModule.service.RedisUtilityService;
 
 public class PartnerChangePasswordVerificationDaoService {
 	
-	private static final String partnerChangePasswordVerification_keyPrefix = RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix;
-	private static final int partnerChangePasswordVerification_authCodeLength = 6;
-	private static final long partnerChangePasswordVerification_expireThreshold = 3600000l;	//1h
-	private static final long partnerChangePasswordVerification_resendThreshold = 60000l;	//1h
-	
 	public static boolean valdiateSession(int id, String authCode){
 		Jedis jedis = EduDaoBasic.getJedis();
 		try{
-			String redisKey = partnerChangePasswordVerification_keyPrefix + id;
+			String redisKey = RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix + id;
 			String sessionString = jedis.get(redisKey);
 			
 			if(!RedisUtilityService.isValuedStored(sessionString)){
@@ -33,7 +28,7 @@ public class PartnerChangePasswordVerificationDaoService {
 				if(!redis_authCode.equals(authCode)){
 					return false;
 				}
-				if((DateUtility.getCurTime() - redis_timeStamp) > partnerChangePasswordVerification_expireThreshold){
+				if((DateUtility.getCurTime() - redis_timeStamp) > RedisPrefixConfig.partnerChangePasswordVerification_expireThreshold){
 					jedis.del(redisKey);
 					return false;
 				}
@@ -52,17 +47,17 @@ public class PartnerChangePasswordVerificationDaoService {
 		String authCode;
 		
 		try{
-			String redisKey = partnerChangePasswordVerification_keyPrefix + id;
+			String redisKey = RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix + id;
 			String previousRecord = jedis.get(redisKey);
 			if (RedisUtilityService.isValuedStored(previousRecord)){
 				//check if should resend
 				long redis_timeStamp = DateUtility.getLongFromTimeStamp(previousRecord.split(DatabaseConfig.redisSeperatorRegex)[1]);
-				if((DateUtility.getCurTime() - redis_timeStamp) <= partnerChangePasswordVerification_resendThreshold){
+				if((DateUtility.getCurTime() - redis_timeStamp) <= RedisPrefixConfig.partnerChangePasswordVerification_resendThreshold){
 					throw new ValidationException("连续请求过快");
 				}
 			}
 			
-			authCode = RandomStringUtils.randomAlphanumeric(partnerChangePasswordVerification_authCodeLength).toUpperCase();
+			authCode = RandomStringUtils.randomAlphanumeric(RedisPrefixConfig.partnerChangePasswordVerification_authCodeLength).toUpperCase();
 			String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
 			
 			jedis.set(redisKey, sessionString);
@@ -78,7 +73,7 @@ public class PartnerChangePasswordVerificationDaoService {
 		Jedis jedis = EduDaoBasic.getJedis();
 		boolean result;
 		try{
-			result = jedis.del(partnerChangePasswordVerification_keyPrefix + id) == 1;
+			result = jedis.del(RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix + id) == 1;
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
 		}

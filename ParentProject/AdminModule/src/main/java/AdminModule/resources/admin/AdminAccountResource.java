@@ -20,7 +20,7 @@ import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.ReferenceFactory;
-import AdminModule.factory.JSONFactory;
+import AdminModule.factory.AdminJSONFactory;
 import BaseModule.service.ValidationService;
 
 public class AdminAccountResource extends AdminPseudoResource{
@@ -37,7 +37,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 		try {
 			this.validateAuthentication();
 			ArrayList<AdminAccount> allAdminAccounts = AdminAccountDaoService.getAllAdminAccounts();
-			jsonArray = JSONFactory.toJSON(allAdminAccounts);
+			jsonArray = AdminJSONFactory.toJSON(allAdminAccounts);
 		}  catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -90,7 +90,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			this.closeAuthentication();
 			this.openAuthentication(creationFeedBack.getAdminId());
 
-			newJsonAdmin = JSONFactory.toJSON(creationFeedBack);
+			newJsonAdmin = AdminJSONFactory.toJSON(creationFeedBack);
 
 		} catch(PseudoException e){
 			this.addCORSHeader();

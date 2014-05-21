@@ -12,7 +12,7 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 
 import AdminModule.dbservice.AdminAccountDaoService;
-import AdminModule.factory.JSONFactory;
+import AdminModule.factory.AdminJSONFactory;
 import AdminModule.model.AdminAccount;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
@@ -60,7 +60,7 @@ public class AdminChangePassword extends AdminPseudoResource{
 
 			AdminAccountDaoService.changeAdminPassword(targetAdminId, jsonPassword.getString("password"));
 			
-			response = JSONFactory.toJSON(targetAccount);
+			response = AdminJSONFactory.toJSON(targetAccount);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){

@@ -13,15 +13,10 @@ import BaseModule.service.RedisUtilityService;
 
 public class AdminAuthDaoService {
 
-	private static final String adminSession_web_keyPrefix = RedisPrefixConfig.adminSession_web_keyPrefix;
-	private static final int adminSession_web_authCodeLength = 15;
-	private static final long adminSession_updateThreshold = 259200000l;		//3 days
-	private static final long adminSession_expireThreshold = 604800000l;		//7 days
-
 	public static boolean validateSession(int id, String authCode, long timeStamp){
 		Jedis jedis = EduDaoBasic.getJedis();
 		try{
-			String redisKey = adminSession_web_keyPrefix + id;
+			String redisKey = RedisPrefixConfig.adminSession_web_keyPrefix + id;
 			String sessionString = jedis.get(redisKey);
 			
 			if(!RedisUtilityService.isValuedStored(sessionString)){
@@ -34,12 +29,12 @@ public class AdminAuthDaoService {
 				if(id != redis_adminId || !redis_authCode.equals(authCode)){
 					return false;
 				}
-				if((DateUtility.getCurTime() - redis_timeStamp) > adminSession_expireThreshold){
+				if((DateUtility.getCurTime() - redis_timeStamp) > RedisPrefixConfig.adminSession_expireThreshold){
 					//if expired, clean up and return false
 					jedis.del(redisKey);
 					return false;
 				}
-				if ((DateUtility.getCurTime() - redis_timeStamp) > adminSession_updateThreshold){
+				if ((DateUtility.getCurTime() - redis_timeStamp) > RedisPrefixConfig.adminSession_updateThreshold){
 					//if should update, udpate only the time stamp in the kvp
 					jedis.set(redisKey, id + DatabaseConfig.redisSeperator + authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp());
 				}
@@ -59,8 +54,8 @@ public class AdminAuthDaoService {
 		String sessionString;
 		
 		try{
-			String redisKey = adminSession_web_keyPrefix + id;
-			sessionString = id + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(adminSession_web_authCodeLength) + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+			String redisKey = RedisPrefixConfig.adminSession_web_keyPrefix + id;
+			sessionString = id + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(RedisPrefixConfig.adminSession_web_authCodeLength) + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
 			
 			jedis.set(redisKey, sessionString);
 		} finally{
@@ -76,7 +71,7 @@ public class AdminAuthDaoService {
 		boolean result;
 		
 		try{
-			result = jedis.del(adminSession_web_keyPrefix + id) == 1;
+			result = jedis.del(RedisPrefixConfig.adminSession_web_keyPrefix + id) == 1;
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
 		}

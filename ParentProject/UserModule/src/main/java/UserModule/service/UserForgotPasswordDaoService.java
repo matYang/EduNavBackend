@@ -13,15 +13,10 @@ import BaseModule.service.RedisUtilityService;
 
 public class UserForgotPasswordDaoService {
 	
-	private static final String userForgotPassword_keyPrefix =  RedisPrefixConfig.userForgotPassword_keyPrefix;
-	private static final int userForgotPassword_authCodeLength = 8;
-	private static final long userForgotPassword_expireThreshold = 21600000l;		//6h
-	private static final long userForgotPassword_resendThreshould = 60000l;			//1min
-	
 	public static boolean valdiateSession(String cellNum, String authCode){
 		Jedis jedis = EduDaoBasic.getJedis();
 		try{
-			String redisKey = userForgotPassword_keyPrefix + cellNum;
+			String redisKey = RedisPrefixConfig.userForgotPassword_keyPrefix + cellNum;
 			String sessionString = jedis.get(redisKey);
 			
 			if(!RedisUtilityService.isValuedStored(sessionString)){
@@ -33,7 +28,7 @@ public class UserForgotPasswordDaoService {
 				if(!redis_authCode.equals(authCode)){
 					return false;
 				}
-				if((DateUtility.getCurTime() - redis_timeStamp) > userForgotPassword_expireThreshold){
+				if((DateUtility.getCurTime() - redis_timeStamp) > RedisPrefixConfig.userForgotPassword_expireThreshold){
 					jedis.del(redisKey);
 					return false;
 				}
@@ -52,17 +47,17 @@ public class UserForgotPasswordDaoService {
 		String authCode;
 		
 		try{
-			String redisKey = userForgotPassword_keyPrefix + cellNum;
+			String redisKey = RedisPrefixConfig.userForgotPassword_keyPrefix + cellNum;
 			String previousRecord = jedis.get(redisKey);
 			if (RedisUtilityService.isValuedStored(previousRecord)){
 				//check if should resend
 				long redis_timeStamp = DateUtility.getLongFromTimeStamp(previousRecord.split(DatabaseConfig.redisSeperatorRegex)[1]);
-				if((DateUtility.getCurTime() - redis_timeStamp) <= userForgotPassword_resendThreshould){
+				if((DateUtility.getCurTime() - redis_timeStamp) <= RedisPrefixConfig.userForgotPassword_resendThreshould){
 					throw new ValidationException("连续请求过快");
 				}
 			}
 			
-			authCode = RandomStringUtils.randomAlphanumeric(userForgotPassword_authCodeLength);
+			authCode = RandomStringUtils.randomAlphanumeric(RedisPrefixConfig.userForgotPassword_authCodeLength);
 			String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
 			
 			jedis.set(redisKey, sessionString);
@@ -78,7 +73,7 @@ public class UserForgotPasswordDaoService {
 		boolean result;
 		
 		try{
-			result = jedis.del(userForgotPassword_keyPrefix + cellNum) == 1;
+			result = jedis.del(RedisPrefixConfig.userForgotPassword_keyPrefix + cellNum) == 1;
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
 		}
