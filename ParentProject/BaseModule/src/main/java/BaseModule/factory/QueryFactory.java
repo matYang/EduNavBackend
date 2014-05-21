@@ -64,9 +64,9 @@ public class QueryFactory {
 			start = true;
 		}else{
 			query += "and ";
-		}
+		}	
 		
-		query += "price = ? and status = ? ";
+		query +="price >= ? and price <= ? and status = ? ";
 		
 		if(sr.getReference() !=null && sr.getReference().length() > 0){
 			if(!start){

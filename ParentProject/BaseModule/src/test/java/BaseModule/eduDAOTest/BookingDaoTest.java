@@ -115,7 +115,7 @@ public class BookingDaoTest {
 		String reference2 = "dsfsdfdsr";
 		String ppassword2 = "sdf4r";
 		String phone2 = "12351";		
-		Partner partner2 = new Partner(pname2, instName,licence2, organizationNum2,reference2, ppassword2, phone2,status);
+		Partner partner2 = new Partner(pname2, instName+"2",licence2, organizationNum2,reference2, ppassword2, phone2,status);
 		PartnerDao.addPartnerToDatabases(partner2);
 		
 		int p_Id = partner.getPartnerId();
@@ -406,32 +406,32 @@ public class BookingDaoTest {
 		int partnerId = partner.getPartnerId();
 		int courseId = course.getCourseId();		
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
-		Booking booking = new Booking(timeStamp,course.getStartTime(), course.getFinishTime(), course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),partner.getReference(),status);
+		Booking booking = new Booking(timeStamp,course.getStartTime(), course.getFinishTime(), 2000, userId, partnerId, courseId, user.getName(), partner.getPhone(),partner.getReference(),status);
 		BookingDao.addBookingToDatabases(booking);		
 		booking = BookingDao.getBookingById(booking.getBookingId());
 		
 		//Booking II: user, partner, course2
 		int course2Id = course2.getCourseId();
-		Booking booking2 = new Booking(timeStamp,course2.getStartTime(), course2.getFinishTime(), course.getPrice(), userId, partnerId, course2Id, user.getName(), partner2.getPhone(),partner2.getReference(),status);
+		Booking booking2 = new Booking(timeStamp,course2.getStartTime(), course2.getFinishTime(), 5000, userId, partnerId, course2Id, user.getName(), partner2.getPhone(),partner2.getReference(),status);
 		BookingDao.addBookingToDatabases(booking2);
 		booking2 = BookingDao.getBookingById(booking2.getBookingId());
 		
 		//Booking III: user, partner2, course3
 		int partner2Id = partner2.getPartnerId();
 		int course3Id = course3.getCourseId();
-		Booking booking3 = new Booking(timeStamp,course3.getStartTime(), course3.getFinishTime(), course3.getPrice(), userId, partner2Id, course3Id, user.getName(), partner2.getPhone(),partner2.getReference(),status);
+		Booking booking3 = new Booking(timeStamp,course3.getStartTime(), course3.getFinishTime(), 10000, userId, partner2Id, course3Id, user.getName(), partner2.getPhone(),partner2.getReference(),status);
 		BookingDao.addBookingToDatabases(booking3);
 		booking3 = BookingDao.getBookingById(booking3.getBookingId());
 		
 		//Booking IV: user2, partner2, course3		
 		int user2Id = user2.getUserId();
-		Booking booking4 = new Booking(timeStamp,course3.getStartTime(), course3.getFinishTime(), course3.getPrice(), user2Id, partner2Id, course3Id, user2.getName(), partner2.getPhone(),partner2.getReference(),status);
+		Booking booking4 = new Booking(timeStamp,course3.getStartTime(), course3.getFinishTime(), 15000, user2Id, partner2Id, course3Id, user2.getName(), partner2.getPhone(),partner2.getReference(),status);
 		BookingDao.addBookingToDatabases(booking4);
 		booking4 = BookingDao.getBookingById(booking4.getBookingId());
 		
 		//Booking V: user2, partner2, course4	
 		int course4Id = course4.getCourseId();
-		Booking booking5 = new Booking(timeStamp,course4.getStartTime(), course4.getFinishTime(), course3.getPrice(), user2Id, partner2Id, course4Id, user2.getName(), partner2.getPhone(),partner2.getReference(),status);
+		Booking booking5 = new Booking(timeStamp,course4.getStartTime(), course4.getFinishTime(), 20000, user2Id, partner2Id, course4Id, user2.getName(), partner2.getPhone(),partner2.getReference(),status);
 		BookingDao.addBookingToDatabases(booking5);
 		booking5 = BookingDao.getBookingById(booking5.getBookingId());
 		
@@ -442,9 +442,10 @@ public class BookingDaoTest {
 		BookingSearchRepresentation sr = new BookingSearchRepresentation();
 		sr.setUserId(userId);
 		sr.setPartnerId(partnerId);
-		sr.setPrice(course.getPrice());
+		sr.setStartPrice(2000);
+		sr.setFinishPrice(4000);
 		blist = BookingDao.searchBooking(sr);
-		if(blist.size()==2 && blist.get(0).equals(booking) && blist.get(1).equals(booking2)){
+		if(blist.size()==1 && blist.get(0).equals(booking)){
 			//Passed;
 		}else fail();
 		
@@ -458,15 +459,16 @@ public class BookingDaoTest {
 		BookingSearchRepresentation sr2 = new BookingSearchRepresentation();
 		sr2.setUserId(user2Id);
 		sr2.setPartnerId(partner2Id);
-		sr2.setPrice(course3.getPrice());
+		sr2.setStartPrice(2000);
+		sr2.setFinishPrice(8000);
 		blist = BookingDao.searchBooking(sr2);
-		if(blist.size()==2 && blist.get(0).equals(booking4) && blist.get(1).equals(booking5)){
+		if(blist.size()==0){
 			//Passed;
 		}else fail();
 		
-		sr2.setPrice(booking4.getPrice());
-		booking5.setPrice(1);
-		BookingDao.updateBookingInDatabases(booking5);
+		sr2.setStartPrice(15000);
+		sr2.setFinishPrice(16000);
+		
 		blist = BookingDao.searchBooking(sr2);
 		if(blist.size()==1 && blist.get(0).equals(booking4)){
 			//Passed;
@@ -476,7 +478,8 @@ public class BookingDaoTest {
 		sr3.setCourseId(course3Id);
 		sr3.setPartnerId(partner2Id);
 		sr3.setName(user.getName());
-		sr3.setPrice(course3.getPrice());
+		sr3.setStartPrice(10000);
+		sr3.setFinishPrice(13000);
 		blist = BookingDao.searchBooking(sr3);
 		if(blist.size()==1 && blist.get(0).equals(booking3)){
 			//Passed;
