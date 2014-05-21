@@ -336,6 +336,10 @@ public class PartnerDao {
 		}
 		return partner;
 	}
+	
+	public static void recoverUserPassword(String phone, String newPassword) throws AuthenticationException{
+		//TODO
+	}
 
 	private static Partner createPartnerByResultSet(ResultSet rs) throws SQLException {
 		return new Partner(rs.getInt("id"), rs.getString("name"), rs.getString("licence"), rs.getString("organizationNum"),

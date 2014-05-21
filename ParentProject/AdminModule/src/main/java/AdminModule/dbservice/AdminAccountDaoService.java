@@ -6,6 +6,7 @@ import AdminModule.adminDao.AdminAccountDao;
 import AdminModule.exception.AdminAccountNotFoundException;
 import AdminModule.model.AdminAccount;
 import BaseModule.exception.AuthenticationException;
+import BaseModule.exception.PseudoException;
 
 public class AdminAccountDaoService {
 
@@ -35,7 +36,11 @@ public class AdminAccountDaoService {
 	
 	public static void changePassword(int adminId, String oldPassword, String newPassword) throws AuthenticationException{
 		AdminAccountDao.changeAdminAccountPassword(adminId, oldPassword, newPassword);
-	}	
+	}
+	
+	public static void changeAdminPassword(int adminId, String password) throws PseudoException{
+		AdminAccountDao.changeAdminAccountPassword(adminId, password);
+	}
 	
 	public static AdminAccount authenticateAdminAccount(String referece, String password) throws AuthenticationException{
 		return AdminAccountDao.authenticateAdminAccount(referece, password);

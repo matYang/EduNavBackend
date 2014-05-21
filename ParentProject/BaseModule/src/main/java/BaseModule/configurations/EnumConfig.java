@@ -15,7 +15,7 @@ public class EnumConfig {
     }
 	
 	public static enum Privilege{
-        first(0),business(1),economy(2);
+        root(0),mamagement(1),routine(2);
         public int code;
         Privilege(int code){
             this.code = code;
@@ -27,7 +27,7 @@ public class EnumConfig {
     }
 	
 	public static enum SMSEvent{
-		user_cellVerification(0), user_changePassword(1), user_forgetPassword(2), partner_forgetPassword(3);
+		user_cellVerification(0), user_changePassword(1), user_forgetPassword(2), partner_forgetPassword(3), partner_changePassword(4);
 		public int code;
 		SMSEvent(int code){
 			this.code = code;

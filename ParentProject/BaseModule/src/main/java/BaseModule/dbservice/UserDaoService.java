@@ -33,9 +33,8 @@ public class UserDaoService {
 	}
 
 	public static boolean isCellPhoneAvailable(String phone){
-		User user = null;
 		try{
-			user = UserDao.getUserByPhone(phone);
+			UserDao.getUserByPhone(phone);
 		}catch(UserNotFoundException ex){
 			return true;
 		}

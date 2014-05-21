@@ -114,7 +114,7 @@ public class CourseIdResource extends PartnerPseudoResource{
 			String courseInfo = props.get("courseInfo");
 			String teacherImgUrl = props.get("teacherImgUrl");
 			String backgroundUrl = props.get("backgroundUrl");
-			String reference = ReferenceFactory.generateCourseReference();
+			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(props.get("status")));
 			
 			course.setPartnerId(partnerId);
 			course.setStartTime(startTime);
@@ -124,7 +124,7 @@ public class CourseIdResource extends PartnerPseudoResource{
 			course.setPrice(price);
 			course.setSeatsTotal(seatsTotal);
 			course.setSeatsLeft(seatsTotal);
-			course.setStatus(AccountStatus.activated);
+			course.setStatus(status);
 			course.setCategory(category);
 			course.setSubCategory(subCategory);
 			course.setTitle(title);
@@ -134,7 +134,6 @@ public class CourseIdResource extends PartnerPseudoResource{
 			course.setCourseInfo(courseInfo);
 			course.setTeacherImgUrl(teacherImgUrl);
 			course.setBackgroundUrl(backgroundUrl);
-			course.setReference(reference);
 			
 			CourseDaoService.updateCourse(course);
 			

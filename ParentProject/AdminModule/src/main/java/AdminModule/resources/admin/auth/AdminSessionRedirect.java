@@ -31,7 +31,7 @@ public class AdminSessionRedirect extends AdminPseudoResource{
 			jsonObject = JSONFactory.toJSON(account);
 		} catch (AuthenticationException e){
 			//if not authenticated, return default user with id -1
-			account = new AdminAccount("default", "default","default", Privilege.economy, AccountStatus.activated,"default");
+			account = new AdminAccount("default", "default","default", Privilege.routine, AccountStatus.activated,"default");
 			account.setAdminId(-1);
 			jsonObject = JSONFactory.toJSON(account);
 		} catch (PseudoException e){

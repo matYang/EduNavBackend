@@ -29,5 +29,10 @@ public class SMSService {
 		SMSTask task = new SMSTask(SMSEvent.partner_forgetPassword, cellNum, authCode);
 		ExecutorProvider.executeRelay(task);
 	}
+	
+	public static void sendPartnerChangePasswordSMS(String cellNum, String authCode){
+		SMSTask task = new SMSTask(SMSEvent.partner_changePassword, cellNum, authCode);
+		ExecutorProvider.executeRelay(task);
+	}
 
 }

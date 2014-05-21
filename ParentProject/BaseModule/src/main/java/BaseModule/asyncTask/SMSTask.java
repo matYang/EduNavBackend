@@ -38,6 +38,9 @@ public class SMSTask implements PseudoAsyncTask{
 		else if (event == SMSEvent.partner_forgetPassword){
 			this.content = "您的找回密码验证码是：" + payload + ", 请尽快更改密码";
 		}
+		else if (event == SMSEvent.partner_changePassword){
+			this.content = "您的修改密码确认码是：" + payload;
+		}
 		else{
 			throw new RuntimeException("Unrecognizable SMS event");
 		}

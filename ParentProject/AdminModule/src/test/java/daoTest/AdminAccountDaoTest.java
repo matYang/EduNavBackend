@@ -23,7 +23,7 @@ public class AdminAccountDaoTest {
 		String name = "Harry";
 		String phone = "123445676543";
 		String reference = "dsfdsf";
-		Privilege privilege = Privilege.business;
+		Privilege privilege = Privilege.mamagement;
 		AccountStatus status = AccountStatus.activated;
 		String password = "hgfudifhg3489";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
@@ -41,7 +41,7 @@ public class AdminAccountDaoTest {
 		String name = "Harry";
 		String phone = "123445676543";
 		String reference = "dsfdsf";
-		Privilege privilege = Privilege.business;
+		Privilege privilege = Privilege.mamagement;
 		AccountStatus status = AccountStatus.activated;
 		String password = "hgfudifhg3489";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
@@ -60,7 +60,7 @@ public class AdminAccountDaoTest {
 		String name2 = "Mattan";
 		String phone2 = "12344";
 		String reference2 = "dsfsersf";
-		Privilege privilege2 = Privilege.economy;
+		Privilege privilege2 = Privilege.routine;
 		AccountStatus status2 = AccountStatus.activated;		
 		AdminAccount account2 = new AdminAccount(name2,phone2,reference2,privilege2,status2,password);
 		AdminAccountDao.addAdminAccountToDatabases(account2);
@@ -79,7 +79,7 @@ public class AdminAccountDaoTest {
 		String name = "Harry";
 		String phone = "1";
 		String reference = "dsfdsf";
-		Privilege privilege = Privilege.business;
+		Privilege privilege = Privilege.mamagement;
 		AccountStatus status = AccountStatus.activated;
 		String password = "hgfudifhg3489";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
@@ -101,7 +101,7 @@ public class AdminAccountDaoTest {
 		String name = "Harry";
 		String phone = "123445676543";
 		String reference = "dsfdsf";
-		Privilege privilege = Privilege.business;
+		Privilege privilege = Privilege.mamagement;
 		AccountStatus status = AccountStatus.activated;
 		String password = "hgfudifhg3489";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
@@ -159,7 +159,7 @@ public class AdminAccountDaoTest {
 		String name = "Harry";
 		String phone = "123445676543";
 		String reference = "dsfdsf";
-		Privilege privilege = Privilege.business;
+		Privilege privilege = Privilege.mamagement;
 		AccountStatus status = AccountStatus.activated;		
 		String password = "dsfdsftewr";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);

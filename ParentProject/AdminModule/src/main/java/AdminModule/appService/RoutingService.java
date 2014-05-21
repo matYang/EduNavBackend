@@ -9,6 +9,7 @@ import AdminModule.resources.admin.AdminAccountIdResource;
 import AdminModule.resources.admin.AdminAccountResource;
 import AdminModule.resources.admin.auth.AdminAccountLogin;
 import AdminModule.resources.admin.auth.AdminAccountLogout;
+import AdminModule.resources.admin.auth.AdminChangePassword;
 import AdminModule.resources.admin.auth.AdminSessionRedirect;
 import AdminModule.resources.booking.BookingIdResource;
 import AdminModule.resources.booking.BookingResource;
@@ -52,6 +53,9 @@ public class RoutingService extends Application{
 		String logoutPrefix = "/logout";
 		//  API for AdminAccount logout : /a-api/v1.0/admin/logout
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + logoutPrefix, AdminAccountLogout.class);
+		String changePassword = "/changePassword";
+		//  API for AdminAccount logout : /a-api/v1.0/admin/changePassword
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + changePassword, AdminChangePassword.class);
 		
 		/** -------------------- APIs for partner module ------------------ **/
 		String partnerServicePrefix = "/partner";

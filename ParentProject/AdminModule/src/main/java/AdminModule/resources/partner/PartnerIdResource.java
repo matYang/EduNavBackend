@@ -84,24 +84,17 @@ public class PartnerIdResource extends AdminPseudoResource{
 			String name = props.get("name");
 			String licence = props.get("licence");
 			String organizationNum = props.get("organizationNum");
-			String reference = props.get("reference");
-			String password = props.get("password");
 			String phone = props.get("phone");
-			AccountStatus status = AccountStatus.activated;
-			String instName = props.get("instName");
+			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(props.get("status")));
 			String logoUrl = props.get("logoUrl");
 			
 			partner.setName(name);
 			partner.setLicence(licence);
 			partner.setOrganizationNum(organizationNum);
-			partner.setReference(reference);
-			partner.setPassword(password);
 			partner.setPhone(phone);
 			partner.setStatus(status);
-			partner.setInstName(instName);
 			partner.setLogoUrl(logoUrl);
 			
-			StaticDataService.updatePName(oldPName, instName);
 			PartnerDaoService.updatePartner(partner);
 			
 		}catch (PseudoException e){
