@@ -22,6 +22,9 @@ public class QueryFactory {
 	private static String getBookingSearchQuery(BookingSearchRepresentation sr) {
 		String query = "SELECT * from BookingDao ";
 		boolean start = false;
+		
+		/* Note:Make sure the order following is the same as that in Dao */
+		
 		if(sr.getBookingId() > 0){
 			query += "where ";
 			start = true;
@@ -125,6 +128,9 @@ public class QueryFactory {
 	private static String getPartnerSearchQuery(PartnerSearchRepresentation sr) {
 		String query = "SELECT * from PartnerDao ";		
 		boolean start = false;		
+		
+		/* Note:Make sure the order following is the same as that in Dao */
+		
 		if(sr.getPartnerId()>0){
 			query += "where ";
 			start = true;
@@ -209,6 +215,9 @@ public class QueryFactory {
 	private static String getUserSearchQuery(UserSearchRepresentation sr) {
 		String query = "SELECT * from UserDao ";		
 		boolean start = false;	
+		
+		/* Note:Make sure the order following is the same as that in Dao */
+		
 		if(sr.getUserId()>0){
 			query += "where ";
 			start = true;
@@ -261,6 +270,8 @@ public class QueryFactory {
 		boolean joinQ = false;		
 		boolean start = false;	
 
+		/* Note:Make sure the order following is the same as that in Dao */
+		
 		if(sr.getPartnerId() > 0){				
 			query += joinQuery;
 			joinQ = true;				
