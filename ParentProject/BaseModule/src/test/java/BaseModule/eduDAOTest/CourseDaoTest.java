@@ -249,7 +249,7 @@ public class CourseDaoTest {
 		
 		Calendar startTime3 = DateUtility.getCurTimeInstance();
 		Calendar finishTime3 = DateUtility.getCurTimeInstance();
-		finishTime3.add(Calendar.DAY_OF_YEAR, -7);				
+		finishTime3.add(Calendar.DAY_OF_YEAR, 17);				
 		String category3 = "category3";
 		String subCategory3 = "subcategory0";		
 		int price3 = 20000;
@@ -272,7 +272,7 @@ public class CourseDaoTest {
 		
 		Calendar startTime31 = DateUtility.getCurTimeInstance();
 		Calendar finishTime31 = DateUtility.getCurTimeInstance();
-		finishTime31.add(Calendar.DAY_OF_YEAR, -15);				
+		finishTime31.add(Calendar.DAY_OF_YEAR, 20);				
 		String category31 = "category3";
 		String subCategory31 = "subcategory1";		
 		int price31 = 15000;
@@ -295,7 +295,7 @@ public class CourseDaoTest {
 		
 		Calendar startTime32 = DateUtility.getCurTimeInstance();
 		Calendar finishTime32 = DateUtility.getCurTimeInstance();
-		finishTime32.add(Calendar.DAY_OF_YEAR, -15);				
+		finishTime32.add(Calendar.DAY_OF_YEAR, 30);				
 		String category32 = "category3";
 		String subCategory32 = "subcategory2";		
 		int price32 = 30000;
@@ -318,6 +318,7 @@ public class CourseDaoTest {
 		
 		/* Search part */
 		ArrayList<Course> clist = new ArrayList<Course>();
+		Calendar startTimeTest = DateUtility.getCurTimeInstance();
 		Calendar finishTimeTest = DateUtility.getCurTimeInstance();	
 		
 		CourseSearchRepresentation sr1 = new CourseSearchRepresentation();
@@ -345,6 +346,18 @@ public class CourseDaoTest {
 		
 		sr2.setPartnerId(-1);
 		clist = CourseDao.searchCourse(sr2);
+		if(clist.size()==1 && clist.get(0).equals(course32)){
+			//Passed;
+		}else fail();
+		
+		sr2.setPartnerReference(null);
+		clist = CourseDao.searchCourse(sr2);
+		if(clist.size()==1 && clist.get(0).equals(course32)){
+			//Passed;
+		}else fail();
+		
+		sr2.setInstitutionName(null);
+		clist = CourseDao.searchCourse(sr2);
 		if(clist.size()==3 && clist.get(0).equals(course2) && clist.get(1).equals(course21) && 
 				clist.get(2).equals(course32)){
 			//Passed;
@@ -371,6 +384,27 @@ public class CourseDaoTest {
 		sr4.setCourseReference("course-reference1");
 		clist = CourseDao.searchCourse(sr4);
 		if(clist.size()==1 && clist.get(0).equals(course)){
+			//Passed;
+		}else fail();
+		
+		CourseSearchRepresentation sr5 = new CourseSearchRepresentation();
+		startTimeTest.add(Calendar.DAY_OF_YEAR, -1);
+		sr5.setStartTime(startTimeTest);
+		sr5.setStartPrice(0);
+		sr5.setFinishPrice(40000);
+		clist = CourseDao.searchCourse(sr5);
+		if(clist.size()==6 && clist.get(0).equals(course) && clist.get(1).equals(course2) && 
+				clist.get(2).equals(course21) && clist.get(3).equals(course3) && clist.get(4).equals(course31) &&
+				clist.get(5).equals(course32)){
+			//Passed;
+		}else fail();
+		
+		finishTimeTest = DateUtility.getCurTimeInstance();
+		finishTimeTest.add(Calendar.DAY_OF_YEAR, 15);
+		sr5.setFinishTime(finishTimeTest);
+		clist = CourseDao.searchCourse(sr5);
+		if(clist.size()==3 && clist.get(0).equals(course) && clist.get(1).equals(course2) && 
+				clist.get(2).equals(course21)){
 			//Passed;
 		}else fail();
 	}

@@ -9,12 +9,11 @@ import org.junit.Test;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
-import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.partner.PartnerNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
-import BaseModule.model.User;
+import BaseModule.model.representation.PartnerSearchRepresentation;
 
 public class PartnerDaoTest {
 
@@ -172,6 +171,7 @@ public class PartnerDaoTest {
 
 	@Test
 	public void testAuthUser() throws ValidationException{
+		EduDaoBasic.clearBothDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -208,5 +208,74 @@ public class PartnerDaoTest {
 		
 		if(test != null) fail();
 
+	}
+	
+	@Test
+	public void testSearch() throws ValidationException, PartnerNotFoundException{
+		EduDaoBasic.clearBothDatabase();
+		String name = "XDF";
+		String instName = "daofeng";
+		String licence = "234fdsfsdgergf-dsv,.!@";
+		String organizationNum = "1235454361234";
+		String reference = "dsf4r";
+		String password = "sdf234r";
+		String phone = "123545451";
+		AccountStatus status = AccountStatus.activated;
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
+		partner = PartnerDao.addPartnerToDatabases(partner);
+		partner = PartnerDao.getPartnerById(partner.getPartnerId());
+		
+		String name11 = "XDF11";
+		String instName11 = "daofeng11";
+		String licence11 = "234fdsfsdgergf-d11sv,.!@";
+		String organizationNum11 = "123545436111234";
+		String reference11 = "ds11f4r";			
+		Partner partner11 = new Partner(name11,instName11, licence11, organizationNum11,reference11, password, phone,status);
+		partner11 = PartnerDao.addPartnerToDatabases(partner11);
+		partner11 = PartnerDao.getPartnerById(partner11.getPartnerId());
+		
+		String name2 = "kfdjgklfj";
+		String instName2 = "daofeg";
+		String licence2 = "234fdsfsdf-dsv,.!@";
+		String organizationNum2 = "123541234";
+		String reference2 = "dgt4yt4yf4r";		
+		
+		AccountStatus status2 = AccountStatus.deactivated;
+		Partner partner2 = new Partner(name2,instName2, licence2, organizationNum2,reference2, password, phone,status2);
+		partner2 = PartnerDao.addPartnerToDatabases(partner2);
+		partner2 = PartnerDao.getPartnerById(partner2.getPartnerId());
+		
+		String name3 = "name3";
+		String instName3 = "instName3";
+		String licence3 = "licence3";
+		String organizationNum3 = "organizationNum3";
+		String reference3= "reference3";		
+		
+		AccountStatus status3 = AccountStatus.deleted;
+		Partner partner3 = new Partner(name3,instName3, licence3, organizationNum3,reference3, password, phone,status3);
+		partner3 = PartnerDao.addPartnerToDatabases(partner3);
+		partner3 = PartnerDao.getPartnerById(partner3.getPartnerId());
+		
+		PartnerSearchRepresentation sr = new PartnerSearchRepresentation();
+		ArrayList<Partner> plist = new ArrayList<Partner>();
+		sr.setInstName("daofeg");
+		plist = PartnerDao.searchPartner(sr);
+		if(plist.size()==0){
+			//Passed;
+		}else fail();
+		
+		sr.setInstName(null);
+		sr.setPhone(phone);
+		plist = PartnerDao.searchPartner(sr);
+		if(plist.size()==2 && plist.get(0).equals(partner) && plist.get(1).equals(partner11)){
+			//Passed;
+		}else fail();
+		
+		sr.setPartnerId(partner.getPartnerId());
+		plist = PartnerDao.searchPartner(sr);
+		if(plist.size()==1 && plist.get(0).equals(partner)){
+			//Passed;
+		}else fail();
+		
 	}
 }

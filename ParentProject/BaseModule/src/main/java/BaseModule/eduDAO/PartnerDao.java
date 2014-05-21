@@ -13,10 +13,62 @@ import BaseModule.encryption.SessionCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.partner.PartnerNotFoundException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.factory.QueryFactory;
 import BaseModule.model.Partner;
+import BaseModule.model.representation.PartnerSearchRepresentation;
 
 public class PartnerDao {
 
+	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr){
+		ArrayList<Partner> plist = new ArrayList<Partner>();
+		Connection conn = EduDaoBasic.getSQLConnection();
+		PreparedStatement stmt = null;	
+		ResultSet rs = null;
+		int stmtInt = 1;
+		String query = QueryFactory.getSearchQuery(sr);		
+		try{
+			stmt = conn.prepareStatement(query);
+			
+			if(sr.getPartnerId()>0){
+				stmt.setInt(stmtInt++, sr.getPartnerId());
+			}
+			if(sr.getCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
+			}
+			if(sr.getName() != null && sr.getName().length() > 0){
+				stmt.setString(stmtInt++, sr.getName());
+			}
+			if(sr.getPhone() != null && sr.getPhone().length() > 0){
+				stmt.setString(stmtInt++, sr.getPhone());
+			}
+				stmt.setInt(stmtInt++, AccountStatus.activated.code);
+			
+			if(sr.getInstName() != null && sr.getInstName().length() > 0){
+				stmt.setString(stmtInt++, sr.getInstName());
+			}
+			if(sr.getLicence() != null && sr.getLicence().length() > 0){
+				stmt.setString(stmtInt++, sr.getLicence());
+			}
+			if(sr.getOrganizationNum() != null && sr.getOrganizationNum().length() > 0){
+				stmt.setString(stmtInt++, sr.getOrganizationNum());
+			}
+			if(sr.getReference() != null && sr.getReference().length() > 0){
+				stmt.setString(stmtInt++,sr.getReference());
+			}
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				plist.add(createPartnerByResultSet(rs));
+			}
+			
+		}catch(SQLException e){
+			DebugLog.d(e);
+			e.printStackTrace();
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, true);
+		}
+		return plist;
+	}
+	
 	public static Partner addPartnerToDatabases(Partner p,Connection...connections) throws ValidationException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
@@ -131,7 +183,57 @@ public class PartnerDao {
 
 		return partner;
 	}
+	
+	public static int getPartnerIdByReference(String reference,Connection...connections) throws PartnerNotFoundException{
+		String query = "SELECT * FROM PartnerDao WHERE reference = ?";
+		int partnerId = -1;
+		PreparedStatement stmt = null;
+		Connection conn = EduDaoBasic.getConnection(connections);
+		ResultSet rs = null;
+		try{		
+			stmt = conn.prepareStatement(query);
 
+			stmt.setString(1, reference);
+			rs = stmt.executeQuery();
+			if(rs.next()){
+				partnerId = rs.getInt("id");
+			}else{
+				throw new PartnerNotFoundException();
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);
+		}finally  {
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
+		} 
+
+		return partnerId;
+	}
+	
+	public static int getPartnerIdByInstName(String instName,Connection...connections) throws PartnerNotFoundException{
+		String query = "SELECT * FROM PartnerDao WHERE instName = ?";
+		int partnerId = -1;
+		PreparedStatement stmt = null;
+		Connection conn = EduDaoBasic.getConnection(connections);
+		ResultSet rs = null;
+		try{		
+			stmt = conn.prepareStatement(query);
+
+			stmt.setString(1, instName);
+			rs = stmt.executeQuery();
+			if(rs.next()){
+				partnerId = rs.getInt("id");
+			}else{
+				throw new PartnerNotFoundException();
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);
+		}finally  {
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
+		} 
+
+		return partnerId;
+	}
+	
 	public static Partner getPartnerByPhone(String phone) throws PartnerNotFoundException{
 		String query = "SELECT * FROM PartnerDao WHERE phone = ?";
 		Partner partner = null;

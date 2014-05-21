@@ -14,6 +14,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.course.CourseNotFoundException;
 import BaseModule.exception.partner.PartnerNotFoundException;
+import BaseModule.factory.QueryFactory;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.CourseSearchRepresentation;
@@ -27,106 +28,44 @@ public class CourseDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		HashMap<Integer,Partner> pmap = new HashMap<Integer,Partner>();
-		Partner partner = null;			
-		String query = "SELECT * from CourseDao ";
-		String joinQuery = "JOIN PartnerDao On " +
-				"CourseDao.p_Id = PartnerDao.id " +
-				"where (PartnerDao.instName = ? " +
-				"and PartnerDao.reference = ?) ";
+		Partner partner = null;		
+		String query = QueryFactory.getSearchQuery(sr);
 		int stmtInt = 1;
 		boolean joinQ = false;		
-		boolean start = false;
-		if(sr.getPartnerId() > 0 && sr.getInstitutionName()!=null&&sr.getInstitutionName().length()>0){
-			query += joinQuery;
-			joinQ = true;	
-			start = true;
-		}else{
-			query += "where ";					
-		}
 
-		if(sr.getCreationTime() != null){			
-			if(start){				
-				query += "and ";
-			}else start = true;
-			query += "CourseDao.creationTime = ? ";
-		}
-		if(sr.getStartTime() != null){
-			if(start){				
-				query += "and ";
-			}else start = true;
-			query += "CourseDao.startTime >= ? ";			
-		}
-		if(sr.getFinishTime() != null){
-			if(start){				
-				query += "and ";
-			}else start = true;
-			query += "CourseDao.finishTime <= ? ";
-		}	
-		
-		if(start){				
-			query += "and ";
-		}else start = true;
-		
-		query +="CourseDao.price >= ? and CourseDao.price <= ? and CourseDao.status = ? ";
-		
-		if(sr.getCategory()!=null&&sr.getCategory().length()>0){
-			if(start){				
-				query += "and ";
-			}else start = true;
-			query += "CourseDao.category = ? ";
-		}
-		if(sr.getSubCategory()!=null&&sr.getSubCategory().length()>0){
-			if(start){				
-				query += "and ";
-			}else start = true;
-			query += "CourseDao.subcategory = ? ";
-		}
-		if(sr.getCity()!=null&&sr.getCity().length()>0){
-			if(start){				
-				query += "and ";
-			}else start = true;
-			query += "CourseDao.city = ? ";
-		}
-		if(sr.getDistrict()!=null&&sr.getDistrict().length()>0){
-			if(start){				
-				query += "and ";
-			}else start = true;
-			query += "CourseDao.district = ? ";
-		}
-		if(sr.getCourseReference()!=null&&sr.getCourseReference().length()>0){
-			if(start){				
-				query += "and ";
-			}else start = true;
-			query += "CourseDao.reference = ? ";
-		}
-		if(sr.getCourseId()>0){
-			if(start){				
-				query += "and ";
-			}else start = true;
-			query += " CourseDao.id = ? ";
-		}	
+		if(((sr.getPartnerId() > 0) ||(sr.getInstitutionName() != null && sr.getInstitutionName().length() > 0) ||
+				(sr.getPartnerReference() != null && sr.getPartnerReference().length() > 0))
+				&& !joinQ){
+			joinQ = true;		
+
+		}		
 
 		try{
 			stmt = conn.prepareStatement(query);	
-			if(joinQ){				
-				stmt.setString(stmtInt++, sr.getInstitutionName());
-				stmt.setString(stmtInt++, sr.getPartnerReference());
+
+			if(joinQ){	
+				if(sr.getInstitutionName() != null && sr.getInstitutionName().length() > 0){
+					stmt.setString(stmtInt++, sr.getInstitutionName());
+				}
+				if(sr.getPartnerReference() != null && sr.getPartnerReference().length() > 0){
+					stmt.setString(stmtInt++, sr.getPartnerReference());
+				}				
 			}
 			if(sr.getCreationTime() != null){				
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
 			}
 			if(sr.getStartTime() != null){
 				Calendar startTime = (Calendar) sr.getStartTime().clone();
-				startTime.set(Calendar.HOUR_OF_DAY,23);
-				startTime.set(Calendar.MINUTE, 59);
-				startTime.set(Calendar.SECOND, 59);
+				startTime.set(Calendar.HOUR_OF_DAY,0);
+				startTime.set(Calendar.MINUTE, 0);
+				startTime.set(Calendar.SECOND, 0);
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(startTime));
 			}
 			if(sr.getFinishTime() != null){
 				Calendar finishTime = (Calendar) sr.getFinishTime().clone();
-				finishTime.set(Calendar.HOUR_OF_DAY,0);
-				finishTime.set(Calendar.MINUTE, 0);
-				finishTime.set(Calendar.SECOND, 0);
+				finishTime.set(Calendar.HOUR_OF_DAY,23);
+				finishTime.set(Calendar.MINUTE, 59);
+				finishTime.set(Calendar.SECOND, 59);
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(finishTime));	
 			}
 
@@ -158,13 +97,8 @@ public class CourseDao {
 				int p_Id = rs.getInt("p_Id");
 				if(p_Id > 0){
 					partner = pmap.get(p_Id);
-					if(partner==null){
-						try {
-							partner = PartnerDao.getPartnerById(p_Id, conn);
-						} catch (PartnerNotFoundException e) {
-							DebugLog.d(e);
-							e.printStackTrace();
-						}
+					if(partner==null){						
+						partner = PartnerDao.getPartnerById(p_Id, conn);						
 						pmap.put(p_Id, partner);
 					}
 					clist.add(createCourseByResultSet(rs,partner,conn));
@@ -173,6 +107,9 @@ public class CourseDao {
 				}
 			}
 		}catch(SQLException e){
+			DebugLog.d(e);
+			e.printStackTrace();
+		}catch (PartnerNotFoundException e) {
 			DebugLog.d(e);
 			e.printStackTrace();
 		} finally  {

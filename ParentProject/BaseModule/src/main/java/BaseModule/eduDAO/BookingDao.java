@@ -6,14 +6,80 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.booking.BookingNotFoundException;
+import BaseModule.factory.QueryFactory;
 import BaseModule.model.Booking;
+import BaseModule.model.representation.BookingSearchRepresentation;
 
 
 public class BookingDao {
+
+	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr){
+		ArrayList<Booking> blist = new ArrayList<Booking>();
+		Connection conn = EduDaoBasic.getSQLConnection();
+		PreparedStatement stmt = null;	
+		ResultSet rs = null;
+		String query = QueryFactory.getSearchQuery(sr);		
+		int stmtInt = 1;
+		try{
+			stmt = conn.prepareStatement(query);
+			if(sr.getBookingId() > 0){
+				stmt.setInt(stmtInt,sr.getBookingId());
+			}
+			if(sr.getCourseId() > 0){
+				stmt.setInt(stmtInt++, sr.getCourseId());
+			}
+			if(sr.getPartnerId() > 0){
+				stmt.setInt(stmtInt++,sr.getPartnerId());
+			}
+			if(sr.getUserId() > 0){
+				stmt.setInt(stmtInt++, sr.getUserId());
+			}
+			stmt.setInt(stmtInt++, sr.getPrice());
+			stmt.setInt(stmtInt++, AccountStatus.activated.code);			
+
+			if(sr.getReference() !=null && sr.getReference().length() > 0){
+				stmt.setString(stmtInt++, sr.getReference());
+			}
+			if(sr.getCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
+			}
+			if(sr.getStartTime() != null){
+				Calendar startTime = (Calendar) sr.getStartTime().clone();
+				startTime.set(Calendar.HOUR_OF_DAY,0);
+				startTime.set(Calendar.MINUTE, 0);
+				startTime.set(Calendar.SECOND, 0);
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(startTime));
+			}
+			if(sr.getFinishTime() != null){
+				Calendar finishTime = (Calendar) sr.getFinishTime().clone();
+				finishTime.set(Calendar.HOUR_OF_DAY,23);
+				finishTime.set(Calendar.MINUTE, 59);
+				finishTime.set(Calendar.SECOND, 59);
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(finishTime));	
+			}	
+			if(sr.getName() != null && sr.getName().length() > 0){
+				stmt.setString(stmtInt,sr.getName());
+			}
+			if(sr.getPhone() != null && sr.getPhone().length() > 0){
+				stmt.setString(stmtInt++, sr.getPhone());
+			}
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				blist.add(createBookingByResultSet(rs));
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);
+			e.printStackTrace();
+		}
+		return blist;
+
+	}
 
 	public static Booking addBookingToDatabases(Booking booking){
 		Connection conn = EduDaoBasic.getSQLConnection();
@@ -155,13 +221,4 @@ public class BookingDao {
 				DateUtility.DateToCalendar(rs.getTimestamp("startTime")),DateUtility.DateToCalendar(rs.getTimestamp("finishTime")), rs.getInt("price"), rs.getInt("u_Id"),
 				rs.getInt("p_Id"), rs.getInt("course_Id"), rs.getString("name"), rs.getString("phone"),AccountStatus.fromInt(rs.getInt("status")), rs.getString("reference"));
 	}
-
-
-
-
-
-
-
-
-
 }

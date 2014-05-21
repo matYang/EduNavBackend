@@ -13,10 +13,47 @@ import BaseModule.encryption.SessionCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.factory.QueryFactory;
 import BaseModule.model.User;
+import BaseModule.model.representation.UserSearchRepresentation;
 
 public class UserDao {
-
+	
+	public static ArrayList<User> searchUser(UserSearchRepresentation sr){
+		Connection conn = EduDaoBasic.getSQLConnection();
+		PreparedStatement stmt = null;	
+		ResultSet rs = null;
+		ArrayList<User> ulist = new ArrayList<User>();
+		String query = QueryFactory.getSearchQuery(sr);
+		int stmtInt = 1;		
+		try{
+			stmt = conn.prepareStatement(query);
+			
+			if(sr.getUserId() > 0){
+				stmt.setInt(stmtInt++, sr.getUserId());
+			}
+			if(sr.getCreationTime() != null){
+				stmt.setString(stmtInt++,DateUtility.toSQLDateTime(sr.getCreationTime()));
+			}
+			if(sr.getName() != null && sr.getName().length() > 0){
+				stmt.setString(stmtInt++, sr.getName());
+			}
+			if(sr.getPhone() != null && sr.getPhone().length() > 0){
+				stmt.setString(stmtInt++, sr.getPhone());
+			}
+			stmt.setInt(stmtInt++, AccountStatus.activated.code);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				ulist.add(createUserByResultSet(rs));
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);
+			e.printStackTrace();
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, true);
+		}
+		return ulist;
+	}
 	public static User addUserToDatabase(User user) throws ValidationException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	

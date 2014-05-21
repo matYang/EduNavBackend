@@ -7,7 +7,6 @@ import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.model.User;
 import BaseModule.model.representation.UserSearchRepresentation;
 
@@ -65,8 +64,7 @@ public class UserDaoService {
 	}
 
 	public static ArrayList<User> searchUser(UserSearchRepresentation sr) {
-		// TODO Auto-generated method stub
-		return null;
+		return UserDao.searchUser(sr);
 	}
 
 }
