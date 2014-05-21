@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import BaseModule.common.DateUtility;
@@ -15,8 +16,171 @@ import BaseModule.exception.course.CourseNotFoundException;
 import BaseModule.exception.partner.PartnerNotFoundException;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
+import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class CourseDao {
+
+
+	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr){
+		ArrayList<Course> clist = new ArrayList<Course>();
+		Connection conn = EduDaoBasic.getSQLConnection();
+		PreparedStatement stmt = null;	
+		ResultSet rs = null;
+		HashMap<Integer,Partner> pmap = new HashMap<Integer,Partner>();
+		Partner partner = null;			
+		String query = "SELECT * from CourseDao ";
+		String joinQuery = "JOIN PartnerDao On " +
+				"CourseDao.p_Id = PartnerDao.id " +
+				"where (PartnerDao.instName = ? " +
+				"and PartnerDao.reference = ?) ";
+		int stmtInt = 1;
+		boolean joinQ = false;		
+		boolean start = false;
+		if(sr.getPartnerId() > 0 && sr.getInstitutionName()!=null&&sr.getInstitutionName().length()>0){
+			query += joinQuery;
+			joinQ = true;	
+			start = true;
+		}else{
+			query += "where ";					
+		}
+
+		if(sr.getCreationTime() != null){			
+			if(start){				
+				query += "and ";
+			}else start = true;
+			query += "CourseDao.creationTime = ? ";
+		}
+		if(sr.getStartTime() != null){
+			if(start){				
+				query += "and ";
+			}else start = true;
+			query += "CourseDao.startTime >= ? ";			
+		}
+		if(sr.getFinishTime() != null){
+			if(start){				
+				query += "and ";
+			}else start = true;
+			query += "CourseDao.finishTime <= ? ";
+		}	
+		
+		if(start){				
+			query += "and ";
+		}else start = true;
+		
+		query +="CourseDao.price >= ? and CourseDao.price <= ? and CourseDao.status = ? ";
+		
+		if(sr.getCategory()!=null&&sr.getCategory().length()>0){
+			if(start){				
+				query += "and ";
+			}else start = true;
+			query += "CourseDao.category = ? ";
+		}
+		if(sr.getSubCategory()!=null&&sr.getSubCategory().length()>0){
+			if(start){				
+				query += "and ";
+			}else start = true;
+			query += "CourseDao.subcategory = ? ";
+		}
+		if(sr.getCity()!=null&&sr.getCity().length()>0){
+			if(start){				
+				query += "and ";
+			}else start = true;
+			query += "CourseDao.city = ? ";
+		}
+		if(sr.getDistrict()!=null&&sr.getDistrict().length()>0){
+			if(start){				
+				query += "and ";
+			}else start = true;
+			query += "CourseDao.district = ? ";
+		}
+		if(sr.getCourseReference()!=null&&sr.getCourseReference().length()>0){
+			if(start){				
+				query += "and ";
+			}else start = true;
+			query += "CourseDao.reference = ? ";
+		}
+		if(sr.getCourseId()>0){
+			if(start){				
+				query += "and ";
+			}else start = true;
+			query += " CourseDao.id = ? ";
+		}	
+
+		try{
+			stmt = conn.prepareStatement(query);	
+			if(joinQ){				
+				stmt.setString(stmtInt++, sr.getInstitutionName());
+				stmt.setString(stmtInt++, sr.getPartnerReference());
+			}
+			if(sr.getCreationTime() != null){				
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
+			}
+			if(sr.getStartTime() != null){
+				Calendar startTime = (Calendar) sr.getStartTime().clone();
+				startTime.set(Calendar.HOUR_OF_DAY,23);
+				startTime.set(Calendar.MINUTE, 59);
+				startTime.set(Calendar.SECOND, 59);
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(startTime));
+			}
+			if(sr.getFinishTime() != null){
+				Calendar finishTime = (Calendar) sr.getFinishTime().clone();
+				finishTime.set(Calendar.HOUR_OF_DAY,0);
+				finishTime.set(Calendar.MINUTE, 0);
+				finishTime.set(Calendar.SECOND, 0);
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(finishTime));	
+			}
+
+			stmt.setInt(stmtInt++, sr.getStartPrice());
+			stmt.setInt(stmtInt++, sr.getFinishPrice());
+			stmt.setInt(stmtInt++, AccountStatus.activated.code);
+
+			if(sr.getCategory()!=null&&sr.getCategory().length()>0){
+				stmt.setString(stmtInt++, sr.getCategory());
+			}
+			if(sr.getSubCategory()!=null&&sr.getSubCategory().length()>0){
+				stmt.setString(stmtInt++, sr.getSubCategory());		
+			}
+			if(sr.getCity()!=null&&sr.getCity().length()>0){
+				stmt.setString(stmtInt++, sr.getCity());
+			}
+			if(sr.getDistrict()!=null&&sr.getDistrict().length()>0){
+				stmt.setString(stmtInt++, sr.getDistrict());
+			}
+			if(sr.getCourseReference()!=null&&sr.getCourseReference().length()>0){
+				stmt.setString(stmtInt++, sr.getCourseReference());
+			}
+			if(sr.getCourseId()>0){
+				stmt.setInt(stmtInt++, sr.getCourseId());		
+			}	
+
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				int p_Id = rs.getInt("p_Id");
+				if(p_Id > 0){
+					partner = pmap.get(p_Id);
+					if(partner==null){
+						try {
+							partner = PartnerDao.getPartnerById(p_Id, conn);
+						} catch (PartnerNotFoundException e) {
+							DebugLog.d(e);
+							e.printStackTrace();
+						}
+						pmap.put(p_Id, partner);
+					}
+					clist.add(createCourseByResultSet(rs,partner,conn));
+				}else{
+					clist.add(createCourseByResultSet(rs));
+				}
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);
+			e.printStackTrace();
+		} finally  {
+			EduDaoBasic.closeResources(conn, stmt, rs,true);
+		} 
+
+		return clist;
+	}
 
 	public static Course addCourseToDatabases(Course course,Connection...connections){
 		Connection conn = EduDaoBasic.getConnection(connections);
@@ -48,7 +212,7 @@ public class CourseDao {
 			stmt.setString(18, course.getDistrict());
 			stmt.setString(19, course.getReference());
 			stmt.setString(20, course.getCourseInfo());
-			
+
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -102,17 +266,17 @@ public class CourseDao {
 			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}
 	}
-	
+
 	public static Course getCourseById(int courseId,Connection...connections) throws CourseNotFoundException{
 		String query = "SELECT * FROM CourseDao where id = ?";
 		Course course = null;
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
-		
+
 		try{
 			stmt = conn.prepareStatement(query);
-			
+
 			stmt.setInt(1, courseId);
 			rs = stmt.executeQuery();
 			if(rs.next()){
@@ -127,7 +291,7 @@ public class CourseDao {
 	}
 
 	public static ArrayList<Course> getCoursesFromPartner(int p_Id){
-		String query = "SELECT * FROM CourseDao where p_Id = ?";
+		String query = "SELECT * FROM CourseDao where p_Id = ? ";
 		ArrayList<Course> clist = new ArrayList<Course>();
 		PreparedStatement stmt = null;
 		Connection conn = null;
@@ -137,7 +301,7 @@ public class CourseDao {
 		try{
 			conn = EduDaoBasic.getSQLConnection();
 			stmt = conn.prepareStatement(query);
-			
+
 			stmt.setInt(1, p_Id);
 			rs = stmt.executeQuery();
 			while(rs.next()){
@@ -156,10 +320,10 @@ public class CourseDao {
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,true);
 		} 
-		
+
 		return clist;
 	}
-	
+
 	protected static Course createCourseByResultSet(ResultSet rs,Partner partner,Connection...connections) throws SQLException {
 		int p_Id =  rs.getInt("p_Id");
 		if(partner == null){
@@ -185,5 +349,5 @@ public class CourseDao {
 				rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),AccountStatus.fromInt(rs.getInt("status")), 
 				rs.getString("category"), rs.getString("subCategory"), null,rs.getString("title"),rs.getString("location"),
 				rs.getString("city"),rs.getString("district"),rs.getString("reference"),rs.getString("courseInfo"));
-	}
+	}	
 }

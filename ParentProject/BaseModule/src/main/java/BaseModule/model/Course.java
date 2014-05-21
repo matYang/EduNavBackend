@@ -287,10 +287,9 @@ public class Course implements PseudoModel{
 
 	public boolean equals(Course c){		
 		if(this.partner==null){
-			return this.backgroundUrl.equals(c.getBackgroundUrl()) && this.category.equals(c.getCategory()) &&
-					this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() && this.title.equals(c.getTitle()) &&
-					this.teacherInfo.equals(c.getTeacherInfo()) && this.teacherImgUrl.equals(c.getTeacherImgUrl()) &&
-					this.teachingMaterial.equals(c.getTeachingMaterial()) && this.price == c.getPrice() && this.seatsTotal == c.getSeatsTotal() &&
+			return  this.category.equals(c.getCategory()) &&	this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() && 
+					this.title.equals(c.getTitle()) && 	this.teacherInfo.equals(c.getTeacherInfo()) &&this.teachingMaterial.equals(c.getTeachingMaterial()) && 
+					this.price == c.getPrice() && this.seatsTotal == c.getSeatsTotal() &&
 					this.seatsLeft == c.getSeatsLeft() && this.status.code == c.getStatus().code  &&
 					this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) && 
 					this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
@@ -298,9 +297,8 @@ public class Course implements PseudoModel{
 					this.location.equals(c.getLocation()) && this.city.equals(c.getCity()) && this.district.equals(c.getDistrict()) &&
 					this.reference.equals(c.getReference()) && this.courseInfo.equals(c.getCourseInfo());
 		}else{
-			return this.backgroundUrl.equals(c.getBackgroundUrl()) && this.category.equals(c.getCategory()) &&
-					this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() && this.title.equals(c.getTitle()) &&
-					this.teacherInfo.equals(c.getTeacherInfo()) && this.teacherImgUrl.equals(c.getTeacherImgUrl()) &&
+			return  this.category.equals(c.getCategory()) &&this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() && 
+					this.title.equals(c.getTitle()) && this.teacherInfo.equals(c.getTeacherInfo()) &&
 					this.teachingMaterial.equals(c.getTeachingMaterial()) && this.price == c.getPrice() && this.seatsTotal == c.getSeatsTotal() &&
 					this.seatsLeft == c.getSeatsLeft() && this.status.code == c.getStatus().code  &&
 					this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) && 
