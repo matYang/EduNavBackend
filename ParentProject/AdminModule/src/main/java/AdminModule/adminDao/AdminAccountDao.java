@@ -13,6 +13,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.encryption.PasswordCrypto;
 import BaseModule.encryption.SessionCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
@@ -37,7 +38,7 @@ public class AdminAccountDao {
 			stmt.setInt(5, account.getPrivilege().code);
 			stmt.setString(6, account.getName());
 			stmt.setString(7, account.getPhone());
-			stmt.setString(8, SessionCrypto.encrypt(account.getPassword()));
+			stmt.setString(8, PasswordCrypto.createHash(account.getPassword()));
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -57,7 +58,7 @@ public class AdminAccountDao {
 	public static void updateAdminAccountInDatabases(AdminAccount account) throws AdminAccountNotFoundException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;
-		String query = "UPDATE AdminAccountDao SET lastLogin=?,status=?,reference=?,privilege=?,name=?,phone=?,password=? where id = ?";
+		String query = "UPDATE AdminAccountDao SET lastLogin=?,status=?,reference=?,privilege=?,name=?,phone=? where id = ?";
 		try{
 			stmt = conn.prepareStatement(query);
 						
@@ -67,13 +68,7 @@ public class AdminAccountDao {
 			stmt.setInt(4, account.getPrivilege().code);
 			stmt.setString(5, account.getName());
 			stmt.setString(6, account.getPhone());
-			if(account.getPassword()!=null){
-				stmt.setString(7, SessionCrypto.encrypt(account.getPassword()));
-			}else{
-				stmt.setString(7, "");
-			}
-			
-			stmt.setInt(8, account.getAdminId());
+			stmt.setInt(7, account.getAdminId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new AdminAccountNotFoundException();
@@ -214,7 +209,7 @@ public class AdminAccountDao {
 			query = "UPDATE AdminAccountDao set password = ? where id = ?";
 			try{
 				stmt = conn.prepareStatement(query);
-				stmt.setString(1, SessionCrypto.encrypt(newPassword));				
+				stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 				stmt.setInt(2, adminId);
 				stmt.executeUpdate();
 			}catch(SQLException e){
@@ -274,7 +269,7 @@ public class AdminAccountDao {
 		boolean success = true;
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setString(1, SessionCrypto.encrypt(password));				
+			stmt.setString(1, PasswordCrypto.createHash(password));				
 			stmt.setInt(2, adminId);
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
