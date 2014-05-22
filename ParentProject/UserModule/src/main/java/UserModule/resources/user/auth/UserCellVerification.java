@@ -51,11 +51,12 @@ public class UserCellVerification extends UserPseudoResource{
 	
 	
 	@Post
-	public Representation smsVerify() {
+	public Representation smsVerify(Representation entity) {
 		
 		try{
-			String cellNum = this.getQueryVal("cellNum");
-			String authCode = this.getQueryVal("authCode");
+			JSONObject jsonPair = (new JsonRepresentation(entity)).getJsonObject();
+			String cellNum = jsonPair.getString("cellNum");
+			String authCode = jsonPair.getString("authCode");
 			
 			if (ValidationService.validatePhone(cellNum)){
 				boolean verified = UserCellVerificationDaoService.valdiateSession(cellNum, authCode);

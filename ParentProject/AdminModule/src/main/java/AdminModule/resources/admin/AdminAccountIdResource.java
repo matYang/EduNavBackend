@@ -98,7 +98,11 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 			targetAccount.setPrivilege(Privilege.routine);
 			targetAccount.setReference(contact.getString("reference"));
 			targetAccount.setStatus(AccountStatus.fromInt(contact.getInt("status")));
-			targetAccount.setName(contact.getString("name"));	
+			targetAccount.setName(contact.getString("name"));
+			//can not changhe an admin to a privilege level higher than self
+			if (admin.getPrivilege().code >= targetAccount.getPrivilege().code){
+				throw new ValidationException("无权操作");
+			}
 			AdminAccountDaoService.updateAdminAccount(targetAccount);
 			
 			response = AdminJSONFactory.toJSON(targetAccount);

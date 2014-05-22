@@ -99,6 +99,7 @@ public class UserResource extends UserPseudoResource{
 			this.checkEntity(entity);
 			
 			User newUser = validateUserJSON(entity);
+			ValidationService.validateUser(newUser);
 			creationFeedBack = UserDaoService.createUser(newUser);
 			//close the sms verification session
 			UserCellVerificationDaoService.closeSession(creationFeedBack.getPhone());

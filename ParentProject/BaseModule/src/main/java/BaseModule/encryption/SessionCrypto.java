@@ -15,18 +15,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class SessionCrypto{
 
-
-	   private static final byte[] keyBytes = new byte[] {
-	            0x08,0x09,0x05,0x09,0x04,0x05,0x06,0x07,0x08,0x09,
-	            0x03,0x01,0x08,0x03,0x04,0x05
-	        };
-	
-	
-	   private static final byte[] ivBytes = new byte[] {
-	            0x08,0x05,0x02,0x07,0x04,0x05,0x06,0x07,0x08,0x09,
-	            0x00,0x03,0x06,0x03,0x04,0x05
-	        };
-	
 	   
 	   private final static String HEX = "0123456789ABCDEF";
 	   
@@ -36,21 +24,26 @@ public class SessionCrypto{
 	
 	
 	   public static String encrypt(String plainText) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException,UnsupportedEncodingException{
-		   	
-		   	Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
-		   	SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES"); 
-		   	IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
+		   byte[] keyBytes = new byte[] { 0x08,0x09,0x05,0x09,0x04,0x05,0x06,0x07,0x08,0x09, 0x03,0x01,0x08,0x03,0x04,0x05};
+		   byte[] ivBytes = new byte[] { 0x08,0x05,0x02,0x07,0x04,0x05,0x06,0x07,0x08,0x09, 0x00,0x03,0x06,0x03,0x04,0x05};	
 		   
-		    byte[] plainTextBytes = plainText.getBytes("UTF8");
-			cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec); 
-			byte[] encrypted = cipher.doFinal(plainTextBytes);
-			return toHex(encrypted);
+		   
+		   Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
+		   SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES"); 
+		   IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
+		   
+		   byte[] plainTextBytes = plainText.getBytes("UTF8");
+		   cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec); 
+		   byte[] encrypted = cipher.doFinal(plainTextBytes);
+		   return toHex(encrypted);
 	
 	   }
 	
 	
 	   public static String decrypt(String cipherTextString) throws InvalidKeyException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException{
-		    
+		   byte[] keyBytes = new byte[] { 0x08,0x09,0x05,0x09,0x04,0x05,0x06,0x07,0x08,0x09, 0x03,0x01,0x08,0x03,0x04,0x05};
+		   byte[] ivBytes = new byte[] { 0x08,0x05,0x02,0x07,0x04,0x05,0x06,0x07,0x08,0x09, 0x00,0x03,0x06,0x03,0x04,0x05};	
+		   
 		   Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
 		   SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES"); 
 		   IvParameterSpec ivSpec = new IvParameterSpec(ivBytes); 
