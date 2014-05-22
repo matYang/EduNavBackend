@@ -1,36 +1,122 @@
 package BaseModule.service;
 
+import java.util.regex.Pattern;
+
+import BaseModule.common.DateUtility;
+import BaseModule.configurations.ValidationConfig;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.*;
 
 public class ValidationService {
-	
-	//TODO
-	public static boolean validateName(String name){
-		return true;
+		
+	public static boolean validateName(String userName){
+		Pattern NamePattern = Pattern.compile(ValidationConfig.RegexNamePattern);
+		Pattern WhiteSpacePattern = Pattern.compile(ValidationConfig.RegexNameWhiteSpacePattern);
+		if (userName == null || userName.length() == 0 || userName.length() > ValidationConfig.maxUserNameLength){
+			return false;
+		}	
+		if(WhiteSpacePattern.matcher(userName).matches()){
+			userName = userName.replaceAll("\\s+", "");
+		}
+		if (NamePattern.matcher(userName).matches()){
+			return true;
+		}
+		return false;
 	}
 	
-	public static boolean validatePhone(String cellNum){
+	public static boolean validatePhone(String phone){
+		if (phone == null){
+			return false;
+		}
+		//check if every digit is a number
+		for (int i = 0; i < phone.length(); i++) {
+			if (Character.isDigit(phone.charAt(i)) == false) {
+				return false;
+			}
+		}
 		return true;
 	}
 	
 	public static boolean validatePassword(String password){
-		return true;
+		if (password == null || password.length() < ValidationConfig.minPasswordLength || password.length() > ValidationConfig.maxPasswordLength){
+			return false;
+		}
+		
+		Pattern PasswordPattern = Pattern.compile(ValidationConfig.RegexPwPattern);
+		if(PasswordPattern.matcher(password).matches()){
+			return true;
+		}
+		return false;
 	}
 	
 	public static boolean validateUser(User user) throws ValidationException{
+		if (!validateName(user.getName()) || !validatePhone(user.getPhone()) ||
+				!validatePassword(user.getPassword())){
+			throw new ValidationException("用户输入信息不符合规范");			
+		}	
 		return true;
 	}
 	
 	public static boolean validatePartner(Partner partner) throws ValidationException{
+		if(!validateName(partner.getInstName()) || !validatePassword(partner.getPassword()) ||
+				!validatePhone(partner.getPhone())){
+			throw new ValidationException("合作伙伴输入信息不符合规范");
+		}
+		if(partner.getLicence() == null || partner.getLicence().length() ==0){
+			throw new ValidationException("合作伙伴营业执照不能为空");
+		}
+		if(partner.getInstName() == null || partner.getInstName().length() == 0){
+			throw new ValidationException("合作伙伴机构名字不能为空");
+		}
+		if(partner.getOrganizationNum() == null || partner.getOrganizationNum().length() == 0){
+			throw new ValidationException("合作伙伴机构号不能为空");
+		}
+		if(partner.getReference() == null || partner.getReference().length() == 0 ){
+			throw new ValidationException("合作伙伴信息不完整");
+		}
 		return true;
 	}
 	
 	public static boolean validateCourse(Course course) throws ValidationException{
+		if(course.getPartnerId() <= 0 || course.getSeatsLeft() < 0 || 
+				course.getSeatsTotal() < 0 || course.getPrice() < 0){
+			throw new ValidationException("课程信息不符合规范");
+		}
+		if(course.getSeatsLeft() > course.getSeatsTotal()){
+			throw new ValidationException("课程信息不符合规范");
+		}
+		if(course.getStartTime() == null || course.getFinishTime() == null){
+			throw new ValidationException("课程开始或完成时间不能为空");
+		}
+		if(DateUtility.compareday(course.getStartTime(), course.getFinishTime()) >= 0){
+			throw new ValidationException("课程开始或完成时间不合理");
+		}
+		if(course.getCategory() == null || course.getCategory().length() == 0 ||
+				course.getSubCategory() == null || course.getSubCategory().length() == 0 ||
+				course.getTitle() == null || course.getTitle().length() == 0){
+			throw new ValidationException("课程信息不完整");
+		}
 		return true;
 	}
 	
 	public static boolean validateBooking(Booking booking) throws ValidationException{
+		if(booking.getUserId() <= 0 || booking.getCourseId() <= 0 || booking.getPartnerId() <= 0){
+			throw new ValidationException("预定信息不完整");
+		}
+		if(booking.getStartTime() == null || booking.getFinishTime() == null){
+			throw new ValidationException("预定开始或完成时间不能为空");
+		}
+		if(DateUtility.compareday(booking.getStartTime(), booking.getFinishTime()) >= 0){
+			throw new ValidationException("预定开始或完成时间不合理");
+		}
+		if(booking.getReference() == null || booking.getReference().length() == 0 ||
+				booking.getTimeStamp() == null || booking.getName() == null ||
+				booking.getName().length() == 0){
+			throw new ValidationException("预定信息不完整");
+		}
+		if(booking.getPrice() < 0 || !validatePhone(booking.getPhone())){
+			throw new ValidationException("预定信息不规范");
+		}
 		return true;
 	}
 

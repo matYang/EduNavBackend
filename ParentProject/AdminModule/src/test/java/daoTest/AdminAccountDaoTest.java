@@ -171,7 +171,7 @@ public class AdminAccountDaoTest {
 			e.printStackTrace();
 			fail();
 		}
-		
+		account.setPhone("12455233");
 		if(AdminAccountDao.addAdminAccountToDatabases(account).equals(account)){
 			//Passed;
 		}else fail();
