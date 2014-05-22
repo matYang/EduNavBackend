@@ -13,13 +13,15 @@ public class AdminAccount implements PseudoModel{
 
 	private int adminId;
 	private String password;
-	private Calendar creationTime;
-	private Calendar lastLogin;
+	private String name;
+	private String phone;
+	
 	private String reference;
 	private Privilege privilege;
 	private AccountStatus status;
-	private String name;
-	private String phone;
+	
+	private Calendar creationTime;
+	private Calendar lastLogin;
 
 	//SQL Retrieving
 	public AdminAccount(int adminId, Calendar creationTime, Calendar lastLogin,

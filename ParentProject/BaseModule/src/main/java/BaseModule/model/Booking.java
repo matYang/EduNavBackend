@@ -12,18 +12,24 @@ import BaseModule.interfaces.PseudoModel;
 public class Booking implements PseudoModel{
 
 	private int bookingId;
-	private Calendar creationTime;
-	private Calendar timeStamp;
-	private Calendar startTime;
-	private Calendar finishTime;
-	private int price;
+	
 	private int userId;
 	private int partnerId;
 	private int courseId;
-	private String name;
-	private String phone;
+	private int price;
+	
 	private AccountStatus status;
 	private String reference;
+	private String name;
+	private String phone;
+	
+	private Calendar startTime;
+	private Calendar finishTime;
+	private Calendar creationTime;
+	private Calendar timeStamp;
+
+	
+	
 
 
 	//SQL Retrieving

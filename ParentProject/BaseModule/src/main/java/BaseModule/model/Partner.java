@@ -17,12 +17,14 @@ public class Partner implements PseudoModel{
 	private String organizationNum;
 	private String reference;
 	private String password;
-	private Calendar creationTime;
-	private Calendar lastLogin;
+	
 	private String phone;
 	private AccountStatus status;	
 	private String instName;
 	private String logoUrl;
+	
+	private Calendar creationTime;
+	private Calendar lastLogin;
 
 	//SQL Retrieving	
 	public Partner(int id, String name, String licence, String organizationNum,

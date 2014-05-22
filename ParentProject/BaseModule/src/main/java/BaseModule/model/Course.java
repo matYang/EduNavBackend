@@ -13,7 +13,7 @@ public class Course implements PseudoModel{
 
 	private int courseId;
 	private int partnerId;
-	private Calendar creationTime;
+	
 	private Calendar startTime;
 	private Calendar finishTime;
 	private int price;
@@ -33,6 +33,8 @@ public class Course implements PseudoModel{
 	private String teachingMaterial;
 	private String backgroundUrl;
 	private String courseInfo;
+	
+	private Calendar creationTime;
 	
 	//SQL Retrieving
 	public Course(int courseId, int p_Id, Calendar creationTime,
