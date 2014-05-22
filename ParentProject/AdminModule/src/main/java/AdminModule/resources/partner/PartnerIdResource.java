@@ -1,29 +1,16 @@
 package AdminModule.resources.partner;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.imgscalr.Scalr;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
-import org.restlet.ext.fileupload.RestletFileUpload;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Put;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.ImgConfig;
-import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.dbservice.FileService;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;

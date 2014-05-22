@@ -10,7 +10,7 @@ import BaseModule.common.DebugLog;
 
 public class LocationDataLoader {
 	
-	private static final String pathToFile = "staticData/LocationData";
+	private static final String pathToFile = "src/main/resources/LocationData";
 	private static final ArrayList<String> locationData = new ArrayList<String>();
 	
 	public static void load(){

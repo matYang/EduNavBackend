@@ -10,7 +10,7 @@ import BaseModule.common.DebugLog;
 
 public class PDataLoader {
 	
-	private static final String pathToFile = "staticData/PData";
+	private static final String pathToFile = "src/main/resources/PData";
 	private static final ArrayList<String> pData = new ArrayList<String>();
 	
 	public static void load(){
