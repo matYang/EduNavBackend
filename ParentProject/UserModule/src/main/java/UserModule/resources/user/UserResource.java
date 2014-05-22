@@ -120,7 +120,6 @@ public class UserResource extends UserPseudoResource{
 		}
 
 		Representation result = new JsonRepresentation(newJsonUser);
-
 		this.addCORSHeader(); 
 		return result;
 	}

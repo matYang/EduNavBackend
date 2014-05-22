@@ -1,36 +1,18 @@
 package AdminModule.resources.course;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import javax.imageio.ImageIO;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.imgscalr.Scalr;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
-import org.restlet.ext.fileupload.RestletFileUpload;
-import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.ImgConfig;
-import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.CourseDaoService;
-import BaseModule.dbservice.FileService;
-import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.ReferenceFactory;
@@ -40,7 +22,6 @@ public class CourseResource extends AdminPseudoResource{
 
 	@Post
 	public Representation createCourse(Representation entity){
-		File imgFile = null;
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
@@ -49,53 +30,12 @@ public class CourseResource extends AdminPseudoResource{
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");
 			}
-
-			// 1/ Create a factory for disk-based file items
-			DiskFileItemFactory factory = new DiskFileItemFactory();
-			factory.setSizeThreshold(ImgConfig.img_FactorySize);
-
-			// 2/ Create a new file upload handler
-			RestletFileUpload upload = new RestletFileUpload(factory);
-			List<FileItem> items;
 			
-			// 3/ Create a default empty course to get its id later
 			Course course = new Course();
 			course.setStatus(AccountStatus.deleted);
 			course = CourseDaoService.createCourse(course);
 
-			// 4/ Request is parsed by the handler which generates a list of FileItems
-			items = upload.parseRepresentation(entity); 
-			for (final Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-				FileItem fi = it.next();
-
-				String name = fi.getName();
-				if (name == null) {
-					props.put(fi.getFieldName(), new String(fi.get(), "UTF-8"));
-				} else {
-					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
-					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 800, 600, Scalr.OP_ANTIALIAS);
-					String imgName;
-					String path;
-					if (fi.getFieldName().equals("teacherImg")){
-						imgName = ImgConfig.teacherImgPrefix + ImgConfig.imgSize_m + course.getCourseId();
-						imgFile = new File(ServerConfig.resourcePrefix + ServerConfig.ImgFolder+ imgName + ".png");
-						ImageIO.write(bufferedImage, "png", imgFile);
-						//warning: can only call this upload once, as it will delete the image file before it exits
-						path = FileService.uploadTeacherImg(course.getCourseId(), imgFile, imgName);
-						props.put("teacherImgUrl", path);
-						
-					}
-					else{
-						imgName = ImgConfig.backgroundImgPrefix + ImgConfig.imgSize_m + course.getCourseId();
-						imgFile = new File(ServerConfig.resourcePrefix + ServerConfig.ImgFolder + imgName + ".png");
-						ImageIO.write(bufferedImage, "png", imgFile);
-						//warning: can only call this upload once, as it will delete the image file before it exits
-						path = FileService.uploadBackgroundImg(course.getCourseId(), imgFile, imgName);
-						props.put("backgroundUrl", path);
-					}                   
-
-				}
-			}
+			props = this.handleMultiForm(entity, course.getCourseId(), props);
 			
 			int partnerId = Integer.parseInt(props.get("partnerId"));
 			Calendar startTime = DateUtility.castFromAPIFormat(props.get("startTime"));

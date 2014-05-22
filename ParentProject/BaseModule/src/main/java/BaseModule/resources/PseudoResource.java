@@ -1,14 +1,26 @@
 package BaseModule.resources;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.imgscalr.Scalr;
 import org.json.JSONObject;
 import org.restlet.data.CookieSetting;
 import org.restlet.data.Status;
 import org.restlet.engine.header.Header;
+import org.restlet.ext.fileupload.RestletFileUpload;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
@@ -17,11 +29,15 @@ import org.restlet.resource.ServerResource;
 import org.restlet.util.Series;
 
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.ImgConfig;
 import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.ValidationConfig;
+import BaseModule.dbservice.CourseDaoService;
+import BaseModule.dbservice.FileService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoRepresentation;
+import BaseModule.model.Course;
 import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class PseudoResource extends ServerResource{
@@ -148,5 +164,75 @@ public class PseudoResource extends ServerResource{
     	setStatus(Status.SUCCESS_OK);
         return new JsonRepresentation(new JSONObject());
     }
+    
+	/******************
+	 * 
+	 * Multi-form handling
+	 * 
+	 ******************/
+    public Map<String, String> handleMultiForm(Representation entity, int id, Map<String, String> props) throws FileUploadException, IOException, ValidationException {
+    	File imgFile = null;
+    	// 1/ Create a factory for disk-based file items
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		factory.setSizeThreshold(ImgConfig.img_FactorySize);
+
+		// 2/ Create a new file upload handler
+		RestletFileUpload upload = new RestletFileUpload(factory);
+		List<FileItem> items;
+
+		// 3/ Request is parsed by the handler which generates a list of FileItems
+		items = upload.parseRepresentation(entity); 
+		for (final Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
+			FileItem fi = it.next();
+
+			String name = fi.getName();
+			if (name == null) {
+				props.put(fi.getFieldName(), new String(fi.get(), "UTF-8"));
+			} else {
+				String imgName;
+				String path;
+				if (fi.getFieldName().equals("teacherImg")){
+					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
+					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 800, 600, Scalr.OP_ANTIALIAS);
+					
+					imgName = ImgConfig.teacherImgPrefix + ImgConfig.imgSize_m + id;
+					imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder+ imgName + ".png");
+					ImageIO.write(bufferedImage, "png", imgFile);
+					//warning: can only call this upload once, as it will delete the image file before it exits
+					path = FileService.uploadTeacherImg(id, imgFile, imgName);
+					props.put("teacherImgUrl", path);
+					
+				}
+				else if (fi.getFieldName().equals("backgroundImg")){
+					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
+					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 800, 600, Scalr.OP_ANTIALIAS);
+					imgName = ImgConfig.backgroundImgPrefix + ImgConfig.imgSize_m + id;
+					imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName + ".png");
+					ImageIO.write(bufferedImage, "png", imgFile);
+					//warning: can only call this upload once, as it will delete the image file before it exits
+					path = FileService.uploadBackgroundImg(id, imgFile, imgName);
+					props.put("backgroundUrl", path);
+				}
+				else if (fi.getFieldName().equals("logo")){
+					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
+					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 300, 300, Scalr.OP_ANTIALIAS);
+
+					imgName = ImgConfig.logoPrefix + ImgConfig.imgSize_m + id;
+					imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder+ imgName + ".png");
+					ImageIO.write(bufferedImage, "png", imgFile);
+					//warning: can only call this upload once, as it will delete the image file before it exits
+					path = FileService.uploadLogoImg(id, imgFile, imgName);
+					props.put("logoUrl", path);
+				}
+				else{
+					throw new ValidationException("检测到无效照片");
+				}                   
+
+			}
+		}
+		
+		return props;
+    }
+    
     
 }
