@@ -8,12 +8,13 @@ import org.junit.Test;
 import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
-import PartnerModule.service.PartnerAuthDaoService;
+import BaseModule.service.RedisAuthenticationService;
 import PartnerModule.service.PartnerAuthenticationService;
 
 public class PartnerAuthDaoServiceTest {
 
 	private static final int partnerSession_web_authCodeLength = 15;
+	public static final int serviceIdentifier = 5;
 	
 	@Test
 	public void test(){
@@ -21,30 +22,30 @@ public class PartnerAuthDaoServiceTest {
 		int partnerId = 1;
 		String authCode = RandomStringUtils.randomAlphanumeric(partnerSession_web_authCodeLength);
 		long timeStamp = DateUtility.getLongFromTimeStamp(DateUtility.getTimeStamp());
-		if(!PartnerAuthDaoService.validateSession(partnerId, authCode, timeStamp)){
+		if(!RedisAuthenticationService.validateWebSession(serviceIdentifier, partnerId, authCode, timeStamp)){
 			//Passed;
 		}else fail();
 
 		String sessionString = "";
-		sessionString = PartnerAuthDaoService.openSession(partnerId);
+		sessionString = RedisAuthenticationService.openWebSession(serviceIdentifier, partnerId);
 		if(sessionString.equals("")){
 			fail();
 		}
 		try {
-			authCode = PartnerAuthenticationService.getAuthCodeFromSessionString(sessionString);
+			authCode = RedisAuthenticationService.getAuthCodeFromSessionString(sessionString);
 		} catch (PseudoException e) {			
 			e.printStackTrace();
 		}
 		try {
-			timeStamp = PartnerAuthenticationService.getTimeStampFromSessionString(sessionString);
+			timeStamp = RedisAuthenticationService.getTimeStampFromSessionString(sessionString);
 		} catch (PseudoException e) {			
 			e.printStackTrace();
 		}
-		if(PartnerAuthDaoService.validateSession(partnerId, authCode, timeStamp)){
+		if(RedisAuthenticationService.validateWebSession(serviceIdentifier, partnerId, authCode, timeStamp)){
 			//Passed;
 		}else fail();
 
-		if(PartnerAuthDaoService.closeSession(partnerId)){
+		if(RedisAuthenticationService.closeSession(serviceIdentifier, String.valueOf(partnerId))){
 			//Passed;
 		}else fail();
 

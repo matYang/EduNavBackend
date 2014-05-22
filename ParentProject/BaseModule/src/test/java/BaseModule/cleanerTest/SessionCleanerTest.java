@@ -12,7 +12,7 @@ import redis.clients.jedis.Jedis;
 import BaseModule.clean.cleanTasks.SessionCleaner;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.DatabaseConfig;
-import BaseModule.configurations.RedisPrefixConfig;
+import BaseModule.configurations.RedisAuthenticationConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 
 public class SessionCleanerTest {
@@ -35,12 +35,12 @@ public class SessionCleanerTest {
 		String nowTimeStamp = DateUtility.getTimeStamp();
 		//UserAuthOpenSession
 		int userId = 1;		
-		String redisKey = RedisPrefixConfig.userSession_web_keyPrefix + userId;
+		String redisKey = RedisAuthenticationConfig.userSession_web_keyPrefix + userId;
 		String sessionString0 = userId + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(userSession_web_authCodeLength) + DatabaseConfig.redisSeperator + nowTimeStamp;		
 		redis.set(redisKey, sessionString0);
 
 		userId++;		
-		redisKey = RedisPrefixConfig.userSession_web_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.userSession_web_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.DAY_OF_YEAR, -8);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -48,7 +48,7 @@ public class SessionCleanerTest {
 		redis.set(redisKey, sessionString1);
 
 		userId++;		
-		redisKey = RedisPrefixConfig.userSession_web_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.userSession_web_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.MINUTE, 5);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -57,12 +57,12 @@ public class SessionCleanerTest {
 
 		//UserChangePasswordOpenSession
 		userId++;			
-		redisKey = RedisPrefixConfig.userChangePasswordVerification_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.userChangePasswordVerification_keyPrefix + userId;
 		String sessionString3 = RandomStringUtils.randomAlphanumeric(userChangePasswordVerification_authCodeLength).toUpperCase() + DatabaseConfig.redisSeperator + nowTimeStamp;
 		redis.set(redisKey, sessionString3);
 
 		userId++;		
-		redisKey = RedisPrefixConfig.userChangePasswordVerification_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.userChangePasswordVerification_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.DAY_OF_YEAR, -19);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -71,12 +71,12 @@ public class SessionCleanerTest {
 
 		//UserCellOpenSession
 		userId++;			
-		redisKey = RedisPrefixConfig.userCellVerification_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.userCellVerification_keyPrefix + userId;
 		String sessionString5 = RandomStringUtils.randomAlphanumeric(userCellVerification_authCodeLength).toUpperCase() + DatabaseConfig.redisSeperator + nowTimeStamp;
 		redis.set(redisKey, sessionString5);
 
 		userId++;		
-		redisKey = RedisPrefixConfig.userCellVerification_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.userCellVerification_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.HOUR_OF_DAY, -7);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -85,7 +85,7 @@ public class SessionCleanerTest {
 
 		//UserForgotPassword
 		userId++;			
-		redisKey = RedisPrefixConfig.userForgotPassword_keyPrefix+ userId;
+		redisKey = RedisAuthenticationConfig.userForgotPassword_keyPrefix+ userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.MINUTE, 1);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -93,7 +93,7 @@ public class SessionCleanerTest {
 		redis.set(redisKey, sessionString7);
 
 		userId++;		
-		redisKey = RedisPrefixConfig.userForgotPassword_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.userForgotPassword_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.HOUR_OF_DAY, -15);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -102,7 +102,7 @@ public class SessionCleanerTest {
 
 		//PartnerAuth
 		userId++;			
-		redisKey = RedisPrefixConfig.partnerSession_web_keyPrefix+ userId;
+		redisKey = RedisAuthenticationConfig.partnerSession_web_keyPrefix+ userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.MINUTE, 1);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -110,7 +110,7 @@ public class SessionCleanerTest {
 		redis.set(redisKey, sessionString9);
 
 		userId++;		
-		redisKey = RedisPrefixConfig.partnerSession_web_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.partnerSession_web_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.DAY_OF_YEAR, -25);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -119,7 +119,7 @@ public class SessionCleanerTest {
 
 		//PartnerForgotPassword
 		userId++;			
-		redisKey = RedisPrefixConfig.partnerForgotPassword_keyPrefix+ userId;
+		redisKey = RedisAuthenticationConfig.partnerForgotPassword_keyPrefix+ userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.MINUTE, 1);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -127,7 +127,7 @@ public class SessionCleanerTest {
 		redis.set(redisKey, sessionString11);
 
 		userId++;		
-		redisKey = RedisPrefixConfig.partnerForgotPassword_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.partnerForgotPassword_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.HOUR_OF_DAY, -9);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -136,7 +136,7 @@ public class SessionCleanerTest {
 
 		//PartnerChangePassword
 		userId++;			
-		redisKey = RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix+ userId;
+		redisKey = RedisAuthenticationConfig.partnerChangePasswordVerification_keyPrefix+ userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.MINUTE, 1);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -144,7 +144,7 @@ public class SessionCleanerTest {
 		redis.set(redisKey, sessionString13);
 
 		userId++;		
-		redisKey = RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.partnerChangePasswordVerification_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.HOUR_OF_DAY, -9);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -153,7 +153,7 @@ public class SessionCleanerTest {
 
 		//AdminAuth
 		userId++;			
-		redisKey = RedisPrefixConfig.adminSession_web_keyPrefix+ userId;
+		redisKey = RedisAuthenticationConfig.adminSession_web_keyPrefix+ userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.MINUTE, 1);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -161,7 +161,7 @@ public class SessionCleanerTest {
 		redis.set(redisKey, sessionString15);
 
 		userId++;		
-		redisKey = RedisPrefixConfig.adminSession_web_keyPrefix + userId;
+		redisKey = RedisAuthenticationConfig.adminSession_web_keyPrefix + userId;
 		badTime = DateUtility.getCurTimeInstance();
 		badTime.add(Calendar.DAY_OF_WEEK_IN_MONTH, -10);
 		badTimeStamp = badTime.getTimeInMillis();
@@ -180,7 +180,7 @@ public class SessionCleanerTest {
 
 		//UserAuth
 		itr = 0;
-		keys = redis.keys(RedisPrefixConfig.userSession_web_keyPrefix+"*");
+		keys = redis.keys(RedisAuthenticationConfig.userSession_web_keyPrefix+"*");
 		if(keys.size() != 2){
 			fail();
 		}
@@ -195,7 +195,7 @@ public class SessionCleanerTest {
 		}
 
 		//UserChangePassword		
-		keys = redis.keys(RedisPrefixConfig.userChangePasswordVerification_keyPrefix+"*");	
+		keys = redis.keys(RedisAuthenticationConfig.userChangePasswordVerification_keyPrefix+"*");	
 		if(keys.size() != 1){
 			fail();
 		}	
@@ -208,7 +208,7 @@ public class SessionCleanerTest {
 		}
 		//UserCell
 		itr = 0;
-		keys = redis.keys(RedisPrefixConfig.userCellVerification_keyPrefix+"*");	
+		keys = redis.keys(RedisAuthenticationConfig.userCellVerification_keyPrefix+"*");	
 		if(keys.size() != 1){
 			fail();
 		}
@@ -221,7 +221,7 @@ public class SessionCleanerTest {
 		}
 		//UserForgotPassword
 		itr = 0;
-		keys = redis.keys(RedisPrefixConfig.userForgotPassword_keyPrefix+"*");		
+		keys = redis.keys(RedisAuthenticationConfig.userForgotPassword_keyPrefix+"*");		
 		if(keys.size() != 1){
 			fail();
 		}
@@ -237,7 +237,7 @@ public class SessionCleanerTest {
 
 		//PartnerAuth
 		itr = 0;
-		keys = redis.keys(RedisPrefixConfig.partnerSession_web_keyPrefix+"*");		
+		keys = redis.keys(RedisAuthenticationConfig.partnerSession_web_keyPrefix+"*");		
 		if(keys.size() != 1){
 			fail();
 		}
@@ -250,7 +250,7 @@ public class SessionCleanerTest {
 		}
 		//PartnerForgotPassword
 		itr = 0;
-		keys = redis.keys(RedisPrefixConfig.partnerForgotPassword_keyPrefix+"*");		
+		keys = redis.keys(RedisAuthenticationConfig.partnerForgotPassword_keyPrefix+"*");		
 		if(keys.size() != 1){
 			fail();
 		}
@@ -263,7 +263,7 @@ public class SessionCleanerTest {
 		}
 		//PartnerChangePassword
 		itr = 0;
-		keys = redis.keys(RedisPrefixConfig.partnerChangePasswordVerification_keyPrefix+"*");		
+		keys = redis.keys(RedisAuthenticationConfig.partnerChangePasswordVerification_keyPrefix+"*");		
 		if(keys.size() != 1){
 			fail();
 		}
@@ -279,7 +279,7 @@ public class SessionCleanerTest {
 
 		//AdminAuth
 		itr = 0;
-		keys = redis.keys(RedisPrefixConfig.adminSession_web_keyPrefix+"*");		
+		keys = redis.keys(RedisAuthenticationConfig.adminSession_web_keyPrefix+"*");		
 		if(keys.size() != 1){
 			fail();
 		}

@@ -100,6 +100,7 @@ public class BookingIdResource extends UserPseudoResource{
 			booking.setStatus(status);
 			
 			ValidationService.validateBooking(booking);
+			
 		}catch (JSONException|IOException e) {
 			throw new ValidationException("无效数据格式");
 		}	

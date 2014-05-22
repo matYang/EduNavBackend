@@ -11,7 +11,7 @@ import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import AdminModule.factory.JSONFactory;
+import AdminModule.factory.AdminJSONFactory;
 import BaseModule.service.ValidationService;
 
 public class AdminAccountLogin extends AdminPseudoResource{
@@ -39,7 +39,7 @@ public class AdminAccountLogin extends AdminPseudoResource{
 			account = AdminAccountDaoService.authenticateAdminAccount(reference, password);
 			this.openAuthentication(account.getAdminId());
 
-			jsonObject = JSONFactory.toJSON(account);
+			jsonObject = AdminJSONFactory.toJSON(account);
 			setStatus(Status.SUCCESS_OK);
 		} catch (PseudoException e){
 			this.addCORSHeader();

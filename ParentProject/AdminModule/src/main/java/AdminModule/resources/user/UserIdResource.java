@@ -32,8 +32,8 @@ public class UserIdResource extends AdminPseudoResource{
 			
 			user.setName(name);
 			user.setStatus(status);
-
 			ValidationService.validateUser(user);
+			
 		} catch (NullPointerException | JSONException | IOException e) {
 			DebugLog.d(e);
 			throw new ValidationException("姓名格式不正确");

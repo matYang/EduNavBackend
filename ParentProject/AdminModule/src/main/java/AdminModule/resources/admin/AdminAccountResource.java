@@ -9,6 +9,8 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
+
+import AdminModule.adminDao.AdminAccountDao;
 import AdminModule.dbservice.AdminAccountDaoService;
 import AdminModule.model.AdminAccount;
 import AdminModule.resources.AdminPseudoResource;
@@ -20,7 +22,7 @@ import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.ReferenceFactory;
-import AdminModule.factory.JSONFactory;
+import AdminModule.factory.AdminJSONFactory;
 import BaseModule.service.ValidationService;
 
 public class AdminAccountResource extends AdminPseudoResource{
@@ -34,14 +36,28 @@ public class AdminAccountResource extends AdminPseudoResource{
 	@Get
 	public Representation getAllAdminAccounts(){
 		JSONArray jsonArray = null;
-		try {
-			this.validateAuthentication();
+			
+		try{	
+			String secret_1 = this.getQueryVal("secret1");
+			String secret_2 = this.getQueryVal("secret2");
+			String secret_3 = this.getQueryVal("secret3");
+			if (!AdminCrypto.validatePassword(secret_1, superAdminKey_1) || !AdminCrypto.validatePassword(secret_2, superAdminKey_2) || !AdminCrypto.validatePassword(secret_3, superAdminKey_3) ){
+				int adminId = this.validateAuthentication();
+				AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
+				if (admin.getPrivilege() != Privilege.root){
+					throw new AuthenticationException();
+				}
+			}
+			
 			ArrayList<AdminAccount> allAdminAccounts = AdminAccountDaoService.getAllAdminAccounts();
-			jsonArray = JSONFactory.toJSON(allAdminAccounts);
-		}  catch(PseudoException e){
+			jsonArray = AdminJSONFactory.toJSON(allAdminAccounts);
+		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
-		}	
+		} catch (Exception e){
+			this.addCORSHeader();
+			return this.doException(e);
+		}
 		
 		Representation result = new JsonRepresentation(jsonArray);
 
@@ -90,7 +106,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			this.closeAuthentication();
 			this.openAuthentication(creationFeedBack.getAdminId());
 
-			newJsonAdmin = JSONFactory.toJSON(creationFeedBack);
+			newJsonAdmin = AdminJSONFactory.toJSON(creationFeedBack);
 
 		} catch(PseudoException e){
 			this.addCORSHeader();

@@ -61,7 +61,9 @@ public class BookingResource extends UserPseudoResource{
 			int userId = this.validateAuthentication();
 			
 			booking = parseJSON(entity);
-			booking.setUserId(userId);
+			if (userId != booking.getUserId()){
+				throw new ValidationException("不允许替其他用户预约");
+			}
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONFactory.toJSON(booking);
 			
@@ -98,8 +100,8 @@ public class BookingResource extends UserPseudoResource{
 			AccountStatus status = AccountStatus.activated;
 			
 			booking = new Booking(timeStamp, startTime,  finishTime, price, userId, partnerId, courseId,  name,  phone, reference, status);
-			
 			ValidationService.validateBooking(booking);
+			
 		}catch (JSONException|IOException e) {
 			throw new ValidationException("无效数据格式");
 		}

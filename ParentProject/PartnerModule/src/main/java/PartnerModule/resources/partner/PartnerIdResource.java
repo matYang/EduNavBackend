@@ -67,8 +67,8 @@ public class PartnerIdResource extends PartnerPseudoResource{
 	
 	
 
-	@Post
-	public Representation createPartner(Representation entity){
+	@Put
+	public Representation updatePartner(Representation entity){
 		File imgFile = null;
 		Map<String, String> props = new HashMap<String, String>();
 		try{

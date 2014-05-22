@@ -11,7 +11,10 @@ public class AdminCrypto {
 
 
     public static boolean validatePassword(String password, String correctHash)throws NoSuchAlgorithmException, InvalidKeySpecException{
-        return validatePassword(password.toCharArray(), correctHash);
+        if (password == null){
+        	return false;
+        }
+    	return validatePassword(password.toCharArray(), correctHash);
     }
 
     private static boolean validatePassword(char[] password, String correctHash)throws NoSuchAlgorithmException, InvalidKeySpecException{

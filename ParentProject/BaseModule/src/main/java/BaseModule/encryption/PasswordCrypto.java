@@ -40,7 +40,10 @@ public class PasswordCrypto {
 
 
     public static boolean validatePassword(String password, String correctHash)throws NoSuchAlgorithmException, InvalidKeySpecException{
-        return validatePassword(password.toCharArray(), correctHash);
+    	if (password == null){
+        	return false;
+        }
+    	return validatePassword(password.toCharArray(), correctHash);
     }
 
 

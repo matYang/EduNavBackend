@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import AdminModule.model.AdminAccount;
 import BaseModule.common.DebugLog;
 
-public class JSONFactory {
+public class AdminJSONFactory {
 	public static JSONObject toJSON(AdminAccount obj){
 		if (obj == null){
 			DebugLog.d("JSONFactory::toJSON_Model receving null obj");

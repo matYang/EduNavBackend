@@ -20,7 +20,7 @@ import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import AdminModule.factory.JSONFactory;
+import AdminModule.factory.AdminJSONFactory;
 
 
 public class AdminAccountIdResource extends AdminPseudoResource{
@@ -41,7 +41,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 				throw new ValidationException("无权操作");
 			}
 	    	
-	        jsonObject = JSONFactory.toJSON(targetAccount);
+	        jsonObject = AdminJSONFactory.toJSON(targetAccount);
 	        
 		} catch (PseudoException e){
 			this.addCORSHeader();
@@ -98,10 +98,14 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 			targetAccount.setPrivilege(Privilege.routine);
 			targetAccount.setReference(contact.getString("reference"));
 			targetAccount.setStatus(AccountStatus.fromInt(contact.getInt("status")));
-			targetAccount.setName(contact.getString("name"));	
+			targetAccount.setName(contact.getString("name"));
+			//can not changhe an admin to a privilege level higher than self
+			if (admin.getPrivilege().code >= targetAccount.getPrivilege().code){
+				throw new ValidationException("无权操作");
+			}
 			AdminAccountDaoService.updateAdminAccount(targetAccount);
 			
-			response = JSONFactory.toJSON(targetAccount);
+			response = AdminJSONFactory.toJSON(targetAccount);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){

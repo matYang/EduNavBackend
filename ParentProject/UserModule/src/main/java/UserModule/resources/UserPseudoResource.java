@@ -1,6 +1,5 @@
 package UserModule.resources;
 
-
 import java.util.ArrayList;
 import org.restlet.data.Cookie;
 import org.restlet.data.CookieSetting;
@@ -9,7 +8,6 @@ import org.restlet.util.Series;
 
 import UserModule.service.UserAuthenticationService;
 import BaseModule.encryption.SessionCrypto;
-import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.resources.PseudoResource;

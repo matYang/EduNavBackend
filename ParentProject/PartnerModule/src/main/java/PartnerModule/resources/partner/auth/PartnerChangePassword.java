@@ -10,10 +10,10 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 
-import BaseModule.dbservice.UserDaoService;
+import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.model.User;
+import BaseModule.model.Partner;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 import PartnerModule.resources.PartnerPseudoResource;
@@ -26,12 +26,12 @@ public class PartnerChangePassword extends PartnerPseudoResource {
 	public Representation changePasswordVerification() {
 		
 		try{
-			int userId = this.validateAuthentication();
+			int partnerId = this.validateAuthentication();
 			
-			String authCode = PartnerChangePasswordVerificationDaoService.openSession(userId);
-			User user = UserDaoService.getUserById(userId);
+			String authCode = PartnerChangePasswordVerificationDaoService.openSession(partnerId);
+			Partner partner = PartnerDaoService.getPartnerById(partnerId);
 			
-			SMSService.sendUserChangePasswordSMS(user.getPhone(), authCode);
+			SMSService.sendPartnerChangePasswordSMS(partner.getPhone(), authCode);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch(PseudoException e){
@@ -48,7 +48,7 @@ public class PartnerChangePassword extends PartnerPseudoResource {
 	}
 	
 
-	protected String[] validateForgetPasswordJSON(int userId, Representation entity) throws ValidationException{
+	protected String[] validateForgetPasswordJSON(int partnerId, Representation entity) throws ValidationException{
 		JSONObject jsonPasswords = null;
 		String[] passwords = new String[2];
 		
@@ -69,7 +69,7 @@ public class PartnerChangePassword extends PartnerPseudoResource {
 			if (!newPassword.equals(confirmNewPassword )){
 				throw new ValidationException("两次输入密码不相符");
 			}
-			if (!PartnerChangePasswordVerificationDaoService.valdiateSession(userId, authCode)){
+			if (!PartnerChangePasswordVerificationDaoService.valdiateSession(partnerId, authCode)){
 				throw new ValidationException("手机验证码错误");
 			}
 			passwords[0] = oldPassword;
@@ -90,16 +90,16 @@ public class PartnerChangePassword extends PartnerPseudoResource {
 		
 		try {
 			this.checkEntity(entity);
-			int userId = this.validateAuthentication();
+			int partnerId = this.validateAuthentication();
 
-			passwords = validateForgetPasswordJSON(userId, entity);
+			passwords = validateForgetPasswordJSON(partnerId, entity);
 
-			UserDaoService.changePassword(userId, passwords[0], passwords[1]);
-			PartnerChangePasswordVerificationDaoService.closeSession(userId);
+			PartnerDaoService.changePassword(partnerId, passwords[0], passwords[1]);
+			PartnerChangePasswordVerificationDaoService.closeSession(partnerId);
 			
 			//open new authentication, log every other client out
 			this.closeAuthentication();
-			this.openAuthentication(userId);
+			this.openAuthentication(partnerId);
 
 			setStatus(Status.SUCCESS_OK);
 			quickResponseText = "密码修改成功";

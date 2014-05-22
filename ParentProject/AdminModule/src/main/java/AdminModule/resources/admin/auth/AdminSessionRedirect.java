@@ -13,7 +13,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
-import AdminModule.factory.JSONFactory;
+import AdminModule.factory.AdminJSONFactory;
 
 
 public class AdminSessionRedirect extends AdminPseudoResource{
@@ -28,12 +28,12 @@ public class AdminSessionRedirect extends AdminPseudoResource{
 		try {
 			int accountId = this.validateAuthentication();
 			account = AdminAccountDaoService.getAdminAccountById(accountId);
-			jsonObject = JSONFactory.toJSON(account);
+			jsonObject = AdminJSONFactory.toJSON(account);
 		} catch (AuthenticationException e){
 			//if not authenticated, return default user with id -1
 			account = new AdminAccount("default", "default","default", Privilege.routine, AccountStatus.activated,"default");
 			account.setAdminId(-1);
-			jsonObject = JSONFactory.toJSON(account);
+			jsonObject = AdminJSONFactory.toJSON(account);
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

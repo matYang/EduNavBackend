@@ -1,93 +1,23 @@
 package UserModule.service;
 
-import org.apache.commons.lang3.RandomStringUtils;
-
-import redis.clients.jedis.Jedis;
-import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
-import BaseModule.configurations.DatabaseConfig;
-import BaseModule.configurations.RedisPrefixConfig;
-import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.service.RedisUtilityService;
+import BaseModule.service.RedisAuthenticationService;
 
 public class UserCellVerificationDaoService {
 	
-	
-	private static final String userCellVerification_keyPrefix =  RedisPrefixConfig.userCellVerification_keyPrefix;
-	private static final int userCellVerification_authCodeLength = 6;
-	private static final long userCellVerification_expireThreshold = 21600000l;		//6h
-	private static final long userCellVerification_resendThreshold = 60000;			//1min
-	
-	
+	public static final int serviceIdentifier = 3;
 	
 	public static boolean valdiateSession(String cellNum, String authCode){
-		Jedis jedis = EduDaoBasic.getJedis();
-		try{
-			String redisKey = userCellVerification_keyPrefix + cellNum;
-			String sessionString = jedis.get(redisKey);
-			
-			if(!RedisUtilityService.isValuedStored(sessionString)){
-				return false;
-			}else{
-				String redis_authCode = sessionString.split(DatabaseConfig.redisSeperatorRegex)[0];
-				long redis_timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);
-				
-				if(!redis_authCode.equals(authCode)){
-					return false;
-				}
-				if((DateUtility.getCurTime() - redis_timeStamp) > userCellVerification_expireThreshold){
-					jedis.del(redisKey);
-					return false;
-				}
-				return true;
-			}
-		} catch (Exception e){
-			DebugLog.d(e);
-			return false;
-		} finally{
-			EduDaoBasic.returnJedis(jedis);
-		}
+		return RedisAuthenticationService.valdiateCellSession(serviceIdentifier, cellNum, authCode);
 	}
 	
 	public static String openSession(String cellNum) throws ValidationException{
-		Jedis jedis = EduDaoBasic.getJedis();
-		String authCode;
-		
-		try{
-			String redisKey = userCellVerification_keyPrefix + cellNum;
-			String previousRecord = jedis.get(redisKey);
-			if (RedisUtilityService.isValuedStored(previousRecord)){
-				//check if should resend
-				long redis_timeStamp = DateUtility.getLongFromTimeStamp(previousRecord.split(DatabaseConfig.redisSeperatorRegex)[1]);
-				if((DateUtility.getCurTime() - redis_timeStamp) <= userCellVerification_resendThreshold){
-					throw new ValidationException("连续请求过快");
-				}
-			}
-			
-			authCode = RandomStringUtils.randomAlphanumeric(userCellVerification_authCodeLength).toUpperCase();
-			String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
-			
-			jedis.set(redisKey, sessionString);
-		} finally{
-			EduDaoBasic.returnJedis(jedis);
-		}
-		
-		return authCode;
+		return RedisAuthenticationService.openCellSession(serviceIdentifier, cellNum);
 	}
 	
 	
 	public static boolean closeSession(String cellNum){
-		Jedis jedis = EduDaoBasic.getJedis();
-		boolean result;
-		
-		try{
-			result = jedis.del(userCellVerification_keyPrefix + cellNum) == 1;
-		} finally{
-			EduDaoBasic.returnJedis(jedis);
-		}
-		
-		return result;
+		return RedisAuthenticationService.closeSession(serviceIdentifier, cellNum);
 	}
 	
 }
