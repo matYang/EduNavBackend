@@ -32,12 +32,12 @@ public class PartnerAuthDaoServiceTest {
 			fail();
 		}
 		try {
-			authCode = PartnerAuthenticationService.getAuthCodeFromSessionString(sessionString);
+			authCode = RedisAuthenticationService.getAuthCodeFromSessionString(sessionString);
 		} catch (PseudoException e) {			
 			e.printStackTrace();
 		}
 		try {
-			timeStamp = PartnerAuthenticationService.getTimeStampFromSessionString(sessionString);
+			timeStamp = RedisAuthenticationService.getTimeStampFromSessionString(sessionString);
 		} catch (PseudoException e) {			
 			e.printStackTrace();
 		}

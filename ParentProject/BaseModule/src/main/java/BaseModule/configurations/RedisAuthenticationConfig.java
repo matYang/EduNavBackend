@@ -2,7 +2,7 @@ package BaseModule.configurations;
 
 import BaseModule.model.configObj.RedisSubConfig;
 
-public class RedisPrefixConfig {
+public class RedisAuthenticationConfig {
 	
 	/* UserModule */
 	public static final String userSession_web_keyPrefix = "user-session-web-";

@@ -31,12 +31,12 @@ public class UserAuthDaoServiceTest {
 			fail();
 		}
 		try {
-			authCode = UserAuthenticationService.getAuthCodeFromSessionString(sessionString);
+			authCode = RedisAuthenticationService.getAuthCodeFromSessionString(sessionString);
 		} catch (PseudoException e) {			
 			e.printStackTrace();
 		}
 		try {
-			timeStamp = UserAuthenticationService.getTimeStampFromSessionString(sessionString);
+			timeStamp = RedisAuthenticationService.getTimeStampFromSessionString(sessionString);
 		} catch (PseudoException e) {			
 			e.printStackTrace();
 		}

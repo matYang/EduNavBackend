@@ -12,13 +12,13 @@ public class UserAuthenticationService {
 		if (sessionString == null){
 			throw new AuthenticationException();
 		}
-		int userId = getUserIdFromSessionString(sessionString);
+		int userId = RedisAuthenticationService.getIdFromSessionString(sessionString);
 		if (userId < 0){
 			throw new AuthenticationException();
 		}
 		else{
-			String authCode = getAuthCodeFromSessionString(sessionString);
-			long mili = getTimeStampFromSessionString(sessionString);
+			String authCode = RedisAuthenticationService.getAuthCodeFromSessionString(sessionString);
+			long mili = RedisAuthenticationService.getTimeStampFromSessionString(sessionString);
 			boolean login = RedisAuthenticationService.validateWebSession(serviceIdentifier, userId, authCode, mili);
 			if (!login){
 				throw new AuthenticationException();
@@ -34,18 +34,8 @@ public class UserAuthenticationService {
 	
 
 	public static boolean closeSession(String sessionString) throws PseudoException{
-		return RedisAuthenticationService.closeSession(serviceIdentifier, String.valueOf(getUserIdFromSessionString(sessionString)));
+		return RedisAuthenticationService.closeSession(serviceIdentifier, String.valueOf(RedisAuthenticationService.getIdFromSessionString(sessionString)));
 	}
 	
-	//Session string format: "id+sessionStr+timeStamp"
-	public static int getUserIdFromSessionString(String sessionString)throws PseudoException{
-		return RedisAuthenticationService.getIdFromSessionString(sessionString);
-	}
-	public static String getAuthCodeFromSessionString(String sessionString)throws PseudoException{
-		return RedisAuthenticationService.getAuthCodeFromSessionString(sessionString);
-	}
-	public static long getTimeStampFromSessionString(String sessionString)throws PseudoException{
-		return RedisAuthenticationService.getTimeStampFromSessionString(sessionString);
-	}
 
 }

@@ -32,12 +32,12 @@ public class AdminAuthDaoServiceTest {
 			fail();
 		}
 		try {
-			authCode = AdminAuthenticationService.getAuthCodeFromSessionString(sessionString);
+			authCode = RedisAuthenticationService.getAuthCodeFromSessionString(sessionString);
 		} catch (PseudoException e) {			
 			e.printStackTrace();
 		}
 		try {
-			timeStamp = AdminAuthenticationService.getTimeStampFromSessionString(sessionString);
+			timeStamp = RedisAuthenticationService.getTimeStampFromSessionString(sessionString);
 		} catch (PseudoException e) {			
 			e.printStackTrace();
 		}

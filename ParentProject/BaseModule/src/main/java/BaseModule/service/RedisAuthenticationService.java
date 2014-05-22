@@ -6,7 +6,7 @@ import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.DatabaseConfig;
-import BaseModule.configurations.RedisPrefixConfig;
+import BaseModule.configurations.RedisAuthenticationConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -14,10 +14,15 @@ import BaseModule.model.configObj.RedisSubConfig;
 
 public class RedisAuthenticationService {
 	
+	/******************************
+	 * 
+	 * 		Web Session
+	 * 
+	 ******************************/
 	public static boolean validateWebSession(int serviceIdentifier, int id, String authCode, long timeStamp){
 		Jedis jedis = EduDaoBasic.getJedis();
 		try{
-			RedisSubConfig config = RedisPrefixConfig.getConfigBean(serviceIdentifier);
+			RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
 			
 			String redisKey = config.keyPrefix + id;
 			String sessionString = jedis.get(redisKey);
@@ -56,7 +61,7 @@ public class RedisAuthenticationService {
 		String sessionString;
 		
 		try{
-			RedisSubConfig config = RedisPrefixConfig.getConfigBean(serviceIdentifier);
+			RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
 			
 			String redisKey = config.keyPrefix + id;
 			sessionString = id + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(config.authCodeLength) + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
@@ -70,10 +75,15 @@ public class RedisAuthenticationService {
 	}
 	
 	
+	/******************************
+	 * 
+	 * 		Cell Session
+	 * 
+	 ******************************/
 	public static boolean valdiateCellSession(int serviceIdentifier, String sufix, String authCode){
 		Jedis jedis = EduDaoBasic.getJedis();
 		try{
-			RedisSubConfig config = RedisPrefixConfig.getConfigBean(serviceIdentifier);
+			RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
 			
 			String redisKey = config.keyPrefix + sufix;
 			String sessionString = jedis.get(redisKey);
@@ -107,7 +117,7 @@ public class RedisAuthenticationService {
 		String authCode;
 		
 		try{
-			RedisSubConfig config = RedisPrefixConfig.getConfigBean(serviceIdentifier);
+			RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
 			
 			String redisKey = config.keyPrefix + sufix;
 			String previousRecord = jedis.get(redisKey);
@@ -134,11 +144,15 @@ public class RedisAuthenticationService {
 	}
 	
 	
-	
+	/******************************
+	 * 
+	 * 		All Session
+	 * 
+	 ******************************/
 	public static boolean closeSession(int serviceIdentifier, String keySufix){
 		Jedis jedis = EduDaoBasic.getJedis();
 		boolean result;
-		RedisSubConfig config = RedisPrefixConfig.getConfigBean(serviceIdentifier);
+		RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
 		try{
 			result = jedis.del(config.keyPrefix + keySufix) == 1;
 		} finally{
@@ -150,6 +164,11 @@ public class RedisAuthenticationService {
 	
 	
 	
+	/******************************
+	 * 
+	 * 		Session String
+	 * 
+	 ******************************/
 	//Session string format: "id+sessionStr+timeStamp"
 	public static int getIdFromSessionString(String sessionString)throws PseudoException{
 		String idStr = sessionString.split(DatabaseConfig.redisSeperatorRegex)[0];
