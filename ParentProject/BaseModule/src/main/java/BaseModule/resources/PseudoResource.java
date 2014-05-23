@@ -61,10 +61,6 @@ public class PseudoResource extends ServerResource{
         }
 	}
 
-	protected Object examUserJSON(Representation entity) throws PseudoException{
-		return null;
-	}
-	
 	public void checkEntity(Representation entity) throws ValidationException{
 		if (entity != null && entity.getSize() > ValidationConfig.max_PostLength){
 			throw new ValidationException("发送内容过大");
