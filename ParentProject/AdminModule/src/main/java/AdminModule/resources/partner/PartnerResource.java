@@ -21,6 +21,7 @@ import BaseModule.factory.JSONFactory;
 import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
+import BaseModule.service.EncodingService;
 import BaseModule.staticDataService.StaticDataService;
 
 public class PartnerResource extends AdminPseudoResource{
@@ -70,15 +71,15 @@ public class PartnerResource extends AdminPseudoResource{
 
 			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
 			
-			String name = props.get("name");
-			String licence = props.get("licence");
-			String organizationNum = props.get("organizationNum");
+			String name = EncodingService.decodeURI(props.get("name"));
+			String licence = EncodingService.decodeURI(props.get("licence"));
+			String organizationNum = EncodingService.decodeURI(props.get("organizationNum"));
 			String reference = ReferenceFactory.generatePartnerReference();
-			String password = props.get("password");
-			String phone = props.get("phone");
+			String password = EncodingService.decodeURI(props.get("password"));
+			String phone = EncodingService.decodeURI(props.get("phone"));
 			AccountStatus status = AccountStatus.activated;
-			String instName = props.get("instName");
-			String logoUrl = props.get("logoUrl");
+			String instName = EncodingService.decodeURI(props.get("instName"));
+			String logoUrl = EncodingService.decodeURI(props.get("logoUrl"));
 			
 			partner.setName(name);
 			partner.setLicence(licence);

@@ -14,6 +14,7 @@ import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.User;
+import BaseModule.service.EncodingService;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
@@ -69,10 +70,10 @@ public class UserChangeCellPhone extends UserPseudoResource{
 		try{
 			jsonPhones = (new JsonRepresentation(entity)).getJsonObject();
 			
-			String oldPhone = jsonPhones.getString("oldPhone");
-			String newPhone = jsonPhones.getString("newPhone");
-			String authCode_old = jsonPhones.getString("authCode_old");
-			String authCode_new = jsonPhones.getString("authCode_new");
+			String oldPhone = EncodingService.decodeURI(jsonPhones.getString("oldPhone"));
+			String newPhone = EncodingService.decodeURI(jsonPhones.getString("newPhone"));
+			String authCode_old = EncodingService.decodeURI(jsonPhones.getString("authCode_old"));
+			String authCode_new = EncodingService.decodeURI(jsonPhones.getString("authCode_new"));
 
 			if (!ValidationService.validatePhone(oldPhone)){
 				throw new ValidationException("旧手机号码格式不正确");

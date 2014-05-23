@@ -20,6 +20,7 @@ import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.service.EncodingService;
 import AdminModule.factory.AdminJSONFactory;
 
 
@@ -60,7 +61,8 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 
 		try {
 			jsonContact = (new JsonRepresentation(entity)).getJsonObject();
-			jsonContact.put("name", java.net.URLDecoder.decode(jsonContact.getString("name"), "utf-8"));
+			jsonContact.put("name", EncodingService.decodeURI(jsonContact.getString("name")));
+			jsonContact.put("phone", EncodingService.decodeURI(jsonContact.getString("phone")));
 		} catch (JSONException | IOException e) {
 			DebugLog.d(e);
 			throw new ValidationException("姓名格式不正确");
@@ -94,11 +96,11 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 			
 			contact = parseJSON(entity);
 			
-			targetAccount.setPhone(contact.getString("phone"));
+			targetAccount.setName(EncodingService.decodeURI(contact.getString("name")));
+			targetAccount.setPhone(EncodingService.decodeURI(contact.getString("phone")));
 			targetAccount.setPrivilege(Privilege.routine);
-			targetAccount.setReference(contact.getString("reference"));
 			targetAccount.setStatus(AccountStatus.fromInt(contact.getInt("status")));
-			targetAccount.setName(contact.getString("name"));
+			
 			//can not changhe an admin to a privilege level higher than self
 			if (admin.getPrivilege().code >= targetAccount.getPrivilege().code){
 				throw new ValidationException("无权操作");

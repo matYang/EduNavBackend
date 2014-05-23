@@ -16,6 +16,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 
 import BaseModule.model.Partner;
+import BaseModule.service.EncodingService;
 
 public class PartnerIdResource extends AdminPseudoResource{
 
@@ -36,12 +37,12 @@ public class PartnerIdResource extends AdminPseudoResource{
 
 			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
 			
-			String name = props.get("name");
-			String licence = props.get("licence");
-			String organizationNum = props.get("organizationNum");
-			String phone = props.get("phone");
+			String name = EncodingService.decodeURI(props.get("name"));
+			String licence = EncodingService.decodeURI(props.get("licence"));
+			String organizationNum = EncodingService.decodeURI(props.get("organizationNum"));
+			String phone = EncodingService.decodeURI(props.get("phone"));
 			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(props.get("status")));
-			String logoUrl = props.get("logoUrl");
+			String logoUrl = EncodingService.decodeURI(props.get("logoUrl"));
 			
 			partner.setName(name);
 			partner.setLicence(licence);

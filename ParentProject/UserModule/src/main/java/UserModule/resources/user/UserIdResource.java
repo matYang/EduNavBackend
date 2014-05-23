@@ -13,25 +13,25 @@ import BaseModule.model.User;
 
 public class UserIdResource extends UserPseudoResource{
 
-	 @Get 	    
-	    public Representation getUserById() {
-	        JSONObject jsonObject = new JSONObject();
+	@Get 	    
+	public Representation getUserById() {
+	    JSONObject jsonObject = new JSONObject();
+	    
+	    try {
+			int userId = this.validateAuthentication();
+			
+	    	User user = UserDaoService.getUserById(userId);
+	        jsonObject = JSONFactory.toJSON(user);
 	        
-	        try {
-				int userId = this.validateAuthentication();
-				
-		    	User user = UserDaoService.getUserById(userId);
-		        jsonObject = JSONFactory.toJSON(user);
-		        
-			} catch (PseudoException e){
-				this.addCORSHeader();
-				return this.doPseudoException(e);
-	        } catch (Exception e) {
-				return this.doException(e);
-			}
-	        
-	        Representation result = new JsonRepresentation(jsonObject);
-	        this.addCORSHeader();
-	        return result;
-	    }	    
+		} catch (PseudoException e){
+			this.addCORSHeader();
+			return this.doPseudoException(e);
+	    } catch (Exception e) {
+			return this.doException(e);
+		}
+	    
+	    Representation result = new JsonRepresentation(jsonObject);
+	    this.addCORSHeader();
+	    return result;
+	}	    
 }

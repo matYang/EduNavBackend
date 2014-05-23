@@ -14,6 +14,7 @@ import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
+import BaseModule.service.EncodingService;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 import PartnerModule.resources.PartnerPseudoResource;
@@ -55,10 +56,10 @@ public class PartnerChangePassword extends PartnerPseudoResource {
 		try{
 			jsonPasswords = (new JsonRepresentation(entity)).getJsonObject();
 			
-			String oldPassword = jsonPasswords.getString("oldPassword");
-			String newPassword = jsonPasswords.getString("newPassword");
-			String confirmNewPassword = jsonPasswords.getString("confirmNewPassword");
-			String authCode = jsonPasswords.getString("authCode");
+			String oldPassword = EncodingService.decodeURI(jsonPasswords.getString("oldPassword"));
+			String newPassword = EncodingService.decodeURI(jsonPasswords.getString("newPassword"));
+			String confirmNewPassword = EncodingService.decodeURI(jsonPasswords.getString("confirmNewPassword"));
+			String authCode = EncodingService.decodeURI(jsonPasswords.getString("authCode"));
 
 			if (!ValidationService.validatePassword(oldPassword)){
 				throw new ValidationException("旧密码格式不正确");

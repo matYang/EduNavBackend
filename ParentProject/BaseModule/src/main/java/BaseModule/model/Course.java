@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 import org.json.JSONException;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
+import BaseModule.service.EncodingService;
 
 public class Course implements PseudoModel{
 
@@ -271,15 +273,18 @@ public class Course implements PseudoModel{
 			jsonSearchRepresentation.put("id", this.courseId);
 			jsonSearchRepresentation.put("partnerId", this.partnerId);
 			jsonSearchRepresentation.put("partner", this.partner == null ? new JSONObject() : this.partner.toJSON());
-			jsonSearchRepresentation.put("title", this.title);
-			jsonSearchRepresentation.put("courseInfo",this.courseInfo);
-			jsonSearchRepresentation.put("teacherInfo", this.teacherInfo);
-			jsonSearchRepresentation.put("teacherImgUrl", this.teacherImgUrl);
-			jsonSearchRepresentation.put("teachingMaterial", this.teachingMaterial);
-			jsonSearchRepresentation.put("backgroundUrl", this.backgroundUrl);
-			jsonSearchRepresentation.put("reference", this.reference);
-			jsonSearchRepresentation.put("category", this.category);
-			jsonSearchRepresentation.put("subcategory", this.subCategory);
+			jsonSearchRepresentation.put("title", EncodingService.encodeURI(this.title));
+			jsonSearchRepresentation.put("courseInfo",EncodingService.encodeURI(this.courseInfo));
+			jsonSearchRepresentation.put("teacherInfo", EncodingService.encodeURI(this.teacherInfo));
+			jsonSearchRepresentation.put("teacherImgUrl", EncodingService.encodeURI(this.teacherImgUrl));
+			jsonSearchRepresentation.put("teachingMaterial", EncodingService.encodeURI(this.teachingMaterial));
+			jsonSearchRepresentation.put("backgroundUrl", EncodingService.encodeURI(this.backgroundUrl));
+			jsonSearchRepresentation.put("reference", EncodingService.encodeURI(this.reference));
+			jsonSearchRepresentation.put("category", EncodingService.encodeURI(this.category));
+			jsonSearchRepresentation.put("subcategory", EncodingService.encodeURI(this.subCategory));
+			jsonSearchRepresentation.put("location", EncodingService.encodeURI(this.location));
+			jsonSearchRepresentation.put("city", EncodingService.encodeURI(this.city));
+			jsonSearchRepresentation.put("district", EncodingService.encodeURI(this.district));
 			jsonSearchRepresentation.put("price", this.price);
 			jsonSearchRepresentation.put("seatsTotal", this.seatsTotal);
 			jsonSearchRepresentation.put("seatsLeft", this.seatsLeft);
@@ -288,7 +293,7 @@ public class Course implements PseudoModel{
 			jsonSearchRepresentation.put("startTime", DateUtility.castToAPIFormat(this.startTime));
 			jsonSearchRepresentation.put("finishTime", DateUtility.castToAPIFormat(this.finishTime));
 
-		} catch (JSONException e) {
+		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return jsonSearchRepresentation;

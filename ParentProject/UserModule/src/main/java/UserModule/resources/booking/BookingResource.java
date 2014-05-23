@@ -22,6 +22,7 @@ import BaseModule.factory.JSONFactory;
 import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Booking;
 import BaseModule.model.representation.BookingSearchRepresentation;
+import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
@@ -94,8 +95,8 @@ public class BookingResource extends UserPseudoResource{
 			int partnerId = jsonBooking.getInt("partnerId");
 			int courseId = jsonBooking.getInt("courseId");
 			
-			String name = jsonBooking.getString("name");
-			String phone = jsonBooking.getString("phone");
+			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
+			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
 			String reference = ReferenceFactory.generateBookingReference();
 			AccountStatus status = AccountStatus.activated;
 			

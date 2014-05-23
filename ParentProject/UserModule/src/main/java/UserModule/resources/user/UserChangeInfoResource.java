@@ -15,6 +15,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.User;
+import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 public class UserChangeInfoResource extends UserPseudoResource{
@@ -24,7 +25,7 @@ public class UserChangeInfoResource extends UserPseudoResource{
 
 		try {
 			jsonContact = (new JsonRepresentation(entity)).getJsonObject();
-			jsonContact.put("name", java.net.URLDecoder.decode(jsonContact.getString("name"), "utf-8"));
+			jsonContact.put("name", EncodingService.decodeURI(jsonContact.getString("name")));
 			
 			if (ValidationService.validateName(jsonContact.getString("name"))){
 				throw new ValidationException("姓名格式不正确");

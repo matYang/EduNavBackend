@@ -18,6 +18,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.User;
+import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 public class UserIdResource extends AdminPseudoResource{
@@ -27,7 +28,7 @@ public class UserIdResource extends AdminPseudoResource{
 
 		try {
 			jsonContact = (new JsonRepresentation(entity)).getJsonObject();
-			String name = java.net.URLDecoder.decode(jsonContact.getString("name"), "utf-8");
+			String name = EncodingService.decodeURI(jsonContact.getString("name"));
 			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(jsonContact.getString("status")));
 			
 			user.setName(name);

@@ -19,6 +19,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Booking;
+import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 
@@ -92,8 +93,8 @@ public class BookingIdResource extends AdminPseudoResource{
 			jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
 			
 			Calendar timeStamp = DateUtility.getCurTimeInstance();
-			String name = jsonBooking.getString("name");
-			String phone = jsonBooking.getString("phone");
+			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
+			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
 			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
 			
 			booking.setTimeStamp(timeStamp);

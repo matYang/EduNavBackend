@@ -12,6 +12,7 @@ import UserModule.service.UserCellVerificationDaoService;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.service.EncodingService;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 
@@ -55,8 +56,8 @@ public class UserCellVerification extends UserPseudoResource{
 		
 		try{
 			JSONObject jsonPair = (new JsonRepresentation(entity)).getJsonObject();
-			String cellNum = jsonPair.getString("cellNum");
-			String authCode = jsonPair.getString("authCode");
+			String cellNum = EncodingService.decodeURI(jsonPair.getString("cellNum"));
+			String authCode = EncodingService.decodeURI(jsonPair.getString("authCode"));
 			
 			if (ValidationService.validatePhone(cellNum)){
 				boolean verified = UserCellVerificationDaoService.valdiateSession(cellNum, authCode);

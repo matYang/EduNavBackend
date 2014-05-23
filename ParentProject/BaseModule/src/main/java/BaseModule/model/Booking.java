@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 import org.json.JSONException;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
+import BaseModule.service.EncodingService;
 
 public class Booking implements PseudoModel{
 
@@ -176,11 +178,11 @@ public class Booking implements PseudoModel{
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
 			jsonSearchRepresentation.put("bookingId", this.bookingId);
-			jsonSearchRepresentation.put("name", this.name);
-			jsonSearchRepresentation.put("phone", this.phone);
+			jsonSearchRepresentation.put("name", EncodingService.encodeURI(this.name));
+			jsonSearchRepresentation.put("phone", EncodingService.encodeURI(this.phone));
 			jsonSearchRepresentation.put("price", this.price);
 			jsonSearchRepresentation.put("status", this.status.code);
-			jsonSearchRepresentation.put("reference", this.reference);
+			jsonSearchRepresentation.put("reference", EncodingService.encodeURI(this.reference));
 			jsonSearchRepresentation.put("userId", this.userId);
 			jsonSearchRepresentation.put("partnerId", this.partnerId);
 			jsonSearchRepresentation.put("courseId", this.courseId);
@@ -188,7 +190,7 @@ public class Booking implements PseudoModel{
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
 			jsonSearchRepresentation.put("startTime", DateUtility.castToAPIFormat(this.startTime));
 			jsonSearchRepresentation.put("finishTime", DateUtility.castToAPIFormat(this.finishTime));
-		} catch (JSONException e) {
+		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return jsonSearchRepresentation;

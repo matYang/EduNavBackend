@@ -18,6 +18,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Course;
+import BaseModule.service.EncodingService;
 import PartnerModule.resources.PartnerPseudoResource;
 
 public class CourseResource extends PartnerPseudoResource{
@@ -41,19 +42,19 @@ public class CourseResource extends PartnerPseudoResource{
 			
 			Calendar startTime = DateUtility.castFromAPIFormat(props.get("startTime"));
 			Calendar finishTime = DateUtility.castFromAPIFormat(props.get("finishTime"));
-			String teacherInfo = props.get("teacherInfo");
-			String teachingMaterial = props.get("teachingMaterial");
+			String teacherInfo = EncodingService.decodeURI(props.get("teacherInfo"));
+			String teachingMaterial = EncodingService.decodeURI(props.get("teachingMaterial"));
 			int price = Integer.parseInt(props.get("price"), 10);
 			int seatsTotal = Integer.parseInt(props.get("seatsTotal"));
-			String category = props.get("category");
-			String subCategory = props.get("subCategory");
-			String title = props.get("title");
-			String location = props.get("location");
-			String city = props.get("city");
-			String district = props.get("district");
-			String courseInfo = props.get("courseInfo");
-			String teacherImgUrl = props.get("teacherImgUrl");
-			String backgroundUrl = props.get("backgroundUrl");
+			String category = EncodingService.decodeURI(props.get("category"));
+			String subCategory = EncodingService.decodeURI(props.get("subCategory"));
+			String title = EncodingService.decodeURI(props.get("title"));
+			String location = EncodingService.decodeURI(props.get("location"));
+			String city = EncodingService.decodeURI(props.get("city"));
+			String district = EncodingService.decodeURI(props.get("district"));
+			String courseInfo = EncodingService.decodeURI(props.get("courseInfo"));
+			String teacherImgUrl = EncodingService.decodeURI(props.get("teacherImgUrl"));
+			String backgroundUrl = EncodingService.decodeURI(props.get("backgroundUrl"));
 			String reference = ReferenceFactory.generateCourseReference();
 			
 			course.setPartnerId(partnerId);

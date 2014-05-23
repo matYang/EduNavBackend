@@ -12,6 +12,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Partner;
+import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 import PartnerModule.resources.PartnerPseudoResource;
 
@@ -30,8 +31,8 @@ public class PartnerLogin extends PartnerPseudoResource{
 			this.checkEntity(entity);
 			
 			jsonString = (new JsonRepresentation(entity)).getJsonObject();
-			phone = jsonString.getString("phone");
-			password = jsonString.getString("password");
+			phone = EncodingService.decodeURI(jsonString.getString("phone"));
+			password = EncodingService.decodeURI(jsonString.getString("password"));
 			if (!ValidationService.validatePhone(phone)){
 				throw new ValidationException("手机号码格式不正确");
 			}

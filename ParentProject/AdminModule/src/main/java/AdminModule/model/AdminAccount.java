@@ -1,5 +1,6 @@
 package AdminModule.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 import org.json.JSONException;
@@ -9,6 +10,7 @@ import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
+import BaseModule.service.EncodingService;
 public class AdminAccount implements PseudoModel{
 
 	private int adminId;
@@ -125,14 +127,14 @@ public class AdminAccount implements PseudoModel{
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
 			jsonSearchRepresentation.put("adminId", this.adminId);
-			jsonSearchRepresentation.put("name", this.name);
-			jsonSearchRepresentation.put("phone", this.phone);			
-			jsonSearchRepresentation.put("reference", this.reference);
+			jsonSearchRepresentation.put("name", EncodingService.encodeURI(this.name));
+			jsonSearchRepresentation.put("phone", EncodingService.encodeURI(this.phone));			
+			jsonSearchRepresentation.put("reference", EncodingService.encodeURI(this.reference));
 			jsonSearchRepresentation.put("status", this.status.code);
 			jsonSearchRepresentation.put("privilege", this.privilege.code);
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
 			jsonSearchRepresentation.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
-		} catch (JSONException e) {
+		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return jsonSearchRepresentation;

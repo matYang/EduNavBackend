@@ -14,6 +14,7 @@ import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
+import BaseModule.service.EncodingService;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 import PartnerModule.resources.PartnerPseudoResource;
@@ -60,10 +61,10 @@ public class PartnerForgetPassword extends PartnerPseudoResource{
 		try{
 			jsonPair = (new JsonRepresentation(entity)).getJsonObject();
 			
-			String cellNum = jsonPair.getString("phone");
-			String newPassword = jsonPair.getString("newPassword");
-			String confirmNewPassword = jsonPair.getString("confirmNewPassword");
-			String authCode = jsonPair.getString("authCode");
+			String cellNum = EncodingService.decodeURI(jsonPair.getString("phone"));
+			String newPassword = EncodingService.decodeURI(jsonPair.getString("newPassword"));
+			String confirmNewPassword = EncodingService.decodeURI(jsonPair.getString("confirmNewPassword"));
+			String authCode = EncodingService.decodeURI(jsonPair.getString("authCode"));
 
 			if (!ValidationService.validatePhone(cellNum)){
 				throw new ValidationException("电话号码格式不正确");

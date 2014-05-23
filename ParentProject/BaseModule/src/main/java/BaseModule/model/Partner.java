@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 import org.json.JSONException;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
+import BaseModule.service.EncodingService;
 
 public class Partner implements PseudoModel{
 	
@@ -148,18 +150,18 @@ public class Partner implements PseudoModel{
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
 			jsonSearchRepresentation.put("partnerId", this.partnerId);
-			jsonSearchRepresentation.put("name", this.name);
-			jsonSearchRepresentation.put("phone", this.phone);			
-			jsonSearchRepresentation.put("licence", this.licence);
-			jsonSearchRepresentation.put("organizationNum", this.organizationNum);
-			jsonSearchRepresentation.put("reference", this.reference);
+			jsonSearchRepresentation.put("name", EncodingService.encodeURI(this.name));
+			jsonSearchRepresentation.put("phone", EncodingService.encodeURI(this.phone));			
+			jsonSearchRepresentation.put("licence", EncodingService.encodeURI(this.licence));
+			jsonSearchRepresentation.put("organizationNum", EncodingService.encodeURI(this.organizationNum));
+			jsonSearchRepresentation.put("reference", EncodingService.encodeURI(this.reference));
 			jsonSearchRepresentation.put("status", this.status.code);
-			jsonSearchRepresentation.put("instName", this.instName);
-			jsonSearchRepresentation.put("logoUrl", this.logoUrl);
+			jsonSearchRepresentation.put("instName", EncodingService.encodeURI(this.instName));
+			jsonSearchRepresentation.put("logoUrl", EncodingService.encodeURI(this.logoUrl));
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));		
 			jsonSearchRepresentation.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
 
-		} catch (JSONException e) {
+		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return jsonSearchRepresentation;

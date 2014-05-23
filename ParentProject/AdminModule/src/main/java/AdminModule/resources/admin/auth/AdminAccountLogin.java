@@ -12,6 +12,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import AdminModule.factory.AdminJSONFactory;
+import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 public class AdminAccountLogin extends AdminPseudoResource{
@@ -29,8 +30,8 @@ public class AdminAccountLogin extends AdminPseudoResource{
 			this.checkEntity(entity);
 
 			jsonString = (new JsonRepresentation(entity)).getJsonObject();
-			reference = jsonString.getString("reference");
-			password = jsonString.getString("password");
+			reference = EncodingService.decodeURI(jsonString.getString("reference"));
+			password = EncodingService.decodeURI(jsonString.getString("password"));
 
 			if (!ValidationService.validatePassword(password)){
 				throw new ValidationException("密码格式不正确");

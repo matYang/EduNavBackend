@@ -20,6 +20,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.service.EncodingService;
 
 public class AdminChangePassword extends AdminPseudoResource{
 
@@ -58,7 +59,7 @@ public class AdminChangePassword extends AdminPseudoResource{
 			jsonPassword = parseJSON(entity);
 			
 
-			AdminAccountDaoService.changeAdminPassword(targetAdminId, jsonPassword.getString("password"));
+			AdminAccountDaoService.changeAdminPassword(targetAdminId, EncodingService.decodeURI(jsonPassword.getString("password")));
 			
 			response = AdminJSONFactory.toJSON(targetAccount);
 			setStatus(Status.SUCCESS_OK);

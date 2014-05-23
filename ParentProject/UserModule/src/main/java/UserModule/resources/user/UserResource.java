@@ -20,6 +20,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.User;
+import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 public class UserResource extends UserPseudoResource{
@@ -32,11 +33,11 @@ public class UserResource extends UserPseudoResource{
 			jsonUser = (new JsonRepresentation(entity)).getJsonObject();
 
 
-			String phone = jsonUser.getString("phone");
-			String name = jsonUser.getString("name");
-			String password = jsonUser.getString("password");
-			String confirmPassword = jsonUser.getString("confirmPassword");
-			String authCode = jsonUser.getString("authCode");
+			String phone = EncodingService.decodeURI(jsonUser.getString("phone"));
+			String name = EncodingService.decodeURI(jsonUser.getString("name"));
+			String password = EncodingService.decodeURI(jsonUser.getString("password"));
+			String confirmPassword = EncodingService.decodeURI(jsonUser.getString("confirmPassword"));
+			String authCode = EncodingService.decodeURI(jsonUser.getString("authCode"));
 
 			user = new User(name, phone, password, AccountStatus.activated);
 			if (!ValidationService.validateName(name)){

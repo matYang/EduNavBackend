@@ -39,6 +39,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.model.Course;
 import BaseModule.model.representation.CourseSearchRepresentation;
+import BaseModule.service.EncodingService;
 
 public class PseudoResource extends ServerResource{
 	
@@ -85,22 +86,19 @@ public class PseudoResource extends ServerResource{
 	 ******************/
 	public String getReqAttr(String fieldName) throws UnsupportedEncodingException{
 		Object attr = this.getRequestAttributes().get(fieldName);
-		return attr != null ? java.net.URLDecoder.decode((String)attr, "utf-8") : null;
+		return EncodingService.decodeURI((String)attr);
 	}
 	
 	public String getQueryVal(String fieldName) throws UnsupportedEncodingException{
 		String val = getQuery().getValues(fieldName);
-		return val != null ? java.net.URLDecoder.decode(val, "utf-8") : null;
+		return EncodingService.decodeURI(val);
 	}
 	
 	public String getPlainQueryVal(String fieldName){
 		String val = getQuery().getValues(fieldName);
 		return val;
 	}
-	
-	public String getToUtf(String var) throws UnsupportedEncodingException{
-		return java.net.URLEncoder.encode(var, "utf-8");
-	}
+
 	
 	public void loadRepresentation(PseudoRepresentation pr) throws Exception{
 		Map<String, String> kvps = new HashMap<String, String>();

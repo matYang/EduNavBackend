@@ -23,6 +23,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.ReferenceFactory;
 import AdminModule.factory.AdminJSONFactory;
+import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 public class AdminAccountResource extends AdminPseudoResource{
@@ -131,11 +132,11 @@ public class AdminAccountResource extends AdminPseudoResource{
 			jsonAdmin = (new JsonRepresentation(entity)).getJsonObject();
 			
 			
-			String phone = jsonAdmin.getString("phone");
-			String name = jsonAdmin.getString("name");
+			String phone = EncodingService.decodeURI(jsonAdmin.getString("phone"));
+			String name = EncodingService.decodeURI(jsonAdmin.getString("name"));
 			String reference = ReferenceFactory.generateAdminReference();
-			String password = jsonAdmin.getString("password");
-			String confirmPassword = jsonAdmin.getString("confirmPassword");			
+			String password = EncodingService.decodeURI(jsonAdmin.getString("password"));
+			String confirmPassword = EncodingService.decodeURI(jsonAdmin.getString("confirmPassword"));			
 			Privilege privilege = Privilege.routine;
 			AccountStatus status = AccountStatus.fromInt(jsonAdmin.getInt("status"));
 			
