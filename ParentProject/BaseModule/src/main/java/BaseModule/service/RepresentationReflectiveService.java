@@ -1,5 +1,6 @@
 package BaseModule.service;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,13 +32,13 @@ public class RepresentationReflectiveService {
 		return keyArr;
 	}
 
-	public static void storeKvps(PseudoRepresentation representation, Map<String, String> kvps) throws PseudoException, IllegalArgumentException, IllegalAccessException {
+	public static void storeKvps(PseudoRepresentation representation, Map<String, String> kvps) throws PseudoException, IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
 		Field[] fields = getFields(representation);
 		
 		try{
 			for (Field field : fields){
 				field.setAccessible(true);
-				String value = kvps.get(field.getName());
+				String value = EncodingService.encodeURI(kvps.get(field.getName()));
 				if (value != null){
 					Class<?> fieldClass = field.getType();
 					if (fieldClass.isAssignableFrom(int.class)){

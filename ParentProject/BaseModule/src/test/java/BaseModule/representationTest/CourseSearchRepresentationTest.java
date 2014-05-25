@@ -2,6 +2,7 @@ package BaseModule.representationTest;
 
 import static org.junit.Assert.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 public class CourseSearchRepresentationTest {
 
 	@Test
-	public void test() throws IllegalArgumentException, IllegalAccessException, PseudoException {
+	public void test() throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
 		Map<String, String> kvps= new HashMap<String, String>();
 		
 		kvps.put("courseId", "9");
@@ -43,7 +44,7 @@ public class CourseSearchRepresentationTest {
 	}
 	
 	@Test
-	public void testConcurrent_a() throws IllegalArgumentException, IllegalAccessException, PseudoException {
+	public void testConcurrent_a() throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
 		Map<String, String> kvps= new HashMap<String, String>();
 		
 		kvps.put("courseId", "9");
