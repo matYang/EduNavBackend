@@ -51,8 +51,8 @@ public class ValidationService {
 	
 	public static boolean validateUser(User user) throws ValidationException{
 		if (!validateName(user.getName()) || !validatePhone(user.getPhone()) ||
-				!validatePassword(user.getPassword()) || user.getAmount() < 0||
-				user.getCoupon() < 0 || user.getScore() < 0){
+				!validatePassword(user.getPassword()) || user.getBalance() < 0||
+				user.getCoupon() < 0 || user.getCredit() < 0){
 			throw new ValidationException("用户输入信息不符合规范");			
 		}	
 		return true;

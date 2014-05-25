@@ -261,14 +261,14 @@ public class QueryFactory {
 		
 		query += "status = ? ";
 		
-		if(sr.getAmount() >= 0){
+		if(sr.getBalance() >= 0){
 			if(!start){
 				query += "where ";
 				start = true;
 			}else{
 				query += "and ";
 			}
-			query += "amount = ? ";
+			query += "balance = ? ";
 		}
 		if(sr.getCoupon() >= 0){
 			if(!start){
@@ -279,14 +279,14 @@ public class QueryFactory {
 			}
 			query += "coupon = ? ";
 		}
-		if(sr.getScore() >= 0){
+		if(sr.getCredit() >= 0){
 			if(!start){
 				query += "where ";
 				start = true;
 			}else{
 				query += "and ";
 			}
-			query += "score = ? ";
+			query += "credit = ? ";
 		}
 		
 		return query;

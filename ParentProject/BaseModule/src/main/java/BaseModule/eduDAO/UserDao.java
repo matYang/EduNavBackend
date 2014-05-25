@@ -42,14 +42,14 @@ public class UserDao {
 				stmt.setString(stmtInt++, sr.getPhone());
 			}			
 			stmt.setInt(stmtInt++, AccountStatus.activated.code);
-			if(sr.getAmount() >= 0){
-				stmt.setInt(stmtInt++,sr.getAmount());
+			if(sr.getBalance() >= 0){
+				stmt.setInt(stmtInt++,sr.getBalance());
 			}
 			if(sr.getCoupon() >= 0){
 				stmt.setInt(stmtInt++, sr.getCoupon());
 			}
-			if(sr.getScore() >= 0){
-				stmt.setInt(stmtInt++,sr.getScore());
+			if(sr.getCredit() >= 0){
+				stmt.setInt(stmtInt++,sr.getCredit());
 			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
@@ -67,7 +67,7 @@ public class UserDao {
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO UserDao (name,password,phone,creationTime,lastLogin,status,amount,coupon,score)" +
+		String query = "INSERT INTO UserDao (name,password,phone,creationTime,lastLogin,status,balance,coupon,credit)" +
 				" values (?,?,?,?,?,?,?,?,?);";		
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);			
@@ -78,9 +78,9 @@ public class UserDao {
 			stmt.setString(4, DateUtility.toSQLDateTime(user.getCreationTime()));
 			stmt.setString(5, DateUtility.toSQLDateTime(user.getLastLogin()));
 			stmt.setInt(6, user.getStatus().code);
-			stmt.setInt(7, user.getAmount());
+			stmt.setInt(7, user.getBalance());
 			stmt.setInt(8, user.getCoupon());
-			stmt.setInt(9, user.getScore());
+			stmt.setInt(9, user.getCredit());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -107,7 +107,7 @@ public class UserDao {
 	public static void updateUserInDatabases(User user) throws ValidationException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;
-		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,amount=?,coupon=?,score=? where id=?";
+		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
 
@@ -115,9 +115,9 @@ public class UserDao {
 			stmt.setString(2, user.getPhone());			
 			stmt.setString(3, DateUtility.toSQLDateTime(user.getLastLogin()));
 			stmt.setInt(4, user.getStatus().code);
-			stmt.setInt(5, user.getAmount());
+			stmt.setInt(5, user.getBalance());
 			stmt.setInt(6, user.getCoupon());
-			stmt.setInt(7, user.getScore());
+			stmt.setInt(7, user.getCredit());
 			stmt.setInt(8, user.getUserId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
@@ -317,8 +317,8 @@ public class UserDao {
 
 	private static User createUserByResultSet(ResultSet rs) throws SQLException {		
 		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
-				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),"", AccountStatus.fromInt(rs.getInt("status")),rs.getInt("amount"),rs.getInt("coupon"),
-				rs.getInt("score"));
+				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),"", AccountStatus.fromInt(rs.getInt("status")),rs.getInt("balance"),rs.getInt("coupon"),
+				rs.getInt("credit"));
 	}
 
 

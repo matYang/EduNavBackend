@@ -14,9 +14,9 @@ import BaseModule.service.EncodingService;
 public class User implements PseudoModel{
 
 	private int userId;
-	private int amount;
+	private int balance;
 	private int coupon;
-	private int score;
+	private int credit;
 	private String name;
 	private String phone;
 	private String password;
@@ -27,7 +27,7 @@ public class User implements PseudoModel{
 
 	//SQL Retrieving
 	public User(int userId, String name, String phone, Calendar creationTime,
-			Calendar lastLogin, String password, AccountStatus status,int amount,int coupon,int score) {
+			Calendar lastLogin, String password, AccountStatus status,int balance,int coupon,int credit) {
 		super();
 		this.userId = userId;		
 		this.name = name;
@@ -36,17 +36,17 @@ public class User implements PseudoModel{
 		this.lastLogin = lastLogin;
 		this.password = password;
 		this.status = status;	
-		this.amount = amount;
+		this.balance = balance;
 		this.coupon = coupon;
-		this.score = score;
+		this.credit = credit;
 	}
 	
 	//Normal Construction
 	public User(String name, String phone, String password,AccountStatus status) {
 		super();		
-		this.amount = 0;
+		this.balance = 0;
 		this.coupon = 0;
-		this.score = 0;
+		this.credit = 0;
 		this.name = name;
 		this.phone = phone;
 		this.password = password;
@@ -93,12 +93,12 @@ public class User implements PseudoModel{
 	public void setStatus(AccountStatus status) {
 		this.status = status;
 	}
-	public int getAmount() {
-		return amount;
+	public int getBalance() {
+		return balance;
 	}
 
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setBalance(int amount) {
+		this.balance = amount;
 	}
 
 	public int getCoupon() {
@@ -109,12 +109,12 @@ public class User implements PseudoModel{
 		this.coupon = coupon;
 	}
 
-	public int getScore() {
-		return score;
+	public int getCredit() {
+		return credit;
 	}
 
-	public void setScore(int score) {
-		this.score = score;
+	public void setCredit(int score) {
+		this.credit = score;
 	}
 
 	public Calendar getCreationTime() {
@@ -128,9 +128,9 @@ public class User implements PseudoModel{
 			jsonSearchRepresentation.put("name", EncodingService.encodeURI(this.name));
 			jsonSearchRepresentation.put("phone", EncodingService.encodeURI(this.phone));			
 			jsonSearchRepresentation.put("status", this.status.code);
-			jsonSearchRepresentation.put("amount", this.amount);
+			jsonSearchRepresentation.put("amount", this.balance);
 			jsonSearchRepresentation.put("coupon", this.coupon);
-			jsonSearchRepresentation.put("score", this.score);
+			jsonSearchRepresentation.put("score", this.credit);
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
 			jsonSearchRepresentation.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
 		} catch (JSONException | UnsupportedEncodingException e) {
@@ -146,8 +146,8 @@ public class User implements PseudoModel{
 				this.phone.equals(another.getPhone()) && 
 				this.status.code == another.getStatus().code &&
 				this.userId == another.getUserId() && 
-				this.amount == another.getAmount() && 
-				this.score == another.getScore() &&
+				this.balance == another.getBalance() && 
+				this.credit == another.getCredit() &&
 				this.coupon == another.getCoupon();
 	}
 }
