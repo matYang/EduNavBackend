@@ -14,6 +14,30 @@ public class EnumConfig {
         }
     }
 	
+	public static enum CreditStatus{
+        usable(0),expired(1),used(2);
+        public int code;
+        CreditStatus(int code){
+            this.code = code;
+        }
+        private final static CreditStatus[] map = CreditStatus.values();
+        public static CreditStatus fromInt(int n){
+            return map[n];
+        }
+    }
+	
+	public static enum CouponStatus{
+        usable(0),expired(1),used(2);
+        public int code;
+        CouponStatus(int code){
+            this.code = code;
+        }
+        private final static CouponStatus[] map = CouponStatus.values();
+        public static CouponStatus fromInt(int n){
+            return map[n];
+        }
+    }
+	
 	public static enum Privilege{
         root(0),mamagement(1),routine(2);
         public int code;

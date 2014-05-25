@@ -1,0 +1,123 @@
+package BaseModule.model;
+
+import java.util.Calendar;
+import org.json.JSONException;
+import org.json.JSONObject;
+import BaseModule.common.DateUtility;
+import BaseModule.configurations.EnumConfig.CreditStatus;
+
+public class Credit {
+
+	private long creditId;
+	private int bookingId;
+	private int userId;
+	private double amount;
+	private Calendar creationTime;
+	private Calendar expireTime;
+	private CreditStatus status;
+	
+	//SQL Construction
+	public Credit(long creditId, int bookingId, int userId, double amount,
+			Calendar creationTime, Calendar expireTime, CreditStatus status) {
+		super();
+		this.creditId = creditId;
+		this.bookingId = bookingId;
+		this.userId = userId;
+		this.amount = amount;
+		this.creationTime = creationTime;
+		this.expireTime = expireTime;
+		this.status = status;
+	}
+
+	public Credit(int bookingId, int userId, double amount,
+			 Calendar expireTime, CreditStatus status) {
+		super();
+		this.bookingId = bookingId;
+		this.userId = userId;
+		this.amount = amount;
+		this.creationTime = DateUtility.getCurTimeInstance();
+		this.expireTime = expireTime;
+		this.status = status;
+	}
+
+	public long getCreditId() {
+		return creditId;
+	}
+
+	public void setCreditId(long creditId) {
+		this.creditId = creditId;
+	}
+
+	public int getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(int bookingId) {
+		this.bookingId = bookingId;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public Calendar getExpireTime() {
+		return expireTime;
+	}
+
+	public void setExpireTime(Calendar expireTime) {
+		this.expireTime = expireTime;
+	}
+
+	public CreditStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(CreditStatus status) {
+		this.status = status;
+	}
+
+	public Calendar getCreationTime() {
+		return creationTime;
+	}
+	
+	public JSONObject toJSON(){
+		JSONObject jsonSearchRepresentation = new JSONObject();
+		try{
+			jsonSearchRepresentation.put("credit", this.creditId);
+			jsonSearchRepresentation.put("bookingId", this.bookingId);
+			jsonSearchRepresentation.put("userId", this.userId);			
+			jsonSearchRepresentation.put("amount", this.amount);
+			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
+			jsonSearchRepresentation.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
+			jsonSearchRepresentation.put("status", this.status.code);
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonSearchRepresentation;
+	}
+	
+	public boolean equals(Credit c){
+		return this.creditId == c.getCreditId() && 
+				this.bookingId == c.getBookingId() && 				
+				this.userId == c.getUserId() && 
+				this.status.code == c.getStatus().code &&
+				this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) &&
+				this.expireTime.getTime().toString().equals(c.getExpireTime().getTime().toString()) && 
+				this.amount == c.getAmount();
+	}
+	
+	
+}

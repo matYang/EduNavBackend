@@ -110,7 +110,9 @@ public class EduDaoBasic {
         String query4 = "TRUNCATE TABLE CourseDao";
         String query5 = "TRUNCATE TABLE BookingDao";  
         String query6 = "TRUNCATE TABLE TransactionDao";
-        String query7 = "SET FOREIGN_KEY_CHECKS=1;";
+        String query7 = "TRUNCATE TABLE CouponDao";
+        String query8 = "TRUNCATE TABLE CreditDao";
+        String query9 = "SET FOREIGN_KEY_CHECKS=1;";
         try{
         	conn = getSQLConnection();
         	stmt = conn.createStatement();
@@ -122,7 +124,9 @@ public class EduDaoBasic {
         	stmt.addBatch(query4);
         	stmt.addBatch(query5);
         	stmt.addBatch(query6);
-        	stmt.addBatch(query7);    
+        	stmt.addBatch(query7);  
+        	stmt.addBatch(query8);
+        	stmt.addBatch(query9);
         	stmt.executeBatch();
         	
             jedis.flushAll();
