@@ -15,6 +15,9 @@ import BaseModule.service.RepresentationReflectiveService;
 public class UserSearchRepresentation implements PseudoModel, PseudoRepresentation {
 	
 	private int userId;
+	private int amount;
+	private int coupon;
+	private int score;
 	private String name;
 	private String phone;
 	private AccountStatus status;
@@ -22,6 +25,9 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	
 	public UserSearchRepresentation(){
 		this.userId = -1;
+		this.amount = -1;
+		this.coupon = -1;
+		this.score = -1;
 		this.name = null;
 		this.phone = null;
 		this.status = null;
@@ -93,11 +99,35 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 		this.creationTime = creationTime;
 	}
 
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+	public int getCoupon() {
+		return coupon;
+	}
+
+	public void setCoupon(int coupon) {
+		this.coupon = coupon;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
 	@Override
 	public String toString() {
 		return "UserSearchRepresentation [userId=" + userId + ", name=" + name
 				+ ", phone=" + phone + ", status=" + status + ", creationTime="
-				+ creationTime + "]";
+				+ creationTime + ", amount=" + amount + ", coupon=" + coupon + ", score=" + score + "]";
 	}
 	
 	

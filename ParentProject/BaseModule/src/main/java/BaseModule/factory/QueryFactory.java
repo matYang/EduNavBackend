@@ -251,13 +251,44 @@ public class QueryFactory {
 			}
 			query += "phone = ? ";
 		}
+		
 		if(!start){
 			query += "where ";
 			start = true;
 		}else{
 			query += "and ";
 		}
+		
 		query += "status = ? ";
+		
+		if(sr.getAmount() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "amount = ? ";
+		}
+		if(sr.getCoupon() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "coupon = ? ";
+		}
+		if(sr.getScore() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "score = ? ";
+		}
+		
 		return query;
 	}
 
