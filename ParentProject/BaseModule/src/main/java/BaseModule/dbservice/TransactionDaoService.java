@@ -23,4 +23,8 @@ public class TransactionDaoService {
 		return TransactionDao.getTransactionById(transactionId, "transaction");
 	}
 	
+	public static ArrayList<Transaction> getTransactionByCouponId(long couponId){
+		return TransactionDao.getTransactionByCouponId(couponId);
+	}
+	
 }

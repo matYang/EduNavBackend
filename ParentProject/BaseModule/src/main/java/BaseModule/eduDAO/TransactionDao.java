@@ -40,9 +40,8 @@ public class TransactionDao {
 		return transaction;
 	}	
 
-	public static ArrayList<Transaction> getTransactionById(int id,String indicator){
-		//User, Transaction, Booking
-		ArrayList<Transaction> tlist = new ArrayList<Transaction>();
+	public static ArrayList<Transaction> getTransactionById(int id,String indicator){			
+		ArrayList<Transaction> tlist = new ArrayList<Transaction>();	
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn = EduDaoBasic.getSQLConnection();
@@ -53,9 +52,7 @@ public class TransactionDao {
 		case "booking":
 			indicatorSelector = "bookingId";
 		case "transaction":
-			indicatorSelector = "transactionId";
-		case "coupon":
-			indicatorSelector = "couponId";
+			indicatorSelector = "transactionId";		
 		default:
 			indicatorSelector = "transactionId";
 
@@ -63,8 +60,28 @@ public class TransactionDao {
 		String query = "SELECT * from TransactionDao where " + indicatorSelector + " = ?";
 		try{
 			stmt = conn.prepareStatement(query);
-
 			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				tlist.add(createTransactionByResultSet(rs));
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);
+		}finally  {
+			EduDaoBasic.closeResources(conn, stmt, rs,true);
+		} 
+		return tlist;
+	}
+	
+	public static ArrayList<Transaction> getTransactionByCouponId(long id){			
+		ArrayList<Transaction> tlist = new ArrayList<Transaction>();	
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection conn = EduDaoBasic.getSQLConnection();		
+		String query = "SELECT * from TransactionDao where couponId = ?";
+		try{
+			stmt = conn.prepareStatement(query);
+			stmt.setLong(1, id);
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				tlist.add(createTransactionByResultSet(rs));

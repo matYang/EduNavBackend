@@ -53,12 +53,13 @@ public class TransactionDaoTest {
 		int userId3 = 3;
 		int bookingId3 =3;
 		int amount3 = 23454354;
-		long couponId = 1;
+		long couponId = 1L;
 		Transaction transaction3 = new Transaction(userId3,bookingId3,amount3);
 		transaction3.setTransactionType(TransactionType.coupon);
 		transaction3.setCouponId(couponId);
 		transaction3 = TransactionDao.addTransactionToDatabases(transaction3);		
-		
+		couponId = 1;
+		transaction3.setCouponId(couponId);
 		ArrayList<Transaction> tlist = new ArrayList<Transaction>();
 		tlist = TransactionDao.getTransactionById(userId, "user");
 		if(tlist.size() == 1 && tlist.get(0).equals(transaction)){
