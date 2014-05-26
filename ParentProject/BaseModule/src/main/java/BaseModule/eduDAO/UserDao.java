@@ -104,9 +104,9 @@ public class UserDao {
 		return user;
 	}
 
-	public static void updateUserInDatabases(User user) throws ValidationException{
-		Connection conn = EduDaoBasic.getSQLConnection();
-		PreparedStatement stmt = null;
+	public static void updateUserInDatabases(User user,Connection...connections) throws ValidationException{
+		Connection conn = EduDaoBasic.getConnection(connections);
+		PreparedStatement stmt = null;		
 		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
@@ -128,7 +128,7 @@ public class UserDao {
 		} catch (Exception e) {
 			throw new ValidationException("更改用户信息失败，账户信息错误");
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, null,true);
+			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}
 	}
 
@@ -289,7 +289,7 @@ public class UserDao {
 	public static void recoverUserPassword(String phone,String newPassword) throws AuthenticationException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
-		ResultSet rs = null;
+		ResultSet rs = null;			
 		String query = "UPDATE UserDao set password = ? where phone = ?";
 		boolean success = true;
 		try{

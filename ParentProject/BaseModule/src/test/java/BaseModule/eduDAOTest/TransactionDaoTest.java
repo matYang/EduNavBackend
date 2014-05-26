@@ -75,6 +75,11 @@ public class TransactionDaoTest {
 		if(tlist.size() == 1 && tlist.get(0).equals(transaction3)){
 			//Passed;
 		}else fail();
+		
+		tlist = TransactionDao.getTransactionByCouponId(couponId);
+		if(tlist.size() == 1 && tlist.get(0).equals(transaction3)){
+			//Passed;
+		}else fail();
 				
 	}
 }
