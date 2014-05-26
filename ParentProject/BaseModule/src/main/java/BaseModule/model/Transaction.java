@@ -11,11 +11,11 @@ public class Transaction {
 	private int transactionId;
 	private int userId;
 	private int bookingId;
-	private double transactionAmount;
+	private int transactionAmount;
 	private Calendar creationTime;
 	
 	//Normal Construction
-	public Transaction(int userId, int bookingId, double transactionAmount) {
+	public Transaction(int userId, int bookingId, int transactionAmount) {
 		super();
 		this.transactionId = -1;
 		this.userId = userId;
@@ -25,7 +25,7 @@ public class Transaction {
 	}
 	
 	//SQL Construction
-	public Transaction(int transactionId,int userId, int bookingId, double transactionAmount,
+	public Transaction(int transactionId,int userId, int bookingId, int transactionAmount,
 			Calendar creationTime) {
 		super();
 		this.transactionId = transactionId;
@@ -51,11 +51,11 @@ public class Transaction {
 		this.bookingId = bookingId;
 	}
 
-	public double getTransactionAmount() {
+	public int getTransactionAmount() {
 		return transactionAmount;
 	}
 
-	public void setTransactionAmount(double transactionAmount) {
+	public void setTransactionAmount(int transactionAmount) {
 		this.transactionAmount = transactionAmount;
 	}
 

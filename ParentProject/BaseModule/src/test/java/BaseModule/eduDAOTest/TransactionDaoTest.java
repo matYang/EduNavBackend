@@ -24,7 +24,7 @@ public class TransactionDaoTest {
 		User user = new User(name, phone, password,status);
 		UserDao.addUserToDatabase(user);
 		int bookingId = 1;
-		Double amount = 23.12;
+		int amount = 20;
 		Transaction transaction = new Transaction(user.getUserId(),bookingId,amount);
 		try{
 			transaction = TransactionDao.addTransactionToDatabases(transaction);
@@ -39,19 +39,19 @@ public class TransactionDaoTest {
 		EduDaoBasic.clearBothDatabase();
 		int userId = 1;
 		int bookingId = 1;
-		Double amount = 23.12;
+		int amount = 20;
 		Transaction transaction = new Transaction(userId,bookingId,amount);
 		transaction = TransactionDao.addTransactionToDatabases(transaction);
 		
 		int userId2 = 2;
 		int bookingId2 =2;
-		Double amount2 = -23.12;
+		int amount2 = -234;
 		Transaction transaction2 = new Transaction(userId2,bookingId2,amount2);
 		transaction2 = TransactionDao.addTransactionToDatabases(transaction2);
 		
 		int userId3 = 3;
 		int bookingId3 =3;
-		Double amount3 = 5474523.124546574115;
+		int amount3 = 23454354;
 		Transaction transaction3 = new Transaction(userId3,bookingId3,amount3);
 		transaction3 = TransactionDao.addTransactionToDatabases(transaction3);
 		

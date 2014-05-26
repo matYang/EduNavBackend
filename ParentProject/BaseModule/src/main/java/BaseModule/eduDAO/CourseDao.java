@@ -12,6 +12,7 @@ import java.util.HashMap;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.exception.course.CourseNotFoundException;
 import BaseModule.exception.partner.PartnerNotFoundException;
 import BaseModule.factory.QueryFactory;
@@ -124,8 +125,10 @@ public class CourseDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO CourseDao (p_Id,creationTime,startTime,finishTime,t_Info,t_ImgURL,backgroundURL,price," +
-				"seatsTotal,seatsLeft,t_Material,status,category,subCategory,title,location,city,district,reference,courseInfo)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				"seatsTotal,seatsLeft,t_Material,status,category,subCategory,title,location,city,district,reference,courseInfo," +
+				"classModel,authenticated,hasDownloadMaterials,ensurePass,quizandassignment,certification,room,openClassRequirements," +
+				"questionBank,studyForm,suitableStudent,prerequest,courseOutline,highscoreaward,extracurricular)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	
 
@@ -149,7 +152,21 @@ public class CourseDao {
 			stmt.setString(18, course.getDistrict());
 			stmt.setString(19, course.getReference());
 			stmt.setString(20, course.getCourseInfo());
-
+			stmt.setInt(21, course.getClassModel().code);
+			stmt.setInt(22, course.isAuthenticated() ? 1 : 0);
+			stmt.setInt(23, course.isHasDownloadMaterials() ? 1 : 0);
+			stmt.setInt(24, course.isEnsurePass() ? 1 : 0);
+			stmt.setInt(25, course.isQuizandassignment() ? 1 : 0);
+			stmt.setInt(26, course.isCertification() ? 1 :0);
+			stmt.setString(27, course.getRoom());
+			stmt.setString(28, course.getOpenClassRequirements());
+			stmt.setString(29, course.getQuestionBank());
+			stmt.setString(30, course.getStudyForm());
+			stmt.setString(31,course.getSuitableStudent());
+			stmt.setString(32, course.getPrerequest());
+			stmt.setString(33, course.getCourseOutline());
+			stmt.setString(34, course.getHighscoreaward());
+			stmt.setString(35, course.getExtracurricular());
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -168,7 +185,9 @@ public class CourseDao {
 		PreparedStatement stmt = null;
 		String query = "UPDATE CourseDao SET p_Id=?,startTime=?,finishTime=?,t_Info=?,t_ImgURL=?,backgroundURL=?,price=?," +
 				"seatsTotal=?,seatsLeft=?,t_Material=?,status=?,category=?,subCategory=?,title=?,location=?," +
-				"city=?,district=?,reference=?,courseInfo=? where id=?";
+				"city=?,district=?,reference=?,courseInfo=?,classModel=?,authenticated=?,hasDownloadMaterials=?,ensurePass=?," +
+				"quizandassignment=?,certification=?,room=?,openClassRequirements=?,questionBank=?,studyForm=?,suitableStudent=?,prerequest=?," +
+				"courseOutline=?,highscoreaward=?,extracurricular=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
 
@@ -191,7 +210,22 @@ public class CourseDao {
 			stmt.setString(17, course.getDistrict());
 			stmt.setString(18, course.getReference());
 			stmt.setString(19, course.getCourseInfo());
-			stmt.setInt(20, course.getCourseId());
+			stmt.setInt(20, course.getClassModel().code);
+			stmt.setInt(21, course.isAuthenticated() ? 1 : 0);
+			stmt.setInt(22, course.isHasDownloadMaterials() ? 1 : 0);
+			stmt.setInt(23, course.isEnsurePass() ? 1 : 0);
+			stmt.setInt(24, course.isQuizandassignment() ? 1 : 0);
+			stmt.setInt(25, course.isCertification() ? 1 :0);
+			stmt.setString(26, course.getRoom());
+			stmt.setString(27, course.getOpenClassRequirements());
+			stmt.setString(28, course.getQuestionBank());
+			stmt.setString(29, course.getStudyForm());
+			stmt.setString(30,course.getSuitableStudent());
+			stmt.setString(31, course.getPrerequest());
+			stmt.setString(32, course.getCourseOutline());
+			stmt.setString(33, course.getHighscoreaward());
+			stmt.setString(34, course.getExtracurricular());
+			stmt.setInt(35, course.getCourseId());
 
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
@@ -276,7 +310,12 @@ public class CourseDao {
 				rs.getString("t_Info"),rs.getString("t_ImgURL"), rs.getString("t_Material"), rs.getString("backgroundURL"),
 				rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),AccountStatus.fromInt(rs.getInt("status")), 
 				rs.getString("category"), rs.getString("subCategory"), partner,rs.getString("title"),rs.getString("location"),
-				rs.getString("city"),rs.getString("district"),rs.getString("reference"),rs.getString("courseInfo"));
+				rs.getString("city"),rs.getString("district"),rs.getString("reference"),rs.getString("courseInfo"),
+				ClassModel.fromInt(rs.getInt("classModel")),rs.getString("room"),rs.getBoolean("authenticated"),
+				rs.getBoolean("hasDownloadMaterials"), rs.getBoolean("ensurePass"),rs.getBoolean("quizandassignment"),
+				rs.getBoolean("certification"), rs.getString("openClassRequirements"),rs.getString("questionBank"),
+				rs.getString("studyForm"),rs.getString("suitableStudent"),rs.getString("prerequest"),rs.getString("courseOutline"),
+				rs.getString("highscoreaward"),rs.getString("extracurricular"));					
 	}
 
 	protected static Course createCourseByResultSet(ResultSet rs) throws SQLException {
@@ -285,6 +324,11 @@ public class CourseDao {
 				rs.getString("t_Info"),rs.getString("t_ImgURL"), rs.getString("t_Material"), rs.getString("backgroundURL"),
 				rs.getInt("price"), rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),AccountStatus.fromInt(rs.getInt("status")), 
 				rs.getString("category"), rs.getString("subCategory"), null,rs.getString("title"),rs.getString("location"),
-				rs.getString("city"),rs.getString("district"),rs.getString("reference"),rs.getString("courseInfo"));
+				rs.getString("city"),rs.getString("district"),rs.getString("reference"),rs.getString("courseInfo"),
+				ClassModel.fromInt(rs.getInt("classModel")),rs.getString("room"),rs.getBoolean("authencatited"),
+				rs.getBoolean("hasDownloadMaterials"), rs.getBoolean("ensurePass"),rs.getBoolean("quizandassignment"),
+				rs.getBoolean("certification"), rs.getString("openClassRequirements"),rs.getString("questionBank"),
+				rs.getString("studyForm"),rs.getString("suitableStudent"),rs.getString("prerequest"),rs.getString("courseOutline"),
+				rs.getString("highscoreaward"),rs.getString("extracurricular"));
 	}	
 }

@@ -11,13 +11,13 @@ public class Credit {
 	private long creditId;
 	private int bookingId;
 	private int userId;
-	private double amount;
+	private int amount;
 	private Calendar creationTime;
 	private Calendar expireTime;
 	private CreditStatus status;
 	
 	//SQL Construction
-	public Credit(long creditId, int bookingId, int userId, double amount,
+	public Credit(long creditId, int bookingId, int userId, int amount,
 			Calendar creationTime, Calendar expireTime, CreditStatus status) {
 		super();
 		this.creditId = creditId;
@@ -29,7 +29,7 @@ public class Credit {
 		this.status = status;
 	}
 
-	public Credit(int bookingId, int userId, double amount,
+	public Credit(int bookingId, int userId, int amount,
 			 Calendar expireTime, CreditStatus status) {
 		super();
 		this.bookingId = bookingId;
@@ -64,11 +64,11 @@ public class Credit {
 		this.userId = userId;
 	}
 
-	public double getAmount() {
+	public int getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 

@@ -21,7 +21,7 @@ public class CreditDaoTest {
 		EduDaoBasic.clearBothDatabase();
 		int bookingId = 1;
 		int userId = 1;
-		double amount = 1.2223;
+		int amount = 234;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
 		try{
@@ -37,7 +37,7 @@ public class CreditDaoTest {
 		EduDaoBasic.clearBothDatabase();
 		int bookingId = 1;
 		int userId = 1;
-		double amount = 1.2223;
+		int amount = 5653;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
 		c = CreditDao.addCreditToDatabases(c);
@@ -61,7 +61,7 @@ public class CreditDaoTest {
 		EduDaoBasic.clearBothDatabase();
 		int bookingId = 1;
 		int userId = 1;
-		double amount = 1.2223;
+		int amount = 2;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
 		c = CreditDao.addCreditToDatabases(c);

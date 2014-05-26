@@ -133,6 +133,14 @@ public class CourseDaoTest {
 			//Passed;
 		}else fail();		
 		
+		course2.setAuthenticated(true);
+		CourseDao.updateCourseInDatabases(course2);
+		test = CourseDao.getCourseById(course2.getCourseId());
+		
+		if(test.isAuthenticated()){
+			//Passed;
+		}else fail();
+		
 	}	
 	
 	@Test

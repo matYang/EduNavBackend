@@ -14,14 +14,14 @@ public class Coupon {
 	private int bookingId;
 	private int transactionId;
 	private int userId;
-	private double amount;
+	private int amount;
 	private Calendar creationTime;
 	private Calendar expireTime;
 	private CouponStatus status;
 	
 	//SQL Construction
 	public Coupon(long couponId, int bookingId, int transactionId, int userId,
-			double amount, Calendar creationTime, Calendar expireTime,
+			int amount, Calendar creationTime, Calendar expireTime,
 			CouponStatus status) {
 		super();
 		this.couponId = couponId;
@@ -36,7 +36,7 @@ public class Coupon {
 
 	//Normal Construction
 	public Coupon(int bookingId, int transactionId, int userId,
-			double amount, Calendar expireTime, CouponStatus status) {
+			int amount, Calendar expireTime, CouponStatus status) {
 		super();
 		this.couponId = -1;
 		this.bookingId = bookingId;
@@ -49,7 +49,7 @@ public class Coupon {
 	}
 	
 	public Coupon(int bookingId, int userId,
-			double amount, Calendar expireTime, CouponStatus status) {
+			int amount, Calendar expireTime, CouponStatus status) {
 		super();
 		this.couponId = -1;
 		this.bookingId = bookingId;
@@ -93,11 +93,11 @@ public class Coupon {
 		this.userId = userId;
 	}
 
-	public double getAmount() {
+	public int getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 

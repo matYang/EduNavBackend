@@ -72,9 +72,8 @@ public class TransactionDao {
 		return tlist;
 	}
 
-	private static Transaction createTransactionByResultSet(ResultSet rs) throws SQLException {
-		System.out.println("amount is: " + rs.getDouble("amount"));
-		return new Transaction(rs.getInt("transactionId"),rs.getInt("userId"), rs.getInt("bookingId"),rs.getDouble("amount"),
+	private static Transaction createTransactionByResultSet(ResultSet rs) throws SQLException {		
+		return new Transaction(rs.getInt("transactionId"),rs.getInt("userId"), rs.getInt("bookingId"),rs.getInt("amount"),
 				DateUtility.DateToCalendar(rs.getTimestamp("creationTime")));
 	}
 

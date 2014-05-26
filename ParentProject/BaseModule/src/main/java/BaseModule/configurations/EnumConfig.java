@@ -61,4 +61,17 @@ public class EnumConfig {
 			return map[n];
 		}
 	}
+	
+	public static enum ClassModel{
+        one2one(0),smallclass(1),medianclass(2),bigclass(3);
+        public int code;
+        ClassModel(int code){
+            this.code = code;
+        }
+        private final static ClassModel[] map = ClassModel.values();
+        public static ClassModel fromInt(int n){
+            return map[n];
+        }
+    }	
+	
 }

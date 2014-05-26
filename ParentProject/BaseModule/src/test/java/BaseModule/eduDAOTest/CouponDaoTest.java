@@ -21,7 +21,7 @@ public class CouponDaoTest {
 		EduDaoBasic.clearBothDatabase();
 		int bookingId = 1;
 		int userId = 1;
-		double amount = 454.545;
+		int amount = 234;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Coupon c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
 		try{
@@ -37,7 +37,7 @@ public class CouponDaoTest {
 		EduDaoBasic.clearBothDatabase();
 		int bookingId = 1;
 		int userId = 1;
-		double amount = 454.545;
+		int amount = 45665;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Coupon c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
 		c = CouponDao.addCouponToDatabases(c);
@@ -59,15 +59,15 @@ public class CouponDaoTest {
 		EduDaoBasic.clearBothDatabase();
 		int bookingId = 1;
 		int userId = 1;
-		double amount = 454.545;
+		int amount = 1000034343;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Coupon c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
 		CouponDao.addCouponToDatabases(c);
-		c.setAmount(0.77);
+		c.setAmount(1);
 		c.setTransactionId(2);
 		CouponDao.updateCouponInDatabases(c);
 		c = CouponDao.getCouponByCouponId(c.getCouponId());
-		if(c.getAmount()==0.77 && c.getTransactionId() == 2){
+		if(c.getAmount()==1 && c.getTransactionId() == 2){
 			//Passed;
 		}else fail();
 	}

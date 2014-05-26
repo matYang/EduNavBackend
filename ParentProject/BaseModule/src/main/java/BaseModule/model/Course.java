@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
 
@@ -34,42 +35,78 @@ public class Course implements PseudoModel{
 	private String teacherImgUrl;
 	private String teachingMaterial;
 	private String backgroundUrl;
-	private String courseInfo;
-	
+	private String courseInfo;	
 	private Calendar creationTime;
 	
+	private ClassModel classModel;		
+	private boolean authenticated;
+	private boolean hasDownloadMaterials;
+	private boolean ensurePass;
+	private boolean quizandassignment;
+	private boolean certification;
+	private String room;
+	private String openClassRequirements;
+	private String questionBank;
+	private String studyForm;
+	private String suitableStudent;
+	private String prerequest;
+	private String courseOutline;
+	private String highscoreaward;	
+	private String extracurricular;
+	
 	//SQL Retrieving
-	public Course(int courseId, int p_Id, Calendar creationTime,
-			Calendar startTime, Calendar finishTime, String t_Info,
-			String t_ImgURL, String t_Material, String backgroundURL,
-			int price, int seatsTotal, int seatsLeft,AccountStatus status, 
-			String category, String subCategory, Partner partner,String title,
-			String location, String city, String district, String reference,String courseInfo) {
+		
+	public Course(int courseId, int partnerId,  Calendar creationTime,Calendar startTime,
+			Calendar finishTime, String teacherInfo,String teacherImgUrl,
+			 String teachingMaterial,String backgroundUrl,int price, int seatsTotal, 
+			 int seatsLeft,AccountStatus status, String category, String subCategory,
+			 Partner partner,String title,String location, String city, String district, 
+			 String reference,String courseInfo,ClassModel classModel, String room,
+			 boolean authenticated,	boolean hasDownloadMaterials, boolean ensurePass,
+			boolean quizandassignment, boolean certification,
+			String openClassRequirements, String questionBank, String studyForm,
+			String suitableStudent, String prerequest, String courseOutline,
+			String highscoreaward, String extracurricular) {
 		super();
 		this.courseId = courseId;
-		this.partnerId = p_Id;
-		this.creationTime = creationTime;
+		this.partnerId = partnerId;
 		this.startTime = startTime;
 		this.finishTime = finishTime;
-		this.teacherInfo = t_Info;
-		this.teacherImgUrl = t_ImgURL;
-		this.teachingMaterial = t_Material;
-		this.backgroundUrl = backgroundURL;
 		this.price = price;
 		this.seatsTotal = seatsTotal;
 		this.seatsLeft = seatsLeft;
 		this.status = status;
 		this.category = category;
 		this.subCategory = subCategory;
-		this.partner = partner;
 		this.title = title;
+		this.partner = partner;
 		this.location = location;
 		this.city = city;
 		this.district = district;
 		this.reference = reference;
+		this.teacherInfo = teacherInfo;
+		this.teacherImgUrl = teacherImgUrl;
+		this.teachingMaterial = teachingMaterial;
+		this.backgroundUrl = backgroundUrl;
 		this.courseInfo = courseInfo;
+		this.creationTime = creationTime;
+		this.classModel = classModel;
+		this.room = room;
+		this.authenticated = authenticated;
+		this.hasDownloadMaterials = hasDownloadMaterials;
+		this.ensurePass = ensurePass;
+		this.quizandassignment = quizandassignment;
+		this.certification = certification;
+		this.openClassRequirements = openClassRequirements;
+		this.questionBank = questionBank;
+		this.studyForm = studyForm;
+		this.suitableStudent = suitableStudent;
+		this.prerequest = prerequest;
+		this.courseOutline = courseOutline;
+		this.highscoreaward = highscoreaward;
+		this.extracurricular = extracurricular;
 	}
-	
+
 	//Normal Construction
 	public Course(int p_Id, Calendar startTime, Calendar finishTime,
 			int seatsTotal, int seatsLeft, String category,
@@ -86,9 +123,73 @@ public class Course implements PseudoModel{
 		this.price = price;
 		this.title = title;
 		this.courseInfo = courseInfo;
+		this.classModel = ClassModel.medianclass;
+		this.room = "";
+		this.authenticated = false;
+		this.hasDownloadMaterials = false;
+		this.ensurePass = false;
+		this.quizandassignment = false;
+		this.certification = false;
+		this.openClassRequirements = "";
+		this.questionBank = "";
+		this.studyForm = "";
+		this.suitableStudent = "";
+		this.prerequest = "";
+		this.courseOutline = "";
+		this.highscoreaward = "";
+		this.extracurricular = "";			
 		this.creationTime = DateUtility.getCurTimeInstance();		
 	}
 	
+	public Course(int partnerId, Calendar startTime, Calendar finishTime,
+			int price, int seatsTotal, int seatsLeft, AccountStatus status,
+			String category, String subCategory, String title, String location,
+			String city, String district, String teacherInfo,
+			String teacherImgUrl, String teachingMaterial,
+			String backgroundUrl, String courseInfo, ClassModel classModel,
+			String room, boolean authenticated, boolean hasDownloadMaterials,
+			boolean ensurePass, boolean quizandassignment,
+			boolean certification, String openClassRequirements,
+			String questionBank, String studyForm, String suitableStudent,
+			String prerequest, String courseOutline, String highscoreaward,
+			String extracurricular) {
+		super();
+		this.partnerId = partnerId;
+		this.startTime = startTime;
+		this.finishTime = finishTime;
+		this.price = price;
+		this.seatsTotal = seatsTotal;
+		this.seatsLeft = seatsLeft;
+		this.status = status;
+		this.category = category;
+		this.subCategory = subCategory;
+		this.title = title;
+		this.location = location;
+		this.city = city;
+		this.district = district;
+		this.teacherInfo = teacherInfo;
+		this.teacherImgUrl = teacherImgUrl;
+		this.teachingMaterial = teachingMaterial;
+		this.backgroundUrl = backgroundUrl;
+		this.courseInfo = courseInfo;
+		this.classModel = classModel;
+		this.room = room;
+		this.authenticated = authenticated;
+		this.hasDownloadMaterials = hasDownloadMaterials;
+		this.ensurePass = ensurePass;
+		this.quizandassignment = quizandassignment;
+		this.certification = certification;
+		this.openClassRequirements = openClassRequirements;
+		this.questionBank = questionBank;
+		this.studyForm = studyForm;
+		this.suitableStudent = suitableStudent;
+		this.prerequest = prerequest;
+		this.courseOutline = courseOutline;
+		this.highscoreaward = highscoreaward;
+		this.extracurricular = extracurricular;
+		this.creationTime = DateUtility.getCurTimeInstance();	
+	}
+
 	//default
 	public Course() {
 		super();
@@ -267,6 +368,130 @@ public class Course implements PseudoModel{
 		this.courseInfo = courseInfo;
 	}
 
+	public ClassModel getClassModel() {
+		return classModel;
+	}
+
+	public void setClassModel(ClassModel classModel) {
+		this.classModel = classModel;
+	}
+
+	public String getRoom() {
+		return room;
+	}
+
+	public void setRoom(String room) {
+		this.room = room;
+	}
+
+	public boolean isAuthenticated() {
+		return authenticated;
+	}
+
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
+	}
+
+	public boolean isHasDownloadMaterials() {
+		return hasDownloadMaterials;
+	}
+
+	public void setHasDownloadMaterials(boolean hasDownloadMaterials) {
+		this.hasDownloadMaterials = hasDownloadMaterials;
+	}
+
+	public boolean isEnsurePass() {
+		return ensurePass;
+	}
+
+	public void setEnsurePass(boolean ensurePass) {
+		this.ensurePass = ensurePass;
+	}
+
+	public boolean isQuizandassignment() {
+		return quizandassignment;
+	}
+
+	public void setQuizandassignment(boolean quizandassignment) {
+		this.quizandassignment = quizandassignment;
+	}
+
+	public boolean isCertification() {
+		return certification;
+	}
+
+	public void setCertification(boolean certification) {
+		this.certification = certification;
+	}
+
+	public String getOpenClassRequirements() {
+		return openClassRequirements;
+	}
+
+	public void setOpenClassRequirements(String openClassRequirements) {
+		this.openClassRequirements = openClassRequirements;
+	}
+
+	public String getQuestionBank() {
+		return questionBank;
+	}
+
+	public void setQuestionBank(String questionBank) {
+		this.questionBank = questionBank;
+	}
+
+	public String getStudyForm() {
+		return studyForm;
+	}
+
+	public void setStudyForm(String studyForm) {
+		this.studyForm = studyForm;
+	}
+
+	public String getSuitableStudent() {
+		return suitableStudent;
+	}
+
+	public void setSuitableStudent(String suitableStudent) {
+		this.suitableStudent = suitableStudent;
+	}
+
+	public String getPrerequest() {
+		return prerequest;
+	}
+
+	public void setPrerequest(String prerequest) {
+		this.prerequest = prerequest;
+	}
+
+	public String getCourseOutline() {
+		return courseOutline;
+	}
+
+	public void setCourseOutline(String courseOutline) {
+		this.courseOutline = courseOutline;
+	}
+
+	public String getHighscoreaward() {
+		return highscoreaward;
+	}
+
+	public void setHighscoreaward(String highscoreaward) {
+		this.highscoreaward = highscoreaward;
+	}
+
+	public String getExtracurricular() {
+		return extracurricular;
+	}
+
+	public void setExtracurricular(String extracurricular) {
+		this.extracurricular = extracurricular;
+	}
+
+	public void setCreationTime(Calendar creationTime) {
+		this.creationTime = creationTime;
+	}
+
 	public JSONObject toJSON(){
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
@@ -292,7 +517,21 @@ public class Course implements PseudoModel{
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));		
 			jsonSearchRepresentation.put("startTime", DateUtility.castToAPIFormat(this.startTime));
 			jsonSearchRepresentation.put("finishTime", DateUtility.castToAPIFormat(this.finishTime));
-
+			jsonSearchRepresentation.put("classModel", this.classModel.code);				
+			jsonSearchRepresentation.put("authenticated", this.authenticated);
+			jsonSearchRepresentation.put("hasDownloadMaterials", this.hasDownloadMaterials);
+			jsonSearchRepresentation.put("ensurePass", this.ensurePass);
+			jsonSearchRepresentation.put("quizandassignment", this.quizandassignment);
+			jsonSearchRepresentation.put("certification", this.certification);
+			jsonSearchRepresentation.put("room", EncodingService.encodeURI(this.room));
+			jsonSearchRepresentation.put("openClassRequirements",EncodingService.encodeURI(this.openClassRequirements));
+			jsonSearchRepresentation.put("questionBank",EncodingService.encodeURI(this.questionBank));
+			jsonSearchRepresentation.put("studyForm",EncodingService.encodeURI(this.studyForm));
+			jsonSearchRepresentation.put("suitableStudent",EncodingService.encodeURI(this.suitableStudent));
+			jsonSearchRepresentation.put("prerequest",EncodingService.encodeURI(this.prerequest));
+			jsonSearchRepresentation.put("courseOutline",EncodingService.encodeURI(this.courseOutline));
+			jsonSearchRepresentation.put("highscoreaward",EncodingService.encodeURI(this.highscoreaward));
+			jsonSearchRepresentation.put("extracurricular",EncodingService.encodeURI(this.extracurricular));			
 		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -309,7 +548,13 @@ public class Course implements PseudoModel{
 					this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
 					this.finishTime.getTime().toString().equals(c.getFinishTime().getTime().toString()) &&
 					this.location.equals(c.getLocation()) && this.city.equals(c.getCity()) && this.district.equals(c.getDistrict()) &&
-					this.reference.equals(c.getReference()) && this.courseInfo.equals(c.getCourseInfo());
+					this.reference.equals(c.getReference()) && this.courseInfo.equals(c.getCourseInfo()) && this.classModel.code == c.getClassModel().code &&
+					this.room.equals(c.getRoom()) && this.authenticated == c.isAuthenticated() && this.hasDownloadMaterials == c.isHasDownloadMaterials() &&
+					this.ensurePass == c.isEnsurePass() && this.quizandassignment == c.isQuizandassignment() && 
+					this.certification == c.isCertification() && this.openClassRequirements.equals(c.getOpenClassRequirements()) &&
+					this.questionBank.equals(c.getQuestionBank()) && this.studyForm.equals(c.getStudyForm()) && this.suitableStudent.equals(c.getSuitableStudent()) &&
+					this.prerequest.equals(c.getPrerequest()) && this.courseOutline.equals(c.getCourseOutline()) &&
+					this.highscoreaward.equals(c.getHighscoreaward()) && this.extracurricular.equals(c.getExtracurricular());
 		}else{
 			return  this.category.equals(c.getCategory()) &&this.subCategory.equals(c.getSubCategory()) && this.courseId == c.getCourseId() && 
 					this.title.equals(c.getTitle()) && this.teacherInfo.equals(c.getTeacherInfo()) &&
@@ -319,7 +564,15 @@ public class Course implements PseudoModel{
 					this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
 					this.finishTime.getTime().toString().equals(c.getFinishTime().getTime().toString()) &&
 					this.location.equals(c.getLocation()) && this.city.equals(c.getCity()) && this.district.equals(c.getDistrict()) &&
-					this.reference.equals(c.getReference()) && this.partner.equals(c.getPartner()) && this.courseInfo.equals(c.getCourseInfo());
+					this.reference.equals(c.getReference()) && this.partner.equals(c.getPartner()) && this.courseInfo.equals(c.getCourseInfo())&& 
+					this.classModel.code == c.getClassModel().code &&
+					this.room.equals(c.getRoom()) && this.authenticated == c.isAuthenticated() && this.hasDownloadMaterials == c.isHasDownloadMaterials() &&
+					this.ensurePass == c.isEnsurePass() && this.quizandassignment == c.isQuizandassignment() && 
+					this.certification == c.isCertification() && this.openClassRequirements.equals(c.getOpenClassRequirements()) &&
+					this.questionBank.equals(c.getQuestionBank()) && this.studyForm.equals(c.getStudyForm()) && 
+					this.suitableStudent.equals(c.getSuitableStudent()) &&
+					this.prerequest.equals(c.getPrerequest()) && this.courseOutline.equals(c.getCourseOutline()) &&
+					this.highscoreaward.equals(c.getHighscoreaward()) && this.extracurricular.equals(c.getExtracurricular());
 		}			
 	}
 }
