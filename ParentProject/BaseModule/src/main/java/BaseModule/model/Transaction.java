@@ -4,6 +4,7 @@ import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
+import BaseModule.configurations.EnumConfig.TransactionType;
 
 
 public class Transaction {
@@ -11,27 +12,44 @@ public class Transaction {
 	private int transactionId;
 	private int userId;
 	private int bookingId;
+	private long couponId;
 	private int transactionAmount;
 	private Calendar creationTime;
+	private TransactionType transactionType;
 	
 	//Normal Construction
 	public Transaction(int userId, int bookingId, int transactionAmount) {
 		super();
 		this.transactionId = -1;
+		this.couponId = -1;
 		this.userId = userId;
 		this.bookingId = bookingId;
 		this.transactionAmount = transactionAmount;
+		this.transactionType = TransactionType.deposit;
+		this.creationTime = DateUtility.getCurTimeInstance();
+	}
+	
+	public Transaction(int userId, int bookingId, long couponId,int transactionAmount, TransactionType transactionType) {
+		super();
+		this.transactionId = -1;
+		this.couponId = couponId;
+		this.userId = userId;
+		this.bookingId = bookingId;
+		this.transactionAmount = transactionAmount;
+		this.transactionType = transactionType;
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 	
 	//SQL Construction
-	public Transaction(int transactionId,int userId, int bookingId, int transactionAmount,
-			Calendar creationTime) {
+	public Transaction(int transactionId,int userId, int bookingId, long couponId,
+			int transactionAmount,TransactionType transactionType,Calendar creationTime) {
 		super();
 		this.transactionId = transactionId;
 		this.userId = userId;
 		this.bookingId = bookingId;
+		this.couponId = couponId;
 		this.transactionAmount = transactionAmount;
+		this.transactionType = transactionType;
 		this.creationTime = creationTime;
 	}
 
@@ -41,6 +59,22 @@ public class Transaction {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public long getCouponId() {
+		return couponId;
+	}
+
+	public void setCouponId(long couponId) {
+		this.couponId = couponId;
+	}
+
+	public TransactionType getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(TransactionType transactionType) {
+		this.transactionType = transactionType;
 	}
 
 	public int getBookingId() {
@@ -77,6 +111,8 @@ public class Transaction {
 			jsonSearchRepresentation.put("transactionId", this.transactionId);
 			jsonSearchRepresentation.put("bookingId", this.bookingId);
 			jsonSearchRepresentation.put("userId", this.userId);
+			jsonSearchRepresentation.put("couponId", this.couponId);
+			jsonSearchRepresentation.put("transactionType", this.transactionType.code);
 			jsonSearchRepresentation.put("amount", this.transactionAmount);		
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
 		} catch (JSONException e) {
@@ -89,7 +125,8 @@ public class Transaction {
 	public boolean equals(Transaction transaction){
 		return this.bookingId == transaction.getBookingId() && this.transactionId == transaction.getTransactionId() &&
 				this.userId == transaction.getUserId() && this.transactionAmount == transaction.getTransactionAmount() &&
-				this.creationTime.getTime().toString().equals(transaction.getCreationTime().getTime().toString());
+				this.creationTime.getTime().toString().equals(transaction.getCreationTime().getTime().toString()) &&
+				this.couponId == transaction.getCouponId() && this.transactionType.code == transaction.getTransactionType().code;
 	}
 	
 	

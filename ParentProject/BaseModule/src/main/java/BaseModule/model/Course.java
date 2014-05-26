@@ -54,8 +54,7 @@ public class Course implements PseudoModel{
 	private String highscoreaward;	
 	private String extracurricular;
 	
-	//SQL Retrieving
-		
+	//SQL Retrieving		
 	public Course(int courseId, int partnerId,  Calendar creationTime,Calendar startTime,
 			Calendar finishTime, String teacherInfo,String teacherImgUrl,
 			 String teachingMaterial,String backgroundUrl,int price, int seatsTotal, 

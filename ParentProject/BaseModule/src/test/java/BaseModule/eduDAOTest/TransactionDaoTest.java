@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
@@ -52,8 +53,11 @@ public class TransactionDaoTest {
 		int userId3 = 3;
 		int bookingId3 =3;
 		int amount3 = 23454354;
+		long couponId = 1;
 		Transaction transaction3 = new Transaction(userId3,bookingId3,amount3);
-		transaction3 = TransactionDao.addTransactionToDatabases(transaction3);
+		transaction3.setTransactionType(TransactionType.coupon);
+		transaction3.setCouponId(couponId);
+		transaction3 = TransactionDao.addTransactionToDatabases(transaction3);		
 		
 		ArrayList<Transaction> tlist = new ArrayList<Transaction>();
 		tlist = TransactionDao.getTransactionById(userId, "user");

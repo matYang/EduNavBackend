@@ -38,6 +38,18 @@ public class EnumConfig {
         }
     }
 	
+	public static enum TransactionType{
+        coupon(0),deposit(1),withdraw(2);
+        public int code;
+        TransactionType(int code){
+            this.code = code;
+        }
+        private final static TransactionType[] map = TransactionType.values();
+        public static TransactionType fromInt(int n){
+            return map[n];
+        }
+    }
+	
 	public static enum Privilege{
         root(0),mamagement(1),routine(2);
         public int code;
