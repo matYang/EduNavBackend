@@ -65,6 +65,7 @@ public class BookingResource extends UserPseudoResource{
 			if (userId != booking.getUserId()){
 				throw new ValidationException("不允许替其他用户预约");
 			}
+			
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONFactory.toJSON(booking);
 			

@@ -17,7 +17,7 @@ import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
-import BaseModule.encryption.AdminCrypto;
+import BaseModule.encryption.AdminSecretCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -42,7 +42,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			String secret_1 = this.getQueryVal("secret1");
 			String secret_2 = this.getQueryVal("secret2");
 			String secret_3 = this.getQueryVal("secret3");
-			if (!AdminCrypto.validatePassword(secret_1, superAdminKey_1) || !AdminCrypto.validatePassword(secret_2, superAdminKey_2) || !AdminCrypto.validatePassword(secret_3, superAdminKey_3) ){
+			if (!AdminSecretCrypto.validatePassword(secret_1, superAdminKey_1) || !AdminSecretCrypto.validatePassword(secret_2, superAdminKey_2) || !AdminSecretCrypto.validatePassword(secret_3, superAdminKey_3) ){
 				int adminId = this.validateAuthentication();
 				AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 				if (admin.getPrivilege() != Privilege.root){
@@ -92,7 +92,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 				String secret_1 = this.getQueryVal("secret1");
 				String secret_2 = this.getQueryVal("secret2");
 				String secret_3 = this.getQueryVal("secret3");
-				if (!AdminCrypto.validatePassword(secret_1, superAdminKey_1) || !AdminCrypto.validatePassword(secret_2, superAdminKey_2) || !AdminCrypto.validatePassword(secret_3, superAdminKey_3) ){
+				if (!AdminSecretCrypto.validatePassword(secret_1, superAdminKey_1) || !AdminSecretCrypto.validatePassword(secret_2, superAdminKey_2) || !AdminSecretCrypto.validatePassword(secret_3, superAdminKey_3) ){
 					throw e;
 				}
 				else{

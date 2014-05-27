@@ -16,6 +16,7 @@ public class Course implements PseudoModel{
 
 	private int courseId;
 	private int partnerId;
+	private Calendar creationTime;
 	
 	private Calendar startTime;
 	private Calendar finishTime;
@@ -26,7 +27,6 @@ public class Course implements PseudoModel{
 	private String category;
 	private String subCategory;
 	private String title;
-	private Partner partner;
 	private String location;
 	private String city;
 	private String district;
@@ -36,7 +36,6 @@ public class Course implements PseudoModel{
 	private String teachingMaterial;
 	private String backgroundUrl;
 	private String courseInfo;	
-	private Calendar creationTime;
 	
 	private ClassModel classModel;		
 	private boolean authenticated;
@@ -53,6 +52,9 @@ public class Course implements PseudoModel{
 	private String courseOutline;
 	private String highscoreaward;	
 	private String extracurricular;
+	
+	
+	private Partner partner;
 	
 	//SQL Retrieving		
 	public Course(int courseId, int partnerId,  Calendar creationTime,Calendar startTime,

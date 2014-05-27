@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -12,9 +13,7 @@ import javax.crypto.ShortBufferException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-
-public class SessionCrypto{
-
+public class AccessControlCrypto {
 	   
 	   private final static String HEX = "0123456789ABCDEF";
 	   
@@ -23,24 +22,26 @@ public class SessionCrypto{
 	   }
 	
 	
-	   public static String encrypt(String plainText) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException,UnsupportedEncodingException{
-		   byte[] keyBytes = new byte[] { 0x68,0x49,0x23,0x08,0x76,0x47,0x56,0x17,0x43,0x17,0x64,0x57,0x58,0x69,0x17,0x33};
-		   byte[] ivBytes = new byte[] { 0x48,0x21,0x65,0x52,0x78,0x34,0x61,0x22,0x17,0x43, 0x28,0x69,0x47,0x09,0x75,0x42};	
+	   public static String encrypt(String plainText, String key, String ivy) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException,UnsupportedEncodingException{
+		   byte[] keyBytes = key.getBytes();
+		   byte[] ivBytes = ivy.getBytes();	
+		   
 		   
 		   Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
 		   SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES"); 
 		   IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
-
+		   
 		   byte[] plainTextBytes = plainText.getBytes("UTF8");
 		   cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec); 
 		   byte[] encrypted = cipher.doFinal(plainTextBytes);
 		   return toHex(encrypted);
+	
 	   }
 	
 	
-	   public static String decrypt(String cipherTextString) throws InvalidKeyException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException{
-		   byte[] keyBytes = new byte[] { 0x68,0x49,0x23,0x08,0x76,0x47,0x56,0x17,0x43,0x17,0x64,0x57,0x58,0x69,0x17,0x33};
-		   byte[] ivBytes = new byte[] { 0x48,0x21,0x65,0x52,0x78,0x34,0x61,0x22,0x17,0x43, 0x28,0x69,0x47,0x09,0x75,0x42};	
+	   public static String decrypt(String cipherTextString, String key, String ivy) throws InvalidKeyException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException{
+		   byte[] keyBytes = key.getBytes();
+		   byte[] ivBytes = ivy.getBytes();	
 		   
 		   Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
 		   SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES"); 
@@ -79,5 +80,4 @@ public class SessionCrypto{
 	       }
 	       return result.toString();
 	   }
-	  
 }

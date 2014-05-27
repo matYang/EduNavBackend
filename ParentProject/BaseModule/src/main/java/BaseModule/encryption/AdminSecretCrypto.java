@@ -6,7 +6,7 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-public class AdminCrypto {
+public class AdminSecretCrypto {
 	 private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 
 

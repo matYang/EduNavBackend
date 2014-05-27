@@ -5,12 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import BaseModule.common.DateUtility;
-import BaseModule.encryption.AdminCrypto;
+import BaseModule.encryption.AdminSecretCrypto;
 import BaseModule.encryption.PasswordCrypto;
 
 public class PasswordEncryptionTest {
 
-	//@Test
+	@Test
 	public void test() {
 		try{
             // Print out 10 hashes

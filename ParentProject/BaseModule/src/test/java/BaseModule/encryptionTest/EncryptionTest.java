@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.junit.Test;
 
-import BaseModule.encryption.ImgCrypto;
+import BaseModule.encryption.SimpleMD5Hash;
 import BaseModule.encryption.SessionCrypto;
 
 public class EncryptionTest {
@@ -18,7 +18,7 @@ public class EncryptionTest {
 		
 		String encryptedString = null;
 		try {
-			encryptedString = ImgCrypto.encrypt(testImgName);
+			encryptedString = SimpleMD5Hash.encrypt(testImgName);
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

@@ -113,7 +113,7 @@ public class Transaction {
 			jsonSearchRepresentation.put("userId", this.userId);
 			jsonSearchRepresentation.put("couponId", this.couponId);
 			jsonSearchRepresentation.put("transactionType", this.transactionType.code);
-			jsonSearchRepresentation.put("amount", this.transactionAmount);		
+			jsonSearchRepresentation.put("transactionAmount", this.transactionAmount);		
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
 		} catch (JSONException e) {
 			e.printStackTrace();
