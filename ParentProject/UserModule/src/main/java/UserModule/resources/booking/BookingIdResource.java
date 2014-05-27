@@ -91,13 +91,9 @@ public class BookingIdResource extends UserPseudoResource{
 			jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
 			
 			Calendar timeStamp = DateUtility.getCurTimeInstance();
-			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
-			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
 			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
 			
 			booking.setTimeStamp(timeStamp);
-			booking.setName(name);
-			booking.setPhone(phone);
 			booking.setStatus(status);
 			
 			ValidationService.validateBooking(booking);
