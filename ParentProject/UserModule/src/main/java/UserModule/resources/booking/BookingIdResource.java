@@ -93,7 +93,7 @@ public class BookingIdResource extends UserPseudoResource{
 			Calendar timeStamp = DateUtility.getCurTimeInstance();
 			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
 			
-			booking.setTimeStamp(timeStamp);
+			booking.setAdjustTime(timeStamp);
 			booking.setStatus(status);
 			
 			ValidationService.validateBooking(booking);

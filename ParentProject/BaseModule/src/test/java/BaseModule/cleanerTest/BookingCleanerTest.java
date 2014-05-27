@@ -77,18 +77,26 @@ public class BookingCleanerTest {
 		int partnerId = partner.getPartnerId();
 		int courseId = course.getCourseId();		
 		Calendar timeStamp = DateUtility.getCurTimeInstance();		
-		Booking booking = new Booking(timeStamp,course.getStartTime(), course.getFinishTime(), course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),partner.getReference(),status);
+		String email = "xiongchuhanplace@hotmail.com";
+		Booking booking = new Booking(timeStamp,timeStamp,course.getStartTime(), course.getFinishTime(), 
+				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				email,partner.getReference(),status);
 		BookingDao.addBookingToDatabases(booking);
 		
 		Calendar finishTime2 = Calendar.getInstance();
-		finishTime2.add(Calendar.DAY_OF_YEAR, -1);
-		Booking booking2 = new Booking(timeStamp,course.getStartTime(), finishTime2, course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),partner.getReference(),status);
+		finishTime2.add(Calendar.DAY_OF_YEAR, -1);			
+		Booking booking2 = new Booking(timeStamp,timeStamp,course.getStartTime(), finishTime2, 
+				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				email,partner.getReference(),status);
 		BookingDao.addBookingToDatabases(booking2);
 		
 		Calendar finishTime3 = Calendar.getInstance();
 		finishTime3.add(Calendar.HOUR_OF_DAY, 1);
-		Booking booking3 = new Booking(timeStamp,course.getStartTime(), finishTime3, course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),partner.getReference(),status);
-		BookingDao.addBookingToDatabases(booking3);		
+		Booking booking3 = new Booking(timeStamp,timeStamp,course.getStartTime(), finishTime3, 
+				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				email,partner.getReference(),status);
+		BookingDao.addBookingToDatabases(booking3);	
+		
 		BookingCleaner.clean();
 		
 		ArrayList<Booking> list = new ArrayList<Booking>();

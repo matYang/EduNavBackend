@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Booking;
@@ -233,7 +234,7 @@ public class ValidationTest {
 			fail();
 		}		
 		if(fail) fail();
-		
+
 		fail = true;
 		partner = new Partner(name,instName,licence,organizationNum,"",password,phone,status);
 		try{
@@ -245,7 +246,7 @@ public class ValidationTest {
 			fail();
 		}		
 		if(fail) fail();
-		
+
 		fail = true;
 		partner = new Partner(name,instName,licence,"",reference,password,phone,status);
 		try{
@@ -257,7 +258,7 @@ public class ValidationTest {
 			fail();
 		}		
 		if(fail) fail();
-		
+
 		fail = true;
 		partner = new Partner(name,instName,"",organizationNum,reference,password,phone,status);
 		try{
@@ -270,7 +271,7 @@ public class ValidationTest {
 		}		
 		if(fail) fail();		
 	}
-	
+
 	@Test
 	public void testCoruseValidation(){
 		EduDaoBasic.clearBothDatabase();
@@ -292,7 +293,7 @@ public class ValidationTest {
 		}catch(Exception e){
 			fail();
 		}
-		
+
 		boolean fail = true;
 		course = new Course(-1, startTime, finishTime,price,seatsTotal, seatsLeft,status,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
@@ -305,7 +306,7 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
 		course =new Course(p_Id, startTime, startTime,price,seatsTotal, seatsLeft,status,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
@@ -318,7 +319,7 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
 		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsTotal+1,status,category,subCategory,phone);
 		try{
@@ -330,7 +331,7 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
 		course = new Course(p_Id, startTime, finishTime,price,-1, -2,status,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
@@ -343,7 +344,7 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
 		course =new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,status,"",subCategory,phone);
 		try{
@@ -355,7 +356,7 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
 		course = new Course(p_Id, startTime, finishTime,-1,seatsTotal, seatsLeft,status,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
@@ -368,7 +369,7 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();		
-		
+
 		fail = true;
 		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,status,category,"",phone);
 		course.setCourseName("sdlkjoeghjeior");
@@ -381,7 +382,7 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
 		course = new Course(p_Id, null, finishTime,price,seatsTotal, seatsLeft,status,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
@@ -394,7 +395,7 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
 		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,status,category,subCategory,"dsf124");
 		course.setCourseName("sdlkjoeghjeior");
@@ -408,7 +409,7 @@ public class ValidationTest {
 		}
 		if(fail) fail();
 	}
-	
+
 	@Test
 	public void testBookingValidation(){
 		EduDaoBasic.clearBothDatabase();
@@ -422,16 +423,25 @@ public class ValidationTest {
 		String name = "booking-server-test";
 		String phone = "12345612312";
 		String reference = "dsf4rdsrfew";
-		Calendar timeStamp = DateUtility.getCurTimeInstance();
-		Booking booking = new Booking(timeStamp,startTime, finishTime, price, userId, partnerId,courseId, name, phone,reference,AccountStatus.activated);
-		
+		Calendar adjustTime = DateUtility.getCurTimeInstance();
+		Calendar scheduledTime = DateUtility.getCurTimeInstance();
+		String email = "xiongchuhanplace@hotmail.com";
+
+		Booking booking = new Booking(scheduledTime,adjustTime,startTime, finishTime, 
+				price, userId, partnerId, courseId,name, phone,email,reference,AccountStatus.activated);
+		booking.setTransactionId(1);
+		BookingDao.addBookingToDatabases(booking);
+
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(Exception e){
+			e.printStackTrace();
 			fail();
 		}
 		boolean fail = true;
-		booking = new Booking(timeStamp,startTime, finishTime, price, userId, partnerId,courseId, "", phone,reference,AccountStatus.activated);
+		booking = new Booking(scheduledTime,adjustTime,startTime, finishTime, 
+				price, userId, partnerId, courseId,"", phone,email,reference,AccountStatus.activated);
+		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(ValidationException e){
@@ -441,9 +451,11 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
-		booking = new Booking(timeStamp,startTime, finishTime, price, userId, partnerId,courseId, name, "34fdf",reference,AccountStatus.activated);
+		booking = new Booking(scheduledTime,adjustTime,startTime, finishTime, 
+				price, userId, partnerId, courseId,name, "dsf3323",email,reference,AccountStatus.activated);
+		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(ValidationException e){
@@ -453,9 +465,11 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
-		booking = new Booking(null,startTime, finishTime, price, userId, partnerId,courseId, name, phone ,reference,AccountStatus.activated);
+		booking = new Booking(null,adjustTime,startTime, finishTime, 
+				price, userId, partnerId, courseId,name, phone,email,reference,AccountStatus.activated);
+		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(ValidationException e){
@@ -465,9 +479,11 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
-		booking = new Booking(timeStamp,startTime, startTime, price, userId, partnerId,courseId, name, phone ,reference,AccountStatus.activated);
+		booking = new Booking(scheduledTime,adjustTime,startTime, startTime, 
+				price, userId, partnerId, courseId,name, phone,email,reference,AccountStatus.activated);
+		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(ValidationException e){
@@ -477,9 +493,11 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
-		booking = new Booking(timeStamp,startTime, finishTime, -1, userId, partnerId,courseId, name, phone ,reference,AccountStatus.activated);
+		booking = new Booking(scheduledTime,adjustTime,startTime, finishTime, 
+				-1, userId, partnerId, courseId,name, phone,email,reference,AccountStatus.activated);
+		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(ValidationException e){
@@ -489,9 +507,11 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
-		booking = new Booking(timeStamp,startTime, finishTime, price, -1, partnerId,courseId, name, phone ,reference,AccountStatus.activated);
+		booking = new Booking(scheduledTime,adjustTime,startTime, finishTime, 
+				price, -1, partnerId, courseId,name, phone,email,reference,AccountStatus.activated);
+		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(ValidationException e){
@@ -501,9 +521,11 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
-		booking = new Booking(timeStamp,startTime, finishTime, price, userId, -1,courseId, name, phone ,reference,AccountStatus.activated);
+		booking = new Booking(scheduledTime,adjustTime,startTime, finishTime, 
+				price, userId, -1, courseId,name, phone,email,reference,AccountStatus.activated);
+		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(ValidationException e){
@@ -513,9 +535,11 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
-		booking = new Booking(timeStamp,startTime, finishTime, price, userId, partnerId,-1, name, phone ,reference,AccountStatus.activated);
+		booking = new Booking(scheduledTime,adjustTime,startTime, finishTime, 
+				price, userId,partnerId, -1,name, phone,email,reference,AccountStatus.activated);
+		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(ValidationException e){
@@ -525,9 +549,11 @@ public class ValidationTest {
 			e.printStackTrace();
 		}
 		if(fail) fail();
-		
+
 		fail = true;
-		booking = new Booking(timeStamp,startTime, finishTime, price, userId, partnerId,courseId, name, phone ,"",AccountStatus.activated);
+		booking = new Booking(scheduledTime,adjustTime,startTime, finishTime, 
+				price, userId, -1, courseId,name, phone,email,"",AccountStatus.activated);
+		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(ValidationException e){

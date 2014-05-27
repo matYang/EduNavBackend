@@ -33,8 +33,7 @@ public class CourseDaoService {
 	public static  ArrayList<Course> getCourseByReference(String reference){
 		CourseSearchRepresentation sr = new CourseSearchRepresentation();
 		sr.setCourseReference(reference);
-		ArrayList<Course> clist = CourseDao.searchCourse(sr);
-		return clist;		
+		return CourseDao.searchCourse(sr);				
 	}
 	
 }

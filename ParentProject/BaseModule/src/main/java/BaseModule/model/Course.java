@@ -17,14 +17,21 @@ import BaseModule.service.EncodingService;
 public class Course implements PseudoModel{
 
 	private int courseId;
-	private int partnerId;
-	
-	private Calendar startTime;
-	private Calendar finishTime;	
+	private int partnerId;	
+		
 	private int price;
 	private int seatsTotal;
 	private int seatsLeft;
-	private AccountStatus status;
+	private int courseHourNum;
+	private int courseHourLength;
+	private int dailyStartTime;
+	private int dailyFinishTime;
+	private int teachingMaterialCost;
+	
+	private Calendar creationTime;
+	private Calendar startTime;
+	private Calendar finishTime;	
+	
 	private String category;
 	private String subCategory;
 	private String location;
@@ -35,43 +42,37 @@ public class Course implements PseudoModel{
 	private String teacherImgUrl;
 	private String teachingMethodsIntro;
 	private String classroomImgUrl;
-	private String courseIntro;	
-	private Calendar creationTime;
-	
-	private ClassModel classModel;	
-	private boolean hasDownloadMaterials;	
+	private String courseIntro;		
 	private String quiz;
 	private String certification;
-	private String openCourseRequirement;
-	private ArrayList<String> questionBank = new ArrayList<String>();
-	
+	private String openCourseRequirement;	
 	private String suitableStudent;
 	private String prerequest;
-	private String highScoreReward;	
-	private ArrayList<String> extracurricular = new ArrayList<String>();
-	
+	private String highScoreReward;		
 	private String courseName;
-	private int dailyStartTime;
-	private int dailyFinishTime;
-	private ArrayList<Integer> studyDays = new ArrayList<Integer>();
 	private String studyDaysNote;
-	private int courseHourNum;
-	private int courseHourLength;
 	private String partnerCourseReference;
-	private String classroomIntro;
-	private PartnerQualification partnerQualification;
-	private String partnerIntro;
-	private ArrayList<String> teachingMethods = new ArrayList<String>();
-	private TeachingMaterialType teachingMaterialType;
+	private String classroomIntro;	
+	private String partnerIntro;	
 	private String teachingMaterialIntro;
-	private int teachingMaterialCost;
-	private boolean teachingMaterialFree;
 	private String questionBankIntro;
 	private String passAgreement;
-	private boolean provideAssignments;
-	private boolean provideMarking;
 	private String extracurricularIntro;;
 	private String phone;
+	
+	private ClassModel classModel;	
+	private AccountStatus status;
+	private TeachingMaterialType teachingMaterialType;
+	private PartnerQualification partnerQualification;
+	private boolean teachingMaterialFree;
+	private boolean hasDownloadMaterials;
+	private boolean provideAssignments;
+	private boolean provideMarking;
+	
+	private ArrayList<String> extracurricular = new ArrayList<String>();
+	private ArrayList<Integer> studyDays = new ArrayList<Integer>();
+	private ArrayList<String> teachingMethods = new ArrayList<String>();
+	private ArrayList<String> questionBank = new ArrayList<String>();
 	
 	// Partner
 	private String logoUrl;
@@ -215,9 +216,7 @@ public class Course implements PseudoModel{
 		this.instName = "";
 		this.wholeName = "";
 		this.creationTime = DateUtility.getCurTimeInstance();
-	}
-	
-	
+	}	
 	
 	public Course(Calendar startTime, Calendar finishTime, int price,
 			int seatsTotal, int seatsLeft, AccountStatus status) {		

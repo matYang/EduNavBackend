@@ -12,8 +12,10 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.booking.BookingNotFoundException;
+import BaseModule.exception.course.CourseNotFoundException;
 import BaseModule.factory.QueryFactory;
 import BaseModule.model.Booking;
+import BaseModule.model.Course;
 import BaseModule.model.representation.BookingSearchRepresentation;
 
 
@@ -72,11 +74,13 @@ public class BookingDao {
 			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				blist.add(createBookingByResultSet(rs));
+				blist.add(createBookingByResultSet(rs,conn));
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
 			e.printStackTrace();
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
 		return blist;
 
@@ -86,15 +90,16 @@ public class BookingDao {
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO BookingDao (name,phone,creationTime,timeStamp,startTime,finishTime,price," +
-				"status,u_Id,p_Id,course_Id,reference) values (?,?,?,?,?,?,?,?,?,?,?,?);";
+		String query = "INSERT INTO BookingDao (name,phone,creationTime,adjustTime,startTime,finishTime,price," +
+				"status,u_Id,p_Id,course_Id,reference,transaction_Id,admin_Id,coupon_Id,scheduledTime,email)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, booking.getName());
 			stmt.setString(2, booking.getPhone());
 			stmt.setString(3, DateUtility.toSQLDateTime(booking.getCreationTime()));
-			stmt.setString(4, DateUtility.toSQLDateTime(booking.getTimeStamp()));
+			stmt.setString(4, DateUtility.toSQLDateTime(booking.getAdjustTime()));
 			stmt.setString(5, DateUtility.toSQLDateTime(booking.getStartTime()));		
 			stmt.setString(6, DateUtility.toSQLDateTime(booking.getFinishTime()));			
 			stmt.setInt(7, booking.getPrice());
@@ -103,7 +108,12 @@ public class BookingDao {
 			stmt.setInt(10, booking.getPartnerId());
 			stmt.setInt(11, booking.getCourseId());
 			stmt.setString(12, booking.getReference());
-
+			stmt.setInt(13, booking.getTransactionId());
+			stmt.setInt(14, booking.getAdminId());
+			stmt.setInt(15, booking.getCouponId());
+			stmt.setString(16, DateUtility.toSQLDateTime(booking.getScheduledTime()));
+			stmt.setString(17, booking.getEmail());
+			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -121,14 +131,14 @@ public class BookingDao {
 	public static void updateBookingInDatabases(Booking booking,Connection...connections) throws BookingNotFoundException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;
-		String query = "UPDATE BookingDao SET name=?,phone=?,timeStamp=?,startTime=?,finishTime=?,price=?," +
-				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=? where id=?";
+		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,startTime=?,finishTime=?,price=?," +
+				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,admin_Id=?,coupon_Id=?,scheduledTime=?,email=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
 
 			stmt.setString(1, booking.getName());
 			stmt.setString(2, booking.getPhone());			
-			stmt.setString(3, DateUtility.toSQLDateTime(booking.getTimeStamp()));
+			stmt.setString(3, DateUtility.toSQLDateTime(booking.getAdjustTime()));
 			stmt.setString(4, DateUtility.toSQLDateTime(booking.getStartTime()));
 			stmt.setString(5, DateUtility.toSQLDateTime(booking.getFinishTime()));
 			stmt.setInt(6, booking.getPrice());
@@ -137,7 +147,12 @@ public class BookingDao {
 			stmt.setInt(9, booking.getPartnerId());
 			stmt.setInt(10, booking.getCourseId());
 			stmt.setString(11, booking.getReference());
-			stmt.setInt(12, booking.getBookingId());
+			stmt.setInt(12, booking.getTransactionId());
+			stmt.setInt(13, booking.getAdminId());
+			stmt.setInt(14, booking.getCouponId());
+			stmt.setString(15, DateUtility.toSQLDateTime(booking.getScheduledTime()));
+			stmt.setString(16, booking.getEmail());
+			stmt.setInt(17, booking.getBookingId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new BookingNotFoundException();
@@ -163,7 +178,7 @@ public class BookingDao {
 
 			rs = stmt.executeQuery();
 			while(rs.next()){					
-				blist.add(createBookingByResultSet(rs));
+				blist.add(createBookingByResultSet(rs,conn));
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
@@ -185,7 +200,7 @@ public class BookingDao {
 			stmt.setInt(1, id);
 			rs = stmt.executeQuery();
 			if(rs.next()){
-				booking = createBookingByResultSet(rs);
+				booking = createBookingByResultSet(rs,conn);
 			}else throw new BookingNotFoundException();
 		}catch(SQLException e){
 			DebugLog.d(e);
@@ -194,32 +209,20 @@ public class BookingDao {
 		} 
 		return booking;
 	}
+	
 
-	public static Booking getBookingByReference(String reference) throws BookingNotFoundException{
-		String query = "SELECT * FROM BookingDao WHERE reference = ?";
-		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
-		ResultSet rs = null;
-		Booking booking = null;
-		try{
-			stmt = conn.prepareStatement(query);
-
-			stmt.setString(1,reference);
-			rs = stmt.executeQuery();
-			if(rs.next()){
-				booking = createBookingByResultSet(rs);
-			}else throw new BookingNotFoundException();
-		}catch(SQLException e){
+	protected static Booking createBookingByResultSet(ResultSet rs,Connection...connections) throws SQLException {		
+		int courseId = rs.getInt("course_Id");
+		Course course = null;
+		try {
+			course = CourseDao.getCourseById(courseId, connections);
+		} catch (CourseNotFoundException e) {			
+			e.printStackTrace();
 			DebugLog.d(e);
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
-		} 
-		return booking;
-	}
-
-	protected static Booking createBookingByResultSet(ResultSet rs) throws SQLException {
-		return new Booking(rs.getInt("id"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), DateUtility.DateToCalendar(rs.getTimestamp("timeStamp")),
+		}
+		return new Booking(rs.getInt("id"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), DateUtility.DateToCalendar(rs.getTimestamp("adjustTime")),
 				DateUtility.DateToCalendar(rs.getTimestamp("startTime")),DateUtility.DateToCalendar(rs.getTimestamp("finishTime")), rs.getInt("price"), rs.getInt("u_Id"),
-				rs.getInt("p_Id"), rs.getInt("course_Id"), rs.getString("name"), rs.getString("phone"),AccountStatus.fromInt(rs.getInt("status")), rs.getString("reference"));
+				rs.getInt("p_Id"), courseId, rs.getString("name"), rs.getString("phone"),AccountStatus.fromInt(rs.getInt("status")), rs.getString("reference"),
+				rs.getInt("coupon_Id"),rs.getInt("transaction_Id"),rs.getInt("admin_Id"),course,rs.getString("email"),DateUtility.DateToCalendar(rs.getTimestamp("scheduledTime")));
 	}
 }

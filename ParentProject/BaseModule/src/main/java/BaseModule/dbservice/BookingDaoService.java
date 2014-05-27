@@ -17,8 +17,10 @@ public class BookingDaoService {
 		return BookingDao.getBookingById(id);
 	}
 	
-	public static Booking getBookingByReference(String reference) throws BookingNotFoundException{
-		return BookingDao.getBookingByReference(reference);
+	public static ArrayList<Booking> getBookingByReference(String reference) throws BookingNotFoundException{
+		BookingSearchRepresentation sr = new BookingSearchRepresentation();
+		sr.setReference(reference);
+		return BookingDao.searchBooking(sr);
 	}
 	
 	public static void updateBooking(Booking booking) throws BookingNotFoundException{

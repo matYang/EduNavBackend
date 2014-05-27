@@ -97,7 +97,7 @@ public class BookingIdResource extends AdminPseudoResource{
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
 			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
 			
-			booking.setTimeStamp(timeStamp);
+			booking.setAdjustTime(timeStamp);
 			booking.setName(name);
 			booking.setPhone(phone);
 			booking.setStatus(status);

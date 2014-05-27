@@ -3,7 +3,6 @@ package UserModule.resources.booking;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,9 +10,7 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
-
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
@@ -87,7 +84,8 @@ public class BookingResource extends UserPseudoResource{
 		try{
 			JSONObject jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
 			
-			Calendar timeStamp = DateUtility.getCurTimeInstance();
+			Calendar adjustTime = DateUtility.getCurTimeInstance();
+			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));
 			Calendar startTime = DateUtility.castFromAPIFormat(jsonBooking.getString("startTime"));
 			Calendar finishTime = DateUtility.castFromAPIFormat(jsonBooking.getString("finishTime"));
 			
@@ -98,10 +96,12 @@ public class BookingResource extends UserPseudoResource{
 			
 			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
+			String email = EncodingService.decodeURI(jsonBooking.getString("email"));
 			String reference = ReferenceFactory.generateBookingReference();
 			AccountStatus status = AccountStatus.activated;
+		    booking = new Booking(scheduledTime,adjustTime,startTime, finishTime, 
+					price, userId, partnerId, courseId, name, phone,email,reference,status);
 			
-			booking = new Booking(timeStamp, startTime,  finishTime, price, userId, partnerId, courseId,  name,  phone, reference, status);
 			ValidationService.validateBooking(booking);
 			
 		}catch (JSONException|IOException e) {
