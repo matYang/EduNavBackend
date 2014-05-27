@@ -39,11 +39,9 @@ public class CourseCleanerTest {
 		int seatsTotal = 50;
 		int seatsLeft = 5;
 		String category = "Physics";
-		String subCategory = "sub-Phy";		
-		String title = "r8ufghfiugh";
+		String subCategory = "sub-Phy";			
 		int price = 124;
-		String courseInfo = "rytyh";
-		Course course = new Course(p_Id, startTime, finishTime, seatsTotal, seatsLeft, category,subCategory,status,price,title,courseInfo);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
 		String location = "China";
 		String city = "NanJing";
 		String district = "JiangNing";
@@ -56,18 +54,18 @@ public class CourseCleanerTest {
 		
 		
 		Calendar finishTime2 = DateUtility.getCurTimeInstance();		
-		finishTime2.add(Calendar.DAY_OF_YEAR, -1);		
-		Course course2 = new Course(p_Id, startTime, finishTime2, seatsTotal, seatsLeft, category,subCategory,status,price,title,courseInfo);		
+		finishTime2.add(Calendar.DAY_OF_YEAR, -1);			
+		Course course2 = new Course(p_Id, startTime, finishTime2,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
 		course2.setReference(reference2);
 		CourseDao.addCourseToDatabases(course2);
 		
-				
+						
 		Calendar finishTime3 = DateUtility.getCurTimeInstance();		
-		finishTime3.add(Calendar.MINUTE, 1);		
-		Course course3 = new Course(p_Id, startTime, finishTime3, seatsTotal, seatsLeft, category,subCategory,status,price,title,courseInfo);
+		finishTime3.add(Calendar.MINUTE, 1);
+		Course course3 = new Course(p_Id, startTime, finishTime3,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
 		String location2= "China";
 		String city2 = "ChengDu";
 		String district2 = "ChengHua";
@@ -76,9 +74,9 @@ public class CourseCleanerTest {
 		course3.setCity(city2);
 		course3.setDistrict(district2);
 		course3.setReference(reference3);
-		CourseDao.addCourseToDatabases(course3);
-		
-		CourseCleaner.clean();
+		CourseDao.addCourseToDatabases(course3);		
+	
+		CourseCleaner.clean();		
 		
 		ArrayList<Course> clist = new ArrayList<Course>();
 		clist = CourseDao.getCoursesFromPartner(p_Id);

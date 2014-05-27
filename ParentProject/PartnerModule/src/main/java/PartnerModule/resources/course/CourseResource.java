@@ -48,7 +48,7 @@ public class CourseResource extends PartnerPseudoResource{
 			int seatsTotal = Integer.parseInt(props.get("seatsTotal"));
 			String category = EncodingService.decodeURI(props.get("category"));
 			String subCategory = EncodingService.decodeURI(props.get("subCategory"));
-			String title = EncodingService.decodeURI(props.get("title"));
+			String courseName = EncodingService.decodeURI(props.get("courseName"));
 			String location = EncodingService.decodeURI(props.get("location"));
 			String city = EncodingService.decodeURI(props.get("city"));
 			String district = EncodingService.decodeURI(props.get("district"));
@@ -60,21 +60,21 @@ public class CourseResource extends PartnerPseudoResource{
 			course.setPartnerId(partnerId);
 			course.setStartTime(startTime);
 			course.setFinishTime(finishTime);
-			course.setTeacherInfo(teacherInfo);
-			course.setTeachingMaterial(teachingMaterial);
+			course.setTeacherIntro(teacherInfo);
+			course.setTeachingMethodsIntro(teachingMaterial);
 			course.setPrice(price);
 			course.setSeatsTotal(seatsTotal);
 			course.setSeatsLeft(seatsTotal);
 			course.setStatus(AccountStatus.activated);
 			course.setCategory(category);
 			course.setSubCategory(subCategory);
-			course.setTitle(title);
+			course.setCourseName(courseName);
 			course.setLocation(location);
 			course.setCity(city);
 			course.setDistrict(district);
-			course.setCourseInfo(courseInfo);
+			course.setCourseIntro(courseInfo);
 			course.setTeacherImgUrl(teacherImgUrl);
-			course.setBackgroundUrl(backgroundUrl);
+			course.setClassroomImgUrl(backgroundUrl);
 			course.setReference(reference);
 			
 			CourseDaoService.updateCourse(course);

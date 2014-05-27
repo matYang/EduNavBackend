@@ -53,9 +53,7 @@ public class BookingCleanerTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		String title = "sdfdsfs";
-		String courseInfo = "sdjgiotjgh";
-		Course course = new Course(p_Id, startTime, finishTime,seatsTotal, seatsLeft, category,subCategory,status,price,title,courseInfo);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
 		CourseDao.addCourseToDatabases(course);		
 		course = CourseDao.getCourseById(course.getCourseId());	
 		String location = "China";
@@ -66,11 +64,11 @@ public class BookingCleanerTest {
 		course.setCity(city);
 		course.setDistrict(district);
 		course.setReference(reference2);
-		course.setBackgroundUrl("www.hotmail.com");
+		course.setClassroomImgUrl("www.hotmail.com");
 		course.setTeacherImgUrl("www.google.ca");
-		course.setTeachingMaterial("Hand and Ass");
-		course.setTitle("bababa");
-		course.setTeacherInfo("sdfkljrghiuoghrer");		
+		course.setTeachingMethodsIntro("Hand and Ass");
+		course.setCourseName("bababa");
+		course.setTeacherIntro("sdfkljrghiuoghrer");		
 		course.setPrice(price);		
 		CourseDao.updateCourseInDatabases(course);		
 		course = CourseDao.getCourseById(course.getCourseId());			

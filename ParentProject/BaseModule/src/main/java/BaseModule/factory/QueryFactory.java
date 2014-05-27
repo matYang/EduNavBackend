@@ -422,6 +422,15 @@ public class QueryFactory {
 			}
 			query += " CourseDao.id = ? ";
 		}
+		if(sr.getClassModel()!=null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.classModel = ? ";
+		}
 		
 		return query;
 	}

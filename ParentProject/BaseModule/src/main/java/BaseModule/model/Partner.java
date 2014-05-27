@@ -173,4 +173,9 @@ public class Partner implements PseudoModel{
 				this.phone.equals(p.getPhone()) && this.licence.equals(p.getLicence()) && this.status.code == p.getStatus().code &&
 				this.instName.equals(p.getInstName()) && this.logoUrl.equals(p.getLogoUrl());				
 	}
+
+	public String getWholeName() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 }

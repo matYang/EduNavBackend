@@ -80,7 +80,8 @@ public class ValidationService {
 	
 	public static boolean validateCourse(Course course) throws ValidationException{
 		if(course.getPartnerId() <= 0 || course.getSeatsLeft() < 0 || 
-				course.getSeatsTotal() < 0 || course.getPrice() < 0){
+				course.getSeatsTotal() < 0 || course.getPrice() < 0 ||
+				!validatePhone(course.getPhone())){
 			throw new ValidationException("课程信息不符合规范");
 		}
 		if(course.getSeatsLeft() > course.getSeatsTotal()){
@@ -94,7 +95,7 @@ public class ValidationService {
 		}
 		if(course.getCategory() == null || course.getCategory().length() == 0 ||
 				course.getSubCategory() == null || course.getSubCategory().length() == 0 ||
-				course.getTitle() == null || course.getTitle().length() == 0){
+				course.getCourseName() == null || course.getCourseName().length() == 0){
 			throw new ValidationException("课程信息不完整");
 		}
 		return true;

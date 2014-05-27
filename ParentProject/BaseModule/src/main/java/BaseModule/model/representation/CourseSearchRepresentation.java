@@ -8,6 +8,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.exception.PseudoException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.interfaces.PseudoRepresentation;
@@ -18,7 +19,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	//used for broad search
 	private String category;
 	private String subCategory;
-	
+	private ClassModel classModel;
 	private String city;
 	private String district;
 	
@@ -58,6 +59,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.courseReference = null;
 		this.partnerReference = null;
 		this.creationTime = null;
+		this.classModel = null;
 	}
 
 	@Override
@@ -215,6 +217,14 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.creationTime = creationTime;
 	}
 
+	public ClassModel getClassModel() {
+		return classModel;
+	}
+
+	public void setClassModel(ClassModel classModel) {
+		this.classModel = classModel;
+	}
+
 	@Override
 	public String toString() {
 		return "CourseSearchRepresentation [category=" + category
@@ -224,6 +234,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				+ institutionName + ", status=" + status + ", startPrice="
 				+ startPrice + ", finishPrice=" + finishPrice
 				+ ", courseReference=" + courseReference
+				+", classModel=" + classModel 
 				+ ", partnerReference=" + partnerReference + ", courseId="
 				+ courseId + ", partnerId=" + partnerId + ", userId=" + userId
 				+ ", creationTime=" + creationTime + "]";

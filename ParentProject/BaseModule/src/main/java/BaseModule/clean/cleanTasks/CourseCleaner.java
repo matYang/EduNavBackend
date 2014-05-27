@@ -31,7 +31,7 @@ public class CourseCleaner extends CourseDao{
 			stmt.setString(2, ct);
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				course = CourseDao.createCourseByResultSet(rs);
+				course = CourseDao.createCourseByResultSet(rs,null,conn);
 				course.setStatus(AccountStatus.deactivated);
 				CourseDao.updateCourseInDatabases(course,conn);
 			}

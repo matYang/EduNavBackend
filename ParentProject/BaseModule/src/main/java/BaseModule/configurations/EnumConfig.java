@@ -75,7 +75,7 @@ public class EnumConfig {
 	}
 	
 	public static enum ClassModel{
-        one2one(0),smallclass(1),medianclass(2),bigclass(3);
+        smallclass(0),medianclass(1),bigclass(2);
         public int code;
         ClassModel(int code){
             this.code = code;
@@ -86,4 +86,27 @@ public class EnumConfig {
         }
     }	
 	
+	public static enum PartnerQualification{
+       verified(0),unverified(1);
+        public int code;
+        PartnerQualification(int code){
+            this.code = code;
+        }
+        private final static PartnerQualification[] map = PartnerQualification.values();
+        public static PartnerQualification fromInt(int n){
+            return map[n];
+        }
+    }	
+	
+	public static enum TeachingMaterialType{
+	       self(0),pub(1);
+	        public int code;
+	        TeachingMaterialType(int code){
+	            this.code = code;
+	        }
+	        private final static TeachingMaterialType[] map = TeachingMaterialType.values();
+	        public static TeachingMaterialType fromInt(int n){
+	            return map[n];
+	        }
+	    }	
 }
