@@ -21,8 +21,8 @@ public class CreditDao {
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO CreditDao (bookingId,userId,creationTime,expireTime,status,amount)" +
-				" values (?,?,?,?,?,?);";		
+		String query = "INSERT INTO CreditDao (bookingId,userId,creationTime,expireTime,status,amount,usableTime)" +
+				" values (?,?,?,?,?,?,?);";		
 
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -31,7 +31,8 @@ public class CreditDao {
 			stmt.setString(3, DateUtility.toSQLDateTime(c.getCreationTime()));
 			stmt.setString(4, DateUtility.toSQLDateTime(c.getExpireTime()));
 			stmt.setInt(5,c.getStatus().code);
-			stmt.setDouble(6, c.getAmount());
+			stmt.setInt(6, c.getAmount());
+			stmt.setString(7,DateUtility.toSQLDateTime(c.getUsableTime()));
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -51,13 +52,14 @@ public class CreditDao {
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "UPDATE CreditDao set expireTime=?,status=?,amount=? where creditId = ?";
+		String query = "UPDATE CreditDao set expireTime=?,status=?,amount=?, usableTime=? where creditId = ?";
 		try{
 			stmt = conn.prepareStatement(query);			
 			stmt.setString(1, DateUtility.toSQLDateTime(c.getExpireTime()));
 			stmt.setInt(2,c.getStatus().code);
-			stmt.setDouble(3, c.getAmount());	
-			stmt.setLong(4, c.getCreditId());
+			stmt.setInt(3, c.getAmount());				
+			stmt.setString(4,DateUtility.toSQLDateTime(c.getUsableTime()));
+			stmt.setLong(5, c.getCreditId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new CreditNotFoundException();
@@ -120,7 +122,8 @@ public class CreditDao {
 	protected static Credit createCreditByResultSet(ResultSet rs) throws SQLException {
 		return new Credit(rs.getLong("creditId"), rs.getInt("bookingId"), rs.getInt("userId"),
 				rs.getInt("amount"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), 
-				DateUtility.DateToCalendar(rs.getTimestamp("expireTime")),CreditStatus.fromInt(rs.getInt("status")));
+				DateUtility.DateToCalendar(rs.getTimestamp("expireTime")),CreditStatus.fromInt(rs.getInt("status")),
+				DateUtility.DateToCalendar(rs.getTimestamp("usableTime")));
 	}
 
 }

@@ -81,7 +81,7 @@ public class PartnerResource extends AdminPseudoResource{
 			String instName = EncodingService.decodeURI(props.get("instName"));
 			String logoUrl = EncodingService.decodeURI(props.get("logoUrl"));
 			
-			partner.setName(name);
+			partner.setWholeName(name);
 			partner.setLicence(licence);
 			partner.setOrganizationNum(organizationNum);
 			partner.setReference(reference);

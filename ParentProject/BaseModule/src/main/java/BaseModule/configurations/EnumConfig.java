@@ -15,7 +15,7 @@ public class EnumConfig {
     }
 	
 	public static enum CreditStatus{
-        usable(0),expired(1),used(2);
+        usable(0),expired(1),used(2),awaiting(3);
         public int code;
         CreditStatus(int code){
             this.code = code;

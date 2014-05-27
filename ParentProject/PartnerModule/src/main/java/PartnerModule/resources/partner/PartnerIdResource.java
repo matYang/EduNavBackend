@@ -75,7 +75,7 @@ public class PartnerIdResource extends PartnerPseudoResource{
 			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(props.get("status")));
 			String logoUrl = EncodingService.decodeURI(props.get("logoUrl"));
 			
-			partner.setName(name);
+			partner.setWholeName(name);
 			partner.setLicence(licence);
 			partner.setOrganizationNum(organizationNum);
 			partner.setPhone(phone);

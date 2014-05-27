@@ -136,8 +136,8 @@ public class CourseDao {
 				"quiz,certification,questionBank,extracurricular,courseName,dailyStartTime,dailyFinishTime,studyDaysNote," +
 				"courseHourNum,courseHourLength,partnerCourseReference,partnerIntro,classroomIntro,partnerQualification," +
 				"t_Methods,t_MaterialType,t_MaterialCost,t_MaterialFree,t_MaterialIntro,t_MethodsIntro,questionBankIntro," +
-				"passAgreement,provideAssignments,provideMarking,extracurricularIntro,phone,studyDays)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				"passAgreement,provideAssignments,provideMarking,extracurricularIntro,phone,studyDays,t_MaterialName)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	
 
@@ -170,8 +170,8 @@ public class CourseDao {
 			stmt.setString(27, Parser.listToString(course.getQuestionBank()));
 			stmt.setString(28, Parser.listToString(course.getExtracurricular()));
 			stmt.setString(29, course.getCourseName());
-			stmt.setInt(30, course.getDailyStartTime());
-			stmt.setInt(31, course.getDailyFinishTime());
+			stmt.setString(30, course.getDailyStartTime());
+			stmt.setString(31, course.getDailyFinishTime());
 			stmt.setString(32, course.getStudyDaysNote());
 			stmt.setInt(33, course.getCourseHourNum());
 			stmt.setInt(34, course.getCourseHourLength());
@@ -192,6 +192,7 @@ public class CourseDao {
 			stmt.setString(49, course.getExtracurricularIntro());
 			stmt.setString(50, course.getPhone());
 			stmt.setString(51,Parser.listToString(course.getStudyDays()));
+			stmt.setString(52, course.getTeachingMaterialName());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -215,7 +216,7 @@ public class CourseDao {
 				"quiz=?,certification=?,questionBank=?,extracurricular=?,courseName=?,dailyStartTime=?,dailyFinishTime=?,studyDaysNote=?," +
 				"courseHourNum=?,courseHourLength=?,partnerCourseReference=?,partnerIntro=?,classroomIntro=?,partnerQualification=?," +
 				"t_Methods=?,t_MaterialType=?,t_MaterialCost=?,t_MaterialFree=?,t_MaterialIntro=?,t_MethodsIntro=?,questionBankIntro=?," +
-				"passAgreement=?,provideAssignments=?,provideMarking=?,extracurricularIntro=?,phone=?,studyDays=? where id=?";
+				"passAgreement=?,provideAssignments=?,provideMarking=?,extracurricularIntro=?,phone=?,studyDays=?,t_MaterialName=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
 
@@ -247,8 +248,8 @@ public class CourseDao {
 			stmt.setString(26, Parser.listToString(course.getQuestionBank()));
 			stmt.setString(27, Parser.listToString(course.getExtracurricular()));
 			stmt.setString(28, course.getCourseName());
-			stmt.setInt(29, course.getDailyStartTime());
-			stmt.setInt(30, course.getDailyFinishTime());
+			stmt.setString(29, course.getDailyStartTime());
+			stmt.setString(30, course.getDailyFinishTime());
 			stmt.setString(31, course.getStudyDaysNote());
 			stmt.setInt(32, course.getCourseHourNum());
 			stmt.setInt(33, course.getCourseHourLength());
@@ -268,9 +269,10 @@ public class CourseDao {
 			stmt.setInt(47, course.isProvideMarking() ? 1 : 0);
 			stmt.setString(48, course.getExtracurricularIntro());
 			stmt.setString(49, course.getPhone());
-			stmt.setString(50,Parser.listToString(course.getStudyDays()));
-			stmt.setInt(51, course.getCourseId());
-
+			stmt.setString(50,Parser.listToString(course.getStudyDays()));			
+			stmt.setString(51, course.getTeachingMaterialName());
+			stmt.setInt(52, course.getCourseId());
+			
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new CourseNotFoundException();
@@ -399,7 +401,7 @@ public class CourseDao {
 				rs.getString("suitableStudent"), rs.getString("prerequest"), rs.getString("highScoreReward"),
 				(ArrayList<String>)Parser.stringToList(rs.getString("extracurricular"), new String("")),  
 				rs.getString("courseName"),
-				rs.getInt("dailyStartTime"),rs.getInt("dailyFinishTime"),
+				rs.getString("dailyStartTime"),rs.getString("dailyFinishTime"),
 				(ArrayList<Integer>)Parser.stringToList(rs.getString("studyDays"), new Integer(0)), rs.getString("studyDaysNote"),
 				rs.getInt("courseHourNum"), rs.getInt("courseHourLength"),
 				rs.getString("partnerCourseReference"), rs.getString("classroomIntro"),
@@ -410,7 +412,7 @@ public class CourseDao {
 				rs.getBoolean("t_MaterialFree"), rs.getString("questionBankIntro"),
 				rs.getString("passAgreement"), rs.getBoolean("provideAssignments"),
 				rs.getBoolean("provideMarking"), rs.getString("extracurricularIntro"),
-				rs.getString("phone"), logoUrl, instName, wholeName);					
+				rs.getString("phone"), logoUrl, instName, wholeName,rs.getString("t_MaterialName"));					
 	}
 
 	protected static Course createCourseByResultSet(ResultSet rs) throws SQLException{
@@ -431,7 +433,7 @@ public class CourseDao {
 				rs.getString("suitableStudent"), rs.getString("prerequest"), rs.getString("highScoreReward"),
 				(ArrayList<String>)Parser.stringToList(rs.getString("extracurricular"), new String("")),  
 				rs.getString("courseName"),
-				rs.getInt("dailyStartTime"),rs.getInt("dailyFinishTime"),
+				rs.getString("dailyStartTime"),rs.getString("dailyFinishTime"),
 				(ArrayList<Integer>)Parser.stringToList(rs.getString("studyDays"), new Integer(0)), rs.getString("studyDaysNote"),
 				rs.getInt("courseHourNum"), rs.getInt("courseHourLength"),
 				rs.getString("partnerCourseReference"), rs.getString("classroomIntro"),
@@ -442,7 +444,7 @@ public class CourseDao {
 				rs.getBoolean("t_MaterialFree"), rs.getString("questionBankIntro"),
 				rs.getString("passAgreement"), rs.getBoolean("provideAssignments"),
 				rs.getBoolean("provideMarking"), rs.getString("extracurricularIntro"),
-				rs.getString("phone"), "", "", "");
+				rs.getString("phone"), "", "", "",rs.getString("t_MaterialName"));
 
 	}
 

@@ -146,7 +146,7 @@ public class QueryFactory {
 			}
 			query += "creationTime = ? ";
 		}
-		if(sr.getName() != null && sr.getName().length() > 0){
+		if(sr.getWholeName() != null && sr.getWholeName().length() > 0){
 			if(!start){
 				query += "where ";
 				start = true;
