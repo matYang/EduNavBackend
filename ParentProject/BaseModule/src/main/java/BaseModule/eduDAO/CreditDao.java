@@ -117,7 +117,7 @@ public class CreditDao {
 	}
 
 
-	private static Credit createCreditByResultSet(ResultSet rs) throws SQLException {
+	protected static Credit createCreditByResultSet(ResultSet rs) throws SQLException {
 		return new Credit(rs.getLong("creditId"), rs.getInt("bookingId"), rs.getInt("userId"),
 				rs.getInt("amount"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), 
 				DateUtility.DateToCalendar(rs.getTimestamp("expireTime")),CreditStatus.fromInt(rs.getInt("status")));

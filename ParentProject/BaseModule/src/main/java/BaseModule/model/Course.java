@@ -37,11 +37,11 @@ public class Course implements PseudoModel{
 	private String backgroundUrl;
 	private String courseInfo;	
 	
-	private ClassModel classModel;		
+	private ClassModel classModel;//		
 	private boolean authenticated;
-	private boolean hasDownloadMaterials;
-	private boolean ensurePass;
-	private boolean quizandassignment;
+	private boolean hasDownloadMaterials;//
+	private boolean ensurePass;//
+	private boolean quizandassignment;//
 	private boolean certification;
 	private String room;
 	private String openClassRequirements;

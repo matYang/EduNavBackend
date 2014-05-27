@@ -117,7 +117,7 @@ public class CouponDao {
 	}
 
 
-	private static Coupon createCouponByResultSet(ResultSet rs) throws SQLException {
+	protected static Coupon createCouponByResultSet(ResultSet rs) throws SQLException {
 		return new Coupon(rs.getLong("couponId"), rs.getInt("bookingId"), rs.getInt("transactionId"), rs.getInt("userId"),
 				rs.getInt("amount"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), 
 				DateUtility.DateToCalendar(rs.getTimestamp("expireTime")),CouponStatus.fromInt(rs.getInt("status")));

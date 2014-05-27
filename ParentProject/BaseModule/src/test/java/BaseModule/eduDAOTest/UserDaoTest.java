@@ -1,11 +1,9 @@
 package BaseModule.eduDAOTest;
 
 import static org.junit.Assert.*;
-
+import java.sql.SQLException;
 import java.util.ArrayList;
-
 import org.junit.Test;
-
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
@@ -74,7 +72,7 @@ public class UserDaoTest {
 	}
 
 	@Test
-	public void testUpdate() throws ValidationException{
+	public void testUpdate() throws ValidationException, SQLException{
 		EduDaoBasic.clearBothDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
@@ -85,10 +83,10 @@ public class UserDaoTest {
 		user = UserDao.addUserToDatabase(user);
 		user.setName("Matt");
 		user.setPhone("324234324");
-		User user2 = UserDao.addUserToDatabase(user);
-		if(user2.getName().equals("Matt")&&user2.getPhone().equals("324234324")){
+		UserDao.updateUserInDatabases(user);
+		if(user.getName().equals("Matt")&&user.getPhone().equals("324234324")){
 			//Passed;
-		}else fail();
+		}else fail();		
 	}
 
 	@Test
