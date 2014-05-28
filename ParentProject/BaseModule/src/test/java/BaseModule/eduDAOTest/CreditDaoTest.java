@@ -84,6 +84,7 @@ public class CreditDaoTest {
 		int amount = 2;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Calendar usableTime = DateUtility.getCurTimeInstance();
+		usableTime.add(Calendar.SECOND, -1);
 		expireTime.add(Calendar.SECOND, -1);
 		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.usable,usableTime);
 		c = CreditDao.addCreditToDatabases(c);
@@ -103,14 +104,20 @@ public class CreditDaoTest {
 		Credit c4 = new Credit(bookingId,userId,amount,expireTime4, CreditStatus.expired,usableTime);
 		c4 = CreditDao.addCreditToDatabases(c4);
 		
+		Calendar expireTime5 = DateUtility.getCurTimeInstance();
+		expireTime5.add(Calendar.SECOND, 1);
+		Credit c5 = new Credit(bookingId,userId,amount,expireTime5, CreditStatus.awaiting,usableTime);		
+		c5 = CreditDao.addCreditToDatabases(c5);
+		
 		CreditCleaner.clean();
 		
 		ArrayList<Credit> clist = new ArrayList<Credit>();
 		clist = CreditDao.getCreditByUserId(userId);
-		if(clist.size() == 4 && clist.get(0).getStatus().code == CreditStatus.expired.code &&
+		if(clist.size() == 5 && clist.get(0).getStatus().code == CreditStatus.expired.code &&
 				clist.get(1).getStatus().code== CreditStatus.usable.code &&
 				clist.get(2).getStatus().code== CreditStatus.used.code &&
-				clist.get(3).getStatus().code== CreditStatus.expired.code){
+				clist.get(3).getStatus().code== CreditStatus.expired.code && 
+				clist.get(4).getStatus().code == CreditStatus.usable.code){
 			//Passed;
 		}else fail();
 	}
