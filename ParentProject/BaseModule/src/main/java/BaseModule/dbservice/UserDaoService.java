@@ -21,7 +21,13 @@ public class UserDaoService {
 	}
 
 	public static User getUserByPhone(String phone) throws UserNotFoundException{
-		return UserDao.getUserByPhone(phone);
+		UserSearchRepresentation u_sr = new UserSearchRepresentation();
+		u_sr.setPhone(phone);
+		ArrayList<User> users = searchUser(u_sr);
+		if (users.size() == 0){
+			throw new UserNotFoundException();
+		}
+		return users.get(0);
 	}
 
 	public static User createUser(User user) throws ValidationException{
@@ -33,13 +39,10 @@ public class UserDaoService {
 	}
 
 	public static boolean isCellPhoneAvailable(String phone){
-		try{
-			UserDao.getUserByPhone(phone);
-		}catch(UserNotFoundException ex){
-			return true;
-		}
-
-		return false;
+		UserSearchRepresentation u_sr = new UserSearchRepresentation();
+		u_sr.setPhone(phone);
+		ArrayList<User> users = searchUser(u_sr);
+		return users.size() == 0;
 	}
 	
 	public static User authenticateUser(String phone, String password) throws AuthenticationException, ValidationException{ 

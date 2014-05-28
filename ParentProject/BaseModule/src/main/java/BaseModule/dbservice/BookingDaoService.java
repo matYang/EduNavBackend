@@ -17,11 +17,6 @@ public class BookingDaoService {
 		return BookingDao.getBookingById(id);
 	}
 	
-	public static ArrayList<Booking> getBookingByReference(String reference) throws BookingNotFoundException{
-		BookingSearchRepresentation sr = new BookingSearchRepresentation();
-		sr.setReference(reference);
-		return BookingDao.searchBooking(sr);
-	}
 	
 	public static void updateBooking(Booking booking) throws BookingNotFoundException{
 		BookingDao.updateBookingInDatabases(booking);
@@ -31,8 +26,21 @@ public class BookingDaoService {
 		return BookingDao.addBookingToDatabases(booking);
 	}
 
-	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr) {
-		return BookingDao.searchBooking(sr);
+	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation b_sr) {
+		return BookingDao.searchBooking(b_sr);
 	}
 	
+	public static ArrayList<Booking> getBookingByReference(String reference){
+		BookingSearchRepresentation sr = new BookingSearchRepresentation();
+		sr.setReference(reference);
+		return searchBooking(sr);
+	}
+
+	
+	public static boolean isReferenceAvailable(String reference){
+		BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
+		b_sr.setReference(reference);
+		ArrayList<Booking> bookings = searchBooking(b_sr);
+		return bookings.size() == 0;
+	}
 }

@@ -37,7 +37,7 @@ public class PartnerResource extends AdminPseudoResource{
 			PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
 			this.loadRepresentation(p_sr);
 
-			ArrayList<Partner> searchResult = PartnerDaoService.searchPartners(p_sr);
+			ArrayList<Partner> searchResult = PartnerDaoService.searchPartner(p_sr);
 			response = JSONFactory.toJSON(searchResult);
 			
 		} catch (PseudoException e){

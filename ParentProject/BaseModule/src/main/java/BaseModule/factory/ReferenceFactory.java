@@ -7,16 +7,17 @@ public class ReferenceFactory {
 	public static final int partnerReferenceLength = 8;
 	public static final int courseReferenceLength = 8;
 	public static final int bookingReferenceLength = 10;
-	public static final int adminReferenceLength = 10;
+	public static final int adminReferenceLength = 8
+			;
 	
 	
 	public static String generatePartnerReference(){
-		String ref = RandomStringUtils.randomAlphanumeric(partnerReferenceLength);
+		String ref = RandomStringUtils.randomAlphanumeric(partnerReferenceLength).toUpperCase();
 		return ref;
 	}
 	
 	public static String generateCourseReference(){
-		String ref = RandomStringUtils.randomAlphanumeric(courseReferenceLength);
+		String ref = RandomStringUtils.randomAlphanumeric(courseReferenceLength).toUpperCase();
 		return ref;
 	}
 	
@@ -26,7 +27,7 @@ public class ReferenceFactory {
 	}
 	
 	public static String generateAdminReference(){
-		String ref = RandomStringUtils.randomAlphanumeric(adminReferenceLength);
+		String ref = RandomStringUtils.randomAlphanumeric(adminReferenceLength).toUpperCase();
 		return ref;
 	}
 	

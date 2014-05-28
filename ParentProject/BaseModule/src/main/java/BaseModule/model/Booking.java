@@ -37,7 +37,6 @@ public class Booking implements PseudoModel{
 
 
 
-
 	//SQL Retrieving
 	public Booking(int bookingId, Calendar creationTime, Calendar adjustTime,
 			int price, int userId,int partnerId, int courseId, String name, String phone,
