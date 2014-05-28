@@ -68,6 +68,6 @@ public class UserDaoService {
 
 	public static ArrayList<User> searchUser(UserSearchRepresentation sr) {
 		return UserDao.searchUser(sr);
-	}
+	}	
 
 }

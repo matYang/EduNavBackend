@@ -1,5 +1,6 @@
 package BaseModule.factory;
 
+import BaseModule.model.representation.AdminSearchRepresentation;
 import BaseModule.model.representation.BookingSearchRepresentation;
 import BaseModule.model.representation.CourseSearchRepresentation;
 import BaseModule.model.representation.PartnerSearchRepresentation;
@@ -10,13 +11,76 @@ public class QueryFactory {
 	public static String getSearchQuery(Object sr){
 		if(sr instanceof CourseSearchRepresentation){
 			return getCourseSearchQuery((CourseSearchRepresentation)sr);
+		}else if(sr instanceof AdminSearchRepresentation){
+			return getAdminSearchQuery((AdminSearchRepresentation)sr);
 		}else if(sr instanceof UserSearchRepresentation){
 			return getUserSearchQuery((UserSearchRepresentation)sr);
 		}else if(sr instanceof PartnerSearchRepresentation){
 			return getPartnerSearchQuery((PartnerSearchRepresentation)sr);
 		}else if(sr instanceof BookingSearchRepresentation){
 			return getBookingSearchQuery((BookingSearchRepresentation)sr);
-		}else return null;
+		}else return new String("");
+	}
+
+	private static String getAdminSearchQuery(AdminSearchRepresentation sr) {
+		String query = "SELECT * from AdminAccountDao ";
+		boolean start = false;
+		
+		/* Note:Make sure the order following is the same as that in Dao */
+		
+		if(sr.getAdminId() > 0){
+			query += "where ";
+			start = true;
+			
+			query += "id = ? ";
+		}
+		if(sr.getName() != null && sr.getName().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "name = ? ";
+		}
+		if(sr.getPhone() != null && sr.getPhone().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "phone = ? ";
+		}
+		if(sr.getReference() != null && sr.getReference().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "reference = ? ";
+		}
+		if(sr.getPrivilege() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "privilege = ? ";
+		}
+		if(sr.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "status = ? ";
+		}
+		
+		return query;
 	}
 
 	private static String getBookingSearchQuery(BookingSearchRepresentation sr) {

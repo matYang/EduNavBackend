@@ -38,9 +38,6 @@ public class BookingDaoService {
 
 	
 	public static boolean isReferenceAvailable(String reference){
-		BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
-		b_sr.setReference(reference);
-		ArrayList<Booking> bookings = searchBooking(b_sr);
-		return bookings.size() == 0;
+		return getBookingByReference(reference).size() == 0;
 	}
 }
