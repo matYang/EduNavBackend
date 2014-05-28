@@ -439,7 +439,7 @@ public class ValidationTest {
 		String email = "xiongchuhanplace@hotmail.com";
 
 		Booking booking = new Booking(scheduledTime,adjustTime, 
-				price, userId, partnerId, courseId,name, phone,email,reference,BookingStatus.awaiting);
+				price, -1, userId, partnerId, courseId,name, phone,email,reference,BookingStatus.awaiting);
 		booking.setTransactionId(1);
 		BookingDao.addBookingToDatabases(booking);
 
@@ -451,7 +451,7 @@ public class ValidationTest {
 		}
 		boolean fail = true;
 		booking = new Booking(scheduledTime,adjustTime, 
-				price, userId, partnerId, courseId,"", 
+				price, -1, userId, partnerId, courseId,"", 
 				phone,email,reference,BookingStatus.awaiting);
 		booking.setTransactionId(1);
 		try{
@@ -466,7 +466,7 @@ public class ValidationTest {
 
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime,
-				price, userId, partnerId, courseId,name,
+				price, -1, userId, partnerId, courseId,name,
 				"dsf3323",email,reference,BookingStatus.awaiting);
 		booking.setTransactionId(1);
 		try{
@@ -481,7 +481,7 @@ public class ValidationTest {
 
 		fail = true;
 		booking = new Booking(null,adjustTime, 
-				price, userId, partnerId, courseId,
+				price, -1, userId, partnerId, courseId,
 				name, phone,email,reference,BookingStatus.awaiting);
 		booking.setTransactionId(1);
 		try{
@@ -496,7 +496,7 @@ public class ValidationTest {
 
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime,
-				-1, userId, partnerId, courseId,name, phone,
+				-1, -1, userId, partnerId, courseId,name, phone,
 				email,reference,BookingStatus.awaiting);
 		booking.setTransactionId(1);
 		try{
@@ -511,7 +511,7 @@ public class ValidationTest {
 
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime,
-				price, -1, partnerId, courseId,name,
+				price, -1, -1, partnerId, courseId,name,
 				phone,email,reference,BookingStatus.awaiting);
 		booking.setTransactionId(1);
 		try{
@@ -526,7 +526,7 @@ public class ValidationTest {
 
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime, 
-				price, userId, -1, courseId,name, phone,
+				price, -1, userId, -1, courseId,name, phone,
 				email,reference,BookingStatus.awaiting);
 		booking.setTransactionId(1);
 		try{
@@ -541,7 +541,7 @@ public class ValidationTest {
 
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime, 
-				price, userId,partnerId, -1,name, phone,
+				price, -1, userId,partnerId, -1,name, phone,
 				email,reference,BookingStatus.awaiting);
 		booking.setTransactionId(1);
 		try{
@@ -556,7 +556,7 @@ public class ValidationTest {
 
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime, 
-				price, userId, -1, courseId,name, phone,
+				price, -1, userId, -1, courseId,name, phone,
 				email,"",BookingStatus.awaiting);
 		booking.setTransactionId(1);
 		try{
@@ -571,7 +571,7 @@ public class ValidationTest {
 		
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime, 
-				price, userId, partnerId, courseId,name, 
+				price, -1, userId, partnerId, courseId,name, 
 				phone,"sdfj-@hg",reference,BookingStatus.awaiting);
 		try{
 			ValidationService.validateBooking(booking);

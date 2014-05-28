@@ -25,6 +25,30 @@ import BaseModule.service.ValidationService;
 
 public class UserResource extends UserPseudoResource{
 
+	/**
+	 * Retrieve all users from server. This API is intended solely for testing
+	 */
+	@Get
+	public Representation getAllUsers(){
+		JSONArray jsonArray = null;
+		try {
+			this.validateAuthentication();
+			ArrayList<User> allUsers = UserDaoService.getAllUsers();
+			jsonArray = JSONFactory.toJSON(allUsers);
+		}  catch(PseudoException e){
+			this.addCORSHeader();
+			return this.doPseudoException(e);
+		} catch (Exception e){
+			this.addCORSHeader();
+			return this.doException(e);
+		}
+
+		Representation result = new JsonRepresentation(jsonArray);
+
+		this.addCORSHeader();
+		return result;
+	}
+
 	protected User validateUserJSON(Representation entity) throws ValidationException{
 		JSONObject jsonUser = null;
 		User user = null;
@@ -65,29 +89,6 @@ public class UserResource extends UserPseudoResource{
 		return user;
 	}
 
-	/**
-	 * Retrieve all users from server. This API is intended solely for testing
-	 */
-	@Get
-	public Representation getAllUsers(){
-		JSONArray jsonArray = null;
-		try {
-			this.validateAuthentication();
-			ArrayList<User> allUsers = UserDaoService.getAllUsers();
-			jsonArray = JSONFactory.toJSON(allUsers);
-		}  catch(PseudoException e){
-			this.addCORSHeader();
-			return this.doPseudoException(e);
-		} catch (Exception e){
-			this.addCORSHeader();
-			return this.doException(e);
-		}
-
-		Representation result = new JsonRepresentation(jsonArray);
-
-		this.addCORSHeader();
-		return result;
-	}
 
 
 	@Post
@@ -102,6 +103,7 @@ public class UserResource extends UserPseudoResource{
 			User newUser = validateUserJSON(entity);
 			ValidationService.validateUser(newUser);
 			creationFeedBack = UserDaoService.createUser(newUser);
+			
 			//close the sms verification session
 			UserCellVerificationDaoService.closeSession(creationFeedBack.getPhone());
 

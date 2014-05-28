@@ -49,7 +49,6 @@ public class BookingResource extends UserPseudoResource{
 		return result;
 	}
 	
-	
 
 	@Post
 	public Representation createBooking(Representation entity){
@@ -76,8 +75,6 @@ public class BookingResource extends UserPseudoResource{
 
 		this.addCORSHeader(); 
 		return result;
-
-
 	}
 
 	protected Booking parseJSON(Representation entity) throws ValidationException {
@@ -87,9 +84,8 @@ public class BookingResource extends UserPseudoResource{
 			
 			Calendar adjustTime = DateUtility.getCurTimeInstance();
 			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));
-			Calendar startTime = DateUtility.castFromAPIFormat(jsonBooking.getString("startTime"));
-			Calendar finishTime = DateUtility.castFromAPIFormat(jsonBooking.getString("finishTime"));
 			
+			int couponId = jsonBooking.getInt("couponId");
 			int price = jsonBooking.getInt("price");
 			int userId = jsonBooking.getInt("userId");
 			int partnerId = jsonBooking.getInt("partnerId");
@@ -101,7 +97,7 @@ public class BookingResource extends UserPseudoResource{
 			String reference = ReferenceFactory.generateBookingReference();
 			BookingStatus status = BookingStatus.awaiting;
 		    booking = new Booking(scheduledTime,adjustTime, 
-					price, userId, partnerId, courseId, name,
+					price, couponId, userId, partnerId, courseId, name,
 					phone,email,reference,status);
 			
 			ValidationService.validateBooking(booking);

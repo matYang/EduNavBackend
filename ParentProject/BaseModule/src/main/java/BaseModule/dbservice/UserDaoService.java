@@ -7,6 +7,7 @@ import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.model.Coupon;
 import BaseModule.model.User;
 import BaseModule.model.representation.UserSearchRepresentation;
 
@@ -31,7 +32,15 @@ public class UserDaoService {
 	}
 
 	public static User createUser(User user) throws ValidationException{
-		return UserDao.addUserToDatabase(user);
+		//initialize coupons on registration
+		user = UserDao.addUserToDatabase(user);
+		Coupon coupon = new Coupon(user.getUserId(), 50);
+		coupon = CouponDaoService.createCoupon(coupon);
+		user.setCoupon(50);
+		ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+		coupons.add(coupon);
+		//TODO add coupon to user's list
+		return user;
 	}
 
 	public static void updateUser(User user) throws ValidationException{

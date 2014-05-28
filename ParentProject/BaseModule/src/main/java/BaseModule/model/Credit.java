@@ -7,6 +7,9 @@ import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.CreditStatus;
 
 public class Credit {
+	
+	public static final long usableThreshould = 604800l;
+	public static final long expireThreshould = 31536000l + 604800l;	//1 year
 
 	private long creditId;
 	private int bookingId;
@@ -42,6 +45,17 @@ public class Credit {
 		this.expireTime = expireTime;
 		this.status = status;
 		this.usableTime = usableTime;
+	}
+	
+	public Credit(int bookingId, int amount, int userId){
+		this.creditId = -1;
+		this.bookingId = bookingId;
+		this.userId = userId;
+		this.amount = amount;
+		this.creationTime = DateUtility.getCurTimeInstance();
+		this.expireTime =DateUtility.getTimeFromLong(DateUtility.getCurTime() + usableThreshould);
+		this.status = CreditStatus.awaiting;
+		this.usableTime = DateUtility.getTimeFromLong(DateUtility.getCurTime() + expireThreshould);
 	}
 
 	public long getCreditId() {

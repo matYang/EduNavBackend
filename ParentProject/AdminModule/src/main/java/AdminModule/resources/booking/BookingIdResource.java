@@ -60,16 +60,15 @@ public class BookingIdResource extends AdminPseudoResource{
 		JSONObject newBooking = new JSONObject();
 		try{
 			this.checkEntity(entity);
-			int userId = this.validateAuthentication();
+			int adminId = this.validateAuthentication();
 			bookingId = Integer.parseInt(this.getReqAttr("id"));
 			
 			
 			Booking booking = BookingDaoService.getBookingById(bookingId);
-			if (booking.getUserId() != userId){
-				throw new AuthenticationException("对不起，您不是该预定的主人");
-			}
+			BookingStatus previousStatus = booking.getStatus();
+
 			booking = parseJSON(entity, booking);
-			BookingDaoService.updateBooking(booking);
+			BookingDaoService.updateBooking(booking, previousStatus, adminId);
 
 			newBooking = JSONFactory.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);

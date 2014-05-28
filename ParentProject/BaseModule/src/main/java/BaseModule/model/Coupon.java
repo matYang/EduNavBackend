@@ -6,9 +6,9 @@ import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 
-
-
 public class Coupon {
+	
+	public static final long expireThreshould = 31536000l;
 
 	private long couponId;
 	private int bookingId;
@@ -34,13 +34,13 @@ public class Coupon {
 		this.status = status;
 	}
 
-	//Normal Construction
-	public Coupon(int bookingId, int transactionId, int userId,
+
+	public Coupon(int bookingId, int userId,
 			int amount, Calendar expireTime, CouponStatus status) {
 		super();
-		this.couponId = -1;
+		this.couponId = -1l;
 		this.bookingId = bookingId;
-		this.transactionId = transactionId;
+		this.transactionId = -1;
 		this.userId = userId;
 		this.amount = amount;
 		this.expireTime = expireTime;
@@ -48,16 +48,14 @@ public class Coupon {
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 	
-	public Coupon(int bookingId, int userId,
-			int amount, Calendar expireTime, CouponStatus status) {
-		super();
+	public Coupon(int userId, int amount){
 		this.couponId = -1;
-		this.bookingId = bookingId;
+		this.bookingId = -1;
 		this.transactionId = -1;
 		this.userId = userId;
 		this.amount = amount;
-		this.expireTime = expireTime;
-		this.status = status;
+		this.expireTime = DateUtility.getTimeFromLong(DateUtility.getCurTime() + expireThreshould);
+		this.status = CouponStatus.usable;
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 
