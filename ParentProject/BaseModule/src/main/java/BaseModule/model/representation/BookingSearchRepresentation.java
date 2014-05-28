@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.interfaces.PseudoRepresentation;
@@ -17,23 +17,22 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	
 	private int bookingId;
 	private Calendar creationTime;
-	private Calendar startTime;
-	private Calendar finishTime;
+	private Calendar scheduledTime;
 	private int startPrice;
 	private int finishPrice;
 	private int userId;
 	private int partnerId;
 	private int courseId;
+	private String email;
 	private String name;
 	private String phone;
-	private AccountStatus status;
+	private BookingStatus status;
 	private String reference;
 	
 	public BookingSearchRepresentation(){
 		this.bookingId = -1;
 		this.creationTime = null;
-		this.startTime = null;
-		this.finishTime = null;
+		this.scheduledTime = null;
 		this.startPrice = -1;
 		this.finishPrice = -1;
 		this.userId = -1;
@@ -43,6 +42,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.phone = null;
 		this.status = null;
 		this.reference = null;
+		this.email = null;
 	}
 
 	@Override
@@ -86,21 +86,21 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	public void setCreationTime(Calendar creationTime) {
 		this.creationTime = creationTime;
 	}
-
-	public Calendar getStartTime() {
-		return startTime;
+	
+	public Calendar getScheduledTime() {
+		return scheduledTime;
 	}
 
-	public void setStartTime(Calendar startTime) {
-		this.startTime = startTime;
+	public void setScheduledTime(Calendar scheduledTime) {
+		this.scheduledTime = scheduledTime;
 	}
 
-	public Calendar getFinishTime() {
-		return finishTime;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setFinishTime(Calendar finishTime) {
-		this.finishTime = finishTime;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public int getStartPrice() {
@@ -159,11 +159,11 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.phone = phone;
 	}
 
-	public AccountStatus getStatus() {
+	public BookingStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(AccountStatus status) {
+	public void setStatus(BookingStatus status) {
 		this.status = status;
 	}
 
@@ -178,8 +178,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	@Override
 	public String toString() {
 		return "BookingSearchRepresentation [bookingId=" + bookingId
-				+ ", creationTime=" + creationTime + ", startTime=" + startTime
-				+ ", finishTime=" + finishTime + ", startPrice=" + startPrice
+				+ ", creationTime=" + creationTime + ", scheduledTime=" 
+				+ scheduledTime + ", email=" + email + ", startPrice=" + startPrice
 				+ ", finishPrice=" + finishPrice + ", userId=" + userId 
 				+ ", partnerId=" + partnerId + ", courseId=" + courseId 
 				+ ", name=" + name + ", phone=" + phone + ", status=" 

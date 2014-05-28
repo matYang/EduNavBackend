@@ -10,6 +10,7 @@ import org.junit.Test;
 import BaseModule.clean.cleanTasks.BookingCleaner;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
@@ -77,33 +78,43 @@ public class BookingCleanerTest {
 		int userId = user.getUserId();
 		int partnerId = partner.getPartnerId();
 		int courseId = course.getCourseId();		
-		Calendar timeStamp = DateUtility.getCurTimeInstance();		
+		Calendar timeStamp = DateUtility.getCurTimeInstance();	
+		timeStamp.add(Calendar.SECOND, -1);
 		String email = "xiongchuhanplace@hotmail.com";
-		Booking booking = new Booking(timeStamp,timeStamp,course.getStartTime(), course.getFinishTime(), 
+		Booking booking = new Booking(timeStamp,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),status);
+				email,partner.getReference(),BookingStatus.awaiting);
 		BookingDao.addBookingToDatabases(booking);
 		
 		Calendar finishTime2 = Calendar.getInstance();
 		finishTime2.add(Calendar.DAY_OF_YEAR, -1);			
-		Booking booking2 = new Booking(timeStamp,timeStamp,course.getStartTime(), finishTime2, 
+		Booking booking2 = new Booking(finishTime2,timeStamp,
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),status);
+				email,partner.getReference(),BookingStatus.confirmed);
 		BookingDao.addBookingToDatabases(booking2);
 		
 		Calendar finishTime3 = Calendar.getInstance();
 		finishTime3.add(Calendar.HOUR_OF_DAY, 1);
-		Booking booking3 = new Booking(timeStamp,timeStamp,course.getStartTime(), finishTime3, 
+		Booking booking3 = new Booking(finishTime3,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),status);
-		BookingDao.addBookingToDatabases(booking3);	
+				email,partner.getReference(),BookingStatus.confirmed);
+		BookingDao.addBookingToDatabases(booking3);
+		
+		Calendar finishTime4 = Calendar.getInstance();
+		finishTime4.add(Calendar.HOUR_OF_DAY, 1);
+		Booking booking4 = new Booking(finishTime4,timeStamp, 
+				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				email,partner.getReference(),BookingStatus.canceled);
+		BookingDao.addBookingToDatabases(booking4);
 		
 		BookingCleaner.clean();
 		
 		ArrayList<Booking> list = new ArrayList<Booking>();
 		list = BookingDao.getAllBookings();
-		if(list.size()==3 && list.get(0).getStatus().code==AccountStatus.activated.code && 
-				list.get(1).getStatus().code==AccountStatus.deactivated.code&&list.get(2).getStatus().code==AccountStatus.activated.code){
+		if(list.size()==4 && list.get(0).getStatus().code==BookingStatus.awaiting.code && 
+				list.get(1).getStatus().code==BookingStatus.pending.code&&
+				list.get(2).getStatus().code==BookingStatus.confirmed.code&&
+				list.get(3).getStatus().code==BookingStatus.canceled.code){
 			//Passed;
 		}else{
 			fail();

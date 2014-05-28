@@ -6,11 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.exception.booking.BookingNotFoundException;
 import BaseModule.exception.course.CourseNotFoundException;
 import BaseModule.factory.QueryFactory;
@@ -42,29 +40,26 @@ public class BookingDao {
 			if(sr.getUserId() > 0){
 				stmt.setInt(stmtInt++, sr.getUserId());
 			}
-			stmt.setInt(stmtInt++, sr.getStartPrice());
-			stmt.setInt(stmtInt++, sr.getFinishPrice());
-			stmt.setInt(stmtInt++, AccountStatus.activated.code);			
-
+			if(sr.getStartPrice() >= 0){
+				stmt.setInt(stmtInt++, sr.getStartPrice());
+			}
+			if(sr.getFinishPrice() >= 0){
+				stmt.setInt(stmtInt++, sr.getFinishPrice());
+			}			
+			if(sr.getStatus() != null){
+				stmt.setInt(stmtInt++, sr.getStatus().code);
+			}
 			if(sr.getReference() !=null && sr.getReference().length() > 0){
 				stmt.setString(stmtInt++, sr.getReference());
 			}
 			if(sr.getCreationTime() != null){
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
 			}
-			if(sr.getStartTime() != null){
-				Calendar startTime = (Calendar) sr.getStartTime().clone();
-				startTime.set(Calendar.HOUR_OF_DAY,0);
-				startTime.set(Calendar.MINUTE, 0);
-				startTime.set(Calendar.SECOND, 0);
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(startTime));
+			if(sr.getScheduledTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getScheduledTime()));
 			}
-			if(sr.getFinishTime() != null){
-				Calendar finishTime = (Calendar) sr.getFinishTime().clone();
-				finishTime.set(Calendar.HOUR_OF_DAY,23);
-				finishTime.set(Calendar.MINUTE, 59);
-				finishTime.set(Calendar.SECOND, 59);
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(finishTime));	
+			if(sr.getEmail() != null){
+				stmt.setString(stmtInt,sr.getEmail());
 			}	
 			if(sr.getName() != null && sr.getName().length() > 0){
 				stmt.setString(stmtInt,sr.getName());
@@ -90,29 +85,27 @@ public class BookingDao {
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO BookingDao (name,phone,creationTime,adjustTime,startTime,finishTime,price," +
+		String query = "INSERT INTO BookingDao (name,phone,creationTime,adjustTime,price," +
 				"status,u_Id,p_Id,course_Id,reference,transaction_Id,admin_Id,coupon_Id,scheduledTime,email)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, booking.getName());
 			stmt.setString(2, booking.getPhone());
 			stmt.setString(3, DateUtility.toSQLDateTime(booking.getCreationTime()));
-			stmt.setString(4, DateUtility.toSQLDateTime(booking.getAdjustTime()));
-			stmt.setString(5, DateUtility.toSQLDateTime(booking.getStartTime()));		
-			stmt.setString(6, DateUtility.toSQLDateTime(booking.getFinishTime()));			
-			stmt.setInt(7, booking.getPrice());
-			stmt.setInt(8, booking.getStatus().code);
-			stmt.setInt(9, booking.getUserId());
-			stmt.setInt(10, booking.getPartnerId());
-			stmt.setInt(11, booking.getCourseId());
-			stmt.setString(12, booking.getReference());
-			stmt.setInt(13, booking.getTransactionId());
-			stmt.setInt(14, booking.getAdminId());
-			stmt.setInt(15, booking.getCouponId());
-			stmt.setString(16, DateUtility.toSQLDateTime(booking.getScheduledTime()));
-			stmt.setString(17, booking.getEmail());
+			stmt.setString(4, DateUtility.toSQLDateTime(booking.getAdjustTime()));					
+			stmt.setInt(5, booking.getPrice());
+			stmt.setInt(6, booking.getStatus().code);
+			stmt.setInt(7, booking.getUserId());
+			stmt.setInt(8, booking.getPartnerId());
+			stmt.setInt(9, booking.getCourseId());
+			stmt.setString(10, booking.getReference());
+			stmt.setInt(11, booking.getTransactionId());
+			stmt.setInt(12, booking.getAdminId());
+			stmt.setInt(13, booking.getCouponId());
+			stmt.setString(14, DateUtility.toSQLDateTime(booking.getScheduledTime()));
+			stmt.setString(15, booking.getEmail());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -131,28 +124,27 @@ public class BookingDao {
 	public static void updateBookingInDatabases(Booking booking,Connection...connections) throws BookingNotFoundException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;
-		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,startTime=?,finishTime=?,price=?," +
-				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,admin_Id=?,coupon_Id=?,scheduledTime=?,email=? where id=?";
+		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,price=?," +
+				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,admin_Id=?,coupon_Id=?," +
+				"scheduledTime=?,email=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
 
 			stmt.setString(1, booking.getName());
 			stmt.setString(2, booking.getPhone());			
-			stmt.setString(3, DateUtility.toSQLDateTime(booking.getAdjustTime()));
-			stmt.setString(4, DateUtility.toSQLDateTime(booking.getStartTime()));
-			stmt.setString(5, DateUtility.toSQLDateTime(booking.getFinishTime()));
-			stmt.setInt(6, booking.getPrice());
-			stmt.setInt(7, booking.getStatus().code);
-			stmt.setInt(8, booking.getUserId());
-			stmt.setInt(9, booking.getPartnerId());
-			stmt.setInt(10, booking.getCourseId());
-			stmt.setString(11, booking.getReference());
-			stmt.setInt(12, booking.getTransactionId());
-			stmt.setInt(13, booking.getAdminId());
-			stmt.setInt(14, booking.getCouponId());
-			stmt.setString(15, DateUtility.toSQLDateTime(booking.getScheduledTime()));
-			stmt.setString(16, booking.getEmail());
-			stmt.setInt(17, booking.getBookingId());
+			stmt.setString(3, DateUtility.toSQLDateTime(booking.getAdjustTime()));			
+			stmt.setInt(4, booking.getPrice());
+			stmt.setInt(5, booking.getStatus().code);
+			stmt.setInt(6, booking.getUserId());
+			stmt.setInt(7, booking.getPartnerId());
+			stmt.setInt(8, booking.getCourseId());
+			stmt.setString(9, booking.getReference());
+			stmt.setInt(10, booking.getTransactionId());
+			stmt.setInt(11, booking.getAdminId());
+			stmt.setInt(12, booking.getCouponId());
+			stmt.setString(13, DateUtility.toSQLDateTime(booking.getScheduledTime()));
+			stmt.setString(14, booking.getEmail());
+			stmt.setInt(15, booking.getBookingId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new BookingNotFoundException();
@@ -221,8 +213,7 @@ public class BookingDao {
 			DebugLog.d(e);
 		}
 		return new Booking(rs.getInt("id"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), DateUtility.DateToCalendar(rs.getTimestamp("adjustTime")),
-				DateUtility.DateToCalendar(rs.getTimestamp("startTime")),DateUtility.DateToCalendar(rs.getTimestamp("finishTime")), rs.getInt("price"), rs.getInt("u_Id"),
-				rs.getInt("p_Id"), courseId, rs.getString("name"), rs.getString("phone"),AccountStatus.fromInt(rs.getInt("status")), rs.getString("reference"),
+				 rs.getInt("price"), rs.getInt("u_Id"),	rs.getInt("p_Id"), courseId, rs.getString("name"), rs.getString("phone"),BookingStatus.fromInt(rs.getInt("status")), rs.getString("reference"),
 				rs.getInt("coupon_Id"),rs.getInt("transaction_Id"),rs.getInt("admin_Id"),course,rs.getString("email"),DateUtility.DateToCalendar(rs.getTimestamp("scheduledTime")));
 	}
 }

@@ -40,8 +40,10 @@ public class PartnerDao {
 			}
 			if(sr.getPhone() != null && sr.getPhone().length() > 0){
 				stmt.setString(stmtInt++, sr.getPhone());
+			}						
+			if(sr.getStatus() != null){
+				stmt.setInt(stmtInt++, sr.getStatus().code);
 			}
-			stmt.setInt(stmtInt++, AccountStatus.activated.code);
 
 			if(sr.getInstName() != null && sr.getInstName().length() > 0){
 				stmt.setString(stmtInt++, sr.getInstName());

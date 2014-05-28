@@ -57,17 +57,34 @@ public class QueryFactory {
 				query += "and ";
 			}
 			query += "u_Id = ? ";
+		}		
+		if(sr.getStartPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "price >= ? ";
 		}
-		
-		if(!start){
-			query += "where ";
-			start = true;
-		}else{
-			query += "and ";
-		}	
-		
-		query +="price >= ? and price <= ? and status = ? ";
-		
+		if(sr.getFinishPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "price <= ? ";
+		}		
+		if(sr.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "status = ? ";
+		}		
 		if(sr.getReference() !=null && sr.getReference().length() > 0){
 			if(!start){
 				query += "where ";
@@ -85,25 +102,25 @@ public class QueryFactory {
 				query += "and ";
 			}
 			query += "creationTime = ? ";
-		}
-		if(sr.getStartTime() != null){
+		}		
+		if(sr.getScheduledTime() != null){
 			if(start){				
 				query += "and ";
 			}else {
 				query += "where ";
 				start = true;
 			}
-			query += "startTime >= ? ";			
-		}
-		if(sr.getFinishTime() != null){
-			if(start){				
-				query += "and ";
-			}else {
-				query += "where ";
-				start = true;
-			}
-			query += "finishTime <= ? ";
+			query += "scheduledTime = ? ";
 		}	
+		if(sr.getEmail() != null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "email = ? ";
+		}
 		if(sr.getName() != null && sr.getName().length() > 0){
 			if(!start){
 				query += "where ";
@@ -164,15 +181,15 @@ public class QueryFactory {
 			}
 			query += "phone = ? ";
 		}
-		if(!start){
-			query += "where ";
-			start = true;
-		}else{
-			query += "and ";
-		}
-		
-		query += "status = ? ";
-		
+		if(sr.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}			
+			query += "status = ? ";
+		}		
 		if(sr.getInstName() != null && sr.getInstName().length() > 0){
 			if(!start){
 				query += "where ";
@@ -250,17 +267,16 @@ public class QueryFactory {
 				query += "and ";
 			}
 			query += "phone = ? ";
+		}		
+		if(sr.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}			
+			query += "status = ? ";
 		}
-		
-		if(!start){
-			query += "where ";
-			start = true;
-		}else{
-			query += "and ";
-		}
-		
-		query += "status = ? ";
-		
 		if(sr.getBalance() >= 0){
 			if(!start){
 				query += "where ";
@@ -367,15 +383,33 @@ public class QueryFactory {
 			query += "CourseDao.finishTime <= ? ";
 		}	
 
-		if(start){				
-			query += "and ";
-		}else {
-			query += "where ";
-			start = true;
+		if(sr.getStartPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "CourseDao.price >= ? ";
 		}
-
-		query +="CourseDao.price >= ? and CourseDao.price <= ? and CourseDao.status = ? ";
-
+		if(sr.getFinishPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "CourseDao.price <= ? ";
+		}
+		if(sr.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "CourseDao.status = ?  ";
+		}
 		if(sr.getCategory()!=null&&sr.getCategory().length()>0){
 			if(start){				
 				query += "and ";

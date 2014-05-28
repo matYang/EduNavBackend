@@ -40,8 +40,10 @@ public class UserDao {
 			}
 			if(sr.getPhone() != null && sr.getPhone().length() > 0){
 				stmt.setString(stmtInt++, sr.getPhone());
-			}			
-			stmt.setInt(stmtInt++, AccountStatus.activated.code);
+			}						
+			if(sr.getStatus() != null){
+				stmt.setInt(stmtInt++, sr.getStatus().code);
+			}
 			if(sr.getBalance() >= 0){
 				stmt.setInt(stmtInt++,sr.getBalance());
 			}

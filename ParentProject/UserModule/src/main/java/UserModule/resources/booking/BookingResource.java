@@ -12,6 +12,7 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -98,9 +99,10 @@ public class BookingResource extends UserPseudoResource{
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
 			String email = EncodingService.decodeURI(jsonBooking.getString("email"));
 			String reference = ReferenceFactory.generateBookingReference();
-			AccountStatus status = AccountStatus.activated;
-		    booking = new Booking(scheduledTime,adjustTime,startTime, finishTime, 
-					price, userId, partnerId, courseId, name, phone,email,reference,status);
+			BookingStatus status = BookingStatus.awaiting;
+		    booking = new Booking(scheduledTime,adjustTime, 
+					price, userId, partnerId, courseId, name,
+					phone,email,reference,status);
 			
 			ValidationService.validateBooking(booking);
 			

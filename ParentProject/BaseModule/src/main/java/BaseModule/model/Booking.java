@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
 
@@ -25,14 +25,12 @@ public class Booking implements PseudoModel{
 
 	private Course course;
 
-	private AccountStatus status;
+	private BookingStatus status;
 	private String reference;
 	private String name;
 	private String phone;
 	private String email;
-
-	private Calendar startTime;
-	private Calendar finishTime;
+	
 	private Calendar creationTime;
 	private Calendar adjustTime;
 	private Calendar scheduledTime;
@@ -41,16 +39,13 @@ public class Booking implements PseudoModel{
 
 	//SQL Retrieving
 	public Booking(int bookingId, Calendar creationTime, Calendar adjustTime,
-			Calendar startTime, Calendar finishTime, int price, int userId,
-			int partnerId, int courseId, String name, String phone,
-			AccountStatus status, String reference, int couponId, int transactionId,
+			int price, int userId,int partnerId, int courseId, String name, String phone,
+			BookingStatus status, String reference, int couponId, int transactionId,
 			int adminId,Course course,String email,Calendar scheduledTime) {
 		super();
 		this.bookingId = bookingId;
 		this.creationTime = creationTime;
-		this.adjustTime = adjustTime;
-		this.startTime = startTime;
-		this.finishTime = finishTime;
+		this.adjustTime = adjustTime;		
 		this.scheduledTime = scheduledTime;
 		this.price = price;
 		this.userId = userId;
@@ -68,17 +63,15 @@ public class Booking implements PseudoModel{
 	}
 
 	//Normal Construction
-	public Booking(int transactionId,Calendar scheduledTime,Calendar adjustTime,Calendar startTime, 
-			Calendar finishTime, int price,	int userId, int partnerId, int courseId, String name, 
-			String phone, String email,	String reference,AccountStatus status) {
+	public Booking(int transactionId,Calendar scheduledTime,Calendar adjustTime,
+			int price,	int userId, int partnerId, int courseId, String name, 
+			String phone, String email,	String reference,BookingStatus status) {
 		super();
 		this.transactionId = transactionId;
 		this.couponId = -1;
 		this.adminId = -1;
 		this.scheduledTime = scheduledTime;
-		this.adjustTime = adjustTime;
-		this.startTime = startTime;
-		this.finishTime = finishTime;
+		this.adjustTime = adjustTime;		
 		this.price = price;
 		this.userId = userId;
 		this.partnerId = partnerId;
@@ -91,18 +84,16 @@ public class Booking implements PseudoModel{
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 	
-	public Booking(Calendar scheduledTime,Calendar adjustTime,Calendar startTime,
-			Calendar finishTime, int price,	int userId, int partnerId, int courseId, 
+	public Booking(Calendar scheduledTime,Calendar adjustTime,
+			int price,int userId, int partnerId, int courseId, 
 			String name, String phone, String email,
-			String reference,AccountStatus status) {
+			String reference,BookingStatus status) {
 		super();
 		this.transactionId = -1;
 		this.couponId = -1;
 		this.adminId = -1;
 		this.scheduledTime = scheduledTime;
-		this.adjustTime = adjustTime;
-		this.startTime = startTime;
-		this.finishTime = finishTime;
+		this.adjustTime = adjustTime;		
 		this.price = price;
 		this.userId = userId;
 		this.partnerId = partnerId;
@@ -130,23 +121,7 @@ public class Booking implements PseudoModel{
 	public void setAdjustTime(Calendar adjustTime) {
 		this.adjustTime = adjustTime;
 	}
-
-	public Calendar getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Calendar startTime) {
-		this.startTime = startTime;
-	}
-
-	public Calendar getFinishTime() {
-		return finishTime;
-	}
-
-	public void setFinishTime(Calendar finishTime) {
-		this.finishTime = finishTime;
-	}
-
+	
 	public int getPrice() {
 		return price;
 	}
@@ -195,11 +170,11 @@ public class Booking implements PseudoModel{
 		this.phone = phone;
 	}
 
-	public AccountStatus getStatus() {
+	public BookingStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(AccountStatus status) {
+	public void setStatus(BookingStatus status) {
 		this.status = status;
 	}
 
@@ -280,9 +255,7 @@ public class Booking implements PseudoModel{
 			jsonSearchRepresentation.put("partnerId", this.partnerId);
 			jsonSearchRepresentation.put("courseId", this.courseId);
 			jsonSearchRepresentation.put("adjustTime", DateUtility.castToAPIFormat(this.adjustTime));
-			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
-			jsonSearchRepresentation.put("startTime", DateUtility.castToAPIFormat(this.startTime));
-			jsonSearchRepresentation.put("finishTime", DateUtility.castToAPIFormat(this.finishTime));
+			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
 			jsonSearchRepresentation.put("scheduledTime", DateUtility.castToAPIFormat(this.scheduledTime));
 			jsonSearchRepresentation.put("course", this.course == null ? new JSONObject() : this.course.toJSON());
 		} catch (JSONException | UnsupportedEncodingException e) {
@@ -304,9 +277,7 @@ public class Booking implements PseudoModel{
 					this.partnerId == booking.getPartnerId() && 
 					this.phone.equals(booking.getPhone()) && 
 					this.price == booking.getPrice() &&
-					this.creationTime.getTime().toString().equals(booking.getCreationTime().getTime().toString()) && 
-					this.startTime.getTime().toString().equals(booking.getStartTime().getTime().toString()) &&
-					this.finishTime.getTime().toString().equals(booking.getFinishTime().getTime().toString()) && 
+					this.creationTime.getTime().toString().equals(booking.getCreationTime().getTime().toString()) && 					
 					this.adjustTime.getTime().toString().equals(booking.getAdjustTime().getTime().toString()) &&
 					this.scheduledTime.getTime().toString().equals(booking.getScheduledTime().getTime().toString()) &&
 					this.reference.equals(booking.getReference()) && this.status.code == booking.getStatus().code && 
@@ -323,9 +294,7 @@ public class Booking implements PseudoModel{
 					this.partnerId == booking.getPartnerId() && 
 					this.phone.equals(booking.getPhone()) && 
 					this.price == booking.getPrice() &&
-					this.creationTime.getTime().toString().equals(booking.getCreationTime().getTime().toString()) && 
-					this.startTime.getTime().toString().equals(booking.getStartTime().getTime().toString()) &&
-					this.finishTime.getTime().toString().equals(booking.getFinishTime().getTime().toString()) && 
+					this.creationTime.getTime().toString().equals(booking.getCreationTime().getTime().toString()) && 					
 					this.adjustTime.getTime().toString().equals(booking.getAdjustTime().getTime().toString()) &&
 					this.scheduledTime.getTime().toString().equals(booking.getScheduledTime().getTime().toString()) &&
 					this.reference.equals(booking.getReference()) && this.status.code == booking.getStatus().code && 

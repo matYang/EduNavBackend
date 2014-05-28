@@ -72,11 +72,15 @@ public class CourseDao {
 				finishTime.set(Calendar.SECOND, 59);
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(finishTime));	
 			}
-
-			stmt.setInt(stmtInt++, sr.getStartPrice());
-			stmt.setInt(stmtInt++, sr.getFinishPrice());
-			stmt.setInt(stmtInt++, AccountStatus.activated.code);
-
+			if(sr.getStartPrice() >= 0){
+				stmt.setInt(stmtInt++, sr.getStartPrice());
+			}
+			if(sr.getFinishPrice() >= 0){
+				stmt.setInt(stmtInt++, sr.getFinishPrice());
+			}			
+			if(sr.getStatus() != null){
+				stmt.setInt(stmtInt++, sr.getStatus().code);
+			}
 			if(sr.getCategory()!=null&&sr.getCategory().length()>0){
 				stmt.setString(stmtInt++, sr.getCategory());
 			}

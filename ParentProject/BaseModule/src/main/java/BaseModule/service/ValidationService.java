@@ -121,20 +121,14 @@ public class ValidationService {
 		if(booking.getUserId() <= 0 || booking.getCourseId() <= 0 ||
 				booking.getPartnerId() <= 0 || booking.getTransactionId() < 0){
 			throw new ValidationException("预定信息不完整");
-		}
-		if(booking.getStartTime() == null || booking.getFinishTime() == null){
-			throw new ValidationException("预定开始或完成时间不能为空");
-		}
-		if(DateUtility.compareday(booking.getStartTime(), booking.getFinishTime()) >= 0){
-			throw new ValidationException("预定开始或完成时间不合理");
-		}
+		}		
 		if(booking.getReference() == null || booking.getReference().length() == 0 ||
 				booking.getScheduledTime() == null || booking.getName() == null ||
 				booking.getName().length() == 0 || booking.getEmail() == null ||
 				booking.getEmail().length() == 0){
 			throw new ValidationException("预定信息不完整");
 		}
-		if(booking.getPrice() < 0 || !validatePhone(booking.getPhone())){
+		if(booking.getPrice() < 0 || !validatePhone(booking.getPhone())||!validateEmail(booking.getEmail())){
 			throw new ValidationException("预定信息不规范");
 		}
 		return true;

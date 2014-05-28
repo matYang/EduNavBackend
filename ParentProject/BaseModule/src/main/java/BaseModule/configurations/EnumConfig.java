@@ -50,6 +50,18 @@ public class EnumConfig {
         }
     }
 	
+	public static enum BookingStatus{
+        awaiting(0),confirmed(1),canceled(2),pending(3),finished(4);
+        public int code;
+        BookingStatus(int code){
+            this.code = code;
+        }
+        private final static BookingStatus[] map = BookingStatus.values();
+        public static BookingStatus fromInt(int n){
+            return map[n];
+        }
+    }
+	
 	public static enum Privilege{
         root(0),mamagement(1),routine(2);
         public int code;
