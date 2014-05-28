@@ -6,14 +6,14 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 
 import AdminModule.dbservice.AdminAccountDaoService;
-import AdminModule.model.AdminAccount;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
-import AdminModule.factory.AdminJSONFactory;
+import BaseModule.factory.JSONFactory;
+import BaseModule.model.AdminAccount;
 
 
 public class AdminSessionRedirect extends AdminPseudoResource{
@@ -28,12 +28,12 @@ public class AdminSessionRedirect extends AdminPseudoResource{
 		try {
 			int accountId = this.validateAuthentication();
 			account = AdminAccountDaoService.getAdminAccountById(accountId);
-			jsonObject = AdminJSONFactory.toJSON(account);
+			jsonObject = JSONFactory.toJSON(account);
 		} catch (AuthenticationException e){
 			//if not authenticated, return default user with id -1
 			account = new AdminAccount("default", "default","default", Privilege.routine, AccountStatus.activated,"default");
 			account.setAdminId(-1);
-			jsonObject = AdminJSONFactory.toJSON(account);
+			jsonObject = JSONFactory.toJSON(account);
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

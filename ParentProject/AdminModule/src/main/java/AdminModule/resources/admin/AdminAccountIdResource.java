@@ -12,7 +12,6 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 
 import AdminModule.dbservice.AdminAccountDaoService;
-import AdminModule.model.AdminAccount;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
@@ -20,8 +19,9 @@ import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.factory.JSONFactory;
+import BaseModule.model.AdminAccount;
 import BaseModule.service.EncodingService;
-import AdminModule.factory.AdminJSONFactory;
 
 
 public class AdminAccountIdResource extends AdminPseudoResource{
@@ -42,7 +42,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 				throw new ValidationException("无权操作");
 			}
 	    	
-	        jsonObject = AdminJSONFactory.toJSON(targetAccount);
+	        jsonObject = JSONFactory.toJSON(targetAccount);
 	        
 		} catch (PseudoException e){
 			this.addCORSHeader();
@@ -107,7 +107,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 			}
 			AdminAccountDaoService.updateAdminAccount(targetAccount);
 			
-			response = AdminJSONFactory.toJSON(targetAccount);
+			response = JSONFactory.toJSON(targetAccount);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){

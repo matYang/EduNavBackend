@@ -7,11 +7,8 @@ import org.json.JSONObject;
 
 import BaseModule.common.DebugLog;
 import BaseModule.interfaces.PseudoModel;
-import BaseModule.model.Booking;
-import BaseModule.model.Course;
-import BaseModule.model.Partner;
-import BaseModule.model.User;
-import BaseModule.model.representation.CourseSearchRepresentation;
+import BaseModule.model.*;
+import BaseModule.model.representation.*;
 
 public class JSONFactory {
 	
@@ -32,8 +29,32 @@ public class JSONFactory {
 		else if (obj instanceof Booking){
 			return ((Booking)obj).toJSON();
 		}
+		else if (obj instanceof AdminAccount){
+			return ((AdminAccount)obj).toJSON();
+		}
+		else if (obj instanceof Credit){
+			return ((Credit)obj).toJSON();
+		}
+		else if (obj instanceof Coupon){
+			return ((Coupon)obj).toJSON();
+		}
+		else if (obj instanceof Transaction){
+			return ((Transaction)obj).toJSON();
+		}
 		else if (obj instanceof CourseSearchRepresentation){
 			return ((CourseSearchRepresentation)obj).toJSON();
+		}
+		else if (obj instanceof UserSearchRepresentation){
+			return ((UserSearchRepresentation)obj).toJSON();
+		}
+		else if (obj instanceof PartnerSearchRepresentation){
+			return ((PartnerSearchRepresentation)obj).toJSON();
+		}
+		else if (obj instanceof BookingSearchRepresentation){
+			return ((BookingSearchRepresentation)obj).toJSON();
+		}
+		else if (obj instanceof AdminSearchRepresentation){
+			return ((AdminSearchRepresentation)obj).toJSON();
 		}
 		else{
 			return new JSONObject();

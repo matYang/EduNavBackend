@@ -15,12 +15,12 @@ public class TransactionDaoService {
 		return TransactionDao.getTransactionById(userId, "user");
 	}
 	
-	public static ArrayList<Transaction> getTransactionsByBookingId(int bookingId){
-		return TransactionDao.getTransactionById(bookingId, "booking");
-	}
-	
 	public static ArrayList<Transaction> getTransactionByTransactionId(int transactionId){
 		return TransactionDao.getTransactionById(transactionId, "transaction");
+	}
+	
+	public static ArrayList<Transaction> getTransactionsByBookingId(int bookingId){
+		return TransactionDao.getTransactionById(bookingId, "booking");
 	}
 	
 	public static ArrayList<Transaction> getTransactionByCouponId(long couponId){

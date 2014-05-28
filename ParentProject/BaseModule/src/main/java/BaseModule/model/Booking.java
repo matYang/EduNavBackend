@@ -39,7 +39,6 @@ public class Booking implements PseudoModel{
 
 
 
-
 	//SQL Retrieving
 	public Booking(int bookingId, Calendar creationTime, Calendar adjustTime,
 			Calendar startTime, Calendar finishTime, int price, int userId,
@@ -285,6 +284,7 @@ public class Booking implements PseudoModel{
 			jsonSearchRepresentation.put("startTime", DateUtility.castToAPIFormat(this.startTime));
 			jsonSearchRepresentation.put("finishTime", DateUtility.castToAPIFormat(this.finishTime));
 			jsonSearchRepresentation.put("scheduledTime", DateUtility.castToAPIFormat(this.scheduledTime));
+			jsonSearchRepresentation.put("course", this.course == null ? new JSONObject() : this.course.toJSON());
 		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

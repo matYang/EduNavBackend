@@ -33,13 +33,13 @@ import BaseModule.configurations.ImgConfig;
 import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.ValidationConfig;
 import BaseModule.dbservice.CourseDaoService;
-import BaseModule.dbservice.FileService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.model.Course;
 import BaseModule.model.representation.CourseSearchRepresentation;
 import BaseModule.service.EncodingService;
+import BaseModule.service.FileService;
 
 public class PseudoResource extends ServerResource{
 	

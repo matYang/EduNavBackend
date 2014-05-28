@@ -1,4 +1,4 @@
-package AdminModule.model;
+package BaseModule.model;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;

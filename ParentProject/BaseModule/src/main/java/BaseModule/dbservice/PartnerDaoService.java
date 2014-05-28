@@ -20,7 +20,13 @@ public class PartnerDaoService {
 	}
 	
 	public static Partner getPartnerByPhone(String phone) throws PartnerNotFoundException{
-		return PartnerDao.getPartnerByPhone(phone);
+		PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
+		p_sr.setPhone(phone);
+		ArrayList<Partner> partners = searchPartners(p_sr);
+		if (partners.size() == 0){
+			throw new PartnerNotFoundException();
+		}
+		return partners.get(0);
 	}
 	
 	public static void updatePartner(Partner partner,Connection...connections) throws PartnerNotFoundException{
@@ -32,12 +38,10 @@ public class PartnerDaoService {
 	}
 	
 	public static boolean isCellPhoneAvailable(String phone){
-		try{
-			PartnerDao.getPartnerByPhone(phone);
-		}catch(PartnerNotFoundException ex){
-			return true;
-		}
-		return false;
+		PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
+		p_sr.setPhone(phone);
+		ArrayList<Partner> partners = searchPartners(p_sr);
+		return partners.size() == 0;
 	}
 	
 	public static void changePassword(int partnerId, String oldPassword, String newPassword) throws AuthenticationException{

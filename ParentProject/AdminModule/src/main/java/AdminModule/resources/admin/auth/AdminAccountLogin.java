@@ -6,12 +6,12 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Post;
 import AdminModule.dbservice.AdminAccountDaoService;
-import AdminModule.model.AdminAccount;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import AdminModule.factory.AdminJSONFactory;
+import BaseModule.factory.JSONFactory;
+import BaseModule.model.AdminAccount;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
@@ -40,7 +40,7 @@ public class AdminAccountLogin extends AdminPseudoResource{
 			account = AdminAccountDaoService.authenticateAdminAccount(reference, password);
 			this.openAuthentication(account.getAdminId());
 
-			jsonObject = AdminJSONFactory.toJSON(account);
+			jsonObject = JSONFactory.toJSON(account);
 			setStatus(Status.SUCCESS_OK);
 		} catch (PseudoException e){
 			this.addCORSHeader();

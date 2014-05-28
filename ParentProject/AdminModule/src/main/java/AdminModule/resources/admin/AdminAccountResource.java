@@ -12,7 +12,6 @@ import org.restlet.resource.Post;
 
 import AdminModule.adminDao.AdminAccountDao;
 import AdminModule.dbservice.AdminAccountDaoService;
-import AdminModule.model.AdminAccount;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
@@ -21,8 +20,9 @@ import BaseModule.encryption.AdminSecretCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.factory.JSONFactory;
 import BaseModule.factory.ReferenceFactory;
-import AdminModule.factory.AdminJSONFactory;
+import BaseModule.model.AdminAccount;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
@@ -51,7 +51,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			}
 			
 			ArrayList<AdminAccount> allAdminAccounts = AdminAccountDaoService.getAllAdminAccounts();
-			jsonArray = AdminJSONFactory.toJSON(allAdminAccounts);
+			jsonArray = JSONFactory.toJSON(allAdminAccounts);
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -107,7 +107,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			this.closeAuthentication();
 			this.openAuthentication(creationFeedBack.getAdminId());
 
-			newJsonAdmin = AdminJSONFactory.toJSON(creationFeedBack);
+			newJsonAdmin = JSONFactory.toJSON(creationFeedBack);
 
 		} catch(PseudoException e){
 			this.addCORSHeader();

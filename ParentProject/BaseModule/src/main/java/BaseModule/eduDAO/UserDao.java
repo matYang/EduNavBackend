@@ -179,7 +179,8 @@ public class UserDao {
 
 		return user;
 	}
-
+	
+	//currently this method is not being used as UserSearchRepresentation does its job
 	public static User getUserByPhone(String phone) throws UserNotFoundException{
 		String query = "SELECT * FROM UserDao WHERE phone = ?";
 		User user = null;
