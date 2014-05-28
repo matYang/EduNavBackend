@@ -20,4 +20,7 @@ ParentProject/AdminModule/target
 ParentProject/PartnerModule/target
 ParentProject/UserModule/target
 ParentProject/BaseModule/target
-
+ParentProject/AdminModule/log4j
+ParentProject/PartnerModule/log4j
+ParentProject/UserModule/log4j
+ParentProject/BaseModule/log4j
