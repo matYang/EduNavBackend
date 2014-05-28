@@ -17,9 +17,12 @@ public class User implements PseudoModel{
 	private int balance;
 	private int coupon;
 	private int credit;
+	
 	private String name;
 	private String phone;
 	private String password;
+	private String email;
+	
 	private AccountStatus status;
 	
 	private Calendar creationTime;
@@ -27,7 +30,7 @@ public class User implements PseudoModel{
 
 	//SQL Retrieving
 	public User(int userId, String name, String phone, Calendar creationTime,
-			Calendar lastLogin, String password, AccountStatus status,int balance,int coupon,int credit) {
+			Calendar lastLogin, String password, AccountStatus status,int balance,int coupon,int credit,String email) {
 		super();
 		this.userId = userId;		
 		this.name = name;
@@ -39,10 +42,11 @@ public class User implements PseudoModel{
 		this.balance = balance;
 		this.coupon = coupon;
 		this.credit = credit;
+		this.email = email;
 	}
 	
 	//Normal Construction
-	public User(String name, String phone, String password,AccountStatus status) {
+	public User(String name, String phone, String password,AccountStatus status,String email) {
 		super();		
 		this.balance = 0;
 		this.coupon = 0;
@@ -51,6 +55,7 @@ public class User implements PseudoModel{
 		this.phone = phone;
 		this.password = password;
 		this.status = status;
+		this.email = email;
 		this.creationTime = DateUtility.getCurTimeInstance();
 		if(this.lastLogin==null){
 			this.lastLogin = (Calendar) this.creationTime.clone();
@@ -117,6 +122,14 @@ public class User implements PseudoModel{
 		this.credit = score;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
@@ -126,7 +139,8 @@ public class User implements PseudoModel{
 		try{
 			jsonSearchRepresentation.put("id", this.userId);
 			jsonSearchRepresentation.put("name", EncodingService.encodeURI(this.name));
-			jsonSearchRepresentation.put("phone", EncodingService.encodeURI(this.phone));			
+			jsonSearchRepresentation.put("phone", EncodingService.encodeURI(this.phone));	
+			jsonSearchRepresentation.put("email", EncodingService.encodeURI(this.email));
 			jsonSearchRepresentation.put("status", this.status.code);
 			jsonSearchRepresentation.put("amount", this.balance);
 			jsonSearchRepresentation.put("coupon", this.coupon);
@@ -148,6 +162,7 @@ public class User implements PseudoModel{
 				this.userId == another.getUserId() && 
 				this.balance == another.getBalance() && 
 				this.credit == another.getCredit() &&
-				this.coupon == another.getCoupon();
+				this.coupon == another.getCoupon() && 
+				this.email.equals(another.getEmail());
 	}
 }

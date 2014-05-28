@@ -146,7 +146,7 @@ public class QueryFactory {
 			}
 			query += "creationTime = ? ";
 		}
-		if(sr.getName() != null && sr.getName().length() > 0){
+		if(sr.getWholeName() != null && sr.getWholeName().length() > 0){
 			if(!start){
 				query += "where ";
 				start = true;
@@ -288,7 +288,15 @@ public class QueryFactory {
 			}
 			query += "credit = ? ";
 		}
-		
+		if(sr.getEmail() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "email = ? ";
+		}
 		return query;
 	}
 

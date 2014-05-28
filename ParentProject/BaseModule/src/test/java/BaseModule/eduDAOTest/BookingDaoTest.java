@@ -32,7 +32,8 @@ public class BookingDaoTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
-		User user = new User(name, userphone, password,status);
+		String email = "xiongchuhan@hotmail.com";
+		User user = new User(name, userphone, password,status,email);
 		UserDao.addUserToDatabase(user);
 		
 		String pname = "XDF";
@@ -78,10 +79,10 @@ public class BookingDaoTest {
 		int partnerId = partner.getPartnerId();
 		int courseId = course.getCourseId();		
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
-		String email = "xiongchuhanplace@hotmail.com";
+		String email2 = "xiongchuhanplace@hotmail.com";
 		Booking booking = new Booking(timeStamp,timeStamp,course.getStartTime(), course.getFinishTime(), 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),status);
+				email2,partner.getReference(),status);
 		try{
 			BookingDao.addBookingToDatabases(booking);			
 		}catch(Exception e){
@@ -96,8 +97,8 @@ public class BookingDaoTest {
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";
-		AccountStatus status = AccountStatus.activated;
-		User user = new User(name, userphone, password,status);
+		AccountStatus status = AccountStatus.activated;		
+		User user = new User(name, userphone, password,status,"xiongchuhanplace@hotmail.com");
 		UserDao.addUserToDatabase(user);
 		
 		String pname = "XDF";
@@ -203,7 +204,7 @@ public class BookingDaoTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
-		User user = new User(name, userphone, password,status);
+		User user = new User(name, userphone, password,status,"xiongchuhan@uwaterloo.ca");
 		UserDao.addUserToDatabase(user);
 		
 		String pname = "XDF";
@@ -278,13 +279,13 @@ public class BookingDaoTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
-		User user = new User(name, userphone, password,status);
+		User user = new User(name, userphone, password,status,"349@hotmail.com");
 		UserDao.addUserToDatabase(user);
 		
 		String name2 = "Fang";
 		String userphone2 = "123312";
 		String password2 = "36knal";		
-		User user2 = new User(name2, userphone2, password2,status);
+		User user2 = new User(name2, userphone2, password2,status,"kebi@hotmail.com");
 		UserDao.addUserToDatabase(user2);
 		
 		//Partner

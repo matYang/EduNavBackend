@@ -35,8 +35,8 @@ public class PartnerDao {
 			if(sr.getCreationTime() != null){
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
 			}
-			if(sr.getName() != null && sr.getName().length() > 0){
-				stmt.setString(stmtInt++, sr.getName());
+			if(sr.getWholeName() != null && sr.getWholeName().length() > 0){
+				stmt.setString(stmtInt++, sr.getWholeName());
 			}
 			if(sr.getPhone() != null && sr.getPhone().length() > 0){
 				stmt.setString(stmtInt++, sr.getPhone());
@@ -78,7 +78,7 @@ public class PartnerDao {
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-			stmt.setString(1, p.getName());
+			stmt.setString(1, p.getWholeName());
 			stmt.setString(2, p.getLicence());
 			stmt.setString(3, p.getOrganizationNum());
 			stmt.setString(4, p.getReference());
@@ -114,7 +114,7 @@ public class PartnerDao {
 				"lastLogin=?,status=?, instName=?, logoUrl=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setString(1, p.getName());
+			stmt.setString(1, p.getWholeName());
 			stmt.setString(2, p.getLicence());
 			stmt.setString(3, p.getOrganizationNum());
 			stmt.setString(4, p.getReference());			

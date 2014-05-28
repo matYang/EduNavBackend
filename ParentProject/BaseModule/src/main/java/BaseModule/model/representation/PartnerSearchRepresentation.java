@@ -16,7 +16,7 @@ import BaseModule.service.RepresentationReflectiveService;
 public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresentation {
 	
 	private int partnerId;
-	private String name;
+	private String wholeName;
 	private String licence;
 	private String organizationNum;
 	private String reference;
@@ -27,7 +27,7 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 	
 	public PartnerSearchRepresentation(){
 		this.partnerId = -1;
-		this.name = null;
+		this.wholeName = null;
 		this.licence = null;
 		this.organizationNum = null;
 		this.reference = null;
@@ -70,12 +70,12 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.partnerId = partnerId;
 	}
 
-	public String getName() {
-		return name;
+	public String getWholeName() {
+		return wholeName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setWholeName(String wholeName) {
+		this.wholeName = wholeName;
 	}
 
 	public String getLicence() {
@@ -137,7 +137,7 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 	@Override
 	public String toString() {
 		return "PartnerSearchRepresentation [partnerId=" + partnerId
-				+ ", name=" + name + ", licence=" + licence
+				+ ", wholeName=" + wholeName + ", licence=" + licence
 				+ ", organizationNum=" + organizationNum + ", reference="
 				+ reference + ", creationTime=" + creationTime + ", phone="
 				+ phone + ", status=" + status + ", instName=" + instName + "]";

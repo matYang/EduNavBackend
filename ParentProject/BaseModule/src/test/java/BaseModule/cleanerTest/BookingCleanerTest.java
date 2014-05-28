@@ -31,7 +31,8 @@ public class BookingCleanerTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
-		User user = new User(name, userphone, password,status);
+		String email0 = "xiongchuhan@hotmail.com";
+		User user = new User(name, userphone, password,status,email0);
 		UserDao.addUserToDatabase(user);
 		
 		String pname = "XDF";

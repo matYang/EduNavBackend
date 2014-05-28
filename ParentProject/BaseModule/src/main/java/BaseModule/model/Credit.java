@@ -14,11 +14,13 @@ public class Credit {
 	private int amount;
 	private Calendar creationTime;
 	private Calendar expireTime;
+	private Calendar usableTime;
+	
 	private CreditStatus status;
 	
 	//SQL Construction
 	public Credit(long creditId, int bookingId, int userId, int amount,
-			Calendar creationTime, Calendar expireTime, CreditStatus status) {
+			Calendar creationTime, Calendar expireTime, CreditStatus status,Calendar usableTime) {
 		super();
 		this.creditId = creditId;
 		this.bookingId = bookingId;
@@ -27,10 +29,11 @@ public class Credit {
 		this.creationTime = creationTime;
 		this.expireTime = expireTime;
 		this.status = status;
+		this.usableTime = usableTime;
 	}
 
 	public Credit(int bookingId, int userId, int amount,
-			 Calendar expireTime, CreditStatus status) {
+			 Calendar expireTime, CreditStatus status,Calendar usableTime) {
 		super();
 		this.bookingId = bookingId;
 		this.userId = userId;
@@ -38,6 +41,7 @@ public class Credit {
 		this.creationTime = DateUtility.getCurTimeInstance();
 		this.expireTime = expireTime;
 		this.status = status;
+		this.usableTime = usableTime;
 	}
 
 	public long getCreditId() {
@@ -88,6 +92,14 @@ public class Credit {
 		this.status = status;
 	}
 
+	public Calendar getUsableTime() {
+		return usableTime;
+	}
+
+	public void setUsableTime(Calendar usableTime) {
+		this.usableTime = usableTime;
+	}
+
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
@@ -101,6 +113,7 @@ public class Credit {
 			jsonSearchRepresentation.put("amount", this.amount);
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
 			jsonSearchRepresentation.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
+			jsonSearchRepresentation.put("usableTime", DateUtility.castToAPIFormat(this.usableTime));
 			jsonSearchRepresentation.put("status", this.status.code);
 			
 		} catch (JSONException e) {
@@ -116,6 +129,7 @@ public class Credit {
 				this.status.code == c.getStatus().code &&
 				this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) &&
 				this.expireTime.getTime().toString().equals(c.getExpireTime().getTime().toString()) && 
+				this.usableTime.getTime().toString().equals(c.getUsableTime().getTime().toString()) &&
 				this.amount == c.getAmount();
 	}
 	

@@ -51,6 +51,9 @@ public class UserDao {
 			if(sr.getCredit() >= 0){
 				stmt.setInt(stmtInt++,sr.getCredit());
 			}
+			if(sr.getEmail() != null){
+				stmt.setString(stmtInt++, sr.getEmail());
+			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				ulist.add(createUserByResultSet(rs));
@@ -67,8 +70,8 @@ public class UserDao {
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO UserDao (name,password,phone,creationTime,lastLogin,status,balance,coupon,credit)" +
-				" values (?,?,?,?,?,?,?,?,?);";		
+		String query = "INSERT INTO UserDao (name,password,phone,creationTime,lastLogin,status,balance,coupon,credit,email)" +
+				" values (?,?,?,?,?,?,?,?,?,?);";		
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);			
 
@@ -81,6 +84,7 @@ public class UserDao {
 			stmt.setInt(7, user.getBalance());
 			stmt.setInt(8, user.getCoupon());
 			stmt.setInt(9, user.getCredit());
+			stmt.setString(10, user.getEmail());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -107,7 +111,7 @@ public class UserDao {
 	public static void updateUserInDatabases(User user,Connection...connections) throws ValidationException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
-		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=? where id=?";
+		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=?,email=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
 
@@ -118,7 +122,8 @@ public class UserDao {
 			stmt.setInt(5, user.getBalance());
 			stmt.setInt(6, user.getCoupon());
 			stmt.setInt(7, user.getCredit());
-			stmt.setInt(8, user.getUserId());
+			stmt.setString(8, user.getEmail());
+			stmt.setInt(9, user.getUserId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new UserNotFoundException();
@@ -319,7 +324,7 @@ public class UserDao {
 	private static User createUserByResultSet(ResultSet rs) throws SQLException {		
 		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
 				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),"", AccountStatus.fromInt(rs.getInt("status")),rs.getInt("balance"),rs.getInt("coupon"),
-				rs.getInt("credit"));
+				rs.getInt("credit"),rs.getString("email"));
 	}
 
 

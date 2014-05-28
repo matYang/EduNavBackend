@@ -3,6 +3,7 @@ package BaseModule.service;
 import java.util.regex.Pattern;
 
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.ValidationConfig;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.*;
@@ -37,6 +38,20 @@ public class ValidationService {
 		return true;
 	}
 	
+	public static boolean validateEmail(String email){
+
+		Pattern emailPattern = Pattern.compile(ValidationConfig.RegexEmailPattern);
+		try{
+			if (emailPattern.matcher(email).matches() && email.length()<=ValidationConfig.maxEmailLength) {
+				return true;
+			}else{
+				return false;
+			}
+		}catch(Exception ex){
+			DebugLog.d(ex);
+			return false;
+		}
+	}
 	public static boolean validatePassword(String password){
 		if (password == null || password.length() < ValidationConfig.minPasswordLength || password.length() > ValidationConfig.maxPasswordLength){
 			return false;
@@ -52,7 +67,8 @@ public class ValidationService {
 	public static boolean validateUser(User user) throws ValidationException{
 		if (!validateName(user.getName()) || !validatePhone(user.getPhone()) ||
 				!validatePassword(user.getPassword()) || user.getBalance() < 0||
-				user.getCoupon() < 0 || user.getCredit() < 0){
+				user.getCoupon() < 0 || user.getCredit() < 0||
+				!validateEmail(user.getEmail())){
 			throw new ValidationException("用户输入信息不符合规范");			
 		}	
 		return true;

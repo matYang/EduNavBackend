@@ -18,20 +18,20 @@ public class Course implements PseudoModel{
 
 	private int courseId;
 	private int partnerId;	
-		
+	
 	private int price;
 	private int seatsTotal;
 	private int seatsLeft;
 	private int courseHourNum;
-	private int courseHourLength;
-	private int dailyStartTime;
-	private int dailyFinishTime;
+	private int courseHourLength;	
 	private int teachingMaterialCost;
 	
 	private Calendar creationTime;
 	private Calendar startTime;
 	private Calendar finishTime;	
 	
+	private String dailyStartTime;
+	private String dailyFinishTime;
 	private String category;
 	private String subCategory;
 	private String location;
@@ -41,6 +41,7 @@ public class Course implements PseudoModel{
 	private String teacherIntro;
 	private String teacherImgUrl;
 	private String teachingMethodsIntro;
+	private String teachingMaterialName;
 	private String classroomImgUrl;
 	private String courseIntro;		
 	private String quiz;
@@ -91,7 +92,7 @@ public class Course implements PseudoModel{
 			String openCourseRequirement, ArrayList<String> questionBank,
 			String suitableStudent, String prerequest, String highScoreReward,
 			ArrayList<String> extracurricular, String courseName,
-			int dailyStartTime, int dailyFinishTime,
+			String dailyStartTime, String dailyFinishTime,
 			ArrayList<Integer> studyDays, String studyDaysNote,
 			int courseHourNum, int courseHourLength,
 			String partnerCourseReference, String classroomIntro,
@@ -102,7 +103,7 @@ public class Course implements PseudoModel{
 			boolean teachingMaterialFree, String questionBankIntro,
 			String passAgreement, boolean provideAssignments,
 			boolean provideMarking, String extracurricularIntro,
-			String phone, String logoUrl, String instName, String wholeName) {
+			String phone, String logoUrl, String instName, String wholeName,String teachingMaterialName) {
 		super();
 		this.courseId = courseId;
 		this.partnerId = partnerId;
@@ -121,6 +122,7 @@ public class Course implements PseudoModel{
 		this.teacherIntro = teacherIntro;
 		this.teacherImgUrl = teacherImgUrl;
 		this.teachingMethodsIntro = teachingMethodsIntro;
+		this.teachingMaterialName = teachingMaterialName;
 		this.classroomImgUrl = classroomImgUrl;
 		this.courseIntro = courseIntro;
 		this.creationTime = creationTime;
@@ -182,6 +184,7 @@ public class Course implements PseudoModel{
 		this.teacherIntro =  "";
 		this.teacherImgUrl =  "";
 		this.teachingMethodsIntro =  "";
+		this.teachingMaterialName = "";
 		this.classroomImgUrl =  "";
 		this.courseIntro =  "";		
 		this.classModel = ClassModel.smallclass;
@@ -193,8 +196,8 @@ public class Course implements PseudoModel{
 		this.prerequest = "";
 		this.highScoreReward = "";		
 		this.courseName = "";
-		this.dailyStartTime = -1;
-		this.dailyFinishTime = -1;		
+		this.dailyStartTime = "";
+		this.dailyFinishTime = "";		
 		this.studyDaysNote = "";
 		this.courseHourNum = -1;
 		this.courseHourLength = -1;
@@ -238,6 +241,7 @@ public class Course implements PseudoModel{
 		this.teacherIntro =  "";
 		this.teacherImgUrl =  "";
 		this.teachingMethodsIntro =  "";
+		this.teachingMaterialName = "";
 		this.classroomImgUrl =  "";
 		this.courseIntro =  "";		
 		this.classModel = ClassModel.smallclass;
@@ -249,8 +253,8 @@ public class Course implements PseudoModel{
 		this.prerequest = "";
 		this.highScoreReward = "";		
 		this.courseName = "";
-		this.dailyStartTime = -1;
-		this.dailyFinishTime = -1;		
+		this.dailyStartTime = "";
+		this.dailyFinishTime = "";		
 		this.studyDaysNote = "";
 		this.courseHourNum = -1;
 		this.courseHourLength = -1;
@@ -517,19 +521,19 @@ public class Course implements PseudoModel{
 		this.courseName = courseName;
 	}
 
-	public int getDailyStartTime() {
+	public String getDailyStartTime() {
 		return dailyStartTime;
 	}
 
-	public void setDailyStartTime(int dailyStartTime) {
+	public void setDailyStartTime(String dailyStartTime) {
 		this.dailyStartTime = dailyStartTime;
 	}
 
-	public int getDailyFinishTime() {
+	public String getDailyFinishTime() {
 		return dailyFinishTime;
 	}
 
-	public void setDailyFinishTime(int dailyFinishTime) {
+	public void setDailyFinishTime(String dailyFinishTime) {
 		this.dailyFinishTime = dailyFinishTime;
 	}
 
@@ -709,6 +713,22 @@ public class Course implements PseudoModel{
 		this.wholeName = wholeName;
 	}
 
+	public int getTeachingMaterialCost() {
+		return teachingMaterialCost;
+	}
+
+	public void setTeachingMaterialCost(int teachingMaterialCost) {
+		this.teachingMaterialCost = teachingMaterialCost;
+	}
+
+	public String getTeachingMaterialName() {
+		return teachingMaterialName;
+	}
+
+	public void setTeachingMaterialName(String teachingMaterialName) {
+		this.teachingMaterialName = teachingMaterialName;
+	}
+
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
@@ -728,6 +748,7 @@ public class Course implements PseudoModel{
 			jsonSearchRepresentation.put("teachingMethods", EncodingService.encodeURI(Parser.listToString(this.teachingMethods)));
 			jsonSearchRepresentation.put("teachingMethodsIntro", EncodingService.encodeURI(this.teachingMethodsIntro));
 			jsonSearchRepresentation.put("teachingMaterialIntro", EncodingService.encodeURI(this.teachingMaterialIntro));
+			jsonSearchRepresentation.put("teachingMaterialName", EncodingService.encodeURI(this.teachingMaterialName));
 			jsonSearchRepresentation.put("teachingMaterialType",this.teachingMaterialType.code);
 			jsonSearchRepresentation.put("teachingMaterialCost",this.teachingMaterialCost);
 			jsonSearchRepresentation.put("teachingMaterialFree",this.teachingMaterialFree ? 1 : 0);
@@ -782,9 +803,7 @@ public class Course implements PseudoModel{
 			return  this.category.equals(c.getCategory()) &&
 					this.subCategory.equals(c.getSubCategory()) && 
 					this.courseId == c.getCourseId() && 
-					this.partnerId == c.getPartnerId() &&
-					this.teacherIntro.equals(c.getTeacherIntro()) &&
-					this.teachingMethodsIntro.equals(c.getTeachingMethodsIntro()) &&
+					this.partnerId == c.getPartnerId() &&					
 					this.price == c.getPrice() && 
 					this.seatsTotal == c.getSeatsTotal() &&
 					this.seatsLeft == c.getSeatsLeft() && 
@@ -806,8 +825,8 @@ public class Course implements PseudoModel{
 					this.classroomImgUrl.equals(c.getClassroomImgUrl()) && 					
 					this.certification.equals(c.getCertification()) &&
 					this.courseName.equals(c.getCourseName()) &&
-					this.dailyStartTime == c.getDailyStartTime() &&
-					this.dailyFinishTime == c.getDailyFinishTime();			
+					this.dailyStartTime.equals(c.getDailyStartTime()) &&
+					this.dailyFinishTime.equals(c.getDailyFinishTime());			
 				
 	}
 }

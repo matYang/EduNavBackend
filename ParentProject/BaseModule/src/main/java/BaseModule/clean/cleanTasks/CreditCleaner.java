@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
@@ -20,16 +19,22 @@ public class CreditCleaner extends CreditDao{
 		ResultSet rs = null;
 		Connection conn = EduDaoBasic.getSQLConnection();		
 		String ct = DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance());			
-		String query = "SELECT * FROM CreditDao where status = ? and expireTime < ?";
+		String query = "SELECT * FROM CreditDao where ((status = ? and expireTime < ?) or (status =? and usableTime <= ?))";
 		Credit c = null;
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, CouponStatus.usable.code);
+			stmt.setInt(1, CreditStatus.usable.code);
 			stmt.setString(2, ct);
+			stmt.setInt(3, CreditStatus.awaiting.code);
+			stmt.setString(4, ct);
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				c = createCreditByResultSet(rs);				
-				c.setStatus(CreditStatus.expired);
+				c = createCreditByResultSet(rs);	
+				if(c.getStatus().code == CreditStatus.usable.code){
+					c.setStatus(CreditStatus.expired);
+				}else if(c.getStatus().code == CreditStatus.awaiting.code){
+					c.setStatus(CreditStatus.usable);
+				}			
 				CreditDao.updateCreditInDatabases(c);				
 			}
 		}catch(SQLException e){

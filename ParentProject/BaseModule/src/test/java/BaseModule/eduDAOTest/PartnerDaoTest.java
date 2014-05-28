@@ -51,7 +51,7 @@ public class PartnerDaoTest {
 		PartnerDao.addPartnerToDatabases(partner);
 		Partner partner2 = PartnerDao.getPartnerById(partner.getPartnerId());
 		
-		if(partner2.getName().equals(name)&&partner2.getLicence().equals(licence)
+		if(partner2.getWholeName().equals(name)&&partner2.getLicence().equals(licence)
 				&&partner2.getOrganizationNum().equals(organizationNum)){
 			//Passed;
 		}else fail();
@@ -93,16 +93,16 @@ public class PartnerDaoTest {
 		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		
-		if(!partner.getName().equals(name)){
+		if(!partner.getWholeName().equals(name)){
 			fail();
 		}
 		
-		partner.setName("HQYS");
+		partner.setWholeName("HQYS");
 		partner.setPassword("dsfdsf23234");
 		
 		PartnerDao.updatePartnerInDatabases(partner);
 		partner = PartnerDao.getPartnerByPhone(phone);
-		if(partner.getName().equals("HQYS")&&partner.getPassword().equals("dsfds23234")){
+		if(partner.getWholeName().equals("HQYS")&&partner.getPassword().equals("dsfds23234")){
 			
 		}
 	}

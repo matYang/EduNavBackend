@@ -21,6 +21,7 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	private int credit;
 	private String name;
 	private String phone;
+	private String email;
 	private AccountStatus status;
 	private Calendar creationTime;
 	
@@ -33,6 +34,7 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 		this.phone = null;
 		this.status = null;
 		this.creationTime = null;
+		this.email = null;
 	}
 	
 	@Override
@@ -124,11 +126,21 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 		this.credit = score;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		return "UserSearchRepresentation [userId=" + userId + ", name=" + name
 				+ ", phone=" + phone + ", status=" + status + ", creationTime="
-				+ creationTime + ", balance=" + balance + ", coupon=" + coupon + ", credit=" + credit + "]";
+				+ creationTime + ", balance=" + balance 
+				+ ", email=" + email
+				+ ", coupon=" + coupon + ", credit=" + credit + "]";
 	}
 	
 	

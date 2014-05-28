@@ -14,7 +14,7 @@ import BaseModule.service.EncodingService;
 public class Partner implements PseudoModel{
 	
 	private int partnerId;
-	private String name;
+	private String wholeName;
 	private String licence;
 	private String organizationNum;
 	private String reference;
@@ -29,12 +29,12 @@ public class Partner implements PseudoModel{
 	private Calendar lastLogin;
 
 	//SQL Retrieving	
-	public Partner(int id, String name, String licence, String organizationNum,
+	public Partner(int id, String wholeName, String licence, String organizationNum,
 			String reference, String password, Calendar creationTime,
 			Calendar lastLogin, String phone, AccountStatus status, String instName,String logoUrl) {
 		super();
 		this.partnerId = id;
-		this.name = name;
+		this.wholeName = wholeName;
 		this.licence = licence;
 		this.organizationNum = organizationNum;
 		this.reference = reference;
@@ -48,10 +48,10 @@ public class Partner implements PseudoModel{
 	}
 
 	//Normal Construction
-	public Partner(String name, String instName,String licence, String organizationNum,
+	public Partner(String wholeName, String instName,String licence, String organizationNum,
 			String reference, String password, String phone,AccountStatus status) {
 		super();
-		this.name = name;
+		this.wholeName = wholeName;
 		this.instName = instName;
 		this.licence = licence;
 		this.organizationNum = organizationNum;
@@ -78,11 +78,11 @@ public class Partner implements PseudoModel{
 	public void setPartnerId(int id) {
 		this.partnerId = id;
 	}
-	public String getName() {
-		return name;
+	public String getWholeName() {
+		return wholeName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setWholeName(String name) {
+		this.wholeName = name;
 	}
 	public String getLicence() {
 		return licence;
@@ -150,7 +150,7 @@ public class Partner implements PseudoModel{
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
 			jsonSearchRepresentation.put("partnerId", this.partnerId);
-			jsonSearchRepresentation.put("name", EncodingService.encodeURI(this.name));
+			jsonSearchRepresentation.put("wholeName", EncodingService.encodeURI(this.wholeName));
 			jsonSearchRepresentation.put("phone", EncodingService.encodeURI(this.phone));			
 			jsonSearchRepresentation.put("licence", EncodingService.encodeURI(this.licence));
 			jsonSearchRepresentation.put("organizationNum", EncodingService.encodeURI(this.organizationNum));
@@ -168,14 +168,10 @@ public class Partner implements PseudoModel{
 	}
 
 	public boolean equals(Partner p){
-		return this.partnerId==p.getPartnerId() && this.name.equals(p.getName()) &&
+		return this.partnerId==p.getPartnerId() && this.wholeName.equals(p.getWholeName()) &&
 				this.organizationNum.equals(p.getOrganizationNum()) && this.reference.equals(p.getReference()) &&
 				this.phone.equals(p.getPhone()) && this.licence.equals(p.getLicence()) && this.status.code == p.getStatus().code &&
 				this.instName.equals(p.getInstName()) && this.logoUrl.equals(p.getLogoUrl());				
 	}
-
-	public String getWholeName() {
-		// TODO Auto-generated method stub
-		return "";
-	}
+	
 }
