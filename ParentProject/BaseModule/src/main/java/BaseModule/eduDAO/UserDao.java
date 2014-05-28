@@ -51,6 +51,9 @@ public class UserDao {
 			if(sr.getCredit() >= 0){
 				stmt.setInt(stmtInt++,sr.getCredit());
 			}
+			if(sr.getEmail() != null){
+				stmt.setString(stmtInt++, sr.getEmail());
+			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				ulist.add(createUserByResultSet(rs));

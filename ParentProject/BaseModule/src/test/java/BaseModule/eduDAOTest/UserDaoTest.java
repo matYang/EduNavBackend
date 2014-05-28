@@ -230,7 +230,7 @@ public class UserDaoTest {
 		String password = "password";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(name, phone, password,status,email);
+		User user = new User(name, phone, password,status,email+"test");
 		user = UserDao.addUserToDatabase(user);
 		user = UserDao.getUserById(user.getUserId());
 		
@@ -288,6 +288,14 @@ public class UserDaoTest {
 		sr.setPhone("phone2");
 		ulist = UserDao.searchUser(sr);
 		if(ulist.size()==1 && ulist.get(0).equals(user2)){				
+			//Passed;
+		}else fail();
+		
+		sr.setName(null);
+		sr.setPhone(null);
+		sr.setEmail(email+"test");
+		ulist = UserDao.searchUser(sr);
+		if(ulist.size()==1 && ulist.get(0).equals(user)){				
 			//Passed;
 		}else fail();
 		

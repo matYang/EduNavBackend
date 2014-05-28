@@ -288,7 +288,15 @@ public class QueryFactory {
 			}
 			query += "credit = ? ";
 		}
-		
+		if(sr.getEmail() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "email = ? ";
+		}
 		return query;
 	}
 
