@@ -3,6 +3,7 @@
 *.pref
 dump.rdb
 *.class
+*.jar
 */log4j
 */target
 ParentProject/AdminModule/.classpath
