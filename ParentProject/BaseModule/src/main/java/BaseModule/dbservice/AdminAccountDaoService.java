@@ -1,11 +1,11 @@
-package AdminModule.dbservice;
+package BaseModule.dbservice;
 
 import java.util.ArrayList;
 
-import AdminModule.adminDao.AdminAccountDao;
-import AdminModule.exception.AdminAccountNotFoundException;
+import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.admin.AdminAccountNotFoundException;
 import BaseModule.model.AdminAccount;
 
 public class AdminAccountDaoService {
@@ -44,6 +44,10 @@ public class AdminAccountDaoService {
 	
 	public static AdminAccount authenticateAdminAccount(String referece, String password) throws AuthenticationException{
 		return AdminAccountDao.authenticateAdminAccount(referece, password);
-	}	
+	}
+	
+	public static boolean isReferenceAvailable(String reference){
+		return true;
+	}
 	
 }

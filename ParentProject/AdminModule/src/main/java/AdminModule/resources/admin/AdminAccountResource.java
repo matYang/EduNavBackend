@@ -10,12 +10,12 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 
-import AdminModule.adminDao.AdminAccountDao;
-import AdminModule.dbservice.AdminAccountDaoService;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
+import BaseModule.dbservice.AdminAccountDaoService;
+import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.encryption.AdminSecretCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;

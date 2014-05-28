@@ -1,6 +1,7 @@
-package AdminModule.exception;
+package BaseModule.exception.admin;
 
 import BaseModule.exception.PseudoException;
+
 
 public class AdminAccountNotFoundException extends PseudoException{
 

@@ -1,4 +1,4 @@
-package AdminModule.adminDao;
+package BaseModule.eduDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,15 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import AdminModule.exception.AdminAccountNotFoundException;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.admin.AdminAccountNotFoundException;
 import BaseModule.model.AdminAccount;
 
 
