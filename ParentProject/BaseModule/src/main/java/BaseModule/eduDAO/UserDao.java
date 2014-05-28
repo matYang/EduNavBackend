@@ -25,6 +25,7 @@ public class UserDao {
 		ResultSet rs = null;
 		ArrayList<User> ulist = new ArrayList<User>();
 		String query = QueryFactory.getSearchQuery(sr);
+		User user = null;
 		int stmtInt = 1;		
 		try{
 			stmt = conn.prepareStatement(query);
@@ -58,7 +59,11 @@ public class UserDao {
 			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				ulist.add(createUserByResultSet(rs));
+				user = createUserByResultSet(rs);
+				user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
+				user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
+				user.setTransactionList(TransactionDao.getTransactionById(user.getUserId(), "user",conn));				
+				ulist.add(user);
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
@@ -146,13 +151,18 @@ public class UserDao {
 		PreparedStatement stmt = null;
 		Connection conn = null;
 		ResultSet rs = null;
+		User user = null;
 		try{
 			conn = EduDaoBasic.getSQLConnection();
 			stmt = conn.prepareStatement(query);
 
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				users.add(createUserByResultSet(rs));
+				user = createUserByResultSet(rs);
+				user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
+				user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
+				user.setTransactionList(TransactionDao.getTransactionById(user.getUserId(), "user",conn));
+				users.add(user);
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
@@ -175,6 +185,9 @@ public class UserDao {
 			rs = stmt.executeQuery();
 			if(rs.next()){
 				user = createUserByResultSet(rs);
+				user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
+				user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
+				user.setTransactionList(TransactionDao.getTransactionById(user.getUserId(), "user",conn));
 			}else{
 				throw new UserNotFoundException();
 			}
@@ -202,6 +215,9 @@ public class UserDao {
 			rs = stmt.executeQuery();
 			if(rs.next()){
 				user = createUserByResultSet(rs);
+				user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
+				user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
+				user.setTransactionList(TransactionDao.getTransactionById(user.getUserId(), "user",conn));
 			}else{
 				throw new UserNotFoundException();
 			}
@@ -276,6 +292,9 @@ public class UserDao {
 				validPassword = PasswordCrypto.validatePassword(password, rs.getString("password"));
 				if(validPassword){
 					user = createUserByResultSet(rs);
+					user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
+					user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
+					user.setTransactionList(TransactionDao.getTransactionById(user.getUserId(), "user",conn));
 				}				
 			}
 		}catch(SQLException e){

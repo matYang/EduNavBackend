@@ -70,9 +70,9 @@ public class CouponDao {
 		}	
 	}
 
-	public static ArrayList<Coupon> getCouponByUserId(int userId){
+	public static ArrayList<Coupon> getCouponByUserId(int userId,Connection...connections){
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
 		String query = "SELECT * from CouponDao where userId = ?";
@@ -88,7 +88,7 @@ public class CouponDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return clist;
 	}

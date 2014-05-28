@@ -5,9 +5,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.TransactionType;
+import BaseModule.interfaces.PseudoModel;
 
 
-public class Transaction {
+public class Transaction implements PseudoModel{
 
 	private int transactionId;
 	private int userId;
