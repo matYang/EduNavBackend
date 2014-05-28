@@ -22,7 +22,8 @@ public class TransactionDaoTest {
 		String phone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
-		User user = new User(name, phone, password,status);
+		String email = "xiongchuhanplace@hotmail.com";
+		User user = new User(name, phone, password,status,email);
 		UserDao.addUserToDatabase(user);
 		int bookingId = 1;
 		int amount = 20;
