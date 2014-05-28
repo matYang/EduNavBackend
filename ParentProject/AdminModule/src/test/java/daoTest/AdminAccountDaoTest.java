@@ -4,12 +4,12 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import org.junit.Test;
-import AdminModule.adminDao.AdminAccountDao;
-import AdminModule.exception.AdminAccountNotFoundException;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.AuthenticationException;
+import BaseModule.exception.admin.AdminAccountNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.AdminAccount;
 
