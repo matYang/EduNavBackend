@@ -17,28 +17,29 @@ import BaseModule.service.RepresentationReflectiveService;
 public class CourseSearchRepresentation implements PseudoModel, PseudoRepresentation{
 	
 	//used for broad search
-	private String category;
-	private String subCategory;
 	private ClassModel classModel;
+	
+	private String category;
+	private String subCategory;	
 	private String city;
 	private String district;
-	
-	private Calendar startTime;
-	private Calendar finishTime;
-	
 	private String institutionName;
-	private AccountStatus status;
-	
-	private int startPrice;
-	private int finishPrice;
-	
 	private String courseReference;
 	private String partnerReference;
 	
+	private Calendar startTime;
+	private Calendar finishTime;
+	private Calendar creationTime;
+	
+	
+	private AccountStatus status;
+	
+	private int startPrice;
+	private int finishPrice;	
 	private int courseId;
 	private int partnerId;
 	private int userId;
-	private Calendar creationTime;
+	
 	
 	
 	public CourseSearchRepresentation(){

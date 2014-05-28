@@ -1,6 +1,7 @@
 package BaseModule.model;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.json.JSONException;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.factory.JSONFactory;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
 
@@ -27,6 +29,10 @@ public class User implements PseudoModel{
 	
 	private Calendar creationTime;
 	private Calendar lastLogin;
+	
+	private ArrayList<Coupon> couponList = new ArrayList<Coupon>();
+	private ArrayList<Credit> creditList = new ArrayList<Credit>();
+	private ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
 
 	//SQL Retrieving
 	public User(int userId, String name, String phone, Calendar creationTime,
@@ -130,6 +136,30 @@ public class User implements PseudoModel{
 		this.email = email;
 	}
 
+	public ArrayList<Coupon> getCouponList() {
+		return couponList;
+	}
+
+	public void setCouponList(ArrayList<Coupon> couponList) {
+		this.couponList = couponList;
+	}
+
+	public ArrayList<Credit> getCreditList() {
+		return creditList;
+	}
+
+	public void setCreditList(ArrayList<Credit> creditList) {
+		this.creditList = creditList;
+	}
+
+	public ArrayList<Transaction> getTransactionList() {
+		return transactionList;
+	}
+
+	public void setTransactionList(ArrayList<Transaction> transactionList) {
+		this.transactionList = transactionList;
+	}
+
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
@@ -147,6 +177,9 @@ public class User implements PseudoModel{
 			jsonSearchRepresentation.put("score", this.credit);
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
 			jsonSearchRepresentation.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
+			jsonSearchRepresentation.put("couponList",JSONFactory.toJSON(this.couponList));
+			jsonSearchRepresentation.put("creditList",JSONFactory.toJSON(this.creditList));
+			jsonSearchRepresentation.put("transactionList",JSONFactory.toJSON(this.transactionList));
 		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

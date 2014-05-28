@@ -3,6 +3,7 @@
 *.pref
 dump.rdb
 *.class
+*.jar
 */log4j
 */target
 ParentProject/AdminModule/.classpath
@@ -18,3 +19,8 @@ AdminModule-0.0.1-SNAPSHOT.jar
 ParentProject/AdminModule/target
 ParentProject/PartnerModule/target
 ParentProject/UserModule/target
+ParentProject/BaseModule/target
+ParentProject/AdminModule/log4j
+ParentProject/PartnerModule/log4j
+ParentProject/UserModule/log4j
+ParentProject/BaseModule/log4j

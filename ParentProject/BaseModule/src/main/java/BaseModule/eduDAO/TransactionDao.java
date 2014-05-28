@@ -40,11 +40,11 @@ public class TransactionDao {
 		return transaction;
 	}	
 
-	public static ArrayList<Transaction> getTransactionById(int id,String indicator){			
+	public static ArrayList<Transaction> getTransactionById(int id,String indicator,Connection...connections){			
 		ArrayList<Transaction> tlist = new ArrayList<Transaction>();	
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		String indicatorSelector = "";
 		switch(indicator){
 		case "user":
@@ -68,7 +68,7 @@ public class TransactionDao {
 		}catch(SQLException e){
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return tlist;
 	}

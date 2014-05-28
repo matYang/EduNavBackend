@@ -72,9 +72,9 @@ public class CreditDao {
 		}	
 	}
 
-	public static ArrayList<Credit> getCreditByUserId(int userId){
+	public static ArrayList<Credit> getCreditByUserId(int userId,Connection...connections){
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
 		ArrayList<Credit> clist = new ArrayList<Credit>();
 		String query = "SELECT * from CreditDao where userId = ?";
@@ -90,7 +90,7 @@ public class CreditDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return clist;
 	}

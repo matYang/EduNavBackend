@@ -5,8 +5,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.CreditStatus;
+import BaseModule.interfaces.PseudoModel;
 
-public class Credit {
+
+public class Credit implements PseudoModel{
 	
 	public static final long usableThreshould = 604800l;
 	public static final long expireThreshould = 31536000l + 604800l;	//1 year

@@ -14,12 +14,57 @@ import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.admin.AdminAccountNotFoundException;
+import BaseModule.factory.QueryFactory;
 import BaseModule.model.AdminAccount;
+import BaseModule.model.representation.AdminSearchRepresentation;
 
 
 
 public class AdminAccountDao {
 
+	public static ArrayList<AdminAccount> searchAdminAccount(AdminSearchRepresentation sr){
+		Connection conn = EduDaoBasic.getSQLConnection();
+		PreparedStatement stmt = null;	
+		ResultSet rs = null;
+		ArrayList<AdminAccount> alist = new ArrayList<AdminAccount>();
+		String query = QueryFactory.getSearchQuery(sr);
+		int stmtInt = 1;
+		try{
+			stmt = conn.prepareStatement(query);
+			
+			if(sr.getAdminId() > 0){
+				stmt.setInt(stmtInt++, sr.getAdminId());
+			}
+			if(sr.getName() != null && sr.getName().length() > 0){
+				stmt.setString(stmtInt++, sr.getName());
+			}
+			if(sr.getPhone() != null && sr.getPhone().length() > 0){
+				stmt.setString(stmtInt++, sr.getPhone());
+			}
+			if(sr.getReference() != null && sr.getReference().length() > 0){
+				stmt.setString(stmtInt++, sr.getReference());
+			}
+			if(sr.getPrivilege() != null){
+				stmt.setInt(stmtInt++, sr.getPrivilege().code);
+			}
+			if(sr.getStatus() != null){
+				stmt.setInt(stmtInt++, sr.getStatus().code);
+			}
+			
+			rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				alist.add(createAdminAccountByResultSet(rs));
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);
+			e.printStackTrace();
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, true);
+		}
+		return alist;
+	}
+	
 	public static AdminAccount addAdminAccountToDatabases(AdminAccount account){
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	

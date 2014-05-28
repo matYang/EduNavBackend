@@ -5,11 +5,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.CouponStatus;
+import BaseModule.interfaces.PseudoModel;
 
-public class Coupon {
-	
+
+public class Coupon implements PseudoModel{
+
 	public static final long expireThreshould = 31536000l;
-
+	
 	private long couponId;
 	private int bookingId;
 	private int transactionId;

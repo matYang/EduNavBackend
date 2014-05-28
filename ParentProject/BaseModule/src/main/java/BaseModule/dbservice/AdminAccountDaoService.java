@@ -7,6 +7,7 @@ import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.admin.AdminAccountNotFoundException;
 import BaseModule.model.AdminAccount;
+import BaseModule.model.representation.AdminSearchRepresentation;
 
 public class AdminAccountDaoService {
 
@@ -46,8 +47,18 @@ public class AdminAccountDaoService {
 		return AdminAccountDao.authenticateAdminAccount(referece, password);
 	}
 	
+	public static ArrayList<AdminAccount> searchAdminAccount(AdminSearchRepresentation sr){
+		return AdminAccountDao.searchAdminAccount(sr);
+	}
+	
+	public static ArrayList<AdminAccount> getAdminAccountByReference(String reference){
+		AdminSearchRepresentation sr = new AdminSearchRepresentation();
+		sr.setReference(reference);
+		return AdminAccountDao.searchAdminAccount(sr);
+	}
+	
 	public static boolean isReferenceAvailable(String reference){
-		return true;
+		return getAdminAccountByReference(reference).size() == 0;
 	}
 	
 }
