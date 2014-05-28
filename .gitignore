@@ -19,6 +19,5 @@ AdminModule-0.0.1-SNAPSHOT.jar
 ParentProject/AdminModule/target
 ParentProject/PartnerModule/target
 ParentProject/UserModule/target
-ParentProject/AdminModule/log4j/log.2014-05-21
-ParentProject/PartnerModule/log4j/log
-ParentProject/UserModule/log4j/log
+ParentProject/BaseModule/target
+

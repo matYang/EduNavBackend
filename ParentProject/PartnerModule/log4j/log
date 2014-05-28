@@ -1,0 +1,9 @@
+2014-05-28 15:18:52,425 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-28 15:18:53,093 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-28 15:18:53,094 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-28 15:18:53,094 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-28 15:18:53,094 [main] INFO  BaseModule.common.DebugLog - Starting to load pData: src/main/resources/PData
+2014-05-28 15:18:53,095 [main] INFO  BaseModule.common.DebugLog - pData loaded succesfully
+2014-05-28 15:18:53,185 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-28 15:18:53,222 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-28 15:18:53,229 [main] INFO  BaseModule.common.DebugLog - Excuting
