@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.booking.BookingNotFoundException;
@@ -19,7 +19,7 @@ public class BookingCleaner extends BookingDao{
 		Calendar currentDate = DateUtility.getCurTimeInstance();
 	    String ct=DateUtility.toSQLDateTime(currentDate);
 	    //System.out.println("currentTime: "+ct);
-	    String query = "SELECT * FROM BookingDao where status = ? and finishTime < ? ";
+	    String query = "SELECT * FROM BookingDao where status = ? and scheduledTime < ? ";
 	    Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -27,12 +27,12 @@ public class BookingCleaner extends BookingDao{
 		try{
 			conn = EduDaoBasic.getSQLConnection();
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, AccountStatus.activated.code);
+			stmt.setInt(1, BookingStatus.confirmed.code);
 			stmt.setString(2, ct);
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				booking = BookingDao.createBookingByResultSet(rs);
-				booking.setStatus(AccountStatus.deactivated);				
+				booking.setStatus(BookingStatus.pending);				
 				BookingDao.updateBookingInDatabases(booking,conn);
 			}
 		}catch (SQLException e) {

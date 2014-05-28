@@ -12,6 +12,7 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
@@ -91,7 +92,7 @@ public class BookingIdResource extends UserPseudoResource{
 			jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
 			
 			Calendar timeStamp = DateUtility.getCurTimeInstance();
-			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
+			BookingStatus status = BookingStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
 			
 			booking.setAdjustTime(timeStamp);
 			booking.setStatus(status);
