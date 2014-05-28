@@ -22,7 +22,7 @@ public class PartnerDaoService {
 	public static Partner getPartnerByPhone(String phone) throws PartnerNotFoundException{
 		PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
 		p_sr.setPhone(phone);
-		ArrayList<Partner> partners = searchPartners(p_sr);
+		ArrayList<Partner> partners = searchPartner(p_sr);
 		if (partners.size() == 0){
 			throw new PartnerNotFoundException();
 		}
@@ -40,7 +40,7 @@ public class PartnerDaoService {
 	public static boolean isCellPhoneAvailable(String phone){
 		PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
 		p_sr.setPhone(phone);
-		ArrayList<Partner> partners = searchPartners(p_sr);
+		ArrayList<Partner> partners = searchPartner(p_sr);
 		return partners.size() == 0;
 	}
 
@@ -56,14 +56,18 @@ public class PartnerDaoService {
 		return PartnerDao.authenticatePartner(phone, password);
 	}
 
-	public static ArrayList<Partner> searchPartners(PartnerSearchRepresentation sr){
+	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr){
 		return PartnerDao.searchPartner(sr);
 	}
 
 	public static ArrayList<Partner> getPartnerByReference(String reference){
 		PartnerSearchRepresentation sr = new PartnerSearchRepresentation();
 		sr.setReference(reference);
-		return PartnerDao.searchPartner(sr);
+		return searchPartner(sr);
 
+	}
+	
+	public static boolean isReferenceAvailable(String reference){
+		return getPartnerByReference(reference).size() == 0;
 	}
 }

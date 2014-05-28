@@ -36,4 +36,8 @@ public class CourseDaoService {
 		return CourseDao.searchCourse(sr);				
 	}
 	
+	public static boolean isReferenceAvailable(String reference){
+		return getCourseByReference(reference).size() == 0;
+	}
+	
 }

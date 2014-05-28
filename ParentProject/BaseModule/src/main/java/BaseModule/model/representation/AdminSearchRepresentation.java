@@ -2,7 +2,6 @@ package BaseModule.model.representation;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Map;
 
 import org.json.JSONObject;
