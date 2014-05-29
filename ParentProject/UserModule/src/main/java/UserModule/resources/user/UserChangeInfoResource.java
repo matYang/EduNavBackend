@@ -1,4 +1,5 @@
 package UserModule.resources.user;
+
 import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
@@ -26,14 +27,18 @@ public class UserChangeInfoResource extends UserPseudoResource{
 		try {
 			jsonContact = (new JsonRepresentation(entity)).getJsonObject();
 			jsonContact.put("name", EncodingService.decodeURI(jsonContact.getString("name")));
+			jsonContact.put("email", EncodingService.decodeURI(jsonContact.getString("email")));
 			
-			if (ValidationService.validateName(jsonContact.getString("name"))){
+			if (!ValidationService.validateName(jsonContact.getString("name"))){
 				throw new ValidationException("姓名格式不正确");
+			}
+			if (!ValidationService.validateEmail(jsonContact.getString("email"))){
+				throw new ValidationException("邮箱格式不正确");
 			}
 			
 		} catch (NullPointerException | JSONException | IOException e) {
 			DebugLog.d(e);
-			throw new ValidationException("姓名格式不正确");
+			throw new ValidationException("数据格式不正确");
 		}
 		
 		return jsonContact;
@@ -56,7 +61,8 @@ public class UserChangeInfoResource extends UserPseudoResource{
 			contact = parseJSON(entity);
 				
 			User user = UserDaoService.getUserById(userId);
-			user.setName(contact.getString("name"));					
+			user.setName(contact.getString("name"));
+			user.setEmail(contact.getString("email"));
 			UserDaoService.updateUser(user);
 			
 			response = JSONFactory.toJSON(user);

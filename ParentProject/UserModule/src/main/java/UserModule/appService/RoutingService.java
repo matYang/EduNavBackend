@@ -81,9 +81,6 @@ public class RoutingService extends Application {
 		String getCategoriesPrefix = "/category";
 		//	API for getting categories: /api/v1.0/general/category
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + generalServicePrefix + getCategoriesPrefix , GetCategories.class);
-		String getPartnersPrefix = "/partner";
-		//	API for getting partners: /api/v1.0/general/partner
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + generalServicePrefix + getPartnersPrefix, GetPartnerNames.class);
 		String getCoursesPrefix = "/course";
 		//	API for getting courses: /api/v1.0/general/course
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + generalServicePrefix + getCoursesPrefix, GetCourses.class);

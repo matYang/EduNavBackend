@@ -62,8 +62,7 @@ public class UserResource extends UserPseudoResource{
 			String password = EncodingService.decodeURI(jsonUser.getString("password"));
 			String confirmPassword = EncodingService.decodeURI(jsonUser.getString("confirmPassword"));
 			String authCode = EncodingService.decodeURI(jsonUser.getString("authCode"));
-			String email = EncodingService.decodeURI(jsonUser.getString("email"));
-			user = new User(name, phone, password, AccountStatus.activated,email);
+			user = new User(name, phone, password, AccountStatus.activated, "");
 			if (!ValidationService.validateName(name)){
 				throw new ValidationException("姓名格式不正确");
 			}

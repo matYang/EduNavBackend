@@ -61,7 +61,6 @@ public class BookingIdResource extends UserPseudoResource{
 			int userId = this.validateAuthentication();
 			bookingId = Integer.parseInt(this.getReqAttr("id"));
 			
-			
 			Booking booking = BookingDaoService.getBookingById(bookingId);
 			BookingStatus previousStatus = booking.getStatus();
 			if (booking.getUserId() != userId){
@@ -106,4 +105,5 @@ public class BookingIdResource extends UserPseudoResource{
 		
 		return booking;
 	}
+	
 }

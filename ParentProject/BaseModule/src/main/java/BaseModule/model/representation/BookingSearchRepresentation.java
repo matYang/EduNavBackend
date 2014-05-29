@@ -28,7 +28,10 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private String phone;
 	private BookingStatus status;
 	private String reference;
+	private int wasConfirmedIndex;	//1 for yes, 2 for no
+	private Calendar adjustTime;
 	
+	//TODO
 	public BookingSearchRepresentation(){
 		this.bookingId = -1;
 		this.creationTime = null;
@@ -43,6 +46,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.status = null;
 		this.reference = null;
 		this.email = null;
+		this.wasConfirmedIndex = -1;
+		this.adjustTime = null;
 	}
 
 	@Override
@@ -175,16 +180,36 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.reference = reference;
 	}
 
+	public int getWasConfirmedIndex() {
+		return wasConfirmedIndex;
+	}
+
+	public void setWasConfirmedIndex(int wasConfirmedIndex) {
+		this.wasConfirmedIndex = wasConfirmedIndex;
+	}
+
+	public Calendar getAdjustTime() {
+		return adjustTime;
+	}
+
+	public void setAdjustTime(Calendar adjustTime) {
+		this.adjustTime = adjustTime;
+	}
+
 	@Override
 	public String toString() {
 		return "BookingSearchRepresentation [bookingId=" + bookingId
-				+ ", creationTime=" + creationTime + ", scheduledTime=" 
-				+ scheduledTime + ", email=" + email + ", startPrice=" + startPrice
-				+ ", finishPrice=" + finishPrice + ", userId=" + userId 
-				+ ", partnerId=" + partnerId + ", courseId=" + courseId 
-				+ ", name=" + name + ", phone=" + phone + ", status=" 
-				+ status + ", reference=" + reference + "]";
+				+ ", creationTime=" + creationTime + ", scheduledTime="
+				+ scheduledTime + ", startPrice=" + startPrice
+				+ ", finishPrice=" + finishPrice + ", userId=" + userId
+				+ ", partnerId=" + partnerId + ", courseId=" + courseId
+				+ ", email=" + email + ", name=" + name + ", phone=" + phone
+				+ ", status=" + status + ", reference=" + reference
+				+ ", wasConfirmedIndex=" + wasConfirmedIndex + ", adjustTime="
+				+ adjustTime + "]";
 	}
+
+	
 
 	
 }

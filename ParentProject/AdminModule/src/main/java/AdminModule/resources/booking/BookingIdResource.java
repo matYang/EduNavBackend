@@ -24,7 +24,6 @@ import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 
-
 public class BookingIdResource extends AdminPseudoResource{
 
 	@Get
@@ -93,14 +92,18 @@ public class BookingIdResource extends AdminPseudoResource{
 			jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
 			
 			Calendar timeStamp = DateUtility.getCurTimeInstance();
+			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));
 			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
 			BookingStatus status = BookingStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
+			String email = EncodingService.decodeURI(jsonBooking.getString("email"));
 			
 			booking.setAdjustTime(timeStamp);
+			booking.setScheduledTime(scheduledTime);
 			booking.setName(name);
 			booking.setPhone(phone);
 			booking.setStatus(status);
+			booking.setEmail(email);
 			
 			ValidationService.validateBooking(booking);
 		}catch (JSONException|IOException e) {

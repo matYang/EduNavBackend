@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import BaseModule.staticDataService.CatDataLoader;
 import BaseModule.staticDataService.LocationDataLoader;
-import BaseModule.staticDataService.PDataLoader;
 import BaseModule.staticDataService.StaticDataService;
 
 public class DataLoaderTest {
@@ -30,12 +29,7 @@ public class DataLoaderTest {
 		System.out.println(locationDataMap);
 	}
 	
-	@Test
-	public void pListTest() {
-		PDataLoader.load();
-		List<String> pDataList = StaticDataService.getPDataList();
-		System.out.println(pDataList);
-	}
+
 	
 	@Test
 	public void catJsonTest() {
@@ -51,11 +45,5 @@ public class DataLoaderTest {
 		System.out.println(locationDataArr);
 	}
 	
-	@Test
-	public void pJsonTest() {
-		PDataLoader.load();
-		JSONArray pDataArr = StaticDataService.getPDataJSON();
-		System.out.println(pDataArr);
-	}
 
 }

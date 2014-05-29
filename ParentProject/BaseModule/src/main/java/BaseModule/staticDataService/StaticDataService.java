@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import BaseModule.eduDAO.EduDaoBasic;
-import BaseModule.exception.validation.ValidationException;
 
 import redis.clients.jedis.Jedis;
 
@@ -17,7 +16,6 @@ public class StaticDataService {
 	
 	private static String catDataRedisKey = "list_catData";
 	private static String locationDataRedisKey = "list_locationData";
-	private static String pDataRedisKey = "list_pData";
 	
 	public static void storeCatData(ArrayList<String> catData){
 		Jedis jedis = EduDaoBasic.getJedis();
@@ -47,30 +45,6 @@ public class StaticDataService {
 		
 	}
 	
-	
-	public static void storePData(ArrayList<String> pData){
-		Jedis jedis = EduDaoBasic.getJedis();
-		try{
-			//partner data, insert iff original pdata is empty, checked using llen method which returns 0 if key not found or empty
-			if (jedis.llen(pDataRedisKey) == 0){
-				String[] pDataArray = new String[pData.size()];
-				pDataArray = pData.toArray(pDataArray);
-				jedis.rpush(pDataRedisKey, pDataArray);
-			}
-		} finally{
-			EduDaoBasic.returnJedis(jedis);
-		}
-		
-	}
-	
-	public static void appendPData(String newPData){
-		Jedis jedis = EduDaoBasic.getJedis();
-		try{
-			jedis.rpush(pDataRedisKey, newPData);
-		} finally{
-			EduDaoBasic.returnJedis(jedis);
-		}
-	}
 	
 	
 	
@@ -137,17 +111,6 @@ public class StaticDataService {
 		return locationDataMap;
 	}
 	
-	public static List<String> getPDataList(){
-		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> pDataList;
-		try{
-			pDataList = jedis.lrange(pDataRedisKey, 0, jedis.llen(pDataRedisKey)-1);
-		} finally{
-			EduDaoBasic.returnJedis(jedis);
-		}
-		
-		return pDataList;
-	}
 	
 	
 	public static JSONArray getCatDataJSON(){
@@ -188,46 +151,5 @@ public class StaticDataService {
 		return locationDataArr;
 	}
 	
-	public static JSONArray getPDataJSON(){
-		List<String> pDataList = getPDataList();
-		return new JSONArray(pDataList);
-	}
-	
-	public static void addPName(String pName) throws ValidationException{
-		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> pDataList;
-		try{
-			pDataList = jedis.lrange(pDataRedisKey, 0, jedis.llen(pDataRedisKey)-1);
-			for (String pData : pDataList){
-				if (pData.equals(pName)){
-					//if name already exists, do nothing
-					return;
-				}
-			}
-			jedis.rpush(pDataRedisKey, pName);
-		} finally{
-			EduDaoBasic.returnJedis(jedis);
-		}
-		
-	}
-	
-	public static void updatePName(String oldName, String newName){
-		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> pDataList;
-		try{
-			int index = 0;
-			pDataList = jedis.lrange(pDataRedisKey, 0, jedis.llen(pDataRedisKey)-1);
-			for (String pData : pDataList){
-				if (pData.equals(oldName)){
-					//if the old key is found, replace it right away and exit
-					jedis.lset(pDataRedisKey, index, newName);
-					return;
-				}
-				index++;
-			}
-			jedis.rpush(pDataRedisKey, newName);
-		} finally{
-			EduDaoBasic.returnJedis(jedis);
-		}
-	}
+
 }

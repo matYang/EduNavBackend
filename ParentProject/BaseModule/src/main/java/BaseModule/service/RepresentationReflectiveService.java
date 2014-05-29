@@ -9,6 +9,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
+import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.EnumConfig.AccountStatus;
@@ -57,6 +58,9 @@ public class RepresentationReflectiveService {
 					}
 					else if (fieldClass.isAssignableFrom(Privilege.class)){
 						field.set(representation, Privilege.fromInt(Integer.parseInt(value, 10)));
+					}
+					else if (fieldClass.isAssignableFrom(ClassModel.class)){
+						field.set(representation, ClassModel.fromInt(Integer.parseInt(value, 10)));
 					}
 					else{
 						throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService suffered fatal reflection error, field type not matched");
@@ -111,6 +115,12 @@ public class RepresentationReflectiveService {
 					serializedMembers.add(field.getName() + "_" +  String.valueOf(  ((Privilege) value).code  )  );
 				}
 			}
+			else if (fieldClass.isAssignableFrom(ClassModel.class)){
+				Object value = field.get(representation);
+				if (value != null){
+					serializedMembers.add(field.getName() + "_" +  String.valueOf(  ((ClassModel) value).code  )  );
+				}
+			}
 			else{
 				throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService suffered fatal reflection error, field type not matched");
 			}
@@ -163,6 +173,12 @@ public class RepresentationReflectiveService {
 						jsonRepresentation.put(field.getName(),  ((Privilege) value).code );
 					}
 				}
+				else if (fieldClass.isAssignableFrom(ClassModel.class)){
+					Object value = field.get(representation);
+					if (value != null){
+						jsonRepresentation.put(field.getName(),  ((ClassModel) value).code );
+					}
+				}
 				else{
 					throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService suffered fatal reflection error, field type not matched");
 				}
@@ -187,7 +203,7 @@ public class RepresentationReflectiveService {
 						return false;
 					}
 				}
-				else if (fieldClass.isAssignableFrom(String.class) || fieldClass.isAssignableFrom(Calendar.class) || fieldClass.isAssignableFrom(AccountStatus.class) || fieldClass.isAssignableFrom(Privilege.class)){
+				else if (fieldClass.isAssignableFrom(String.class) || fieldClass.isAssignableFrom(Calendar.class) || fieldClass.isAssignableFrom(AccountStatus.class) || fieldClass.isAssignableFrom(Privilege.class) || fieldClass.isAssignableFrom(ClassModel.class)){
 					Object value = field.get(representation);
 					if (value != null){
 						return false;
