@@ -136,12 +136,13 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 
 	@Override
 	public String toString() {
-		return "UserSearchRepresentation [userId=" + userId + ", name=" + name
-				+ ", phone=" + phone + ", status=" + status + ", creationTime="
-				+ creationTime + ", balance=" + balance 
-				+ ", email=" + email
-				+ ", coupon=" + coupon + ", credit=" + credit + "]";
+		return "UserSearchRepresentation [userId=" + userId + ", balance="
+				+ balance + ", coupon=" + coupon + ", credit=" + credit
+				+ ", name=" + name + ", phone=" + phone + ", email=" + email
+				+ ", status=" + status + ", creationTime=" + creationTime + "]";
 	}
+
+	
 	
 	
 

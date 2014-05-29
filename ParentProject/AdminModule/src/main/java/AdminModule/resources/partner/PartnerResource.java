@@ -71,7 +71,7 @@ public class PartnerResource extends AdminPseudoResource{
 
 			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
 			
-			String name = EncodingService.decodeURI(props.get("name"));
+			String wholeName = EncodingService.decodeURI(props.get("wholeName"));
 			String licence = EncodingService.decodeURI(props.get("licence"));
 			String organizationNum = EncodingService.decodeURI(props.get("organizationNum"));
 			String reference = ReferenceFactory.generatePartnerReference();
@@ -81,7 +81,7 @@ public class PartnerResource extends AdminPseudoResource{
 			String instName = EncodingService.decodeURI(props.get("instName"));
 			String logoUrl = EncodingService.decodeURI(props.get("logoUrl"));
 			
-			partner.setWholeName(name);
+			partner.setWholeName(wholeName);
 			partner.setLicence(licence);
 			partner.setOrganizationNum(organizationNum);
 			partner.setReference(reference);
@@ -91,7 +91,6 @@ public class PartnerResource extends AdminPseudoResource{
 			partner.setInstName(instName);
 			partner.setLogoUrl(logoUrl);
 			
-			StaticDataService.addPName(instName);
 			PartnerDaoService.updatePartner(partner);
 			
 		}catch (PseudoException e){

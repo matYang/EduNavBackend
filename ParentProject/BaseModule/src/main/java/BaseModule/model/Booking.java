@@ -23,17 +23,17 @@ public class Booking implements PseudoModel{
 	private int courseId;
 	private int price;
 
-	private Course course;
-
 	private BookingStatus status;
 	private String reference;
 	private String name;
 	private String phone;
 	private String email;
+	private Calendar scheduledTime;
 	
 	private Calendar creationTime;
 	private Calendar adjustTime;
-	private Calendar scheduledTime;
+	
+	private Course course;
 	
 	//TODO added
 	private boolean wasConfirmed;

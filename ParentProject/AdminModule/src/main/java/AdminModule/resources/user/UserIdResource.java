@@ -29,9 +29,11 @@ public class UserIdResource extends AdminPseudoResource{
 		try {
 			jsonContact = (new JsonRepresentation(entity)).getJsonObject();
 			String name = EncodingService.decodeURI(jsonContact.getString("name"));
+			String email = EncodingService.decodeURI(jsonContact.getString("email"));
 			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(jsonContact.getString("status")));
 			
 			user.setName(name);
+			user.setEmail(email);
 			user.setStatus(status);
 			ValidationService.validateUser(user);
 			
@@ -42,7 +44,8 @@ public class UserIdResource extends AdminPseudoResource{
 		
 		return user;
 	}
-	
+
+
 	@Put
 	/**
 	 * allows admin to change user's name

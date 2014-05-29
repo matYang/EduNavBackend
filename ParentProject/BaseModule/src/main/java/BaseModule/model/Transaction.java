@@ -15,8 +15,8 @@ public class Transaction implements PseudoModel{
 	private int bookingId;
 	private long couponId;
 	private int transactionAmount;
-	private Calendar creationTime;
 	private TransactionType transactionType;
+	private Calendar creationTime;
 	
 	//Normal Construction
 	public Transaction(int userId, int bookingId, int transactionAmount) {
