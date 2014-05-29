@@ -75,7 +75,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 	
 	@Override
-	public String serialize() throws IllegalArgumentException, IllegalAccessException {
+	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
 		return RepresentationReflectiveService.serialize(this);
 	}
 	

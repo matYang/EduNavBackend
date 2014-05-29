@@ -1,6 +1,7 @@
 package AdminModule.resources.booking;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Calendar;
 
 import org.json.JSONException;
@@ -72,7 +73,7 @@ public class BookingIdResource extends AdminPseudoResource{
 			newBooking = JSONFactory.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);
 
-		}catch (PseudoException e){
+		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
 		} catch (Exception e) {
@@ -85,7 +86,7 @@ public class BookingIdResource extends AdminPseudoResource{
 		return result;
 	}
 
-	private Booking parseJSON(Representation entity, Booking booking) throws ValidationException{
+	private Booking parseJSON(Representation entity, Booking booking) throws ValidationException, ParseException{
 		JSONObject jsonBooking = null;
 		
 		try{

@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,7 +133,7 @@ public class Credit implements PseudoModel{
 			jsonSearchRepresentation.put("usableTime", DateUtility.castToAPIFormat(this.usableTime));
 			jsonSearchRepresentation.put("status", this.status.code);
 			
-		} catch (JSONException e) {
+		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return jsonSearchRepresentation;

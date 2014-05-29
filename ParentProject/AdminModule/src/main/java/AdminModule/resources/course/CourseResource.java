@@ -37,45 +37,9 @@ public class CourseResource extends AdminPseudoResource{
 			course = CourseDaoService.createCourse(course);
 
 			props = this.handleMultiForm(entity, course.getCourseId(), props);
-			
-			
-			int partnerId = Integer.parseInt(props.get("partnerId"));
-			Calendar startTime = DateUtility.castFromAPIFormat(props.get("startTime"));
-			Calendar finishTime = DateUtility.castFromAPIFormat(props.get("finishTime"));
-			String teacherInfo = EncodingService.decodeURI(props.get("teacherInfo"));
-			String teachingMaterial = EncodingService.decodeURI(props.get("teachingMaterial"));
-			int price = Integer.parseInt(props.get("price"), 10);
-			int seatsTotal = Integer.parseInt(props.get("seatsTotal"));
-			String category = EncodingService.decodeURI(props.get("category"));
-			String subCategory = EncodingService.decodeURI(props.get("subCategory"));
-			String courseName = EncodingService.decodeURI(props.get("courseName"));
-			String location = EncodingService.decodeURI(props.get("location"));
-			String city = EncodingService.decodeURI(props.get("city"));
-			String district = EncodingService.decodeURI(props.get("district"));
-			String courseInfo = EncodingService.decodeURI(props.get("courseInfo"));
-			String teacherImgUrl = EncodingService.decodeURI(props.get("teacherImgUrl"));
-			String backgroundUrl = EncodingService.decodeURI(props.get("backgroundUrl"));
-			String reference = ReferenceFactory.generateCourseReference();
-			
-			course.setPartnerId(partnerId);
-			course.setStartTime(startTime);
-			course.setFinishTime(finishTime);
-			course.setTeacherIntro(teacherInfo);
-			course.setTeachingMethodsIntro(teachingMaterial);
-			course.setPrice(price);
-			course.setSeatsTotal(seatsTotal);
-			course.setSeatsLeft(seatsTotal);
-			course.setStatus(AccountStatus.activated);
-			course.setCategory(category);
-			course.setSubCategory(subCategory);
-			course.setCourseName(courseName);
-			course.setLocation(location);
-			course.setCity(city);
-			course.setDistrict(district);
-			course.setCourseIntro(courseInfo);
-			course.setTeacherImgUrl(teacherImgUrl);
-			course.setClassroomImgUrl(backgroundUrl);
-			course.setReference(reference);
+			props.put("status", String.valueOf(AccountStatus.activated.code));
+			props.put("reference", ReferenceFactory.generateCourseReference());
+			course.loadFromMap(props);
 			
 			CourseDaoService.updateCourse(course);
 			
