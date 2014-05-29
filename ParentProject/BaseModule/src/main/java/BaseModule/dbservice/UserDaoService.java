@@ -39,7 +39,7 @@ public class UserDaoService {
 		user.setCoupon(50);
 		ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 		coupons.add(coupon);
-		//TODO add coupon to user's list
+		user.setCouponList(coupons);
 		return user;
 	}
 

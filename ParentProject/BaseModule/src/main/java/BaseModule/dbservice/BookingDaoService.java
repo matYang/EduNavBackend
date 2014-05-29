@@ -36,6 +36,7 @@ public class BookingDaoService {
 			BookingDao.updateBookingInDatabases(updatedBooking);
 		}
 		else if ((previousStatus == BookingStatus.confirmed || previousStatus == BookingStatus.pending) && updatedBooking.getStatus() == BookingStatus.finished){
+			User user = UserDaoService.getUserById(updatedBooking.getUserId());
 			if (updatedBooking.getCouponId() > 0){
 				Coupon coupon = CouponDaoService.getCouponByCouponId(updatedBooking.getCouponId());
 				if (coupon.getUserId() != updatedBooking.getUserId()){
@@ -45,13 +46,10 @@ public class BookingDaoService {
 				transaction = TransactionDaoService.createTransaction(transaction);
 				coupon.setTransactionId(transaction.getTransactionId());
 				CouponDaoService.updateCoupon(coupon);
-				User user = UserDaoService.getUserById(coupon.getUserId());
 				user.setBalance(user.getBalance() + coupon.getAmount());
-				UserDaoService.updateUser(user);
 			}
 			Credit credit = new Credit(updatedBooking.getBookingId(), updatedBooking.getPrice(), updatedBooking.getUserId());
 			CreditDaoService.createCredit(credit);
-			User user = UserDaoService.getUserById(updatedBooking.getUserId());
 			user.setCredit(user.getCredit() + credit.getAmount());
 			UserDaoService.updateUser(user);
 			updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
@@ -84,6 +82,7 @@ public class BookingDaoService {
 		}
 		else if (previousStatus == BookingStatus.confirmed){
 			if (updatedBooking.getStatus() == BookingStatus.canceled){
+				updatedBooking.setWasConfirmed(true);
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 				updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 				BookingDao.updateBookingInDatabases(updatedBooking);
@@ -91,6 +90,7 @@ public class BookingDaoService {
 		}
 		else if (previousStatus == BookingStatus.pending){
 			if (updatedBooking.getStatus() == BookingStatus.canceled){
+				updatedBooking.setWasConfirmed(true);
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 				updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 				BookingDao.updateBookingInDatabases(updatedBooking);
