@@ -31,36 +31,36 @@ public class RoutingService extends Application {
 		Router router = new Router(getContext());
 		
 		
-		/** -------------------- APIs for partner module ------------------ **/
+		/** -------------------- apis for partner module ------------------ **/
 		String partnerServicePrefix = "/partner";
 
 		String SessionRedirectPrefix = "/findSession";
-		//	API for session redirection upon non-session pages: /p-api/v1.0/partner/findSession
+		//	p-api for session redirection upon non-session pages: /p-api/v1.0/partner/findSession
 		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + SessionRedirectPrefix, PartnerSessionRedirect.class);
 		String LoginPrefix = "/login";
-		//	API for partner login: /api/v1.0/partner/login
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + LoginPrefix, PartnerLogin.class);
+		//	p-api for partner login: /p-api/v1.0/partner/login
+		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + LoginPrefix, PartnerLogin.class);
 		String LogoutPrefix = "/logout";
-		//	API for partner logout: /api/v1.0/partner/logout
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + LogoutPrefix, PartnerLogout.class);
+		//	p-api for partner logout: /p-api/v1.0/partner/logout
+		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + LogoutPrefix, PartnerLogout.class);
 		String PartnerPrefix = "/partner";
-		// 	API for partner get/post : /api/v1.0/partner/partner/:id
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PartnerPrefix + "/{id}", PartnerIdResource.class);
+		// 	p-api for partner get/post : /p-api/v1.0/partner/partner/:id
+		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PartnerPrefix + "/{id}", PartnerIdResource.class);
 		
 		String ChangePasswordPrefix = "/changePassword";
-		//	API for partner logout: /api/v1.0/partner/changePassword
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ChangePasswordPrefix + "/{id}", PartnerChangePassword.class);
+		//	p-api for partner logout: /p-api/v1.0/partner/changePassword
+		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ChangePasswordPrefix + "/{id}", PartnerChangePassword.class);
 		String ForgetPasswordPrefix = "/forgetPassword";
-		//	API for partner logout: /api/v1.0/partner/forgetPassword
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ForgetPasswordPrefix + "/{id}", PartnerForgetPassword.class);
+		//	p-api for partner logout: /p-api/v1.0/partner/forgetPassword
+		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ForgetPasswordPrefix + "/{id}", PartnerForgetPassword.class);
 		
-		/** -------------------- APIs for partner module ------------------ **/
+		/** -------------------- apis for partner module ------------------ **/
 		String courseServicePrefix = "/course";
 		
-		//  API for partner to create course : /api/v1.0/partner/course
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + courseServicePrefix, CourseResource.class);
-		//  API for partner to update course: /api/v1.0/partner/course/:id
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + courseServicePrefix + "/{id}", CourseIdResource.class);
+		//  p-api for partner to create course : /p-api/v1.0/partner/course
+		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + courseServicePrefix, CourseResource.class);
+		//  p-api for partner to update course: /p-api/v1.0/partner/course/:id
+		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + courseServicePrefix + "/{id}", CourseIdResource.class);
 		return router;
 	}
 
