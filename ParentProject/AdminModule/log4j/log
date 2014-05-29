@@ -1,11 +1,11 @@
-2014-05-28 15:17:20,651 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
-2014-05-28 15:17:21,313 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
-2014-05-28 15:17:21,314 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
-2014-05-28 15:17:21,315 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
-2014-05-28 15:17:21,315 [main] INFO  BaseModule.common.DebugLog - Starting to load pData: src/main/resources/PData
-2014-05-28 15:17:21,316 [main] INFO  BaseModule.common.DebugLog - pData loaded succesfully
-2014-05-28 15:17:21,409 [main] INFO  BaseModule.common.DebugLog - ready to start
-2014-05-28 15:17:21,447 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
-2014-05-28 15:17:21,455 [main] INFO  BaseModule.common.DebugLog - Excuting
-2014-05-28 15:17:21,458 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
-2014-05-28 15:17:21,458 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
+2014-05-29 10:52:29,530 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-29 10:52:31,344 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-29 10:52:31,360 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-29 10:52:31,379 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-29 10:52:31,401 [main] INFO  BaseModule.common.DebugLog - Starting to load pData: src/main/resources/PData
+2014-05-29 10:52:31,402 [main] INFO  BaseModule.common.DebugLog - pData loaded succesfully
+2014-05-29 10:52:32,069 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-29 10:52:32,202 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-29 10:52:32,270 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-29 10:52:32,453 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
+2014-05-29 10:52:32,454 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
