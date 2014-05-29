@@ -108,24 +108,36 @@ public class User implements PseudoModel{
 		return balance;
 	}
 
-	public void setBalance(int amount) {
-		this.balance = amount;
+	public void incBalance(int amount){
+		this.balance += amount;
+	}
+	
+	public void decBalance(int amount){
+		this.balance -= amount;
 	}
 
 	public int getCoupon() {
 		return coupon;
 	}
+	
+	public void incCoupon(int amount){
+		this.coupon += amount;
+	}
 
-	public void setCoupon(int coupon) {
-		this.coupon = coupon;
+	public void decCoupon(int amount){
+		this.coupon -= amount;
 	}
 
 	public int getCredit() {
 		return credit;
 	}
 
-	public void setCredit(int score) {
-		this.credit = score;
+	public void incCredit(int amount){
+		this.credit += amount;
+	}
+	
+	public void decCredit(int amount){
+		this.credit -= amount;
 	}
 
 	public String getEmail() {

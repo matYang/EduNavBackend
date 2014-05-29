@@ -36,7 +36,7 @@ public class UserDaoService {
 		user = UserDao.addUserToDatabase(user);
 		Coupon coupon = new Coupon(user.getUserId(), 50);
 		coupon = CouponDaoService.createCoupon(coupon);
-		user.setCoupon(50);
+		user.incCoupon(50);
 		ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 		coupons.add(coupon);
 		user.setCouponList(coupons);

@@ -46,11 +46,11 @@ public class BookingDaoService {
 				transaction = TransactionDaoService.createTransaction(transaction);
 				coupon.setTransactionId(transaction.getTransactionId());
 				CouponDaoService.updateCoupon(coupon);
-				user.setBalance(user.getBalance() + coupon.getAmount());
+				user.incBalance(coupon.getAmount());
 			}
 			Credit credit = new Credit(updatedBooking.getBookingId(), updatedBooking.getPrice(), updatedBooking.getUserId());
 			CreditDaoService.createCredit(credit);
-			user.setCredit(user.getCredit() + credit.getAmount());
+			user.incCredit(credit.getAmount());
 			UserDaoService.updateUser(user);
 			updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 			updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
@@ -66,7 +66,7 @@ public class BookingDaoService {
 					}
 					CouponDaoService.updateCoupon(coupon);
 					User user = UserDaoService.getUserById(coupon.getUserId());
-					user.setCoupon(user.getCoupon() + coupon.getAmount());
+					user.incCoupon(coupon.getAmount());
 					UserDaoService.updateUser(user);
 				}
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
@@ -137,7 +137,7 @@ public class BookingDaoService {
 			coupon.setBookingId(booking.getBookingId());
 			CouponDaoService.updateCoupon(coupon);
 			User user = UserDaoService.getUserById(coupon.getUserId());
-			user.setCoupon(user.getCoupon() - coupon.getAmount());
+			user.decCoupon(coupon.getAmount());
 			UserDaoService.updateUser(user);
 		}
 		

@@ -34,7 +34,8 @@ public class Booking implements PseudoModel{
 	private Calendar creationTime;
 	private Calendar adjustTime;
 	private Calendar scheduledTime;
-
+	
+	//TODO added
 	private boolean wasConfirmed;
 	private String actionRecord;
 
