@@ -55,6 +55,7 @@ public class ServerConfig {
 					configurationMap.put("redisSearchHistoryUpbound", "50");
 //					configurationMap.put("sqlPass", AccessControlCrypto.decrypt("A1E4DDE152B755ECC46248A9D629FDD9", ac_key, ac_ivy));
 //					configurationMap.put("sqlUser", AccessControlCrypto.decrypt("7260820C1FAFD1F699249AF73A9D181D7BD6CE549202AD9FE095E1CE635843DB", ac_key, ac_ivy));
+					
 					configurationMap.put("sqlPass", "LIFECENTRICo2o");
 					configurationMap.put("sqlUser", "db19r3708gdzx5d1");
 				}
