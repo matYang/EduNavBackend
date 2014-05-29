@@ -22,7 +22,6 @@ import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 import BaseModule.service.EncodingService;
-import BaseModule.staticDataService.StaticDataService;
 
 public class PartnerResource extends AdminPseudoResource{
 	
@@ -59,7 +58,7 @@ public class PartnerResource extends AdminPseudoResource{
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			int adminId = this.validateAuthentication();
+			this.validateAuthentication();
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");

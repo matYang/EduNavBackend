@@ -11,11 +11,9 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 
 import AdminModule.resources.AdminPseudoResource;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.dbservice.AdminAccountDaoService;
-import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.encryption.AdminSecretCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
@@ -24,7 +22,6 @@ import BaseModule.factory.JSONFactory;
 import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.representation.AdminSearchRepresentation;
-import BaseModule.model.representation.CourseSearchRepresentation;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 

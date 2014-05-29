@@ -15,12 +15,10 @@ import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
-import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.TeachingMaterialType;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
-import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.service.EncodingService;
 
 public class Course implements PseudoModel{

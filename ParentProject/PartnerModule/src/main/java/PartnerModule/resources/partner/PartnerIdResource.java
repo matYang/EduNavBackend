@@ -62,7 +62,6 @@ public class PartnerIdResource extends PartnerPseudoResource{
 			}
 			
 			Partner partner = PartnerDaoService.getPartnerById(partnerId);
-			String oldPName = partner.getInstName();
 			
 			//handle the multi-form, upload images if necessary
 			props = this.handleMultiForm(entity, partner.getPartnerId(), props);

@@ -1,6 +1,5 @@
 package AdminModule.resources.course;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import org.restlet.data.MediaType;
@@ -9,7 +8,6 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 import AdminModule.resources.AdminPseudoResource;
-import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.CourseDaoService;
@@ -17,7 +15,6 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Course;
-import BaseModule.service.EncodingService;
 
 public class CourseResource extends AdminPseudoResource{
 
@@ -26,7 +23,7 @@ public class CourseResource extends AdminPseudoResource{
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			int adminId = this.validateAuthentication();
+			this.validateAuthentication();
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");

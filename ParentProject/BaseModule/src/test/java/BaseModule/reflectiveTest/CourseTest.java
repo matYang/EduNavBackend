@@ -1,7 +1,5 @@
 package BaseModule.reflectiveTest;
 
-import static org.junit.Assert.*;
-
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.HashMap;

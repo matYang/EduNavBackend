@@ -1,21 +1,13 @@
 package UserModule.resources.general;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import org.json.JSONArray;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 
-import BaseModule.common.DebugLog;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
-import BaseModule.model.Course;
 import BaseModule.model.representation.CourseSearchRepresentation;
 import UserModule.resources.UserPseudoResource;
 

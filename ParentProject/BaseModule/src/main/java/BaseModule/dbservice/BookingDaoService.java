@@ -2,16 +2,18 @@ package BaseModule.dbservice;
 
 import java.util.ArrayList;
 
+import BaseModule.asyncRelayExecutor.ExecutorProvider;
+import BaseModule.asyncTask.SMSTask;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CouponStatus;
+import BaseModule.configurations.EnumConfig.SMSEvent;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.exception.booking.BookingNotFoundException;
 import BaseModule.exception.coupon.CouponNotFoundException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
 import BaseModule.model.Booking;
 import BaseModule.model.Coupon;
 import BaseModule.model.Credit;
@@ -72,12 +74,18 @@ public class BookingDaoService {
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 				updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 				BookingDao.updateBookingInDatabases(updatedBooking);
+				if (updatedBooking.getStatus() == BookingStatus.failed){
+					SMSTask sms = new SMSTask(SMSEvent.user_bookingFailed, updatedBooking.getPhone(), updatedBooking.getCourse().getCourseName());
+					ExecutorProvider.executeRelay(sms);
+				}
 			}
 			else if (updatedBooking.getStatus() == BookingStatus.confirmed){
 				updatedBooking.setWasConfirmed(true);
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 				updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 				BookingDao.updateBookingInDatabases(updatedBooking);
+				SMSTask sms = new SMSTask(SMSEvent.user_bookingConfirmed, updatedBooking.getPhone(), updatedBooking.getCourse().getCourseName(), DateUtility.castToReadableString(updatedBooking.getScheduledTime()));
+				ExecutorProvider.executeRelay(sms);
 			}
 		}
 		else if (previousStatus == BookingStatus.confirmed){
