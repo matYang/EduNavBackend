@@ -82,28 +82,28 @@ public class BookingCleanerTest {
 		timeStamp.add(Calendar.SECOND, -1);
 		String email = "xiongchuhanplace@hotmail.com";
 		Booking booking = new Booking(timeStamp,timeStamp, 
-				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				course.getPrice(), -1, userId, partnerId, courseId, user.getName(), partner.getPhone(),
 				email,partner.getReference(),BookingStatus.awaiting);
 		BookingDao.addBookingToDatabases(booking);
 		
 		Calendar finishTime2 = Calendar.getInstance();
 		finishTime2.add(Calendar.DAY_OF_YEAR, -1);			
 		Booking booking2 = new Booking(finishTime2,timeStamp,
-				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				course.getPrice(), -1, userId, partnerId, courseId, user.getName(), partner.getPhone(),
 				email,partner.getReference(),BookingStatus.confirmed);
 		BookingDao.addBookingToDatabases(booking2);
 		
 		Calendar finishTime3 = Calendar.getInstance();
 		finishTime3.add(Calendar.HOUR_OF_DAY, 1);
 		Booking booking3 = new Booking(finishTime3,timeStamp, 
-				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				course.getPrice(), -1, userId, partnerId, courseId, user.getName(), partner.getPhone(),
 				email,partner.getReference(),BookingStatus.confirmed);
 		BookingDao.addBookingToDatabases(booking3);
 		
 		Calendar finishTime4 = Calendar.getInstance();
 		finishTime4.add(Calendar.HOUR_OF_DAY, 1);
 		Booking booking4 = new Booking(finishTime4,timeStamp, 
-				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				course.getPrice(), -1, userId, partnerId, courseId, user.getName(), partner.getPhone(),
 				email,partner.getReference(),BookingStatus.canceled);
 		BookingDao.addBookingToDatabases(booking4);
 		

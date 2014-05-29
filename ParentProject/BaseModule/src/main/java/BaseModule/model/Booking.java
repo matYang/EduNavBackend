@@ -34,10 +34,13 @@ public class Booking implements PseudoModel{
 	private Calendar creationTime;
 	private Calendar adjustTime;
 	private Calendar scheduledTime;
-
-
+	
+	//TODO added
+	private boolean wasConfirmed;
+	private String actionRecord;
 
 	//SQL Retrieving
+	//TODO
 	public Booking(int bookingId, Calendar creationTime, Calendar adjustTime,
 			int price, int userId,int partnerId, int courseId, String name, String phone,
 			BookingStatus status, String reference, int couponId, int transactionId,
@@ -60,37 +63,18 @@ public class Booking implements PseudoModel{
 		this.course = course;
 		this.transactionId = transactionId;
 		this.couponId = couponId;
+		this.wasConfirmed = wasConfirmed;
+		this.actionRecord = actionRecord;
 	}
 
-	//Normal Construction
-	public Booking(int transactionId,Calendar scheduledTime,Calendar adjustTime,
-			int price,	int userId, int partnerId, int courseId, String name, 
-			String phone, String email,	String reference,BookingStatus status) {
-		super();
-		this.transactionId = transactionId;
-		this.couponId = -1;
-		this.adminId = -1;
-		this.scheduledTime = scheduledTime;
-		this.adjustTime = adjustTime;		
-		this.price = price;
-		this.userId = userId;
-		this.partnerId = partnerId;
-		this.courseId = courseId;
-		this.name = name;
-		this.phone = phone;
-		this.reference = reference;
-		this.status = status;		
-		this.email = email;		
-		this.creationTime = DateUtility.getCurTimeInstance();
-	}
 	
 	public Booking(Calendar scheduledTime,Calendar adjustTime,
-			int price,int userId, int partnerId, int courseId, 
+			int price, int couponId, int userId, int partnerId, int courseId, 
 			String name, String phone, String email,
 			String reference,BookingStatus status) {
 		super();
 		this.transactionId = -1;
-		this.couponId = -1;
+		this.couponId = couponId;
 		this.adminId = -1;
 		this.scheduledTime = scheduledTime;
 		this.adjustTime = adjustTime;		
@@ -104,6 +88,8 @@ public class Booking implements PseudoModel{
 		this.status = status;		
 		this.email = email;		
 		this.creationTime = DateUtility.getCurTimeInstance();
+		this.wasConfirmed = false;
+		this.actionRecord = "";
 	}
 
 	public int getBookingId() {
@@ -237,6 +223,23 @@ public class Booking implements PseudoModel{
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
+	
+	public void setWasConfirmed(boolean wasConfirmed){
+		this.wasConfirmed = wasConfirmed;
+	}
+	
+	public boolean isWasConfirmed(){
+		return this.wasConfirmed;
+	}
+	
+	public void appendActionRecord(BookingStatus newStatus, int adminId){
+		String actionRecordPiece = newStatus.code + "_" + adminId + "_" + DateUtility.getCurTime();
+		this.actionRecord = this.actionRecord.length() == 0 ? actionRecordPiece : this.actionRecord + "-" + actionRecordPiece;
+	}
+	
+	public String getActionRecord(){
+		return this.actionRecord;
+	}
 
 	public JSONObject toJSON(){
 		JSONObject jsonSearchRepresentation = new JSONObject();
@@ -257,6 +260,8 @@ public class Booking implements PseudoModel{
 			jsonSearchRepresentation.put("adjustTime", DateUtility.castToAPIFormat(this.adjustTime));
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
 			jsonSearchRepresentation.put("scheduledTime", DateUtility.castToAPIFormat(this.scheduledTime));
+			jsonSearchRepresentation.put("wasConfirmed", this.wasConfirmed);
+			jsonSearchRepresentation.put("actionRecord", EncodingService.encodeURI(this.actionRecord));
 			jsonSearchRepresentation.put("course", this.course == null ? new JSONObject() : this.course.toJSON());
 		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -281,7 +286,9 @@ public class Booking implements PseudoModel{
 					this.adjustTime.getTime().toString().equals(booking.getAdjustTime().getTime().toString()) &&
 					this.scheduledTime.getTime().toString().equals(booking.getScheduledTime().getTime().toString()) &&
 					this.reference.equals(booking.getReference()) && this.status.code == booking.getStatus().code && 
-					this.userId == booking.getUserId();
+					this.userId == booking.getUserId() &&
+					this.wasConfirmed == booking.wasConfirmed &&
+					this.actionRecord.equals(booking.actionRecord);
 		}
 		else{
 			return this.bookingId==booking.getBookingId() && 
@@ -299,7 +306,9 @@ public class Booking implements PseudoModel{
 					this.scheduledTime.getTime().toString().equals(booking.getScheduledTime().getTime().toString()) &&
 					this.reference.equals(booking.getReference()) && this.status.code == booking.getStatus().code && 
 					this.userId == booking.getUserId() &&
-					this.course.equals(booking.getCourse());
+					this.course.equals(booking.getCourse()) &&
+					this.wasConfirmed == booking.wasConfirmed &&
+					this.actionRecord.equals(booking.actionRecord);
 		}
 	}
 

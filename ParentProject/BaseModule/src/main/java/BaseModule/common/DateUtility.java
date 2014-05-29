@@ -17,10 +17,14 @@ public class DateUtility {
 	public static Calendar getCurTimeInstance(){
 		return Calendar.getInstance(TimeZone.getTimeZone(ServerConfig.timeZoneIdCH));
 	}
-	
 	public static long getCurTime(){
 		Calendar c = getCurTimeInstance();
 		return c.getTimeInMillis();
+	}
+	public static Calendar getTimeFromLong(long mili){
+		Calendar c = getCurTimeInstance();
+		c.setTimeInMillis(mili);
+		return c;
 	}
 	
 

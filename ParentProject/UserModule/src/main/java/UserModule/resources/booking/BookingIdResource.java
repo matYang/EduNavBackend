@@ -63,11 +63,12 @@ public class BookingIdResource extends UserPseudoResource{
 			
 			
 			Booking booking = BookingDaoService.getBookingById(bookingId);
+			BookingStatus previousStatus = booking.getStatus();
 			if (booking.getUserId() != userId){
 				throw new AuthenticationException("对不起，您不是该预定的主人");
 			}
 			booking = parseJSON(entity, booking);
-			BookingDaoService.updateBooking(booking);
+			BookingDaoService.updateBooking(booking, previousStatus, -1);
 
 			newBooking = JSONFactory.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);
