@@ -23,6 +23,8 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.AdminAccount;
+import BaseModule.model.representation.AdminSearchRepresentation;
+import BaseModule.model.representation.CourseSearchRepresentation;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
@@ -50,8 +52,10 @@ public class AdminAccountResource extends AdminPseudoResource{
 				}
 			}
 			
-			ArrayList<AdminAccount> allAdminAccounts = AdminAccountDaoService.getAllAdminAccounts();
-			jsonArray = JSONFactory.toJSON(allAdminAccounts);
+			AdminSearchRepresentation a_sr = new AdminSearchRepresentation();
+			this.loadRepresentation(a_sr);
+			ArrayList<AdminAccount> admins = AdminAccountDaoService.searchAdminAccount(a_sr);
+			jsonArray = JSONFactory.toJSON(admins);
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

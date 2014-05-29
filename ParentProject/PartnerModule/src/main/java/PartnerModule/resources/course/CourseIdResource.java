@@ -1,6 +1,5 @@
 package PartnerModule.resources.course;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,14 +9,12 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Put;
 
-import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.CourseDaoService;
+import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
-import BaseModule.service.EncodingService;
 import PartnerModule.resources.PartnerPseudoResource;
 
 public class CourseIdResource extends PartnerPseudoResource{
@@ -35,7 +32,9 @@ public class CourseIdResource extends PartnerPseudoResource{
 			}
 			
 			Course course = CourseDaoService.getCourseById(courseId);
-			
+			if (course.getPartnerId() != partnerId){
+				throw new AuthenticationException("只能修改您发布的课程");
+			}
 			props = this.handleMultiForm(entity, course.getCourseId(), props);
 			props.put("partnerId", String.valueOf(partnerId));
 			course.loadFromMap(props);
