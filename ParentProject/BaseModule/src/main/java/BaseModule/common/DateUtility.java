@@ -76,6 +76,10 @@ public class DateUtility {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(c.getTime());
 	}
+	public static String castToReadableString(Calendar c){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(c.getTime());
+	}
 	
 	public static String getTimeStamp(){
 		return getCurTime() +"";

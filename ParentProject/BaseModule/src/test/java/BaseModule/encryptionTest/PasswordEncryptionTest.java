@@ -19,7 +19,7 @@ public class PasswordEncryptionTest {
 
             // Test password validation
             boolean failure = false;
-            System.out.println("Running tests...System time: " + DateUtility.castToAPIFormat(DateUtility.getCurTimeInstance()));
+            System.out.println("Running tests...System time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
             for(int i = 0; i < 10000; i++){
                 String password = ""+i;
                 String hash = PasswordCrypto.createHash(password);
@@ -42,7 +42,7 @@ public class PasswordEncryptionTest {
                 System.out.println("TESTS FAILED!");
             else
                 System.out.println("TESTS PASSED!");
-            	System.out.println("System time: " + DateUtility.castToAPIFormat(DateUtility.getCurTimeInstance()));
+            	System.out.println("System time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
         } catch(Exception ex) {
             System.out.println("ERROR: " + ex);
         }

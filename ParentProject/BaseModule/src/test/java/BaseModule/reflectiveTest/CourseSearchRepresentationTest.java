@@ -1,4 +1,4 @@
-package BaseModule.representationTest;
+package BaseModule.reflectiveTest;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +32,7 @@ public class CourseSearchRepresentationTest {
 		kvps.put("finishTime", "2018-09-1");
 		
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
-		System.out.println("start time: " + DateUtility.castToAPIFormat(DateUtility.getCurTimeInstance()));
+		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		int a = 1;
 		for (int i = 0; i < 100000; i++){
 			c_sr.storeKvps(kvps);
@@ -40,7 +40,7 @@ public class CourseSearchRepresentationTest {
 			c_sr.toJSON();
 			c_sr.serialize();
 		}
-		System.out.println("refelction finished at: " + DateUtility.castToAPIFormat(DateUtility.getCurTimeInstance()));
+		System.out.println("300000 refelction finished at: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 	}
 	
 	@Test
