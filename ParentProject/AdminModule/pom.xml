@@ -42,8 +42,7 @@
 				<includes>
 					<include>log4j.properties</include>
 					<include>LocationData</include>
-					<include>CatData</include>
-					<include>PData</include>
+					<include>CatData</include>					
 				</includes>
 				<targetPath>..</targetPath>
 			</resource>
