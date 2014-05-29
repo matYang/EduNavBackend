@@ -1,9 +1,62 @@
-2014-05-28 15:18:52,425 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
-2014-05-28 15:18:53,093 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
-2014-05-28 15:18:53,094 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
-2014-05-28 15:18:53,094 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
-2014-05-28 15:18:53,094 [main] INFO  BaseModule.common.DebugLog - Starting to load pData: src/main/resources/PData
-2014-05-28 15:18:53,095 [main] INFO  BaseModule.common.DebugLog - pData loaded succesfully
-2014-05-28 15:18:53,185 [main] INFO  BaseModule.common.DebugLog - ready to start
-2014-05-28 15:18:53,222 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
-2014-05-28 15:18:53,229 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-29 16:49:32,303 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-29 16:49:32,968 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-29 16:49:32,968 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-29 16:49:32,969 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-29 16:49:33,055 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-29 16:49:33,094 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-29 16:49:33,100 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-29 16:49:56,656 [Restlet-1965681841] INFO  BaseModule.common.DebugLog - SessionDirect:: Enter session redirect
+2014-05-29 16:49:56,671 [Restlet-1965681841] INFO  BaseModule.common.DebugLog - BaseModule.resources.PseudoResource got Exception! 
+BaseModule.exception.partner.PartnerNotFoundException
+	at BaseModule.eduDAO.PartnerDao.getPartnerById(PartnerDao.java:178)
+	at BaseModule.dbservice.PartnerDaoService.getPartnerById(PartnerDaoService.java:19)
+	at PartnerModule.resources.partner.auth.PartnerSessionRedirect.sessionRedirect(PartnerSessionRedirect.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.restlet.resource.ServerResource.doHandle(ServerResource.java:503)
+	at org.restlet.resource.ServerResource.get(ServerResource.java:707)
+	at org.restlet.resource.ServerResource.doHandle(ServerResource.java:589)
+	at org.restlet.resource.ServerResource.doNegotiatedHandle(ServerResource.java:649)
+	at org.restlet.resource.ServerResource.doConditionalHandle(ServerResource.java:348)
+	at org.restlet.resource.ServerResource.handle(ServerResource.java:952)
+	at org.restlet.resource.Finder.handle(Finder.java:246)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.engine.application.StatusFilter.doHandle(StatusFilter.java:155)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.engine.CompositeHelper.handle(CompositeHelper.java:211)
+	at org.restlet.engine.application.ApplicationHelper.handle(ApplicationHelper.java:84)
+	at org.restlet.Application.handle(Application.java:381)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.engine.application.StatusFilter.doHandle(StatusFilter.java:155)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.engine.CompositeHelper.handle(CompositeHelper.java:211)
+	at org.restlet.Component.handle(Component.java:392)
+	at org.restlet.Server.handle(Server.java:516)
+	at org.restlet.engine.connector.ServerConnectionHelper.handle(ServerConnectionHelper.java:257)
+	at org.restlet.engine.connector.ServerConnectionHelper.doHandleInbound(ServerConnectionHelper.java:186)
+	at org.restlet.engine.connector.BaseHelper$2.run(BaseHelper.java:593)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+	at java.lang.Thread.run(Thread.java:722)

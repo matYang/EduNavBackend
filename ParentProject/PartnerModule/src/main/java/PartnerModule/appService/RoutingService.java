@@ -31,11 +31,11 @@ public class RoutingService extends Application {
 		Router router = new Router(getContext());
 		
 		
-		/** -------------------- p-apis for partner module ------------------ **/
+		/** -------------------- apis for partner module ------------------ **/
 		String partnerServicePrefix = "/partner";
 
 		String SessionRedirectPrefix = "/findSession";
-		//	p-api for session redirection upon non-session pages: /p-p-api/v1.0/partner/findSession
+		//	p-api for session redirection upon non-session pages: /p-api/v1.0/partner/findSession
 		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + SessionRedirectPrefix, PartnerSessionRedirect.class);
 		String LoginPrefix = "/login";
 		//	p-api for partner login: /p-api/v1.0/partner/login
@@ -54,7 +54,7 @@ public class RoutingService extends Application {
 		//	p-api for partner logout: /p-api/v1.0/partner/forgetPassword
 		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ForgetPasswordPrefix + "/{id}", PartnerForgetPassword.class);
 		
-		/** -------------------- p-apis for partner module ------------------ **/
+		/** -------------------- apis for partner module ------------------ **/
 		String courseServicePrefix = "/course";
 		
 		//  p-api for partner to create course : /p-api/v1.0/partner/course
