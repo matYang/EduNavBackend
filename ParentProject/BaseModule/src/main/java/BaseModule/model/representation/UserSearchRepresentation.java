@@ -48,7 +48,7 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	}
 	
 	@Override
-	public String serialize() throws IllegalArgumentException, IllegalAccessException {
+	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
 		return RepresentationReflectiveService.serialize(this);
 	}
 	

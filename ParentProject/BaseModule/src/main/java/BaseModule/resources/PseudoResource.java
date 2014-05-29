@@ -197,7 +197,7 @@ public class PseudoResource extends ServerResource{
 					props.put("teacherImgUrl", path);
 					
 				}
-				else if (fi.getFieldName().equals("backgroundImg")){
+				else if (fi.getFieldName().equals("classroomImg")){
 					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
 					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 800, 600, Scalr.OP_ANTIALIAS);
 					imgName = ImgConfig.backgroundImgPrefix + ImgConfig.imgSize_m + id;

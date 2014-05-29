@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -116,7 +117,7 @@ public class Transaction implements PseudoModel{
 			jsonSearchRepresentation.put("transactionType", this.transactionType.code);
 			jsonSearchRepresentation.put("transactionAmount", this.transactionAmount);		
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
-		} catch (JSONException e) {
+		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return jsonSearchRepresentation;

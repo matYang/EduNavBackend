@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -133,7 +134,7 @@ public class Coupon implements PseudoModel{
 			jsonSearchRepresentation.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
 			jsonSearchRepresentation.put("status", this.status.code);
 			
-		} catch (JSONException e) {
+		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return jsonSearchRepresentation;

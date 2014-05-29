@@ -1,8 +1,13 @@
 package BaseModule.model;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Map;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
@@ -10,8 +15,12 @@ import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
+import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.TeachingMaterialType;
+import BaseModule.exception.PseudoException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
+import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.service.EncodingService;
 
 public class Course implements PseudoModel{
@@ -751,7 +760,7 @@ public class Course implements PseudoModel{
 			jsonSearchRepresentation.put("teachingMaterialName", EncodingService.encodeURI(this.teachingMaterialName));
 			jsonSearchRepresentation.put("teachingMaterialType",this.teachingMaterialType.code);
 			jsonSearchRepresentation.put("teachingMaterialCost",this.teachingMaterialCost);
-			jsonSearchRepresentation.put("teachingMaterialFree",this.teachingMaterialFree ? 1 : 0);
+			jsonSearchRepresentation.put("teachingMaterialFree",this.teachingMaterialFree);
 			jsonSearchRepresentation.put("classroomIntro", EncodingService.encodeURI(this.classroomIntro));
 			jsonSearchRepresentation.put("classroomImgUrl", EncodingService.encodeURI(this.classroomImgUrl));
 			jsonSearchRepresentation.put("reference", EncodingService.encodeURI(this.reference));
@@ -774,10 +783,10 @@ public class Course implements PseudoModel{
 			jsonSearchRepresentation.put("courseHourNum", this.courseHourNum);
 			jsonSearchRepresentation.put("courseHourLength", this.courseHourLength);
 			jsonSearchRepresentation.put("classModel", this.classModel.code);			
-			jsonSearchRepresentation.put("hasDownloadMaterials", this.hasDownloadMaterials ? 1 : 0);
+			jsonSearchRepresentation.put("hasDownloadMaterials", this.hasDownloadMaterials);
 			jsonSearchRepresentation.put("passAgreement", EncodingService.encodeURI(this.passAgreement));
-			jsonSearchRepresentation.put("provideAssignments", this.provideAssignments ? 1 : 0);
-			jsonSearchRepresentation.put("provideMarking", this.provideMarking ? 1 : 0);
+			jsonSearchRepresentation.put("provideAssignments", this.provideAssignments);
+			jsonSearchRepresentation.put("provideMarking", this.provideMarking);
 			jsonSearchRepresentation.put("quiz", EncodingService.encodeURI(this.quiz));
 			jsonSearchRepresentation.put("questionBank", EncodingService.encodeURI(Parser.listToString(this.questionBank)));
 			jsonSearchRepresentation.put("questionBankIntro", EncodingService.encodeURI(this.questionBankIntro));
@@ -828,5 +837,68 @@ public class Course implements PseudoModel{
 					this.dailyStartTime.equals(c.getDailyStartTime()) &&
 					this.dailyFinishTime.equals(c.getDailyFinishTime());			
 				
+	}
+	
+	//TODO inform frontend of list formats in table
+	public void loadFromMap(Map<String, String> kvps) throws PseudoException, IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ParseException{
+		Field[] fields = this.getClass().getDeclaredFields();
+		
+		try{
+			for (Field field : fields){
+				field.setAccessible(true);
+				String value = EncodingService.decodeURI(kvps.get(field.getName()));
+				if (value != null){
+					Class<?> fieldClass = field.getType();
+					
+					if (fieldClass.isAssignableFrom(int.class)){
+						field.setInt(this, Integer.parseInt(value, 10));
+					}
+					else if (fieldClass.isAssignableFrom(String.class)){
+						field.set(this, value);
+					}
+					else if (fieldClass.isAssignableFrom(Calendar.class)){
+						field.set(this, DateUtility.castFromAPIFormat(value));
+					}
+					else if (fieldClass.isAssignableFrom(boolean.class)){
+						field.set(this, Boolean.parseBoolean(value));
+					}
+					else if (fieldClass.isAssignableFrom(AccountStatus.class)){
+						field.set(this, AccountStatus.fromInt(Integer.parseInt(value, 10)));
+					}
+					else if (fieldClass.isAssignableFrom(ClassModel.class)){
+						field.set(this, ClassModel.fromInt(Integer.parseInt(value, 10)));
+					}
+					else if (fieldClass.isAssignableFrom(TeachingMaterialType.class)){
+						field.set(this, TeachingMaterialType.fromInt(Integer.parseInt(value, 10)));
+					}
+					else if (fieldClass.isAssignableFrom(PartnerQualification.class)){
+						field.set(this, PartnerQualification.fromInt(Integer.parseInt(value, 10)));
+					}
+					else if (fieldClass.isAssignableFrom(ArrayList.class)){
+						if (field.getName().equals("studyDays")){
+							String[] vals = value.split("-");
+							ArrayList<Integer> intList = new ArrayList<Integer>();
+							for (String val : vals){
+								intList.add(Integer.parseInt(val, 10));
+							}
+							field.set(this, intList);
+						}
+						else{
+							String[] vals = value.split("-");
+							ArrayList<String> strList = new ArrayList<String>(Arrays.asList(vals)); 
+							field.set(this, strList);
+						}
+					}
+					else{
+						throw new RuntimeException("[ERROR][Reflection] Course loadFromMap suffered fatal reflection error, field type not matched");
+					}
+				}
+				else{
+					//null value from kvps, do nothing
+				}
+			}
+		} catch (NumberFormatException e){
+			throw new ValidationException("课程数据中数字格式错误");
+		}
 	}
 }

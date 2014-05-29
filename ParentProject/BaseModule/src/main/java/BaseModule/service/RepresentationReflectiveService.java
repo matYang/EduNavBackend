@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 
+import javax.sound.sampled.AudioFormat.Encoding;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
@@ -41,7 +44,7 @@ public class RepresentationReflectiveService {
 		try{
 			for (Field field : fields){
 				field.setAccessible(true);
-				String value = EncodingService.encodeURI(kvps.get(field.getName()));
+				String value = EncodingService.decodeURI(kvps.get(field.getName()));
 				if (value != null){
 					Class<?> fieldClass = field.getType();
 					if (fieldClass.isAssignableFrom(int.class)){
@@ -78,7 +81,7 @@ public class RepresentationReflectiveService {
 	
 
 	
-	public static String serialize(PseudoRepresentation representation) throws IllegalArgumentException, IllegalAccessException {
+	public static String serialize(PseudoRepresentation representation) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
 		Field[] fields = getFields(representation);
 		
 		ArrayList<String> serializedMembers = new ArrayList<String>();
@@ -94,7 +97,7 @@ public class RepresentationReflectiveService {
 			else if (fieldClass.isAssignableFrom(String.class)){
 				Object value = field.get(representation);
 				if (value != null){
-					serializedMembers.add(field.getName() + "_" +(String) value);
+					serializedMembers.add(field.getName() + "_" + EncodingService.encodeURI((String) value));
 				}
 			}
 			else if (fieldClass.isAssignableFrom(Calendar.class)){
@@ -152,7 +155,7 @@ public class RepresentationReflectiveService {
 				else if (fieldClass.isAssignableFrom(String.class)){
 					Object value = field.get(representation);
 					if (value != null){
-						jsonRepresentation.put(field.getName(), (String) value);
+						jsonRepresentation.put(field.getName(), EncodingService.encodeURI((String) value));
 					}
 				}
 				else if (fieldClass.isAssignableFrom(Calendar.class)){
@@ -183,8 +186,8 @@ public class RepresentationReflectiveService {
 					throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService suffered fatal reflection error, field type not matched");
 				}
 			}
-		} catch (IllegalArgumentException | IllegalAccessException e){
-			throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService reflection failed due to IllegalArgument or IllegalAccess");
+		} catch (IllegalArgumentException | IllegalAccessException | JSONException | UnsupportedEncodingException e){
+			throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService reflection failed due to IllegalArgument or IllegalAccess or parsing");
 		}
 		
 		return jsonRepresentation;

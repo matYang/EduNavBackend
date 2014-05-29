@@ -1,5 +1,6 @@
 package BaseModule.common;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,6 +8,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import BaseModule.configurations.ServerConfig;
+import BaseModule.service.EncodingService;
 
 public class DateUtility {
 
@@ -47,22 +49,19 @@ public class DateUtility {
 	}
 
 
-	public static Calendar castFromAPIFormat(String dateString){
+	public static Calendar castFromAPIFormat(String dateString) throws UnsupportedEncodingException, ParseException{
 		Calendar cal = getCurTimeInstance();
-		try {
-			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			cal.setTime(sdf1.parse(dateString));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		dateString = EncodingService.decodeURI(dateString);
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		cal.setTime(sdf1.parse(dateString));
 		return cal;
 	}
-	public static String castToAPIFormat(Calendar c){
+	public static String castToAPIFormat(Calendar c) throws UnsupportedEncodingException{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return sdf.format(c.getTime());
+		return EncodingService.encodeURI(sdf.format(c.getTime()));
 	}
 	
-	//representation format must be url-friendly
+	//representation format must be url-friendly, and no longer will be forced to be url encoded
 	public static Calendar castFromRepresentationFormat(String dateString){
 		Calendar cal = getCurTimeInstance();
 		try {

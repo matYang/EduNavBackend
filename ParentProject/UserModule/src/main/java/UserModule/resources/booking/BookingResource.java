@@ -1,6 +1,7 @@
 package UserModule.resources.booking;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import org.json.JSONArray;
@@ -66,9 +67,11 @@ public class BookingResource extends UserPseudoResource{
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONFactory.toJSON(booking);
 			
-		}catch(PseudoException e){
+		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
+		} catch (Exception e) {
+			return this.doException(e);
 		}
 
 		Representation result = new JsonRepresentation(bookingObject);
@@ -77,7 +80,7 @@ public class BookingResource extends UserPseudoResource{
 		return result;
 	}
 
-	protected Booking parseJSON(Representation entity) throws ValidationException {
+	protected Booking parseJSON(Representation entity) throws ValidationException, ParseException {
 		Booking booking = null;
 		try{
 			JSONObject jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
