@@ -6,9 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import org.apache.log4j.Logger;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.ImgConfig;
 import BaseModule.configurations.ServerConfig;
-import BaseModule.eduDAO.EduDaoBasic;
+
 
 import com.aliyun.openservices.ClientException;
 import com.aliyun.openservices.oss.OSSClient;
@@ -43,8 +42,6 @@ public class AliyunMain {
 			meta.setContentLength(file.length());
 			client.putObject(Bucket, tempImageKey, content, meta);
 			imgAddress = getImageUrlPrefix(Bucket) + tempImageKey;
-//			imgAddress = "http://logobucket.oss-internal.aliyuncs.com/" + tempImageKey;
-
 		} catch(ClientException | OSSException e){
 			e.printStackTrace();  
 			DebugLog.d(e);
@@ -77,26 +74,4 @@ public class AliyunMain {
 		
 	}
 	
-	public static void testUploadImage(){
-		
-			EduDaoBasic.clearBothDatabase();
-			int userId = 1;
-			//Teacher
-			String teacherImgPrefix = ImgConfig.teacherImgPrefix;
-			String imgSize = ImgConfig.imgSize_m;
-			String imgName = teacherImgPrefix + imgSize +userId;
-			File file = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName+".png");
-			AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunTeacherImgBucket,false);
-			//Background
-			String backImgPrefix = ImgConfig.classroomImgPrefix;
-			imgName = backImgPrefix + imgSize + userId;
-			file = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName+".png");
-			AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunClassroomImgBucket,false);
-			//Logo
-			String logoPrefix = ImgConfig.logoPrefix;
-			imgName = logoPrefix + imgSize + userId;
-			file = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName+".png");
-			AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunLogoBucket,false);
-		
-	}
 }

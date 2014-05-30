@@ -72,8 +72,7 @@ public class ServerMain {
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
-			DebugLog.d("Excuting");
-			AliyunMain.testUploadImage();
+			DebugLog.d("Excuting");			
 		} catch (Exception e) {
 			DebugLog.d(e);
 		}
