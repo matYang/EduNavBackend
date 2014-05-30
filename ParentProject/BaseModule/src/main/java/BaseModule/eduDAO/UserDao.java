@@ -73,8 +73,8 @@ public class UserDao {
 		}
 		return ulist;
 	}
-	public static User addUserToDatabase(User user) throws ValidationException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static User addUserToDatabase(User user,Connection...connections) throws ValidationException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO UserDao (name,password,phone,creationTime,lastLogin,status,balance,coupon,credit,email)" +
@@ -109,7 +109,7 @@ public class UserDao {
 			DebugLog.d(e);
 			throw new ValidationException("创建用户失败，账户信息错误");
 		} finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		user.setPassword("");
 		return user;

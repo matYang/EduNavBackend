@@ -87,8 +87,8 @@ public class BookingDao {
 
 	}
 
-	public static Booking addBookingToDatabases(Booking booking){
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static Booking addBookingToDatabases(Booking booking,Connection...connections){
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO BookingDao (name,phone,creationTime,adjustTime,price," +
@@ -124,7 +124,7 @@ public class BookingDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 
 		return booking;
@@ -191,10 +191,10 @@ public class BookingDao {
 		return blist;
 	}
 
-	public static Booking getBookingById(int id) throws BookingNotFoundException{
+	public static Booking getBookingById(int id,Connection...connections) throws BookingNotFoundException{
 		String query = "SELECT * FROM BookingDao WHERE id = ?";
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
 		Booking booking = null;
 		try{
@@ -208,7 +208,7 @@ public class BookingDao {
 		}catch(SQLException e){
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return booking;
 	}

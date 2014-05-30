@@ -15,7 +15,7 @@ import BaseModule.model.Coupon;
 
 public class CouponDao {
 
-	public static Coupon addCouponToDatabases(Coupon c){
+	public static Coupon addCouponToDatabases(Coupon c,Connection...connections){
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -40,7 +40,7 @@ public class CouponDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 		return c;
 	}

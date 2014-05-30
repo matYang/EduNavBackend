@@ -17,8 +17,8 @@ import BaseModule.model.Credit;
 
 public class CreditDao {
 
-	public static Credit addCreditToDatabases(Credit c){
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static Credit addCreditToDatabases(Credit c,Connection...connections){
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO CreditDao (bookingId,userId,creationTime,expireTime,status,amount,usableTime)" +
@@ -42,7 +42,7 @@ public class CreditDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 		return c;
 	}
