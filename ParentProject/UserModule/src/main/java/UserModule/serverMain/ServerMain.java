@@ -3,7 +3,10 @@ package UserModule.serverMain;
 import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
+
+import BaseModule.aliyun.AliyunMain;
 import BaseModule.common.DebugLog;
+import BaseModule.service.FileService;
 import BaseModule.staticDataService.SystemDataInit;
 import UserModule.appService.RoutingService;
 
@@ -70,6 +73,7 @@ public class ServerMain {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
 			DebugLog.d("Excuting");
+			AliyunMain.testUploadImage();
 		} catch (Exception e) {
 			DebugLog.d(e);
 		}
