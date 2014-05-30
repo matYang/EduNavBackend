@@ -31,7 +31,7 @@ public class ServerConfig {
 
 					//local env
 					configurationMap.put("env", "local");			
-					configurationMap.put("jdbcUri", "localhost:3306/EduModel?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
+					configurationMap.put("jdbcUri", "localhost:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", "localhost");
 					configurationMap.put("redisSearchHistoryUpbound", "6");
 					configurationMap.put("sqlPass", "");

@@ -67,6 +67,12 @@ public class BookingDao {
 			if(sr.getPhone() != null && sr.getPhone().length() > 0){
 				stmt.setString(stmtInt++, sr.getPhone());
 			}
+			if(sr.getAdjustTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getAdjustTime()));
+			}
+			if(sr.getWasConfirmedIndex() != -1){
+				stmt.setInt(stmtInt++,sr.getWasConfirmedIndex());
+			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				blist.add(createBookingByResultSet(rs,conn));
@@ -86,8 +92,9 @@ public class BookingDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO BookingDao (name,phone,creationTime,adjustTime,price," +
-				"status,u_Id,p_Id,course_Id,reference,transaction_Id,admin_Id,coupon_Id,scheduledTime,email)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				"status,u_Id,p_Id,course_Id,reference,transaction_Id,admin_Id,coupon_Id,scheduledTime,email,wasConfirmed," +
+				"actionRecord)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
@@ -106,6 +113,8 @@ public class BookingDao {
 			stmt.setInt(13, booking.getCouponId());
 			stmt.setString(14, DateUtility.toSQLDateTime(booking.getScheduledTime()));
 			stmt.setString(15, booking.getEmail());
+			stmt.setInt(16, booking.isWasConfirmed() ? 1 : 0);
+			stmt.setString(17, booking.getActionRecord());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -126,7 +135,7 @@ public class BookingDao {
 		PreparedStatement stmt = null;
 		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,price=?," +
 				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,admin_Id=?,coupon_Id=?," +
-				"scheduledTime=?,email=? where id=?";
+				"scheduledTime=?,email=?,wasConfirmed=?,actionRecord=? where id=?";
 		try{
 			stmt = conn.prepareStatement(query);
 
@@ -144,7 +153,9 @@ public class BookingDao {
 			stmt.setInt(12, booking.getCouponId());
 			stmt.setString(13, DateUtility.toSQLDateTime(booking.getScheduledTime()));
 			stmt.setString(14, booking.getEmail());
-			stmt.setInt(15, booking.getBookingId());
+			stmt.setInt(15, booking.isWasConfirmed() ? 1 : 0);
+			stmt.setString(16, booking.getActionRecord());
+			stmt.setInt(17, booking.getBookingId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new BookingNotFoundException();
@@ -214,6 +225,7 @@ public class BookingDao {
 		}
 		return new Booking(rs.getInt("id"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), DateUtility.DateToCalendar(rs.getTimestamp("adjustTime")),
 				 rs.getInt("price"), rs.getInt("u_Id"),	rs.getInt("p_Id"), courseId, rs.getString("name"), rs.getString("phone"),BookingStatus.fromInt(rs.getInt("status")), rs.getString("reference"),
-				rs.getInt("coupon_Id"),rs.getInt("transaction_Id"),rs.getInt("admin_Id"),course,rs.getString("email"),DateUtility.DateToCalendar(rs.getTimestamp("scheduledTime")));
+				rs.getInt("coupon_Id"),rs.getInt("transaction_Id"),rs.getInt("admin_Id"),course,rs.getString("email"),DateUtility.DateToCalendar(rs.getTimestamp("scheduledTime")),rs.getBoolean("wasConfirmed"),
+				rs.getString("actionRecord"));
 	}
 }

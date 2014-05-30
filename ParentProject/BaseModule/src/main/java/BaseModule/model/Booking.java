@@ -44,7 +44,8 @@ public class Booking implements PseudoModel{
 	public Booking(int bookingId, Calendar creationTime, Calendar adjustTime,
 			int price, int userId,int partnerId, int courseId, String name, String phone,
 			BookingStatus status, String reference, int couponId, int transactionId,
-			int adminId,Course course,String email,Calendar scheduledTime) {
+			int adminId,Course course,String email,Calendar scheduledTime,boolean wasConfirmed,
+			String actionRecord) {
 		super();
 		this.bookingId = bookingId;
 		this.creationTime = creationTime;
@@ -232,6 +233,11 @@ public class Booking implements PseudoModel{
 		return this.wasConfirmed;
 	}
 	
+	public void setActionRecord(String actionRecord) {
+		this.actionRecord = actionRecord;
+	}
+
+
 	public void appendActionRecord(BookingStatus newStatus, int adminId){
 		String actionRecordPiece = newStatus.code + "_" + adminId + "_" + DateUtility.getCurTime();
 		this.actionRecord = this.actionRecord.length() == 0 ? actionRecordPiece : this.actionRecord + "-" + actionRecordPiece;

@@ -10,6 +10,7 @@ import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.credit.CreditNotFoundException;
+import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.model.Credit;
 
 public class CreditCleaner extends CreditDao{
@@ -34,8 +35,15 @@ public class CreditCleaner extends CreditDao{
 					c.setStatus(CreditStatus.expired);
 				}else if(c.getStatus().code == CreditStatus.awaiting.code){
 					c.setStatus(CreditStatus.usable);
-				}			
-				CreditDao.updateCreditInDatabases(c);				
+				}	
+
+				CreditDao.updateCreditInDatabases(c,conn);
+
+				if(c.getStatus().code == CreditStatus.usable.code){
+					c.setAmount(-c.getAmount());
+					CreditDao.addCreditToUser(c, conn);
+				}
+
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -43,8 +51,11 @@ public class CreditCleaner extends CreditDao{
 		}catch(CreditNotFoundException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			DebugLog.d(e);
 		}
-		
+
 		EduDaoBasic.closeResources(conn, stmt, null, true);
 	}
 

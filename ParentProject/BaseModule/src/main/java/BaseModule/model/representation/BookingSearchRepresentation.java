@@ -29,9 +29,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private BookingStatus status;
 	private String reference;
 	private int wasConfirmedIndex;	//1 for yes, 2 for no
-	private Calendar adjustTime;
-	
-	//TODO
+	private Calendar adjustTime;	
+
 	public BookingSearchRepresentation(){
 		this.bookingId = -1;
 		this.creationTime = null;

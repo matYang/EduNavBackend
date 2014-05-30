@@ -10,6 +10,7 @@ import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.coupon.CouponNotFoundException;
+import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.model.Coupon;
 
 public class CouponCleaner extends CouponDao{
@@ -29,7 +30,9 @@ public class CouponCleaner extends CouponDao{
 			while(rs.next()){
 				c = createCouponByResultSet(rs);
 				c.setStatus(CouponStatus.expired);
-				CouponDao.updateCouponInDatabases(c);				
+				CouponDao.updateCouponInDatabases(c,conn);	
+				c.setAmount(-c.getAmount());
+				CouponDao.addCouponToUser(c, conn);
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -37,8 +40,11 @@ public class CouponCleaner extends CouponDao{
 		}catch(CouponNotFoundException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			DebugLog.d(e);
 		}
-		
+
 		EduDaoBasic.closeResources(conn, stmt, null, true);
 	}
 

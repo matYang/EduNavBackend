@@ -203,6 +203,24 @@ public class QueryFactory {
 			}
 			query += "phone = ? ";
 		}
+		if(sr.getAdjustTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "adjustTime = ? ";
+		}
+		if(sr.getWasConfirmedIndex() != -1){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "wasConfirmed = ? ";
+		}
 		return query;
 	}
 

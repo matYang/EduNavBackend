@@ -10,6 +10,7 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.exception.credit.CreditNotFoundException;
+import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.model.Credit;
 
 
@@ -48,8 +49,8 @@ public class CreditDao {
 	}
 
 
-	public static void updateCreditInDatabases(Credit c) throws CreditNotFoundException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static void updateCreditInDatabases(Credit c,Connection...connections) throws CreditNotFoundException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "UPDATE CreditDao set expireTime=?,status=?,amount=?, usableTime=? where creditId = ?";
@@ -68,8 +69,29 @@ public class CreditDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}	
+	}
+
+	public static void addCreditToUser(Credit c, Connection...connections) throws UserNotFoundException{
+		Connection conn = EduDaoBasic.getConnection(connections);
+		PreparedStatement stmt = null;	
+		ResultSet rs = null;
+		String query = "UPDATE UserDao set (credit = credit + ?) where id = ?";
+		try{
+			stmt = conn.prepareStatement(query);
+			stmt.setInt(1, c.getAmount());
+			stmt.setInt(2, c.getUserId());
+			int recordsAffected = stmt.executeUpdate();
+			if(recordsAffected==0){
+				throw new UserNotFoundException();
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			DebugLog.d(e);
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
+		}
 	}
 
 	public static ArrayList<Credit> getCreditByUserId(int userId,Connection...connections){
@@ -94,7 +116,7 @@ public class CreditDao {
 		} 
 		return clist;
 	}
-	
+
 	public static Credit getCreditByCreditId(long creditId){
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getSQLConnection();
