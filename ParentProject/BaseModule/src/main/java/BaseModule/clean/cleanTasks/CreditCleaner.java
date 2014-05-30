@@ -33,17 +33,12 @@ public class CreditCleaner extends CreditDao{
 			while(rs.next()){
 				c = createCreditByResultSet(rs);	
 				if(c.getStatus().code == CreditStatus.usable.code){
+					UserDao.updateUserBCC(0, -c.getAmount(), 0, c.getUserId(), conn);
 					c.setStatus(CreditStatus.expired);
 				}else if(c.getStatus().code == CreditStatus.awaiting.code){
 					c.setStatus(CreditStatus.usable);
 				}	
-
 				CreditDao.updateCreditInDatabases(c,conn);
-
-				if(c.getStatus().code == CreditStatus.usable.code){
-					UserDao.updateUserBCC(0, -c.getAmount(), 0, c.getUserId(), conn);
-				}
-
 			}
 		}catch(SQLException e){
 			e.printStackTrace();

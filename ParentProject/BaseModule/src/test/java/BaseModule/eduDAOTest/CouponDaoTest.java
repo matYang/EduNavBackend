@@ -9,11 +9,16 @@ import org.junit.Test;
 
 import BaseModule.clean.cleanTasks.CouponCleaner;
 import BaseModule.common.DateUtility;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.coupon.CouponNotFoundException;
+import BaseModule.exception.user.UserNotFoundException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Coupon;
+import BaseModule.model.User;
 
 public class CouponDaoTest {
 
@@ -74,30 +79,42 @@ public class CouponDaoTest {
 	}
 	
 	@Test
-	public void testClean(){
-		EduDaoBasic.clearBothDatabase();
+	public void testClean() throws ValidationException, UserNotFoundException{
+		EduDaoBasic.clearBothDatabase();		
+		String name = "Harry";
+		String phone = "12345612312";
+		String password = "36krfinal";
+		AccountStatus status = AccountStatus.activated;
+		String email = "xiongchuhanplace@hotmail.com";
+		User user = new User(name, phone, password,status,email);
+		UserDao.addUserToDatabase(user);
+		
 		int bookingId = 1;
-		int userId = 1;
-		int amount = 1000034343;
+		int userId = user.getUserId();
+		int amount = 10;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		expireTime.add(Calendar.SECOND, -1);
 		Coupon c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
 		CouponDao.addCouponToDatabases(c);
+		UserDao.updateUserBCC(0, 0, c.getAmount(), userId);
 		
 		int bookingId2 = 2;			
 		expireTime.add(Calendar.HOUR_OF_DAY, 1);
 		Coupon c2 = new Coupon(bookingId2,userId, amount, expireTime, CouponStatus.usable);
 		CouponDao.addCouponToDatabases(c2);
+		UserDao.updateUserBCC(0, 0, c2.getAmount(), userId);
 		
 		int bookingId3 = 3;			
 		expireTime.add(Calendar.HOUR_OF_DAY, -1);
 		Coupon c3 = new Coupon(bookingId3,userId, amount, expireTime, CouponStatus.used);
 		CouponDao.addCouponToDatabases(c3);
+		UserDao.updateUserBCC(0, 0, c3.getAmount(), userId);
 		
 		int bookingId4 = 4;		
 		expireTime.add(Calendar.HOUR_OF_DAY, 2);
 		Coupon c4 = new Coupon(bookingId4,userId, amount, expireTime, CouponStatus.used);
 		CouponDao.addCouponToDatabases(c4);
+		UserDao.updateUserBCC(0, 0, c4.getAmount(), userId);
 		
 		CouponCleaner.clean();
 		
@@ -110,5 +127,9 @@ public class CouponDaoTest {
 			//Passed;
 		}else fail();
 		
+		amount = UserDao.getUserById(userId).getCoupon();
+		if(amount == 30){
+			//Passed;
+		}else fail();
 	}
 }
