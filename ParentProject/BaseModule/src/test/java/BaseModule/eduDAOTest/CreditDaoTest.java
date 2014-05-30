@@ -7,11 +7,16 @@ import org.junit.Test;
 
 import BaseModule.clean.cleanTasks.CreditCleaner;
 import BaseModule.common.DateUtility;
+import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.credit.CreditNotFoundException;
+import BaseModule.exception.user.UserNotFoundException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Credit;
+import BaseModule.model.User;
 
 
 public class CreditDaoTest {
@@ -77,37 +82,50 @@ public class CreditDaoTest {
 	}
 	
 	@Test
-	public void testClean(){
+	public void testClean() throws ValidationException, UserNotFoundException{
 		EduDaoBasic.clearBothDatabase();
+		String name = "Harry";
+		String phone = "12345612312";
+		String password = "36krfinal";
+		AccountStatus status = AccountStatus.activated;
+		String email = "xiongchuhanplace@hotmail.com";
+		User user = new User(name, phone, password,status,email);
+		UserDao.addUserToDatabase(user);
+		
 		int bookingId = 1;
-		int userId = 1;
-		int amount = 2;
+		int userId = user.getUserId();
+		int amount = 12;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Calendar usableTime = DateUtility.getCurTimeInstance();
 		usableTime.add(Calendar.SECOND, -1);
 		expireTime.add(Calendar.SECOND, -1);
 		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.usable,usableTime);
 		c = CreditDao.addCreditToDatabases(c);
+		UserDao.updateUserBCC(0, c.getAmount(), 0, userId);
 		
 		Calendar expireTime2 = DateUtility.getCurTimeInstance();
 		expireTime2.add(Calendar.SECOND, 1);
 		Credit c2 = new Credit(bookingId,userId,amount,expireTime2, CreditStatus.usable,usableTime);
 		c2 = CreditDao.addCreditToDatabases(c2);
+		UserDao.updateUserBCC(0, c2.getAmount(), 0, userId);
 		
 		Calendar expireTime3 = DateUtility.getCurTimeInstance();
 		expireTime3.add(Calendar.SECOND, -1);
 		Credit c3 = new Credit(bookingId,userId,amount,expireTime3, CreditStatus.used,usableTime);
 		c3 = CreditDao.addCreditToDatabases(c3);
+		UserDao.updateUserBCC(0, c3.getAmount(), 0, userId);
 		
 		Calendar expireTime4 = DateUtility.getCurTimeInstance();
 		expireTime4.add(Calendar.SECOND, 1);
 		Credit c4 = new Credit(bookingId,userId,amount,expireTime4, CreditStatus.expired,usableTime);
 		c4 = CreditDao.addCreditToDatabases(c4);
+		UserDao.updateUserBCC(0, c4.getAmount(), 0, userId);
 		
 		Calendar expireTime5 = DateUtility.getCurTimeInstance();
 		expireTime5.add(Calendar.SECOND, 1);
 		Credit c5 = new Credit(bookingId,userId,amount,expireTime5, CreditStatus.awaiting,usableTime);		
 		c5 = CreditDao.addCreditToDatabases(c5);
+		UserDao.updateUserBCC(0, c5.getAmount(), 0, userId);
 		
 		CreditCleaner.clean();
 		
@@ -119,6 +137,11 @@ public class CreditDaoTest {
 				clist.get(3).getStatus().code== CreditStatus.expired.code && 
 				clist.get(4).getStatus().code == CreditStatus.usable.code){
 			//Passed;
+		}else fail();
+		
+		amount = UserDao.getUserById(userId).getCredit();
+		if(amount == 48){
+			//Passed
 		}else fail();
 	}
 }

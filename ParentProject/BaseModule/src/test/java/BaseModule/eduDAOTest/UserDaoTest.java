@@ -3,13 +3,25 @@ package BaseModule.eduDAOTest;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import org.junit.Test;
+
+import BaseModule.clean.cleanTasks.CouponCleaner;
+import BaseModule.clean.cleanTasks.CreditCleaner;
+import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.CouponStatus;
+import BaseModule.configurations.EnumConfig.CreditStatus;
+import BaseModule.eduDAO.CouponDao;
+import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.model.Coupon;
+import BaseModule.model.Credit;
 import BaseModule.model.User;
 import BaseModule.model.representation.UserSearchRepresentation;
 
@@ -74,7 +86,7 @@ public class UserDaoTest {
 	}
 
 	@Test
-	public void testUpdate() throws ValidationException, SQLException{
+	public void testUpdate() throws ValidationException, SQLException, UserNotFoundException{
 		EduDaoBasic.clearBothDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
@@ -90,6 +102,28 @@ public class UserDaoTest {
 		if(user.getName().equals("Matt")&&user.getPhone().equals("324234324")){
 			//Passed;
 		}else fail();		
+		
+		int bookingId = 1;
+		int userId = user.getUserId();
+		int amount = 234;
+		Calendar expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.DAY_OF_MONTH, -15);
+		Calendar usableTime = DateUtility.getCurTimeInstance();
+		usableTime.add(Calendar.DAY_OF_MONTH, -30);
+		Credit credit = new Credit(bookingId,userId,amount,expireTime, CreditStatus.usable,usableTime);
+		CreditDao.addCreditToDatabases(credit);
+		
+		CreditCleaner.clean();
+		
+		Coupon coupon = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
+		CouponDao.addCouponToDatabases(coupon);
+		
+		CouponCleaner.clean();
+		
+		user = UserDao.getUserById(userId);
+		if(user.getBalance()==0 && user.getCoupon()==-amount && user.getCredit()==-amount){
+			//Passed;
+		}else fail();
 	}
 
 	@Test
@@ -103,7 +137,7 @@ public class UserDaoTest {
 		User user = new User(name, phone, password,status,email);	
 		user.setName("Matt");		
 		user = UserDao.addUserToDatabase(user);
-
+		
 		try{
 			UserDao.changeUserPassword(user.getUserId(), "36krfinal", "xcf");
 		}catch(Exception e){
@@ -148,7 +182,7 @@ public class UserDaoTest {
 		}
 
 		if(fail) fail();
-
+	
 	}
 
 	@Test

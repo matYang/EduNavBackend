@@ -201,14 +201,18 @@ public class UserDao {
 	}
 
 	public static void updateUserBCC(int balance,int credit,int coupon,int userId,Connection...connections) throws UserNotFoundException{
-		String query = "UPDATE UserDao set (balance = balance + ?),(credit = credit + ?),(coupon = coupon + ?) where id = ?";
+		String bopr = balance >= 0 ? "+" : "-";
+		String cropr = credit >= 0 ? "+" : "-";
+		String coopr = coupon >= 0 ? "+" : "-";
+		String query = "UPDATE UserDao set balance = balance " + bopr + " ?, " + "credit = credit "  + cropr + " ?, "
+				+ "coupon = coupon " + coopr + " ? " + "where id = ?";
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, balance);
-			stmt.setInt(2, credit);
-			stmt.setInt(3, coupon);
+			stmt.setInt(1, Math.abs(balance));
+			stmt.setInt(2, Math.abs(credit));
+			stmt.setInt(3, Math.abs(coupon));
 			stmt.setInt(4, userId);
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
