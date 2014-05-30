@@ -4,7 +4,7 @@ public class ImgConfig {
 
 	//image
 	public static final String teacherImgPrefix = "teacher-";
-	public static final String backgroundImgPrefix = "back-";
+	public static final String classroomImgPrefix = "classroom-";
 	public static final String logoPrefix = "logo-";
 	public static final String imgSize_m = "m-32-";
 	

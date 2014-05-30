@@ -88,7 +88,7 @@ public class AliyunMain {
 			File file = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName+".png");
 			AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunTeacherImgBucket,false);
 			//Background
-			String backImgPrefix = ImgConfig.backgroundImgPrefix;
+			String backImgPrefix = ImgConfig.classroomImgPrefix;
 			imgName = backImgPrefix + imgSize + userId;
 			file = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName+".png");
 			AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunClassroomImgBucket,false);
