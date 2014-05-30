@@ -1,28 +1,18 @@
-2014-05-29 10:52:29,530 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
-2014-05-29 10:52:31,344 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
-2014-05-29 10:52:31,360 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
-2014-05-29 10:52:31,379 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
-2014-05-29 10:52:31,401 [main] INFO  BaseModule.common.DebugLog - Starting to load pData: src/main/resources/PData
-2014-05-29 10:52:31,402 [main] INFO  BaseModule.common.DebugLog - pData loaded succesfully
-2014-05-29 10:52:32,069 [main] INFO  BaseModule.common.DebugLog - ready to start
-2014-05-29 10:52:32,202 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
-2014-05-29 10:52:32,270 [main] INFO  BaseModule.common.DebugLog - Excuting
-2014-05-29 10:52:32,453 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
-2014-05-29 10:52:32,454 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
-2014-05-29 17:14:48,646 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
-2014-05-29 17:14:49,298 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
-2014-05-29 17:14:49,299 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
-2014-05-29 17:14:49,299 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
-2014-05-29 17:14:49,387 [main] INFO  BaseModule.common.DebugLog - ready to start
-2014-05-29 17:14:49,425 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
-2014-05-29 17:14:49,433 [main] INFO  BaseModule.common.DebugLog - Excuting
-2014-05-29 17:14:49,437 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
-2014-05-29 17:14:49,437 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
-2014-05-29 17:15:19,874 [Restlet-113289708] INFO  BaseModule.common.DebugLog - BaseModule.resources.PseudoResource got Exception! 
-BaseModule.exception.admin.AdminAccountNotFoundException
-	at BaseModule.eduDAO.AdminAccountDao.getAdminAccountById(AdminAccountDao.java:168)
-	at BaseModule.dbservice.AdminAccountDaoService.getAdminAccountById(AdminAccountDaoService.java:19)
-	at AdminModule.resources.admin.AdminAccountResource.getAllAdminAccounts(AdminAccountResource.java:47)
+2014-05-30 14:55:12,015 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-30 14:55:13,969 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-30 14:55:13,971 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-30 14:55:14,005 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-30 14:55:14,290 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 14:55:14,388 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-30 14:55:14,424 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-30 14:55:14,520 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
+2014-05-30 14:55:14,520 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
+2014-05-30 14:55:39,960 [Restlet-899855521] INFO  BaseModule.common.DebugLog - BaseModule.resources.PseudoResource got Exception! 
+java.lang.NumberFormatException: For input string: "modelLoader"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:492)
+	at java.lang.Integer.parseInt(Integer.java:527)
+	at AdminModule.resources.admin.AdminAccountIdResource.getAdminAccountById(AdminAccountIdResource.java:32)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -72,3 +62,205 @@ BaseModule.exception.admin.AdminAccountNotFoundException
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
 	at java.lang.Thread.run(Thread.java:722)
+2014-05-30 14:56:45,920 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-30 14:56:47,709 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-30 14:56:47,710 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-30 14:56:47,712 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-30 14:56:47,957 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 14:56:48,057 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-30 14:56:48,079 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-30 14:56:48,090 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
+2014-05-30 14:56:48,090 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
+2014-05-30 14:56:55,312 [Restlet-52045540] INFO  BaseModule.common.DebugLog - BaseModule.resources.PseudoResource got Exception! 
+java.lang.NumberFormatException: For input string: "modelLoader"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:492)
+	at java.lang.Integer.parseInt(Integer.java:527)
+	at AdminModule.resources.admin.AdminAccountIdResource.getAdminAccountById(AdminAccountIdResource.java:32)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.restlet.resource.ServerResource.doHandle(ServerResource.java:506)
+	at org.restlet.resource.ServerResource.get(ServerResource.java:707)
+	at org.restlet.resource.ServerResource.doHandle(ServerResource.java:589)
+	at org.restlet.resource.ServerResource.doNegotiatedHandle(ServerResource.java:649)
+	at org.restlet.resource.ServerResource.doConditionalHandle(ServerResource.java:348)
+	at org.restlet.resource.ServerResource.handle(ServerResource.java:952)
+	at org.restlet.resource.Finder.handle(Finder.java:246)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.engine.application.StatusFilter.doHandle(StatusFilter.java:155)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.engine.CompositeHelper.handle(CompositeHelper.java:211)
+	at org.restlet.engine.application.ApplicationHelper.handle(ApplicationHelper.java:84)
+	at org.restlet.Application.handle(Application.java:381)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.engine.application.StatusFilter.doHandle(StatusFilter.java:155)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.engine.CompositeHelper.handle(CompositeHelper.java:211)
+	at org.restlet.Component.handle(Component.java:392)
+	at org.restlet.Server.handle(Server.java:516)
+	at org.restlet.engine.connector.ServerConnectionHelper.handle(ServerConnectionHelper.java:257)
+	at org.restlet.engine.connector.ServerConnectionHelper.doHandleInbound(ServerConnectionHelper.java:186)
+	at org.restlet.engine.connector.BaseHelper$2.run(BaseHelper.java:593)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+	at java.lang.Thread.run(Thread.java:722)
+2014-05-30 14:57:56,171 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-30 14:57:57,684 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-30 14:57:57,685 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-30 14:57:57,686 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-30 14:57:57,951 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 14:57:58,062 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-30 14:57:58,086 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-30 14:57:58,098 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
+2014-05-30 14:57:58,098 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
+2014-05-30 14:58:08,656 [Restlet-1303935849] INFO  BaseModule.common.DebugLog - BaseModule.resources.PseudoResource got Exception! 
+java.lang.NumberFormatException: For input string: "modelLoader"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:492)
+	at java.lang.Integer.parseInt(Integer.java:527)
+	at AdminModule.resources.admin.AdminAccountIdResource.getAdminAccountById(AdminAccountIdResource.java:32)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.restlet.resource.ServerResource.doHandle(ServerResource.java:506)
+	at org.restlet.resource.ServerResource.get(ServerResource.java:707)
+	at org.restlet.resource.ServerResource.doHandle(ServerResource.java:589)
+	at org.restlet.resource.ServerResource.doNegotiatedHandle(ServerResource.java:649)
+	at org.restlet.resource.ServerResource.doConditionalHandle(ServerResource.java:348)
+	at org.restlet.resource.ServerResource.handle(ServerResource.java:952)
+	at org.restlet.resource.Finder.handle(Finder.java:246)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.engine.application.StatusFilter.doHandle(StatusFilter.java:155)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.engine.CompositeHelper.handle(CompositeHelper.java:211)
+	at org.restlet.engine.application.ApplicationHelper.handle(ApplicationHelper.java:84)
+	at org.restlet.Application.handle(Application.java:381)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.engine.application.StatusFilter.doHandle(StatusFilter.java:155)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.engine.CompositeHelper.handle(CompositeHelper.java:211)
+	at org.restlet.Component.handle(Component.java:392)
+	at org.restlet.Server.handle(Server.java:516)
+	at org.restlet.engine.connector.ServerConnectionHelper.handle(ServerConnectionHelper.java:257)
+	at org.restlet.engine.connector.ServerConnectionHelper.doHandleInbound(ServerConnectionHelper.java:186)
+	at org.restlet.engine.connector.BaseHelper$2.run(BaseHelper.java:593)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+	at java.lang.Thread.run(Thread.java:722)
+2014-05-30 14:59:12,195 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-30 14:59:13,709 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-30 14:59:13,711 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-30 14:59:13,713 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-30 14:59:13,977 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 14:59:14,082 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-30 14:59:14,107 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-30 14:59:14,120 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
+2014-05-30 14:59:14,120 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
+2014-05-30 14:59:27,123 [Restlet-1432312197] INFO  BaseModule.common.DebugLog - BaseModule.resources.PseudoResource got Exception! 
+java.lang.NumberFormatException: For input string: "modelLoader"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:492)
+	at java.lang.Integer.parseInt(Integer.java:527)
+	at AdminModule.resources.admin.AdminAccountIdResource.getAdminAccountById(AdminAccountIdResource.java:32)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.restlet.resource.ServerResource.doHandle(ServerResource.java:506)
+	at org.restlet.resource.ServerResource.get(ServerResource.java:707)
+	at org.restlet.resource.ServerResource.doHandle(ServerResource.java:589)
+	at org.restlet.resource.ServerResource.doNegotiatedHandle(ServerResource.java:649)
+	at org.restlet.resource.ServerResource.doConditionalHandle(ServerResource.java:348)
+	at org.restlet.resource.ServerResource.handle(ServerResource.java:952)
+	at org.restlet.resource.Finder.handle(Finder.java:246)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.engine.application.StatusFilter.doHandle(StatusFilter.java:155)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.engine.CompositeHelper.handle(CompositeHelper.java:211)
+	at org.restlet.engine.application.ApplicationHelper.handle(ApplicationHelper.java:84)
+	at org.restlet.Application.handle(Application.java:381)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Router.doHandle(Router.java:431)
+	at org.restlet.routing.Router.handle(Router.java:648)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.engine.application.StatusFilter.doHandle(StatusFilter.java:155)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.routing.Filter.doHandle(Filter.java:159)
+	at org.restlet.routing.Filter.handle(Filter.java:206)
+	at org.restlet.engine.CompositeHelper.handle(CompositeHelper.java:211)
+	at org.restlet.Component.handle(Component.java:392)
+	at org.restlet.Server.handle(Server.java:516)
+	at org.restlet.engine.connector.ServerConnectionHelper.handle(ServerConnectionHelper.java:257)
+	at org.restlet.engine.connector.ServerConnectionHelper.doHandleInbound(ServerConnectionHelper.java:186)
+	at org.restlet.engine.connector.BaseHelper$2.run(BaseHelper.java:593)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+	at java.lang.Thread.run(Thread.java:722)
+2014-05-30 15:18:41,134 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-30 15:18:41,785 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-30 15:18:41,785 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-30 15:18:41,786 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-30 15:18:41,878 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 15:18:41,916 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-30 15:18:41,924 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-30 15:18:41,927 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
+2014-05-30 15:18:41,928 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
+2014-05-30 15:18:52,273 [Restlet-1690127949] INFO  BaseModule.common.DebugLog - Models loaded successfully

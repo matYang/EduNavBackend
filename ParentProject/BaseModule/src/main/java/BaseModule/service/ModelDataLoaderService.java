@@ -49,7 +49,8 @@ public class ModelDataLoaderService {
 		loadCoupons(conn);//5
 
 		EduDaoBasic.closeResources(conn, null, null, true);
-
+		DebugLog.d("Models loaded successfully");
+		
 	}
 
 	private static void loadCourses(Connection...connections){
@@ -112,7 +113,7 @@ public class ModelDataLoaderService {
 			course = CourseDao.getCourseById(3, connections);
 			user = UserDao.getUserById(2, connections);
 			partner = PartnerDao.getPartnerById(3, connections);
-			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), 3, 
+			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), 2, 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"ihjgijrth",BookingStatus.pending);
 			BookingDao.addBookingToDatabases(booking,connections);
@@ -166,14 +167,14 @@ public class ModelDataLoaderService {
 
 			String name2 = "Matt";
 			String phone2 = "1324234234";
-			String password2 = "36krl";
+			String password2 = "36krlrethjhgu";
 			String email2 = "uwse@me";
 			AccountStatus status2 = AccountStatus.activated;		
 			User user2 = new User(name2, phone2, password2,status2,email2);
 			UserDao.addUserToDatabase(user2,connections);
 
 			String name3 = "Fan";
-			String phone3 = "1345452";
+			String phone3 = "1345452342";
 			String password3 = "36krlfgfdgdf";
 			String email3 = "uwse@me";
 			AccountStatus status3 = AccountStatus.deactivated;		

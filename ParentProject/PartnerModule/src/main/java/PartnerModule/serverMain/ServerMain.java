@@ -3,9 +3,7 @@ package PartnerModule.serverMain;
 import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
-
 import BaseModule.common.DebugLog;
-import BaseModule.service.ModelDataLoaderService;
 import BaseModule.staticDataService.SystemDataInit;
 import PartnerModule.appService.RoutingService;
 
@@ -60,8 +58,7 @@ public class ServerMain {
 
 	public static void main(String... args) throws Exception {
 		DebugLog.initializeLogger();
-		SystemDataInit.init();
-		ModelDataLoaderService.load();
+		SystemDataInit.init();	
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();

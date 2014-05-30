@@ -15,6 +15,7 @@ import AdminModule.resources.booking.BookingIdResource;
 import AdminModule.resources.booking.BookingResource;
 import AdminModule.resources.course.CourseIdResource;
 import AdminModule.resources.course.CourseResource;
+import AdminModule.resources.modelLoader.ModelLoaderResource;
 import AdminModule.resources.partner.PartnerIdResource;
 import AdminModule.resources.partner.PartnerResource;
 import AdminModule.resources.user.UserResource;
@@ -39,14 +40,15 @@ public class RoutingService extends Application{
 		
 		/** -------------------- APIs for admin module ------------------ **/
 		String adminServicePrefix = "/admin";
-
+		String adminPrefix = "/admin";
+		
 		String SessionRedirectPrefix = "/findSession";
 		//	API for session redirection upon non-session pages: /a-api/v1.0/admin/findSession
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + SessionRedirectPrefix, AdminSessionRedirect.class);
-		// 	API for AdminAccount get/post : /a-api/v1.0/admin
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix, AdminAccountResource.class);
-		//  API for AdminAccount put : /a-api/v1.0/admin/:id
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + "/{id}", AdminAccountIdResource.class); 
+		// 	API for AdminAccount get/post : /a-api/v1.0/admin/admin
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + adminPrefix, AdminAccountResource.class);
+		//  API for AdminAccount put : /a-api/v1.0/admin/admin/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + adminPrefix + "/{id}", AdminAccountIdResource.class); 
 		String loginPrefix = "/login";
 		//  API for AdminAccount login : /a-api/v1.0/admin/login
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + loginPrefix, AdminAccountLogin.class);
@@ -91,9 +93,12 @@ public class RoutingService extends Application{
 		//  API for admin to get course : /a-api/v1.0/admin/course/:id
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + courseServicePrefix + "/{id}", CourseIdResource.class);
 		
+		/** -------------------- API for ModelLoader module ------------------ **/
+		String modelLoaderPrefix = "/modelLoader";
 		
+		//  API for model to load : /a-api/v1.0/admin/modelLoader
 		
-		
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + modelLoaderPrefix, ModelLoaderResource.class);
 		
 		
 		
