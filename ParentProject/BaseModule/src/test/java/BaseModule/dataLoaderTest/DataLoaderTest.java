@@ -1,11 +1,15 @@
 package BaseModule.dataLoaderTest;
 
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import org.json.JSONArray;
 import org.junit.Test;
 
+import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.service.ModelDataLoaderService;
 import BaseModule.staticDataService.CatDataLoader;
 import BaseModule.staticDataService.LocationDataLoader;
 import BaseModule.staticDataService.StaticDataService;
@@ -42,5 +46,15 @@ public class DataLoaderTest {
 		System.out.println(locationDataArr);
 	}
 	
+	@Test
+	public void modelLoaderTest(){
+		EduDaoBasic.clearBothDatabase();
+		try{
+			ModelDataLoaderService.loadAllModels();
+		}catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
 
 }

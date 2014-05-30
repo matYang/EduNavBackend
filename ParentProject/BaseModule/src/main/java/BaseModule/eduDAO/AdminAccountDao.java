@@ -65,8 +65,8 @@ public class AdminAccountDao {
 		return alist;
 	}
 	
-	public static AdminAccount addAdminAccountToDatabases(AdminAccount account){
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static AdminAccount addAdminAccountToDatabases(AdminAccount account,Connection...connections){
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO AdminAccountDao (creationTime,lastLogin,status,reference,privilege,name,phone,password)" +
@@ -93,7 +93,7 @@ public class AdminAccountDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		} finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 		
 		return account;
 	}
