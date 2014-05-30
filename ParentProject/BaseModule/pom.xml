@@ -40,6 +40,15 @@
 				</includes>
 				<targetPath>..</targetPath>
 			</resource>
+			<resource>
+				<directory>src/main/resources/imgs</directory>
+				<includes>
+					<include>classroom-m-32-1.png</include>
+					<include>logo-m-32-1.png</include>					
+					<include>teacher-m-32-1.png</include>
+				</includes>
+				<targetPath>..</targetPath>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>

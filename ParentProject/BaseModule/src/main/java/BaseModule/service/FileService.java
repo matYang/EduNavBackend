@@ -12,7 +12,7 @@ public class FileService {
 	}
 	
 	public static String uploadBackgroundImg(int courseId, File file, String imgName){
-		return AliyunMain.uploadImg(courseId, file, imgName, ServerConfig.AliyunBackgroundImgBucket);
+		return AliyunMain.uploadImg(courseId, file, imgName, ServerConfig.AliyunClassroomImgBucket);
 	}
 	
 	public static String uploadLogoImg(int partnerId, File file, String imgName){

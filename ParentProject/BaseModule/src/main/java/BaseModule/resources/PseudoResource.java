@@ -196,7 +196,7 @@ public class PseudoResource extends ServerResource{
 				else if (fi.getFieldName().equals("classroomImg")){
 					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
 					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 800, 600, Scalr.OP_ANTIALIAS);
-					imgName = ImgConfig.backgroundImgPrefix + ImgConfig.imgSize_m + id;
+					imgName = ImgConfig.classroomImgPrefix + ImgConfig.imgSize_m + id;
 					imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName + ".png");
 					ImageIO.write(bufferedImage, "png", imgFile);
 					//warning: can only call this upload once, as it will delete the image file before it exits

@@ -7,6 +7,8 @@ import java.io.InputStream;
 import org.apache.log4j.Logger;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
+
+
 import com.aliyun.openservices.ClientException;
 import com.aliyun.openservices.oss.OSSClient;
 import com.aliyun.openservices.oss.OSSException;
@@ -18,7 +20,7 @@ public class AliyunMain {
 
 	private static final String myAccessKeyID = ServerConfig.AliyunAccessKeyID;
 	private static final String mySecretKey = ServerConfig.AliyunAccessKeySecrete;
-
+	public static boolean onServer = false;
 
 	static Logger logger = Logger.getLogger(AliyunMain.class);
 
@@ -39,8 +41,7 @@ public class AliyunMain {
 			ObjectMetadata meta = new ObjectMetadata();
 			meta.setContentLength(file.length());
 			client.putObject(Bucket, tempImageKey, content, meta);
-			imgAddress = ServerConfig.AliyunGetImgPrefix + tempImageKey;
-
+			imgAddress = getImageUrlPrefix(Bucket) + tempImageKey;
 		} catch(ClientException | OSSException e){
 			e.printStackTrace();  
 			DebugLog.d(e);
@@ -53,7 +54,7 @@ public class AliyunMain {
 				file.delete();
 			}
 		}		
-		//System.out.println("Img Address is: " + imgAddress);
+		System.out.println("Img Address is: " + imgAddress);
 		return  imgAddress;	
 
 	}	
@@ -64,5 +65,13 @@ public class AliyunMain {
 		return id + "/" + imageName + ".png";
 	}	
 
+	private static String getImageUrlPrefix(String Bucket){
+		if(!onServer){
+			return "http://" + Bucket + ".oss-cn-hangzhou.aliyuncs.com/";
+		}else {
+			return "http://" + Bucket + ".oss-internal.aliyuncs.com/";
+		}
+		
+	}
 	
 }
