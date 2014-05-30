@@ -14,7 +14,7 @@ import BaseModule.resources.PseudoResource;
 
 public class UserPseudoResource extends PseudoResource{
 	
-	public static final boolean cookieEnabled = false;
+	public static final boolean cookieEnabled = true;
 	public static final String cookie_userSession = "userSessionCookie";
 	public static final int cookie_maxAge = 5184000; //2 month
 	

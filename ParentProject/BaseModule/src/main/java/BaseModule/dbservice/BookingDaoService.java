@@ -73,7 +73,7 @@ public class BookingDaoService {
 				}
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 				updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-				BookingDao.updateBookingInDatabases(updatedBooking);
+				BookingDao.updateBookingInDatabases(updatedBooking); 
 				if (updatedBooking.getStatus() == BookingStatus.failed){
 					SMSTask sms = new SMSTask(SMSEvent.user_bookingFailed, updatedBooking.getPhone(), updatedBooking.getCourse().getCourseName());
 					ExecutorProvider.executeRelay(sms);

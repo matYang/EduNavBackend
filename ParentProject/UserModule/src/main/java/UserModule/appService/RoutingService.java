@@ -66,7 +66,7 @@ public class RoutingService extends Application {
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + ChangePasswordPrefix + "/{id}", UserChangePassword.class);
 		String ForgetPasswordPrefix = "/forgetPassword";
 		//	API for user logout: /api/v1.0/user/forgetPassword
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + ForgetPasswordPrefix + "/{id}", UserForgetPassword.class);
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + ForgetPasswordPrefix, UserForgetPassword.class);
 		String ChangeCellPhonePrefix = "/changePhone";
 		//	API for user change cellphone: /api/v1.0/user/changePhone
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + ChangeCellPhonePrefix + "/{id}", UserChangeCellPhone.class);
@@ -93,10 +93,6 @@ public class RoutingService extends Application {
 		//	API for booking get/put : /api/v1.0/booking/:id
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + "/{id}", BookingIdResource.class);
 				
-		/** -------------------- APIs for course module ------------------ **/
-		String courseServicePrefix = "/course";
-		//	API for course get : /api/v1.0/course/:id
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + courseServicePrefix + "/{id}", GetCourseDetail.class);
 		return router;
 	}
 
