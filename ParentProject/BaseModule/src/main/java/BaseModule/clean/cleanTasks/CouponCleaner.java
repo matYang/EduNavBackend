@@ -9,9 +9,11 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.coupon.CouponNotFoundException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.model.Coupon;
+
 
 public class CouponCleaner extends CouponDao{
 
@@ -21,7 +23,7 @@ public class CouponCleaner extends CouponDao{
 		Connection conn = EduDaoBasic.getSQLConnection();		
 		String ct = DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance());
 		String query = "SELECT * FROM CouponDao where status = ? and expireTime < ?";
-		Coupon c = null;
+		Coupon c = null;		
 		try{
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, CouponStatus.usable.code);
@@ -31,8 +33,7 @@ public class CouponCleaner extends CouponDao{
 				c = createCouponByResultSet(rs);
 				c.setStatus(CouponStatus.expired);
 				CouponDao.updateCouponInDatabases(c,conn);	
-				c.setAmount(-c.getAmount());
-				CouponDao.addCouponToUser(c, conn);
+				UserDao.updateUserBCC(0, 0, -c.getAmount(), c.getUserId(), conn);
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -44,7 +45,6 @@ public class CouponCleaner extends CouponDao{
 			e.printStackTrace();
 			DebugLog.d(e);
 		}
-
 		EduDaoBasic.closeResources(conn, stmt, null, true);
 	}
 

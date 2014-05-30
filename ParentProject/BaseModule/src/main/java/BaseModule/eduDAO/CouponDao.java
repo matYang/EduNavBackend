@@ -10,7 +10,6 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.exception.coupon.CouponNotFoundException;
-import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.model.Coupon;
 
 
@@ -69,28 +68,7 @@ public class CouponDao {
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}	
-	}
-	
-	public static void addCouponToUser(Coupon c, Connection...connections) throws UserNotFoundException{
-		Connection conn = EduDaoBasic.getConnection(connections);
-		PreparedStatement stmt = null;	
-		ResultSet rs = null;
-		String query = "UPDATE UserDao set (coupon = coupon + ?) where id = ?";
-		try{
-			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, c.getAmount());
-			stmt.setInt(2, c.getUserId());
-			int recordsAffected = stmt.executeUpdate();
-			if(recordsAffected==0){
-				throw new UserNotFoundException();
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-			DebugLog.d(e);
-		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
-		}	
-	}
+	}	
 
 	public static ArrayList<Coupon> getCouponByUserId(int userId,Connection...connections){
 		PreparedStatement stmt = null;

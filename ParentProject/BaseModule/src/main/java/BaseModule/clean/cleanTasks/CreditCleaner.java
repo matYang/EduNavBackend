@@ -9,6 +9,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.credit.CreditNotFoundException;
 import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.model.Credit;
@@ -40,8 +41,7 @@ public class CreditCleaner extends CreditDao{
 				CreditDao.updateCreditInDatabases(c,conn);
 
 				if(c.getStatus().code == CreditStatus.usable.code){
-					c.setAmount(-c.getAmount());
-					CreditDao.addCreditToUser(c, conn);
+					UserDao.updateUserBCC(0, -c.getAmount(), 0, c.getUserId(), conn);
 				}
 
 			}

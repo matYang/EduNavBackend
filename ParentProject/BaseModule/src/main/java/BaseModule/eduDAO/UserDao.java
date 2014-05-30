@@ -92,7 +92,7 @@ public class UserDao {
 			stmt.setInt(8, user.getCoupon());
 			stmt.setInt(9, user.getCredit());
 			stmt.setString(10, user.getEmail());
-			
+
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -198,6 +198,28 @@ public class UserDao {
 		} 
 
 		return user;
+	}
+
+	public static void updateUserBCC(int balance,int credit,int coupon,int userId,Connection...connections) throws UserNotFoundException{
+		String query = "UPDATE UserDao set (balance = balance + ?),(credit = credit + ?),(coupon = coupon + ?) where id = ?";
+		Connection conn = EduDaoBasic.getConnection(connections);
+		PreparedStatement stmt = null;	
+		try{
+			stmt = conn.prepareStatement(query);
+			stmt.setInt(1, balance);
+			stmt.setInt(2, credit);
+			stmt.setInt(3, coupon);
+			stmt.setInt(4, userId);
+			int recordsAffected = stmt.executeUpdate();
+			if(recordsAffected==0){
+				throw new UserNotFoundException();
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, null, EduDaoBasic.shouldConnectionClose(connections));
+		}
+
 	}
 	
 	//currently this method is not being used as UserSearchRepresentation does its job
@@ -341,7 +363,7 @@ public class UserDao {
 			}
 		}
 	}
-	
+
 	private static User createUserByResultSet(ResultSet rs) throws SQLException {		
 		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
 				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),"", AccountStatus.fromInt(rs.getInt("status")),rs.getInt("balance"),rs.getInt("coupon"),
