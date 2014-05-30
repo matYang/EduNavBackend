@@ -34,6 +34,9 @@ public class UserAuthenticationService {
 	
 
 	public static boolean closeSession(String sessionString) throws PseudoException{
+		if (sessionString == null){
+			return true;
+		}
 		return RedisAuthenticationService.closeSession(serviceIdentifier, String.valueOf(RedisAuthenticationService.getIdFromSessionString(sessionString)));
 	}
 	
