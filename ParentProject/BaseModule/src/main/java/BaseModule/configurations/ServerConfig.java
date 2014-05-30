@@ -3,6 +3,7 @@ package BaseModule.configurations;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import BaseModule.aliyun.AliyunMain;
 import BaseModule.common.DebugLog;
 import BaseModule.encryption.AccessControlCrypto;
 
@@ -55,7 +56,7 @@ public class ServerConfig {
 					configurationMap.put("redisSearchHistoryUpbound", "50");
 					configurationMap.put("sqlPass", AccessControlCrypto.decrypt("A1E4DDE152B755ECC46248A9D629FDD9", ac_key, ac_ivy));
 					configurationMap.put("sqlUser", AccessControlCrypto.decrypt("7260820C1FAFD1F699249AF73A9D181D7BD6CE549202AD9FE095E1CE635843DB", ac_key, ac_ivy));
-								
+					AliyunMain.onServer = true;		
 				}
 			} catch (Exception e){
 				DebugLog.d(e);
@@ -82,15 +83,14 @@ public class ServerConfig {
 		public static final String timeZoneIdCH = "asia/shanghai";
 		
 
-		/* ALIYUN Bucket*/
-		public static final String AliyunGetImgPrefix = "http://badstudent-aliyun.oss-cn-hangzhou.aliyuncs.com/";
+		/* ALIYUN Bucket*/		
 		public static final String AliyunAccessKeyID = "UBnwEnaFUdBewFF9";
 		public static final String AliyunAccessKeySecrete = "L8hyNuKRXo5bfQ9HWURDq0bprDSDYO";
 		public static final String AliyunTeacherImgBucket = "teacherimgbucket";
-		public static final String AliyunBackgroundImgBucket = "backimgbucket";
+		public static final String AliyunClassroomImgBucket = "classroomimgbucket";
 		public static final String AliyunLogoBucket = "logobucket";
 		public static final String AliyunProfileBucket = "badstudent-aliyun";
-
+		public static final String AliyunInternPrefix = "";
 		
 		public static final String resourcePrefix = "src/main/resources/";
 }

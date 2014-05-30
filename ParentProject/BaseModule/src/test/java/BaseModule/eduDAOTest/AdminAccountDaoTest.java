@@ -249,7 +249,7 @@ public class AdminAccountDaoTest {
 		AdminAccountDao.addAdminAccountToDatabases(account2);
 		
 		String name3 = "Harry";
-		String phone3 = "123445676543";
+		String phone3 = "1234456543";
 		String reference3 = "dsfdsf";
 		Privilege privilege3 = Privilege.mamagement;
 		AccountStatus status3 = AccountStatus.activated;		
@@ -258,8 +258,8 @@ public class AdminAccountDaoTest {
 		AdminAccountDao.addAdminAccountToDatabases(account3);
 		
 		String name4 = "Matt";
-		String phone4 = "13245612312";
-		String reference4 = "xcfk2321";
+		String phone4 = "145612312";
+		String reference4 = "x2321";
 		Privilege privilege4 = Privilege.routine;
 		AccountStatus status4 = AccountStatus.deactivated;		
 		String password4 = "dsfdwr";
@@ -279,8 +279,7 @@ public class AdminAccountDaoTest {
 		sr.setName(null);
 		sr.setPhone(phone2);
 		alist = AdminAccountDao.searchAdminAccount(sr);
-		if(alist.size() == 2 && alist.get(0).equals(account2)&&
-				alist.get(1).equals(account4)){
+		if(alist.size() == 1 && alist.get(0).equals(account2)){
 			//Passed;
 		}else fail();
 		
