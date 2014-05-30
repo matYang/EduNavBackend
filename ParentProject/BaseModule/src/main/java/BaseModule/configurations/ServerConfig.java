@@ -2,8 +2,6 @@ package BaseModule.configurations;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import BaseModule.aliyun.AliyunMain;
 import BaseModule.common.DebugLog;
 import BaseModule.encryption.AccessControlCrypto;
 
@@ -18,6 +16,15 @@ public class ServerConfig {
 		public static final String ac_key = "du#*(kDJ8jS5-n@d";
 		public static final String ac_ivy = "2Hl_39Hk3&l]F3j*";
 		
+		public static final String MAP_ENV_KEY = "env";
+		public static final String MAP_ENV_LOCAL = "local";
+		public static final String MAP_ENV_TEST = "test";
+		public static final String MAP_ENV_PROD = "prod";
+		public static final String MAP_MODULE_KEY = "module";
+		public static final String MAP_MODULE_USER = "user";
+		public static final String MAP_MODULE_PARTNER = "partner";
+		public static final String MAP_MODULE_ADMIN = "admin";
+
 		//use concurrent hashmap to guarantee thread safety
 		public static final Map<String, String> configurationMap = new ConcurrentHashMap<String, String>();
 		
@@ -57,7 +64,7 @@ public class ServerConfig {
 					configurationMap.put("redisSearchHistoryUpbound", "50");
 					configurationMap.put("sqlPass", AccessControlCrypto.decrypt("A1E4DDE152B755ECC46248A9D629FDD9", ac_key, ac_ivy));
 					configurationMap.put("sqlUser", AccessControlCrypto.decrypt("7260820C1FAFD1F699249AF73A9D181D7BD6CE549202AD9FE095E1CE635843DB", ac_key, ac_ivy));
-					configurationMap.put("onServer", "false");		
+					configurationMap.put("onServer", "true");		
 				}
 			} catch (Exception e){
 				DebugLog.d(e);

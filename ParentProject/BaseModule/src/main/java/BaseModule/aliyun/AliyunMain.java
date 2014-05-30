@@ -7,8 +7,6 @@ import java.io.InputStream;
 import org.apache.log4j.Logger;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
-
-
 import com.aliyun.openservices.ClientException;
 import com.aliyun.openservices.oss.OSSClient;
 import com.aliyun.openservices.oss.OSSException;
@@ -20,7 +18,7 @@ public class AliyunMain {
 
 	private static final String myAccessKeyID = ServerConfig.AliyunAccessKeyID;
 	private static final String mySecretKey = ServerConfig.AliyunAccessKeySecrete;
-	public static boolean onServer = ServerConfig.configurationMap.get("onServer") == "true" ? true : false;
+	private static boolean onServer = ServerConfig.configurationMap.get("onServer") == "true" ? true : false;
 
 	static Logger logger = Logger.getLogger(AliyunMain.class);
 
