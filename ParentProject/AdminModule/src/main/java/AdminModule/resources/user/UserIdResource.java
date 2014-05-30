@@ -1,7 +1,6 @@
 package AdminModule.resources.user;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -9,7 +9,6 @@ import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
 import BaseModule.service.RedisAuthenticationService;
-import PartnerModule.service.PartnerAuthenticationService;
 
 public class PartnerAuthDaoServiceTest {
 

@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
-import UserModule.service.UserAuthenticationService;
 import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;

@@ -25,7 +25,7 @@ public class PartnerIdResource extends AdminPseudoResource{
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			int adminId = this.validateAuthentication();
+			this.validateAuthentication();
 			int partnerId = Integer.parseInt(this.getReqAttr("id"));
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
@@ -33,7 +33,6 @@ public class PartnerIdResource extends AdminPseudoResource{
 			}
 			
 			Partner partner = PartnerDaoService.getPartnerById(partnerId);
-			String oldPName = partner.getInstName();
 
 			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
 			

@@ -1,7 +1,5 @@
 package BaseModule.reflectiveTest;
 
-import static org.junit.Assert.*;
-
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +8,6 @@ import org.junit.Test;
 
 import BaseModule.common.DateUtility;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class CourseSearchRepresentationTest {

@@ -10,7 +10,6 @@ import BaseModule.common.DateUtility;
  * representing the same time each day.
  */
 public class DailyIterator implements ScheduleIterator {
-    private final int hourOfDay, minute, second;
     private final Calendar calendar = DateUtility.getCurTimeInstance();
 
     public DailyIterator(int hourOfDay, int minute, int second) {
@@ -18,9 +17,6 @@ public class DailyIterator implements ScheduleIterator {
     }
 
     public DailyIterator(int hourOfDay, int minute, int second, Date date) {
-        this.hourOfDay = hourOfDay;
-        this.minute = minute;
-        this.second = second;
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);

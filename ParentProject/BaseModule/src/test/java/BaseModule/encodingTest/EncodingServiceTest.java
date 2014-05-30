@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
 
-import javax.sound.sampled.AudioFormat.Encoding;
-
 import org.junit.Test;
 
 import BaseModule.service.EncodingService;

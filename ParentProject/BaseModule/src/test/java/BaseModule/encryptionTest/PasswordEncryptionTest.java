@@ -1,11 +1,8 @@
 package BaseModule.encryptionTest;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import BaseModule.common.DateUtility;
-import BaseModule.encryption.AdminSecretCrypto;
 import BaseModule.encryption.PasswordCrypto;
 
 public class PasswordEncryptionTest {

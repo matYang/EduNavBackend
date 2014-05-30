@@ -1,6 +1,5 @@
 package AdminModule.resources.course;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,14 +9,11 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Put;
 import AdminModule.resources.AdminPseudoResource;
-import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
-import BaseModule.service.EncodingService;
 
 public class CourseIdResource extends AdminPseudoResource{
 	
@@ -27,7 +23,7 @@ public class CourseIdResource extends AdminPseudoResource{
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			int adminId = this.validateAuthentication();
+			this.validateAuthentication();
 			int courseId = Integer.parseInt(this.getReqAttr("id"));
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){

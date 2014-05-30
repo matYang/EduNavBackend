@@ -13,7 +13,6 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.AuthenticationException;

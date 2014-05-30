@@ -19,14 +19,6 @@ public class AdminAccountDaoService {
 		return AdminAccountDao.getAdminAccountById(id);
 	}
 	
-	public static AdminAccount getAdminAccountByPhone(String phone) throws AdminAccountNotFoundException{
-		return AdminAccountDao.getAdminAccountByPhone(phone);
-	}
-	
-	public static AdminAccount getAdminAccountByName(String name) throws AdminAccountNotFoundException{
-		return AdminAccountDao.getAdminAccountByName(name);
-	}
-	
 	public static AdminAccount createAdminAccount(AdminAccount account){
 		return AdminAccountDao.addAdminAccountToDatabases(account);
 	}

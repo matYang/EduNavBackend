@@ -3,8 +3,6 @@ package BaseModule.interfaces;
 import java.util.ArrayList;
 import java.util.Map;
 
-import BaseModule.exception.PseudoException;
-
 public interface PseudoRepresentation {
 	
 	public String serialize() throws Exception;

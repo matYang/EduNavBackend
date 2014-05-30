@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -23,7 +21,7 @@ public class SMSTask implements PseudoAsyncTask{
 	private String content;
 	private String cellNum;
 	
-	public SMSTask(SMSEvent event, String cellNum, String payload){
+	public SMSTask(SMSEvent event, String cellNum, String payload, String... opts){
 		this.cellNum = cellNum;
 		this.event = event;
 		if (event == SMSEvent.user_cellVerification){
@@ -34,6 +32,12 @@ public class SMSTask implements PseudoAsyncTask{
 		}
 		else if (event == SMSEvent.user_forgetPassword){
 			this.content = "您的找回密码验证码是：" + payload + ", 请尽快更改密码";
+		}
+		else if (event == SMSEvent.user_bookingConfirmed){
+			this.content = "尊敬的爱上课用户，您报名的 " + payload + " 课程预约成功，请于 " + opts[0] + " 或之前抵达上课地点付款";
+		}
+		else if (event == SMSEvent.user_bookingFailed){
+			this.content = "尊敬的爱上课用户，您报名的 " + payload + " 课程预约失败，我们在此向您道歉，欢迎您重新搜索";
 		}
 		else if (event == SMSEvent.partner_forgetPassword){
 			this.content = "您的找回密码验证码是：" + payload + ", 请尽快更改密码";

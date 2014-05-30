@@ -54,6 +54,7 @@ public class AdminPseudoResource extends PseudoResource{
      *  
      ******************/
 	
+	@SuppressWarnings("unchecked")
 	protected String getSessionString() throws PseudoException{
 		ArrayList<String> sessionString = new ArrayList<String>();
 		String newDecryptedString = "";

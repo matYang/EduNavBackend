@@ -1,8 +1,6 @@
 package AdminModule.resources.admin;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
@@ -16,7 +14,6 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.dbservice.AdminAccountDaoService;
-import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;

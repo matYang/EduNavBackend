@@ -1,6 +1,5 @@
 package PartnerModule.resources.course;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 
-import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.CourseDaoService;
@@ -18,7 +16,6 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Course;
-import BaseModule.service.EncodingService;
 import PartnerModule.resources.PartnerPseudoResource;
 
 public class CourseResource extends PartnerPseudoResource{

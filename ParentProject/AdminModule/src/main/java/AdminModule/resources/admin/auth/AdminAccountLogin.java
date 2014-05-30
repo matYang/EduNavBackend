@@ -6,7 +6,6 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Post;
 import AdminModule.resources.AdminPseudoResource;
-import BaseModule.common.DebugLog;
 import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;

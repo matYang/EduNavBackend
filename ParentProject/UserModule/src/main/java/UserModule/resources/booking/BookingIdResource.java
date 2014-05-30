@@ -11,7 +11,6 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.AuthenticationException;
@@ -19,7 +18,6 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Booking;
-import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
