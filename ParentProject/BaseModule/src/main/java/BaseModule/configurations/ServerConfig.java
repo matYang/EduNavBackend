@@ -9,13 +9,21 @@ import BaseModule.encryption.AccessControlCrypto;
 
 public class ServerConfig {
 
-	
 		private static final String ENV_VAR_KEY = "RA_MAINSERVER_ENV";
 		private static final String ENV_TEST = "RA_TEST";
 		private static final String ENV_PROD = "RA_PROD";
 		
 		public static final String ac_key = "du#*(kDJ8jS5-n@d";
 		public static final String ac_ivy = "2Hl_39Hk3&l]F3j*";
+		
+		public static final String MAP_ENV_KEY = "env";
+		public static final String MAP_ENV_LOCAL = "local";
+		public static final String MAP_ENV_TEST = "test";
+		public static final String MAP_ENV_PROD = "prod";
+		public static final String MAP_MODULE_KEY = "module";
+		public static final String MAP_MODULE_USER = "user";
+		public static final String MAP_MODULE_PARTNER = "partner";
+		public static final String MAP_MODULE_ADMIN = "admin";
 		
 		//use concurrent hashmap to guarantee thread safety
 		public static final Map<String, String> configurationMap = new ConcurrentHashMap<String, String>();
@@ -36,7 +44,7 @@ public class ServerConfig {
 					configurationMap.put("redisSearchHistoryUpbound", "6");
 					configurationMap.put("sqlPass", "");
 					configurationMap.put("sqlUser", "root");
-
+					configurationMap.put("sqlMaxConnection", "0");
 				} 
 				else if (value.equals(ENV_TEST)){
 					//test env
@@ -46,16 +54,17 @@ public class ServerConfig {
 					configurationMap.put("redisSearchHistoryUpbound", "50");
 					configurationMap.put("sqlPass", "badstudent");
 					configurationMap.put("sqlUser", "test");
+					configurationMap.put("sqlMaxConnection", "0");
 				}
 				else{
 					//prod env
 					configurationMap.put("env", "prod");
 					configurationMap.put("jdbcUri", "as4359fdgk.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
-					configurationMap.put("redisUri", AccessControlCrypto.decrypt("0E0C572F1FE597594C85ED71A04D006F", ac_key, ac_ivy));
+					configurationMap.put("redisUri", "localhost");
 					configurationMap.put("redisSearchHistoryUpbound", "50");
 					configurationMap.put("sqlPass", AccessControlCrypto.decrypt("A1E4DDE152B755ECC46248A9D629FDD9", ac_key, ac_ivy));
 					configurationMap.put("sqlUser", AccessControlCrypto.decrypt("7260820C1FAFD1F699249AF73A9D181D7BD6CE549202AD9FE095E1CE635843DB", ac_key, ac_ivy));
-								
+					configurationMap.put("sqlMaxConnection", "0");			
 				}
 			} catch (Exception e){
 				DebugLog.d(e);
@@ -72,7 +81,6 @@ public class ServerConfig {
 		
 		
 		/*API level constants*/
-		public static final int category_DM = 0;
 		public static final String userApplicationPrefix = "/api";
 		public static final String partnerApplicationPrefix = "/p-api";
 		public static final String adminApplicationPrefix = "/a-api";

@@ -4,7 +4,6 @@ import java.util.Set;
 
 import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.DatabaseConfig;
 import BaseModule.configurations.RedisAuthenticationConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 
@@ -24,7 +23,7 @@ public class SessionCleaner {
 			keys = redis.keys(RedisAuthenticationConfig.userSession_web_keyPrefix+"*");		
 			for(String key : keys){
 				String sessionString = redis.get(key);
-				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[2]);			
+				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[2]);			
 				if(timeStamp + RedisAuthenticationConfig.userSession_expireThreshold < now){
 					redis.del(key);
 				}
@@ -33,7 +32,7 @@ public class SessionCleaner {
 			keys = redis.keys(RedisAuthenticationConfig.userChangePasswordVerification_keyPrefix+"*");		
 			for(String key : keys){
 				String sessionString = redis.get(key);
-				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
+				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[1]);			
 				if(timeStamp + RedisAuthenticationConfig.userChangePasswordVerification_expireThreshold < now){
 					redis.del(key);
 				}
@@ -42,7 +41,7 @@ public class SessionCleaner {
 			keys = redis.keys(RedisAuthenticationConfig.userCellVerification_keyPrefix+"*");		
 			for(String key : keys){
 				String sessionString = redis.get(key);
-				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
+				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[1]);			
 				if(timeStamp + RedisAuthenticationConfig.userCellVerification_expireThreshold < now){
 					redis.del(key);
 				}
@@ -51,7 +50,7 @@ public class SessionCleaner {
 			keys = redis.keys(RedisAuthenticationConfig.userForgotPassword_keyPrefix+"*");		
 			for(String key : keys){
 				String sessionString = redis.get(key);
-				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
+				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[1]);			
 				if(timeStamp + RedisAuthenticationConfig.userForgotPassword_expireThreshold < now){
 					redis.del(key);
 				}
@@ -63,7 +62,7 @@ public class SessionCleaner {
 			keys = redis.keys(RedisAuthenticationConfig.partnerSession_web_keyPrefix+"*");		
 			for(String key : keys){
 				String sessionString = redis.get(key);
-				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[2]);			
+				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[2]);			
 				if(timeStamp + RedisAuthenticationConfig.partnerSession_expireThreshold < now){
 					redis.del(key);
 				}
@@ -72,7 +71,7 @@ public class SessionCleaner {
 			keys = redis.keys(RedisAuthenticationConfig.partnerForgotPassword_keyPrefix+"*");		
 			for(String key : keys){
 				String sessionString = redis.get(key);
-				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
+				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[1]);			
 				if(timeStamp + RedisAuthenticationConfig.partnerForgotPassword_expireThreshold < now){
 					redis.del(key);
 				}
@@ -81,7 +80,7 @@ public class SessionCleaner {
 			keys = redis.keys(RedisAuthenticationConfig.partnerChangePasswordVerification_keyPrefix+"*");		
 			for(String key : keys){
 				String sessionString = redis.get(key);
-				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);			
+				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[1]);			
 				if(timeStamp + RedisAuthenticationConfig.partnerChangePasswordVerification_expireThreshold < now){
 					redis.del(key);
 				}
@@ -93,7 +92,7 @@ public class SessionCleaner {
 			keys = redis.keys(RedisAuthenticationConfig.adminSession_web_keyPrefix+"*");		
 			for(String key : keys){
 				String sessionString = redis.get(key);
-				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[2]);			
+				long timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[2]);			
 				if(timeStamp + RedisAuthenticationConfig.adminSession_expireThreshold < now){
 					redis.del(key);
 				}

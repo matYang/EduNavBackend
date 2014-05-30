@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.DatabaseConfig;
+import BaseModule.configurations.ServerConfig;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -26,21 +26,22 @@ public class EduDaoBasic {
 		jedisConfig.setTestOnBorrow(false);
 		jedisConfig.setMinIdle(5);
 		jedisConfig.setMaxWait(4000l);
-		jedisPool = new JedisPool(jedisConfig, DatabaseConfig.redisUri, 6379);
+		jedisPool = new JedisPool(jedisConfig, ServerConfig.configurationMap.get("redisUri"), 6379);
 		
 		
 		HikariConfig sqlConfig = new HikariConfig();
 		sqlConfig.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-		sqlConfig.addDataSourceProperty("url", "jdbc:mysql://"+DatabaseConfig.jdbcUri);
-		sqlConfig.addDataSourceProperty("user", DatabaseConfig.sqlUser);
-		sqlConfig.addDataSourceProperty("password", DatabaseConfig.sqlPass);
+		sqlConfig.addDataSourceProperty("url", "jdbc:mysql://" + ServerConfig.configurationMap.get("jdbcUri"));
+		sqlConfig.addDataSourceProperty("user", ServerConfig.configurationMap.get("sqlUser"));
+		sqlConfig.addDataSourceProperty("password", ServerConfig.configurationMap.get("sqlPass"));
 		sqlConfig.setPoolName("SQLPool");
 		sqlConfig.setMaxLifetime(1800000l);
 		sqlConfig.setAutoCommit(true);
-		sqlConfig.setMaximumPoolSize(100);
+		sqlConfig.setMaximumPoolSize(Integer.parseInt(ServerConfig.configurationMap.get("sqlMaxConnection")));
 		sqlConfig.setConnectionTimeout(10000l);
 		ds = new HikariDataSource(sqlConfig);
 		
+		System.out.println("Max connection: " + Integer.parseInt(ServerConfig.configurationMap.get("sqlMaxConnection")));
 	}	
 
     

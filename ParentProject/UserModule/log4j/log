@@ -798,3 +798,64 @@ BaseModule.exception.validation.ValidationException
 2014-05-30 14:54:56,837 [main] INFO  BaseModule.common.DebugLog - ready to start
 2014-05-30 14:54:56,935 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
 2014-05-30 14:54:56,964 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-30 17:11:52,244 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-30 17:11:53,646 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-30 17:11:53,648 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-30 17:11:53,649 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-30 17:11:53,903 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 17:11:53,988 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-30 17:11:54,025 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-30 17:11:58,803 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-30 17:12:00,232 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-30 17:12:00,234 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-30 17:12:00,236 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-30 17:12:00,567 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 17:12:00,575 [main] INFO  BaseModule.common.DebugLog - UserModule.serverMain.ServerMain got Exception! 
+java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:344)
+	at sun.nio.ch.Net.bind(Net.java:336)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:199)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:67)
+	at org.restlet.engine.connector.ServerConnectionHelper.createServerSocketChannel(ServerConnectionHelper.java:158)
+	at org.restlet.engine.connector.ServerConnectionHelper.start(ServerConnectionHelper.java:320)
+	at org.restlet.Server.start(Server.java:590)
+	at org.restlet.Component.startServers(Component.java:611)
+	at org.restlet.Component.start(Component.java:538)
+	at UserModule.serverMain.ServerMain.start(ServerMain.java:48)
+	at UserModule.serverMain.ServerMain.main(ServerMain.java:88)
+2014-05-30 17:12:10,037 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-30 17:12:11,564 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-30 17:12:11,566 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-30 17:12:11,567 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-30 17:12:11,877 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 17:12:11,961 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-30 17:12:11,996 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-30 17:14:08,300 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-30 17:14:09,388 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-30 17:14:09,390 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-30 17:14:09,392 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-30 17:14:09,589 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 17:14:09,596 [main] INFO  BaseModule.common.DebugLog - UserModule.serverMain.ServerMain got Exception! 
+java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:344)
+	at sun.nio.ch.Net.bind(Net.java:336)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:199)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:67)
+	at org.restlet.engine.connector.ServerConnectionHelper.createServerSocketChannel(ServerConnectionHelper.java:158)
+	at org.restlet.engine.connector.ServerConnectionHelper.start(ServerConnectionHelper.java:320)
+	at org.restlet.Server.start(Server.java:590)
+	at org.restlet.Component.startServers(Component.java:611)
+	at org.restlet.Component.start(Component.java:538)
+	at UserModule.serverMain.ServerMain.start(ServerMain.java:48)
+	at UserModule.serverMain.ServerMain.main(ServerMain.java:90)
+2014-05-30 17:14:30,770 [main] INFO  BaseModule.common.DebugLog - Starting to load catData: src/main/resources/CatData
+2014-05-30 17:14:32,126 [main] INFO  BaseModule.common.DebugLog - catData loaded succesfully
+2014-05-30 17:14:32,127 [main] INFO  BaseModule.common.DebugLog - Starting to load locationData: src/main/resources/LocationData
+2014-05-30 17:14:32,137 [main] INFO  BaseModule.common.DebugLog - locationData loaded succesfully
+2014-05-30 17:14:32,353 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 17:14:32,422 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-30 17:14:32,450 [main] INFO  BaseModule.common.DebugLog - Excuting
