@@ -50,7 +50,7 @@ public class DataLoaderTest {
 	public void modelLoaderTest(){
 		EduDaoBasic.clearBothDatabase();
 		try{
-			ModelDataLoaderService.loadAllModels();
+			ModelDataLoaderService.load();
 		}catch(Exception e){
 			e.printStackTrace();
 			fail();

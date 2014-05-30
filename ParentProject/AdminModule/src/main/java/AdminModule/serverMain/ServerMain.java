@@ -8,6 +8,7 @@ import org.restlet.data.Protocol;
 import AdminModule.appService.CleanService;
 import AdminModule.appService.RoutingService;
 import BaseModule.common.DebugLog;
+import BaseModule.service.ModelDataLoaderService;
 import BaseModule.staticDataService.SystemDataInit;
 
 
@@ -65,6 +66,7 @@ public class ServerMain {
 	public static void main(String... args) throws Exception {
 		DebugLog.initializeLogger();
 		SystemDataInit.init();
+		ModelDataLoaderService.load();
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
