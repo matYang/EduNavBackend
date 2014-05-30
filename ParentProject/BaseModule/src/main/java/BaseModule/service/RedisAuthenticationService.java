@@ -5,7 +5,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.DatabaseConfig;
 import BaseModule.configurations.RedisAuthenticationConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
@@ -44,7 +43,7 @@ public class RedisAuthenticationService {
 				}
 				if ((DateUtility.getCurTime() - redis_timeStamp) > config.activeThreshold){
 					//if should update, udpate only the time stamp in the kvp
-					jedis.set(redisKey, id + DatabaseConfig.redisSeperator + authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp());
+					jedis.set(redisKey, id + RedisAuthenticationConfig.redisSeperator + authCode + RedisAuthenticationConfig.redisSeperator + DateUtility.getTimeStamp());
 				}
 				return true;
 			}
@@ -64,7 +63,7 @@ public class RedisAuthenticationService {
 			RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
 			
 			String redisKey = config.keyPrefix + id;
-			sessionString = id + DatabaseConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(config.authCodeLength) + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+			sessionString = id + RedisAuthenticationConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(config.authCodeLength) + RedisAuthenticationConfig.redisSeperator + DateUtility.getTimeStamp();
 			
 			jedis.set(redisKey, sessionString);
 		} finally{
@@ -91,8 +90,8 @@ public class RedisAuthenticationService {
 			if(!RedisUtilityService.isValuedStored(sessionString)){
 				return false;
 			}else{
-				String redis_authCode = sessionString.split(DatabaseConfig.redisSeperatorRegex)[0];
-				long redis_timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(DatabaseConfig.redisSeperatorRegex)[1]);
+				String redis_authCode = sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[0];
+				long redis_timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[1]);
 				
 				if(!redis_authCode.equals(authCode)){
 					return false;
@@ -123,7 +122,7 @@ public class RedisAuthenticationService {
 			String previousRecord = jedis.get(redisKey);
 			if (RedisUtilityService.isValuedStored(previousRecord)){
 				//check if should resend
-				long redis_timeStamp = DateUtility.getLongFromTimeStamp(previousRecord.split(DatabaseConfig.redisSeperatorRegex)[1]);
+				long redis_timeStamp = DateUtility.getLongFromTimeStamp(previousRecord.split(RedisAuthenticationConfig.redisSeperatorRegex)[1]);
 				if((DateUtility.getCurTime() - redis_timeStamp) <= config.activeThreshold){
 					throw new ValidationException("连续请求过快");
 				}
@@ -133,7 +132,7 @@ public class RedisAuthenticationService {
 			if (config.authCodeUpper){
 				authCode = authCode.toUpperCase();
 			}
-			String sessionString = authCode + DatabaseConfig.redisSeperator + DateUtility.getTimeStamp();
+			String sessionString = authCode + RedisAuthenticationConfig.redisSeperator + DateUtility.getTimeStamp();
 			
 			jedis.set(redisKey, sessionString);
 		} finally{
@@ -171,16 +170,16 @@ public class RedisAuthenticationService {
 	 ******************************/
 	//Session string format: "id+sessionStr+timeStamp"
 	public static int getIdFromSessionString(String sessionString)throws PseudoException{
-		String idStr = sessionString.split(DatabaseConfig.redisSeperatorRegex)[0];
+		String idStr = sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[0];
 		int userId = Integer.parseInt(idStr);
 		return userId;
 	}
 	public static String getAuthCodeFromSessionString(String sessionString)throws PseudoException{
-		String authCodeStr = sessionString.split(DatabaseConfig.redisSeperatorRegex)[1];
+		String authCodeStr = sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[1];
 		return authCodeStr;
 	}
 	public static long getTimeStampFromSessionString(String sessionString)throws PseudoException{
-		String timeStampStr = sessionString.split(DatabaseConfig.redisSeperatorRegex)[2];
+		String timeStampStr = sessionString.split(RedisAuthenticationConfig.redisSeperatorRegex)[2];
 		return DateUtility.getLongFromTimeStamp(timeStampStr);
 	}
 

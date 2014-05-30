@@ -1,11 +1,14 @@
 package AdminModule.serverMain;
 
+import java.util.Map;
+
 import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
 import AdminModule.appService.CleanService;
 import AdminModule.appService.RoutingService;
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.ServerConfig;
 import BaseModule.staticDataService.SystemDataInit;
 
 
@@ -58,11 +61,24 @@ public class ServerMain {
 		return me;
 	}
 	
-
-
+	static{
+		Map<String, String> configureMap = ServerConfig.configurationMap;
+		configureMap.put(ServerConfig.MAP_MODULE_KEY, ServerConfig.MAP_MODULE_ADMIN);
+		
+		if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_LOCAL)){
+			configureMap.put("sqlMaxConnection","4");
+		}
+		else if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_TEST)){
+			configureMap.put("sqlMaxConnection","4");
+		}
+		else if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){
+			configureMap.put("sqlMaxConnection","4");
+		}
+	}
+	
 	public static void main(String... args) throws Exception {
-		DebugLog.initializeLogger();
 		SystemDataInit.init();	
+		DebugLog.initializeLogger();
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();

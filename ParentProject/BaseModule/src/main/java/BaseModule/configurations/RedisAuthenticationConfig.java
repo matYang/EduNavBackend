@@ -3,6 +3,11 @@ package BaseModule.configurations;
 import BaseModule.model.configObj.RedisSubConfig;
 
 public class RedisAuthenticationConfig {
+
+	/* RedisSperator*/
+	public static final String redisSeperator = "+";
+	public static final String redisSeperatorRegex = "\\+";
+	
 	
 	/* UserModule */
 	public static final String userSession_web_keyPrefix = "user-session-web-";
@@ -130,5 +135,6 @@ public class RedisAuthenticationConfig {
 		}
 		return config;
 	}
+
 	
 }

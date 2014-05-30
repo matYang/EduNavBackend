@@ -1,12 +1,12 @@
 package UserModule.serverMain;
 
+import java.util.Map;
+
 import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
-
-import BaseModule.aliyun.AliyunMain;
 import BaseModule.common.DebugLog;
-import BaseModule.service.FileService;
+import BaseModule.configurations.ServerConfig;
 import BaseModule.staticDataService.SystemDataInit;
 import UserModule.appService.RoutingService;
 
@@ -64,6 +64,22 @@ public class ServerMain {
 		return me;
 	}
 	
+	static{
+		Map<String, String> configureMap = ServerConfig.configurationMap;
+		configureMap.put(ServerConfig.MAP_MODULE_KEY, ServerConfig.MAP_MODULE_USER);
+		
+		if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_LOCAL)){
+			configureMap.put("sqlMaxConnection","50");
+		}
+		else if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_TEST)){
+			configureMap.put("sqlMaxConnection","50");
+		}
+		else if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){
+			configureMap.put("sqlMaxConnection","50");
+		}
+		
+		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection"));
+	}
 
 
 	public static void main(String... args) throws Exception {
@@ -72,7 +88,7 @@ public class ServerMain {
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
-			DebugLog.d("Excuting");			
+			DebugLog.d("Excuting");
 		} catch (Exception e) {
 			DebugLog.d(e);
 		}

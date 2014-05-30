@@ -264,3 +264,8 @@ java.lang.NumberFormatException: For input string: "modelLoader"
 2014-05-30 15:18:41,927 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
 2014-05-30 15:18:41,928 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
 2014-05-30 15:18:52,273 [Restlet-1690127949] INFO  BaseModule.common.DebugLog - Models loaded successfully
+2014-05-30 16:47:06,072 [main] INFO  BaseModule.common.DebugLog - ready to start
+2014-05-30 16:47:06,175 [main] INFO  BaseModule.common.DebugLog - initiaing router::RoutingService
+2014-05-30 16:47:06,207 [main] INFO  BaseModule.common.DebugLog - Excuting
+2014-05-30 16:47:06,218 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean:: clean scheduled at 4:0:0
+2014-05-30 16:47:06,218 [Thread-5] INFO  BaseModule.common.DebugLog - ScheduledClean thread starting, cleaning at 4:30AM every day
