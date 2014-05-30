@@ -20,7 +20,7 @@ public class AliyunMain {
 
 	private static final String myAccessKeyID = ServerConfig.AliyunAccessKeyID;
 	private static final String mySecretKey = ServerConfig.AliyunAccessKeySecrete;
-	public static boolean onServer = false;
+	public static boolean onServer = ServerConfig.configurationMap.get("onServer") == "true" ? true : false;
 
 	static Logger logger = Logger.getLogger(AliyunMain.class);
 
