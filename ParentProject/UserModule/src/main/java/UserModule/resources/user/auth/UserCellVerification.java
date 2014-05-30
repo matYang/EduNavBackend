@@ -56,7 +56,7 @@ public class UserCellVerification extends UserPseudoResource{
 		
 		try{
 			JSONObject jsonPair = (new JsonRepresentation(entity)).getJsonObject();
-			String cellNum = EncodingService.decodeURI(jsonPair.getString("cellNum"));
+			String cellNum = EncodingService.decodeURI(jsonPair.getString("phone"));
 			String authCode = EncodingService.decodeURI(jsonPair.getString("authCode"));
 			
 			if (ValidationService.validatePhone(cellNum)){
