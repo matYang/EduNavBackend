@@ -74,6 +74,8 @@ public class ServerMain {
 		else if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){
 			configureMap.put("sqlMaxConnection","4");
 		}
+		
+		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection"));
 	}
 	
 	public static void main(String... args) throws Exception {
