@@ -52,7 +52,7 @@ public class RoutingService extends Application {
 		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ChangePasswordPrefix + "/{id}", PartnerChangePassword.class);
 		String ForgetPasswordPrefix = "/forgetPassword";
 		//	p-api for partner logout: /p-api/v1.0/partner/forgetPassword
-		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ForgetPasswordPrefix + "/{id}", PartnerForgetPassword.class);
+		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ForgetPasswordPrefix, PartnerForgetPassword.class);
 		
 		/** -------------------- apis for partner module ------------------ **/
 		String courseServicePrefix = "/course";
