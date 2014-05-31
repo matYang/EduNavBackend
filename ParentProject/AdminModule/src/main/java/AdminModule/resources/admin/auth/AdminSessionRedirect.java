@@ -12,6 +12,7 @@ import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.admin.AdminAccountNotFoundException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.AdminAccount;
 
@@ -29,7 +30,7 @@ public class AdminSessionRedirect extends AdminPseudoResource{
 			int accountId = this.validateAuthentication();
 			account = AdminAccountDaoService.getAdminAccountById(accountId);
 			jsonObject = JSONFactory.toJSON(account);
-		} catch (AuthenticationException e){
+		} catch (AuthenticationException | AdminAccountNotFoundException e){
 			//if not authenticated, return default user with id -1
 			account = new AdminAccount("default", "default","default", Privilege.routine, AccountStatus.activated,"default");
 			account.setAdminId(-1);
