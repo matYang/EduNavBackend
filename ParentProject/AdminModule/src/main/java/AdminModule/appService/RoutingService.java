@@ -95,9 +95,7 @@ public class RoutingService extends Application{
 		
 		/** -------------------- API for ModelLoader module ------------------ **/
 		String modelLoaderPrefix = "/modelLoader";
-		
 		//  API for model to load : /a-api/v1.0/admin/modelLoader
-		
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + modelLoaderPrefix, ModelLoaderResource.class);
 		
 		

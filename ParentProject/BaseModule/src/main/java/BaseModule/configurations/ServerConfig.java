@@ -44,7 +44,6 @@ public class ServerConfig {
 					configurationMap.put("redisSearchHistoryUpbound", "6");
 					configurationMap.put("sqlPass", "");
 					configurationMap.put("sqlUser", "root");
-					configurationMap.put("onServer", "false");
 				} 
 				else if (value.equals(ENV_TEST)){
 					//test env
@@ -54,7 +53,6 @@ public class ServerConfig {
 					configurationMap.put("redisSearchHistoryUpbound", "50");
 					configurationMap.put("sqlPass", "badstudent");
 					configurationMap.put("sqlUser", "test");
-					configurationMap.put("onServer", "false");
 				}
 				else{
 					//prod env
@@ -64,7 +62,6 @@ public class ServerConfig {
 					configurationMap.put("redisSearchHistoryUpbound", "50");
 					configurationMap.put("sqlPass", AccessControlCrypto.decrypt("A1E4DDE152B755ECC46248A9D629FDD9", ac_key, ac_ivy));
 					configurationMap.put("sqlUser", AccessControlCrypto.decrypt("7260820C1FAFD1F699249AF73A9D181D7BD6CE549202AD9FE095E1CE635843DB", ac_key, ac_ivy));
-					configurationMap.put("onServer", "true");		
 				}
 			} catch (Exception e){
 				DebugLog.d(e);
