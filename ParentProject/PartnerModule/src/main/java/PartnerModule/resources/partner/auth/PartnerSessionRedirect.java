@@ -10,6 +10,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.partner.PartnerNotFoundException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Partner;
 import PartnerModule.resources.PartnerPseudoResource;
@@ -27,7 +28,7 @@ public class PartnerSessionRedirect extends PartnerPseudoResource{
 			int partnerId = this.validateAuthentication();
 			partner = PartnerDaoService.getPartnerById(partnerId);
 			jsonObject = JSONFactory.toJSON(partner);
-		} catch (AuthenticationException e){
+		} catch (AuthenticationException | PartnerNotFoundException e){
 			//if not authenticated, return default user with id -1
 			partner = new Partner("default", "default","default", "default",
 					"default", "default", "default",AccountStatus.activated);

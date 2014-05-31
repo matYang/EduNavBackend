@@ -10,6 +10,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.user.UserNotFoundException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.User;
 
@@ -27,7 +28,7 @@ public class UserSessionRedirect extends UserPseudoResource{
 			int userId = this.validateAuthentication();
 			user = UserDaoService.getUserById(userId);
 			jsonObject = JSONFactory.toJSON(user);
-		} catch (AuthenticationException e){
+		} catch (AuthenticationException | UserNotFoundException e){
 			//if not authenticated, return default user with id -1
 			user = new User("default","default","default", AccountStatus.activated, "default");
 			user.setUserId(-1);
