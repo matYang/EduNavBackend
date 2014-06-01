@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import org.apache.log4j.Logger;
-
-import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
 import com.aliyun.openservices.ClientException;
@@ -58,6 +56,10 @@ public class AliyunMain {
 
 	}		
 
+	public static String uploadFile(int id, File file, String fileName, String Bucket){
+		return uploadFile(id, file, fileName, Bucket,true);
+	}
+	
 	public static String uploadFile(int id, File file, String fileName, String Bucket,boolean shouldDelete){
 
 		OSSClient client = new OSSClient(myAccessKeyID, mySecretKey);	
@@ -68,7 +70,7 @@ public class AliyunMain {
 			ObjectMetadata meta = new ObjectMetadata();
 			meta.setContentLength(file.length());
 			client.putObject(Bucket, tempFileKey, content, meta);
-			
+			imgAddress = getOSSUrlPrefix(Bucket) + tempFileKey;
 		} catch(ClientException | OSSException e){
 			e.printStackTrace();  
 			DebugLog.d(e);
@@ -87,8 +89,7 @@ public class AliyunMain {
 	}
 	
 	private static String getFileKey(int id, String fileName) {
-		// TODO Auto-generated method stub
-		return null;
+		return id + "/" + fileName + ".txt";
 	}
 
 
