@@ -20,7 +20,6 @@ public class AliyunMain {
 
 	private static final String myAccessKeyID = ServerConfig.AliyunAccessKeyID;
 	private static final String mySecretKey = ServerConfig.AliyunAccessKeySecrete;
-	private static boolean onServer = ServerConfig.configurationMap.get("onServer") == "true" ? true : false;
 
 	static Logger logger = Logger.getLogger(AliyunMain.class);
 
@@ -41,7 +40,7 @@ public class AliyunMain {
 			ObjectMetadata meta = new ObjectMetadata();
 			meta.setContentLength(file.length());
 			client.putObject(Bucket, tempImageKey, content, meta);
-			imgAddress = getImageUrlPrefix(Bucket) + tempImageKey;
+			imgAddress = getOSSUrlPrefix(Bucket) + tempImageKey;
 		} catch(ClientException | OSSException e){
 			e.printStackTrace();  
 			DebugLog.d(e);
@@ -57,8 +56,8 @@ public class AliyunMain {
 		System.out.println("Img Address is: " + imgAddress);
 		return  imgAddress;	
 
-	}	
-	
+	}		
+
 	public static String uploadFile(int id, File file, String fileName, String Bucket,boolean shouldDelete){
 
 		OSSClient client = new OSSClient(myAccessKeyID, mySecretKey);	
@@ -93,15 +92,22 @@ public class AliyunMain {
 	}
 
 
-	private static String getImageKey(int id, String imageName){		
+	private static String getImageKey(int id, String imageName){
 		return id + "/" + imageName + ".png";
 	}	
 
-	private static String getImageUrlPrefix(String Bucket){
-		if(!onServer){
+	private static String getOSSUrlPrefix(String Bucket){
+		if (ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_LOCAL)){
 			return "http://" + Bucket + ".oss-cn-hangzhou.aliyuncs.com/";
-		}else {
+		}
+		else if (ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_TEST)){
+			return "http://" + Bucket + ".oss-cn-hangzhou.aliyuncs.com/";
+		}
+		else if (ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){
 			return "http://" + Bucket + ".oss-internal.aliyuncs.com/";
+		}
+		else{
+			throw new RuntimeException();
 		}
 		
 	}
