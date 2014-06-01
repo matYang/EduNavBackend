@@ -18,7 +18,7 @@ public class PartnerDaoTest {
 
 	@Test
 	public void testCreate(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -38,7 +38,7 @@ public class PartnerDaoTest {
 	
 	@Test
 	public void testGet() throws ValidationException, PartnerNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -81,7 +81,7 @@ public class PartnerDaoTest {
 	
 	@Test
 	public void testUpdate() throws ValidationException, PartnerNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -109,7 +109,7 @@ public class PartnerDaoTest {
 	
 	@Test
 	public void testUpdatePartnerPassword() throws ValidationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -170,7 +170,7 @@ public class PartnerDaoTest {
 
 	@Test
 	public void testRecoverPassword() throws ValidationException, AuthenticationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -206,7 +206,7 @@ public class PartnerDaoTest {
 	
 	@Test
 	public void testAuthPartner() throws ValidationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -247,7 +247,7 @@ public class PartnerDaoTest {
 	
 	@Test
 	public void testSearch() throws ValidationException, PartnerNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";

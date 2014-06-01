@@ -41,27 +41,36 @@ public class ServerConfig {
 					configurationMap.put("env", "local");			
 					configurationMap.put("jdbcUri", "localhost:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", "localhost");
-					configurationMap.put("redisSearchHistoryUpbound", "6");
+					configurationMap.put("memcachedUri", "localhost:11211");
 					configurationMap.put("sqlPass", "");
 					configurationMap.put("sqlUser", "root");
+					configurationMap.put("sqlMaxConnection","50");
+					configurationMap.put("memcachedUser", "");
+					configurationMap.put("memcachedPass", "");
 				} 
 				else if (value.equals(ENV_TEST)){
 					//test env
 					configurationMap.put("env", "test");
 					configurationMap.put("jdbcUri", "badstudent.cunzg2tyzsud.us-west-2.rds.amazonaws.com:3306/test?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", "redisserver.ppomgu.0001.usw2.cache.amazonaws.com");
-					configurationMap.put("redisSearchHistoryUpbound", "50");
+					configurationMap.put("memcachedUri", "localhost:11211");
 					configurationMap.put("sqlPass", "badstudent");
 					configurationMap.put("sqlUser", "test");
+					configurationMap.put("sqlMaxConnection","50");
+					configurationMap.put("memcachedUser", "");
+					configurationMap.put("memcachedPass", "");
 				}
 				else{
 					//prod env
 					configurationMap.put("env", "prod");
 					configurationMap.put("jdbcUri", "as4359fdgk.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", AccessControlCrypto.decrypt("0E0C572F1FE597594C85ED71A04D006F", ac_key, ac_ivy));
-					configurationMap.put("redisSearchHistoryUpbound", "50");
+					configurationMap.put("memcachedUri", "fdbc1391e96411e3.m.cnhzalicm10pub001.ocs.aliyuncs.com:11211");
 					configurationMap.put("sqlPass", AccessControlCrypto.decrypt("A1E4DDE152B755ECC46248A9D629FDD9", ac_key, ac_ivy));
 					configurationMap.put("sqlUser", AccessControlCrypto.decrypt("7260820C1FAFD1F699249AF73A9D181D7BD6CE549202AD9FE095E1CE635843DB", ac_key, ac_ivy));
+					configurationMap.put("sqlMaxConnection","50");
+					configurationMap.put("memcachedUser", "fdbc1391e96411e3");
+					configurationMap.put("memcachedPass", "4RKOZAlh48z1");
 				}
 			} catch (Exception e){
 				DebugLog.d(e);

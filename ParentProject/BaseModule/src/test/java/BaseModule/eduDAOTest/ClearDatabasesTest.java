@@ -6,7 +6,7 @@ public class ClearDatabasesTest {
 
 	@Test
 	public void test() {
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 	}
 
 }

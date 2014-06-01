@@ -36,7 +36,7 @@ import BaseModule.model.User;
 public class ModelDataLoaderService {	
 
 	public static void load(){		
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		Connection conn = EduDaoBasic.getSQLConnection();
 
 		loadUsers(conn);//4

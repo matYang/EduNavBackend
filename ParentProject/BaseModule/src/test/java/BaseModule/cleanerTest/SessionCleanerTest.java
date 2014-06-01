@@ -27,7 +27,7 @@ public class SessionCleanerTest {
 
 	@Test
 	public void test(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		Jedis redis = EduDaoBasic.getJedis();
 		Calendar badTime;
 		long badTimeStamp;

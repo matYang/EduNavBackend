@@ -23,7 +23,7 @@ public class CourseDaoTest {
 
 	@Test
 	public void testCreate(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int p_Id = 1;
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
@@ -46,7 +46,7 @@ public class CourseDaoTest {
 	
 	@Test
 	public void testGetAndUpdate() throws ValidationException, CourseNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -141,7 +141,7 @@ public class CourseDaoTest {
 	
 	@Test
 	public void testSearch() throws ValidationException, CourseNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		/* Partner part */
 		String name = "partne1";
 		String instName = "instName1";

@@ -20,7 +20,7 @@ public class AdminAccountDaoTest {
 
 	@Test
 	public void testCreate() {
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
 		String reference = "dsfdsf";
@@ -38,7 +38,7 @@ public class AdminAccountDaoTest {
 	
 	@Test
 	public void testGet() throws AdminAccountNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
 		String reference = "dsfdsf";
@@ -76,7 +76,7 @@ public class AdminAccountDaoTest {
 	
 	@Test
 	public void testUpdate() throws AdminAccountNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "1";
 		String reference = "dsfdsf";
@@ -98,7 +98,7 @@ public class AdminAccountDaoTest {
 	
 	@Test
 	public void testUpdateAdminAccountPassword() throws ValidationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
 		String reference = "dsfdsf";
@@ -156,7 +156,7 @@ public class AdminAccountDaoTest {
 
 	@Test
 	public void testRecoverPassword() throws ValidationException, AuthenticationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
 		String reference = "dsfdsf";
@@ -190,7 +190,7 @@ public class AdminAccountDaoTest {
 	
 	@Test
 	public void testAuthAdmin() throws ValidationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
 		String reference = "dsfdsf";
@@ -229,7 +229,7 @@ public class AdminAccountDaoTest {
 	
 	@Test
 	public void testSearch(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
 		String reference = "dsfdsf";

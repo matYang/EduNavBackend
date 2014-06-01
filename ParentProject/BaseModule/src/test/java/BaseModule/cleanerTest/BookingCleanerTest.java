@@ -27,7 +27,7 @@ public class BookingCleanerTest {
 
 	@Test
 	public void test() throws ValidationException, CourseNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";

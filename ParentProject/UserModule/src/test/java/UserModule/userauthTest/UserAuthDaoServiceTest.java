@@ -16,7 +16,7 @@ public class UserAuthDaoServiceTest {
 
 	@Test
 	public void test(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int userId = 1;
 		String authCode = RandomStringUtils.randomAlphanumeric(userSession_web_authCodeLength);
 		long timeStamp = DateUtility.getLongFromTimeStamp(DateUtility.getTimeStamp());

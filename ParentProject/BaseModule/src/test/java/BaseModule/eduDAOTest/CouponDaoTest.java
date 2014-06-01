@@ -24,7 +24,7 @@ public class CouponDaoTest {
 
 	@Test
 	public void testCreate(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int bookingId = 1;
 		int userId = 1;
 		int amount = 234;
@@ -40,7 +40,7 @@ public class CouponDaoTest {
 	
 	@Test
 	public void testGet(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int bookingId = 1;
 		int userId = 1;
 		int amount = 45665;
@@ -62,7 +62,7 @@ public class CouponDaoTest {
 	
 	@Test
 	public void testUpdate() throws CouponNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int bookingId = 1;
 		int userId = 1;
 		int amount = 1000034343;
@@ -80,7 +80,7 @@ public class CouponDaoTest {
 	
 	@Test
 	public void testClean() throws ValidationException, UserNotFoundException{
-		EduDaoBasic.clearBothDatabase();		
+		EduDaoBasic.clearAllDatabase();		
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";

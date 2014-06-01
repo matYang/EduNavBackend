@@ -23,7 +23,7 @@ public class CreditDaoTest {
 
 	@Test
 	public void testCreate(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int bookingId = 1;
 		int userId = 1;
 		int amount = 234;
@@ -40,7 +40,7 @@ public class CreditDaoTest {
 	
 	@Test
 	public void testGet(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int bookingId = 1;
 		int userId = 1;
 		int amount = 5653;
@@ -65,7 +65,7 @@ public class CreditDaoTest {
 	
 	@Test
 	public void testUpdate() throws CreditNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int bookingId = 1;
 		int userId = 1;
 		int amount = 2;
@@ -83,7 +83,7 @@ public class CreditDaoTest {
 	
 	@Test
 	public void testClean() throws ValidationException, UserNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";

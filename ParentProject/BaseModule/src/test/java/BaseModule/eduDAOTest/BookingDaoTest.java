@@ -28,7 +28,7 @@ public class BookingDaoTest {
 
 	@Test
 	public void testCreate() throws ValidationException, CourseNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";
@@ -94,7 +94,7 @@ public class BookingDaoTest {
 	
 	@Test
 	public void testGet() throws CourseNotFoundException, ValidationException, BookingNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";
@@ -202,7 +202,7 @@ public class BookingDaoTest {
 	
 	@Test
 	public void testUpdate() throws CourseNotFoundException, ValidationException, BookingNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";
@@ -278,7 +278,7 @@ public class BookingDaoTest {
 	@Test
 	public void testSearch() throws ValidationException, CourseNotFoundException, BookingNotFoundException{
 		//User
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";

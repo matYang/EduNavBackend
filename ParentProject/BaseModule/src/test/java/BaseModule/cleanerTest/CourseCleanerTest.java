@@ -21,7 +21,7 @@ public class CourseCleanerTest {
 
 	@Test
 	public void test() throws ValidationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName ="TseTingFeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";

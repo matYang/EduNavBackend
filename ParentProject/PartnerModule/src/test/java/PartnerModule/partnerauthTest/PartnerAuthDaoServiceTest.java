@@ -17,7 +17,7 @@ public class PartnerAuthDaoServiceTest {
 	
 	@Test
 	public void test(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int partnerId = 1;
 		String authCode = RandomStringUtils.randomAlphanumeric(partnerSession_web_authCodeLength);
 		long timeStamp = DateUtility.getLongFromTimeStamp(DateUtility.getTimeStamp());

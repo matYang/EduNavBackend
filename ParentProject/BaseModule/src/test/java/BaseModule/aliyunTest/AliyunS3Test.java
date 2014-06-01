@@ -13,7 +13,7 @@ public class AliyunS3Test {
 
 	@Test
 	public void testUploadImg(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int userId = 1;
 		//Teacher
 		String teacherImgPrefix = ImgConfig.teacherImgPrefix;

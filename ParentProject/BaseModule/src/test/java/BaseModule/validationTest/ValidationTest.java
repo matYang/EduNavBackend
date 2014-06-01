@@ -164,7 +164,7 @@ public class ValidationTest {
 
 	@Test
 	public void testUserValidation(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
@@ -219,7 +219,7 @@ public class ValidationTest {
 
 	@Test
 	public void testPartnerValidation(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -288,7 +288,7 @@ public class ValidationTest {
 
 	@Test
 	public void testCoruseValidation(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int p_Id = 1;
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
@@ -426,7 +426,7 @@ public class ValidationTest {
 
 	@Test
 	public void testBookingValidation(){
-		EduDaoBasic.clearBothDatabase();			
+		EduDaoBasic.clearAllDatabase();			
 		int price = 12;
 		int userId = 1;
 		int partnerId = 1;

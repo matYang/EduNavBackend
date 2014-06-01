@@ -17,7 +17,7 @@ public class TransactionDaoTest {
 
 	@Test
 	public void testAdd() throws ValidationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
@@ -38,7 +38,7 @@ public class TransactionDaoTest {
 	
 	@Test
 	public void testGet(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		int userId = 1;
 		int bookingId = 1;
 		int amount = 20;

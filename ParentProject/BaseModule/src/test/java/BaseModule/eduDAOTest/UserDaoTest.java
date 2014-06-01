@@ -29,7 +29,7 @@ public class UserDaoTest {
 
 	@Test
 	public void testCreate(){
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
@@ -47,7 +47,7 @@ public class UserDaoTest {
 
 	@Test
 	public void testGet() throws ValidationException, UserNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
@@ -87,7 +87,7 @@ public class UserDaoTest {
 
 	@Test
 	public void testUpdate() throws ValidationException, SQLException, UserNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
@@ -128,7 +128,7 @@ public class UserDaoTest {
 
 	@Test
 	public void testUpdateUserPassword() throws ValidationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
@@ -187,7 +187,7 @@ public class UserDaoTest {
 
 	@Test
 	public void testRecoverPassword() throws ValidationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
@@ -219,7 +219,7 @@ public class UserDaoTest {
 	
 	@Test
 	public void testAuthUser() throws ValidationException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
 		String password = "36krfinal";
@@ -258,7 +258,7 @@ public class UserDaoTest {
 	
 	@Test
 	public void testSearch() throws ValidationException, UserNotFoundException{
-		EduDaoBasic.clearBothDatabase();
+		EduDaoBasic.clearAllDatabase();
 		String name = "name";
 		String phone = "phone";
 		String password = "password";
