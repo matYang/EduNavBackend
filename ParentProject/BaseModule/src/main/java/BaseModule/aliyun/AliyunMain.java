@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import org.apache.log4j.Logger;
+
+import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
 import com.aliyun.openservices.ClientException;
@@ -57,9 +59,41 @@ public class AliyunMain {
 
 	}	
 	
-	private static String getImageKey(int id, String imageName){
-		//TODO removed msec long msec = DateUtility.getCurTime();				
-		//return id + "/" + imageName + "-" + msec + ".png";
+	public static String uploadFile(int id, File file, String fileName, String Bucket,boolean shouldDelete){
+
+		OSSClient client = new OSSClient(myAccessKeyID, mySecretKey);	
+		String imgAddress = "";		
+		try{			
+			String tempFileKey = getFileKey(id,fileName);
+			InputStream content = new FileInputStream(file);
+			ObjectMetadata meta = new ObjectMetadata();
+			meta.setContentLength(file.length());
+			client.putObject(Bucket, tempFileKey, content, meta);
+			
+		} catch(ClientException | OSSException e){
+			e.printStackTrace();  
+			DebugLog.d(e);
+		} catch (FileNotFoundException e) {			
+			e.printStackTrace();
+			DebugLog.d(e);
+		} finally{
+			IdleConnectionReaper.shutdown();
+			if (shouldDelete){
+				file.delete();
+			}
+		}		
+		System.out.println("File Address is: " + imgAddress);
+		return  imgAddress;	
+
+	}
+	
+	private static String getFileKey(int id, String fileName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	private static String getImageKey(int id, String imageName){		
 		return id + "/" + imageName + ".png";
 	}	
 

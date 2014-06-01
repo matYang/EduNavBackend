@@ -98,7 +98,7 @@ public class ServerConfig {
 		public static final String AliyunClassroomImgBucket = "classroomimgbucket";
 		public static final String AliyunLogoBucket = "logobucket";
 		public static final String AliyunProfileBucket = "badstudent-aliyun";
-		public static final String AliyunInternPrefix = "";
+		public static final String RedisPath = "/var/redis/6379/dump.rdb";
 		
 		public static final String resourcePrefix = "src/main/resources/";
 }
