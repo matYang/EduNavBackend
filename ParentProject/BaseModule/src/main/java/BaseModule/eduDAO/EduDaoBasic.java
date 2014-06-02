@@ -6,27 +6,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
-
 import net.spy.memcached.AddrUtil;
-import net.spy.memcached.ConnectionFactory;
 import net.spy.memcached.ConnectionFactoryBuilder;
 import net.spy.memcached.ConnectionFactoryBuilder.Protocol;
 import net.spy.memcached.DefaultConnectionFactory;
 import net.spy.memcached.DefaultHashAlgorithm;
-import net.spy.memcached.KetamaNodeLocator;
 import net.spy.memcached.MemcachedClient;
-import net.spy.memcached.NodeLocator;
 import net.spy.memcached.auth.AuthDescriptor;
 import net.spy.memcached.auth.PlainCallbackHandler;
 import net.spy.memcached.internal.OperationFuture;
-
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
-
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
