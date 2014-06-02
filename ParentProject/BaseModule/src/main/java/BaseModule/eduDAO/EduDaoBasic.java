@@ -6,27 +6,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
-
 import net.spy.memcached.AddrUtil;
-import net.spy.memcached.ConnectionFactory;
 import net.spy.memcached.ConnectionFactoryBuilder;
 import net.spy.memcached.ConnectionFactoryBuilder.Protocol;
 import net.spy.memcached.DefaultConnectionFactory;
 import net.spy.memcached.DefaultHashAlgorithm;
-import net.spy.memcached.KetamaNodeLocator;
 import net.spy.memcached.MemcachedClient;
-import net.spy.memcached.NodeLocator;
 import net.spy.memcached.auth.AuthDescriptor;
 import net.spy.memcached.auth.PlainCallbackHandler;
 import net.spy.memcached.internal.OperationFuture;
-
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
-
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -58,19 +50,19 @@ public class EduDaoBasic {
 		ds = new HikariDataSource(sqlConfig);
 		
 		
-	   	try {
-	   		if (!ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){
-	   			DefaultConnectionFactory connectionFactory = new DefaultConnectionFactory(DefaultConnectionFactory.DEFAULT_OP_QUEUE_LEN, DefaultConnectionFactory.DEFAULT_READ_BUFFER_SIZE, DefaultHashAlgorithm.KETAMA_HASH);
-	   			memcached = new MemcachedClient(connectionFactory, AddrUtil.getAddresses(ServerConfig.configurationMap.get("memcachedUri")));
-	   		}
-			else{
-				AuthDescriptor ad = new AuthDescriptor(new String[]{"PLAIN"}, new PlainCallbackHandler(ServerConfig.configurationMap.get("memcachedUser"), ServerConfig.configurationMap.get("memcachedPass")));
-				memcached = new MemcachedClient(new ConnectionFactoryBuilder().setProtocol(Protocol.BINARY).setOpTimeout(500).setAuthDescriptor(ad).build(), AddrUtil.getAddresses("ocs.aliyun.com:11211"));
-			}
-	    } catch (IOException e) {
-	    	e.printStackTrace();
-	        throw new RuntimeException("Memcache connection failed, please try again later");
-	    }
+//	   	try {
+//	   		if (!ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){
+//	   			DefaultConnectionFactory connectionFactory = new DefaultConnectionFactory(DefaultConnectionFactory.DEFAULT_OP_QUEUE_LEN, DefaultConnectionFactory.DEFAULT_READ_BUFFER_SIZE, DefaultHashAlgorithm.KETAMA_HASH);
+//	   			memcached = new MemcachedClient(connectionFactory, AddrUtil.getAddresses(ServerConfig.configurationMap.get("memcachedUri")));
+//	   		}
+//			else{
+//				AuthDescriptor ad = new AuthDescriptor(new String[]{"PLAIN"}, new PlainCallbackHandler(ServerConfig.configurationMap.get("memcachedUser"), ServerConfig.configurationMap.get("memcachedPass")));
+//				memcached = new MemcachedClient(new ConnectionFactoryBuilder().setProtocol(Protocol.BINARY).setOpTimeout(500).setAuthDescriptor(ad).build(), AddrUtil.getAddresses("ocs.aliyun.com:11211"));
+//			}
+//	    } catch (IOException e) {
+//	    	e.printStackTrace();
+//	        throw new RuntimeException("Memcache connection failed, please try again later");
+//	    }
 		
 	}	
 

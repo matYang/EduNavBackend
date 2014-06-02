@@ -6,7 +6,9 @@ import BaseModule.log4j.Log4j;
 
 public class DebugLog {
 
-	private static Logger logger = Logger.getLogger(DebugLog.class);
+//	private static Logger logger = Logger.getLogger(DebugLog.class);
+	private static Logger systemLogger = Logger.getLogger("system.logger");
+	public static Logger userBehaviorsLogger = Logger.getLogger("userbehaviors.logger");
 //	private static PatternLayout layout;
 //	private static DailyRollingFileAppender dFileAppender;
 	
@@ -30,7 +32,7 @@ public class DebugLog {
 		//using reflection to get caller name, 500x faster than stack trace
 		//if not accessible, do:  right click on project -> configure build path -> remove JRE system library -> add Library -> JRE System Library (Default) -> OK, clean & recompile
 		String caller = sun.reflect.Reflection.getCallerClass(2).getName();
-		logger.info(caller + " got Exception! ",e);			
+		systemLogger.info(caller + " got Exception! ",e);			
 		e.printStackTrace();
 	}
 
@@ -39,6 +41,10 @@ public class DebugLog {
 	}	
 
 	private static void log(String message){
-		logger.info(message);
+		systemLogger.info(message);
+	}
+	
+	public static void usrd(String message){
+		userBehaviorsLogger.info(message);
 	}
 }

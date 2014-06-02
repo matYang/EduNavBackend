@@ -89,6 +89,7 @@ public class ServerMain {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
 			DebugLog.d("Excuting");
+			DebugLog.usrd("Starting logging users behaviors......");
 		} catch (Exception e) {
 			DebugLog.d(e);
 		}
