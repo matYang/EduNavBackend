@@ -50,19 +50,19 @@ public class EduDaoBasic {
 		ds = new HikariDataSource(sqlConfig);
 		
 		
-	   	try {
-	   		if (!ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){
-	   			DefaultConnectionFactory connectionFactory = new DefaultConnectionFactory(DefaultConnectionFactory.DEFAULT_OP_QUEUE_LEN, DefaultConnectionFactory.DEFAULT_READ_BUFFER_SIZE, DefaultHashAlgorithm.KETAMA_HASH);
-	   			memcached = new MemcachedClient(connectionFactory, AddrUtil.getAddresses(ServerConfig.configurationMap.get("memcachedUri")));
-	   		}
-			else{
-				AuthDescriptor ad = new AuthDescriptor(new String[]{"PLAIN"}, new PlainCallbackHandler(ServerConfig.configurationMap.get("memcachedUser"), ServerConfig.configurationMap.get("memcachedPass")));
-				memcached = new MemcachedClient(new ConnectionFactoryBuilder().setProtocol(Protocol.BINARY).setOpTimeout(500).setAuthDescriptor(ad).build(), AddrUtil.getAddresses("ocs.aliyun.com:11211"));
-			}
-	    } catch (IOException e) {
-	    	e.printStackTrace();
-	        throw new RuntimeException("Memcache connection failed, please try again later");
-	    }
+//	   	try {
+//	   		if (!ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){
+//	   			DefaultConnectionFactory connectionFactory = new DefaultConnectionFactory(DefaultConnectionFactory.DEFAULT_OP_QUEUE_LEN, DefaultConnectionFactory.DEFAULT_READ_BUFFER_SIZE, DefaultHashAlgorithm.KETAMA_HASH);
+//	   			memcached = new MemcachedClient(connectionFactory, AddrUtil.getAddresses(ServerConfig.configurationMap.get("memcachedUri")));
+//	   		}
+//			else{
+//				AuthDescriptor ad = new AuthDescriptor(new String[]{"PLAIN"}, new PlainCallbackHandler(ServerConfig.configurationMap.get("memcachedUser"), ServerConfig.configurationMap.get("memcachedPass")));
+//				memcached = new MemcachedClient(new ConnectionFactoryBuilder().setProtocol(Protocol.BINARY).setOpTimeout(500).setAuthDescriptor(ad).build(), AddrUtil.getAddresses("ocs.aliyun.com:11211"));
+//			}
+//	    } catch (IOException e) {
+//	    	e.printStackTrace();
+//	        throw new RuntimeException("Memcache connection failed, please try again later");
+//	    }
 		
 	}	
 
