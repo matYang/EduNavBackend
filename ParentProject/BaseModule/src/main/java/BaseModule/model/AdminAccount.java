@@ -1,6 +1,8 @@
 package BaseModule.model;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+
 import java.util.Calendar;
 
 import org.json.JSONException;
@@ -11,8 +13,11 @@ import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
-public class AdminAccount implements PseudoModel{
 
+public class AdminAccount implements PseudoModel, Serializable{
+	
+	private static final long serialVersionUID = 4L;
+	
 	private int adminId;
 	private String password;
 	private String name;

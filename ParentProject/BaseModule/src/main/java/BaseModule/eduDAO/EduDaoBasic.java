@@ -132,9 +132,10 @@ public class EduDaoBasic {
     	return memcached.get(key);
     }
     
-    public static OperationFuture<Boolean> setCache(String key, Object obj){
+    public static OperationFuture<Boolean> setCache(String key, int exp, Object obj){
     	return memcached.set(key, 3600, obj);
     }
+
     
     public static OperationFuture<Boolean> deleteCache(String key){
     	return memcached.delete(key);

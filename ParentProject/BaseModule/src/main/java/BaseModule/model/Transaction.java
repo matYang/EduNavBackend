@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import org.json.JSONException;
@@ -9,8 +10,10 @@ import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.interfaces.PseudoModel;
 
 
-public class Transaction implements PseudoModel{
+public class Transaction implements PseudoModel, Serializable{
 
+	private static final long serialVersionUID = 6L;
+	
 	private int transactionId;
 	private int userId;
 	private int bookingId;

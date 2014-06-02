@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
@@ -11,7 +12,9 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
 
-public class Partner implements PseudoModel{
+public class Partner implements PseudoModel, Serializable{
+	
+	private static final long serialVersionUID = 2L;
 	
 	private int partnerId;
 	private String wholeName;

@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import org.json.JSONException;
@@ -9,7 +10,9 @@ import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.interfaces.PseudoModel;
 
 
-public class Coupon implements PseudoModel{
+public class Coupon implements PseudoModel, Serializable{
+	
+	private static final long serialVersionUID = 7L;
 
 	public static final long expireThreshould = 31536000l;
 	
