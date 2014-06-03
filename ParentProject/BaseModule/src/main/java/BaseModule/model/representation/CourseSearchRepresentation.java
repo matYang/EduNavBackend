@@ -10,11 +10,12 @@ import org.json.JSONObject;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.exception.PseudoException;
+import BaseModule.interfaces.PseudoMemCacheKey;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.service.RepresentationReflectiveService;
 
-public class CourseSearchRepresentation implements PseudoModel, PseudoRepresentation{
+public class CourseSearchRepresentation implements PseudoModel, PseudoRepresentation, PseudoMemCacheKey{
 	
 	//used for broad search
 	private ClassModel classModel;
@@ -89,6 +90,11 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		return RepresentationReflectiveService.toJSON(this);
 	}
 	
+
+	@Override
+	public String toCacheKey() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
+		return this.serialize();
+	}
 	
 	public String getCategory() {
 		return category;

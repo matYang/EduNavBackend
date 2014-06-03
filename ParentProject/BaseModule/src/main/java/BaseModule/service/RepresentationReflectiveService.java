@@ -221,6 +221,7 @@ public class RepresentationReflectiveService {
 		return true;
 	}
 	
+	
 	private static Field[] getFields(PseudoRepresentation representation){
 		Field[] fields;
 		if (representation instanceof CourseSearchRepresentation){

@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,7 +14,9 @@ import BaseModule.factory.JSONFactory;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
 
-public class User implements PseudoModel{
+public class User implements PseudoModel, Serializable{
+	
+	private static final long serialVersionUID = 1L;
 
 	private int userId;
 	private int balance;
@@ -30,9 +33,9 @@ public class User implements PseudoModel{
 	private Calendar creationTime;
 	private Calendar lastLogin;
 	
-	private ArrayList<Coupon> couponList = new ArrayList<Coupon>();
-	private ArrayList<Credit> creditList = new ArrayList<Credit>();
-	private ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
+	private transient ArrayList<Coupon> couponList = new ArrayList<Coupon>();
+	private transient ArrayList<Credit> creditList = new ArrayList<Credit>();
+	private transient ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
 
 	//SQL Retrieving
 	public User(int userId, String name, String phone, Calendar creationTime,

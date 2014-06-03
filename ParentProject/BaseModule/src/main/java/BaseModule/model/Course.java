@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.text.ParseException;
@@ -21,8 +22,10 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
 
-public class Course implements PseudoModel{
-
+public class Course implements PseudoModel, Serializable{
+	
+	private static final long serialVersionUID = 3L;
+	
 	private int courseId;
 	private int partnerId;	
 	

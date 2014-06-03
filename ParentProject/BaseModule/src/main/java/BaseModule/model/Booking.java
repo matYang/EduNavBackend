@@ -1,5 +1,6 @@
 package BaseModule.model;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
@@ -11,7 +12,9 @@ import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
 
-public class Booking implements PseudoModel{
+public class Booking implements PseudoModel, Serializable{
+	
+	private static final long serialVersionUID = 5L;
 
 	private int bookingId;
 
@@ -32,12 +35,10 @@ public class Booking implements PseudoModel{
 	
 	private Calendar creationTime;
 	private Calendar adjustTime;
-	
-	private Course course;
-	
-	//TODO added
 	private boolean wasConfirmed;
 	private String actionRecord;
+	
+	private transient Course course;
 
 	//SQL Retrieving
 	//TODO
