@@ -60,7 +60,7 @@ public class EduDaoBasic {
 	   		}
 			else{
 				AuthDescriptor ad = new AuthDescriptor(new String[]{"PLAIN"}, new PlainCallbackHandler(ServerConfig.configurationMap.get("memcachedUser"), ServerConfig.configurationMap.get("memcachedPass")));
-				memcached = new MemcachedClient(new ConnectionFactoryBuilder().setProtocol(Protocol.BINARY).setOpTimeout(500).setAuthDescriptor(ad).build(), AddrUtil.getAddresses("ocs.aliyun.com:11211"));
+				memcached = new MemcachedClient(new ConnectionFactoryBuilder().setProtocol(Protocol.BINARY).setOpTimeout(500).setAuthDescriptor(ad).build(), AddrUtil.getAddresses(ServerConfig.configurationMap.get("memcachedUri")));
 			}
 	    } catch (IOException e) {
 	    	e.printStackTrace();
