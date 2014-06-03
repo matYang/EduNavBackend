@@ -318,16 +318,20 @@ public class CourseDao {
 		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
 		int stmtInt = 1;
-		ArrayList<Course> clist = new ArrayList<Course>();
-		if(idList.size() == 0){
-			return clist;
-		}
+		ArrayList<Course> clist = null;
 		
-		String query = "SELECT * FROM CourseDao where id = ?";
-		for(int i = 1 ; i < idList.size() ; i++){
-			query += " or id = ? ";
-		}
 		try{
+			clist = new ArrayList<Course>();
+			if(idList.size() == 0){
+				return clist;
+			}
+			
+			String query = "SELECT * FROM CourseDao where id = ?";
+			for(int i = 1 ; i < idList.size() ; i++){
+				query += " or id = ? ";
+			}
+			
+			
 			stmt = conn.prepareStatement(query);
 			for(int i = 0 ; i < idList.size() ; i++){
 				stmt.setInt(stmtInt++, idList.get(i));

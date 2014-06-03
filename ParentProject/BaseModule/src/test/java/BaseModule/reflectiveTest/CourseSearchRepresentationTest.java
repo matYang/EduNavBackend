@@ -57,7 +57,6 @@ public class CourseSearchRepresentationTest {
 		kvps.put("finishTime", "2018-09-1");
 		
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
-		int a = 1;
 		c_sr.storeKvps(kvps);
 		
 		System.out.println(c_sr.toString());

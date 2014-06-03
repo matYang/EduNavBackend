@@ -61,8 +61,8 @@ public class CourseDaoService {
 					Course course = (Course) single;
 					result.add(course);
 				}
-				result.addAll(CourseDao.getCourseByIdList(missingIdList));
 			}
+			result.addAll(CourseDao.getCourseByIdList(missingIdList));
 			return result;
 		}
 		else{
