@@ -186,7 +186,7 @@ public class UserDaoTest {
 	}
 
 	@Test
-	public void testRecoverPassword() throws ValidationException{
+	public void testRecoverPassword() throws ValidationException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
@@ -218,7 +218,7 @@ public class UserDaoTest {
 	}
 	
 	@Test
-	public void testAuthUser() throws ValidationException{
+	public void testAuthUser() throws ValidationException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";

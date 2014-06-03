@@ -103,6 +103,7 @@ public class UserDao {
 			}else{
 				e.printStackTrace();
 				DebugLog.d(e);
+				throw new ValidationException("创建用户失败，账户信息错误");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,7 +116,7 @@ public class UserDao {
 		return user;
 	}
 
-	public static void updateUserInDatabases(User user,Connection...connections) throws ValidationException{
+	public static void updateUserInDatabases(User user,Connection...connections) throws ValidationException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=?,email=? where id=?";
@@ -137,6 +138,7 @@ public class UserDao {
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
+			throw new SQLException();
 		} catch (Exception e) {
 			throw new ValidationException("更改用户信息失败，账户信息错误");
 		}finally  {
@@ -200,7 +202,7 @@ public class UserDao {
 		return user;
 	}
 
-	public static void updateUserBCC(int balance,int credit,int coupon,int userId,Connection...connections) throws UserNotFoundException{
+	public static void updateUserBCC(int balance,int credit,int coupon,int userId,Connection...connections) throws UserNotFoundException, SQLException{
 		String bopr = balance >= 0 ? "+" : "-";
 		String cropr = credit >= 0 ? "+" : "-";
 		String coopr = coupon >= 0 ? "+" : "-";
@@ -220,6 +222,7 @@ public class UserDao {
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
+			throw new SQLException();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, null, EduDaoBasic.shouldConnectionClose(connections));
 		}
@@ -256,7 +259,7 @@ public class UserDao {
 		return user;
 	}
 
-	public static void changeUserPassword(int userId, String oldPassword, String newPassword) throws AuthenticationException{
+	public static void changeUserPassword(int userId, String oldPassword, String newPassword) throws AuthenticationException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
@@ -282,10 +285,14 @@ public class UserDao {
 				stmt = conn.prepareStatement(query);
 				stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 				stmt.setInt(2, userId);
-				stmt.executeUpdate();
+				int recordsAffected = stmt.executeUpdate();
+				if(recordsAffected==0){
+					throw new UserNotFoundException();
+				}
 			}catch(SQLException e){
 				e.printStackTrace();
 				DebugLog.d(e);
+				throw new SQLException();
 			}catch(Exception e){
 				validOldPassword = false;
 				e.printStackTrace();
@@ -303,7 +310,7 @@ public class UserDao {
 
 	}
 
-	public static User authenticateUser(String phone, String password) throws AuthenticationException{
+	public static User authenticateUser(String phone, String password) throws SQLException, AuthenticationException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
@@ -326,10 +333,12 @@ public class UserDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}
 		catch(Exception e){			
 			e.printStackTrace();
 			DebugLog.d(e);			
+			throw new AuthenticationException("验证失败");
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 			if(!validPassword){
@@ -339,32 +348,29 @@ public class UserDao {
 		return user;
 	}
 
-	public static void recoverUserPassword(String phone,String newPassword) throws AuthenticationException{
+	public static void recoverUserPassword(String phone,String newPassword) throws AuthenticationException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;			
-		String query = "UPDATE UserDao set password = ? where phone = ?";
-		boolean success = true;
+		String query = "UPDATE UserDao set password = ? where phone = ?";		
 		try{
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 			stmt.setString(2, phone);
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
-				success = false;
+				throw new AuthenticationException("手机号码或密码输入有误");
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
-		}catch(Exception e){
-			success = false;
+			throw new SQLException();
+		}catch(Exception e){			
 			e.printStackTrace();
-			DebugLog.d(e);			
+			DebugLog.d(e);	
+			throw new AuthenticationException("验证失败");
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
-			if(!success){
-				throw new AuthenticationException("手机号码或密码输入有误");
-			}
+			EduDaoBasic.closeResources(conn, stmt, rs, true);			
 		}
 	}
 
