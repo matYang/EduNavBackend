@@ -2,6 +2,7 @@ package BaseModule.cleanerTest;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -26,7 +27,7 @@ import BaseModule.model.User;
 public class BookingCleanerTest {
 
 	@Test
-	public void test() throws ValidationException, CourseNotFoundException{
+	public void test() throws ValidationException, CourseNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";

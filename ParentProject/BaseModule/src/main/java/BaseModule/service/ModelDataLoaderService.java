@@ -1,6 +1,7 @@
 package BaseModule.service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Calendar;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
@@ -66,7 +67,11 @@ public class ModelDataLoaderService {
 		String phone = "12344565654";
 		AccountStatus status = AccountStatus.activated;		
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
-		CourseDao.addCourseToDatabases(course, connections);
+		try {
+			CourseDao.addCourseToDatabases(course, connections);
+		} catch (SQLException e) {	
+			e.printStackTrace();
+		}
 
 		p_Id = 2;
 		startTime = DateUtility.getCurTimeInstance();
@@ -76,7 +81,11 @@ public class ModelDataLoaderService {
 		subCategory = "sub-Chin";		
 		status = AccountStatus.deactivated;		
 		Course course2 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
-		CourseDao.addCourseToDatabases(course2, connections);
+		try {
+			CourseDao.addCourseToDatabases(course2, connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 
 		p_Id = 3;
 		startTime = DateUtility.getCurTimeInstance();
@@ -87,7 +96,11 @@ public class ModelDataLoaderService {
 		subCategory = "sub-French";		
 		status = AccountStatus.deleted;		
 		Course course3 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
-		CourseDao.addCourseToDatabases(course3, connections);
+		try {
+			CourseDao.addCourseToDatabases(course3, connections);
+		} catch (SQLException e) {		
+			e.printStackTrace();
+		}
 
 
 	}

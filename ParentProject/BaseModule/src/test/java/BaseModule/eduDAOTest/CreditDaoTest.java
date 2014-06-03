@@ -1,6 +1,8 @@
 package BaseModule.eduDAOTest;
 
 import static org.junit.Assert.*;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import org.junit.Test;
@@ -82,7 +84,7 @@ public class CreditDaoTest {
 	}
 	
 	@Test
-	public void testClean() throws ValidationException, UserNotFoundException{
+	public void testClean() throws ValidationException, UserNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";

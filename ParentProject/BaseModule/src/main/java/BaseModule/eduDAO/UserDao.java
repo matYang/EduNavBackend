@@ -368,7 +368,7 @@ public class UserDao {
 		}catch(Exception e){			
 			e.printStackTrace();
 			DebugLog.d(e);	
-			throw new AuthenticationException("验证失败");
+			throw new AuthenticationException("手机号码或密码输入有误");
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);			
 		}

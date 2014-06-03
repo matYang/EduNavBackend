@@ -2,6 +2,7 @@ package BaseModule.eduDAOTest;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -45,7 +46,7 @@ public class CourseDaoTest {
 	}
 	
 	@Test
-	public void testGetAndUpdate() throws ValidationException, CourseNotFoundException{
+	public void testGetAndUpdate() throws ValidationException, CourseNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "xiaofeng";
@@ -137,10 +138,18 @@ public class CourseDaoTest {
 			//Passed;
 		}else fail();
 		
+		ArrayList<Integer> idList = new ArrayList<Integer>();
+		idList.add(course.getCourseId());
+		idList.add(course2.getCourseId());
+		clist = CourseDao.getCourseByIdList(idList);
+		if(clist.size()==2&&clist.get(0).equals(course)&&clist.get(1).equals(course2)){
+			//Passed;
+		}else fail();
+		
 	}	
 	
 	@Test
-	public void testSearch() throws ValidationException, CourseNotFoundException{
+	public void testSearch() throws ValidationException, CourseNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		/* Partner part */
 		String name = "partne1";

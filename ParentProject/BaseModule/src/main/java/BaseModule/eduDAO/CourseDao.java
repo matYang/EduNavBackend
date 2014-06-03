@@ -130,7 +130,7 @@ public class CourseDao {
 		return clist;
 	}
 
-	public static Course addCourseToDatabases(Course course,Connection...connections){
+	public static Course addCourseToDatabases(Course course,Connection...connections) throws SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -205,13 +205,14 @@ public class CourseDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return course;
 	}
 
-	public static void updateCourseInDatabases(Course course,Connection...connections) throws CourseNotFoundException{
+	public static void updateCourseInDatabases(Course course,Connection...connections) throws CourseNotFoundException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;
 		String query = "UPDATE CourseDao SET p_Id=?,startTime=?,finishTime=?,t_Intro=?,t_ImgUrl=?,classroomImgUrl=?,price=?," +
@@ -283,6 +284,7 @@ public class CourseDao {
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
+			throw new SQLException();
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}
@@ -312,8 +314,35 @@ public class CourseDao {
 	}
 	
 	public static ArrayList<Course> getCourseByIdList(ArrayList<Integer> idList, Connection...connections){
-		//TODO
-		return null;
+		PreparedStatement stmt = null;
+		Connection conn = EduDaoBasic.getConnection(connections);
+		ResultSet rs = null;
+		int stmtInt = 1;
+		ArrayList<Course> clist = new ArrayList<Course>();
+		if(idList.size() == 0){
+			return clist;
+		}
+		
+		String query = "SELECT * FROM CourseDao where id = ?";
+		for(int i = 1 ; i < idList.size() ; i++){
+			query += " or id = ? ";
+		}
+		try{
+			stmt = conn.prepareStatement(query);
+			for(int i = 0 ; i < idList.size() ; i++){
+				stmt.setInt(stmtInt++, idList.get(i));
+			}
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				clist.add(createCourseByResultSet(rs,null,conn));
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);			
+		}finally  {
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
+		} 
+		
+		return clist;
 	}
 	
 	public static Course getCourseByReference(String reference,Connection...connections) throws CourseNotFoundException{

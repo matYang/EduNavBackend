@@ -2,6 +2,7 @@ package BaseModule.cleanerTest;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -20,7 +21,7 @@ import BaseModule.model.Partner;
 public class CourseCleanerTest {
 
 	@Test
-	public void test() throws ValidationException{
+	public void test() throws ValidationException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName ="TseTingFeng";

@@ -2,6 +2,7 @@ package BaseModule.eduDAOTest;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -27,7 +28,7 @@ import BaseModule.model.representation.BookingSearchRepresentation;
 public class BookingDaoTest {
 
 	@Test
-	public void testCreate() throws ValidationException, CourseNotFoundException{
+	public void testCreate() throws ValidationException, CourseNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
@@ -93,7 +94,7 @@ public class BookingDaoTest {
 	}
 	
 	@Test
-	public void testGet() throws CourseNotFoundException, ValidationException, BookingNotFoundException{
+	public void testGet() throws CourseNotFoundException, ValidationException, BookingNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
@@ -201,7 +202,7 @@ public class BookingDaoTest {
 	}
 	
 	@Test
-	public void testUpdate() throws CourseNotFoundException, ValidationException, BookingNotFoundException{
+	public void testUpdate() throws CourseNotFoundException, ValidationException, BookingNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
@@ -276,7 +277,7 @@ public class BookingDaoTest {
 	}
 	
 	@Test
-	public void testSearch() throws ValidationException, CourseNotFoundException, BookingNotFoundException{
+	public void testSearch() throws ValidationException, CourseNotFoundException, BookingNotFoundException, SQLException{
 		//User
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";

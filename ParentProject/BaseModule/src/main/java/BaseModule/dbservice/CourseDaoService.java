@@ -2,6 +2,7 @@ package BaseModule.dbservice;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -27,12 +28,12 @@ public class CourseDaoService {
 		}
 	}
 	
-	public static void updateCourse(Course course,Connection...connections) throws CourseNotFoundException{
+	public static void updateCourse(Course course,Connection...connections) throws CourseNotFoundException, SQLException{
 		CourseDao.updateCourseInDatabases(course,connections);
 		EduDaoBasic.setCache(CacheConfig.course_keyPrefix + course.getCourseId(), CacheConfig.course_expireTime, course);
 	}
 	
-	public static Course createCourse(Course course,Connection...connections){
+	public static Course createCourse(Course course,Connection...connections) throws SQLException{
 		Course storedCourse = CourseDao.addCourseToDatabases(course,connections);
 		EduDaoBasic.setCache(CacheConfig.course_keyPrefix + storedCourse.getCourseId(), CacheConfig.course_expireTime, storedCourse);
 		return storedCourse;

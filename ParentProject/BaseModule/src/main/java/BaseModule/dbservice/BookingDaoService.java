@@ -1,5 +1,6 @@
 package BaseModule.dbservice;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import BaseModule.asyncRelayExecutor.ExecutorProvider;
@@ -32,7 +33,7 @@ public class BookingDaoService {
 	}
 	
 	
-	public static void updateBooking(Booking updatedBooking, BookingStatus previousStatus, int adminId) throws BookingNotFoundException, ValidationException, CouponNotFoundException, UserNotFoundException{
+	public static void updateBooking(Booking updatedBooking, BookingStatus previousStatus, int adminId) throws BookingNotFoundException, ValidationException, CouponNotFoundException, UserNotFoundException, SQLException{
 		if (updatedBooking.getStatus() == previousStatus){
 			updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 			BookingDao.updateBookingInDatabases(updatedBooking);
@@ -126,7 +127,7 @@ public class BookingDaoService {
 		
 	}
 	
-	public static Booking createBooking(Booking booking) throws ValidationException, CouponNotFoundException, UserNotFoundException{
+	public static Booking createBooking(Booking booking) throws ValidationException, CouponNotFoundException, UserNotFoundException, SQLException{
 		Coupon coupon = null;
 		//if using coupon, validation coupon
 		if (booking.getCouponId() > 0){
