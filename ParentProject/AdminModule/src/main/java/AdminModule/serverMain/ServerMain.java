@@ -2,6 +2,8 @@ package AdminModule.serverMain;
 
 import java.util.Map;
 
+import net.spy.memcached.internal.OperationFuture;
+
 import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
@@ -82,7 +84,11 @@ public class ServerMain {
 	public static void main(String... args) throws Exception {
 		SystemDataInit.init();	
 		DebugLog.initializeLogger();
-		EduDaoBasic.setCache("test", 60, "testing connection");
+		OperationFuture<Boolean> result = EduDaoBasic.setCache("test", 60, "testing connection");
+		
+		System.out.println("Result: " + result.get());
+		
+		
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
