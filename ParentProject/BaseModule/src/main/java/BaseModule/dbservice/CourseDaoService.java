@@ -41,8 +41,9 @@ public class CourseDaoService {
 	
 	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException{
 		ArrayList<Course> result = new ArrayList<Course>();
+		boolean useCache = sr.getUseCache() == 1;
 		
-		Object obj = EduDaoBasic.getCache(sr.toCacheKey());
+		Object obj = !useCache ? null : EduDaoBasic.getCache(sr.toCacheKey());
 		if (obj != null){
 			ArrayList<Integer> idList = (ArrayList<Integer>) obj;
 			ArrayList<String> keyList = new ArrayList<String>();
@@ -66,12 +67,14 @@ public class CourseDaoService {
 		}
 		else{
 			result = CourseDao.searchCourse(sr);
-			ArrayList<Integer> idList = new ArrayList<Integer>();
-			for (Course course: result){
-				idList.add(course.getCourseId());
-				EduDaoBasic.addCache(CacheConfig.course_keyPrefix + course.getCourseId(), CacheConfig.course_expireTime, course);
+			if (useCache){
+				ArrayList<Integer> idList = new ArrayList<Integer>();
+				for (Course course: result){
+					idList.add(course.getCourseId());
+					EduDaoBasic.addCache(CacheConfig.course_keyPrefix + course.getCourseId(), CacheConfig.course_expireTime, course);
+				}
+				EduDaoBasic.setCache(sr.toCacheKey(), CacheConfig.courseSearch_expireTime, idList);
 			}
-			EduDaoBasic.setCache(sr.toCacheKey(), CacheConfig.courseSearch_expireTime, idList);
 			return result;
 		}
 	}

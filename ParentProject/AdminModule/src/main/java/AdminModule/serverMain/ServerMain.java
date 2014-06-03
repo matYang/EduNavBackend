@@ -9,6 +9,7 @@ import AdminModule.appService.CleanService;
 import AdminModule.appService.RoutingService;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
+import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.staticDataService.SystemDataInit;
 
 
@@ -81,6 +82,7 @@ public class ServerMain {
 	public static void main(String... args) throws Exception {
 		SystemDataInit.init();	
 		DebugLog.initializeLogger();
+		EduDaoBasic.setCache("test", 60, "testing connection");
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
