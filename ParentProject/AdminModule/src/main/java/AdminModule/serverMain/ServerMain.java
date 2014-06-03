@@ -54,8 +54,6 @@ public class ServerMain {
 
 	}
 
-
-
 	public static ServerMain getInstance() {
 		if (me == null) {
 			me = new ServerMain();
