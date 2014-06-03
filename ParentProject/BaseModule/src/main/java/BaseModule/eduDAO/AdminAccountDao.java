@@ -14,6 +14,7 @@ import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.admin.AdminAccountNotFoundException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.QueryFactory;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.representation.AdminSearchRepresentation;
@@ -65,7 +66,7 @@ public class AdminAccountDao {
 		return alist;
 	}
 	
-	public static AdminAccount addAdminAccountToDatabases(AdminAccount account,Connection...connections){
+	public static AdminAccount addAdminAccountToDatabases(AdminAccount account,Connection...connections) throws SQLException, ValidationException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -89,16 +90,18 @@ public class AdminAccountDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}catch(Exception e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new ValidationException("创建用户失败，账户信息错误");
 		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 		
 		return account;
 	}
 
-	public static void updateAdminAccountInDatabases(AdminAccount account) throws AdminAccountNotFoundException{
+	public static void updateAdminAccountInDatabases(AdminAccount account) throws AdminAccountNotFoundException, SQLException, ValidationException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;
 		String query = "UPDATE AdminAccountDao SET lastLogin=?,status=?,reference=?,privilege=?,name=?,phone=? where id = ?";
@@ -119,10 +122,12 @@ public class AdminAccountDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}catch(Exception e){
 			e.printStackTrace();
 			DebugLog.d(e);
-		} finally  {
+			throw new ValidationException("创建用户失败，账户信息错误");
+		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, null,true);			
 		}
 	}

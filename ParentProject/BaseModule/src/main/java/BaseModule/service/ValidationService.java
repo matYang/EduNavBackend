@@ -52,6 +52,7 @@ public class ValidationService {
 			return false;
 		}
 	}
+	
 	public static boolean validatePassword(String password){
 		if (password == null || password.length() < ValidationConfig.minPasswordLength || password.length() > ValidationConfig.maxPasswordLength){
 			return false;
@@ -67,7 +68,7 @@ public class ValidationService {
 	public static boolean validateUser(User user) throws ValidationException{
 		if (!validateName(user.getName()) || !validatePhone(user.getPhone()) ||
 				!validatePassword(user.getPassword()) || user.getBalance() < 0||
-				user.getCoupon() < 0 || user.getCredit() < 0){
+				user.getCoupon() < 0 || user.getCredit() < 0 || !validateEmail(user.getEmail())){
 			throw new ValidationException("用户输入信息不符合规范");			
 		}	
 		return true;

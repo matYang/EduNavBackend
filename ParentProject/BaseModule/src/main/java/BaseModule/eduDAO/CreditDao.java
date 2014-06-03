@@ -17,7 +17,7 @@ import BaseModule.model.Credit;
 
 public class CreditDao {
 
-	public static Credit addCreditToDatabases(Credit c,Connection...connections){
+	public static Credit addCreditToDatabases(Credit c,Connection...connections) throws SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -41,6 +41,7 @@ public class CreditDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
@@ -48,7 +49,7 @@ public class CreditDao {
 	}
 
 
-	public static void updateCreditInDatabases(Credit c,Connection...connections) throws CreditNotFoundException{
+	public static void updateCreditInDatabases(Credit c,Connection...connections) throws CreditNotFoundException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -67,6 +68,7 @@ public class CreditDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}	

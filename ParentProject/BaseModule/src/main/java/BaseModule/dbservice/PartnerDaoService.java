@@ -9,6 +9,7 @@ import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 public class PartnerDaoService {
 
 	public static ArrayList<Partner> getAllPartners(){
@@ -29,11 +30,11 @@ public class PartnerDaoService {
 		return partners.get(0);
 	}
 
-	public static void updatePartner(Partner partner,Connection...connections) throws PartnerNotFoundException{
+	public static void updatePartner(Partner partner,Connection...connections) throws PartnerNotFoundException, SQLException{
 		PartnerDao.updatePartnerInDatabases(partner,connections);
 	}
 
-	public static Partner createPartner(Partner p,Connection...connections) throws ValidationException{
+	public static Partner createPartner(Partner p,Connection...connections) throws ValidationException, SQLException{
 		return PartnerDao.addPartnerToDatabases(p,connections);
 	}
 
@@ -44,15 +45,15 @@ public class PartnerDaoService {
 		return partners.size() == 0;
 	}
 
-	public static void changePassword(int partnerId, String oldPassword, String newPassword) throws AuthenticationException{
+	public static void changePassword(int partnerId, String oldPassword, String newPassword) throws AuthenticationException, SQLException{
 		PartnerDao.changePartnerPassword(partnerId, oldPassword, newPassword);
 	}
 
-	public static void recoverPassword(String phone, String newPassword) throws AuthenticationException{
+	public static void recoverPassword(String phone, String newPassword) throws AuthenticationException, SQLException{
 		PartnerDao.recoverPartnerPassword(phone, newPassword);
 	}
 
-	public static Partner authenticatePartner(String phone,String password) throws AuthenticationException{
+	public static Partner authenticatePartner(String phone,String password) throws AuthenticationException, SQLException{
 		return PartnerDao.authenticatePartner(phone, password);
 	}
 

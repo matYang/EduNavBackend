@@ -40,7 +40,7 @@ public class CouponDaoTest {
 	}
 	
 	@Test
-	public void testGet(){
+	public void testGet() throws SQLException{
 		EduDaoBasic.clearAllDatabase();
 		int bookingId = 1;
 		int userId = 1;
@@ -62,7 +62,7 @@ public class CouponDaoTest {
 	}
 	
 	@Test
-	public void testUpdate() throws CouponNotFoundException{
+	public void testUpdate() throws CouponNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		int bookingId = 1;
 		int userId = 1;

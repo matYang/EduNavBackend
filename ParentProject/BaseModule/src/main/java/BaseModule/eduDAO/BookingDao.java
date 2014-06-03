@@ -87,7 +87,7 @@ public class BookingDao {
 
 	}
 
-	public static Booking addBookingToDatabases(Booking booking,Connection...connections){
+	public static Booking addBookingToDatabases(Booking booking,Connection...connections) throws SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -123,6 +123,7 @@ public class BookingDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -130,7 +131,7 @@ public class BookingDao {
 		return booking;
 	}
 
-	public static void updateBookingInDatabases(Booking booking,Connection...connections) throws BookingNotFoundException{
+	public static void updateBookingInDatabases(Booking booking,Connection...connections) throws BookingNotFoundException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;
 		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,price=?," +
@@ -163,6 +164,7 @@ public class BookingDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}

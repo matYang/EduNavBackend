@@ -2,6 +2,7 @@ package BaseModule.eduDAOTest;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class PartnerDaoTest {
 	}
 	
 	@Test
-	public void testGet() throws ValidationException, PartnerNotFoundException{
+	public void testGet() throws ValidationException, PartnerNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "xiaofeng";
@@ -80,7 +81,7 @@ public class PartnerDaoTest {
 	}
 	
 	@Test
-	public void testUpdate() throws ValidationException, PartnerNotFoundException{
+	public void testUpdate() throws ValidationException, PartnerNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
@@ -108,7 +109,7 @@ public class PartnerDaoTest {
 	}
 	
 	@Test
-	public void testUpdatePartnerPassword() throws ValidationException{
+	public void testUpdatePartnerPassword() throws ValidationException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
@@ -169,7 +170,7 @@ public class PartnerDaoTest {
 	}
 
 	@Test
-	public void testRecoverPassword() throws ValidationException, AuthenticationException{
+	public void testRecoverPassword() throws ValidationException, AuthenticationException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
@@ -205,7 +206,7 @@ public class PartnerDaoTest {
 	}
 	
 	@Test
-	public void testAuthPartner() throws ValidationException{
+	public void testAuthPartner() throws ValidationException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
@@ -246,7 +247,7 @@ public class PartnerDaoTest {
 	}
 	
 	@Test
-	public void testSearch() throws ValidationException, PartnerNotFoundException{
+	public void testSearch() throws ValidationException, PartnerNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
@@ -295,7 +296,7 @@ public class PartnerDaoTest {
 		ArrayList<Partner> plist = new ArrayList<Partner>();
 		sr.setInstName("daofeg");
 		plist = PartnerDao.searchPartner(sr);
-		if(plist.size()==0){
+		if(plist.size()==1 && plist.get(0).equals(partner2)){
 			//Passed;
 		}else fail();
 		

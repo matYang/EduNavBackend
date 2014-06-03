@@ -1,6 +1,8 @@
 package BaseModule.eduDAOTest;
 
 import static org.junit.Assert.*;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -37,7 +39,7 @@ public class TransactionDaoTest {
 	}
 	
 	@Test
-	public void testGet(){
+	public void testGet() throws SQLException{
 		EduDaoBasic.clearAllDatabase();
 		int userId = 1;
 		int bookingId = 1;
