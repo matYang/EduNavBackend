@@ -311,6 +311,11 @@ public class CourseDao {
 		return course;
 	}
 	
+	public static ArrayList<Course> getCourseByIdList(ArrayList<Integer> idList, Connection...connections){
+		//TODO
+		return null;
+	}
+	
 	public static Course getCourseByReference(String reference,Connection...connections) throws CourseNotFoundException{
 		String query = "SELECT * FROM CourseDao where reference = ?";
 		Course course = null;

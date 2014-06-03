@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collection;
+import java.util.Map;
+
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.ConnectionFactoryBuilder;
 import net.spy.memcached.ConnectionFactoryBuilder.Protocol;
@@ -124,10 +127,17 @@ public class EduDaoBasic {
     	return memcached.get(key);
     }
     
+    public static Map<String, Object> getBulkCache(Collection<String> keys){
+    	return memcached.getBulk(keys);
+    }
+    
     public static OperationFuture<Boolean> setCache(String key, int exp, Object obj){
-    	return memcached.set(key, 3600, obj);
+    	return memcached.set(key, exp, obj);
     }
 
+    public static OperationFuture<Boolean> addCache(String key, int exp, Object obj){
+    	return memcached.add(key, exp, obj);
+    }
     
     public static OperationFuture<Boolean> deleteCache(String key){
     	return memcached.delete(key);

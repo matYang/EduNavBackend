@@ -64,6 +64,7 @@ public class CourseSearchRepresentationTest {
 		System.out.println(c_sr.getKeySet());
 		System.out.println(c_sr.toJSON());
 		System.out.println(c_sr.serialize());
+		System.out.println(c_sr.serialize().length());
 	}
 	
 
