@@ -1,5 +1,6 @@
 package BaseModule.dbservice;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.CreditDao;
@@ -8,11 +9,11 @@ import BaseModule.model.Credit;
 
 public class CreditDaoService {
 
-	public static Credit createCredit(Credit c){
+	public static Credit createCredit(Credit c) throws SQLException{
 		return CreditDao.addCreditToDatabases(c);
 	}
 	
-	public static void updateCredit(Credit c) throws CreditNotFoundException{
+	public static void updateCredit(Credit c) throws CreditNotFoundException, SQLException{
 		CreditDao.updateCreditInDatabases(c);
 	}
 	

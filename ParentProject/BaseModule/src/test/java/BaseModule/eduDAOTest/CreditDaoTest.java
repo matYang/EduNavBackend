@@ -41,7 +41,7 @@ public class CreditDaoTest {
 	}
 	
 	@Test
-	public void testGet(){
+	public void testGet() throws SQLException{
 		EduDaoBasic.clearAllDatabase();
 		int bookingId = 1;
 		int userId = 1;
@@ -66,7 +66,7 @@ public class CreditDaoTest {
 	}
 	
 	@Test
-	public void testUpdate() throws CreditNotFoundException{
+	public void testUpdate() throws CreditNotFoundException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		int bookingId = 1;
 		int userId = 1;

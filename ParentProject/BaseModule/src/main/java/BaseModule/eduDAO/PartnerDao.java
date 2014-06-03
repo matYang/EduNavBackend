@@ -71,7 +71,7 @@ public class PartnerDao {
 		return plist;
 	}
 
-	public static Partner addPartnerToDatabases(Partner p,Connection...connections) throws ValidationException{
+	public static Partner addPartnerToDatabases(Partner p,Connection...connections) throws ValidationException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -99,9 +99,11 @@ public class PartnerDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		} catch (Exception e) {			
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new ValidationException("创建用户失败，账户信息错误");
 		}  finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -109,7 +111,7 @@ public class PartnerDao {
 		return p;
 	}
 
-	public static void updatePartnerInDatabases(Partner p,Connection...connections) throws PartnerNotFoundException{
+	public static void updatePartnerInDatabases(Partner p,Connection...connections) throws PartnerNotFoundException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;
 		String query = "UPDATE PartnerDao SET name=?,licence=?,organizationNum=?,reference=?,phone=?," +
@@ -133,6 +135,7 @@ public class PartnerDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}
@@ -262,7 +265,7 @@ public class PartnerDao {
 		return partner;
 	}
 
-	public static void changePartnerPassword(int partnerId, String oldPassword, String newPassword) throws AuthenticationException{
+	public static void changePartnerPassword(int partnerId, String oldPassword, String newPassword) throws AuthenticationException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
@@ -278,10 +281,12 @@ public class PartnerDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			DebugLog.d(e);				
+			DebugLog.d(e);
+			throw new AuthenticationException("更改密码失败");
 		}
 		if(validOldPassword){
 			query = "UPDATE PartnerDao set password = ? where id = ?";
@@ -289,27 +294,28 @@ public class PartnerDao {
 				stmt = conn.prepareStatement(query);
 				stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 				stmt.setInt(2, partnerId);
-				stmt.executeUpdate();
+				int recordsAffected = stmt.executeUpdate();
+				if(recordsAffected==0){
+					throw new PartnerNotFoundException();
+				}
 			}catch(SQLException e){
 				e.printStackTrace();
 				DebugLog.d(e);
-			}catch(Exception e){
-				validOldPassword = false;
+				throw new SQLException();
+			}catch(Exception e){				
 				e.printStackTrace();
-				DebugLog.d(e);						
+				DebugLog.d(e);	
+				throw new AuthenticationException("更改密码失败");
 			}finally{
-				EduDaoBasic.closeResources(conn, stmt, rs, true);
-				if(!validOldPassword){
-					throw new AuthenticationException();
-				}
+				EduDaoBasic.closeResources(conn, stmt, rs, true);				
 			}
 		}else {
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
-			throw new AuthenticationException();
+			throw new AuthenticationException("更改密码失败");
 		}		
 	}
 
-	public static Partner authenticatePartner(String phone, String password) throws AuthenticationException{
+	public static Partner authenticatePartner(String phone, String password) throws AuthenticationException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
@@ -324,50 +330,48 @@ public class PartnerDao {
 				validPassword = PasswordCrypto.validatePassword(password, rs.getString("password"));
 				if(validPassword){
 					partner = createPartnerByResultSet(rs);
+				}else{
+					throw new AuthenticationException("手机号码或密码输入错误");
 				}				
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}
 		catch(Exception e){
 			e.printStackTrace();
 			DebugLog.d(e);			
+			throw new AuthenticationException("手机号码或密码输入错误");
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
-			if(!validPassword){
-				throw new AuthenticationException("手机号码或密码输入错误");
-			}
+			EduDaoBasic.closeResources(conn, stmt, rs, true);			
 		}
 		return partner;
 	}
 
-	public static void recoverPartnerPassword(String phone, String newPassword) throws AuthenticationException{
+	public static void recoverPartnerPassword(String phone, String newPassword) throws AuthenticationException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
-		String query = "UPDATE PartnerDao set password = ? where phone = ?";
-		boolean success = true;
+		String query = "UPDATE PartnerDao set password = ? where phone = ?";		
 		try{
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 			stmt.setString(2, phone);
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
-				success = false;
+				throw new AuthenticationException("手机号码或密码输入有误");
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
-		}catch(Exception e){
-			success = false;
+			throw new SQLException();
+		}catch(Exception e){			
 			e.printStackTrace();
-			DebugLog.d(e);			
+			DebugLog.d(e);	
+			throw new AuthenticationException("手机号码或密码输入有误");
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
-			if(!success){
-				throw new AuthenticationException("手机号码或密码输入有误");
-			}
+			EduDaoBasic.closeResources(conn, stmt, rs, true);			
 		}
 	}
 

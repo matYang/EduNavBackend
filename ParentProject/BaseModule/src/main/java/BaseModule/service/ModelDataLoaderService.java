@@ -113,7 +113,11 @@ public class ModelDataLoaderService {
 			Booking booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), 1, 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"4trg45rt",BookingStatus.awaiting);
-			BookingDao.addBookingToDatabases(booking,connections);
+			try {
+				BookingDao.addBookingToDatabases(booking,connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 
 			course = CourseDao.getCourseById(2, connections);
 			user = UserDao.getUserById(1, connections);
@@ -121,7 +125,11 @@ public class ModelDataLoaderService {
 			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), 2, 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"iuyiohy89",BookingStatus.confirmed);
-			BookingDao.addBookingToDatabases(booking,connections);
+			try {
+				BookingDao.addBookingToDatabases(booking,connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 
 			course = CourseDao.getCourseById(3, connections);
 			user = UserDao.getUserById(2, connections);
@@ -129,7 +137,11 @@ public class ModelDataLoaderService {
 			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), 2, 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"ihjgijrth",BookingStatus.pending);
-			BookingDao.addBookingToDatabases(booking,connections);
+			try {
+				BookingDao.addBookingToDatabases(booking,connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 
 			course = CourseDao.getCourseById(2, connections);
 			user = UserDao.getUserById(3, connections);
@@ -137,7 +149,11 @@ public class ModelDataLoaderService {
 			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), -1, 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"regtret",BookingStatus.finished);
-			BookingDao.addBookingToDatabases(booking,connections);
+			try {
+				BookingDao.addBookingToDatabases(booking,connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 
 			course = CourseDao.getCourseById(1, connections);
 			user = UserDao.getUserById(4, connections);
@@ -145,7 +161,11 @@ public class ModelDataLoaderService {
 			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), -1, 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"klpupkl",BookingStatus.canceled);
-			BookingDao.addBookingToDatabases(booking,connections);
+			try {
+				BookingDao.addBookingToDatabases(booking,connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 
 			course = CourseDao.getCourseById(2, connections);
 			user = UserDao.getUserById(2, connections);
@@ -153,7 +173,11 @@ public class ModelDataLoaderService {
 			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), 4, 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"fgjuifug",BookingStatus.failed);
-			BookingDao.addBookingToDatabases(booking,connections);
+			try {
+				BookingDao.addBookingToDatabases(booking,connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 		}catch(CourseNotFoundException e){
 			e.printStackTrace();
 			DebugLog.d(e);
@@ -219,7 +243,11 @@ public class ModelDataLoaderService {
 			String phone = "123545451";
 			AccountStatus status = AccountStatus.activated;
 			Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
-			PartnerDao.addPartnerToDatabases(partner, connections);
+			try {
+				PartnerDao.addPartnerToDatabases(partner, connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 
 			String name2 = "HQYS";
 			String instName2 = "daofeng";
@@ -230,7 +258,11 @@ public class ModelDataLoaderService {
 			String phone2 = "12335451";
 			AccountStatus status2 = AccountStatus.deactivated;
 			Partner partner2 = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2, phone2,status2);
-			PartnerDao.addPartnerToDatabases(partner2,connections);
+			try {
+				PartnerDao.addPartnerToDatabases(partner2,connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 
 			String name3 = "XDFs";
 			String instName3 = "xiaofeng";
@@ -241,7 +273,11 @@ public class ModelDataLoaderService {
 			String phone3 = "12354";
 			AccountStatus status3 = AccountStatus.deleted;
 			Partner partner3 = new Partner(name3, instName3,licence3, organizationNum3,reference3, password3, phone3,status3);
-			PartnerDao.addPartnerToDatabases(partner3, connections);
+			try {
+				PartnerDao.addPartnerToDatabases(partner3, connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 		}catch(ValidationException e){
 			e.printStackTrace();
 			DebugLog.d(e);
@@ -257,7 +293,13 @@ public class ModelDataLoaderService {
 		AccountStatus status = AccountStatus.activated;
 		String password = "hgfudifhg3489";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
-		AdminAccountDao.addAdminAccountToDatabases(account,connections);
+		try {
+			AdminAccountDao.addAdminAccountToDatabases(account,connections);
+		} catch (ValidationException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {		
+			e.printStackTrace();
+		}
 
 		String name2 = "Mattan";
 		String phone2 = "12344";
@@ -265,7 +307,11 @@ public class ModelDataLoaderService {
 		Privilege privilege2 = Privilege.routine;
 		AccountStatus status2 = AccountStatus.activated;		
 		AdminAccount account2 = new AdminAccount(name2,phone2,reference2,privilege2,status2,password);
-		AdminAccountDao.addAdminAccountToDatabases(account2);
+		try {
+			AdminAccountDao.addAdminAccountToDatabases(account2);
+		} catch (ValidationException | SQLException e) {			
+			e.printStackTrace();
+		}
 
 		String name3 = "Fan";
 		String phone3 = "2323";
@@ -273,7 +319,11 @@ public class ModelDataLoaderService {
 		Privilege privilege3 = Privilege.root;
 		AccountStatus status3 = AccountStatus.activated;		
 		AdminAccount account3 = new AdminAccount(name3,phone3,reference3,privilege3,status3,password);
-		AdminAccountDao.addAdminAccountToDatabases(account3);
+		try {
+			AdminAccountDao.addAdminAccountToDatabases(account3);
+		} catch (ValidationException | SQLException e) {			
+			e.printStackTrace();
+		}
 	}
 
 	private static void loadCredits(Connection...connections){
@@ -283,27 +333,47 @@ public class ModelDataLoaderService {
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Calendar usableTime = DateUtility.getCurTimeInstance();
 		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used,usableTime);
-		CreditDao.addCreditToDatabases(c,connections);
+		try {
+			CreditDao.addCreditToDatabases(c,connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 
 		bookingId = 3;
 		userId = 2;		
 		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.awaiting,usableTime);
-		CreditDao.addCreditToDatabases(c,connections);
+		try {
+			CreditDao.addCreditToDatabases(c,connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 
 		bookingId = 4;
 		userId = 3;		
 		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.expired,usableTime);
-		CreditDao.addCreditToDatabases(c,connections);
+		try {
+			CreditDao.addCreditToDatabases(c,connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 
 		bookingId = 5;
 		userId = 4;		
 		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used,usableTime);
-		CreditDao.addCreditToDatabases(c,connections);
+		try {
+			CreditDao.addCreditToDatabases(c,connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 
 		bookingId = 2;
 		userId = 1;		
 		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.awaiting,usableTime);
-		CreditDao.addCreditToDatabases(c,connections);
+		try {
+			CreditDao.addCreditToDatabases(c,connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 	}
 
 	private static void loadCoupons(Connection...connections){
@@ -312,27 +382,47 @@ public class ModelDataLoaderService {
 		int amount = 50;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Coupon c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
-		CouponDao.addCouponToDatabases(c,connections);
+		try {
+			CouponDao.addCouponToDatabases(c,connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 
 		bookingId = 3;
 		userId = 2;				
 		c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.expired);
-		CouponDao.addCouponToDatabases(c,connections);
+		try {
+			CouponDao.addCouponToDatabases(c,connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 
 		bookingId = 4;
 		userId = 3;				
 		c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.used);
-		CouponDao.addCouponToDatabases(c,connections);
+		try {
+			CouponDao.addCouponToDatabases(c,connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 
 		bookingId = 5;
 		userId = 4;				
 		c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
-		CouponDao.addCouponToDatabases(c,connections);
+		try {
+			CouponDao.addCouponToDatabases(c,connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 
 		bookingId = 2;
 		userId = 1;				
 		c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
-		CouponDao.addCouponToDatabases(c,connections);
+		try {
+			CouponDao.addCouponToDatabases(c,connections);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 
 	}
 
@@ -342,25 +432,41 @@ public class ModelDataLoaderService {
 			Booking booking = BookingDao.getBookingById(1,connections);		
 			int amount = 2000;
 			Transaction transaction = new Transaction(user.getUserId(),booking.getBookingId(),booking.getCouponId(),amount,TransactionType.coupon);
-			TransactionDao.addTransactionToDatabases(transaction, connections);
+			try {
+				TransactionDao.addTransactionToDatabases(transaction, connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 
 			user = UserDao.getUserById(2,connections);
 			booking = BookingDao.getBookingById(3,connections);		
 			amount = 20;
 			transaction = new Transaction(user.getUserId(),booking.getBookingId(),booking.getCouponId(),amount,TransactionType.deposit);
-			TransactionDao.addTransactionToDatabases(transaction, connections);
+			try {
+				TransactionDao.addTransactionToDatabases(transaction, connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 
 			user = UserDao.getUserById(3,connections);
 			booking = BookingDao.getBookingById(4,connections);		
 			amount = 2300000;
 			transaction = new Transaction(user.getUserId(),booking.getBookingId(),booking.getCouponId(),amount,TransactionType.withdraw);
-			TransactionDao.addTransactionToDatabases(transaction, connections);	
+			try {
+				TransactionDao.addTransactionToDatabases(transaction, connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}
 
 			user = UserDao.getUserById(4,connections);
 			booking = BookingDao.getBookingById(5,connections);		
 			amount = 998;
 			transaction = new Transaction(user.getUserId(),booking.getBookingId(),booking.getCouponId(),amount,TransactionType.withdraw);
-			TransactionDao.addTransactionToDatabases(transaction, connections);	
+			try {
+				TransactionDao.addTransactionToDatabases(transaction, connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			}	
 		}catch(UserNotFoundException e){
 			e.printStackTrace();
 			DebugLog.d(e);

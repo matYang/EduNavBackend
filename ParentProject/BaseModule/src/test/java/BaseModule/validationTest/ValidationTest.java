@@ -2,6 +2,7 @@ package BaseModule.validationTest;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 
 import org.junit.Test;
@@ -20,6 +21,156 @@ import BaseModule.service.ValidationService;
 
 public class ValidationTest {
 
+	@Test
+	public void testEmailFormat(){
+		String myemail = "xiongchuhan@hotmail.com";
+		if(ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "lifecentric.o2o@gmail.com";
+		if(ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "lifecentri-c.o2o@gmail.com";
+		if(ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "sdf";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "lifecentric.o2o@.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "@lifecentric.o2o@gmail.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "lifecentric.o2o@g.com";
+		if(ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "lifecentric.o2ogmail.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "asdfsdfsdrewrfdgdfgergtertrewtretertretertertretertreter@hotmail.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "-1!@#$%#$%@hotmail.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "-1!#$%^&*()-+=qw2@hotmail.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "-1sdf..@hotmail.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "-1sdf.3@hotmail.com";
+		if(ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "-1sdf.erw-3-3-1@hotmail.com";
+		if(ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "-1sdf.erw-3-3-1&@hotmail.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "-1sdf.erw-3-3-1&(@hotmail.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "-1sdf.erw-3-3-1&#2@hotmail.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = ".sdf.erw-3-3-1@hotmail.com";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}
+		
+		myemail = "uwse@me.com";
+		if(ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}	
+		
+		myemail = "sdfs=-@hot";
+		if(!ValidationService.validateEmail(myemail)){
+			//Passed;
+		}else{
+			fail();
+		}	
+	}
+	
 	@Test
 	public void testPhoneFormat(){
 		String myphone = "9892263974";
@@ -425,7 +576,7 @@ public class ValidationTest {
 	}
 
 	@Test
-	public void testBookingValidation(){
+	public void testBookingValidation() throws SQLException{
 		EduDaoBasic.clearAllDatabase();			
 		int price = 12;
 		int userId = 1;

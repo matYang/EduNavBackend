@@ -2,6 +2,7 @@ package BaseModule.eduDAOTest;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.Test;
 import BaseModule.configurations.EnumConfig.Privilege;
@@ -46,7 +47,11 @@ public class AdminAccountDaoTest {
 		AccountStatus status = AccountStatus.activated;
 		String password = "hgfudifhg3489";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
-		AdminAccountDao.addAdminAccountToDatabases(account);
+		try {
+			AdminAccountDao.addAdminAccountToDatabases(account);
+		} catch (ValidationException | SQLException e) {		
+			e.printStackTrace();
+		}
 		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
 		AdminAccount test = AdminAccountDao.getAdminAccountByName(account.getName());
 		if(account.equals(test)&&test.getPhone().equals(phone)){
@@ -64,7 +69,11 @@ public class AdminAccountDaoTest {
 		Privilege privilege2 = Privilege.routine;
 		AccountStatus status2 = AccountStatus.activated;		
 		AdminAccount account2 = new AdminAccount(name2,phone2,reference2,privilege2,status2,password);
-		AdminAccountDao.addAdminAccountToDatabases(account2);
+		try {
+			AdminAccountDao.addAdminAccountToDatabases(account2);
+		} catch (ValidationException | SQLException e) {			
+			e.printStackTrace();
+		}
 		account2 = AdminAccountDao.getAdminAccountByPhone(phone2);
 		
 		ArrayList<AdminAccount> alist = new ArrayList<AdminAccount>();
@@ -84,11 +93,19 @@ public class AdminAccountDaoTest {
 		AccountStatus status = AccountStatus.activated;
 		String password = "hgfudifhg3489";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
-		AdminAccountDao.addAdminAccountToDatabases(account);
+		try {
+			AdminAccountDao.addAdminAccountToDatabases(account);
+		} catch (ValidationException | SQLException e) {			
+			e.printStackTrace();
+		}
 		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
 		account.setPhone("2");
 		account.setStatus(AccountStatus.deleted);
-		AdminAccountDao.updateAdminAccountInDatabases(account);
+		try {
+			AdminAccountDao.updateAdminAccountInDatabases(account);
+		} catch (ValidationException | SQLException e) {			
+			e.printStackTrace();
+		}
 		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
 		if(account.getName().equals(name)&&account.getPhone().equals("2")&&account.getStatus().code==AccountStatus.deleted.code){
 			//Passed;
@@ -106,7 +123,11 @@ public class AdminAccountDaoTest {
 		AccountStatus status = AccountStatus.activated;
 		String password = "hgfudifhg3489";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
-		AdminAccountDao.addAdminAccountToDatabases(account);
+		try {
+			AdminAccountDao.addAdminAccountToDatabases(account);
+		} catch (SQLException e1) {		
+			e1.printStackTrace();
+		}
 		try{
 			AdminAccountDao.changeAdminAccountPassword(account.getAdminId(), "hgfudifhg3489", "sdfe3r");
 		}catch(Exception e){
@@ -155,7 +176,7 @@ public class AdminAccountDaoTest {
 	}
 
 	@Test
-	public void testRecoverPassword() throws ValidationException, AuthenticationException{
+	public void testRecoverPassword() throws ValidationException, AuthenticationException, SQLException, AdminAccountNotFoundException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
@@ -164,7 +185,11 @@ public class AdminAccountDaoTest {
 		AccountStatus status = AccountStatus.activated;
 		String password = "hgfudifhg3489";
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
-		account = AdminAccountDao.addAdminAccountToDatabases(account);
+		try {
+			account = AdminAccountDao.addAdminAccountToDatabases(account);
+		} catch (SQLException e1) {		
+			e1.printStackTrace();
+		}
 		
 		try{
 			AdminAccountDao.changeAdminAccountPassword(account.getAdminId(), "newPassword");
@@ -173,7 +198,9 @@ public class AdminAccountDaoTest {
 			fail();
 		}
 		account.setPhone("12455233");
-		if(AdminAccountDao.addAdminAccountToDatabases(account).equals(account)){
+		AdminAccountDao.updateAdminAccountInDatabases(account);
+		AdminAccount test = AdminAccountDao.getAdminAccountById(account.getAdminId());
+		if(test.equals(account)){
 			//Passed;
 		}else fail();
 		
@@ -189,7 +216,7 @@ public class AdminAccountDaoTest {
 	}
 	
 	@Test
-	public void testAuthAdmin() throws ValidationException{
+	public void testAuthAdmin() throws ValidationException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
@@ -228,7 +255,7 @@ public class AdminAccountDaoTest {
 	}
 	
 	@Test
-	public void testSearch(){
+	public void testSearch() throws ValidationException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
@@ -244,16 +271,16 @@ public class AdminAccountDaoTest {
 		String reference2 = "xcfk2321";
 		Privilege privilege2 = Privilege.routine;
 		AccountStatus status2 = AccountStatus.deactivated;		
-		String password2 = "dsfdwr";
+		String password2 = "dsfd56345wr";
 		AdminAccount account2 = new AdminAccount(name2,phone2,reference2,privilege2,status2,password2);
 		AdminAccountDao.addAdminAccountToDatabases(account2);
 		
 		String name3 = "Harry";
 		String phone3 = "1234456543";
-		String reference3 = "dsfdsf";
+		String reference3 = "dsfdsdefgsdfsf";
 		Privilege privilege3 = Privilege.mamagement;
 		AccountStatus status3 = AccountStatus.activated;		
-		String password3 = "dsfdsftewr";
+		String password3 = "dsfds4353ftewr";
 		AdminAccount account3 = new AdminAccount(name3,phone3,reference3,privilege3,status3,password3);
 		AdminAccountDao.addAdminAccountToDatabases(account3);
 		
@@ -262,7 +289,7 @@ public class AdminAccountDaoTest {
 		String reference4 = "x2321";
 		Privilege privilege4 = Privilege.routine;
 		AccountStatus status4 = AccountStatus.deactivated;		
-		String password4 = "dsfdwr";
+		String password4 = "kfjgdi";
 		AdminAccount account4 = new AdminAccount(name4,phone4,reference4,privilege4,status4,password4);
 		AdminAccountDao.addAdminAccountToDatabases(account4);
 		

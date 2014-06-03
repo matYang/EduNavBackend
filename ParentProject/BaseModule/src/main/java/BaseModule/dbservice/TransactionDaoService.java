@@ -1,5 +1,6 @@
 package BaseModule.dbservice;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.TransactionDao;
@@ -7,7 +8,7 @@ import BaseModule.model.Transaction;
 
 public class TransactionDaoService {
 
-	public static Transaction createTransaction(Transaction transaction){
+	public static Transaction createTransaction(Transaction transaction) throws SQLException{
 		return TransactionDao.addTransactionToDatabases(transaction);
 	}
 	

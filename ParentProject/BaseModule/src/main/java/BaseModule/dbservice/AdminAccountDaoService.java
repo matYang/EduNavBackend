@@ -1,11 +1,13 @@
 package BaseModule.dbservice;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.admin.AdminAccountNotFoundException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.representation.AdminSearchRepresentation;
 
@@ -19,11 +21,11 @@ public class AdminAccountDaoService {
 		return AdminAccountDao.getAdminAccountById(id);
 	}
 	
-	public static AdminAccount createAdminAccount(AdminAccount account){
+	public static AdminAccount createAdminAccount(AdminAccount account) throws ValidationException, SQLException{
 		return AdminAccountDao.addAdminAccountToDatabases(account);
 	}
 	
-	public static void updateAdminAccount(AdminAccount account) throws AdminAccountNotFoundException{
+	public static void updateAdminAccount(AdminAccount account) throws AdminAccountNotFoundException, ValidationException, SQLException{
 		AdminAccountDao.updateAdminAccountInDatabases(account);
 	}
 	

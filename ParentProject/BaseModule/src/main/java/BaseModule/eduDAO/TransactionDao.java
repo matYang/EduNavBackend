@@ -13,7 +13,7 @@ import BaseModule.model.Transaction;
 
 public class TransactionDao {
 
-	public static Transaction addTransactionToDatabases(Transaction transaction,Connection...connections){
+	public static Transaction addTransactionToDatabases(Transaction transaction,Connection...connections) throws SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -34,6 +34,7 @@ public class TransactionDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 

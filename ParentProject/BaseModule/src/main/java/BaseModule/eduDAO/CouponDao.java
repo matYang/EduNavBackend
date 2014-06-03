@@ -15,7 +15,7 @@ import BaseModule.model.Coupon;
 
 public class CouponDao {
 
-	public static Coupon addCouponToDatabases(Coupon c,Connection...connections){
+	public static Coupon addCouponToDatabases(Coupon c,Connection...connections) throws SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -39,6 +39,7 @@ public class CouponDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
@@ -46,7 +47,7 @@ public class CouponDao {
 	}
 
 
-	public static void updateCouponInDatabases(Coupon c,Connection...connections) throws CouponNotFoundException{
+	public static void updateCouponInDatabases(Coupon c,Connection...connections) throws CouponNotFoundException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -65,6 +66,7 @@ public class CouponDao {
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
+			throw new SQLException();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}	

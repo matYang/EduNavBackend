@@ -32,7 +32,7 @@ public class UserDaoService {
 		return users.get(0);
 	}
 
-	public static User createUser(User user) throws ValidationException{
+	public static User createUser(User user) throws ValidationException, SQLException{
 		//initialize coupons on registration
 		user = UserDao.addUserToDatabase(user);
 		Coupon coupon = new Coupon(user.getUserId(), 50);
