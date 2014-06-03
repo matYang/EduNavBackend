@@ -41,6 +41,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private int partnerId;
 	private int userId;
 	
+	private int useCache;
 	
 	
 	public CourseSearchRepresentation(){
@@ -62,6 +63,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.partnerReference = null;
 		this.creationTime = null;
 		this.classModel = null;
+		this.useCache = -1;
 	}
 
 	@Override
@@ -231,21 +233,30 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	public void setClassModel(ClassModel classModel) {
 		this.classModel = classModel;
 	}
+	
+	public void setUseCache(int useCache){
+		this.useCache = useCache;
+	}
+	
+	public int getUseCache(){
+		return this.useCache;
+	}
 
 	@Override
 	public String toString() {
-		return "CourseSearchRepresentation [category=" + category
-				+ ", subCategory=" + subCategory + ", city=" + city
-				+ ", district=" + district + ", startTime=" + startTime
-				+ ", finishTime=" + finishTime + ", institutionName="
-				+ institutionName + ", status=" + status + ", startPrice="
-				+ startPrice + ", finishPrice=" + finishPrice
-				+ ", courseReference=" + courseReference
-				+", classModel=" + classModel 
-				+ ", partnerReference=" + partnerReference + ", courseId="
-				+ courseId + ", partnerId=" + partnerId + ", userId=" + userId
-				+ ", creationTime=" + creationTime + "]";
+		return "CourseSearchRepresentation [classModel=" + classModel
+				+ ", category=" + category + ", subCategory=" + subCategory
+				+ ", city=" + city + ", district=" + district
+				+ ", institutionName=" + institutionName + ", courseReference="
+				+ courseReference + ", partnerReference=" + partnerReference
+				+ ", startTime=" + startTime + ", finishTime=" + finishTime
+				+ ", creationTime=" + creationTime + ", status=" + status
+				+ ", startPrice=" + startPrice + ", finishPrice=" + finishPrice
+				+ ", courseId=" + courseId + ", partnerId=" + partnerId
+				+ ", userId=" + userId + ", useCache=" + useCache + "]";
 	}
+
+
 	
 	
 }

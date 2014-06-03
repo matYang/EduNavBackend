@@ -2,6 +2,8 @@ package AdminModule.serverMain;
 
 import java.util.Map;
 
+import net.spy.memcached.internal.OperationFuture;
+
 import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
@@ -9,6 +11,7 @@ import AdminModule.appService.CleanService;
 import AdminModule.appService.RoutingService;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
+import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.staticDataService.SystemDataInit;
 
 
@@ -81,6 +84,11 @@ public class ServerMain {
 	public static void main(String... args) throws Exception {
 		SystemDataInit.init();	
 		DebugLog.initializeLogger();
+		OperationFuture<Boolean> result = EduDaoBasic.setCache("test", 60, "testing connection");
+		
+		System.out.println("Result: " + result.get());
+		
+		
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
