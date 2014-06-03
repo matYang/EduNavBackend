@@ -83,6 +83,7 @@ public class ServerMain {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
 			DebugLog.d("Excuting");
+			DebugLog.b_d("Start Logging Behaviors");
 		} catch (Exception e) {
 			DebugLog.d(e);
 		}
