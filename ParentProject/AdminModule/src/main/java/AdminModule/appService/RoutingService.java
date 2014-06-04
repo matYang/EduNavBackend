@@ -99,7 +99,7 @@ public class RoutingService extends Application{
 		//  API for model to load : /a-api/v1.0/admin/modelLoader
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + modelLoaderPrefix, ModelLoaderResource.class);
 		String memcachedBenchMarkPrefix = "/memcached";
-		//	API for making a memcached bench mark: /a-api/v1.0/admin/modelLoader
+		//	API for making a memcached bench mark: /a-api/v1.0/admin/memcached
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + memcachedBenchMarkPrefix, MemcachedBenchMarkResource.class);
 		
 		
