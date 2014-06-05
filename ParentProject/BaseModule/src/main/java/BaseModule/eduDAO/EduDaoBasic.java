@@ -19,6 +19,7 @@ import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.auth.AuthDescriptor;
 import net.spy.memcached.auth.PlainCallbackHandler;
 import net.spy.memcached.internal.OperationFuture;
+import BaseModule.cache.CourseRamCache;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
 import com.zaxxer.hikari.HikariConfig;
@@ -158,6 +159,7 @@ public class EduDaoBasic {
     
 
     public static void clearAllDatabase(){
+    	CourseRamCache.clear();
     	Jedis jedis = getJedis();
     	
         Statement stmt = null;
