@@ -3,6 +3,7 @@ package AdminModule.resources.modelLoader;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,10 +40,31 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 		
 		@Override  
 		public void run() {
+			ArrayList<Course> previousResult = new ArrayList<Course>();
 			try{
 				//System.out.println("Thread: " + this.index + " starts inner loop");
 				for (int i = 0; i < 100; i++){
-					CourseDaoService.searchCourse(c_sr);
+					ArrayList<Course> newResult = CourseDaoService.searchCourse(c_sr);
+					if (newResult.size() < 10){
+						throw new RuntimeException("[ERROR] course search failed, result < 10");
+					}
+					if (previousResult.size() > 0){
+						if (previousResult.size() != newResult.size()){
+							throw new RuntimeException("[ERROR] inconsistant course search result, size not equal, previousSize: " + previousResult.size() + " newSize: " + newResult.size());
+						}
+						for (int j = 0; j < previousResult.size(); j++){
+							boolean found = false;
+							for (Course course : newResult){
+								if (course.equals(previousResult.get(j))){
+									found = true;
+								}
+							}
+							if (!found){
+								throw new RuntimeException("[ERROR] inconsistant course search result, course not match");
+							}
+						}
+					}
+					previousResult = newResult;
 				}
 				//System.out.println("Thread: " + this.index + " finishes");
 			} catch (IllegalArgumentException | IllegalAccessException
@@ -52,7 +74,7 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 				threadsSignal.countDown();
 			}
 		}  
-	}  
+	} 
 
 	@Get
 	public void testBenchMark() throws Exception{
@@ -80,6 +102,13 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 		}
 		threadSignal.await();
 		System.out.println("middle time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+		
+		
+		threadSignal = new CountDownLatch(1);
+		Thread testRuna = new TestThread(threadSignal, c_sr, 0);
+		testRuna.start();
+		threadSignal.await();
+		
 		
 		c_sr.setUseCache(1);
 		threadSignal = new CountDownLatch(threadNum);
