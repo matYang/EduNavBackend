@@ -44,7 +44,7 @@ public class ServerConfig {
 					configurationMap.put("memcachedUri", "localhost:11211");
 					configurationMap.put("sqlPass", "");
 					configurationMap.put("sqlUser", "root");
-					configurationMap.put("sqlMaxConnection","50");
+					configurationMap.put("sqlMaxConnection","150");
 					configurationMap.put("memcachedUser", "");
 					configurationMap.put("memcachedPass", "");
 				} 

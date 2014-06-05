@@ -322,7 +322,7 @@ public class CourseDao {
 		
 		try{
 			clist = new ArrayList<Course>();
-			if(idList.size() == 0){
+			if(idList == null || idList.size() == 0){
 				return clist;
 			}
 			

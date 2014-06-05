@@ -49,7 +49,7 @@ public class EduDaoBasic {
 		sqlConfig.setMaxLifetime(1800000l);
 		sqlConfig.setAutoCommit(true);
 		sqlConfig.setMaximumPoolSize(Integer.parseInt(ServerConfig.configurationMap.get("sqlMaxConnection")));
-		sqlConfig.setConnectionTimeout(10000l);
+		sqlConfig.setConnectionTimeout(100000l);
 		ds = new HikariDataSource(sqlConfig);
 		
 		

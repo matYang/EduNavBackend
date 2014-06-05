@@ -6,8 +6,10 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import org.json.JSONObject;
+import org.junit.Test;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
@@ -15,6 +17,7 @@ import org.restlet.resource.Get;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
+import BaseModule.concurrentTest.ConcurrentCacheTest.TestThread;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.eduDAO.CourseDao;
@@ -28,8 +31,37 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class MemcachedBenchMarkResource extends AdminPseudoResource {
 	
+	
+	public class TestThread extends Thread {  
+		private CountDownLatch threadsSignal;
+		private CourseSearchRepresentation c_sr;
+		private int index;
+		
+		public TestThread(CountDownLatch threadsSignal, CourseSearchRepresentation c_sr, int index) {  
+			this.threadsSignal = threadsSignal;
+			this.c_sr = c_sr;
+			this.index = index;
+		}
+		
+		@Override  
+		public void run() {
+			try{
+				//System.out.println("Thread: " + this.index + " starts inner loop");
+				for (int i = 0; i < 100; i++){
+					CourseDaoService.searchCourse(c_sr);
+				}
+				//System.out.println("Thread: " + this.index + " finishes");
+			} catch (IllegalArgumentException | IllegalAccessException
+					| UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} finally{
+				threadsSignal.countDown();
+			}
+		}  
+	}  
+
 	@Get
-	public Representation makeMemcachedBenchMark() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, PseudoException, InterruptedException{
+	public void testBenchMark() throws Exception{
 		EduDaoBasic.clearAllDatabase();
 		loadPartners();
 		for (int i = 0; i < 50; i++){
@@ -42,31 +74,29 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 		Map<String, String> kvps= new HashMap<String, String>();
 		kvps.put("category", "Chinese");
 		kvps.put("useCache", "0");
-		
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		c_sr.storeKvps(kvps);
-		DebugLog.b_d("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+		
+		int threadNum = 100;
+		CountDownLatch threadSignal = new CountDownLatch(threadNum);
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		for (int i = 0; i < 5000; i++){
-			CourseDaoService.searchCourse(c_sr);
-			Thread.sleep(5);
+		for (int i = 0; i < threadNum; i++){
+			Thread testRun = new TestThread(threadSignal, c_sr, i);
+			testRun.start();
 		}
-		DebugLog.b_d("middle time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+		threadSignal.await();
 		System.out.println("middle time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+		
 		c_sr.setUseCache(1);
-		for (int i = 0; i < 5000; i++){
-			CourseDaoService.searchCourse(c_sr);
-			Thread.sleep(5);
+		threadSignal = new CountDownLatch(threadNum);
+		for (int i = 0; i < threadNum; i++){
+			Thread testRun = new TestThread(threadSignal, c_sr, i);
+			testRun.start();
 		}
-		DebugLog.b_d("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+		threadSignal.await();
 		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		
-		
-		
-		Representation result = new JsonRepresentation(new JSONObject());
-		this.addCORSHeader();
-		return result;
 	}
+	
 	
 	
 	
