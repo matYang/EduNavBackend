@@ -10,8 +10,8 @@ import BaseModule.model.Coupon;
 
 public class CouponDaoService {
 
-	public static Coupon createCoupon(Coupon c) throws SQLException{
-		return CouponDao.addCouponToDatabases(c);
+	public static Coupon createCoupon(Coupon c,Connection...connections) throws SQLException{
+		return CouponDao.addCouponToDatabases(c,connections);
 	}
 	
 	public static void updateCoupon(Coupon c,Connection...connections) throws CouponNotFoundException, SQLException{
@@ -22,7 +22,7 @@ public class CouponDaoService {
 		return CouponDao.getCouponByUserId(userId);
 	}
 	
-	public static Coupon getCouponByCouponId(int couponId){
-		return CouponDao.getCouponByCouponId(couponId);
+	public static Coupon getCouponByCouponId(int couponId,Connection...connections){
+		return CouponDao.getCouponByCouponId(couponId,connections);
 	}
 }
