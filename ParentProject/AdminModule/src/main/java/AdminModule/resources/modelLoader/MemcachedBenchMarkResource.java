@@ -78,6 +78,8 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 
 	@Get
 	public void testBenchMark() throws Exception{
+		String targetOpt = this.getQueryVal("target");
+		String threadLevel = this.getQueryVal("threadLevel");
 		EduDaoBasic.clearAllDatabase();
 		loadPartners();
 		for (int i = 0; i < 50; i++){
@@ -93,30 +95,29 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		c_sr.storeKvps(kvps);
 		
-		int threadNum = 100;
-		CountDownLatch threadSignal = new CountDownLatch(threadNum);
+		int threadNum = threadLevel == null ? 100 : Integer.parseInt(threadLevel);
+		CountDownLatch threadSignal;
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		for (int i = 0; i < threadNum; i++){
-			Thread testRun = new TestThread(threadSignal, c_sr, i);
-			testRun.start();
+		
+		if (targetOpt == null || targetOpt.equals("rds")){
+			threadSignal = new CountDownLatch(threadNum);
+			for (int i = 0; i < threadNum; i++){
+				Thread testRun = new TestThread(threadSignal, c_sr, i);
+				testRun.start();
+			}
+			threadSignal.await();
 		}
-		threadSignal.await();
 		System.out.println("middle time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		
-		
-		threadSignal = new CountDownLatch(1);
-		Thread testRuna = new TestThread(threadSignal, c_sr, 0);
-		testRuna.start();
-		threadSignal.await();
-		
-		
-		c_sr.setUseCache(1);
-		threadSignal = new CountDownLatch(threadNum);
-		for (int i = 0; i < threadNum; i++){
-			Thread testRun = new TestThread(threadSignal, c_sr, i);
-			testRun.start();
+		if (targetOpt == null || targetOpt.equals("ocs")){
+			c_sr.setUseCache(1);
+			threadSignal = new CountDownLatch(threadNum);
+			for (int i = 0; i < threadNum; i++){
+				Thread testRun = new TestThread(threadSignal, c_sr, i);
+				testRun.start();
+			}
+			threadSignal.await();
 		}
-		threadSignal.await();
 		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 	}
 	

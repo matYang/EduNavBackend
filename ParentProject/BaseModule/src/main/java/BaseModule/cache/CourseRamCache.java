@@ -92,5 +92,9 @@ public class CourseRamCache {
 		return courses;
 	}
 	
+	public static void clear(){
+		courseRamCache.clear();
+	}
+	
 	
 }
