@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+import org.json.JSONObject;
+import org.restlet.ext.json.JsonRepresentation;
+import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 
 import AdminModule.resources.AdminPseudoResource;
@@ -77,7 +80,7 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 	} 
 
 	@Get
-	public void testBenchMark() throws Exception{
+	public Representation testBenchMark() throws Exception{
 		String targetOpt = this.getQueryVal("target");
 		String threadLevel = this.getQueryVal("threadLevel");
 		EduDaoBasic.clearAllDatabase();
@@ -96,6 +99,13 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 		c_sr.storeKvps(kvps);
 		
 		int threadNum = threadLevel == null ? 100 : Integer.parseInt(threadLevel);
+		if (threadNum == 0){
+			Thread.sleep(10000l);
+			Representation result = new JsonRepresentation(new JSONObject());
+			this.addCORSHeader();
+			return result;
+		}
+		
 		CountDownLatch threadSignal;
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		
@@ -119,6 +129,11 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 			threadSignal.await();
 		}
 		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+		
+		
+		Representation result = new JsonRepresentation(new JSONObject());
+		this.addCORSHeader();
+		return result;
 	}
 	
 	
