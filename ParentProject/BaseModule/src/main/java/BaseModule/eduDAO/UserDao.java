@@ -206,11 +206,20 @@ public class UserDao {
 		String bopr = balance >= 0 ? "+" : "-";
 		String cropr = credit >= 0 ? "+" : "-";
 		String coopr = coupon >= 0 ? "+" : "-";
+		String query0 = "SELECT * From UserDao where id = ? for UPDATE";
 		String query = "UPDATE UserDao set balance = balance " + bopr + " ?, " + "credit = credit "  + cropr + " ?, "
 				+ "coupon = coupon " + coopr + " ? " + "where id = ?";
 		Connection conn = EduDaoBasic.getConnection(connections);
+		ResultSet rs = null;
 		PreparedStatement stmt = null;	
 		try{
+			stmt = conn.prepareStatement(query0);
+			stmt.setInt(1, userId);
+			rs = stmt.executeQuery();
+			if(!rs.next()){
+				throw new UserNotFoundException();
+			}
+			
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, Math.abs(balance));
 			stmt.setInt(2, Math.abs(credit));
@@ -224,7 +233,7 @@ public class UserDao {
 			DebugLog.d(e);
 			throw new SQLException();
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, null, EduDaoBasic.shouldConnectionClose(connections));
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 
 	}
