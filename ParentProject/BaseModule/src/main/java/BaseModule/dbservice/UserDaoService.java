@@ -1,5 +1,6 @@
 package BaseModule.dbservice;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -44,8 +45,8 @@ public class UserDaoService {
 		return user;
 	}
 
-	public static void updateUser(User user) throws ValidationException, SQLException{
-		UserDao.updateUserInDatabases(user);
+	public static void updateUser(User user,Connection...connections) throws ValidationException, SQLException{
+		UserDao.updateUserInDatabases(user,connections);
 	}
 
 	public static boolean isCellPhoneAvailable(String phone){
