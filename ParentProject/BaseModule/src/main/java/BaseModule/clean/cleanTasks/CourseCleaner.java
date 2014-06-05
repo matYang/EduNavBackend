@@ -19,7 +19,7 @@ public class CourseCleaner extends CourseDao{
 	public static void clean(){
 		Calendar currentDate = DateUtility.getCurTimeInstance();
 		String ct=DateUtility.toSQLDateTime(currentDate);
-		String query = "SELECT * FROM CourseDao where status = ? and finishTime < ? ";
+		String query = "SELECT * FROM CourseDao where status = ? and startTime < ? ";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
