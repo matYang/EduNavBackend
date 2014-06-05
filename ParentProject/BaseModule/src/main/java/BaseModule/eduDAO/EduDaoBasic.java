@@ -94,7 +94,7 @@ public class EduDaoBasic {
     }
     
     public static Connection getConnection(Connection...connections){
-    	if(connections.length==0 || connections==null){
+    	if(connections==null||connections.length==0){
     		return getSQLConnection();
     	}else if(connections.length==1&& connections[0] instanceof java.sql.Connection){
     		return connections[0];

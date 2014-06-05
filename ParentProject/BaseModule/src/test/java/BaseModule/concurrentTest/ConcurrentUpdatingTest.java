@@ -88,7 +88,7 @@ public class ConcurrentUpdatingTest {
 
 
 	@Test
-	public void testBenchMark() throws InterruptedException{
+	public void testBenchMark() throws InterruptedException{	
 		System.out.println("Loading model...");
 		ModelDataLoaderService.load();
 		
