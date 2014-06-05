@@ -53,8 +53,16 @@ public class CreditDao {
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
+		String query0 = "SELECT * from CreditDao where creditId = ? for update";
 		String query = "UPDATE CreditDao set expireTime=?,status=?,amount=?, usableTime=? where creditId = ?";
 		try{
+			stmt = conn.prepareStatement(query0);
+			stmt.setLong(1, c.getCreditId());
+			rs = stmt.executeQuery();
+			if(!rs.next()){
+				throw new CreditNotFoundException();
+			}
+			
 			stmt = conn.prepareStatement(query);			
 			stmt.setString(1, DateUtility.toSQLDateTime(c.getExpireTime()));
 			stmt.setInt(2,c.getStatus().code);

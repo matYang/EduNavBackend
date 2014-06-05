@@ -51,8 +51,16 @@ public class CouponDao {
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
+		String query0 = "SELECT * From CouponDao where couponId = ? for update";
 		String query = "UPDATE CouponDao set transactionId=?,expireTime=?,status=?,amount=? where couponId = ?";
 		try{
+			stmt = conn.prepareStatement(query0);
+			stmt.setLong(1, c.getCouponId());
+			rs =stmt.executeQuery();
+			if(!rs.next()){
+				throw new CouponNotFoundException();
+			}
+			
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, c.getTransactionId());
 			stmt.setString(2, DateUtility.toSQLDateTime(c.getExpireTime()));
