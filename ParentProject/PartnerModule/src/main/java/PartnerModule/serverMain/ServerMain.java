@@ -78,7 +78,6 @@ public class ServerMain {
 
 	public static void main(String... args) throws Exception {
 		DebugLog.initializeLogger();
-		SystemDataInit.init();	
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
