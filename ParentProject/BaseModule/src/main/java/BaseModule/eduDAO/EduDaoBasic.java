@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.spy.memcached.AddrUtil;
@@ -96,12 +95,11 @@ public class EduDaoBasic {
     }
     
     public static Connection getConnection(Connection...connections){
-    	if(connections.length==0){
+    	if(connections==null||connections.length==0){
     		return getSQLConnection();
-    	}//else if(connections.length==1&& connections[0] instanceof java.sql.Connection){
-//    		return connections[0];
-//    	}else return null;
-    	else return connections[0];
+    	}else if(connections.length==1&& connections[0] instanceof java.sql.Connection){
+    		return connections[0];
+    	}else return null;
     }
     
     public static void closeResources(Connection conn, PreparedStatement stmt, ResultSet rs,boolean closeconn){
@@ -127,22 +125,11 @@ public class EduDaoBasic {
     }
     
     public static Object getCache(String key){
-    	try{
-    		return memcached.get(key);
-    	} catch (Exception e){
-    		DebugLog.d("[ERROR] memcached getCache failed");
-    		return null;
-    	}
-    	
+    	return memcached.get(key);
     }
     
     public static Map<String, Object> getBulkCache(Collection<String> keys){
-    	try{
-    		return memcached.getBulk(keys);
-    	} catch (Exception e){
-    		DebugLog.d("[ERROR] memcached getBulkCache failed");
-    		return new HashMap<String, Object>();
-    	}
+    	return memcached.getBulk(keys);
     }
     
     public static OperationFuture<Boolean> setCache(String key, int exp, Object obj){

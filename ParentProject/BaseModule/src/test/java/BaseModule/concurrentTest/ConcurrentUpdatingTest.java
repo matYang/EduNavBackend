@@ -26,13 +26,12 @@ public class ConcurrentUpdatingTest {
 
 	public class TestThread extends Thread {  
 		private CountDownLatch threadsSignal;		
-		private Connection conn;		
+		private Connection conn = EduDaoBasic.getSQLConnection();		
 		private ArrayList<?> list;
 		private String kind;
 
-		public TestThread(CountDownLatch threadsSignal,Connection conn,ArrayList<?> list,String kind) {  
-			this.threadsSignal = threadsSignal;
-			this.conn = conn;
+		public TestThread(CountDownLatch threadsSignal,ArrayList<?> list,String kind) {  
+			this.threadsSignal = threadsSignal;			
 			this.kind = kind;
 			this.list = list;
 		}
@@ -63,8 +62,13 @@ public class ConcurrentUpdatingTest {
 						}
 
 					}else if(kind.equals("User")){
+						int count = (int) DateUtility.getCurTime();
+						int balance = count % 2 == 0 ? 10 : -10;
+						int credit = count % 2 == 0 ? 5 : -5;
+						int coupon = count % 2 == 0 ? 20 : -20;
 						try {
-							UserDao.updateUserBCC(10, 5, 20, ((User)list.get(i)).getUserId(), conn);
+							//System.out.println("Count: "+ count + " User id: " + ((User)list.get(i)).getUserId() + " add balance: " + balance + " credit: " + credit + " coupon: " + coupon);
+							UserDao.updateUserBCC(balance, credit, coupon, ((User)list.get(i)).getUserId(), conn);
 						} catch (UserNotFoundException | SQLException e) {
 							e.printStackTrace();
 						}
@@ -77,13 +81,14 @@ public class ConcurrentUpdatingTest {
 				e.printStackTrace();
 			} finally{
 				threadsSignal.countDown();
+				EduDaoBasic.closeResources(conn, null, null, true);
 			}
 		}  
 	}
 
 
 	@Test
-	public void testBenchMark() throws InterruptedException{
+	public void testBenchMark() throws InterruptedException{	
 		System.out.println("Loading model...");
 		ModelDataLoaderService.load();
 		
@@ -99,19 +104,17 @@ public class ConcurrentUpdatingTest {
 			blist.get(i).setName("Booking " + i);
 		}
 		
-		int threadNum = 500;
+		int threadNum = 1000;
 		CountDownLatch threadSignal = new CountDownLatch(threadNum);
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		Connection conn = EduDaoBasic.getSQLConnection();
+		
 		for (int i = 0; i < threadNum; i++){
-			Thread testRun = new TestThread(threadSignal, conn, blist,"Booking");
+			Thread testRun = new TestThread(threadSignal, blist,"Booking");
 			testRun.start();
 		}
 		threadSignal.await();
 		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		EduDaoBasic.closeResources(conn, null, null, true);
-		System.out.println("");
-		
+		System.out.println("");		
 		System.out.println("After Updating");
 		blist = BookingDao.getAllBookings();
 		for(int i = 0 ; i < blist.size() ; i++){
@@ -120,11 +123,10 @@ public class ConcurrentUpdatingTest {
 		
 		System.out.println("");
 		
-		System.out.println("Test Credit");
-		conn = EduDaoBasic.getSQLConnection();
+		System.out.println("Test Credit");		
 		ArrayList<Credit> clist = new ArrayList<Credit>();
 		ArrayList<Credit> clistTest = new ArrayList<Credit>();
-		
+		Connection conn = EduDaoBasic.getSQLConnection();
 		clistTest = CreditDao.getCreditByUserId(1, conn);
 		clist.addAll(clistTest);
 		
@@ -136,6 +138,7 @@ public class ConcurrentUpdatingTest {
 		
 		clistTest = CreditDao.getCreditByUserId(4, conn);
 		clist.addAll(clistTest);
+		EduDaoBasic.closeResources(conn, null, null, true);
 		
 		System.out.println("Num for Credit Test: " + clist.size());
 		System.out.println("");
@@ -148,7 +151,7 @@ public class ConcurrentUpdatingTest {
 		threadSignal = new CountDownLatch(threadNum);
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		for (int i = 0; i < threadNum; i++){
-			Thread testRun = new TestThread(threadSignal, conn, clist,"Credit");
+			Thread testRun = new TestThread(threadSignal, clist,"Credit");
 			testRun.start();
 		}
 		threadSignal.await();
@@ -157,7 +160,7 @@ public class ConcurrentUpdatingTest {
 		System.out.println("");
 		
 		clist = new ArrayList<Credit>();
-		
+		conn = EduDaoBasic.getSQLConnection();
 		clistTest = CreditDao.getCreditByUserId(1, conn);
 		clist.addAll(clistTest);
 		
@@ -193,7 +196,7 @@ public class ConcurrentUpdatingTest {
 		
 		culistTest = CouponDao.getCouponByUserId(4, conn);
 		culist.addAll(culistTest);
-	
+		EduDaoBasic.closeResources(conn, null, null, true);
 		System.out.println("NUM for Coupon Test: " + culist.size());
 		System.out.println("");
 		System.out.println("Before Updating");
@@ -205,7 +208,7 @@ public class ConcurrentUpdatingTest {
 		threadSignal = new CountDownLatch(threadNum);
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		for (int i = 0; i < threadNum; i++){
-			Thread testRun = new TestThread(threadSignal, conn, culist,"Coupon");
+			Thread testRun = new TestThread(threadSignal, culist,"Coupon");
 			testRun.start();
 		}
 		threadSignal.await();
@@ -214,7 +217,7 @@ public class ConcurrentUpdatingTest {
 		System.out.println("");		
 		
 		culist = new ArrayList<Coupon>();		
-		
+		conn = EduDaoBasic.getSQLConnection();
 		culistTest = CouponDao.getCouponByUserId(1, conn);
 		culist.addAll(culistTest);
 		
@@ -227,11 +230,13 @@ public class ConcurrentUpdatingTest {
 		culistTest = CouponDao.getCouponByUserId(4, conn);
 		culist.addAll(culistTest);
 		
+		EduDaoBasic.closeResources(conn, null, null, true);
+		
 		System.out.println("After Updating");
 		for(int i = 0 ; i < culist.size() ; i++){
 			System.out.println("Coupon id: " + culist.get(i).getCouponId() + " amount: " + culist.get(i).getAmount());
 		}
-		EduDaoBasic.closeResources(conn, null, null, true);
+		
 		System.out.println("");
 		
 		System.out.println("Test User");
@@ -250,12 +255,11 @@ public class ConcurrentUpdatingTest {
 		threadSignal = new CountDownLatch(threadNum);
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		for (int i = 0; i < threadNum; i++){
-			Thread testRun = new TestThread(threadSignal, conn, ulist,"User");
+			Thread testRun = new TestThread(threadSignal, ulist,"User");
 			testRun.start();
 		}
 		threadSignal.await();
-		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		EduDaoBasic.closeResources(conn, null, null, true);
+		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));		
 		System.out.println("");
 		
 		System.out.println("After Updating");
@@ -267,6 +271,7 @@ public class ConcurrentUpdatingTest {
 		System.out.println("");
 		
 		System.out.println("All the Test Finished");
+		
 		
 		
 	}
