@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import net.spy.memcached.AddrUtil;
@@ -124,11 +125,22 @@ public class EduDaoBasic {
     }
     
     public static Object getCache(String key){
-    	return memcached.get(key);
+    	try{
+    		return memcached.get(key);
+    	} catch (Exception e){
+    		DebugLog.d("[ERROR] memcached getCache failed");
+    		return null;
+    	}
+    	
     }
     
     public static Map<String, Object> getBulkCache(Collection<String> keys){
-    	return memcached.getBulk(keys);
+    	try{
+    		return memcached.getBulk(keys);
+    	} catch (Exception e){
+    		DebugLog.d("[ERROR] memcached getBulkCache failed");
+    		return new HashMap<String, Object>();
+    	}
     }
     
     public static OperationFuture<Boolean> setCache(String key, int exp, Object obj){
