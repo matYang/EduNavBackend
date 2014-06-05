@@ -8,22 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
-import org.json.JSONObject;
-import org.junit.Test;
-import org.restlet.ext.json.JsonRepresentation;
-import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.concurrentTest.ConcurrentCacheTest.TestThread;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
-import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
