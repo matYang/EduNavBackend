@@ -81,6 +81,13 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 		threadSignal.await();
 		System.out.println("middle time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		
+		
+		threadSignal = new CountDownLatch(1);
+		Thread testRuna = new TestThread(threadSignal, c_sr, 0);
+		testRuna.start();
+		threadSignal.await();
+		
+		
 		c_sr.setUseCache(1);
 		threadSignal = new CountDownLatch(threadNum);
 		for (int i = 0; i < threadNum; i++){
