@@ -79,6 +79,7 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 	@Get
 	public void testBenchMark() throws Exception{
 		String targetOpt = this.getQueryVal("target");
+		String threadLevel = this.getQueryVal("threadLevel");
 		EduDaoBasic.clearAllDatabase();
 		loadPartners();
 		for (int i = 0; i < 50; i++){
@@ -94,7 +95,7 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		c_sr.storeKvps(kvps);
 		
-		int threadNum = 100;
+		int threadNum = threadLevel == null ? 100 : Integer.parseInt(threadLevel);
 		CountDownLatch threadSignal;
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		
