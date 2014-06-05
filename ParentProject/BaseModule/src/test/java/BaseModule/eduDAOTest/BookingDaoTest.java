@@ -35,7 +35,9 @@ public class BookingDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhan@hotmail.com";
-		User user = new User(name, userphone, password,status,email);
+		User user = new User(userphone, password,status);
+		user.setName(name);
+		user.setEmail(email);
 		UserDao.addUserToDatabase(user);
 		
 		String pname = "XDF";
@@ -100,7 +102,9 @@ public class BookingDaoTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;		
-		User user = new User(name, userphone, password,status,"xiongchuhanplace@hotmail.com");
+		User user = new User(userphone, password,status);
+		user.setName(name);
+		user.setEmail("xiongchuhanplace@hotmail.com");
 		UserDao.addUserToDatabase(user);
 		
 		String pname = "XDF";
@@ -208,7 +212,9 @@ public class BookingDaoTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
-		User user = new User(name, userphone, password,status,"xiongchuhan@uwaterloo.ca");
+		User user = new User(userphone, password,status);
+		user.setName(name);
+		user.setEmail("xiongchuhan@uwaterloo.ca");
 		UserDao.addUserToDatabase(user);
 		
 		String pname = "XDF";
@@ -284,13 +290,17 @@ public class BookingDaoTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
-		User user = new User(name, userphone, password,status,"349@hotmail.com");
+		User user = new User(userphone, password,status);
+		user.setName(name);
+		user.setEmail("349@hotmail.com");
 		UserDao.addUserToDatabase(user);
 		
 		String name2 = "Fang";
 		String userphone2 = "123312";
 		String password2 = "36knal";		
-		User user2 = new User(name2, userphone2, password2,status,"kebi@hotmail.com");
+		User user2 = new User(userphone, password,status);
+		user.setName(name);
+		user.setEmail("kebi@hotmail.com");
 		UserDao.addUserToDatabase(user2);
 		
 		//Partner

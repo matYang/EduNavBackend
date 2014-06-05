@@ -47,7 +47,9 @@ public class CacheTest {
 	
 	@Test
 	public void testObj() throws Exception{
-		User user = new User("matthew", "18662241356", "111111", AccountStatus.activated, "uwse@me.com");
+		User user = new User("18662241356", "111111", AccountStatus.activated);
+		user.setName("Matthew");
+		user.setEmail("uwse@me.com");
 		OperationFuture<Boolean> future = EduDaoBasic.setCache("lol2", 3600, user);
 		future.get();
 		User user2 = (User) EduDaoBasic.getCache("lol2");

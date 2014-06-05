@@ -200,7 +200,9 @@ public class ModelDataLoaderService {
 			String password = "36krfinal";
 			AccountStatus status = AccountStatus.activated;
 			String email = "xiongchuhanplace@hotmail.com";
-			User user = new User(name, phone, password,status,email);
+			User user = new User(phone, password,status);
+			user.setName(name);
+			user.setEmail(email);
 			UserDao.addUserToDatabase(user,connections);
 
 			String name2 = "Matt";
@@ -208,7 +210,9 @@ public class ModelDataLoaderService {
 			String password2 = "36krlrethjhgu";
 			String email2 = "uwse@me";
 			AccountStatus status2 = AccountStatus.activated;		
-			User user2 = new User(name2, phone2, password2,status2,email2);
+			User user2 = new User(phone2, password2,status2);
+			user2.setName(name2);
+			user2.setEmail(email2);
 			UserDao.addUserToDatabase(user2,connections);
 
 			String name3 = "Fan";
@@ -216,7 +220,9 @@ public class ModelDataLoaderService {
 			String password3 = "36krlfgfdgdf";
 			String email3 = "uwse@me";
 			AccountStatus status3 = AccountStatus.deactivated;		
-			User user3 = new User(name3, phone3, password3,status3,email3);
+			User user3 = new User(phone3, password3,status3);
+			user3.setName(name3);
+			user3.setEmail(email3);
 			UserDao.addUserToDatabase(user3,connections);
 
 			String name4 = "Jiang";
@@ -224,7 +230,9 @@ public class ModelDataLoaderService {
 			String password4 = "36kr53ty4ylfgfdgdf";
 			String email4 = "45r4235@me";
 			AccountStatus status4 = AccountStatus.deleted;		
-			User user4 = new User(name4, phone4, password4,status4,email4);
+			User user4 = new User(phone4, password4,status4);
+			user4.setName(name4);
+			user4.setEmail(email4);
 			UserDao.addUserToDatabase(user4,connections);
 		}catch(ValidationException e){
 			e.printStackTrace();

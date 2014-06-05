@@ -55,16 +55,16 @@ public class User implements PseudoModel, Serializable{
 	}
 	
 	//Normal Construction
-	public User(String name, String phone, String password,AccountStatus status,String email) {
+	public User(String phone, String password,AccountStatus status) {
 		super();		
 		this.balance = 0;
 		this.coupon = 0;
 		this.credit = 0;
-		this.name = name;
+		this.name = "";
 		this.phone = phone;
 		this.password = password;
 		this.status = status;
-		this.email = email;
+		this.email = "";
 		this.creationTime = DateUtility.getCurTimeInstance();
 		if(this.lastLogin==null){
 			this.lastLogin = (Calendar) this.creationTime.clone();

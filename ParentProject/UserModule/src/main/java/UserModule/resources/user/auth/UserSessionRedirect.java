@@ -30,7 +30,7 @@ public class UserSessionRedirect extends UserPseudoResource{
 			jsonObject = JSONFactory.toJSON(user);
 		} catch (AuthenticationException | UserNotFoundException e){
 			//if not authenticated, return default user with id -1
-			user = new User("default","default","default", AccountStatus.activated, "default");
+			user = new User("default","default", AccountStatus.activated);
 			user.setUserId(-1);
 			jsonObject = JSONFactory.toJSON(user);
 		} catch (PseudoException e){

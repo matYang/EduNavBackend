@@ -58,14 +58,11 @@ public class UserResource extends UserPseudoResource{
 
 
 			String phone = EncodingService.decodeURI(jsonUser.getString("phone"));
-			String name = EncodingService.decodeURI(jsonUser.getString("name"));
 			String password = EncodingService.decodeURI(jsonUser.getString("password"));
 			String confirmPassword = EncodingService.decodeURI(jsonUser.getString("confirmPassword"));
 			String authCode = EncodingService.decodeURI(jsonUser.getString("authCode"));
-			user = new User(name, phone, password, AccountStatus.activated, "");
-			if (!ValidationService.validateName(name)){
-				throw new ValidationException("姓名格式不正确");
-			}
+			user = new User(phone, password, AccountStatus.activated);
+
 			if (!ValidationService.validatePhone(phone)){
 				throw new ValidationException("手机号码格式不正确");
 			}
