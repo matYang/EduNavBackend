@@ -21,7 +21,7 @@ public class RedisAuthenticationService {
 	public static boolean validateWebSession(int serviceIdentifier, int id, String authCode, long timeStamp){
 		Jedis jedis = EduDaoBasic.getJedis();
 		try{
-			RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
+			RedisSubConfig config = RedisAuthenticationConfig.getConfig(serviceIdentifier);
 			
 			String redisKey = config.keyPrefix + id;
 			String sessionString = jedis.get(redisKey);
@@ -60,7 +60,7 @@ public class RedisAuthenticationService {
 		String sessionString;
 		
 		try{
-			RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
+			RedisSubConfig config = RedisAuthenticationConfig.getConfig(serviceIdentifier);
 			
 			String redisKey = config.keyPrefix + id;
 			sessionString = id + RedisAuthenticationConfig.redisSeperator + RandomStringUtils.randomAlphanumeric(config.authCodeLength) + RedisAuthenticationConfig.redisSeperator + DateUtility.getTimeStamp();
@@ -82,7 +82,7 @@ public class RedisAuthenticationService {
 	public static boolean valdiateCellSession(int serviceIdentifier, String sufix, String authCode){
 		Jedis jedis = EduDaoBasic.getJedis();
 		try{
-			RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
+			RedisSubConfig config = RedisAuthenticationConfig.getConfig(serviceIdentifier);
 			
 			String redisKey = config.keyPrefix + sufix;
 			String sessionString = jedis.get(redisKey);
@@ -116,7 +116,7 @@ public class RedisAuthenticationService {
 		String authCode;
 		
 		try{
-			RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
+			RedisSubConfig config = RedisAuthenticationConfig.getConfig(serviceIdentifier);
 			
 			String redisKey = config.keyPrefix + sufix;
 			String previousRecord = jedis.get(redisKey);
@@ -151,7 +151,7 @@ public class RedisAuthenticationService {
 	public static boolean closeSession(int serviceIdentifier, String keySufix){
 		Jedis jedis = EduDaoBasic.getJedis();
 		boolean result;
-		RedisSubConfig config = RedisAuthenticationConfig.getConfigBean(serviceIdentifier);
+		RedisSubConfig config = RedisAuthenticationConfig.getConfig(serviceIdentifier);
 		try{
 			result = jedis.del(config.keyPrefix + keySufix) == 1;
 		} finally{

@@ -1,4 +1,4 @@
-package BaseModule.exception.admin;
+package BaseModule.exception.notFound;
 
 import BaseModule.exception.PseudoException;
 

@@ -2,7 +2,9 @@ package BaseModule.service;
 
 import BaseModule.asyncRelayExecutor.ExecutorProvider;
 import BaseModule.asyncTask.SMSTask;
+import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.SMSEvent;
+import BaseModule.model.Booking;
 
 public class SMSService {
 	
@@ -22,6 +24,15 @@ public class SMSService {
 		ExecutorProvider.executeRelay(task);
 	}
 	
+	public static void sendBookingFailedSMS(Booking booking){
+		SMSTask sms = new SMSTask(SMSEvent.user_bookingFailed, booking.getPhone(), booking.getCourse().getCourseName());
+		ExecutorProvider.executeRelay(sms);
+	}
+	
+	public static void sendBookingConfirmedSMS(Booking booking){
+		SMSTask sms = new SMSTask(SMSEvent.user_bookingConfirmed, booking.getPhone(), booking.getCourse().getCourseName(), DateUtility.castToReadableString(booking.getScheduledTime()));
+		ExecutorProvider.executeRelay(sms);
+	}
 	
 	
 	//partner sms

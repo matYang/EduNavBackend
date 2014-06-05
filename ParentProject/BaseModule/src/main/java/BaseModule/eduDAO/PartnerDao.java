@@ -11,7 +11,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.AuthenticationException;
-import BaseModule.exception.partner.PartnerNotFoundException;
+import BaseModule.exception.notFound.PartnerNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.QueryFactory;
 import BaseModule.model.Partner;

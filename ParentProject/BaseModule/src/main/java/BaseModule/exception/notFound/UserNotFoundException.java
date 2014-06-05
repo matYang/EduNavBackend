@@ -1,4 +1,4 @@
-package BaseModule.exception.user;
+package BaseModule.exception.notFound;
 
 import BaseModule.exception.PseudoException;
 

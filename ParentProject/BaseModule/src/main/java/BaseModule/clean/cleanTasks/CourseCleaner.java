@@ -10,7 +10,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
-import BaseModule.exception.course.CourseNotFoundException;
+import BaseModule.exception.notFound.CourseNotFoundException;
 
 import BaseModule.model.Course;
 

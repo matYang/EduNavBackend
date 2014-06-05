@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CreditStatus;
-import BaseModule.exception.credit.CreditNotFoundException;
+import BaseModule.exception.notFound.CreditNotFoundException;
 import BaseModule.model.Credit;
 
 

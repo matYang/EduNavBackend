@@ -9,7 +9,7 @@ public class ValidationException extends PseudoException{
 	protected String exceptionType = "GeneralValidationException";
 
 	private ValidationException(){
-		super("验证失败，请核对发布内容");
+		super("验证失败，请核对内容");
 	}
 
 	public ValidationException(String exceptionText){

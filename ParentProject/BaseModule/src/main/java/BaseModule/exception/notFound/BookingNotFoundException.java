@@ -1,4 +1,4 @@
-package BaseModule.exception.booking;
+package BaseModule.exception.notFound;
 
 import BaseModule.exception.PseudoException;
 

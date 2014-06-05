@@ -17,7 +17,7 @@ import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.UserDao;
-import BaseModule.exception.course.CourseNotFoundException;
+import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Booking;
 import BaseModule.model.Course;

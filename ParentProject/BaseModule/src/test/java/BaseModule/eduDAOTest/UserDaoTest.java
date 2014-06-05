@@ -18,7 +18,7 @@ import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.AuthenticationException;
-import BaseModule.exception.user.UserNotFoundException;
+import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Coupon;
 import BaseModule.model.Credit;

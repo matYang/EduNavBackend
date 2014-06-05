@@ -10,8 +10,8 @@ import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
-import BaseModule.exception.coupon.CouponNotFoundException;
-import BaseModule.exception.user.UserNotFoundException;
+import BaseModule.exception.notFound.CouponNotFoundException;
+import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.model.Coupon;
 
 

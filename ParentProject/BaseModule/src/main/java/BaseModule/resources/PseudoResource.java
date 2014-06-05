@@ -111,11 +111,11 @@ public class PseudoResource extends ServerResource{
 	public StringRepresentation doPseudoException(PseudoException e){
 		DebugLog.d(e);
 		switch(e.getCode()){
-			case 1: case 2: case 4: case 5: 
+			case 1: case 2: case 3: case 4: case 5: case 6: case 7 : case 8: 
 				//Not Found
 				setStatus(Status.CLIENT_ERROR_NOT_FOUND);
 				break;
-			case 6:
+			case 17:
 				//authentication error
 				setStatus(Status.CLIENT_ERROR_UNAUTHORIZED);
 				break;

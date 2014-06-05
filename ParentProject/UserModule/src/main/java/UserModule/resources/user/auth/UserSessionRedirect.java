@@ -10,7 +10,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.user.UserNotFoundException;
+import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.User;
 
