@@ -36,7 +36,7 @@ public class CourseCleanerTest {
 		int p_Id = partner.getPartnerId();
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();		
-		finishTime.add(Calendar.DAY_OF_YEAR, 1);		
+		startTime.add(Calendar.DAY_OF_YEAR, 1);		
 		int seatsTotal = 50;
 		int seatsLeft = 5;
 		String category = "Physics";
@@ -54,9 +54,9 @@ public class CourseCleanerTest {
 		CourseDao.addCourseToDatabases(course);
 		
 		
-		Calendar finishTime2 = DateUtility.getCurTimeInstance();		
-		finishTime2.add(Calendar.DAY_OF_YEAR, -1);			
-		Course course2 = new Course(p_Id, startTime, finishTime2,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Calendar startTime2 = DateUtility.getCurTimeInstance();		
+		startTime2.add(Calendar.DAY_OF_YEAR, -1);			
+		Course course2 = new Course(p_Id, startTime2, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
@@ -64,9 +64,9 @@ public class CourseCleanerTest {
 		CourseDao.addCourseToDatabases(course2);
 		
 						
-		Calendar finishTime3 = DateUtility.getCurTimeInstance();		
-		finishTime3.add(Calendar.MINUTE, 1);
-		Course course3 = new Course(p_Id, startTime, finishTime3,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Calendar startTime3 = DateUtility.getCurTimeInstance();		
+		startTime3.add(Calendar.MINUTE, 1);
+		Course course3 = new Course(p_Id, startTime3, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
 		String location2= "China";
 		String city2 = "ChengDu";
 		String district2 = "ChengHua";
