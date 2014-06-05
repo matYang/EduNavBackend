@@ -83,13 +83,16 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 	public Representation testBenchMark() throws Exception{
 		String targetOpt = this.getQueryVal("target");
 		String threadLevel = this.getQueryVal("threadLevel");
-		EduDaoBasic.clearAllDatabase();
-		loadPartners();
-		for (int i = 0; i < 50; i++){
-			loadCourses();
-		}
-		for (int i = 0; i < 1000; i++){
-			loadIrrelevantCourses();
+		String noload = this.getQueryVal("noload");
+		if (noload == null){
+			EduDaoBasic.clearAllDatabase();
+			loadPartners();
+			for (int i = 0; i < 50; i++){
+				loadCourses();
+			}
+			for (int i = 0; i < 1000; i++){
+				loadIrrelevantCourses();
+			}
 		}
 		
 		Map<String, String> kvps= new HashMap<String, String>();
