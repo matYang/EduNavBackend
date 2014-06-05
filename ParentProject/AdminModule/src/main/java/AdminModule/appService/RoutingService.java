@@ -15,6 +15,7 @@ import AdminModule.resources.booking.BookingIdResource;
 import AdminModule.resources.booking.BookingResource;
 import AdminModule.resources.course.CourseIdResource;
 import AdminModule.resources.course.CourseResource;
+import AdminModule.resources.modelLoader.MemcachedBenchMarkResource;
 import AdminModule.resources.modelLoader.ModelLoaderResource;
 import AdminModule.resources.partner.PartnerIdResource;
 import AdminModule.resources.partner.PartnerResource;
@@ -97,7 +98,9 @@ public class RoutingService extends Application{
 		String modelLoaderPrefix = "/modelLoader";
 		//  API for model to load : /a-api/v1.0/admin/modelLoader
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + modelLoaderPrefix, ModelLoaderResource.class);
-		
+		String memcachedBenchMarkPrefix = "/memcached";
+		//	API for making a memcached bench mark: /a-api/v1.0/admin/memcached
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + memcachedBenchMarkPrefix, MemcachedBenchMarkResource.class);
 		
 		
 		

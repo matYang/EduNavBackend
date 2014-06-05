@@ -83,9 +83,7 @@ public class ServerMain {
 		SystemDataInit.init();	
 		DebugLog.initializeLogger();
 		OperationFuture<Boolean> result = EduDaoBasic.setCache("test", 60, "testing connection");
-		
 		System.out.println("Result: " + result.get());
-		
 		
 		try {
 			ServerMain.getInstance().init(args);

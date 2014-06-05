@@ -1,19 +1,18 @@
-package BaseModule.eduDAOTest;
+package AdminModule.resources.modelLoader;
 
-import static org.junit.Assert.*;
-
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
+import org.json.JSONObject;
+import org.restlet.ext.json.JsonRepresentation;
+import org.restlet.representation.Representation;
+import org.restlet.resource.Get;
 
-import net.spy.memcached.internal.OperationFuture;
-
-import org.junit.Test;
-
+import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
@@ -21,39 +20,16 @@ import BaseModule.dbservice.CourseDaoService;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
-import BaseModule.model.User;
 import BaseModule.model.representation.CourseSearchRepresentation;
-import BaseModule.service.ModelDataLoaderService;
 
-public class CacheTest {
-
-	@Test
-	public void test() throws InterruptedException, ExecutionException {
-		OperationFuture<Boolean> future = EduDaoBasic.setCache("lol", 3600, "dasdas");
-		future.get();
-		future = EduDaoBasic.setCache("a2a", 3600, "lalala");
-		Thread.sleep(10);
-		assertTrue("dasdas".equals(EduDaoBasic.getCache("lol")));
-		assertTrue("lalala".equals(EduDaoBasic.getCache("a2a")));
-		future = EduDaoBasic.deleteCache("a2a");
-		future.get();
-		assertTrue(EduDaoBasic.getCache("a2a") == null);
-	}
+public class MemcachedBenchMarkResource extends AdminPseudoResource {
 	
-	@Test
-	public void testObj() throws Exception{
-		User user = new User("matthew", "18662241356", "111111", AccountStatus.activated, "uwse@me.com");
-		OperationFuture<Boolean> future = EduDaoBasic.setCache("lol2", 3600, user);
-		future.get();
-		User user2 = (User) EduDaoBasic.getCache("lol2");
-		assertTrue(user.equals(user2));
-	}
-	
-	@Test
-	public void testBenchMark() throws Exception{
+	@Get
+	public Representation makeMemcachedBenchMark() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, PseudoException, InterruptedException{
 		EduDaoBasic.clearAllDatabase();
 		loadPartners();
 		for (int i = 0; i < 50; i++){
@@ -69,22 +45,37 @@ public class CacheTest {
 		
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		c_sr.storeKvps(kvps);
+		DebugLog.b_d("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		for (int i = 0; i < 5000; i++){
 			CourseDaoService.searchCourse(c_sr);
+			Thread.sleep(5);
 		}
+		DebugLog.b_d("middle time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		System.out.println("middle time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		c_sr.setUseCache(1);
 		for (int i = 0; i < 5000; i++){
 			CourseDaoService.searchCourse(c_sr);
+			Thread.sleep(5);
 		}
+		DebugLog.b_d("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+		
+		
+		
+		Representation result = new JsonRepresentation(new JSONObject());
+		this.addCORSHeader();
+		return result;
 	}
 	
 	
 	
 	
-	private static void loadCourses(Connection...connections){
+	
+	
+	
+
+	private void loadCourses(Connection...connections){
 		int p_Id = 1;
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
@@ -133,7 +124,7 @@ public class CacheTest {
 		}
 	}
 	
-	private static void loadIrrelevantCourses(Connection...connections){
+	private void loadIrrelevantCourses(Connection...connections){
 		int p_Id = 1;
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
@@ -155,7 +146,7 @@ public class CacheTest {
 
 	}
 	
-	private static void loadPartners(Connection...connections){
+	private void loadPartners(Connection...connections){
 		try{
 			String name = "XDF";
 			String instName = "xiaofeng";

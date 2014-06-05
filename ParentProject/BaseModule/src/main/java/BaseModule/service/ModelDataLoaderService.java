@@ -39,19 +39,20 @@ public class ModelDataLoaderService {
 	public static void load(){		
 		EduDaoBasic.clearAllDatabase();
 		Connection conn = EduDaoBasic.getSQLConnection();
-
-		loadUsers(conn);//4
-		loadPartners(conn);//3
-		loadAdmins(conn);//3		
-		loadCourses(conn);//3
-		loadBookings(conn);//6		
-		loadTransactions(conn);//4
-		loadCredits(conn);//5
-		loadCoupons(conn);//5
-
-		EduDaoBasic.closeResources(conn, null, null, true);
-		DebugLog.d("Models loaded successfully");
+		try{
+			loadUsers(conn);//4
+			loadPartners(conn);//3
+			loadAdmins(conn);//3		
+			loadCourses(conn);//3
+			loadBookings(conn);//6		
+			loadTransactions(conn);//4
+			loadCredits(conn);//5
+			loadCoupons(conn);//5
+		} finally{
+			EduDaoBasic.closeResources(conn, null, null, true);
+		}
 		
+		DebugLog.d("Models loaded successfully");
 	}
 
 	private static void loadCourses(Connection...connections){
