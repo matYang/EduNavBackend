@@ -132,31 +132,42 @@ public class BookingDao {
 	}
 
 	public static void updateBookingInDatabases(Booking booking,Connection...connections) throws BookingNotFoundException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = EduDaoBasic.getConnection(connections);		
 		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int stmtInt = 1;		
+		String query0 = "SELECT * FROM BookingDao where id = ? for UPDATE;";
 		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,price=?," +
 				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,admin_Id=?,coupon_Id=?," +
 				"scheduledTime=?,email=?,wasConfirmed=?,actionRecord=? where id=?";
-		try{
+		try{			
+			stmt = conn.prepareStatement(query0);
+			
+			stmt.setInt(1, booking.getBookingId());
+			rs = stmt.executeQuery();
+			if(!rs.next()){
+				throw new BookingNotFoundException();
+			}
+			
 			stmt = conn.prepareStatement(query);
-
-			stmt.setString(1, booking.getName());
-			stmt.setString(2, booking.getPhone());			
-			stmt.setString(3, DateUtility.toSQLDateTime(booking.getAdjustTime()));			
-			stmt.setInt(4, booking.getPrice());
-			stmt.setInt(5, booking.getStatus().code);
-			stmt.setInt(6, booking.getUserId());
-			stmt.setInt(7, booking.getPartnerId());
-			stmt.setInt(8, booking.getCourseId());
-			stmt.setString(9, booking.getReference());
-			stmt.setInt(10, booking.getTransactionId());
-			stmt.setInt(11, booking.getAdminId());
-			stmt.setInt(12, booking.getCouponId());
-			stmt.setString(13, DateUtility.toSQLDateTime(booking.getScheduledTime()));
-			stmt.setString(14, booking.getEmail());
-			stmt.setInt(15, booking.isWasConfirmed() ? 1 : 0);
-			stmt.setString(16, booking.getActionRecord());
-			stmt.setInt(17, booking.getBookingId());
+		
+			stmt.setString(stmtInt++, booking.getName());
+			stmt.setString(stmtInt++, booking.getPhone());			
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getAdjustTime()));			
+			stmt.setInt(stmtInt++, booking.getPrice());
+			stmt.setInt(stmtInt++, booking.getStatus().code);
+			stmt.setInt(stmtInt++, booking.getUserId());
+			stmt.setInt(stmtInt++, booking.getPartnerId());
+			stmt.setInt(stmtInt++, booking.getCourseId());
+			stmt.setString(stmtInt++, booking.getReference());
+			stmt.setInt(stmtInt++, booking.getTransactionId());
+			stmt.setInt(stmtInt++, booking.getAdminId());
+			stmt.setInt(stmtInt++, booking.getCouponId());
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getScheduledTime()));
+			stmt.setString(stmtInt++, booking.getEmail());
+			stmt.setInt(stmtInt++, booking.isWasConfirmed() ? 1 : 0);
+			stmt.setString(stmtInt++, booking.getActionRecord());
+			stmt.setInt(stmtInt++, booking.getBookingId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new BookingNotFoundException();
@@ -166,7 +177,7 @@ public class BookingDao {
 			DebugLog.d(e);
 			throw new SQLException();
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		}
 
 	}
