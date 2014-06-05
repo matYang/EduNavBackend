@@ -1,5 +1,6 @@
 package BaseModule.dbservice;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,8 +14,8 @@ public class CouponDaoService {
 		return CouponDao.addCouponToDatabases(c);
 	}
 	
-	public static void updateCoupon(Coupon c) throws CouponNotFoundException, SQLException{
-		CouponDao.updateCouponInDatabases(c);
+	public static void updateCoupon(Coupon c,Connection...connections) throws CouponNotFoundException, SQLException{
+		CouponDao.updateCouponInDatabases(c,connections);
 	}
 	
 	public static ArrayList<Coupon> getCouponByUserId(int userId){

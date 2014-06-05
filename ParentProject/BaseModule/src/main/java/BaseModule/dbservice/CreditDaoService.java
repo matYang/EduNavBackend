@@ -1,5 +1,6 @@
 package BaseModule.dbservice;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,8 +14,8 @@ public class CreditDaoService {
 		return CreditDao.addCreditToDatabases(c);
 	}
 	
-	public static void updateCredit(Credit c) throws CreditNotFoundException, SQLException{
-		CreditDao.updateCreditInDatabases(c);
+	public static void updateCredit(Credit c,Connection...connections) throws CreditNotFoundException, SQLException{
+		CreditDao.updateCreditInDatabases(c,connections);
 	}
 	
 	public static ArrayList<Credit> getCreditByUserId(int userId){
