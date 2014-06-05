@@ -319,8 +319,8 @@ public class UserDao {
 
 	}
 
-	public static User authenticateUser(String phone, String password) throws SQLException, AuthenticationException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static User authenticateUser(String phone, String password,Connection...connections) throws SQLException, AuthenticationException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		User user = null;
@@ -349,7 +349,7 @@ public class UserDao {
 			DebugLog.d(e);			
 			throw new AuthenticationException("验证失败");
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 			if(!validPassword){
 				throw new AuthenticationException("手机号码或密码输入错误");
 			}

@@ -1,5 +1,6 @@
 package BaseModule.dbservice;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -8,8 +9,8 @@ import BaseModule.model.Transaction;
 
 public class TransactionDaoService {
 
-	public static Transaction createTransaction(Transaction transaction) throws SQLException{
-		return TransactionDao.addTransactionToDatabases(transaction);
+	public static Transaction createTransaction(Transaction transaction,Connection...connections) throws SQLException{
+		return TransactionDao.addTransactionToDatabases(transaction,connections);
 	}
 	
 	public static ArrayList<Transaction> getTransactionsByUserId(int userId){

@@ -10,8 +10,8 @@ import BaseModule.model.Credit;
 
 public class CreditDaoService {
 
-	public static Credit createCredit(Credit c) throws SQLException{
-		return CreditDao.addCreditToDatabases(c);
+	public static Credit createCredit(Credit c,Connection...connections) throws SQLException{
+		return CreditDao.addCreditToDatabases(c,connections);
 	}
 	
 	public static void updateCredit(Credit c,Connection...connections) throws CreditNotFoundException, SQLException{

@@ -103,9 +103,9 @@ public class CouponDao {
 		return clist;
 	}
 	
-	public static Coupon getCouponByCouponId(long couponId){
+	public static Coupon getCouponByCouponId(long couponId,Connection...connections){
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
 		Coupon c = null;
 		String query = "SELECT * from CouponDao where couponId = ?";
@@ -121,7 +121,7 @@ public class CouponDao {
 			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return c;
 	}
