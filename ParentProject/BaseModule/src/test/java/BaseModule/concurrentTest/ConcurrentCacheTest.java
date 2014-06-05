@@ -1,4 +1,4 @@
-package BaseModule.eduDAOTest;
+package BaseModule.concurrentTest;
 
 import static org.junit.Assert.*;
 
@@ -9,10 +9,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-
-
-import net.spy.memcached.internal.OperationFuture;
 
 import org.junit.Test;
 
@@ -26,34 +22,38 @@ import BaseModule.eduDAO.PartnerDao;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
-import BaseModule.model.User;
 import BaseModule.model.representation.CourseSearchRepresentation;
-import BaseModule.service.ModelDataLoaderService;
 
-public class CacheTest {
+public class ConcurrentCacheTest {
+	
+	public class TestThread extends Thread {  
+		private CountDownLatch threadsSignal;
+		private CourseSearchRepresentation c_sr;
+		private int index;
+		
+		public TestThread(CountDownLatch threadsSignal, CourseSearchRepresentation c_sr, int index) {  
+			this.threadsSignal = threadsSignal;
+			this.c_sr = c_sr;
+			this.index = index;
+		}
+		
+		@Override  
+		public void run() {
+			try{
+				//System.out.println("Thread: " + this.index + " starts inner loop");
+				for (int i = 0; i < 100; i++){
+					CourseDaoService.searchCourse(c_sr);
+				}
+				//System.out.println("Thread: " + this.index + " finishes");
+			} catch (IllegalArgumentException | IllegalAccessException
+					| UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} finally{
+				threadsSignal.countDown();
+			}
+		}  
+	}  
 
-	@Test
-	public void test() throws InterruptedException, ExecutionException {
-		OperationFuture<Boolean> future = EduDaoBasic.setCache("lol", 3600, "dasdas");
-		future.get();
-		future = EduDaoBasic.setCache("a2a", 3600, "lalala");
-		Thread.sleep(10);
-		assertTrue("dasdas".equals(EduDaoBasic.getCache("lol")));
-		assertTrue("lalala".equals(EduDaoBasic.getCache("a2a")));
-		future = EduDaoBasic.deleteCache("a2a");
-		future.get();
-		assertTrue(EduDaoBasic.getCache("a2a") == null);
-	}
-	
-	@Test
-	public void testObj() throws Exception{
-		User user = new User("matthew", "18662241356", "111111", AccountStatus.activated, "uwse@me.com");
-		OperationFuture<Boolean> future = EduDaoBasic.setCache("lol2", 3600, user);
-		future.get();
-		User user2 = (User) EduDaoBasic.getCache("lol2");
-		assertTrue(user.equals(user2));
-	}
-	
 	@Test
 	public void testBenchMark() throws Exception{
 		EduDaoBasic.clearAllDatabase();
@@ -68,18 +68,30 @@ public class CacheTest {
 		Map<String, String> kvps= new HashMap<String, String>();
 		kvps.put("category", "Chinese");
 		kvps.put("useCache", "0");
-		
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		c_sr.storeKvps(kvps);
+		
+		int threadNum = 100;
+		CountDownLatch threadSignal = new CountDownLatch(threadNum);
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		for (int i = 0; i < 10000; i++){
-			CourseDaoService.searchCourse(c_sr);
+		for (int i = 0; i < threadNum; i++){
+			Thread testRun = new TestThread(threadSignal, c_sr, i);
+			testRun.start();
 		}
+		threadSignal.await();
 		System.out.println("middle time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+		
 		c_sr.setUseCache(1);
-		for (int i = 0; i < 10000; i++){
-			CourseDaoService.searchCourse(c_sr);
+//		threadSignal = new CountDownLatch(1);
+//		Thread testRuna = new TestThread(threadSignal, c_sr, 2);
+//		testRuna.start();
+//		threadSignal.await();
+		threadSignal = new CountDownLatch(threadNum);
+		for (int i = 0; i < threadNum; i++){
+			Thread testRun = new TestThread(threadSignal, c_sr, i);
+			testRun.start();
 		}
+		threadSignal.await();
 		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 	}
 	
@@ -209,5 +221,6 @@ public class CacheTest {
 		}
 
 	}
+
 
 }
