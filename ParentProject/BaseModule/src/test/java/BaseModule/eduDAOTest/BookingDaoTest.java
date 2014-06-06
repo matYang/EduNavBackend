@@ -298,9 +298,9 @@ public class BookingDaoTest {
 		String name2 = "Fang";
 		String userphone2 = "123312";
 		String password2 = "36knal";		
-		User user2 = new User(userphone, password,status);
-		user.setName(name);
-		user.setEmail("kebi@hotmail.com");
+		User user2 = new User(userphone2, password2,status);
+		user2.setName(name2);
+		user2.setEmail("kebi@hotmail.com");
 		UserDao.addUserToDatabase(user2);
 		
 		//Partner

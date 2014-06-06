@@ -1,8 +1,9 @@
 package BaseModule.common;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
-import BaseModule.log4j.Log4j;
+import BaseModule.configurations.ServerConfig;
 
 public class DebugLog {
 
@@ -11,7 +12,7 @@ public class DebugLog {
 	
 
 	public static void initializeLogger(){		
-		Log4j.configure();		
+		PropertyConfigurator.configure(ServerConfig.resourcePrefix + "log4j.properties");
 	}
 	
 	public static void d(Exception e){

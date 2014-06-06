@@ -11,13 +11,12 @@ import BaseModule.common.DebugLog;
 public class LocationDataLoader {
 	
 	private static final String pathToFile = "src/main/resources/LocationData";
-	private static final ArrayList<String> locationData = new ArrayList<String>();
+
 	
 	public static void load(){
-		
 		DebugLog.d("Starting to load locationData: " + pathToFile);
 		BufferedReader br = null;
-		locationData.clear(); 
+		ArrayList<String> locationData = new ArrayList<String>();
 		try {
 			String sCurrentLine;
 			br = new BufferedReader(new FileReader(pathToFile));

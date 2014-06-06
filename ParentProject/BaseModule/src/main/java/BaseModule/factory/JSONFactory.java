@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import BaseModule.common.DebugLog;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.model.*;
 import BaseModule.model.representation.*;
@@ -14,7 +13,6 @@ public class JSONFactory {
 	
 	public static JSONObject toJSON(PseudoModel obj){
 		if (obj == null){
-			DebugLog.d("JSONFactory::toJSON_Model receving null obj");
 			return new JSONObject();
 		}
 		else if (obj instanceof User){
@@ -64,7 +62,6 @@ public class JSONFactory {
 	public static JSONArray toJSON(ArrayList<? extends PseudoModel> objs){
 		ArrayList<JSONObject> temps = new ArrayList<JSONObject>();
 		if (objs == null){
-			DebugLog.d("JSONFactory::toJSON_ArrayList receving null objs");
 			return new JSONArray();
 		}
 		for (int i = 0; i < objs.size(); i++){

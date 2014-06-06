@@ -80,22 +80,18 @@ public class DateUtility {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(c.getTime());
 	}
+
 	
 	public static String getTimeStamp(){
 		return getCurTime() +"";
 	}
 	
+	
 	public static long getLongFromTimeStamp(String timeStamp){
 		return Long.parseLong(timeStamp, 10);
 	}
 	
-	public static Calendar getCalFromTimeStamp(String timeStamp){
-		long milli = Long.parseLong(timeStamp, 10);
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(milli);
-		return cal;
-	}
-	
+
 	
 	public static int compareday(Calendar cal1, Calendar cal2){
 		if (cal1.get(Calendar.YEAR) < cal2.get(Calendar.YEAR)){

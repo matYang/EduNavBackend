@@ -18,7 +18,7 @@ public class EncryptionTest {
 		
 		String encryptedString = null;
 		try {
-			encryptedString = SimpleMD5Hash.encrypt(testImgName);
+			encryptedString = SimpleMD5Hash.hash(testImgName);
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

@@ -2,13 +2,11 @@ package BaseModule.eduDAOTest;
 
 import static org.junit.Assert.*;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 
@@ -28,7 +26,6 @@ import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.User;
 import BaseModule.model.representation.CourseSearchRepresentation;
-import BaseModule.service.ModelDataLoaderService;
 
 public class CacheTest {
 

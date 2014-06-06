@@ -4,10 +4,9 @@ import BaseModule.exception.PseudoException;
 
 public class CourseNotFoundException extends PseudoException{
 
-private static final long serialVersionUID = 1L;
-	
-	protected String exceptionType = "CourseNotFound";
+	private static final long serialVersionUID = 3282739612254901647L;
 
+	
 	public CourseNotFoundException(){
         super("对不起，您要找的课程不存在");
     }

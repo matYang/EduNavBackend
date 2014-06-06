@@ -7,7 +7,6 @@ import BaseModule.encryption.AccessControlCrypto;
 
 
 public class ServerConfig {
-
 	
 		private static final String ENV_VAR_KEY = "RA_MAINSERVER_ENV";
 		private static final String ENV_TEST = "RA_TEST";

@@ -2,10 +2,10 @@ package BaseModule.exception;
 
 public class PseudoException extends Exception{
 
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 2620232305997865752L;
 	private String exceptionText;
 	
-	protected String exceptionType = "Pesudo";
 
 	public PseudoException(){
         super();
@@ -15,10 +15,6 @@ public class PseudoException extends Exception{
 	public PseudoException(String exceptionText){
 		super();
 		this.exceptionText = exceptionText;
-	}
-	
-	public String getExeceptionType(){
-		return this.exceptionType;
 	}
 	
 	public String getExceptionText(){

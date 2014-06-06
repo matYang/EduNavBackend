@@ -30,7 +30,6 @@ public class CourseSearchRepresentationTest {
 		
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		int a = 1;
 		for (int i = 0; i < 100000; i++){
 			c_sr.storeKvps(kvps);
 			c_sr.getKeySet();

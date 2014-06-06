@@ -41,7 +41,6 @@ public class Booking implements PseudoModel, Serializable{
 	private transient Course course;
 
 	//SQL Retrieving
-	//TODO
 	public Booking(int bookingId, Calendar creationTime, Calendar adjustTime,
 			int price, int userId,int partnerId, int courseId, String name, String phone,
 			BookingStatus status, String reference, int couponId, int transactionId,

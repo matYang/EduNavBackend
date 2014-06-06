@@ -1,9 +1,8 @@
 package BaseModule.exception;
 
 public class AuthenticationException extends PseudoException{
-	private static final long serialVersionUID = 1L;
 
-	protected String exceptionType = "GeneralValidationException";
+	private static final long serialVersionUID = 5818432084515444759L;
 
 	public AuthenticationException(){
 		super("验证失败");

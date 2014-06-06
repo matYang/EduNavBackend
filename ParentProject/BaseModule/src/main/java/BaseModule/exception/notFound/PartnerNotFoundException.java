@@ -3,11 +3,10 @@ package BaseModule.exception.notFound;
 import BaseModule.exception.PseudoException;
 
 public class PartnerNotFoundException extends PseudoException{
-
-private static final long serialVersionUID = 1L;
 	
-	protected String exceptionType = "PartnerNotFound";
+	private static final long serialVersionUID = -1501312138467329562L;
 
+	
 	public PartnerNotFoundException(){
         super("对不起，您要找的机构不存在");
     }

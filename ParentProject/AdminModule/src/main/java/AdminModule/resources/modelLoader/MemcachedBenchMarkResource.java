@@ -33,12 +33,10 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 	public class TestThread extends Thread {  
 		private CountDownLatch threadsSignal;
 		private CourseSearchRepresentation c_sr;
-		private int index;
 		
-		public TestThread(CountDownLatch threadsSignal, CourseSearchRepresentation c_sr, int index) {  
+		public TestThread(CountDownLatch threadsSignal, CourseSearchRepresentation c_sr) {  
 			this.threadsSignal = threadsSignal;
 			this.c_sr = c_sr;
-			this.index = index;
 		}
 		
 		@Override  
@@ -115,7 +113,7 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 		if (targetOpt == null || targetOpt.equals("rds")){
 			threadSignal = new CountDownLatch(threadNum);
 			for (int i = 0; i < threadNum; i++){
-				Thread testRun = new TestThread(threadSignal, c_sr, i);
+				Thread testRun = new TestThread(threadSignal, c_sr);
 				testRun.start();
 			}
 			threadSignal.await();
@@ -126,7 +124,7 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 			c_sr.setUseCache(1);
 			threadSignal = new CountDownLatch(threadNum);
 			for (int i = 0; i < threadNum; i++){
-				Thread testRun = new TestThread(threadSignal, c_sr, i);
+				Thread testRun = new TestThread(threadSignal, c_sr);
 				testRun.start();
 			}
 			threadSignal.await();

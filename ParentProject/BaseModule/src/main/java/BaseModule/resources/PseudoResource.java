@@ -147,7 +147,7 @@ public class PseudoResource extends ServerResource{
 	 * Take the options
 	 * 
 	 ******************/
-    //needed here since backbone will try to send OPTIONS to /id before PUT or DELETE
+    //needed here since in CORS scenarios will try to send OPTIONS to /id before PUT or DELETE
     @Options
     public Representation takeOptions(Representation entity) {
     	addCORSHeader();

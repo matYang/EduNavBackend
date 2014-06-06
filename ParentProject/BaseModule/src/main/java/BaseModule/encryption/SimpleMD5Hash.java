@@ -29,7 +29,7 @@ public class SimpleMD5Hash {
         return buf.toString();
     } 
 
-    public static String encrypt(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException{ 
+    public static String hash(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException{ 
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] md5 = new byte[64];
         md.update(text.getBytes("iso-8859-1"), 0, text.length());

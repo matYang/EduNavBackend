@@ -1,7 +1,5 @@
 package BaseModule.concurrentTest;
 
-import static org.junit.Assert.*;
-
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -50,7 +48,7 @@ public class ConcurrentCacheTest {
 					}
 					if (previousResult.size() > 0){
 						if (previousResult.size() != newResult.size()){
-							throw new RuntimeException("[ERROR] inconsistant course search result, size not equal, previousSize: " + previousResult.size() + " newSize: " + newResult.size());
+							throw new RuntimeException("[ERROR] inconsistant course search result, size not equal, previousSize: " + previousResult.size() + " newSize: " + newResult.size() + " thread index: " + this.index);
 						}
 						for (int j = 0; j < previousResult.size(); j++){
 							boolean found = false;
@@ -60,7 +58,7 @@ public class ConcurrentCacheTest {
 								}
 							}
 							if (!found){
-								throw new RuntimeException("[ERROR] inconsistant course search result, course not match");
+								throw new RuntimeException("[ERROR] inconsistant course search result, course not match, thread index: " + this.index);
 							}
 						}
 					}

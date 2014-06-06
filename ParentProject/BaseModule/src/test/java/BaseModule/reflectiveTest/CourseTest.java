@@ -2,17 +2,14 @@ package BaseModule.reflectiveTest;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
 
 import BaseModule.common.DateUtility;
-import BaseModule.eduDAO.CourseDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.model.Course;
-import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class CourseTest {
 
@@ -58,7 +55,6 @@ public class CourseTest {
 		
 		Course course = null;
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		int a = 1;
 		for (int i = 0; i < 100000; i++){
 			course = new Course();
 			course.loadFromMap(kvps);

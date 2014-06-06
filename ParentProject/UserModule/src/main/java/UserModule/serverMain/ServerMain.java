@@ -7,7 +7,6 @@ import org.restlet.Server;
 import org.restlet.data.Protocol;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
-import BaseModule.staticDataService.SystemDataInit;
 import UserModule.appService.RoutingService;
 
 public class ServerMain {
@@ -35,7 +34,7 @@ public class ServerMain {
 		// Add a new HTTP server listening on port
 
 		Server server = component.getServers().add(Protocol.HTTP, 8015);
-		server.getContext().getParameters().add("maxThreads", "256");
+		server.getContext().getParameters().add("maxThreads", "512");
 
 		// Attach the sample application
 		RoutingService routingService = new RoutingService();
