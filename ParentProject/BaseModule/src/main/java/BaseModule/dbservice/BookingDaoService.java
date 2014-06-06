@@ -3,13 +3,9 @@ package BaseModule.dbservice;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import BaseModule.asyncRelayExecutor.ExecutorProvider;
-import BaseModule.asyncTask.SMSTask;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CouponStatus;
-import BaseModule.configurations.EnumConfig.SMSEvent;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;

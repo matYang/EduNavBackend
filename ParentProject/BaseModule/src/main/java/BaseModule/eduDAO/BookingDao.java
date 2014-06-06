@@ -139,9 +139,8 @@ public class BookingDao {
 		String query0 = "SELECT * FROM BookingDao where id = ? for UPDATE;";
 		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,price=?," +
 				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,admin_Id=?,coupon_Id=?," +
-				"scheduledTime=?,email=?,wasConfirmed=?,actionRecord=? where id=?";
-		
-		try{			
+				"scheduledTime=?,email=?,wasConfirmed=?,actionRecord=? where id=?";		
+		try{		
 			stmt = conn.prepareStatement(query0);
 			
 			stmt.setInt(1, booking.getBookingId());
@@ -172,7 +171,7 @@ public class BookingDao {
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new BookingNotFoundException();
-			}				
+			}
 		}catch(SQLException e){
 			e.printStackTrace();
 			DebugLog.d(e);
