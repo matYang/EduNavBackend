@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CouponStatus;
-import BaseModule.exception.coupon.CouponNotFoundException;
+import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.model.Coupon;
 
 

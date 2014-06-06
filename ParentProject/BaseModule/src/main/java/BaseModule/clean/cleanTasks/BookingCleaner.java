@@ -10,7 +10,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
-import BaseModule.exception.booking.BookingNotFoundException;
+import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.model.Booking;
 
 public class BookingCleaner extends BookingDao{

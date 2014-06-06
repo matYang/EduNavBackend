@@ -1,4 +1,4 @@
-package BaseModule.exception.course;
+package BaseModule.exception.notFound;
 
 import BaseModule.exception.PseudoException;
 

@@ -14,7 +14,7 @@ import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
-import BaseModule.exception.course.CourseNotFoundException;
+import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;

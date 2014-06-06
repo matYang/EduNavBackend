@@ -1,4 +1,4 @@
-package BaseModule.exception.transaction;
+package BaseModule.exception.notFound;
 
 import BaseModule.exception.PseudoException;
 

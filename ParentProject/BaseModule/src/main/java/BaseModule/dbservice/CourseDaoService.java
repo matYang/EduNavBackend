@@ -11,7 +11,7 @@ import BaseModule.cache.CourseRamCache;
 import BaseModule.configurations.CacheConfig;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
-import BaseModule.exception.course.CourseNotFoundException;
+import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.model.Course;
 import BaseModule.model.representation.CourseSearchRepresentation;
 

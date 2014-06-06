@@ -13,9 +13,9 @@ import BaseModule.configurations.EnumConfig.SMSEvent;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
-import BaseModule.exception.booking.BookingNotFoundException;
-import BaseModule.exception.coupon.CouponNotFoundException;
-import BaseModule.exception.user.UserNotFoundException;
+import BaseModule.exception.notFound.BookingNotFoundException;
+import BaseModule.exception.notFound.CouponNotFoundException;
+import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Booking;
 import BaseModule.model.Coupon;
@@ -23,6 +23,7 @@ import BaseModule.model.Credit;
 import BaseModule.model.Transaction;
 import BaseModule.model.User;
 import BaseModule.model.representation.BookingSearchRepresentation;
+import BaseModule.service.SMSService;
 
 public class BookingDaoService {
 
@@ -81,8 +82,7 @@ public class BookingDaoService {
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn); 
 					if (updatedBooking.getStatus() == BookingStatus.failed){
-						SMSTask sms = new SMSTask(SMSEvent.user_bookingFailed, updatedBooking.getPhone(), updatedBooking.getCourse().getCourseName());
-						ExecutorProvider.executeRelay(sms);
+						SMSService.sendBookingFailedSMS(updatedBooking);
 					}
 				}
 				else if (updatedBooking.getStatus() == BookingStatus.confirmed){
@@ -90,8 +90,7 @@ public class BookingDaoService {
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-					SMSTask sms = new SMSTask(SMSEvent.user_bookingConfirmed, updatedBooking.getPhone(), updatedBooking.getCourse().getCourseName(), DateUtility.castToReadableString(updatedBooking.getScheduledTime()));
-					ExecutorProvider.executeRelay(sms);
+					SMSService.sendBookingConfirmedSMS(updatedBooking);
 				}
 			}
 			else if (previousStatus == BookingStatus.confirmed){

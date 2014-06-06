@@ -1,4 +1,4 @@
-package BaseModule.exception.partner;
+package BaseModule.exception.notFound;
 
 import BaseModule.exception.PseudoException;
 

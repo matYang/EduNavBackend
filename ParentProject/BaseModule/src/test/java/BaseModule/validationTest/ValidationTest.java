@@ -321,8 +321,9 @@ public class ValidationTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(name, phone, password,status,email);
-
+		User user = new User(phone, password,status);
+		user.setName(name);
+		user.setEmail(email);
 		try{
 			ValidationService.validateUser(user);
 		}catch(ValidationException e){
@@ -331,7 +332,9 @@ public class ValidationTest {
 			fail();
 		}
 		boolean fail = true;
-		user = new User(name+"1",phone,password,status,email);
+		user = new User(phone, password,status);
+		user.setName(name+"1");
+		user.setEmail(email);
 		try{
 			ValidationService.validateUser(user);
 		}catch(ValidationException e){
@@ -344,7 +347,9 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		user = new User(name,"d12",password,status,email);
+		user = new User("d12", password,status);
+		user.setName(name);
+		user.setEmail(email);
 		try{
 			ValidationService.validateUser(user);
 		}catch(ValidationException e){
@@ -356,7 +361,9 @@ public class ValidationTest {
 		if(fail) fail();
 		
 		fail = true;
-		user = new User(name,phone,password,status,"sdfs=-@hot");
+		user = new User(phone, password,status);
+		user.setName(name);
+		user.setEmail("sdfs=-@hot");
 		try{
 			ValidationService.validateUser(user);
 		}catch(ValidationException e){

@@ -12,7 +12,7 @@ import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.admin.AdminAccountNotFoundException;
+import BaseModule.exception.notFound.AdminAccountNotFoundException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.AdminAccount;
 

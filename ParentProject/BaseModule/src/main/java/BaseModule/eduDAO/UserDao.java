@@ -11,7 +11,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.AuthenticationException;
-import BaseModule.exception.user.UserNotFoundException;
+import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.QueryFactory;
 import BaseModule.model.User;

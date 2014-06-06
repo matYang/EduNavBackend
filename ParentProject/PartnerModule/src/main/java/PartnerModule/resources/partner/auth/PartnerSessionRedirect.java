@@ -10,7 +10,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.partner.PartnerNotFoundException;
+import BaseModule.exception.notFound.PartnerNotFoundException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Partner;
 import PartnerModule.resources.PartnerPseudoResource;

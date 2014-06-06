@@ -63,7 +63,7 @@ public class RedisAuthenticationConfig {
 	
 	
 	
-	public static RedisSubConfig getConfigBean(int serviceIdentifier){
+	public static RedisSubConfig getConfig(int serviceIdentifier){
 		RedisSubConfig config = new RedisSubConfig();
 		switch (serviceIdentifier){
 			case 1:

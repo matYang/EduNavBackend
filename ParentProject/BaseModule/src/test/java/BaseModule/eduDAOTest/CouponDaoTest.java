@@ -15,8 +15,8 @@ import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
-import BaseModule.exception.coupon.CouponNotFoundException;
-import BaseModule.exception.user.UserNotFoundException;
+import BaseModule.exception.notFound.CouponNotFoundException;
+import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Coupon;
 import BaseModule.model.User;
@@ -87,7 +87,9 @@ public class CouponDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(name, phone, password,status,email);
+		User user = new User(phone, password,status);
+		user.setName(name);
+		user.setEmail(email);
 		UserDao.addUserToDatabase(user);
 		
 		int bookingId = 1;

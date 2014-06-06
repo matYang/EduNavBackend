@@ -17,7 +17,7 @@ import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.UserDao;
-import BaseModule.exception.course.CourseNotFoundException;
+import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Booking;
 import BaseModule.model.Course;
@@ -34,7 +34,9 @@ public class BookingCleanerTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email0 = "xiongchuhan@hotmail.com";
-		User user = new User(name, userphone, password,status,email0);
+		User user = new User(userphone, password,status);
+		user.setName(name);
+		user.setEmail(email0);
 		UserDao.addUserToDatabase(user);
 		
 		String pname = "XDF";

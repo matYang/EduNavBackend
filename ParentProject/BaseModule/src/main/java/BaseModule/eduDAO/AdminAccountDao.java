@@ -13,7 +13,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.admin.AdminAccountNotFoundException;
+import BaseModule.exception.notFound.AdminAccountNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.QueryFactory;
 import BaseModule.model.AdminAccount;

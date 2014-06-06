@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.CreditDao;
-import BaseModule.exception.credit.CreditNotFoundException;
+import BaseModule.exception.notFound.CreditNotFoundException;
 import BaseModule.model.Credit;
 
 public class CreditDaoService {

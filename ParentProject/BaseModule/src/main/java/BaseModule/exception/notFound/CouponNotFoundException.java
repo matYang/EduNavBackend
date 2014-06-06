@@ -1,4 +1,4 @@
-package BaseModule.exception.coupon;
+package BaseModule.exception.notFound;
 
 import BaseModule.exception.PseudoException;
 

@@ -14,8 +14,8 @@ import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
-import BaseModule.exception.credit.CreditNotFoundException;
-import BaseModule.exception.user.UserNotFoundException;
+import BaseModule.exception.notFound.CreditNotFoundException;
+import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Credit;
 import BaseModule.model.User;
@@ -91,7 +91,9 @@ public class CreditDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(name, phone, password,status,email);
+		User user = new User(phone, password,status);
+		user.setName(name);
+		user.setEmail(email);
 		UserDao.addUserToDatabase(user);
 		
 		int bookingId = 1;

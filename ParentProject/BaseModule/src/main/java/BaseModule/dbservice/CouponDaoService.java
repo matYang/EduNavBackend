@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.CouponDao;
-import BaseModule.exception.coupon.CouponNotFoundException;
+import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.model.Coupon;
 
 public class CouponDaoService {
