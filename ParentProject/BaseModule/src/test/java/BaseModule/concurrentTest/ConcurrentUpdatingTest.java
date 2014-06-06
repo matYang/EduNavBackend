@@ -68,7 +68,43 @@ public class ConcurrentUpdatingTest {
 
 								e.printStackTrace();
 							}
-						}
+						}else if(layer.equals("DaoBookingRead")){							
+							String name,phone,email,reference;
+							int price;							
+							try {
+//								System.out.println("");
+//								System.out.println("Booking Reading Started..." + " Time right now is: " + DateUtility.getTimeStamp());
+//								System.out.println("");
+								Booking booking = BookingDao.getBookingById(((Booking)list.get(i)).getBookingId(), conn);
+//								System.out.println("Booking Reading Finished..." + " Time right now is: " + DateUtility.getTimeStamp());
+//								System.out.println("");
+								name = booking.getName();
+								phone = booking.getPhone();
+								email = booking.getEmail();
+								reference = booking.getReference();
+								price = booking.getPrice();									
+//								System.out.println("Booking id: " + ((Booking)list.get(i)).getBookingId() + " Name: " + name + " Time right now is: " + DateUtility.getTimeStamp());
+//								System.out.println("Booking id: " + ((Booking)list.get(i)).getBookingId() + " Email: " + email + " Time right now is: " + DateUtility.getTimeStamp());
+//								System.out.println("Booking id: " + ((Booking)list.get(i)).getBookingId() + " Phone: " + phone + " Time right now is: " + DateUtility.getTimeStamp());
+//								System.out.println("Booking id: " + ((Booking)list.get(i)).getBookingId() + " Price: " + price + " Time right now is: " + DateUtility.getTimeStamp());
+//								System.out.println("Booking id: " + ((Booking)list.get(i)).getBookingId() + " Reference: " + reference + " Time right now is: " + DateUtility.getTimeStamp());
+//								System.out.println("");
+							}catch (BookingNotFoundException e) {								
+								e.printStackTrace();
+							}						
+						}else if(layer.equals("DaoBookingUpdate")){
+							try {
+//								System.out.println("");
+//								System.out.println("Booking Updating Started..." + " Time right now is: " + DateUtility.getTimeStamp());
+								BookingDao.updateBookingInDatabases((Booking)list.get(i), conn);
+//								System.out.println("");
+//								System.out.println("Booking Updating Finished..." + " Time right now is: " + DateUtility.getTimeStamp());
+//								System.out.println("");
+							} catch (BookingNotFoundException | SQLException e) {							
+								e.printStackTrace();
+							}
+						}				 
+
 					}else if(kind.equals("Credit")){
 						if(layer.equals("Dao")){
 							try {
@@ -127,6 +163,9 @@ public class ConcurrentUpdatingTest {
 				e.printStackTrace();
 			} finally{
 				threadsSignal.countDown();
+				if(layer.equals("DaoC")){
+					System.out.println("thread Num: " + threadsSignal.getCount());
+				}				
 				EduDaoBasic.closeResources(conn, null, null, true);
 			}
 		}  
@@ -141,54 +180,104 @@ public class ConcurrentUpdatingTest {
 		System.out.println("");
 		System.out.println("Test Booking");
 
-		ArrayList<Booking> blist = BookingDao.getAllBookings();
-		System.out.println("Num for Booking Test: " + blist.size());
-		System.out.println("");
-		System.out.println("Dao: Before Updating");
-		for(int i = 0 ; i < blist.size() ; i++){
-			System.out.println("Booking id: " + blist.get(i).getBookingId() + " Name: " + blist.get(i).getName());
-			blist.get(i).setName("Booking " + i);
-		}
-
+		ArrayList<Booking> blist = BookingDao.getAllBookings();		
+//		System.out.println("Num for Booking Test: " + blist.size());
+//		System.out.println("");
+//		System.out.println("Dao: Before Updating");
+//		for(int i = 0 ; i < blist.size() ; i++){
+//			System.out.println("Booking id: " + blist.get(i).getBookingId() + " Name: " + blist.get(i).getName());
+//			blist.get(i).setName("Booking " + i);
+//		}		
 		int threadNum = 1000;
 		CountDownLatch threadSignal = new CountDownLatch(threadNum);
+//		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+//
+//		for (int i = 0; i < threadNum; i++){
+//			Thread testRun = new TestThread(threadSignal, blist,"Booking","Dao");
+//			testRun.start();
+//		}
+//		threadSignal.await();
+//		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+//		System.out.println("");	
+		//////////////////////////////////////////////////		
+		System.out.println("Before Updating: ");
+		ArrayList<Booking> blist2 = new ArrayList<Booking>();
+		for(int i = 0 ; i < blist.size() ; i++){
+			blist2.add(blist.get(0));
+		}
+		for(int i = 0 ; i < blist2.size() ; i++){
+			System.out.println("Booking id: " + blist2.get(i).getBookingId() + " Name: " + blist2.get(i).getName());
+			if(i==0){
+				System.out.println("Booking id: " + blist2.get(i).getBookingId() + " Email: " + blist2.get(i).getEmail());
+				blist2.get(i).setEmail("EmailTest@xxx");
+			}else if(i==1){
+				System.out.println("Booking id: " + blist2.get(i).getBookingId() + " Phone: " + blist2.get(i).getPhone());
+				blist2.get(i).setPhone("PhoneTest");
+			}else if(i==2){
+				System.out.println("Booking id: " + blist2.get(i).getBookingId() + " Price: " + blist2.get(i).getPrice());
+				blist2.get(i).setPrice(111);
+			}else if(i==3){
+				System.out.println("Booking id: " + blist2.get(i).getBookingId() + " Reference: " + blist2.get(i).getReference());
+				blist2.get(i).setReference("TOKYO HOT");
+			}
+		}
+		int smallThreadNum = 1000;
+		threadSignal = new CountDownLatch(smallThreadNum);
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 
-		for (int i = 0; i < threadNum; i++){
-			Thread testRun = new TestThread(threadSignal, blist,"Booking","Dao");
+		for (int i = 0; i < smallThreadNum; i++){
+			Thread testRun = new TestThread(threadSignal, blist2,"Booking","DaoBookingRead");
+			Thread testRun2 = new TestThread(threadSignal, blist2,"Booking","DaoBookingUpdate");
 			testRun.start();
+			testRun2.start();
 		}
+		
 		threadSignal.await();
 		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		System.out.println("");		
-		System.out.println("Dao: After Updating");
-		blist = BookingDao.getAllBookings();
-		for(int i = 0 ; i < blist.size() ; i++){
-			System.out.println("Booking id: " + blist.get(i).getBookingId() + " Name: " + blist.get(i).getName());			
+		System.out.println("");	
+		System.out.println("After Updating");
+		for(int i = 0 ; i < blist2.size() ; i++){
+			System.out.println("Booking id: " + blist2.get(i).getBookingId() + " Name: " + blist2.get(i).getName());
+			if(i==0){
+				System.out.println("Booking id: " + blist2.get(i).getBookingId() + " Email: " + blist2.get(i).getEmail());
+			}else if(i==1){
+				System.out.println("Booking id: " + blist2.get(i).getBookingId() + " Phone: " + blist2.get(i).getPhone());
+			}else if(i==2){
+				System.out.println("Booking id: " + blist2.get(i).getBookingId() + " Price: " + blist2.get(i).getPrice());
+			}else if(i==3){
+				System.out.println("Booking id: " + blist2.get(i).getBookingId() + " Reference: " + blist2.get(i).getReference());
+			}
 		}
 		System.out.println("");
-		System.out.println("Service: Before Updating");
-		for(int i = 0 ; i < blist.size() ; i++){
-			System.out.println("Booking id: " + blist.get(i).getBookingId() + " Email: " + blist.get(i).getEmail());
-			blist.get(i).setEmail(blist.get(i).getName() + "@hotmail.com");
-		}		
-		threadSignal = new CountDownLatch(threadNum);
-		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+		/////////////////////////////////////////////////
+//		System.out.println("Dao: After Updating");
+//		blist = BookingDao.getAllBookings();
+//		for(int i = 0 ; i < blist.size() ; i++){
+//			System.out.println("Booking id: " + blist.get(i).getBookingId() + " Name: " + blist.get(i).getName());			
+//		}
+//		System.out.println("");
+//		System.out.println("Service: Before Updating");
+//		for(int i = 0 ; i < blist.size() ; i++){
+//			System.out.println("Booking id: " + blist.get(i).getBookingId() + " Email: " + blist.get(i).getEmail());
+//			blist.get(i).setEmail(blist.get(i).getName() + "@hotmail.com");
+//		}		
+//		threadSignal = new CountDownLatch(threadNum);
+//		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+//
+//		for (int i = 0; i < threadNum; i++){
+//			Thread testRun = new TestThread(threadSignal, blist,"Booking","Service");
+//			testRun.start();
+//		}
+//		threadSignal.await();
+//		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
+//		System.out.println("");		
+//		System.out.println("Service: After Updating");
+//		blist = BookingDao.getAllBookings();
+//		for(int i = 0 ; i < blist.size() ; i++){
+//			System.out.println("Booking id: " + blist.get(i).getBookingId() + " Email: " + blist.get(i).getEmail());			
+//		}
 
-		for (int i = 0; i < threadNum; i++){
-			Thread testRun = new TestThread(threadSignal, blist,"Booking","Service");
-			testRun.start();
-		}
-		threadSignal.await();
-		System.out.println("finish time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		System.out.println("");		
-		System.out.println("Service: After Updating");
-		blist = BookingDao.getAllBookings();
-		for(int i = 0 ; i < blist.size() ; i++){
-			System.out.println("Booking id: " + blist.get(i).getBookingId() + " Email: " + blist.get(i).getEmail());			
-		}
 
-		
 		System.out.println("");
 
 		System.out.println("Test Credit");		
@@ -281,7 +370,7 @@ public class ConcurrentUpdatingTest {
 		for(int i = 0 ; i < clist.size() ; i++){
 			System.out.println("Credit id: " + clist.get(i).getCreditId() + " status: " + clist.get(i).getStatus().toString());
 		}
-		
+
 		System.out.println("");
 
 		System.out.println("Test Coupon");
@@ -378,7 +467,7 @@ public class ConcurrentUpdatingTest {
 		for(int i = 0 ; i < culist.size() ; i++){
 			System.out.println("Coupon id: " + culist.get(i).getCouponId() + " status: " + culist.get(i).getStatus().toString());
 		}
-		
+
 		System.out.println("");
 
 		System.out.println("Test User");
