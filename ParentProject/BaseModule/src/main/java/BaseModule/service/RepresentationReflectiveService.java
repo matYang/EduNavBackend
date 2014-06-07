@@ -131,7 +131,9 @@ public class RepresentationReflectiveService {
 		for (int i = 0; i < serializedMembers.size() - 1; i++){
 			serializedString += serializedMembers.get(i) + ServerConfig.urlSeperator;
 		}
-		serializedString += serializedMembers.get(serializedMembers.size() - 1);
+		if (serializedMembers.size() > 0){
+			serializedString += serializedMembers.get(serializedMembers.size() - 1);
+		}
 		return serializedString;
 	}
 
