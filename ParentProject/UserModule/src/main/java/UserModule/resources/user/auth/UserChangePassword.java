@@ -107,7 +107,7 @@ public class UserChangePassword extends UserPseudoResource{
 			setStatus(Status.SUCCESS_OK);
 			quickResponseText = "密码修改成功";
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, userId, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

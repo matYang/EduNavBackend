@@ -114,7 +114,7 @@ public class UserResource extends UserPseudoResource{
 			DebugLog.d("@Post::resources::createUser: available: " + creationFeedBack.getPhone() + " id: " +  creationFeedBack.getUserId());
 			newJsonUser = JSONFactory.toJSON(creationFeedBack);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, -1, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, newUser.getUserId(), this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
