@@ -78,8 +78,8 @@ public class PseudoResource extends ServerResource{
 	
 	public String getUserAgent(){
 		Series<Header> requestHeaders = (Series<Header>) getRequest().getAttributes().get("org.restlet.http.headers");
-		if (requestHeaders != null && requestHeaders.getFirstValue("", true) != null){
-			return requestHeaders.getFirstValue("user-agent", true);
+		if (requestHeaders != null && requestHeaders.getFirstValue("User-agent", true) != null){
+			return requestHeaders.getFirstValue("User-agent", true);
 		}
 		else{
 			return "undetermined";
