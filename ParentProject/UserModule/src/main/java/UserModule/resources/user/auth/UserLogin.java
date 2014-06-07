@@ -31,7 +31,7 @@ public class UserLogin extends UserPseudoResource {
 		try {
 			this.checkEntity(entity);
 			
-			jsonString = (new JsonRepresentation(entity)).getJsonObject();
+			jsonString = this.getJSONObj(entity);
 			phone = EncodingService.decodeURI(jsonString.getString("phone"));
 			password = EncodingService.decodeURI(jsonString.getString("password"));
 			if (!ValidationService.validatePhone(phone)){
@@ -50,7 +50,7 @@ public class UserLogin extends UserPseudoResource {
 			jsonObject = JSONFactory.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, user.getUserId(), this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, user.getUserId(), this.getUserAgent(), jsonString.toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

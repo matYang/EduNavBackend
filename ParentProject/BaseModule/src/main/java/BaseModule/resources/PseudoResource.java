@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.imgscalr.Scalr;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.engine.header.Header;
@@ -83,6 +84,15 @@ public class PseudoResource extends ServerResource{
 		}
 		else{
 			return "undetermined";
+		}
+	}
+	
+	public JSONObject getJSONObj(Representation entity)throws ValidationException{
+		try {
+			JSONObject jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
+			return jsonBooking;
+		} catch (JSONException | IOException | NullPointerException e) {
+			throw new ValidationException("无效数据格式");
 		}
 	}
 

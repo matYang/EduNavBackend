@@ -16,7 +16,7 @@ public class UserLogout extends UserPseudoResource {
 	
 	
 	@Put
-	public Representation logoutAuthentication(Representation entity){
+	public Representation logoutAuthentication(){
 
 		try {
 

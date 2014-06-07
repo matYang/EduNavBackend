@@ -53,13 +53,10 @@ public class UserResource extends UserPseudoResource{
 		return result;
 	}
 
-	protected User validateUserJSON(Representation entity) throws ValidationException{
-		JSONObject jsonUser = null;
+	protected User validateUserJSON(JSONObject jsonUser) throws ValidationException{
 		User user = null;
 
 		try {
-			jsonUser = (new JsonRepresentation(entity)).getJsonObject();
-
 
 			String phone = EncodingService.decodeURI(jsonUser.getString("phone"));
 			String password = EncodingService.decodeURI(jsonUser.getString("password"));
@@ -99,8 +96,8 @@ public class UserResource extends UserPseudoResource{
 
 		try{
 			this.checkEntity(entity);
-			
-			User newUser = validateUserJSON(entity);
+			JSONObject jsonUser = this.getJSONObj(entity);
+			User newUser = validateUserJSON(jsonUser);
 			ValidationService.validateUser(newUser);
 			creationFeedBack = UserDaoService.createUser(newUser);
 			
@@ -114,7 +111,7 @@ public class UserResource extends UserPseudoResource{
 			DebugLog.d("@Post::resources::createUser: available: " + creationFeedBack.getPhone() + " id: " +  creationFeedBack.getUserId());
 			newJsonUser = JSONFactory.toJSON(creationFeedBack);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, newUser.getUserId(), this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, newUser.getUserId(), this.getUserAgent(), jsonUser.toString());
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

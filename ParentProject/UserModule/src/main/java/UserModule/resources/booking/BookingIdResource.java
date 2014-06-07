@@ -59,6 +59,8 @@ public class BookingIdResource extends UserPseudoResource{
 		JSONObject newBooking = new JSONObject();
 		try{
 			this.checkEntity(entity);
+			JSONObject jsonBooking = this.getJSONObj(entity);
+			
 			int userId = this.validateAuthentication();
 			bookingId = Integer.parseInt(this.getReqAttr("id"));
 			
@@ -67,13 +69,13 @@ public class BookingIdResource extends UserPseudoResource{
 			if (booking.getUserId() != userId){
 				throw new AuthenticationException("对不起，您不是该预定的主人");
 			}
-			booking = parseJSON(entity, booking);
+			booking = parseJSON(jsonBooking, booking);
 			BookingDaoService.updateBooking(booking, previousStatus, -1);
 
 			newBooking = JSONFactory.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), jsonBooking.toString());
 		}catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -87,24 +89,15 @@ public class BookingIdResource extends UserPseudoResource{
 		return result;
 	}
 
-	private Booking parseJSON(Representation entity, Booking booking) throws ValidationException{
-		JSONObject jsonBooking = null;
+	private Booking parseJSON(JSONObject jsonBooking, Booking booking) throws ValidationException{
+		Calendar timeStamp = DateUtility.getCurTimeInstance();
+		BookingStatus status = BookingStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
 		
-		try{
-			jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
-			
-			Calendar timeStamp = DateUtility.getCurTimeInstance();
-			BookingStatus status = BookingStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
-			
-			booking.setAdjustTime(timeStamp);
-			booking.setStatus(status);
-			
-			ValidationService.validateBooking(booking);
-			
-		}catch (JSONException|IOException e) {
-			throw new ValidationException("无效数据格式");
-		}	
+		booking.setAdjustTime(timeStamp);
+		booking.setStatus(status);
 		
+		ValidationService.validateBooking(booking);
+			
 		return booking;
 	}
 	

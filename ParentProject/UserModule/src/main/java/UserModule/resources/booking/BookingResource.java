@@ -59,9 +59,10 @@ public class BookingResource extends UserPseudoResource{
 		JSONObject bookingObject = new JSONObject();
 		try{
 			this.checkEntity(entity);
+			JSONObject jsonBooking = this.getJSONObj(entity);
 			int userId = this.validateAuthentication();
 			
-			booking = parseJSON(entity);
+			booking = parseJSON(jsonBooking);
 			if (userId != booking.getUserId()){
 				throw new ValidationException("不允许替其他用户预约");
 			}
@@ -69,7 +70,7 @@ public class BookingResource extends UserPseudoResource{
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONFactory.toJSON(booking);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, userId, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, userId, this.getUserAgent(), jsonBooking.toString());
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -83,10 +84,9 @@ public class BookingResource extends UserPseudoResource{
 		return result;
 	}
 
-	protected Booking parseJSON(Representation entity) throws ValidationException, ParseException {
+	protected Booking parseJSON(JSONObject jsonBooking) throws ValidationException, ParseException {
 		Booking booking = null;
 		try{
-			JSONObject jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
 			
 			Calendar adjustTime = DateUtility.getCurTimeInstance();
 			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));

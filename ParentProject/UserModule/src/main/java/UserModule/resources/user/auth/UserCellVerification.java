@@ -59,7 +59,7 @@ public class UserCellVerification extends UserPseudoResource{
 	public Representation smsVerify(Representation entity) {
 		
 		try{
-			JSONObject jsonPair = (new JsonRepresentation(entity)).getJsonObject();
+			JSONObject jsonPair = this.getJSONObj(entity);
 			String cellNum = EncodingService.decodeURI(jsonPair.getString("phone"));
 			String authCode = EncodingService.decodeURI(jsonPair.getString("authCode"));
 			
@@ -75,6 +75,8 @@ public class UserCellVerification extends UserPseudoResource{
 			else{
 				throw new ValidationException("手机号码格式不正确");
 			}
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, -1, this.getUserAgent(), jsonPair.toString());
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

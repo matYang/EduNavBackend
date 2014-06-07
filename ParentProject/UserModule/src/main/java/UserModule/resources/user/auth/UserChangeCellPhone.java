@@ -66,12 +66,10 @@ public class UserChangeCellPhone extends UserPseudoResource{
 		return result;
 	}
 	
-	protected String[] validateChangeCellPhoneJSON(int userId, Representation entity) throws ValidationException{
-		JSONObject jsonPhones = null;
+	protected String[] validateChangeCellPhoneJSON(JSONObject jsonPhones) throws ValidationException{
 		String[] phones = new String[2];
 		
 		try{
-			jsonPhones = (new JsonRepresentation(entity)).getJsonObject();
 			
 			String oldPhone = EncodingService.decodeURI(jsonPhones.getString("oldPhone"));
 			String newPhone = EncodingService.decodeURI(jsonPhones.getString("newPhone"));
@@ -112,9 +110,10 @@ public class UserChangeCellPhone extends UserPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
+			JSONObject jsonPhones = this.getJSONObj(entity);
 			int userId = this.validateAuthentication();
 
-			phones = validateChangeCellPhoneJSON(userId, entity);
+			phones = validateChangeCellPhoneJSON(jsonPhones);
 			User user = UserDaoService.getUserById(userId);
 			if (!user.getPhone().equals(phones[0])){
 				throw new ValidationException("旧手机号码不符合账户绑定的手机号码");
@@ -131,7 +130,7 @@ public class UserChangeCellPhone extends UserPseudoResource{
 			setStatus(Status.SUCCESS_OK);
 			quickResponseText = "手机号码修改成功";
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, user.getUserId(), this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, user.getUserId(), this.getUserAgent(), jsonPhones.toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

@@ -51,12 +51,10 @@ public class UserChangePassword extends UserPseudoResource{
 	}
 	
 
-	protected String[] validateForgetPasswordJSON(int userId, Representation entity) throws ValidationException{
-		JSONObject jsonPasswords = null;
+	protected String[] validateForgetPasswordJSON(int userId, JSONObject jsonPasswords) throws ValidationException{
 		String[] passwords = new String[2];
 		
 		try{
-			jsonPasswords = (new JsonRepresentation(entity)).getJsonObject();
 			
 			String oldPassword = EncodingService.decodeURI(jsonPasswords.getString("oldPassword"));
 			String newPassword = EncodingService.decodeURI(jsonPasswords.getString("newPassword"));
@@ -93,9 +91,10 @@ public class UserChangePassword extends UserPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
+			JSONObject jsonPasswords = this.getJSONObj(entity);
 			int userId = this.validateAuthentication();
 
-			passwords = validateForgetPasswordJSON(userId, entity);
+			passwords = validateForgetPasswordJSON(userId, jsonPasswords);
 
 			UserDaoService.changePassword(userId, passwords[0], passwords[1]);
 			UserChangePasswordVerificationDaoService.closeSession(userId);
@@ -107,7 +106,7 @@ public class UserChangePassword extends UserPseudoResource{
 			setStatus(Status.SUCCESS_OK);
 			quickResponseText = "密码修改成功";
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), jsonPasswords.toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

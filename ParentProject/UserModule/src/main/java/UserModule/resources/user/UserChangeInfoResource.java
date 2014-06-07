@@ -23,11 +23,9 @@ public class UserChangeInfoResource extends UserPseudoResource{
 	private final String apiId = UserChangeInfoResource.class.getSimpleName();
 
 	
-	protected JSONObject parseJSON(Representation entity) throws ValidationException{
-		JSONObject jsonContact = null;
+	protected JSONObject parseJSON(JSONObject jsonContact) throws ValidationException{
 
 		try {
-			jsonContact = (new JsonRepresentation(entity)).getJsonObject();
 			jsonContact.put("name", EncodingService.decodeURI(jsonContact.getString("name")));
 			jsonContact.put("email", EncodingService.decodeURI(jsonContact.getString("email")));
 			
@@ -59,8 +57,8 @@ public class UserChangeInfoResource extends UserPseudoResource{
 		try {
 			this.checkEntity(entity);
 			userId = this.validateAuthentication();
-			
-			contact = parseJSON(entity);
+			JSONObject jsonContact = this.getJSONObj(entity);
+			contact = parseJSON(jsonContact);
 				
 			User user = UserDaoService.getUserById(userId);
 			user.setName(contact.getString("name"));
@@ -70,7 +68,7 @@ public class UserChangeInfoResource extends UserPseudoResource{
 			response = JSONFactory.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), jsonContact.toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
