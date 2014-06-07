@@ -13,6 +13,12 @@ public class ReferenceFactoryCollisionTest {
 	}
 	
 	@Test
+	public void testClassName(){
+		System.out.println(ReferenceFactoryCollisionTest.class.getName());
+		System.out.println(ReferenceFactoryCollisionTest.class.getSimpleName());
+	}
+	
+	@Test
 	public void test() {
 		Map<String, String> collisionMap = new HashMap<String, String>();
 		int collisionCounter = 0;

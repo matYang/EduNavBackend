@@ -9,6 +9,7 @@ import org.restlet.resource.Post;
 
 import UserModule.resources.UserPseudoResource;
 import UserModule.service.UserCellVerificationDaoService;
+import BaseModule.common.DebugLog;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -17,6 +18,7 @@ import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 
 public class UserCellVerification extends UserPseudoResource{
+	private final String apiId = UserCellVerification.class.getSimpleName();
 	
 	@Get
 	public Representation smsVerification() {
@@ -37,6 +39,8 @@ public class UserCellVerification extends UserPseudoResource{
 			else{
 				throw new ValidationException("手机号码格式不正确");
 			}
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), cellNum);
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

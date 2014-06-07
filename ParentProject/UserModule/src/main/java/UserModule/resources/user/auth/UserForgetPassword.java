@@ -10,6 +10,7 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import UserModule.resources.UserPseudoResource;
 import UserModule.service.UserForgotPasswordDaoService;
+import BaseModule.common.DebugLog;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -19,6 +20,7 @@ import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 
 public class UserForgetPassword extends UserPseudoResource{
+	private final String apiId = UserForgetPassword.class.getSimpleName();
 	
 	@Get
 	public Representation forgetPassword(){
@@ -39,6 +41,8 @@ public class UserForgetPassword extends UserPseudoResource{
 			else{
 				throw new ValidationException("手机号码格式不正确");
 			}
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), cellNum);
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -106,7 +110,8 @@ public class UserForgetPassword extends UserPseudoResource{
 
 			setStatus(Status.SUCCESS_OK);
 			quickResponseText = "密码修改成功";
-
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, user.getUserId(), this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

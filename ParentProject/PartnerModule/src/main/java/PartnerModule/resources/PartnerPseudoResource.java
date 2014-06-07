@@ -15,6 +15,8 @@ import PartnerModule.service.PartnerAuthenticationService;
 
 
 public class PartnerPseudoResource extends PseudoResource{
+	
+	protected final String moduleId = "partnerModule";
 
 	public static final boolean cookieEnabled = false;
 	public static final String cookie_partnerSession = "partnerSessionCookie";

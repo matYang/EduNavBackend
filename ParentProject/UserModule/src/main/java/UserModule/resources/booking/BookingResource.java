@@ -12,6 +12,7 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
@@ -25,6 +26,7 @@ import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
 public class BookingResource extends UserPseudoResource{
+	private final String apiId = BookingResource.class.getSimpleName();
 	
 	@Get
 	public Representation getBookings(){
@@ -37,6 +39,7 @@ public class BookingResource extends UserPseudoResource{
 			ArrayList<Booking> result = BookingDaoService.searchBooking(b_sr);
 			jsonArray = JSONFactory.toJSON(result);
 			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), b_sr.serialize());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -66,6 +69,7 @@ public class BookingResource extends UserPseudoResource{
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONFactory.toJSON(booking);
 			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, userId, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

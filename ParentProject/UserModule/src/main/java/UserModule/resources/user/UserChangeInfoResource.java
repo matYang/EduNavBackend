@@ -20,7 +20,9 @@ import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 public class UserChangeInfoResource extends UserPseudoResource{
+	private final String apiId = UserChangeInfoResource.class.getSimpleName();
 
+	
 	protected JSONObject parseJSON(Representation entity) throws ValidationException{
 		JSONObject jsonContact = null;
 
@@ -42,9 +44,9 @@ public class UserChangeInfoResource extends UserPseudoResource{
 		}
 		
 		return jsonContact;
-		
 	}
 	
+
 	@Put
 	/**
 	 * allows user to change name
@@ -67,7 +69,8 @@ public class UserChangeInfoResource extends UserPseudoResource{
 			
 			response = JSONFactory.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
-
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

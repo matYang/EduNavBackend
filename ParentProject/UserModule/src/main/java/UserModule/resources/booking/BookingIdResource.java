@@ -11,6 +11,7 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.AuthenticationException;
@@ -22,6 +23,7 @@ import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
 public class BookingIdResource extends UserPseudoResource{
+	private final String apiId = BookingIdResource.class.getSimpleName();
 	
 	@Get
 	public Representation getBookingById(){
@@ -35,7 +37,8 @@ public class BookingIdResource extends UserPseudoResource{
 			if (booking.getUserId() != userId){
 				throw new AuthenticationException("对不起，您不是该预定的主人");
 			}
-			bookingObject = JSONFactory.toJSON(booking);			
+			bookingObject = JSONFactory.toJSON(booking);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), String.valueOf(bookigId));
 		}catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -69,7 +72,8 @@ public class BookingIdResource extends UserPseudoResource{
 
 			newBooking = JSONFactory.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);
-
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
 		}catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

@@ -17,6 +17,7 @@ import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
 public class UserLogin extends UserPseudoResource {
+	private final String apiId = UserLogin.class.getSimpleName();
 	
 	@Post
 	public Representation loginAuthentication(Representation entity){
@@ -48,6 +49,8 @@ public class UserLogin extends UserPseudoResource {
 
 			jsonObject = JSONFactory.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, -1, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

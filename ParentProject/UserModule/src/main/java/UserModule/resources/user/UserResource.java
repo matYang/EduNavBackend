@@ -24,6 +24,8 @@ import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 public class UserResource extends UserPseudoResource{
+	private final String apiId = UserResource.class.getSimpleName();
+	
 
 	/**
 	 * Retrieve all users from server. This API is intended solely for testing
@@ -35,6 +37,8 @@ public class UserResource extends UserPseudoResource{
 			this.validateAuthentication();
 			ArrayList<User> allUsers = UserDaoService.getAllUsers();
 			jsonArray = JSONFactory.toJSON(allUsers);
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
 		}  catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -109,7 +113,8 @@ public class UserResource extends UserPseudoResource{
 
 			DebugLog.d("@Post::resources::createUser: available: " + creationFeedBack.getPhone() + " id: " +  creationFeedBack.getUserId());
 			newJsonUser = JSONFactory.toJSON(creationFeedBack);
-
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, -1, this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

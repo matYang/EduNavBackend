@@ -14,11 +14,13 @@ import BaseModule.resources.PseudoResource;
 
 public class UserPseudoResource extends PseudoResource{
 	
-	public static final boolean cookieEnabled = true;
-	public static final String cookie_userSession = "userSessionCookie";
-	public static final int cookie_maxAge = 5184000; //2 month
+	protected final String moduleId = "userModule";
 	
-
+	protected final boolean cookieEnabled = true;
+	protected final String cookie_userSession = "userSessionCookie";
+	protected final int cookie_maxAge = 5184000; //2 month
+	
+	
 	/******************
 	 * 
 	 *  Authentication Area

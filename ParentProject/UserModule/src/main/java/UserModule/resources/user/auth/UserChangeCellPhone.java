@@ -10,6 +10,7 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 
+import BaseModule.common.DebugLog;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -21,6 +22,7 @@ import UserModule.resources.UserPseudoResource;
 import UserModule.service.UserCellVerificationDaoService;
 
 public class UserChangeCellPhone extends UserPseudoResource{
+	private final String apiId = UserChangeCellPhone.class.getSimpleName();
 	
 	@Get
 	public Representation smsVerification() {
@@ -49,7 +51,8 @@ public class UserChangeCellPhone extends UserPseudoResource{
 			SMSService.sendUserCellVerificationSMS(oldPhone, authCode_new);
 			
 			setStatus(Status.SUCCESS_OK);
-
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, user.getUserId(), this.getUserAgent(), newPhone);
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -103,7 +106,7 @@ public class UserChangeCellPhone extends UserPseudoResource{
 	
 
 	@Put
-	public Representation changePassword(Representation entity) {
+	public Representation changCellPhone(Representation entity) {
 		String[] phones = new String[2];
 		String quickResponseText = "";
 		
@@ -127,7 +130,8 @@ public class UserChangeCellPhone extends UserPseudoResource{
 
 			setStatus(Status.SUCCESS_OK);
 			quickResponseText = "手机号码修改成功";
-
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, user.getUserId(), this.getUserAgent(), (new JsonRepresentation(entity)).getJsonObject().toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

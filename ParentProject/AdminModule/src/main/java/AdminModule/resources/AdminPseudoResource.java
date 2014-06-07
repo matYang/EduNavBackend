@@ -13,6 +13,8 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.resources.PseudoResource;
 
 public class AdminPseudoResource extends PseudoResource{
+	
+	protected final String moduleId = "adminModule";
 
 	public static final boolean cookieEnabled = false;
 	public static final String cookie_adminSession = "adminSessionCookie";

@@ -22,12 +22,7 @@ public class DebugLog {
 		systemLogger.info(caller + " got Exception! ",e);			
 		e.printStackTrace();
 	}
-	
-	public static void b_d(Exception e){
-		String caller = sun.reflect.Reflection.getCallerClass(2).getName();
-		behaviorsLogger.info(caller + " got Exception! ",e);			
-		e.printStackTrace();
-	}
+
 	
 
 	public static void d(String message){
@@ -36,6 +31,10 @@ public class DebugLog {
 
 	public static void b_d(String message){
 		b_log(message);
+	}
+	
+	public static void b_d(String moduleId, String apiId, String requestId, int initiatorId, String userAgent, String payLoad){
+		b_log("[" + moduleId + "] [" + apiId + "] [" + requestId + "] [" + initiatorId + "] [" + userAgent + "] [" + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()) + "] [" + payLoad + "]");
 	}
 	
 	private static void log(String message){

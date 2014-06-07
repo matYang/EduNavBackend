@@ -39,6 +39,13 @@ import BaseModule.service.FileService;
 
 public class PseudoResource extends ServerResource{
 	
+	protected final String moduleId = "baseModule";
+	
+	protected final String reqId_get = "GET";
+	protected final String reqId_post = "POST";
+	protected final String reqId_put = "PUT";
+	protected final String reqId_delete = "DELETE";
+	
 	/*set the response header to allow for CORS*/
 	public void addCORSHeader(){
 		Series<Header> responseHeaders = (Series<Header>) getResponse().getAttributes().get("org.restlet.http.headers");
@@ -66,6 +73,16 @@ public class PseudoResource extends ServerResource{
 	public void checkFileEntity(Representation entity) throws NullPointerException, ValidationException{
 		if (entity != null && entity.getSize() > ValidationConfig.max_FileLength){
 			throw new ValidationException("发送内容过大");
+		}
+	}
+	
+	public String getUserAgent(){
+		Series<Header> requestHeaders = (Series<Header>) getRequest().getAttributes().get("org.restlet.http.headers");
+		if (requestHeaders != null && requestHeaders.getFirstValue("", true) != null){
+			return requestHeaders.getFirstValue("", true);
+		}
+		else{
+			return "undetermined";
 		}
 	}
 

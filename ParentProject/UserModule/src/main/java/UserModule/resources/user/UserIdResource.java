@@ -5,6 +5,7 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import UserModule.resources.UserPseudoResource;
+import BaseModule.common.DebugLog;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.factory.JSONFactory;
@@ -12,6 +13,7 @@ import BaseModule.model.User;
 
 
 public class UserIdResource extends UserPseudoResource{
+	private final String apiId = UserIdResource.class.getSimpleName();
 
 	@Get 	    
 	public Representation getUserById() {
@@ -23,6 +25,7 @@ public class UserIdResource extends UserPseudoResource{
 	    	User user = UserDaoService.getUserById(userId);
 	        jsonObject = JSONFactory.toJSON(user);
 	        
+	        DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), String.valueOf(userId));
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
