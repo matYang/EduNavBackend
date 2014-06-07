@@ -19,14 +19,16 @@ import BaseModule.model.Partner;
 import BaseModule.service.EncodingService;
 
 public class PartnerIdResource extends AdminPseudoResource{
+	private final String apiId = PartnerIdResource.class.getSimpleName();
 
 	@Put
 	public Representation updatePartner(Representation entity){
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			this.validateAuthentication();
+			int adminId = this.validateAuthentication();
 			int partnerId = Integer.parseInt(this.getReqAttr("id"));
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, adminId, this.getUserAgent(), "<Form> "+partnerId);
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");

@@ -13,6 +13,7 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.AuthenticationException;
@@ -25,19 +26,20 @@ import BaseModule.service.ValidationService;
 
 
 public class BookingIdResource extends AdminPseudoResource{
+	private final String apiId = BookingIdResource.class.getSimpleName();
 
 	@Get
 	public Representation getBookingById(){
-		int bookigId = -1;
+		int bookingId = -1;
 		JSONObject bookingObject = new JSONObject();
 		try{
-			bookigId = Integer.parseInt(this.getReqAttr("id"));
-			int userId = this.validateAuthentication();
+			bookingId = Integer.parseInt(this.getReqAttr("id"));
+			int adminId = this.validateAuthentication();
 			
-			Booking booking = BookingDaoService.getBookingById(bookigId);
-			if (booking.getUserId() != userId){
-				throw new AuthenticationException("对不起，您不是该预定的主人");
-			}
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), String.valueOf(bookingId));
+			
+			Booking booking = BookingDaoService.getBookingById(bookingId);
+
 			bookingObject = JSONFactory.toJSON(booking);			
 		}catch (PseudoException e){
 			this.addCORSHeader();
@@ -61,12 +63,14 @@ public class BookingIdResource extends AdminPseudoResource{
 			this.checkEntity(entity);
 			int adminId = this.validateAuthentication();
 			bookingId = Integer.parseInt(this.getReqAttr("id"));
-			
+			JSONObject jsonBooking = this.getJSONObj(entity);
+			jsonBooking.put("bookingId", bookingId);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, adminId, this.getUserAgent(), jsonBooking.toString());
 			
 			Booking booking = BookingDaoService.getBookingById(bookingId);
 			BookingStatus previousStatus = booking.getStatus();
 
-			booking = parseJSON(entity, booking);
+			booking = parseJSON(jsonBooking, booking);
 			BookingDaoService.updateBooking(booking, previousStatus, adminId);
 
 			newBooking = JSONFactory.toJSON(booking);
@@ -85,11 +89,9 @@ public class BookingIdResource extends AdminPseudoResource{
 		return result;
 	}
 
-	private Booking parseJSON(Representation entity, Booking booking) throws ValidationException, ParseException{
-		JSONObject jsonBooking = null;
+	private Booking parseJSON(JSONObject jsonBooking, Booking booking) throws ValidationException, ParseException{
 		
 		try{
-			jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
 			
 			Calendar timeStamp = DateUtility.getCurTimeInstance();
 			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));

@@ -22,6 +22,7 @@ import BaseModule.service.EncodingService;
 
 
 public class AdminAccountIdResource extends AdminPseudoResource{
+	private final String apiId = AdminAccountIdResource.class.getSimpleName();
 
 	@Get 	    
     public Representation getAdminAccountById() {
@@ -30,7 +31,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
         try {
 			int adminId = this.validateAuthentication();
 			int targetAdminId = Integer.parseInt(this.getReqAttr("id"));
-			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(),String.valueOf(targetAdminId));
 			
 	    	AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 	    	AdminAccount targetAccount = AdminAccountDaoService.getAdminAccountById(targetAdminId);
@@ -53,11 +54,10 @@ public class AdminAccountIdResource extends AdminPseudoResource{
         return result;
     }	
 	
-	protected JSONObject parseJSON(Representation entity) throws ValidationException{
-		JSONObject jsonContact = null;
+	protected JSONObject parseJSON(JSONObject jsonContact) throws ValidationException{
 
 		try {
-			jsonContact = (new JsonRepresentation(entity)).getJsonObject();
+
 			jsonContact.put("name", EncodingService.decodeURI(jsonContact.getString("name")));
 			jsonContact.put("phone", EncodingService.decodeURI(jsonContact.getString("phone")));
 		} catch (JSONException | IOException e) {
@@ -82,6 +82,9 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 
 			int adminId = this.validateAuthentication();
 			int targetAdminId = Integer.parseInt(this.getReqAttr("id"));
+			JSONObject jsonContact = this.getJSONObj(entity);
+			jsonContact.put("adminId", targetAdminId);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, adminId, this.getUserAgent(), jsonContact.toString());
 			
 			AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 			AdminAccount targetAccount = AdminAccountDaoService.getAdminAccountById(targetAdminId);
@@ -91,7 +94,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 				throw new ValidationException("无权操作");
 			}
 			
-			contact = parseJSON(entity);
+			contact = parseJSON(jsonContact);
 			
 			targetAccount.setName(EncodingService.decodeURI(contact.getString("name")));
 			targetAccount.setPhone(EncodingService.decodeURI(contact.getString("phone")));

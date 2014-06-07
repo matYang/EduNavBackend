@@ -6,6 +6,7 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Post;
 import AdminModule.resources.AdminPseudoResource;
+import BaseModule.common.DebugLog;
 import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -15,6 +16,7 @@ import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 public class AdminAccountLogin extends AdminPseudoResource{
+	private final String apiId = AdminAccountLogin.class.getSimpleName();
 
 	@Post
 	public Representation loginAuthentication(Representation entity){
@@ -41,6 +43,8 @@ public class AdminAccountLogin extends AdminPseudoResource{
 
 			jsonObject = JSONFactory.toJSON(account);
 			setStatus(Status.SUCCESS_OK);
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, account.getAdminId(), this.getUserAgent(), "<Password Classified> " + account.getReference());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

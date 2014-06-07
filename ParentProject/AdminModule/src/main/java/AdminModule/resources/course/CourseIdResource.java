@@ -16,15 +16,16 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 
 public class CourseIdResource extends AdminPseudoResource{
-	
+	private final String apiId = CourseIdResource.class.getName();
 	
 	@Put
 	public Representation createCourse(Representation entity){
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			this.validateAuthentication();
+			int adminId = this.validateAuthentication();
 			int courseId = Integer.parseInt(this.getReqAttr("id"));
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, adminId, this.getUserAgent(), "<Form> " + courseId);
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");

@@ -18,7 +18,7 @@ import BaseModule.model.AdminAccount;
 import BaseModule.service.EncodingService;
 
 public class AdminChangePassword extends AdminPseudoResource{
-
+	private final String apiId = AdminChangePassword.class.getSimpleName();
 
 	protected JSONObject parseJSON(Representation entity) throws ValidationException{
 		try {
@@ -42,6 +42,7 @@ public class AdminChangePassword extends AdminPseudoResource{
 
 			int adminId = this.validateAuthentication();
 			int targetAdminId = Integer.parseInt(this.getReqAttr("id"));
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, adminId, this.getUserAgent(), "<Password Classified> " + targetAdminId);
 			
 			AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 			AdminAccount targetAccount = AdminAccountDaoService.getAdminAccountById(targetAdminId);

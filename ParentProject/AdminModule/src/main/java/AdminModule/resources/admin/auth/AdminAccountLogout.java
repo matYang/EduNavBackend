@@ -7,16 +7,19 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
 
 import AdminModule.resources.AdminPseudoResource;
+import BaseModule.common.DebugLog;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
 
 public class AdminAccountLogout extends AdminPseudoResource{
+	private final String apiId = AdminAccountLogout.class.getSimpleName();
 
 	@Put
 	public Representation logoutAuthentication(Representation entity){
 
 		try {
-
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, -1, this.getUserAgent(), "");
+			
 			this.closeAuthentication();
 			setStatus(Status.SUCCESS_OK);
 		} catch (AuthenticationException e){

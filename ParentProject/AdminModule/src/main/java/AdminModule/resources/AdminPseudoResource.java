@@ -15,10 +15,9 @@ import BaseModule.resources.PseudoResource;
 public class AdminPseudoResource extends PseudoResource{
 	
 	protected final String moduleId = "adminModule";
-
-	public static final boolean cookieEnabled = false;
-	public static final String cookie_adminSession = "adminSessionCookie";
-	public static final int cookie_maxAge = 5184000; //2 month
+	protected final boolean cookieEnabled = false;
+	protected final String cookie_adminSession = "adminSessionCookie";
+	protected final int cookie_maxAge = 5184000; //2 month
 	
 	/******************
 	 * 

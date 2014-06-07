@@ -1,9 +1,12 @@
 package BaseModule.common;
 
+import java.io.UnsupportedEncodingException;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import BaseModule.configurations.ServerConfig;
+import BaseModule.service.EncodingService;
 
 public class DebugLog {
 
@@ -34,7 +37,11 @@ public class DebugLog {
 	}
 	
 	public static void b_d(String moduleId, String apiId, String requestId, int initiatorId, String userAgent, String payLoad){
-		b_log("[" + moduleId + "] [" + apiId + "] [" + requestId + "] [" + initiatorId + "] [" + userAgent + "] [" + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()) + "] [" + payLoad + "]");
+		try {
+			b_log("[" + moduleId + "] [" + apiId + "] [" + requestId + "] [" + initiatorId + "] [" + userAgent + "] [" + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()) + "] [" + EncodingService.decodeURI(payLoad) + "]");
+		} catch (UnsupportedEncodingException e) {
+			b_log("[" + moduleId + "] [" + apiId + "] [" + requestId + "] [" + initiatorId + "] [" + userAgent + "] [" + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()) + "] [Decoding Failed]");
+		}
 	}
 	
 	private static void log(String message){

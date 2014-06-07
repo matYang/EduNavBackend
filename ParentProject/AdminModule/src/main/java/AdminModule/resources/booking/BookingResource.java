@@ -7,6 +7,7 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import AdminModule.resources.AdminPseudoResource;
+import BaseModule.common.DebugLog;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.factory.JSONFactory;
@@ -14,6 +15,7 @@ import BaseModule.model.Booking;
 import BaseModule.model.representation.BookingSearchRepresentation;
 
 public class BookingResource extends AdminPseudoResource{
+	private final String apiId = BookingResource.class.getSimpleName();
 
 	@Get
 	public Representation searchBookings() {
@@ -21,9 +23,10 @@ public class BookingResource extends AdminPseudoResource{
 		JSONArray response = new JSONArray();
 		
 		try {
-			this.validateAuthentication();
+			int adminId = this.validateAuthentication();
 			BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
 			this.loadRepresentation(b_sr);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), b_sr.serialize());
 
 			ArrayList<Booking> searchResult = new ArrayList<Booking>();
 			searchResult = BookingDaoService.searchBooking(b_sr);

@@ -18,7 +18,7 @@ public class PartnerLogout extends PartnerPseudoResource{
 	public Representation logoutAuthentication(Representation entity){
 		DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, -1, this.getUserAgent(), "");
 		try {
-
+			
 			this.closeAuthentication();
 			setStatus(Status.SUCCESS_OK);
 			

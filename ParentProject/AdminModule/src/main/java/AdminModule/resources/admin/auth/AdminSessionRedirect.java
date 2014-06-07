@@ -18,6 +18,7 @@ import BaseModule.model.AdminAccount;
 
 
 public class AdminSessionRedirect extends AdminPseudoResource{
+	private final String apiId = AdminSessionRedirect.class.getSimpleName();
 
 	@Get
 	public Representation sessionRedirect(Representation entity){
@@ -28,9 +29,13 @@ public class AdminSessionRedirect extends AdminPseudoResource{
 	
 		try {
 			int accountId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, accountId, this.getUserAgent(), "");
+			
 			account = AdminAccountDaoService.getAdminAccountById(accountId);
 			jsonObject = JSONFactory.toJSON(account);
 		} catch (AuthenticationException | AdminAccountNotFoundException e){
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
+			
 			//if not authenticated, return default user with id -1
 			account = new AdminAccount("default", "default","default", Privilege.routine, AccountStatus.activated,"default");
 			account.setAdminId(-1);

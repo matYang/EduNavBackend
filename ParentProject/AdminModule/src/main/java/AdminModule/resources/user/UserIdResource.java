@@ -21,12 +21,11 @@ import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
 public class UserIdResource extends AdminPseudoResource{
+	private final String apiId = UserIdResource.class.getSimpleName();
 
-	protected User parseJSON(Representation entity, User user) throws ValidationException{
-		JSONObject jsonContact = null;
+	protected User parseJSON(JSONObject jsonContact, User user) throws ValidationException{
 
 		try {
-			jsonContact = (new JsonRepresentation(entity)).getJsonObject();
 			String name = EncodingService.decodeURI(jsonContact.getString("name"));
 			String email = EncodingService.decodeURI(jsonContact.getString("email"));
 			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(jsonContact.getString("status")));
@@ -55,11 +54,14 @@ public class UserIdResource extends AdminPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
-			this.validateAuthentication();
+			int adminId = this.validateAuthentication();
 			userId = Integer.parseInt(this.getReqAttr("id"));
+			JSONObject jsonContact = this.getJSONObj(entity);
+			jsonContact.put("userId", userId);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, adminId, this.getUserAgent(), jsonContact.toString());
 			
 			User user = UserDaoService.getUserById(userId);
-			user = parseJSON(entity, user);
+			user = parseJSON(jsonContact, user);
 			UserDaoService.updateUser(user);
 			
 			response = JSONFactory.toJSON(user);

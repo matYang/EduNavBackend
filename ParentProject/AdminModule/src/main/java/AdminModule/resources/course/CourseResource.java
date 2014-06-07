@@ -17,13 +17,15 @@ import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Course;
 
 public class CourseResource extends AdminPseudoResource{
+	private final String apiId = CourseResource.class.getSimpleName();
 
 	@Post
 	public Representation createCourse(Representation entity){
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			this.validateAuthentication();
+			int adminId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, adminId, this.getUserAgent(), "<Form>");
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");

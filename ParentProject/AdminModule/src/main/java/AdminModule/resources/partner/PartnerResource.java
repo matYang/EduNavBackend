@@ -24,6 +24,7 @@ import BaseModule.model.representation.PartnerSearchRepresentation;
 import BaseModule.service.EncodingService;
 
 public class PartnerResource extends AdminPseudoResource{
+	private final String apiId = PartnerResource.class.getSimpleName();
 	
 	
 	@Get
@@ -32,9 +33,10 @@ public class PartnerResource extends AdminPseudoResource{
 		JSONArray response = new JSONArray();
 		
 		try {
-			this.validateAuthentication();
+			int adminId = this.validateAuthentication();
 			PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
 			this.loadRepresentation(p_sr);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), p_sr.serialize());
 
 			ArrayList<Partner> searchResult = PartnerDaoService.searchPartner(p_sr);
 			response = JSONFactory.toJSON(searchResult);
@@ -58,7 +60,8 @@ public class PartnerResource extends AdminPseudoResource{
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			this.validateAuthentication();
+			int adminId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, adminId, this.getUserAgent(), "<Form>");
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");
