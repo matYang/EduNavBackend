@@ -10,6 +10,7 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 
+import BaseModule.common.DebugLog;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -21,12 +22,16 @@ import PartnerModule.resources.PartnerPseudoResource;
 import PartnerModule.service.PartnerForgotPasswordDaoService;
 
 public class PartnerForgetPassword extends PartnerPseudoResource{
+	private final String apiId = PartnerForgetPassword.class.getSimpleName();
+	
 	
 	@Get
 	public Representation forgetPassword(){
         
 		try{
 			String cellNum = this.getQueryVal("phone");
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), cellNum);
+			
 			if (ValidationService.validatePhone(cellNum)){
 				
 				if (!PartnerDaoService.isCellPhoneAvailable(cellNum)){
@@ -41,6 +46,7 @@ public class PartnerForgetPassword extends PartnerPseudoResource{
 			else{
 				throw new ValidationException("手机号码格式不正确");
 			}
+			
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -54,12 +60,10 @@ public class PartnerForgetPassword extends PartnerPseudoResource{
 		return result;
 	}
 	
-	protected String[] validateForgetPasswordJSON(Representation entity) throws ValidationException{
-		JSONObject jsonPair = null;
+	protected String[] validateForgetPasswordJSON(JSONObject jsonPair) throws ValidationException{
 		String[] newPair = new String[2];
 		
 		try{
-			jsonPair = (new JsonRepresentation(entity)).getJsonObject();
 			
 			String cellNum = EncodingService.decodeURI(jsonPair.getString("phone"));
 			String newPassword = EncodingService.decodeURI(jsonPair.getString("newPassword"));
@@ -95,8 +99,8 @@ public class PartnerForgetPassword extends PartnerPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
-
-			newPair = validateForgetPasswordJSON(entity);
+			JSONObject jsonPair =  this.getJSONObj(entity);
+			newPair = validateForgetPasswordJSON(jsonPair);
 
 			PartnerDaoService.recoverPassword(newPair[0], newPair[1]);
 			PartnerForgotPasswordDaoService.closeSession(newPair[0]);
@@ -108,7 +112,8 @@ public class PartnerForgetPassword extends PartnerPseudoResource{
 
 			setStatus(Status.SUCCESS_OK);
 			quickResponseText = "密码修改成功";
-
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partner.getPartnerId(), this.getUserAgent(), "<Password Classified>");
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

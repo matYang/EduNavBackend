@@ -19,6 +19,7 @@ import BaseModule.model.Course;
 import PartnerModule.resources.PartnerPseudoResource;
 
 public class CourseResource extends PartnerPseudoResource{
+	private final String apiId = CourseResource.class.getSimpleName();
 
 	@Post
 	public Representation createCourse(Representation entity){
@@ -26,6 +27,7 @@ public class CourseResource extends PartnerPseudoResource{
 		try{
 			this.checkFileEntity(entity);
 			int partnerId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partnerId, this.getUserAgent(), "<Form>");
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");
@@ -41,7 +43,6 @@ public class CourseResource extends PartnerPseudoResource{
 			props.put("status", String.valueOf(AccountStatus.activated.code));
 			
 			course.loadFromMap(props);
-			
 			CourseDaoService.updateCourse(course);
 			
 		}catch (PseudoException e){

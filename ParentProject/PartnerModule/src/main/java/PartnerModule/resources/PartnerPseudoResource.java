@@ -18,9 +18,9 @@ public class PartnerPseudoResource extends PseudoResource{
 	
 	protected final String moduleId = "partnerModule";
 
-	public static final boolean cookieEnabled = false;
-	public static final String cookie_partnerSession = "partnerSessionCookie";
-	public static final int cookie_maxAge = 5184000; //2 month
+	protected final boolean cookieEnabled = false;
+	protected final String cookie_partnerSession = "partnerSessionCookie";
+	protected final int cookie_maxAge = 5184000; //2 month
 	
 
 	/******************

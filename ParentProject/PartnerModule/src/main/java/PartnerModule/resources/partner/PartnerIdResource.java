@@ -24,6 +24,7 @@ import BaseModule.service.EncodingService;
 import PartnerModule.resources.PartnerPseudoResource;
 
 public class PartnerIdResource extends PartnerPseudoResource{
+	private final String apiId = PartnerIdResource.class.getSimpleName();
 
 	@Get 	    
     public Representation getPartnerById() {
@@ -31,6 +32,7 @@ public class PartnerIdResource extends PartnerPseudoResource{
         
         try {
 			int partnerId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, partnerId, this.getUserAgent(), String.valueOf(partnerId));
 			
 	    	Partner partner = PartnerDaoService.getPartnerById(partnerId);
 	        jsonObject = JSONFactory.toJSON(partner);
@@ -56,7 +58,8 @@ public class PartnerIdResource extends PartnerPseudoResource{
 		try{
 			this.checkFileEntity(entity);
 			int partnerId = this.validateAuthentication();
-
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, partnerId, this.getUserAgent(), "<Form>");
+			
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");
 			}

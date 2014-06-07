@@ -18,6 +18,7 @@ import BaseModule.model.Course;
 import PartnerModule.resources.PartnerPseudoResource;
 
 public class CourseIdResource extends PartnerPseudoResource{
+	private final String apiId = CourseIdResource.class.getSimpleName();
 
 	@Put
 	public Representation createCourse(Representation entity){
@@ -25,6 +26,8 @@ public class CourseIdResource extends PartnerPseudoResource{
 		try{
 			this.checkFileEntity(entity);
 			int partnerId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, partnerId, this.getUserAgent(), "<Form>");
+			
 			int courseId = Integer.parseInt(this.getReqAttr("id"));
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
@@ -37,8 +40,8 @@ public class CourseIdResource extends PartnerPseudoResource{
 			}
 			props = this.handleMultiForm(entity, course.getCourseId(), props);
 			props.put("partnerId", String.valueOf(partnerId));
-			course.loadFromMap(props);
 			
+			course.loadFromMap(props);
 			CourseDaoService.updateCourse(course);
 			
 		}catch (PseudoException e){

@@ -21,10 +21,11 @@ public class GetCourseDetail extends UserPseudoResource {
 		JSONObject courseObject = new JSONObject();
 		try{			
 			courseId =Integer.parseInt(this.getReqAttr("id"));
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), String.valueOf(courseId));
+			
 			Course course = CourseDaoService.getCourseById(courseId);
 			courseObject = JSONFactory.toJSON(course);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), String.valueOf(courseId));
 		}catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

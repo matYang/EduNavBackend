@@ -10,6 +10,7 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 
+import BaseModule.common.DebugLog;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -21,13 +22,14 @@ import PartnerModule.resources.PartnerPseudoResource;
 import PartnerModule.service.PartnerChangePasswordVerificationDaoService;
 
 public class PartnerChangePassword extends PartnerPseudoResource {
-	
+	private final String apiId = PartnerChangePassword.class.getSimpleName();
 	
 	@Get
 	public Representation changePasswordVerification() {
 		
 		try{
 			int partnerId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, partnerId, this.getUserAgent(), "");
 			
 			String authCode = PartnerChangePasswordVerificationDaoService.openSession(partnerId);
 			Partner partner = PartnerDaoService.getPartnerById(partnerId);
@@ -49,12 +51,10 @@ public class PartnerChangePassword extends PartnerPseudoResource {
 	}
 	
 
-	protected String[] validateForgetPasswordJSON(int partnerId, Representation entity) throws ValidationException{
-		JSONObject jsonPasswords = null;
+	protected String[] validateForgetPasswordJSON(int partnerId, JSONObject jsonPasswords) throws ValidationException{
 		String[] passwords = new String[2];
 		
 		try{
-			jsonPasswords = (new JsonRepresentation(entity)).getJsonObject();
 			
 			String oldPassword = EncodingService.decodeURI(jsonPasswords.getString("oldPassword"));
 			String newPassword = EncodingService.decodeURI(jsonPasswords.getString("newPassword"));
@@ -92,8 +92,10 @@ public class PartnerChangePassword extends PartnerPseudoResource {
 		try {
 			this.checkEntity(entity);
 			int partnerId = this.validateAuthentication();
-
-			passwords = validateForgetPasswordJSON(partnerId, entity);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, -1, this.getUserAgent(), "<Password Classified>");
+			
+			JSONObject jsonPasswords = this.getJSONObj(entity);
+			passwords = validateForgetPasswordJSON(partnerId, jsonPasswords);
 
 			PartnerDaoService.changePassword(partnerId, passwords[0], passwords[1]);
 			PartnerChangePasswordVerificationDaoService.closeSession(partnerId);

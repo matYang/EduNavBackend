@@ -33,12 +33,13 @@ public class UserResource extends UserPseudoResource{
 	@Get
 	public Representation getAllUsers(){
 		JSONArray jsonArray = null;
+		DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
+		
 		try {
 			this.validateAuthentication();
 			ArrayList<User> allUsers = UserDaoService.getAllUsers();
 			jsonArray = JSONFactory.toJSON(allUsers);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
 		}  catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -98,6 +99,7 @@ public class UserResource extends UserPseudoResource{
 			this.checkEntity(entity);
 			JSONObject jsonUser = this.getJSONObj(entity);
 			User newUser = validateUserJSON(jsonUser);
+			
 			ValidationService.validateUser(newUser);
 			creationFeedBack = UserDaoService.createUser(newUser);
 			
@@ -111,7 +113,8 @@ public class UserResource extends UserPseudoResource{
 			DebugLog.d("@Post::resources::createUser: available: " + creationFeedBack.getPhone() + " id: " +  creationFeedBack.getUserId());
 			newJsonUser = JSONFactory.toJSON(creationFeedBack);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, newUser.getUserId(), this.getUserAgent(), jsonUser.toString());
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, creationFeedBack.getUserId(), this.getUserAgent(), creationFeedBack.getPhone());
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

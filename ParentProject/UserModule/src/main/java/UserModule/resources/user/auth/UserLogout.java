@@ -17,13 +17,12 @@ public class UserLogout extends UserPseudoResource {
 	
 	@Put
 	public Representation logoutAuthentication(){
-
+		DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, -1, this.getUserAgent(), "");
 		try {
 
 			this.closeAuthentication();
 			setStatus(Status.SUCCESS_OK);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, -1, this.getUserAgent(), "");
 		} catch (AuthenticationException e){
 			//if authentication exception, then user is not logged in, then logout is considered a successful request
 			setStatus(Status.SUCCESS_OK);

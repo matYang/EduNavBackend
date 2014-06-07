@@ -29,6 +29,7 @@ public class UserChangePassword extends UserPseudoResource{
 		
 		try{
 			int userId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), "");
 			
 			String authCode = UserChangePasswordVerificationDaoService.openSession(userId);
 			User user = UserDaoService.getUserById(userId);
@@ -36,7 +37,6 @@ public class UserChangePassword extends UserPseudoResource{
 			SMSService.sendUserChangePasswordSMS(user.getPhone(), authCode);
 			setStatus(Status.SUCCESS_OK);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), "");
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -91,9 +91,10 @@ public class UserChangePassword extends UserPseudoResource{
 		
 		try {
 			this.checkEntity(entity);
-			JSONObject jsonPasswords = this.getJSONObj(entity);
 			int userId = this.validateAuthentication();
-
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), "<Password Classified>");
+			
+			JSONObject jsonPasswords = this.getJSONObj(entity);
 			passwords = validateForgetPasswordJSON(userId, jsonPasswords);
 
 			UserDaoService.changePassword(userId, passwords[0], passwords[1]);
@@ -106,7 +107,6 @@ public class UserChangePassword extends UserPseudoResource{
 			setStatus(Status.SUCCESS_OK);
 			quickResponseText = "密码修改成功";
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), jsonPasswords.toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

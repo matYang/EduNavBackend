@@ -32,14 +32,15 @@ public class BookingIdResource extends UserPseudoResource{
 		try{
 			bookigId = Integer.parseInt(this.getReqAttr("id"));
 			int userId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), String.valueOf(bookigId));
 			
 			Booking booking = BookingDaoService.getBookingById(bookigId);
 			if (booking.getUserId() != userId){
 				throw new AuthenticationException("对不起，您不是该预定的主人");
 			}
 			bookingObject = JSONFactory.toJSON(booking);
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), String.valueOf(bookigId));
-		}catch (PseudoException e){
+			
+		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
 		} catch (Exception e) {
@@ -60,8 +61,9 @@ public class BookingIdResource extends UserPseudoResource{
 		try{
 			this.checkEntity(entity);
 			JSONObject jsonBooking = this.getJSONObj(entity);
-			
 			int userId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), jsonBooking.toString());
+			
 			bookingId = Integer.parseInt(this.getReqAttr("id"));
 			
 			Booking booking = BookingDaoService.getBookingById(bookingId);
@@ -75,7 +77,6 @@ public class BookingIdResource extends UserPseudoResource{
 			newBooking = JSONFactory.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), jsonBooking.toString());
 		}catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

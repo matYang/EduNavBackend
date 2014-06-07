@@ -28,8 +28,12 @@ public class UserChangeCellPhone extends UserPseudoResource{
 	public Representation smsVerification() {
 		
 		try{
+			int userId = this.validateAuthentication();
 			String oldPhone = this.getQueryVal("oldPhone");
 			String newPhone = this.getQueryVal("newPhone");
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), oldPhone + "-" + newPhone);
+			
+			
 			if (!ValidationService.validatePhone(oldPhone)){
 				throw new ValidationException("旧手机号码格式不正确");
 			}
@@ -39,7 +43,8 @@ public class UserChangeCellPhone extends UserPseudoResource{
 			if (!UserDaoService.isCellPhoneAvailable(newPhone)){
 				throw new ValidationException("手机号码已经被注册");
 			}
-			int userId = this.validateAuthentication();
+
+			
 			User user = UserDaoService.getUserById(userId);
 			if (!user.getPhone().equals(oldPhone)){
 				throw new ValidationException("旧手机号码不符合账户绑定的手机号码");
@@ -52,7 +57,6 @@ public class UserChangeCellPhone extends UserPseudoResource{
 			
 			setStatus(Status.SUCCESS_OK);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, user.getUserId(), this.getUserAgent(), newPhone);
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -112,8 +116,10 @@ public class UserChangeCellPhone extends UserPseudoResource{
 			this.checkEntity(entity);
 			JSONObject jsonPhones = this.getJSONObj(entity);
 			int userId = this.validateAuthentication();
-
 			phones = validateChangeCellPhoneJSON(jsonPhones);
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), jsonPhones.toString());
+			
 			User user = UserDaoService.getUserById(userId);
 			if (!user.getPhone().equals(phones[0])){
 				throw new ValidationException("旧手机号码不符合账户绑定的手机号码");
@@ -130,7 +136,6 @@ public class UserChangeCellPhone extends UserPseudoResource{
 			setStatus(Status.SUCCESS_OK);
 			quickResponseText = "手机号码修改成功";
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, user.getUserId(), this.getUserAgent(), jsonPhones.toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

@@ -13,19 +13,19 @@ import BaseModule.model.User;
 
 
 public class UserIdResource extends UserPseudoResource{
-	private final String apiId = UserIdResource.class.getSimpleName();
+	private final String apiId = UserIdResource.class.getSimpleName(); 
 
 	@Get 	    
 	public Representation getUserById() {
 	    JSONObject jsonObject = new JSONObject();
-	    
+
 	    try {
 			int userId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), String.valueOf(userId));
 			
 	    	User user = UserDaoService.getUserById(userId);
 	        jsonObject = JSONFactory.toJSON(user);
 	        
-	        DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), String.valueOf(userId));
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

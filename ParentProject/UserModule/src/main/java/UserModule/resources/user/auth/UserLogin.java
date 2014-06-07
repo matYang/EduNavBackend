@@ -50,7 +50,7 @@ public class UserLogin extends UserPseudoResource {
 			jsonObject = JSONFactory.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, user.getUserId(), this.getUserAgent(), jsonString.toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, user.getUserId(), this.getUserAgent(), phone);
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

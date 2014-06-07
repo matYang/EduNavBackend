@@ -16,6 +16,7 @@ import BaseModule.model.Partner;
 import PartnerModule.resources.PartnerPseudoResource;
 
 public class PartnerSessionRedirect extends PartnerPseudoResource{
+	private final String apiId = PartnerSessionRedirect.class.getSimpleName();
 
 	@Get
 	public Representation sessionRedirect(Representation entity){
@@ -26,14 +27,20 @@ public class PartnerSessionRedirect extends PartnerPseudoResource{
 
 		try {
 			int partnerId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, partnerId, this.getUserAgent(), "");
+			
 			partner = PartnerDaoService.getPartnerById(partnerId);
 			jsonObject = JSONFactory.toJSON(partner);
+			
 		} catch (AuthenticationException | PartnerNotFoundException e){
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
+			
 			//if not authenticated, return default user with id -1
 			partner = new Partner("default", "default","default", "default",
 					"default", "default", "default",AccountStatus.activated);
 			partner.setPartnerId(-1);
 			jsonObject = JSONFactory.toJSON(partner);
+			
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

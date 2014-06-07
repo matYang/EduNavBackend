@@ -23,9 +23,10 @@ public class GetCourses extends UserPseudoResource{
 		try {
 			CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 			this.loadRepresentation(c_sr);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), c_sr.serialize());
+			
 			response = JSONFactory.toJSON(CourseDaoService.searchCourse(c_sr));
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), c_sr.serialize());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

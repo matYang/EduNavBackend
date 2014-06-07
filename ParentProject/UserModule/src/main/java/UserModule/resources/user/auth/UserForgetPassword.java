@@ -27,6 +27,8 @@ public class UserForgetPassword extends UserPseudoResource{
         
 		try{
 			String cellNum = this.getQueryVal("phone");
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), cellNum);
+			
 			if (ValidationService.validatePhone(cellNum)){
 				
 				if (!UserDaoService.isCellPhoneAvailable(cellNum)){
@@ -42,7 +44,6 @@ public class UserForgetPassword extends UserPseudoResource{
 				throw new ValidationException("手机号码格式不正确");
 			}
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), cellNum);
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -108,7 +109,7 @@ public class UserForgetPassword extends UserPseudoResource{
 			setStatus(Status.SUCCESS_OK);
 			quickResponseText = "密码修改成功";
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, user.getUserId(), this.getUserAgent(), jsonPair.toString());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, user.getUserId(), this.getUserAgent(), "<Password Classified>");
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

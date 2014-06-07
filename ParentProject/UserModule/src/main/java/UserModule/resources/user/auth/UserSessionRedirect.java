@@ -27,21 +27,23 @@ public class UserSessionRedirect extends UserPseudoResource{
 		
 		try {
 			int userId = this.validateAuthentication();
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), "");
+			
 			user = UserDaoService.getUserById(userId);
 			jsonObject = JSONFactory.toJSON(user);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), "");
 		} catch (AuthenticationException | UserNotFoundException e){
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
+			
 			//if not authenticated, return default user with id -1
 			user = new User("default","default", AccountStatus.activated);
 			user.setUserId(-1);
 			jsonObject = JSONFactory.toJSON(user);
-			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
+		
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
-		}  catch (Exception e) {
+		} catch (Exception e) {
 			return this.doException(e);
 		}
 	

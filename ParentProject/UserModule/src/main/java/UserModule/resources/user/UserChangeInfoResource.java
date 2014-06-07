@@ -58,6 +58,8 @@ public class UserChangeInfoResource extends UserPseudoResource{
 			this.checkEntity(entity);
 			userId = this.validateAuthentication();
 			JSONObject jsonContact = this.getJSONObj(entity);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), jsonContact.toString());
+			
 			contact = parseJSON(jsonContact);
 				
 			User user = UserDaoService.getUserById(userId);
@@ -68,7 +70,6 @@ public class UserChangeInfoResource extends UserPseudoResource{
 			response = JSONFactory.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), jsonContact.toString());
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

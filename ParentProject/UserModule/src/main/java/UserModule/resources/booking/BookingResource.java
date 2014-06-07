@@ -35,11 +35,12 @@ public class BookingResource extends UserPseudoResource{
 			int userId = this.validateAuthentication();
 			BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
 			b_sr.setUserId(userId);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), b_sr.serialize());
 			
 			ArrayList<Booking> result = BookingDaoService.searchBooking(b_sr);
 			jsonArray = JSONFactory.toJSON(result);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), b_sr.serialize());
+			
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -62,6 +63,8 @@ public class BookingResource extends UserPseudoResource{
 			JSONObject jsonBooking = this.getJSONObj(entity);
 			int userId = this.validateAuthentication();
 			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, userId, this.getUserAgent(), jsonBooking.toString());
+			
 			booking = parseJSON(jsonBooking);
 			if (userId != booking.getUserId()){
 				throw new ValidationException("不允许替其他用户预约");
@@ -70,7 +73,6 @@ public class BookingResource extends UserPseudoResource{
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONFactory.toJSON(booking);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, userId, this.getUserAgent(), jsonBooking.toString());
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

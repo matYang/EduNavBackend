@@ -17,6 +17,7 @@ import BaseModule.service.ValidationService;
 import PartnerModule.resources.PartnerPseudoResource;
 
 public class PartnerLogin extends PartnerPseudoResource{
+	private final String apiId = PartnerLogin.class.getSimpleName();
 
 	@Post
 	public Representation loginAuthentication(Representation entity){
@@ -29,8 +30,8 @@ public class PartnerLogin extends PartnerPseudoResource{
 
 		try {
 			this.checkEntity(entity);
+			jsonString = this.getJSONObj(entity);
 			
-			jsonString = (new JsonRepresentation(entity)).getJsonObject();
 			phone = EncodingService.decodeURI(jsonString.getString("phone"));
 			password = EncodingService.decodeURI(jsonString.getString("password"));
 			if (!ValidationService.validatePhone(phone)){
@@ -48,6 +49,8 @@ public class PartnerLogin extends PartnerPseudoResource{
 
 			jsonObject = JSONFactory.toJSON(partner);
 			setStatus(Status.SUCCESS_OK);
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partner.getPartnerId(), this.getUserAgent(), phone);
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

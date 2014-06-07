@@ -15,8 +15,9 @@ public class GetLocations extends UserPseudoResource {
 	
 	@Get
 	public Representation getDefaultLocation() {
-		JSONArray jsonArray = StaticDataService.getLocationDataJSON();
 		DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
+		
+		JSONArray jsonArray = StaticDataService.getLocationDataJSON();
 		Representation result = new JsonRepresentation(jsonArray);
 		this.addCORSHeader(); 
 		return result;
