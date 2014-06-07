@@ -8,6 +8,7 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import BaseModule.cache.StaticDataRamCache;
 import BaseModule.eduDAO.EduDaoBasic;
 
 import redis.clients.jedis.Jedis;
@@ -114,6 +115,11 @@ public class StaticDataService {
 	
 	
 	public static JSONArray getCatDataJSON(){
+		JSONArray catData = StaticDataRamCache.getCatData();
+		if (catData != null){
+			return catData;
+		}
+		
 		Jedis jedis = EduDaoBasic.getJedis();
 		List<String> catDataList;
 		try{
@@ -130,10 +136,16 @@ public class StaticDataService {
 			catDataArr.put(singleCatJson);
 		}
 		
+		StaticDataRamCache.setCatData(catDataArr);
 		return catDataArr;
 	}
 	
 	public static JSONArray getLocationDataJSON(){
+		JSONArray locationData = StaticDataRamCache.getLocationData();
+		if (locationData != null){
+			return locationData;
+		}
+		
 		Jedis jedis = EduDaoBasic.getJedis();
 		List<String> locationDataList;
 		try{
@@ -148,6 +160,8 @@ public class StaticDataService {
 			JSONObject singleLocationJson = new JSONObject(singleLocation);
 			locationDataArr.put(singleLocationJson);
 		}
+		
+		StaticDataRamCache.setLocationData(locationDataArr);
 		return locationDataArr;
 	}
 	

@@ -16,8 +16,8 @@ public class CourseRamCache {
 	private static final int courseRamCacheLimit = 1500;	//dangerous level indicating something has clearly been done wrong and strong action needs to be taken to protect ram
 	
 	private class CourseCachePair{
-		private Course course;
-		private long timeStamp;
+		private final Course course;
+		private final long timeStamp;
 		
 		public CourseCachePair(Course course, long timeStamp){
 			this.course = course;
@@ -39,7 +39,7 @@ public class CourseRamCache {
 		try{
 			long curTime = DateUtility.getCurTime();
 			Course cloned = course.deepCopy();
-			CourseCachePair cachePair = new CourseRamCache().new CourseCachePair(cloned, curTime);
+			final CourseCachePair cachePair = new CourseRamCache().new CourseCachePair(cloned, curTime);
 			
 			courseRamCache.put(course.getCourseId(), cachePair);
 			
