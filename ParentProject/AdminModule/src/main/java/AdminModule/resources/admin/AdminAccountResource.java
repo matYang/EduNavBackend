@@ -90,7 +90,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			AdminAccount account = validateAdminAccountJSON(jsonAdmin);
 			try{
 				int adminId = this.validateAuthentication();
-				DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, adminId, this.getUserAgent(), account.getReference());
+				DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, adminId, this.getUserAgent(), "<Password Classified> " + account.getReference());
 				
 				AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 				if (admin.getPrivilege() == Privilege.root){
@@ -110,7 +110,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 					throw e;
 				}
 				else{
-					DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, -1, this.getUserAgent(), account.getReference());
+					DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, -1, this.getUserAgent(), "<Password Classified> " + account.getReference());
 					account.setPrivilege(Privilege.root);
 				}
 			}

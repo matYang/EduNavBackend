@@ -20,14 +20,6 @@ import BaseModule.service.EncodingService;
 public class AdminChangePassword extends AdminPseudoResource{
 	private final String apiId = AdminChangePassword.class.getSimpleName();
 
-	protected JSONObject parseJSON(Representation entity) throws ValidationException{
-		try {
-			return (new JsonRepresentation(entity)).getJsonObject();
-		} catch (JSONException | IOException e) {
-			DebugLog.d(e);
-			throw new ValidationException("密码格式不正确");
-		}	
-	}
 	
 	@Put
 	/**
@@ -52,8 +44,7 @@ public class AdminChangePassword extends AdminPseudoResource{
 				throw new ValidationException("无权操作");
 			}
 			
-			jsonPassword = parseJSON(entity);
-			
+			jsonPassword = this.getJSONObj(entity);
 
 			AdminAccountDaoService.changeAdminPassword(targetAdminId, EncodingService.decodeURI(jsonPassword.getString("password")));
 			

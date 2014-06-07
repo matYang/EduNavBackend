@@ -30,7 +30,7 @@ public class AdminAccountLogin extends AdminPseudoResource{
 		try {
 			this.checkEntity(entity);
 
-			jsonString = (new JsonRepresentation(entity)).getJsonObject();
+			jsonString = this.getJSONObj(entity);
 			reference = EncodingService.decodeURI(jsonString.getString("reference"));
 			password = EncodingService.decodeURI(jsonString.getString("password"));
 
