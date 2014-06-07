@@ -38,10 +38,13 @@ public class UserDaoService {
 		//initialize coupons on registration
 		Connection conn = EduDaoBasic.getSQLConnection();
 		try{
+			//pre incr, stored when user is added saves 1 query
+			user.incCoupon(50);
 			user = UserDao.addUserToDatabase(user,conn);
+			
 			Coupon coupon = new Coupon(user.getUserId(), 50);
 			coupon = CouponDaoService.createCoupon(coupon,conn);
-			user.incCoupon(50);
+			
 			ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 			coupons.add(coupon);
 			user.setCouponList(coupons);
