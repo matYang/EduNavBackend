@@ -8,8 +8,8 @@ import org.restlet.resource.Put;
 
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
-import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.authentication.AuthenticationException;
 
 public class AdminAccountLogout extends AdminPseudoResource{
 	private final String apiId = AdminAccountLogout.class.getSimpleName();

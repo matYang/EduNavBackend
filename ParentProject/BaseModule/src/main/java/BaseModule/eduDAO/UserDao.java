@@ -10,7 +10,7 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.encryption.PasswordCrypto;
-import BaseModule.exception.AuthenticationException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.QueryFactory;

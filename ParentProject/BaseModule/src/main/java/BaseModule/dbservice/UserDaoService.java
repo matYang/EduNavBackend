@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
-import BaseModule.exception.AuthenticationException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Coupon;

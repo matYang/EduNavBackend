@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.AdminAccountDao;
-import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.AdminAccountNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.AdminAccount;

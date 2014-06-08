@@ -1,4 +1,6 @@
-package BaseModule.exception;
+package BaseModule.exception.authentication;
+
+import BaseModule.exception.PseudoException;
 
 public class AuthenticationException extends PseudoException{
 

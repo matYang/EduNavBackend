@@ -11,8 +11,8 @@ import org.restlet.resource.Put;
 
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.CourseDaoService;
-import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import PartnerModule.resources.PartnerPseudoResource;

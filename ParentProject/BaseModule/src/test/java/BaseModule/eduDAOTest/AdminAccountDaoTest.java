@@ -9,7 +9,7 @@ import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.eduDAO.EduDaoBasic;
-import BaseModule.exception.AuthenticationException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.AdminAccountNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.AdminAccount;

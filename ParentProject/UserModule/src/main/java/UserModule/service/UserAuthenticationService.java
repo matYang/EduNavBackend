@@ -1,7 +1,7 @@
 package UserModule.service;
 
-import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.service.RedisAuthenticationService;
 
 public class UserAuthenticationService {
