@@ -3,6 +3,7 @@ package BaseModule.dbservice;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.PseudoException;
@@ -37,8 +38,11 @@ public class AdminAccountDaoService {
 		AdminAccountDao.changeAdminAccountPassword(adminId, password);
 	}
 	
-	public static AdminAccount authenticateAdminAccount(String referece, String password) throws AuthenticationException{
-		return AdminAccountDao.authenticateAdminAccount(referece, password);
+	public static AdminAccount authenticateAdminAccount(String referece, String password) throws AuthenticationException, AdminAccountNotFoundException, ValidationException, SQLException{
+		AdminAccount account = AdminAccountDao.authenticateAdminAccount(referece, password);
+		account.setLastLogin(DateUtility.getCurTimeInstance());
+		updateAdminAccount(account);
+		return account;
 	}
 	
 	public static ArrayList<AdminAccount> searchAdminAccount(AdminSearchRepresentation sr){

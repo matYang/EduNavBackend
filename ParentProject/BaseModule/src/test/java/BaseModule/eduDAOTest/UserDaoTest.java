@@ -80,8 +80,8 @@ public class UserDaoTest {
 		String password2 = "36krl";
 		AccountStatus status2 = AccountStatus.activated;		
 		User user2 = new User(phone2, password2,status2);
-		user.setName(name2);
-		user.setEmail(email);
+		user2.setName(name2);
+		user2.setEmail(email);
 		UserDao.addUserToDatabase(user2);
 
 		ArrayList<User> ulist = new ArrayList<User>();

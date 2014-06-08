@@ -52,6 +52,8 @@ public class EduDaoBasic {
 		sqlConfig.setAutoCommit(true);
 		sqlConfig.setMaximumPoolSize(Integer.parseInt(ServerConfig.configurationMap.get("sqlMaxConnection")));
 		sqlConfig.setConnectionTimeout(100000l);
+		sqlConfig.addDataSourceProperty("useUnicode", "true");
+		sqlConfig.addDataSourceProperty("characterEncoding", "utf8");
 		ds = new HikariDataSource(sqlConfig);
 		
 		

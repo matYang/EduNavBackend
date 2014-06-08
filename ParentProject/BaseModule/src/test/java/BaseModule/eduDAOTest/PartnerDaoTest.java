@@ -21,7 +21,7 @@ public class PartnerDaoTest {
 	public void testCreate(){
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
-		String instName = "xiaofeng";
+		String instName = "新东方";
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";

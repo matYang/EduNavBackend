@@ -74,9 +74,7 @@ public class UserDaoService {
 			user = UserDao.authenticateUser(phone, password,conn);
 			user.setLastLogin(DateUtility.getCurTimeInstance());
 			UserDao.updateUserInDatabases(user,conn);
-		}catch(AuthenticationException | ValidationException | SQLException e){
-			throw e;
-		}finally{
+		} finally{
 			EduDaoBasic.closeResources(conn, null, null, true);
 		}
 		return user;

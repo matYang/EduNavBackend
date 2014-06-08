@@ -1,6 +1,8 @@
 package BaseModule.dbservice;
 
 import java.util.ArrayList;
+
+import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.exception.AuthenticationException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
@@ -53,8 +55,11 @@ public class PartnerDaoService {
 		PartnerDao.recoverPartnerPassword(phone, newPassword);
 	}
 
-	public static Partner authenticatePartner(String phone,String password) throws AuthenticationException, SQLException{
-		return PartnerDao.authenticatePartner(phone, password);
+	public static Partner authenticatePartner(String phone,String password) throws AuthenticationException, SQLException, PartnerNotFoundException{
+		Partner partner =  PartnerDao.authenticatePartner(phone, password);
+		partner.setLastLogin(DateUtility.getCurTimeInstance());
+		updatePartner(partner);
+		return partner;
 	}
 
 	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr){
