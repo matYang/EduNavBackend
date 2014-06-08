@@ -23,7 +23,7 @@ import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.CourseSearchRepresentation;
 
-public class ConcurrentCacheTest {
+public class ConcurrentCourseCacheTest {
 	
 	public class TestThread extends Thread {  
 		private CountDownLatch threadsSignal;

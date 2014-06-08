@@ -26,6 +26,7 @@ public class StaticDataService {
 			catDataArray = catData.toArray(catDataArray);
 			jedis.del(catDataRedisKey);
 			jedis.rpush(catDataRedisKey, catDataArray);
+			
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
 		}
@@ -117,6 +118,7 @@ public class StaticDataService {
 	public static JSONArray getCatDataJSON(){
 		JSONArray catData = StaticDataRamCache.getCatData();
 		if (catData != null){
+			//System.out.println("Hitting cache");
 			return catData;
 		}
 		
@@ -135,7 +137,7 @@ public class StaticDataService {
 			JSONObject singleCatJson = new JSONObject(singleCat);
 			catDataArr.put(singleCatJson);
 		}
-		
+		//System.out.println("Cache miss, setting cache");
 		StaticDataRamCache.setCatData(catDataArr);
 		return catDataArr;
 	}
@@ -143,6 +145,7 @@ public class StaticDataService {
 	public static JSONArray getLocationDataJSON(){
 		JSONArray locationData = StaticDataRamCache.getLocationData();
 		if (locationData != null){
+			//System.out.println("Hitting cache");
 			return locationData;
 		}
 		
@@ -160,7 +163,7 @@ public class StaticDataService {
 			JSONObject singleLocationJson = new JSONObject(singleLocation);
 			locationDataArr.put(singleLocationJson);
 		}
-		
+		//System.out.println("Cache miss, setting cache");
 		StaticDataRamCache.setLocationData(locationDataArr);
 		return locationDataArr;
 	}
