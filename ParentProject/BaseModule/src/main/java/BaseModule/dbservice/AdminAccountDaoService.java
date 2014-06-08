@@ -18,19 +18,19 @@ public class AdminAccountDaoService {
 		return AdminAccountDao.getAllAdminAccounts();
 	}
 	
-	public static AdminAccount getAdminAccountById(int id) throws AdminAccountNotFoundException{
+	public static AdminAccount getAdminAccountById(int id) throws PseudoException{
 		return AdminAccountDao.getAdminAccountById(id);
 	}
 	
-	public static AdminAccount createAdminAccount(AdminAccount account) throws ValidationException, SQLException{
+	public static AdminAccount createAdminAccount(AdminAccount account) throws PseudoException, SQLException{
 		return AdminAccountDao.addAdminAccountToDatabases(account);
 	}
 	
-	public static void updateAdminAccount(AdminAccount account) throws AdminAccountNotFoundException, ValidationException, SQLException{
+	public static void updateAdminAccount(AdminAccount account) throws PseudoException, SQLException{
 		AdminAccountDao.updateAdminAccountInDatabases(account);
 	}
 	
-	public static void changePassword(int adminId, String oldPassword, String newPassword) throws AuthenticationException{
+	public static void changePassword(int adminId, String oldPassword, String newPassword) throws PseudoException{
 		AdminAccountDao.changeAdminAccountPassword(adminId, oldPassword, newPassword);
 	}
 	
@@ -38,7 +38,7 @@ public class AdminAccountDaoService {
 		AdminAccountDao.changeAdminAccountPassword(adminId, password);
 	}
 	
-	public static AdminAccount authenticateAdminAccount(String referece, String password) throws AuthenticationException, AdminAccountNotFoundException, ValidationException, SQLException{
+	public static AdminAccount authenticateAdminAccount(String referece, String password) throws PseudoException, SQLException{
 		AdminAccount account = AdminAccountDao.authenticateAdminAccount(referece, password);
 		account.setLastLogin(DateUtility.getCurTimeInstance());
 		updateAdminAccount(account);

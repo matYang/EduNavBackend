@@ -8,6 +8,8 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+import BaseModule.exception.encryptionException.PasswordHashingException;
+
 public class PasswordCrypto {
 	
 	public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
@@ -22,8 +24,25 @@ public class PasswordCrypto {
     public static final int PBKDF2_INDEX = 2;
 
     
-    public static String createHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        return createHash(password.toCharArray());
+    public static String createHash(String password) throws PasswordHashingException{
+    	try{
+    		return createHash(password.toCharArray());
+    	} catch (Exception e){
+    		throw new PasswordHashingException();
+    	}
+        
+    }
+    
+    public static boolean validatePassword(String password, String correctHash) throws PasswordHashingException{
+    	if (password == null){
+        	return false;
+        }
+    	try{
+    		return validatePassword(password.toCharArray(), correctHash);
+    	} catch (Exception e){
+    		throw new PasswordHashingException();
+    	}
+    	
     }
 
 
@@ -36,14 +55,6 @@ public class PasswordCrypto {
         byte[] hash = pbkdf2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
         // format iterations:salt:hash
         return PBKDF2_ITERATIONS + ":" + toHex(salt) + ":" +  toHex(hash);
-    }
-
-
-    public static boolean validatePassword(String password, String correctHash)throws NoSuchAlgorithmException, InvalidKeySpecException{
-    	if (password == null){
-        	return false;
-        }
-    	return validatePassword(password.toCharArray(), correctHash);
     }
 
 

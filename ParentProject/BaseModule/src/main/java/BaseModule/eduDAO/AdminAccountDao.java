@@ -59,7 +59,6 @@ public class AdminAccountDao {
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
-			e.printStackTrace();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
@@ -87,14 +86,11 @@ public class AdminAccountDao {
 			rs = stmt.getGeneratedKeys();
 			rs.next();
 			account.setAdminId(rs.getInt(1));
-		}catch(SQLException e){
-			e.printStackTrace();
+		} catch(SQLException e){
+			throw e;
+		} catch(Exception e){
 			DebugLog.d(e);
-			throw new SQLException();
-		}catch(Exception e){
-			e.printStackTrace();
-			DebugLog.d(e);
-			throw new ValidationException("创建用户失败，账户信息错误");
+			throw new ValidationException("创建用户失败，密码格式错误");
 		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 		
@@ -119,15 +115,12 @@ public class AdminAccountDao {
 			if(recordsAffected==0){
 				throw new AdminAccountNotFoundException();
 			}
-		}catch(SQLException e){
-			e.printStackTrace();
-			DebugLog.d(e);
-			throw new SQLException();
-		}catch(Exception e){
-			e.printStackTrace();
+		} catch(SQLException e){
+			throw e;
+		} catch(Exception e){
 			DebugLog.d(e);
 			throw new ValidationException("创建用户失败，账户信息错误");
-		}finally  {
+		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, null,true);			
 		}
 	}
@@ -245,11 +238,9 @@ public class AdminAccountDao {
 				validOldPassword = PasswordCrypto.validatePassword(oldPassword, rs.getString("password"));
 			}		
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 		}
 		catch(Exception e){
-			e.printStackTrace();
 			DebugLog.d(e);				
 		}
 		if(validOldPassword){
@@ -297,11 +288,9 @@ public class AdminAccountDao {
 				}				
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 		}
 		catch(Exception e){
-			e.printStackTrace();
 			DebugLog.d(e);			
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
@@ -327,11 +316,9 @@ public class AdminAccountDao {
 				success = false;
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 		}catch(Exception e){
 			success = false;
-			e.printStackTrace();
 			DebugLog.d(e);			
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);

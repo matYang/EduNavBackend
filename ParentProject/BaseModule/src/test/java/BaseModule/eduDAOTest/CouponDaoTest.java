@@ -15,6 +15,7 @@ import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
@@ -80,7 +81,7 @@ public class CouponDaoTest {
 	}
 	
 	@Test
-	public void testClean() throws ValidationException, UserNotFoundException, SQLException{
+	public void testClean() throws ValidationException, UserNotFoundException, SQLException, PasswordHashingException{
 		EduDaoBasic.clearAllDatabase();		
 		String name = "Harry";
 		String phone = "12345612312";

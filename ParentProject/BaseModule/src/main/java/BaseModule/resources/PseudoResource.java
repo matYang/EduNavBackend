@@ -146,8 +146,8 @@ public class PseudoResource extends ServerResource{
 				//authentication error
 				setStatus(Status.CLIENT_ERROR_UNAUTHORIZED);
 				break;
-			case 18:
-				//ValidationException
+			case 18: case 16:
+				//ValidationException | Password hashing exception
 				setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
 				break;
 			default:

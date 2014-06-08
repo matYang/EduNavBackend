@@ -39,7 +39,6 @@ public class CreditDao {
 			c.setCreditId(rs.getLong(1));			
 
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		}finally{
@@ -74,7 +73,6 @@ public class CreditDao {
 				throw new CreditNotFoundException();
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		}finally{
@@ -97,7 +95,6 @@ public class CreditDao {
 				clist.add(createCreditByResultSet(rs));
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
@@ -120,7 +117,6 @@ public class CreditDao {
 				c = createCreditByResultSet(rs);
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,true);

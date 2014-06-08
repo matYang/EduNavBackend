@@ -64,7 +64,6 @@ public class PartnerDao {
 
 		}catch(SQLException e){
 			DebugLog.d(e);
-			e.printStackTrace();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
@@ -97,11 +96,9 @@ public class PartnerDao {
 			rs.next();
 			p.setPartnerId(rs.getInt(1));
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		} catch (Exception e) {			
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new ValidationException("创建用户失败，账户信息错误");
 		}  finally  {
@@ -133,7 +130,6 @@ public class PartnerDao {
 				throw new PartnerNotFoundException();
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		} finally  {
@@ -279,12 +275,10 @@ public class PartnerDao {
 				validOldPassword = PasswordCrypto.validatePassword(oldPassword, rs.getString("password"));						
 			}		
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		}
 		catch(Exception e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new AuthenticationException("更改密码失败");
 		}
@@ -299,11 +293,9 @@ public class PartnerDao {
 					throw new PartnerNotFoundException();
 				}
 			}catch(SQLException e){
-				e.printStackTrace();
 				DebugLog.d(e);
 				throw new SQLException();
 			}catch(Exception e){				
-				e.printStackTrace();
 				DebugLog.d(e);	
 				throw new AuthenticationException("更改密码失败");
 			}finally{
@@ -335,12 +327,10 @@ public class PartnerDao {
 				}				
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		}
 		catch(Exception e){
-			e.printStackTrace();
 			DebugLog.d(e);			
 			throw new AuthenticationException("手机号码或密码输入错误");
 		}finally{
@@ -363,11 +353,9 @@ public class PartnerDao {
 				throw new AuthenticationException("手机号码或密码输入有误");
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		}catch(Exception e){			
-			e.printStackTrace();
 			DebugLog.d(e);	
 			throw new AuthenticationException("手机号码或密码输入有误");
 		}finally{

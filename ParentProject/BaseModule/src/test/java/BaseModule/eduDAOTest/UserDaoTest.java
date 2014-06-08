@@ -18,6 +18,7 @@ import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.authentication.AuthenticationException;
+import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Coupon;
@@ -48,7 +49,7 @@ public class UserDaoTest {
 	}
 
 	@Test
-	public void testGet() throws ValidationException, UserNotFoundException{
+	public void testGet() throws ValidationException, UserNotFoundException, PasswordHashingException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
@@ -92,7 +93,7 @@ public class UserDaoTest {
 	}
 
 	@Test
-	public void testUpdate() throws ValidationException, SQLException, UserNotFoundException{
+	public void testUpdate() throws ValidationException, SQLException, UserNotFoundException, PasswordHashingException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
@@ -135,7 +136,7 @@ public class UserDaoTest {
 	}
 
 	@Test
-	public void testUpdateUserPassword() throws ValidationException{
+	public void testUpdateUserPassword() throws ValidationException, PasswordHashingException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
@@ -196,7 +197,7 @@ public class UserDaoTest {
 	}
 
 	@Test
-	public void testRecoverPassword() throws ValidationException, SQLException{
+	public void testRecoverPassword() throws ValidationException, SQLException, PasswordHashingException, UserNotFoundException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
@@ -230,7 +231,7 @@ public class UserDaoTest {
 	}
 	
 	@Test
-	public void testAuthUser() throws ValidationException, SQLException{
+	public void testAuthUser() throws ValidationException, SQLException, PasswordHashingException, UserNotFoundException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
@@ -271,7 +272,7 @@ public class UserDaoTest {
 	}
 	
 	@Test
-	public void testSearch() throws ValidationException, UserNotFoundException{
+	public void testSearch() throws ValidationException, UserNotFoundException, PasswordHashingException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "name";
 		String phone = "phone";

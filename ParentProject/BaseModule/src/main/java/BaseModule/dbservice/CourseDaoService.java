@@ -11,13 +11,14 @@ import BaseModule.cache.CourseRamCache;
 import BaseModule.configurations.CacheConfig;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.model.Course;
 import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class CourseDaoService {
 	
-	public static Course getCourseById(int id) throws CourseNotFoundException{
+	public static Course getCourseById(int id) throws PseudoException{
 		Course ramCourse = CourseRamCache.get(id);
 		if (ramCourse == null){
 			
@@ -40,7 +41,7 @@ public class CourseDaoService {
 		}
 	}
 	
-	public static void updateCourse(Course course,Connection...connections) throws CourseNotFoundException, SQLException{
+	public static void updateCourse(Course course,Connection...connections) throws PseudoException,SQLException{
 		CourseDao.updateCourseInDatabases(course,connections);
 		EduDaoBasic.setCache(CacheConfig.course_keyPrefix + course.getCourseId(), CacheConfig.course_expireTime, course);
 		CourseRamCache.set(course);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
 import BaseModule.exception.validation.ValidationException;
@@ -18,7 +19,7 @@ public class PartnerDaoService {
 		return PartnerDao.getAllPartners();
 	}
 
-	public static Partner getPartnerById(int id,Connection...connections) throws PartnerNotFoundException{
+	public static Partner getPartnerById(int id,Connection...connections) throws PseudoException{
 		return PartnerDao.getPartnerById(id, connections);
 	}
 
@@ -32,11 +33,11 @@ public class PartnerDaoService {
 		return partners.get(0);
 	}
 
-	public static void updatePartner(Partner partner,Connection...connections) throws PartnerNotFoundException, SQLException{
+	public static void updatePartner(Partner partner,Connection...connections) throws PseudoException, SQLException{
 		PartnerDao.updatePartnerInDatabases(partner,connections);
 	}
 
-	public static Partner createPartner(Partner p,Connection...connections) throws ValidationException, SQLException{
+	public static Partner createPartner(Partner p,Connection...connections) throws PseudoException, SQLException{
 		return PartnerDao.addPartnerToDatabases(p,connections);
 	}
 
@@ -47,15 +48,15 @@ public class PartnerDaoService {
 		return partners.size() == 0;
 	}
 
-	public static void changePassword(int partnerId, String oldPassword, String newPassword) throws AuthenticationException, SQLException{
+	public static void changePassword(int partnerId, String oldPassword, String newPassword) throws PseudoException, SQLException{
 		PartnerDao.changePartnerPassword(partnerId, oldPassword, newPassword);
 	}
 
-	public static void recoverPassword(String phone, String newPassword) throws AuthenticationException, SQLException{
+	public static void recoverPassword(String phone, String newPassword) throws PseudoException, SQLException{
 		PartnerDao.recoverPartnerPassword(phone, newPassword);
 	}
 
-	public static Partner authenticatePartner(String phone,String password) throws AuthenticationException, SQLException, PartnerNotFoundException{
+	public static Partner authenticatePartner(String phone,String password) throws PseudoException, SQLException{
 		Partner partner =  PartnerDao.authenticatePartner(phone, password);
 		partner.setLastLogin(DateUtility.getCurTimeInstance());
 		updatePartner(partner);

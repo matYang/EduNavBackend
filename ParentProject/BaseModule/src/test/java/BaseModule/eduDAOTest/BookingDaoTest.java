@@ -16,6 +16,7 @@ import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.validation.ValidationException;
@@ -28,7 +29,7 @@ import BaseModule.model.representation.BookingSearchRepresentation;
 public class BookingDaoTest {
 
 	@Test
-	public void testCreate() throws ValidationException, CourseNotFoundException, SQLException{
+	public void testCreate() throws ValidationException, CourseNotFoundException, SQLException, PasswordHashingException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
@@ -96,7 +97,7 @@ public class BookingDaoTest {
 	}
 	
 	@Test
-	public void testGet() throws CourseNotFoundException, ValidationException, BookingNotFoundException, SQLException{
+	public void testGet() throws CourseNotFoundException, ValidationException, BookingNotFoundException, SQLException, PasswordHashingException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
@@ -206,7 +207,7 @@ public class BookingDaoTest {
 	}
 	
 	@Test
-	public void testUpdate() throws CourseNotFoundException, ValidationException, BookingNotFoundException, SQLException{
+	public void testUpdate() throws CourseNotFoundException, ValidationException, BookingNotFoundException, SQLException, PasswordHashingException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
@@ -283,7 +284,7 @@ public class BookingDaoTest {
 	}
 	
 	@Test
-	public void testSearch() throws ValidationException, CourseNotFoundException, BookingNotFoundException, SQLException{
+	public void testSearch() throws ValidationException, CourseNotFoundException, BookingNotFoundException, SQLException, PasswordHashingException{
 		//User
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";

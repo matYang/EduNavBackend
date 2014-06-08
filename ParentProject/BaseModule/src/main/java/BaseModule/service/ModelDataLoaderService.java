@@ -179,17 +179,9 @@ public class ModelDataLoaderService {
 			} catch (SQLException e) {				
 				e.printStackTrace();
 			}
-		}catch(CourseNotFoundException e){
-			e.printStackTrace();
-			DebugLog.d(e);
-		}catch(UserNotFoundException e){
-			e.printStackTrace();
-			DebugLog.d(e);
-		}catch(PartnerNotFoundException e){
-			e.printStackTrace();
+		}catch(Exception e){
 			DebugLog.d(e);
 		}
-
 
 	}
 
@@ -234,8 +226,7 @@ public class ModelDataLoaderService {
 			user4.setName(name4);
 			user4.setEmail(email4);
 			UserDao.addUserToDatabase(user4,connections);
-		}catch(ValidationException e){
-			e.printStackTrace();
+		}catch(Exception e){
 			DebugLog.d(e);
 		}
 
@@ -287,8 +278,7 @@ public class ModelDataLoaderService {
 			} catch (SQLException e) {				
 				e.printStackTrace();
 			}
-		}catch(ValidationException e){
-			e.printStackTrace();
+		}catch(Exception e){
 			DebugLog.d(e);
 		}
 
@@ -330,8 +320,8 @@ public class ModelDataLoaderService {
 		AdminAccount account3 = new AdminAccount(name3,phone3,reference3,privilege3,status3,password);
 		try {
 			AdminAccountDao.addAdminAccountToDatabases(account3);
-		} catch (ValidationException | SQLException e) {			
-			e.printStackTrace();
+		} catch(Exception e){
+			DebugLog.d(e);
 		}
 	}
 
@@ -476,11 +466,7 @@ public class ModelDataLoaderService {
 			} catch (SQLException e) {				
 				e.printStackTrace();
 			}	
-		}catch(UserNotFoundException e){
-			e.printStackTrace();
-			DebugLog.d(e);
-		}catch(BookingNotFoundException e){
-			e.printStackTrace();
+		}catch(Exception e){
 			DebugLog.d(e);
 		}
 

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.CreditDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CreditNotFoundException;
 import BaseModule.model.Credit;
 
@@ -14,7 +15,7 @@ public class CreditDaoService {
 		return CreditDao.addCreditToDatabases(c,connections);
 	}
 	
-	public static void updateCredit(Credit c,Connection...connections) throws CreditNotFoundException, SQLException{
+	public static void updateCredit(Credit c,Connection...connections) throws PseudoException, SQLException{
 		CreditDao.updateCreditInDatabases(c,connections);
 	}
 	

@@ -32,7 +32,6 @@ public class TransactionDao {
 			rs.next();
 			transaction.setTransactionId(rs.getInt(1));				
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		} finally  {

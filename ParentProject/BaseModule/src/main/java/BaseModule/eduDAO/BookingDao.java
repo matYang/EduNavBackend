@@ -79,7 +79,6 @@ public class BookingDao {
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
-			e.printStackTrace();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
@@ -121,7 +120,6 @@ public class BookingDao {
 			rs.next();
 			booking.setBookingId(rs.getInt(1));
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		}finally  {
@@ -173,7 +171,6 @@ public class BookingDao {
 				throw new BookingNotFoundException();
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		}finally  {
@@ -233,7 +230,6 @@ public class BookingDao {
 		try {
 			course = CourseDao.getCourseById(courseId, connections);
 		} catch (CourseNotFoundException e) {			
-			e.printStackTrace();
 			DebugLog.d(e);
 		}
 		return new Booking(rs.getInt("id"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), DateUtility.DateToCalendar(rs.getTimestamp("adjustTime")),

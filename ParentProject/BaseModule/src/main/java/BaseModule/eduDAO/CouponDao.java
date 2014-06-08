@@ -37,7 +37,6 @@ public class CouponDao {
 			c.setCouponId(rs.getLong(1));			
 
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		}finally{
@@ -72,7 +71,6 @@ public class CouponDao {
 				throw new CouponNotFoundException();
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		}finally{
@@ -95,7 +93,6 @@ public class CouponDao {
 				clist.add(createCouponByResultSet(rs));
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
@@ -118,7 +115,6 @@ public class CouponDao {
 				c = createCouponByResultSet(rs);
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));

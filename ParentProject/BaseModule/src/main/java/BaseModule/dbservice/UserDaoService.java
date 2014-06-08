@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
+import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Coupon;
@@ -20,7 +22,7 @@ public class UserDaoService {
 		return UserDao.getAllUsers();
 	}
 
-	public static User getUserById(int id,Connection...connections) throws UserNotFoundException{
+	public static User getUserById(int id,Connection...connections) throws PseudoException, SQLException{
 		return UserDao.getUserById(id,connections);
 	}
 
@@ -34,7 +36,7 @@ public class UserDaoService {
 		return users.get(0);
 	}
 
-	public static User createUser(User user) throws ValidationException, SQLException{
+	public static User createUser(User user) throws PseudoException,SQLException{
 		//initialize coupons on registration
 		Connection conn = EduDaoBasic.getSQLConnection();
 		try{
@@ -48,15 +50,13 @@ public class UserDaoService {
 			ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 			coupons.add(coupon);
 			user.setCouponList(coupons);
-		}catch(ValidationException | SQLException e){
-			throw e;
-		}finally{
+		} finally{
 			EduDaoBasic.closeResources(conn, null, null, true);
 		}
 		return user;
 	}
 
-	public static void updateUser(User user,Connection...connections) throws ValidationException, SQLException{
+	public static void updateUser(User user,Connection...connections) throws PseudoException,SQLException{
 		UserDao.updateUserInDatabases(user,connections);
 	}
 
@@ -67,7 +67,7 @@ public class UserDaoService {
 		return users.size() == 0;
 	}
 
-	public static User authenticateUser(String phone, String password) throws AuthenticationException, ValidationException, SQLException{ 
+	public static User authenticateUser(String phone, String password) throws PseudoException, SQLException{ 
 		Connection conn = EduDaoBasic.getSQLConnection();
 		User user = null;
 		try{
@@ -80,22 +80,20 @@ public class UserDaoService {
 		return user;
 	}
 
-	public static void changePassword(int userId, String oldPassword, String newPassword) throws AuthenticationException, SQLException{
+	public static void changePassword(int userId, String oldPassword, String newPassword) throws PseudoException,SQLException{
 		UserDao.changeUserPassword(userId, oldPassword, newPassword);
 	}
 
-	public static void recoverPassword(String phone, String newPassword) throws AuthenticationException, SQLException{
+	public static void recoverPassword(String phone, String newPassword) throws PseudoException,SQLException{
 		UserDao.recoverUserPassword(phone, newPassword);
 	}
 
-	public static void updatePhone(int userId, String phone) throws UserNotFoundException, ValidationException, SQLException{
+	public static void updatePhone(int userId, String phone) throws PseudoException,SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		try{
 			User user = UserDao.getUserById(userId);
 			user.setPhone(phone);
 			UserDao.updateUserInDatabases(user);
-		}catch(UserNotFoundException | ValidationException | SQLException e){
-			throw e;
 		}finally{
 			EduDaoBasic.closeResources(conn, null, null, true);
 		}

@@ -9,6 +9,7 @@ import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.exception.notFound.UserNotFoundException;
@@ -27,13 +28,12 @@ public class BookingDaoService {
 		return BookingDao.getAllBookings();
 	}
 
-	public static Booking getBookingById(int id) throws BookingNotFoundException{
+	public static Booking getBookingById(int id) throws PseudoException{
 		return BookingDao.getBookingById(id);
 	}
 
 
-	public static void updateBooking(Booking updatedBooking, BookingStatus previousStatus, int adminId) 
-			throws BookingNotFoundException, ValidationException, CouponNotFoundException, UserNotFoundException, SQLException{
+	public static void updateBooking(Booking updatedBooking, BookingStatus previousStatus, int adminId) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		try{
 			if (updatedBooking.getStatus() == previousStatus){
@@ -125,19 +125,13 @@ public class BookingDaoService {
 				}
 
 			}
-		}
-		catch (BookingNotFoundException | SQLException 
-				| CouponNotFoundException | UserNotFoundException | 
-				ValidationException e) {			
-			throw e;
-		}finally{
+		} finally{
 			EduDaoBasic.closeResources(conn, null, null, true);
 		}
 
 	}
 
-	public static Booking createBooking(Booking booking) 
-			throws ValidationException, CouponNotFoundException, UserNotFoundException, SQLException{
+	public static Booking createBooking(Booking booking) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		Coupon coupon = null;
 		try{

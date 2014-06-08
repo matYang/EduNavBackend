@@ -17,6 +17,7 @@ import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Booking;
@@ -27,7 +28,7 @@ import BaseModule.model.User;
 public class BookingCleanerTest {
 
 	@Test
-	public void test() throws ValidationException, CourseNotFoundException, SQLException{
+	public void test() throws ValidationException, CourseNotFoundException, SQLException, PasswordHashingException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";

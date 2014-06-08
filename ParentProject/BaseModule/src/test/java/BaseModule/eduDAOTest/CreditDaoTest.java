@@ -14,6 +14,7 @@ import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.CreditNotFoundException;
 import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
@@ -84,7 +85,7 @@ public class CreditDaoTest {
 	}
 	
 	@Test
-	public void testClean() throws ValidationException, UserNotFoundException, SQLException{
+	public void testClean() throws ValidationException, UserNotFoundException, SQLException, PasswordHashingException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";

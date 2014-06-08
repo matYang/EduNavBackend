@@ -11,6 +11,7 @@ import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Transaction;
 import BaseModule.model.User;
@@ -18,7 +19,7 @@ import BaseModule.model.User;
 public class TransactionDaoTest {
 
 	@Test
-	public void testAdd() throws ValidationException{
+	public void testAdd() throws ValidationException, PasswordHashingException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";

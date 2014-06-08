@@ -16,6 +16,7 @@ import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.exception.notFound.CreditNotFoundException;
@@ -60,11 +61,7 @@ public class ConcurrentUpdatingTest {
 						}else if(layer.equals("Service")){								
 							try {
 								BookingDaoService.updateBooking((Booking)list.get(i), ((Booking)list.get(i)).getStatus(), ((Booking)list.get(i)).getAdminId());
-							} catch (BookingNotFoundException
-									| ValidationException
-									| CouponNotFoundException
-									| UserNotFoundException
-									| SQLException e) {
+							} catch ( PseudoException | SQLException e) {
 
 								e.printStackTrace();
 							}
@@ -115,7 +112,7 @@ public class ConcurrentUpdatingTest {
 						}else if(layer.equals("Service")){
 							try {
 								CreditDaoService.updateCredit((Credit)list.get(i), conn);
-							} catch (CreditNotFoundException | SQLException e) {								
+							} catch (SQLException | PseudoException e) {								
 								e.printStackTrace();
 							}
 						}
@@ -130,7 +127,7 @@ public class ConcurrentUpdatingTest {
 						}else if(layer.equals("Service")){
 							try {
 								CouponDaoService.updateCoupon((Coupon)list.get(i),conn);
-							} catch (CouponNotFoundException | SQLException e) {								
+							} catch (SQLException | PseudoException e) {								
 								e.printStackTrace();
 							}
 						}
@@ -149,7 +146,7 @@ public class ConcurrentUpdatingTest {
 						}else if(layer.equals("Service")){
 							try {
 								UserDaoService.updateUser((User)list.get(i),conn);
-							} catch (ValidationException | SQLException e) {								
+							} catch (SQLException | PseudoException e) {								
 								e.printStackTrace();
 							}
 						}

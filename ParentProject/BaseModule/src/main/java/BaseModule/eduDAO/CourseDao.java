@@ -119,10 +119,8 @@ public class CourseDao {
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
-			e.printStackTrace();
 		}catch (PartnerNotFoundException e) {
 			DebugLog.d(e);
-			e.printStackTrace();
 		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,true);
 		} 
@@ -203,7 +201,6 @@ public class CourseDao {
 			rs.next();
 			course.setCourseId(rs.getInt(1));
 		}catch(SQLException e){
-			e.printStackTrace();
 			DebugLog.d(e);
 			throw new SQLException();
 		}finally  {
@@ -395,10 +392,9 @@ public class CourseDao {
 				}
 				clist.add(createCourseByResultSet(rs,partner,conn));
 			}
-		}catch(SQLException e){
+		} catch(SQLException e){
 			DebugLog.d(e);
 		} catch (PartnerNotFoundException e) {			
-			e.printStackTrace();
 			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,true);

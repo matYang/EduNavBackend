@@ -11,7 +11,10 @@ import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.ClassModel;
+import BaseModule.configurations.EnumConfig.CouponStatus;
+import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
+import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.PseudoException;
@@ -19,8 +22,11 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.model.representation.AdminSearchRepresentation;
 import BaseModule.model.representation.BookingSearchRepresentation;
+import BaseModule.model.representation.CouponSearchRepresentation;
 import BaseModule.model.representation.CourseSearchRepresentation;
+import BaseModule.model.representation.CreditSearchRepresentation;
 import BaseModule.model.representation.PartnerSearchRepresentation;
+import BaseModule.model.representation.TransactionSearchRepresentation;
 import BaseModule.model.representation.UserSearchRepresentation;
 
 public class RepresentationReflectiveService {
@@ -62,6 +68,15 @@ public class RepresentationReflectiveService {
 					}
 					else if (fieldClass.isAssignableFrom(ClassModel.class)){
 						field.set(representation, ClassModel.fromInt(Integer.parseInt(value, 10)));
+					}
+					else if (fieldClass.isAssignableFrom(TransactionType.class)){
+						field.set(representation, TransactionType.fromInt(Integer.parseInt(value, 10)));
+					}
+					else if (fieldClass.isAssignableFrom(CouponStatus.class)){
+						field.set(representation, CouponStatus.fromInt(Integer.parseInt(value, 10)));
+					}
+					else if (fieldClass.isAssignableFrom(CreditStatus.class)){
+						field.set(representation, CreditStatus.fromInt(Integer.parseInt(value, 10)));
 					}
 					else{
 						throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService suffered fatal reflection error, field type not matched");
@@ -120,6 +135,24 @@ public class RepresentationReflectiveService {
 				Object value = field.get(representation);
 				if (value != null){
 					serializedMembers.add(field.getName() + "_" +  String.valueOf(  ((ClassModel) value).code  )  );
+				}
+			}
+			else if (fieldClass.isAssignableFrom(TransactionType.class)){
+				Object value = field.get(representation);
+				if (value != null){
+					serializedMembers.add(field.getName() + "_" +  String.valueOf(  ((TransactionType) value).code  )  );
+				}
+			}
+			else if (fieldClass.isAssignableFrom(CouponStatus.class)){
+				Object value = field.get(representation);
+				if (value != null){
+					serializedMembers.add(field.getName() + "_" +  String.valueOf(  ((CouponStatus) value).code  )  );
+				}
+			}
+			else if (fieldClass.isAssignableFrom(CreditStatus.class)){
+				Object value = field.get(representation);
+				if (value != null){
+					serializedMembers.add(field.getName() + "_" +  String.valueOf(  ((CreditStatus) value).code  )  );
 				}
 			}
 			else{
@@ -182,6 +215,24 @@ public class RepresentationReflectiveService {
 						jsonRepresentation.put(field.getName(),  ((ClassModel) value).code );
 					}
 				}
+				else if (fieldClass.isAssignableFrom(TransactionType.class)){
+					Object value = field.get(representation);
+					if (value != null){
+						jsonRepresentation.put(field.getName(),  ((TransactionType) value).code );
+					}
+				}
+				else if (fieldClass.isAssignableFrom(CouponStatus.class)){
+					Object value = field.get(representation);
+					if (value != null){
+						jsonRepresentation.put(field.getName(),  ((CouponStatus) value).code );
+					}
+				}
+				else if (fieldClass.isAssignableFrom(CreditStatus.class)){
+					Object value = field.get(representation);
+					if (value != null){
+						jsonRepresentation.put(field.getName(),  ((CreditStatus) value).code );
+					}
+				}
 				else{
 					throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService suffered fatal reflection error, field type not matched");
 				}
@@ -206,7 +257,7 @@ public class RepresentationReflectiveService {
 						return false;
 					}
 				}
-				else if (fieldClass.isAssignableFrom(String.class) || fieldClass.isAssignableFrom(Calendar.class) || fieldClass.isAssignableFrom(AccountStatus.class) || fieldClass.isAssignableFrom(Privilege.class) || fieldClass.isAssignableFrom(ClassModel.class)){
+				else if (fieldClass.isAssignableFrom(String.class) || fieldClass.isAssignableFrom(Calendar.class) || fieldClass.isAssignableFrom(AccountStatus.class) || fieldClass.isAssignableFrom(Privilege.class) || fieldClass.isAssignableFrom(ClassModel.class) || fieldClass.isAssignableFrom(TransactionType.class) || fieldClass.isAssignableFrom(CouponStatus.class) || fieldClass.isAssignableFrom(CreditStatus.class)){
 					Object value = field.get(representation);
 					if (value != null){
 						return false;
@@ -240,6 +291,15 @@ public class RepresentationReflectiveService {
 		}
 		else if (representation instanceof AdminSearchRepresentation){
 			fields = AdminSearchRepresentation.class.getDeclaredFields();
+		}
+		else if (representation instanceof TransactionSearchRepresentation){
+			fields = TransactionSearchRepresentation.class.getDeclaredFields();
+		} 
+		else if (representation instanceof CouponSearchRepresentation){
+			fields = CouponSearchRepresentation.class.getDeclaredFields();
+		}
+		else if (representation instanceof CreditSearchRepresentation){
+			fields = CreditSearchRepresentation.class.getDeclaredFields();
 		}
 		else{
 			throw new RuntimeException("[ERROR] RepresentationReflectiveService unable to determine representation instance type");
