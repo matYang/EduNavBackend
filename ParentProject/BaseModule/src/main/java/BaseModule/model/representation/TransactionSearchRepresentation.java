@@ -21,6 +21,8 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 	private int bookingId;
 	private TransactionType transactionType;
 	private Calendar creationTime;
+	private int startPrice;
+	private int finishPrice;
 	
 	public TransactionSearchRepresentation(){
 		this.transactionId = -1;
@@ -29,6 +31,8 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 		this.bookingId = -1;
 		this.transactionType = null;
 		this.creationTime = null;
+		this.startPrice = -1;
+		this.finishPrice = -1;
 	}
 
 	@Override
@@ -104,14 +108,32 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 		this.creationTime = creationTime;
 	}
 
+	public int getStartPrice() {
+		return startPrice;
+	}
+
+	public void setStartPrice(int startPrice) {
+		this.startPrice = startPrice;
+	}
+
+	public int getFinishPrice() {
+		return finishPrice;
+	}
+
+	public void setFinishPrice(int finishPrice) {
+		this.finishPrice = finishPrice;
+	}
+
 	@Override
 	public String toString() {
 		return "TransactionSearchRepresentation [transactionId="
 				+ transactionId + ", userId=" + userId + ", couponId="
 				+ couponId + ", bookingId=" + bookingId + ", transactionType="
-				+ transactionType + ", creationTime=" + creationTime + "]";
+				+ transactionType + ", creationTime=" + creationTime
+				+ ", startPrice=" + startPrice + ", finishPrice=" + finishPrice
+				+ "]";
 	}
-	
+
 	
 	
 
