@@ -2,12 +2,11 @@ package BaseModule.dbservice;
 
 import java.util.ArrayList;
 
+
 import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 

@@ -9,9 +9,8 @@ import org.junit.Test;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
-import BaseModule.exception.notFound.PartnerNotFoundException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 
@@ -38,7 +37,7 @@ public class PartnerDaoTest {
 	}
 	
 	@Test
-	public void testGet() throws ValidationException, PartnerNotFoundException, SQLException{
+	public void testGet() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "xiaofeng";
@@ -71,14 +70,14 @@ public class PartnerDaoTest {
 		PartnerDao.addPartnerToDatabases(test);
 		
 		ArrayList<Partner> plist = new ArrayList<Partner>();
-		plist = PartnerDao.getAllPartners();
+		plist = PartnerDao.searchPartner(new PartnerSearchRepresentation());
 		if(plist.size()==2&&plist.get(0).equals(partner2)&&plist.get(1).equals(test)){
 			//Passed;
 		}else fail();
 	}
 	
 	@Test
-	public void testUpdate() throws ValidationException, PartnerNotFoundException, SQLException{
+	public void testUpdate() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
@@ -108,7 +107,7 @@ public class PartnerDaoTest {
 	}
 	
 	@Test
-	public void testUpdatePartnerPassword() throws ValidationException, SQLException{
+	public void testUpdatePartnerPassword() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
@@ -169,7 +168,7 @@ public class PartnerDaoTest {
 	}
 
 	@Test
-	public void testRecoverPassword() throws ValidationException, AuthenticationException, SQLException{
+	public void testRecoverPassword() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
@@ -205,7 +204,7 @@ public class PartnerDaoTest {
 	}
 	
 	@Test
-	public void testAuthPartner() throws ValidationException, SQLException{
+	public void testAuthPartner() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";
@@ -246,7 +245,7 @@ public class PartnerDaoTest {
 	}
 	
 	@Test
-	public void testSearch() throws ValidationException, PartnerNotFoundException, SQLException{
+	public void testSearch() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "daofeng";

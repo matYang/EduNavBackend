@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.notFound.CreditNotFoundException;
 import BaseModule.model.Credit;
 import BaseModule.model.representation.CreditSearchRepresentation;
 

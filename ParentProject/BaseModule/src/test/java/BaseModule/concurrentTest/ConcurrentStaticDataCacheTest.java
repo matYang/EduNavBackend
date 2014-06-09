@@ -1,8 +1,5 @@
 package BaseModule.concurrentTest;
 
-import static org.junit.Assert.*;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -12,9 +9,6 @@ import org.junit.Test;
 
 import BaseModule.cache.StaticDataRamCache;
 import BaseModule.common.DateUtility;
-import BaseModule.dbservice.CourseDaoService;
-import BaseModule.model.Course;
-import BaseModule.model.representation.CourseSearchRepresentation;
 import BaseModule.staticDataService.StaticDataService;
 
 public class ConcurrentStaticDataCacheTest {

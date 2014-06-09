@@ -1,4 +1,5 @@
 package BaseModule.concurrentTest;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,9 +20,6 @@ import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.exception.notFound.CouponNotFoundException;
-import BaseModule.exception.notFound.CreditNotFoundException;
-import BaseModule.exception.notFound.UserNotFoundException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Booking;
 import BaseModule.model.Coupon;
 import BaseModule.model.Credit;
@@ -29,7 +27,6 @@ import BaseModule.model.User;
 import BaseModule.model.representation.BookingSearchRepresentation;
 import BaseModule.model.representation.UserSearchRepresentation;
 import BaseModule.service.ModelDataLoaderService;
-
 
 
 public class ConcurrentUpdatingTest {

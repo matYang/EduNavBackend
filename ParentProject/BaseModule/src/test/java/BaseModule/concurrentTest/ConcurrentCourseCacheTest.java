@@ -1,6 +1,5 @@
 package BaseModule.concurrentTest;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;

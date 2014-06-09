@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.notFound.TransactionNotFoundException;
 import BaseModule.model.Transaction;
 import BaseModule.model.representation.TransactionSearchRepresentation;
 

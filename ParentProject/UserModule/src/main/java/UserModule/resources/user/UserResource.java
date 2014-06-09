@@ -2,14 +2,10 @@ package UserModule.resources.user;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
-import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 
 import UserModule.resources.UserPseudoResource;

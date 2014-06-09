@@ -11,7 +11,6 @@ import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
-import BaseModule.exception.notFound.AdminAccountNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.representation.AdminSearchRepresentation;

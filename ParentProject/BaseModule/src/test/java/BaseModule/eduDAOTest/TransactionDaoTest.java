@@ -12,9 +12,6 @@ import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.encryptionException.PasswordHashingException;
-import BaseModule.exception.notFound.TransactionNotFoundException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Transaction;
 import BaseModule.model.User;
 

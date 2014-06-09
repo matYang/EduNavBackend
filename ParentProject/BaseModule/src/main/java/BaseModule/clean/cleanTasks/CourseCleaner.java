@@ -3,15 +3,12 @@ package BaseModule.clean.cleanTasks;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Calendar;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
-import BaseModule.exception.notFound.CourseNotFoundException;
-
 import BaseModule.model.Course;
 
 public class CourseCleaner extends CourseDao{
@@ -31,9 +28,13 @@ public class CourseCleaner extends CourseDao{
 			stmt.setString(2, ct);
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				course = CourseDao.createCourseByResultSet(rs,null,conn);
-				course.setStatus(AccountStatus.deactivated);
-				CourseDao.updateCourseInDatabases(course,conn);
+				try{
+					course = CourseDao.createCourseByResultSet(rs,null,conn);
+					course.setStatus(AccountStatus.deactivated);
+					CourseDao.updateCourseInDatabases(course,conn);
+				} catch (Exception e){
+					DebugLog.d(e);
+				}
 			}
 		}catch (Exception e) {
 			DebugLog.d(e);;

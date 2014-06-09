@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.model.Coupon;
 import BaseModule.model.representation.CouponSearchRepresentation;
 

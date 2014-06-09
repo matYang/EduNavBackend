@@ -16,10 +16,7 @@ import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.UserDao;
-import BaseModule.exception.encryptionException.PasswordHashingException;
-import BaseModule.exception.notFound.BookingNotFoundException;
-import BaseModule.exception.notFound.CourseNotFoundException;
-import BaseModule.exception.validation.ValidationException;
+import BaseModule.exception.PseudoException;
 import BaseModule.model.Booking;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
@@ -29,7 +26,7 @@ import BaseModule.model.representation.BookingSearchRepresentation;
 public class BookingDaoTest {
 
 	@Test
-	public void testCreate() throws ValidationException, CourseNotFoundException, SQLException, PasswordHashingException{
+	public void testCreate() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
@@ -97,7 +94,7 @@ public class BookingDaoTest {
 	}
 	
 	@Test
-	public void testGet() throws CourseNotFoundException, ValidationException, BookingNotFoundException, SQLException, PasswordHashingException{
+	public void testGet() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
@@ -200,14 +197,14 @@ public class BookingDaoTest {
 		}else fail();		
 		
 		ArrayList<Booking> blist = new ArrayList<Booking>();
-		blist = BookingDao.getAllBookings();
+		blist = BookingDao.searchBooking(new BookingSearchRepresentation());
 		if(blist.size()==2 && blist.get(0).equals(booking)&& blist.get(1).equals(booking2)){
 			//Passed;
 		}else fail();
 	}
 	
 	@Test
-	public void testUpdate() throws CourseNotFoundException, ValidationException, BookingNotFoundException, SQLException, PasswordHashingException{
+	public void testUpdate() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
@@ -284,7 +281,7 @@ public class BookingDaoTest {
 	}
 	
 	@Test
-	public void testSearch() throws ValidationException, CourseNotFoundException, BookingNotFoundException, SQLException, PasswordHashingException{
+	public void testSearch() throws SQLException, PseudoException{
 		//User
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";

@@ -15,8 +15,6 @@ import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.notFound.CourseNotFoundException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.CourseSearchRepresentation;
@@ -152,7 +150,7 @@ public class CourseDaoTest {
 	}	
 	
 	@Test
-	public void testSearch() throws ValidationException, CourseNotFoundException, SQLException{
+	public void testSearch() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		/* Partner part */
 		String name = "partne1";

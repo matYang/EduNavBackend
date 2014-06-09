@@ -10,7 +10,6 @@ import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;

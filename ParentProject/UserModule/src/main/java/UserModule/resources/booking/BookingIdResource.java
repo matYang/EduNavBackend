@@ -1,9 +1,7 @@
 package UserModule.resources.booking;
 
-import java.io.IOException;
 import java.util.Calendar;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
