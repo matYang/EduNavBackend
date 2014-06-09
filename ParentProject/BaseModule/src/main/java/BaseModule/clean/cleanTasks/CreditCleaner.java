@@ -3,15 +3,12 @@ package BaseModule.clean.cleanTasks;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
-import BaseModule.exception.notFound.CreditNotFoundException;
-import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.model.Credit;
 
 public class CreditCleaner extends CreditDao{
@@ -31,27 +28,25 @@ public class CreditCleaner extends CreditDao{
 			stmt.setString(4, ct);
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				c = createCreditByResultSet(rs);	
-				if(c.getStatus().code == CreditStatus.usable.code){
-					UserDao.updateUserBCC(0, -c.getAmount(), 0, c.getUserId(), conn);
-					c.setStatus(CreditStatus.expired);
-				}else if(c.getStatus().code == CreditStatus.awaiting.code){
-					c.setStatus(CreditStatus.usable);
-				}	
-				CreditDao.updateCreditInDatabases(c,conn);
+				try{
+					c = createCreditByResultSet(rs);	
+					if(c.getStatus().code == CreditStatus.usable.code){
+						UserDao.updateUserBCC(0, -c.getAmount(), 0, c.getUserId(), conn);
+						c.setStatus(CreditStatus.expired);
+					}else if(c.getStatus().code == CreditStatus.awaiting.code){
+						c.setStatus(CreditStatus.usable);
+					}	
+					CreditDao.updateCreditInDatabases(c,conn);
+				} catch (Exception e){
+					DebugLog.d(e);
+				}
 			}
-		}catch(SQLException e){
-			e.printStackTrace();
+		} catch(Exception e){
 			DebugLog.d(e);
-		}catch(CreditNotFoundException e){
-			e.printStackTrace();
-			DebugLog.d(e);
-		} catch (UserNotFoundException e) {
-			e.printStackTrace();
-			DebugLog.d(e);
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, null, true);
 		}
-
-		EduDaoBasic.closeResources(conn, stmt, null, true);
+		
 	}
 
 

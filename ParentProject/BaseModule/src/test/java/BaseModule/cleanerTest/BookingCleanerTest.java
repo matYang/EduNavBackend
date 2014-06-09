@@ -17,6 +17,7 @@ import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.validation.ValidationException;
@@ -24,11 +25,12 @@ import BaseModule.model.Booking;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.User;
+import BaseModule.model.representation.BookingSearchRepresentation;
 
 public class BookingCleanerTest {
 
 	@Test
-	public void test() throws ValidationException, CourseNotFoundException, SQLException, PasswordHashingException{
+	public void test() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String userphone = "12345612312";
@@ -114,7 +116,7 @@ public class BookingCleanerTest {
 		BookingCleaner.clean();
 		
 		ArrayList<Booking> list = new ArrayList<Booking>();
-		list = BookingDao.getAllBookings();
+		list = BookingDao.searchBooking(new BookingSearchRepresentation());
 		if(list.size()==4 && list.get(0).getStatus().code==BookingStatus.awaiting.code && 
 				list.get(1).getStatus().code==BookingStatus.pending.code&&
 				list.get(2).getStatus().code==BookingStatus.confirmed.code&&

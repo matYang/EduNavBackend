@@ -35,12 +35,8 @@ public class CourseCleaner extends CourseDao{
 				course.setStatus(AccountStatus.deactivated);
 				CourseDao.updateCourseInDatabases(course,conn);
 			}
-		}catch (SQLException e) {
-			e.printStackTrace();
-			DebugLog.d(e);
-		} catch (CourseNotFoundException e) {			
-			e.printStackTrace();
-			DebugLog.d(e);
+		}catch (Exception e) {
+			DebugLog.d(e);;
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}

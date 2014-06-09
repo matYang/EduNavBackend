@@ -10,7 +10,6 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
-import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.model.Booking;
 
 public class BookingCleaner extends BookingDao{
@@ -31,17 +30,17 @@ public class BookingCleaner extends BookingDao{
 			stmt.setString(2, ct);
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				booking = BookingDao.createBookingByResultSet(rs);
-				booking.setStatus(BookingStatus.pending);				
-				BookingDao.updateBookingInDatabases(booking,conn);
+				try{
+					booking = BookingDao.createBookingByResultSet(rs);
+					booking.setStatus(BookingStatus.pending);				
+					BookingDao.updateBookingInDatabases(booking,conn);
+				} catch(Exception e){
+					DebugLog.d(e);
+				}
 			}
-		}catch (SQLException e) {
-			e.printStackTrace();
+		}catch (Exception e) {
 			DebugLog.d(e);
-		} catch (BookingNotFoundException e) {			
-			e.printStackTrace();
-			DebugLog.d(e);
-		}finally{
+		} finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
 	}
