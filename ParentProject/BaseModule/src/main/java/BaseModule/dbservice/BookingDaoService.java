@@ -24,17 +24,14 @@ import BaseModule.service.SMSService;
 
 public class BookingDaoService {
 
-	public static ArrayList<Booking> getAllBookings() throws PseudoException{
-		return BookingDao.getAllBookings();
-	}
 
-	public static Booking getBookingById(int id) throws PseudoException{
+	public static Booking getBookingById(int id) throws PseudoException, SQLException{
 		return BookingDao.getBookingById(id);
 	}
 
 
 	public static void updateBooking(Booking updatedBooking, BookingStatus previousStatus, int adminId) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		try{
 			if (updatedBooking.getStatus() == previousStatus){
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
@@ -132,7 +129,7 @@ public class BookingDaoService {
 	}
 
 	public static Booking createBooking(Booking booking) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		Coupon coupon = null;
 		try{
 			//if using coupon, validation coupon
@@ -165,18 +162,18 @@ public class BookingDaoService {
 		return booking;
 	}
 
-	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation b_sr) throws PseudoException {
+	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation b_sr) throws PseudoException, SQLException {
 		return BookingDao.searchBooking(b_sr);
 	}
 
-	public static ArrayList<Booking> getBookingByReference(String reference) throws PseudoException{
+	public static ArrayList<Booking> getBookingByReference(String reference) throws PseudoException, SQLException{
 		BookingSearchRepresentation sr = new BookingSearchRepresentation();
 		sr.setReference(reference);
 		return searchBooking(sr);
 	}
 
 
-	public static boolean isReferenceAvailable(String reference) throws PseudoException{
+	public static boolean isReferenceAvailable(String reference) throws PseudoException, SQLException{
 		return getBookingByReference(reference).size() == 0;
 	}
 }

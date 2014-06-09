@@ -14,14 +14,16 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
+import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class CourseCleanerTest {
 
 	@Test
-	public void test() throws ValidationException, SQLException{
+	public void test() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName ="TseTingFeng";
@@ -80,7 +82,9 @@ public class CourseCleanerTest {
 		CourseCleaner.clean();		
 		
 		ArrayList<Course> clist = new ArrayList<Course>();
-		clist = CourseDao.getCoursesFromPartner(p_Id);
+		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
+		c_sr.setPartnerId(p_Id);
+		clist = CourseDao.searchCourse(c_sr);
 		if(clist.size()==3&&clist.get(0).getStatus().code==AccountStatus.activated.code&&
 				clist.get(1).getStatus().code==AccountStatus.deactivated.code&&
 				clist.get(2).getStatus().code==AccountStatus.activated.code){

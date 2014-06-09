@@ -14,7 +14,7 @@ public class ConnectionTest {
 		ArrayList<Connection> clist = new ArrayList<Connection>();
 		int connectionNum = 150;
 		for(int i = 0; i < connectionNum; i ++){
-			clist.add(EduDaoBasic.getSQLConnection());
+			clist.add(EduDaoBasic.getConnection());
 		}
 		
 		try {

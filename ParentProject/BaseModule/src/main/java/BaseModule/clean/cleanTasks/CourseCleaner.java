@@ -25,7 +25,7 @@ public class CourseCleaner extends CourseDao{
 		ResultSet rs = null;
 		Course course = null;	
 		try{
-			conn = EduDaoBasic.getSQLConnection();
+			conn = EduDaoBasic.getConnection();
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, AccountStatus.activated.code);
 			stmt.setString(2, ct);

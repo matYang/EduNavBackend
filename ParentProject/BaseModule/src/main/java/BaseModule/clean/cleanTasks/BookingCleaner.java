@@ -25,7 +25,7 @@ public class BookingCleaner extends BookingDao{
 		ResultSet rs = null;
 		Booking booking = null;
 		try{
-			conn = EduDaoBasic.getSQLConnection();
+			conn = EduDaoBasic.getConnection();
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, BookingStatus.confirmed.code);
 			stmt.setString(2, ct);

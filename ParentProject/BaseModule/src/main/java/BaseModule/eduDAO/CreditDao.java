@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CreditNotFoundException;
@@ -36,7 +35,6 @@ public class CreditDao {
 			rs = stmt.getGeneratedKeys();
 			rs.next();
 			c.setCreditId(rs.getLong(1));			
-
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}

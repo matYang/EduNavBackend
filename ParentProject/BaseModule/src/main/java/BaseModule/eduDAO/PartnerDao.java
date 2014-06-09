@@ -7,14 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
-import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.QueryFactory;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
@@ -23,7 +20,7 @@ public class PartnerDao {
 
 	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr) throws SQLException{
 		ArrayList<Partner> plist = new ArrayList<Partner>();
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		int stmtInt = 1;
@@ -155,7 +152,7 @@ public class PartnerDao {
 
 
 	public static void changePartnerPassword(int partnerId, String oldPassword, String newPassword) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
@@ -192,7 +189,7 @@ public class PartnerDao {
 	}
 
 	public static Partner authenticatePartner(String phone, String password) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		Partner partner = null;
@@ -210,6 +207,9 @@ public class PartnerDao {
 					throw new AuthenticationException("手机号码或密码输入错误");
 				}				
 			}
+			else{
+				throw new AuthenticationException();
+			}
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);			
 		}
@@ -217,7 +217,7 @@ public class PartnerDao {
 	}
 
 	public static void recoverPartnerPassword(String phone, String newPassword) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		String query = "UPDATE PartnerDao set password = ? where phone = ?";		

@@ -15,10 +15,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 public class PartnerDaoService {
 
-	public static ArrayList<Partner> getAllPartners() throws SQLException{
-		return searchPartner(new PartnerSearchRepresentation());
-	}
-
 	public static Partner getPartnerById(int id,Connection...connections) throws PseudoException, SQLException{
 		return PartnerDao.getPartnerById(id, connections);
 	}

@@ -7,25 +7,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
-import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.AdminAccountNotFoundException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.QueryFactory;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.representation.AdminSearchRepresentation;
 
-
-
 public class AdminAccountDao {
 
 	public static ArrayList<AdminAccount> searchAdminAccount(AdminSearchRepresentation sr) throws SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		ArrayList<AdminAccount> alist = new ArrayList<AdminAccount>();
@@ -64,7 +59,7 @@ public class AdminAccountDao {
 		return alist;
 	}
 	
-	public static AdminAccount addAdminAccountToDatabases(AdminAccount account,Connection...connections) throws SQLException, ValidationException, PasswordHashingException{
+	public static AdminAccount addAdminAccountToDatabases(AdminAccount account,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -91,8 +86,8 @@ public class AdminAccountDao {
 		return account;
 	}
 
-	public static void updateAdminAccountInDatabases(AdminAccount account) throws AdminAccountNotFoundException, SQLException, ValidationException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+	public static void updateAdminAccountInDatabases(AdminAccount account) throws PseudoException, SQLException{
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;
 		String query = "UPDATE AdminAccountDao SET lastLogin=?,status=?,reference=?,privilege=?,name=?,phone=? where id = ?";
 		try{
@@ -114,32 +109,11 @@ public class AdminAccountDao {
 		}
 	}
 
-	public static ArrayList<AdminAccount> getAllAdminAccounts() throws SQLException{
-		String query = "SELECT * FROM AdminAccountDao";
-		ArrayList<AdminAccount> alist = new ArrayList<AdminAccount>();
 
-		PreparedStatement stmt = null;
-		Connection conn = null;
-		ResultSet rs = null;
-		try{
-			conn = EduDaoBasic.getSQLConnection();
-			stmt = conn.prepareStatement(query);
-
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				alist.add(createAdminAccountByResultSet(rs));
-			}
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
-		} 
-
-		return alist;
-	}
-
-	public static AdminAccount getAdminAccountById(int id) throws AdminAccountNotFoundException, SQLException{
+	public static AdminAccount getAdminAccountById(int id) throws PseudoException, SQLException{
 		String query = "SELECT * FROM AdminAccountDao where id = ?";
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		ResultSet rs = null;
 		AdminAccount account = null;
 		try{
@@ -159,54 +133,10 @@ public class AdminAccountDao {
 		return account;
 	}
 
-	public static AdminAccount getAdminAccountByPhone(String phone) throws AdminAccountNotFoundException, SQLException{
-		String query = "SELECT * FROM AdminAccountDao where phone = ?";
-		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
-		ResultSet rs = null;
-		AdminAccount account = null;
-		try{
-			stmt = conn.prepareStatement(query);
 
-			stmt.setString(1,phone);
-			rs = stmt.executeQuery();
-			if(rs.next()){
-				account = createAdminAccountByResultSet(rs);
-			}else{
-				throw new AdminAccountNotFoundException();
-			}
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
-		} 
-
-		return account;
-	}
-
-	public static AdminAccount getAdminAccountByName(String name) throws AdminAccountNotFoundException, SQLException{
-		String query = "SELECT * FROM AdminAccountDao where name = ?";
-		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
-		ResultSet rs = null;
-		AdminAccount account = null;
-		try{
-			stmt = conn.prepareStatement(query);
-
-			stmt.setString(1, name);
-			rs = stmt.executeQuery();
-			if(rs.next()){
-				account = createAdminAccountByResultSet(rs);
-			}else{
-				throw new AdminAccountNotFoundException();
-			}
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
-		} 
-
-		return account;
-	}
 
 	public static void changeAdminAccountPassword(int adminId, String oldPassword, String newPassword) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
@@ -233,12 +163,10 @@ public class AdminAccountDao {
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
-		
-
 	}
 
 	public static AdminAccount authenticateAdminAccount(String reference, String password) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		AdminAccount account = null;
@@ -257,6 +185,9 @@ public class AdminAccountDao {
 					throw new AuthenticationException("编号或密码输入错误");
 				}
 			}
+			else{
+				throw new AuthenticationException("编号或密码输入错误");
+			}
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
@@ -264,7 +195,7 @@ public class AdminAccountDao {
 	}
 
 	public static void changeAdminAccountPassword(int adminId, String password) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		String query = "UPDATE AdminAccountDao set password = ? where id = ?";

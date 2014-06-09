@@ -9,6 +9,7 @@ import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.AdminAccountNotFoundException;
 import BaseModule.exception.validation.ValidationException;
@@ -38,7 +39,7 @@ public class AdminAccountDaoTest {
 	}
 	
 	@Test
-	public void testGet() throws AdminAccountNotFoundException{
+	public void testGet() throws PseudoException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
@@ -53,15 +54,7 @@ public class AdminAccountDaoTest {
 			e.printStackTrace();
 		}
 		account = AdminAccountDao.getAdminAccountById(account.getAdminId());
-		AdminAccount test = AdminAccountDao.getAdminAccountByName(account.getName());
-		if(account.equals(test)&&test.getPhone().equals(phone)){
-			//Passed;
-		}else fail();
-		
-		test = AdminAccountDao.getAdminAccountByPhone(account.getPhone());
-		if(account.equals(test)&&test.getReference().equals(reference)){
-			//Passed;
-		}else fail();
+
 		
 		String name2 = "Mattan";
 		String phone2 = "12344";
@@ -74,17 +67,11 @@ public class AdminAccountDaoTest {
 		} catch (ValidationException | SQLException e) {			
 			e.printStackTrace();
 		}
-		account2 = AdminAccountDao.getAdminAccountByPhone(phone2);
-		
-		ArrayList<AdminAccount> alist = new ArrayList<AdminAccount>();
-		alist = AdminAccountDao.getAllAdminAccounts();
-		if(alist.size()==2&&alist.get(0).equals(account)&&alist.get(1).equals(account2)){
-			//Passed;
-		}else fail();
+
 	}
 	
 	@Test
-	public void testUpdate() throws AdminAccountNotFoundException{
+	public void testUpdate() throws PseudoException, SQLException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "1";
@@ -114,7 +101,7 @@ public class AdminAccountDaoTest {
 	}
 	
 	@Test
-	public void testUpdateAdminAccountPassword() throws ValidationException{
+	public void testUpdateAdminAccountPassword() throws PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
@@ -176,7 +163,7 @@ public class AdminAccountDaoTest {
 	}
 
 	@Test
-	public void testRecoverPassword() throws ValidationException, AuthenticationException, SQLException, AdminAccountNotFoundException{
+	public void testRecoverPassword() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
@@ -216,7 +203,7 @@ public class AdminAccountDaoTest {
 	}
 	
 	@Test
-	public void testAuthAdmin() throws ValidationException, SQLException{
+	public void testAuthAdmin() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";
@@ -255,7 +242,7 @@ public class AdminAccountDaoTest {
 	}
 	
 	@Test
-	public void testSearch() throws ValidationException, SQLException{
+	public void testSearch() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "123445676543";

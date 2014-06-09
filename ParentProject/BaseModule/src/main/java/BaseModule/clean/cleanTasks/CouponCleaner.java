@@ -21,7 +21,7 @@ public class CouponCleaner extends CouponDao{
 	public static void clean() throws PseudoException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		Connection conn = EduDaoBasic.getSQLConnection();		
+		Connection conn = EduDaoBasic.getConnection();		
 		String ct = DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance());
 		String query = "SELECT * FROM CouponDao where status = ? and expireTime < ?";
 		Coupon c = null;		

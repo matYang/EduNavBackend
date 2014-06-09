@@ -86,7 +86,7 @@ public class EduDaoBasic {
     	return connections==null || connections.length==0;
     }
     
-    public static Connection getSQLConnection(){
+    private static Connection getSQLConnection(){
     	Connection connection;
     	try {
 			connection = ds.getConnection();

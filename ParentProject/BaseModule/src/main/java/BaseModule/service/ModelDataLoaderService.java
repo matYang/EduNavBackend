@@ -20,6 +20,7 @@ import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
@@ -38,7 +39,7 @@ public class ModelDataLoaderService {
 
 	public static void load(){		
 		EduDaoBasic.clearAllDatabase();
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		try{
 			loadUsers(conn);//4
 			loadPartners(conn);//3
@@ -294,11 +295,9 @@ public class ModelDataLoaderService {
 		AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
 		try {
 			AdminAccountDao.addAdminAccountToDatabases(account,connections);
-		} catch (ValidationException e) {			
+		} catch (SQLException | PseudoException e) {		
 			e.printStackTrace();
-		} catch (SQLException e) {		
-			e.printStackTrace();
-		}
+		} 
 
 		String name2 = "Mattan";
 		String phone2 = "12344";
@@ -308,7 +307,7 @@ public class ModelDataLoaderService {
 		AdminAccount account2 = new AdminAccount(name2,phone2,reference2,privilege2,status2,password);
 		try {
 			AdminAccountDao.addAdminAccountToDatabases(account2);
-		} catch (ValidationException | SQLException e) {			
+		} catch (SQLException | PseudoException e) {			
 			e.printStackTrace();
 		}
 

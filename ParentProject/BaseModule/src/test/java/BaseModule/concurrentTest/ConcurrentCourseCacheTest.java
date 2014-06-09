@@ -18,6 +18,7 @@ import BaseModule.dbservice.CourseDaoService;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
@@ -65,8 +66,7 @@ public class ConcurrentCourseCacheTest {
 					previousResult = newResult;
 				}
 				//System.out.println("Thread: " + this.index + " finishes");
-			} catch (IllegalArgumentException | IllegalAccessException
-					| UnsupportedEncodingException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			} finally{
 				threadsSignal.countDown();
@@ -189,7 +189,7 @@ public class ConcurrentCourseCacheTest {
 
 	}
 	
-	private static void loadPartners(Connection...connections){
+	private static void loadPartners(Connection...connections) throws PseudoException{
 		try{
 			String name = "XDF";
 			String instName = "xiaofeng";

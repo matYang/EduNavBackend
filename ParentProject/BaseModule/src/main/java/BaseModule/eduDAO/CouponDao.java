@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CouponStatus;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.model.Coupon;
 
@@ -16,7 +16,7 @@ import BaseModule.model.Coupon;
 public class CouponDao {
 
 	public static Coupon addCouponToDatabases(Coupon c,Connection...connections) throws SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO CouponDao (bookingId,transactionId,userId,creationTime,expireTime,status,amount)" +
@@ -30,7 +30,7 @@ public class CouponDao {
 			stmt.setString(4, DateUtility.toSQLDateTime(c.getCreationTime()));
 			stmt.setString(5, DateUtility.toSQLDateTime(c.getExpireTime()));
 			stmt.setInt(6,c.getStatus().code);
-			stmt.setDouble(7, c.getAmount());
+			stmt.setInt(7, c.getAmount());
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -61,7 +61,7 @@ public class CouponDao {
 			stmt.setInt(1, c.getTransactionId());
 			stmt.setString(2, DateUtility.toSQLDateTime(c.getExpireTime()));
 			stmt.setInt(3,c.getStatus().code);
-			stmt.setDouble(4, c.getAmount());
+			stmt.setInt(4, c.getAmount());
 			stmt.setLong(5, c.getCouponId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
@@ -92,7 +92,7 @@ public class CouponDao {
 		return clist;
 	}
 	
-	public static Coupon getCouponByCouponId(long couponId,Connection...connections) throws SQLException{
+	public static Coupon getCouponByCouponId(long couponId,Connection...connections) throws PseudoException, SQLException{
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
@@ -105,6 +105,9 @@ public class CouponDao {
 			rs = stmt.executeQuery();
 			if(rs.next()){
 				c = createCouponByResultSet(rs);
+			}
+			else{
+				throw new CouponNotFoundException();
 			}
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));

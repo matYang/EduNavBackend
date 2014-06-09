@@ -7,11 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.BookingNotFoundException;
-import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.factory.QueryFactory;
 import BaseModule.model.Booking;
 import BaseModule.model.Course;
@@ -22,7 +20,7 @@ public class BookingDao {
 
 	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr) throws PseudoException, SQLException{
 		ArrayList<Booking> blist = new ArrayList<Booking>();
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = QueryFactory.getSearchQuery(sr);		
@@ -108,7 +106,7 @@ public class BookingDao {
 			stmt.setString(10, booking.getReference());
 			stmt.setInt(11, booking.getTransactionId());
 			stmt.setInt(12, booking.getAdminId());
-			stmt.setInt(13, booking.getCouponId());
+			stmt.setLong(13, booking.getCouponId());
 			stmt.setString(14, DateUtility.toSQLDateTime(booking.getScheduledTime()));
 			stmt.setString(15, booking.getEmail());
 			stmt.setInt(16, booking.isWasConfirmed() ? 1 : 0);
@@ -156,7 +154,7 @@ public class BookingDao {
 			stmt.setString(stmtInt++, booking.getReference());
 			stmt.setInt(stmtInt++, booking.getTransactionId());
 			stmt.setInt(stmtInt++, booking.getAdminId());
-			stmt.setInt(stmtInt++, booking.getCouponId());
+			stmt.setLong(stmtInt++, booking.getCouponId());
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getScheduledTime()));
 			stmt.setString(stmtInt++, booking.getEmail());
 			stmt.setInt(stmtInt++, booking.isWasConfirmed() ? 1 : 0);
@@ -172,25 +170,6 @@ public class BookingDao {
 
 	}
 
-	public static ArrayList<Booking> getAllBookings() throws PseudoException, SQLException{
-		String query = "SELECT * FROM BookingDao";
-		ArrayList<Booking> blist = new ArrayList<Booking>();
-		PreparedStatement stmt = null;
-		Connection conn = null;
-		ResultSet rs = null;		
-		try{
-			conn = EduDaoBasic.getSQLConnection();
-			stmt = conn.prepareStatement(query);
-
-			rs = stmt.executeQuery();
-			while(rs.next()){					
-				blist.add(createBookingByResultSet(rs,conn));
-			}
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
-		} 
-		return blist;
-	}
 
 	public static Booking getBookingById(int id,Connection...connections) throws PseudoException, SQLException{
 		String query = "SELECT * FROM BookingDao WHERE id = ?";
@@ -218,11 +197,7 @@ public class BookingDao {
 	protected static Booking createBookingByResultSet(ResultSet rs,Connection...connections) throws SQLException, PseudoException {		
 		int courseId = rs.getInt("course_Id");
 		Course course = null;
-		try {
-			course = CourseDao.getCourseById(courseId, connections);
-		} catch (CourseNotFoundException e) {			
-			DebugLog.d(e);
-		}
+		course = CourseDao.getCourseById(courseId, connections);
 		return new Booking(rs.getInt("id"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), DateUtility.DateToCalendar(rs.getTimestamp("adjustTime")),
 				 rs.getInt("price"), rs.getInt("u_Id"),	rs.getInt("p_Id"), courseId, rs.getString("name"), rs.getString("phone"),BookingStatus.fromInt(rs.getInt("status")), rs.getString("reference"),
 				rs.getInt("coupon_Id"),rs.getInt("transaction_Id"),rs.getInt("admin_Id"),course,rs.getString("email"),DateUtility.DateToCalendar(rs.getTimestamp("scheduledTime")),rs.getBoolean("wasConfirmed"),

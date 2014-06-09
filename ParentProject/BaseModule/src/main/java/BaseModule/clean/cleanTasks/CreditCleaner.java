@@ -19,7 +19,7 @@ public class CreditCleaner extends CreditDao{
 	public static void clean() {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		Connection conn = EduDaoBasic.getSQLConnection();		
+		Connection conn = EduDaoBasic.getConnection();		
 		String ct = DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance());			
 		String query = "SELECT * FROM CreditDao where ((status = ? and expireTime < ?) or (status =? and usableTime <= ?))";
 		Credit c = null;

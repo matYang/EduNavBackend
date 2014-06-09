@@ -28,33 +28,6 @@ public class UserResource extends UserPseudoResource{
 	private final String apiId = UserResource.class.getSimpleName();
 	
 
-	/**
-	 * Retrieve all users from server. This API is intended solely for testing
-	 */
-	@Get
-	public Representation getAllUsers(){
-		JSONArray jsonArray = null;
-		DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
-		
-		try {
-			this.validateAuthentication();
-			ArrayList<User> allUsers = UserDaoService.getAllUsers();
-			jsonArray = JSONFactory.toJSON(allUsers);
-			
-		}  catch(PseudoException e){
-			this.addCORSHeader();
-			return this.doPseudoException(e);
-		} catch (Exception e){
-			this.addCORSHeader();
-			return this.doException(e);
-		}
-
-		Representation result = new JsonRepresentation(jsonArray);
-
-		this.addCORSHeader();
-		return result;
-	}
-
 	protected User validateUserJSON(JSONObject jsonUser) throws ValidationException, SQLException{
 		User user = null;
 

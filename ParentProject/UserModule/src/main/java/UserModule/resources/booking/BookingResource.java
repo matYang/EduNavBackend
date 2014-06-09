@@ -87,7 +87,7 @@ public class BookingResource extends UserPseudoResource{
 		return result;
 	}
 
-	protected Booking parseJSON(JSONObject jsonBooking) throws ValidationException, ParseException, SQLException {
+	protected Booking parseJSON(JSONObject jsonBooking) throws ParseException, SQLException, PseudoException {
 		Booking booking = null;
 		try{
 			

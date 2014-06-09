@@ -14,11 +14,7 @@ import BaseModule.model.representation.AdminSearchRepresentation;
 
 public class AdminAccountDaoService {
 
-	public static ArrayList<AdminAccount> getAllAdminAccounts(){
-		return AdminAccountDao.getAllAdminAccounts();
-	}
-	
-	public static AdminAccount getAdminAccountById(int id) throws PseudoException{
+	public static AdminAccount getAdminAccountById(int id) throws PseudoException, SQLException{
 		return AdminAccountDao.getAdminAccountById(id);
 	}
 	
@@ -30,11 +26,11 @@ public class AdminAccountDaoService {
 		AdminAccountDao.updateAdminAccountInDatabases(account);
 	}
 	
-	public static void changePassword(int adminId, String oldPassword, String newPassword) throws PseudoException{
+	public static void changePassword(int adminId, String oldPassword, String newPassword) throws PseudoException, SQLException{
 		AdminAccountDao.changeAdminAccountPassword(adminId, oldPassword, newPassword);
 	}
 	
-	public static void changeAdminPassword(int adminId, String password) throws PseudoException{
+	public static void changeAdminPassword(int adminId, String password) throws PseudoException, SQLException{
 		AdminAccountDao.changeAdminAccountPassword(adminId, password);
 	}
 	
@@ -45,17 +41,17 @@ public class AdminAccountDaoService {
 		return account;
 	}
 	
-	public static ArrayList<AdminAccount> searchAdminAccount(AdminSearchRepresentation sr){
+	public static ArrayList<AdminAccount> searchAdminAccount(AdminSearchRepresentation sr) throws SQLException{
 		return AdminAccountDao.searchAdminAccount(sr);
 	}
 	
-	public static ArrayList<AdminAccount> getAdminAccountByReference(String reference){
+	public static ArrayList<AdminAccount> getAdminAccountByReference(String reference) throws SQLException{
 		AdminSearchRepresentation sr = new AdminSearchRepresentation();
 		sr.setReference(reference);
 		return AdminAccountDao.searchAdminAccount(sr);
 	}
 	
-	public static boolean isReferenceAvailable(String reference){
+	public static boolean isReferenceAvailable(String reference) throws SQLException{
 		return getAdminAccountByReference(reference).size() == 0;
 	}
 	

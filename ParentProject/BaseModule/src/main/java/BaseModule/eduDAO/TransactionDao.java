@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.TransactionNotFoundException;
@@ -31,7 +30,7 @@ public class TransactionDao {
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, transaction.getUserId());
 			stmt.setInt(2, transaction.getBookingId());
-			stmt.setDouble(3, transaction.getTransactionAmount());
+			stmt.setInt(3, transaction.getTransactionAmount());
 			stmt.setString(4, DateUtility.toSQLDateTime(transaction.getCreationTime()));
 			stmt.setLong(5, transaction.getCouponId());
 			stmt.setInt(6, transaction.getTransactionType().code);
@@ -39,10 +38,7 @@ public class TransactionDao {
 			rs = stmt.getGeneratedKeys();
 			rs.next();
 			transaction.setTransactionId(rs.getInt(1));				
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
-		} finally  {
+		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return transaction;

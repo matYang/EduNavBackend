@@ -69,12 +69,7 @@ public class UserDaoTest {
 		}else{
 			fail();
 		}
-		test = UserDao.getUserByPhone(user.getPhone());
-		if(user.equals(test)){
-			//Passed;
-		}else{
-			fail();
-		}
+		
 
 		String name2 = "Matt";
 		String phone2 = "1324234234";
@@ -86,7 +81,7 @@ public class UserDaoTest {
 		UserDao.addUserToDatabase(user2);
 
 		ArrayList<User> ulist = new ArrayList<User>();
-		ulist = UserDao.getAllUsers();
+		ulist = UserDao.searchUser(new UserSearchRepresentation());
 		if(ulist.size()==2 && ulist.get(0).equals(user) && ulist.get(1).equals(user2)){
 			//Passed;
 		}else fail();

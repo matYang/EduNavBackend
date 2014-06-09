@@ -14,6 +14,7 @@ import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
@@ -46,7 +47,7 @@ public class CourseDaoTest {
 	}
 	
 	@Test
-	public void testGetAndUpdate() throws ValidationException, CourseNotFoundException, SQLException{
+	public void testGetAndUpdate() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "XDF";
 		String instName = "xiaofeng";
@@ -125,7 +126,9 @@ public class CourseDaoTest {
 		}else fail();
 		
 		ArrayList<Course> clist = new ArrayList<Course>();
-		clist = CourseDao.getCoursesFromPartner(partner.getPartnerId());
+		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
+		c_sr.setPartnerId(partner.getPartnerId());
+		clist = CourseDao.searchCourse(c_sr);
 		if(clist.size()==2&&clist.get(0).equals(course)&&clist.get(1).equals(course2)){
 			//Passed;
 		}else fail();		

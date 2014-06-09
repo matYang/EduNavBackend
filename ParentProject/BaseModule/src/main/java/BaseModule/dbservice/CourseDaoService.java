@@ -18,7 +18,7 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class CourseDaoService {
 	
-	public static Course getCourseById(int id) throws PseudoException{
+	public static Course getCourseById(int id) throws PseudoException, SQLException{
 		Course ramCourse = CourseRamCache.get(id);
 		if (ramCourse == null){
 			
@@ -54,7 +54,7 @@ public class CourseDaoService {
 		return storedCourse;
 	}	
 	
-	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, PseudoException{
+	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, PseudoException, SQLException{
 		ArrayList<Course> result = new ArrayList<Course>();
 		boolean useCache = sr.getUseCache() == 1;
 		if (!useCache){
@@ -120,13 +120,13 @@ public class CourseDaoService {
 		}
 	}
 	
-	public static  ArrayList<Course> getCourseByReference(String reference) throws PseudoException{
+	public static  ArrayList<Course> getCourseByReference(String reference) throws PseudoException, SQLException{
 		CourseSearchRepresentation sr = new CourseSearchRepresentation();
 		sr.setCourseReference(reference);
 		return CourseDao.searchCourse(sr);				
 	}
 	
-	public static boolean isReferenceAvailable(String reference) throws PseudoException{
+	public static boolean isReferenceAvailable(String reference) throws PseudoException, SQLException{
 		return getCourseByReference(reference).size() == 0;
 	}
 	

@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.ClassModel;
@@ -18,7 +17,6 @@ import BaseModule.configurations.EnumConfig.PartnerQualification;
 import BaseModule.configurations.EnumConfig.TeachingMaterialType;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CourseNotFoundException;
-import BaseModule.exception.notFound.PartnerNotFoundException;
 import BaseModule.factory.QueryFactory;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
@@ -29,7 +27,7 @@ public class CourseDao {
 
 	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws PseudoException, SQLException{
 		ArrayList<Course> clist = new ArrayList<Course>();
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		HashMap<Integer,Partner> pmap = new HashMap<Integer,Partner>();
@@ -114,9 +112,8 @@ public class CourseDao {
 						pmap.put(p_Id, partner);
 					}
 					clist.add(createCourseByResultSet(rs,partner,conn));
-				}else{
-					clist.add(createCourseByResultSet(rs));
 				}
+				//ignore the partner not founds
 			}
 		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,true);
@@ -334,59 +331,8 @@ public class CourseDao {
 		
 		return clist;
 	}
-	
-	public static Course getCourseByReference(String reference,Connection...connections) throws PseudoException, SQLException{
-		String query = "SELECT * FROM CourseDao where reference = ?";
-		Course course = null;
-		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
-		ResultSet rs = null;
-
-		try{
-			stmt = conn.prepareStatement(query);
-
-			stmt.setString(1, reference);
-			rs = stmt.executeQuery();
-			if(rs.next()){
-				course = createCourseByResultSet(rs,null,conn);				
-			}else {
-				throw new CourseNotFoundException();
-			}
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
-		} 
-		return course;
-	}
 
 	
-	public static ArrayList<Course> getCoursesFromPartner(int p_Id) throws PseudoException, SQLException{
-		String query = "SELECT * FROM CourseDao where p_Id = ? ";
-		ArrayList<Course> clist = new ArrayList<Course>();
-		PreparedStatement stmt = null;
-		Connection conn = null;
-		ResultSet rs = null;
-		HashMap<Integer,Partner> pmap = new HashMap<Integer,Partner>();
-		Partner partner = null;		
-		try{
-			conn = EduDaoBasic.getSQLConnection();
-			stmt = conn.prepareStatement(query);
-
-			stmt.setInt(1, p_Id);
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				partner = pmap.get(p_Id);
-				if(partner==null){
-					partner = PartnerDao.getPartnerById(p_Id, conn);
-					pmap.put(p_Id, partner);
-				}
-				clist.add(createCourseByResultSet(rs,partner,conn));
-			}
-		} finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
-		} 
-
-		return clist;
-	}
 
 	protected static Course createCourseByResultSet(ResultSet rs,Partner partner,Connection...connections) throws SQLException, PseudoException {
 		int p_Id =  rs.getInt("p_Id");
@@ -395,12 +341,7 @@ public class CourseDao {
 		String wholeName;
 
 		if(partner == null){
-			try {
-				partner = PartnerDao.getPartnerById(p_Id, connections);				
-			} catch (PartnerNotFoundException e) {				
-				e.printStackTrace();
-				DebugLog.d(e);
-			}
+			partner = PartnerDao.getPartnerById(p_Id, connections);				
 		}
 		
 		logoUrl = partner.getLogoUrl();
@@ -438,37 +379,5 @@ public class CourseDao {
 				rs.getString("phone"), logoUrl, instName, wholeName,rs.getString("t_MaterialName"));					
 	}
 
-	protected static Course createCourseByResultSet(ResultSet rs) throws SQLException{
-		return new Course(rs.getInt("id"),-1,DateUtility.DateToCalendar(rs.getDate("startTime")), 
-				DateUtility.DateToCalendar(rs.getDate("finishTime")),rs.getInt("price"),
-				rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),
-				AccountStatus.fromInt(rs.getInt("status")), 
-				rs.getString("category"), rs.getString("subCategory"),
-				rs.getString("location"),rs.getString("city"),
-				rs.getString("district"),rs.getString("reference"),
-				rs.getString("t_Intro"),rs.getString("t_ImgUrl"),
-				rs.getString("t_MethodsIntro"), rs.getString("classroomImgUrl"),
-				rs.getString("courseIntro"), DateUtility.DateToCalendar(rs.getDate("creationTime")), 
-				ClassModel.fromInt(rs.getInt("classModel")),
-				rs.getBoolean("hasDownloadMaterials"), rs.getString("quiz"), rs.getString("certification"),
-				rs.getString("openCourseRequirement"),
-				(ArrayList<String>)Parser.stringToList(rs.getString("questionBank"), new String("")),
-				rs.getString("suitableStudent"), rs.getString("prerequest"), rs.getString("highScoreReward"),
-				(ArrayList<String>)Parser.stringToList(rs.getString("extracurricular"), new String("")),  
-				rs.getString("courseName"),
-				rs.getString("dailyStartTime"),rs.getString("dailyFinishTime"),
-				(ArrayList<Integer>)Parser.stringToList(rs.getString("studyDays"), new Integer(0)), rs.getString("studyDaysNote"),
-				rs.getInt("courseHourNum"), rs.getInt("courseHourLength"),
-				rs.getString("partnerCourseReference"), rs.getString("classroomIntro"),
-				PartnerQualification.fromInt(rs.getInt("partnerQualification")), rs.getString("partnerIntro"),
-				(ArrayList<String>)Parser.stringToList(rs.getString("t_Methods"), new String("")),
-				TeachingMaterialType.fromInt(rs.getInt("t_MaterialType")),
-				rs.getString("t_MaterialIntro"), rs.getInt("t_MaterialCost"),
-				rs.getBoolean("t_MaterialFree"), rs.getString("questionBankIntro"),
-				rs.getString("passAgreement"), rs.getBoolean("provideAssignments"),
-				rs.getBoolean("provideMarking"), rs.getString("extracurricularIntro"),
-				rs.getString("phone"), "", "", "",rs.getString("t_MaterialName"));
-
-	}
 
 }

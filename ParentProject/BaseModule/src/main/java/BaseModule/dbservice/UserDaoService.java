@@ -18,10 +18,6 @@ import BaseModule.model.representation.UserSearchRepresentation;
 
 public class UserDaoService {
 
-	public static ArrayList<User> getAllUsers() throws SQLException{
-		return searchUser(new UserSearchRepresentation());
-	}
-
 	public static User getUserById(int id,Connection...connections) throws PseudoException, SQLException{
 		return UserDao.getUserById(id,connections);
 	}
@@ -38,7 +34,7 @@ public class UserDaoService {
 
 	public static User createUser(User user) throws PseudoException,SQLException{
 		//initialize coupons on registration
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		try{
 			//pre incr, stored when user is added saves 1 query
 			user.incCoupon(50);
@@ -68,7 +64,7 @@ public class UserDaoService {
 	}
 
 	public static User authenticateUser(String phone, String password) throws PseudoException, SQLException{ 
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		User user = null;
 		try{
 			user = UserDao.authenticateUser(phone, password,conn);
@@ -89,7 +85,7 @@ public class UserDaoService {
 	}
 
 	public static void updatePhone(int userId, String phone) throws PseudoException,SQLException{
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection();
 		try{
 			User user = UserDao.getUserById(userId);
 			user.setPhone(phone);
