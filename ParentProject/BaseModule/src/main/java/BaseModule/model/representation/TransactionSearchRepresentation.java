@@ -17,7 +17,7 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 	
 	private int transactionId;
 	private int userId;
-	private int couponId;
+	private long couponId;
 	private int bookingId;
 	private TransactionType transactionType;
 	private Calendar creationTime;
@@ -76,11 +76,11 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 		this.userId = userId;
 	}
 
-	public int getCouponId() {
+	public long getCouponId() {
 		return couponId;
 	}
 
-	public void setCouponId(int couponId) {
+	public void setCouponId(long couponId) {
 		this.couponId = couponId;
 	}
 

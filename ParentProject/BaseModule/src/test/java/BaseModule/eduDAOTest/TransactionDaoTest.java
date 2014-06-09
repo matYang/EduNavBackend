@@ -12,6 +12,7 @@ import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.encryptionException.PasswordHashingException;
+import BaseModule.exception.notFound.TransactionNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Transaction;
 import BaseModule.model.User;
@@ -42,7 +43,7 @@ public class TransactionDaoTest {
 	}
 	
 	@Test
-	public void testGet() throws SQLException{
+	public void testGet() throws SQLException, TransactionNotFoundException{
 		EduDaoBasic.clearAllDatabase();
 		int userId = 1;
 		int bookingId = 1;
@@ -67,18 +68,18 @@ public class TransactionDaoTest {
 		couponId = 1;
 		transaction3.setCouponId(couponId);
 		ArrayList<Transaction> tlist = new ArrayList<Transaction>();
-		tlist = TransactionDao.getTransactionById(userId, "user");
+		tlist = TransactionDao.getTransactionByUserId(userId);
 		if(tlist.size() == 1 && tlist.get(0).equals(transaction)){
 			//Passed;
 		}else fail();
 		
-		tlist = TransactionDao.getTransactionById(bookingId2, "booking");
+		tlist = TransactionDao.getTransactionByBookingId(bookingId2);
 		if(tlist.size() == 1 && tlist.get(0).equals(transaction2)){
 			//Passed;
 		}else fail();
 		
-		tlist = TransactionDao.getTransactionById(transaction3.getTransactionId(), "transaction");
-		if(tlist.size() == 1 && tlist.get(0).equals(transaction3)){
+		Transaction storedTransaction = TransactionDao.getTransactionById(transaction3.getTransactionId());
+		if(storedTransaction.equals(transaction3)){
 			//Passed;
 		}else fail();
 		

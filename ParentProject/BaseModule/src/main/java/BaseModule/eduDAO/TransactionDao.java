@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.TransactionType;
+import BaseModule.exception.notFound.TransactionNotFoundException;
 import BaseModule.model.Transaction;
 
 public class TransactionDao {
@@ -40,59 +41,102 @@ public class TransactionDao {
 		return transaction;
 	}	
 
-	public static ArrayList<Transaction> getTransactionById(int id,String indicator,Connection...connections){			
-		ArrayList<Transaction> tlist = new ArrayList<Transaction>();	
+	public static Transaction getTransactionById(int id, Connection...connections) throws TransactionNotFoundException{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
-		String indicatorSelector = "";
-		switch(indicator){
-		case "user":
-			indicatorSelector = "userId";
-		case "booking":
-			indicatorSelector = "bookingId";
-		case "transaction":
-			indicatorSelector = "transactionId";		
-		default:
-			indicatorSelector = "transactionId";
-
-		}
-		String query = "SELECT * from TransactionDao where " + indicatorSelector + " = ?";
+		Transaction transaction = null;
+		
+		String query = "SELECT * from TransactionDao where transactionId = ?";
 		try{
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, id);
 			rs = stmt.executeQuery();
-			while(rs.next()){
-				tlist.add(createTransactionByResultSet(rs));
+			if (rs.next()){
+				transaction = createTransactionByResultSet(rs);
+			}
+			else{
+				throw new TransactionNotFoundException();
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
-		return tlist;
+		
+		return transaction;
 	}
 	
-	public static ArrayList<Transaction> getTransactionByCouponId(long id){			
-		ArrayList<Transaction> tlist = new ArrayList<Transaction>();	
+	public static ArrayList<Transaction> getTransactionByUserId(int id, Connection...connections){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		Connection conn = EduDaoBasic.getSQLConnection();		
+		Connection conn = EduDaoBasic.getConnection(connections);
+		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+		
+		String query = "SELECT * from TransactionDao where userId = ?";
+		try{
+			stmt = conn.prepareStatement(query);
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			while (rs.next()){
+				transactions.add(createTransactionByResultSet(rs));
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);
+		}finally  {
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
+		} 
+		
+		return transactions;
+	}
+	
+	public static ArrayList<Transaction> getTransactionByCouponId(long id, Connection...connections){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection conn = EduDaoBasic.getConnection(connections);
+		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+		
 		String query = "SELECT * from TransactionDao where couponId = ?";
 		try{
 			stmt = conn.prepareStatement(query);
 			stmt.setLong(1, id);
 			rs = stmt.executeQuery();
-			while(rs.next()){
-				tlist.add(createTransactionByResultSet(rs));
+			while (rs.next()){
+				transactions.add(createTransactionByResultSet(rs));
 			}
 		}catch(SQLException e){
 			DebugLog.d(e);
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
-		return tlist;
+		
+		return transactions;
 	}
+	
+	public static ArrayList<Transaction> getTransactionByBookingId(int id, Connection...connections){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection conn = EduDaoBasic.getConnection(connections);
+		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+		
+		String query = "SELECT * from TransactionDao where bookingId = ?";
+		try{
+			stmt = conn.prepareStatement(query);
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			while (rs.next()){
+				transactions.add(createTransactionByResultSet(rs));
+			}
+		}catch(SQLException e){
+			DebugLog.d(e);
+		}finally  {
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
+		} 
+		
+		return transactions;
+	}
+	
+
 
 	private static Transaction createTransactionByResultSet(ResultSet rs) throws SQLException {		
 		return new Transaction(rs.getInt("transactionId"),rs.getInt("userId"), rs.getInt("bookingId"),rs.getLong("couponId"),

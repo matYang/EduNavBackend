@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.TransactionDao;
+import BaseModule.exception.notFound.TransactionNotFoundException;
 import BaseModule.model.Transaction;
+import BaseModule.model.representation.TransactionSearchRepresentation;
 
 public class TransactionDaoService {
 
@@ -13,20 +15,32 @@ public class TransactionDaoService {
 		return TransactionDao.addTransactionToDatabases(transaction,connections);
 	}
 	
-	public static ArrayList<Transaction> getTransactionsByUserId(int userId){
-		return TransactionDao.getTransactionById(userId, "user");
+	public static Transaction getTransactionByTransactionId(int transactionId) throws TransactionNotFoundException{
+		return TransactionDao.getTransactionById(transactionId);
 	}
 	
-	public static ArrayList<Transaction> getTransactionByTransactionId(int transactionId){
-		return TransactionDao.getTransactionById(transactionId, "transaction");
+	
+	public static ArrayList<Transaction> getTransactionsByUserId(int userId,Connection...connections){
+		TransactionSearchRepresentation t_sr = new TransactionSearchRepresentation();
+		t_sr.setUserId(userId);
+		return searchTransaction(t_sr, connections);
 	}
 	
-	public static ArrayList<Transaction> getTransactionsByBookingId(int bookingId){
-		return TransactionDao.getTransactionById(bookingId, "booking");
+	
+	public static ArrayList<Transaction> getTransactionsByBookingId(int bookingId,Connection...connections){
+		TransactionSearchRepresentation t_sr = new TransactionSearchRepresentation();
+		t_sr.setBookingId(bookingId);
+		return searchTransaction(t_sr, connections);
 	}
 	
-	public static ArrayList<Transaction> getTransactionByCouponId(long couponId){
-		return TransactionDao.getTransactionByCouponId(couponId);
+	public static ArrayList<Transaction> getTransactionByCouponId(long couponId,Connection...connections){
+		TransactionSearchRepresentation t_sr = new TransactionSearchRepresentation();
+		t_sr.setCouponId(couponId);
+		return searchTransaction(t_sr, connections);
+	}
+	
+	public static ArrayList<Transaction> searchTransaction(TransactionSearchRepresentation t_sr,Connection...connections){
+		return null;
 	}
 	
 }

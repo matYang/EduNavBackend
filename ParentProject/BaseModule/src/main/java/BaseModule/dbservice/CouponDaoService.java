@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.model.Coupon;
+import BaseModule.model.representation.CouponSearchRepresentation;
 
 public class CouponDaoService {
 
@@ -18,11 +19,18 @@ public class CouponDaoService {
 		CouponDao.updateCouponInDatabases(c,connections);
 	}
 	
-	public static ArrayList<Coupon> getCouponByUserId(int userId){
-		return CouponDao.getCouponByUserId(userId);
-	}
-	
 	public static Coupon getCouponByCouponId(int couponId,Connection...connections){
 		return CouponDao.getCouponByCouponId(couponId,connections);
+	}
+	
+	public static ArrayList<Coupon> getCouponByUserId(int userId){
+		CouponSearchRepresentation coup_sr = new CouponSearchRepresentation();
+		coup_sr.setUserId(userId);
+		return searchCoupon(coup_sr);
+	}
+
+	
+	public static ArrayList<Coupon> searchCoupon(CouponSearchRepresentation coup_sr){
+		return null;
 	}
 }

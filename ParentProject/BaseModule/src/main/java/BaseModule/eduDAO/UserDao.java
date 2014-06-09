@@ -63,7 +63,7 @@ public class UserDao {
 				user = createUserByResultSet(rs);
 				user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
 				user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
-				user.setTransactionList(TransactionDao.getTransactionById(user.getUserId(), "user",conn));				
+				user.setTransactionList(TransactionDao.getTransactionByUserId(user.getUserId(),conn));				
 				ulist.add(user);
 			}
 		}catch(SQLException e){
@@ -91,7 +91,7 @@ public class UserDao {
 				user = createUserByResultSet(rs);
 				user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
 				user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
-				user.setTransactionList(TransactionDao.getTransactionById(user.getUserId(), "user",conn));
+				user.setTransactionList(TransactionDao.getTransactionByUserId(user.getUserId(),conn));
 				users.add(user);
 			}
 		}catch(SQLException e){
@@ -182,7 +182,7 @@ public class UserDao {
 				user = createUserByResultSet(rs);
 				user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
 				user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
-				user.setTransactionList(TransactionDao.getTransactionById(user.getUserId(), "user",conn));
+				user.setTransactionList(TransactionDao.getTransactionByUserId(user.getUserId(),conn));
 			}else{
 				throw new UserNotFoundException();
 			}
@@ -243,7 +243,7 @@ public class UserDao {
 				user = createUserByResultSet(rs);
 				user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
 				user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
-				user.setTransactionList(TransactionDao.getTransactionById(user.getUserId(), "user",conn));
+				user.setTransactionList(TransactionDao.getTransactionByUserId(user.getUserId(),conn));
 			}else{
 				throw new UserNotFoundException();
 			}
@@ -304,7 +304,7 @@ public class UserDao {
 					user = createUserByResultSet(rs);
 					user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
 					user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
-					user.setTransactionList(TransactionDao.getTransactionById(user.getUserId(), "user",conn));
+					user.setTransactionList(TransactionDao.getTransactionByUserId(user.getUserId(),conn));
 				}
 				else{
 					throw new AuthenticationException("手机号码或密码输入错误");

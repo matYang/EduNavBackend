@@ -8,6 +8,7 @@ import BaseModule.eduDAO.CreditDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CreditNotFoundException;
 import BaseModule.model.Credit;
+import BaseModule.model.representation.CreditSearchRepresentation;
 
 public class CreditDaoService {
 
@@ -19,11 +20,18 @@ public class CreditDaoService {
 		CreditDao.updateCreditInDatabases(c,connections);
 	}
 	
-	public static ArrayList<Credit> getCreditByUserId(int userId){
-		return CreditDao.getCreditByUserId(userId);
+	public static Credit getCreditByCreditId(long creditId,Connection...connections) throws CreditNotFoundException, SQLException{
+		return CreditDao.getCreditByCreditId(creditId, connections);
 	}
 	
-	public static Credit getCreditByCreditId(long creditId){
-		return CreditDao.getCreditByCreditId(creditId);
+	public static ArrayList<Credit> getCreditByUserId(int userId,Connection...connections){
+		CreditSearchRepresentation cr_sr = new CreditSearchRepresentation();
+		cr_sr.setUserId(userId);
+		return searchCredit(cr_sr);
+	}
+	
+	
+	public static ArrayList<Credit> searchCredit(CreditSearchRepresentation cr_sr,Connection...connections){
+		return null;
 	}
 }

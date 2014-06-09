@@ -102,9 +102,9 @@ public class CreditDao {
 		return clist;
 	}
 
-	public static Credit getCreditByCreditId(long creditId){
+	public static Credit getCreditByCreditId(long creditId, Connection... connections) throws CreditNotFoundException, SQLException{
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getSQLConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
 		Credit c = null;
 		String query = "SELECT * from CreditDao where creditId = ?";
@@ -116,10 +116,11 @@ public class CreditDao {
 			if(rs.next()){
 				c = createCreditByResultSet(rs);
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
+			else{
+				throw new CreditNotFoundException();
+			}
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return c;
 	}

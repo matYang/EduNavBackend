@@ -85,6 +85,7 @@ public class EduDaoBasic {
     public static boolean shouldConnectionClose(Connection...connections){
     	return connections==null || connections.length==0;
     }
+    
     public static Connection getSQLConnection(){
     	Connection connection;
     	try {
