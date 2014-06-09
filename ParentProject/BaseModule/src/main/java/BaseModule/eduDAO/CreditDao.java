@@ -14,8 +14,6 @@ import BaseModule.exception.notFound.CreditNotFoundException;
 import BaseModule.model.Credit;
 
 
-
-
 public class CreditDao {
 
 	public static Credit addCreditToDatabases(Credit c,Connection...connections) throws SQLException{
@@ -39,9 +37,6 @@ public class CreditDao {
 			rs.next();
 			c.setCreditId(rs.getLong(1));			
 
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
@@ -73,15 +68,12 @@ public class CreditDao {
 			if(recordsAffected==0){
 				throw new CreditNotFoundException();
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}	
 	}
 
-	public static ArrayList<Credit> getCreditByUserId(int userId,Connection...connections) throws PseudoException, SQLException{
+	public static ArrayList<Credit> getCreditByUserId(int userId,Connection...connections) throws SQLException{
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
@@ -95,8 +87,6 @@ public class CreditDao {
 			while(rs.next()){
 				clist.add(createCreditByResultSet(rs));
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 

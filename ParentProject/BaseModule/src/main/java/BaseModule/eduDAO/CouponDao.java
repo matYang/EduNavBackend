@@ -36,9 +36,6 @@ public class CouponDao {
 			rs.next();
 			c.setCouponId(rs.getLong(1));			
 
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
@@ -70,15 +67,12 @@ public class CouponDao {
 			if(recordsAffected==0){
 				throw new CouponNotFoundException();
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}	
 	}	
 
-	public static ArrayList<Coupon> getCouponByUserId(int userId,Connection...connections){
+	public static ArrayList<Coupon> getCouponByUserId(int userId,Connection...connections) throws SQLException{
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
@@ -92,15 +86,13 @@ public class CouponDao {
 			while(rs.next()){
 				clist.add(createCouponByResultSet(rs));
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return clist;
 	}
 	
-	public static Coupon getCouponByCouponId(long couponId,Connection...connections){
+	public static Coupon getCouponByCouponId(long couponId,Connection...connections) throws SQLException{
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
@@ -114,8 +106,6 @@ public class CouponDao {
 			if(rs.next()){
 				c = createCouponByResultSet(rs);
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 

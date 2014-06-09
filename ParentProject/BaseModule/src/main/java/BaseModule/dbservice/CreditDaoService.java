@@ -20,7 +20,7 @@ public class CreditDaoService {
 		CreditDao.updateCreditInDatabases(c,connections);
 	}
 	
-	public static Credit getCreditByCreditId(long creditId,Connection...connections) throws CreditNotFoundException, SQLException{
+	public static Credit getCreditByCreditId(long creditId,Connection...connections) throws PseudoException, SQLException{
 		return CreditDao.getCreditByCreditId(creditId, connections);
 	}
 	

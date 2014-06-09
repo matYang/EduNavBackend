@@ -27,7 +27,7 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 public class CourseDao {
 
 
-	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws PseudoException{
+	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws PseudoException, SQLException{
 		ArrayList<Course> clist = new ArrayList<Course>();
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
@@ -118,10 +118,6 @@ public class CourseDao {
 					clist.add(createCourseByResultSet(rs));
 				}
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-		}catch (PartnerNotFoundException e) {
-			DebugLog.d(e);
 		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,true);
 		} 
@@ -201,9 +197,6 @@ public class CourseDao {
 			rs = stmt.getGeneratedKeys();
 			rs.next();
 			course.setCourseId(rs.getInt(1));
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -280,15 +273,12 @@ public class CourseDao {
 			if(recordsAffected==0){
 				throw new CourseNotFoundException();
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}
 	}
 
-	public static Course getCourseById(int courseId,Connection...connections) throws PseudoException{
+	public static Course getCourseById(int courseId,Connection...connections) throws PseudoException, SQLException{
 		String query = "SELECT * FROM CourseDao where id = ?";
 		Course course = null;
 		PreparedStatement stmt = null;
@@ -302,16 +292,16 @@ public class CourseDao {
 			rs = stmt.executeQuery();
 			if(rs.next()){
 				course = createCourseByResultSet(rs,null,conn);				
-			}else throw new CourseNotFoundException();
-		}catch(SQLException e){
-			DebugLog.d(e);
+			}else {
+				throw new CourseNotFoundException();
+			}
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 		return course;
 	}
 	
-	public static ArrayList<Course> getCourseByIdList(ArrayList<Integer> idList, Connection...connections) throws PseudoException{
+	public static ArrayList<Course> getCourseByIdList(ArrayList<Integer> idList, Connection...connections) throws PseudoException, SQLException{
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
@@ -338,8 +328,6 @@ public class CourseDao {
 			while(rs.next()){
 				clist.add(createCourseByResultSet(rs,null,conn));
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);			
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -347,7 +335,7 @@ public class CourseDao {
 		return clist;
 	}
 	
-	public static Course getCourseByReference(String reference,Connection...connections) throws PseudoException{
+	public static Course getCourseByReference(String reference,Connection...connections) throws PseudoException, SQLException{
 		String query = "SELECT * FROM CourseDao where reference = ?";
 		Course course = null;
 		PreparedStatement stmt = null;
@@ -361,9 +349,9 @@ public class CourseDao {
 			rs = stmt.executeQuery();
 			if(rs.next()){
 				course = createCourseByResultSet(rs,null,conn);				
-			}else throw new CourseNotFoundException();
-		}catch(SQLException e){
-			DebugLog.d(e);
+			}else {
+				throw new CourseNotFoundException();
+			}
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -371,7 +359,7 @@ public class CourseDao {
 	}
 
 	
-	public static ArrayList<Course> getCoursesFromPartner(int p_Id) throws PseudoException{
+	public static ArrayList<Course> getCoursesFromPartner(int p_Id) throws PseudoException, SQLException{
 		String query = "SELECT * FROM CourseDao where p_Id = ? ";
 		ArrayList<Course> clist = new ArrayList<Course>();
 		PreparedStatement stmt = null;
@@ -393,11 +381,7 @@ public class CourseDao {
 				}
 				clist.add(createCourseByResultSet(rs,partner,conn));
 			}
-		} catch(SQLException e){
-			DebugLog.d(e);
-		} catch (PartnerNotFoundException e) {			
-			DebugLog.d(e);
-		}finally  {
+		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,true);
 		} 
 

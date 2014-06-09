@@ -20,7 +20,7 @@ import BaseModule.model.representation.BookingSearchRepresentation;
 
 public class BookingDao {
 
-	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr) throws PseudoException{
+	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr) throws PseudoException, SQLException{
 		ArrayList<Booking> blist = new ArrayList<Booking>();
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
@@ -78,8 +78,6 @@ public class BookingDao {
 			while(rs.next()){
 				blist.add(createBookingByResultSet(rs,conn));
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
@@ -120,9 +118,6 @@ public class BookingDao {
 			rs = stmt.getGeneratedKeys();
 			rs.next();
 			booking.setBookingId(rs.getInt(1));
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -171,16 +166,13 @@ public class BookingDao {
 			if(recordsAffected==0){
 				throw new BookingNotFoundException();
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		}
 
 	}
 
-	public static ArrayList<Booking> getAllBookings() throws PseudoException{
+	public static ArrayList<Booking> getAllBookings() throws PseudoException, SQLException{
 		String query = "SELECT * FROM BookingDao";
 		ArrayList<Booking> blist = new ArrayList<Booking>();
 		PreparedStatement stmt = null;
@@ -194,15 +186,13 @@ public class BookingDao {
 			while(rs.next()){					
 				blist.add(createBookingByResultSet(rs,conn));
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,true);
 		} 
 		return blist;
 	}
 
-	public static Booking getBookingById(int id,Connection...connections) throws PseudoException{
+	public static Booking getBookingById(int id,Connection...connections) throws PseudoException, SQLException{
 		String query = "SELECT * FROM BookingDao WHERE id = ?";
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
@@ -215,9 +205,9 @@ public class BookingDao {
 			rs = stmt.executeQuery();
 			if(rs.next()){
 				booking = createBookingByResultSet(rs,conn);
-			}else throw new BookingNotFoundException();
-		}catch(SQLException e){
-			DebugLog.d(e);
+			}else {
+				throw new BookingNotFoundException();
+			}
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
