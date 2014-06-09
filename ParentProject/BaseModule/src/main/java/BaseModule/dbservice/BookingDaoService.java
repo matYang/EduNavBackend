@@ -24,7 +24,7 @@ import BaseModule.service.SMSService;
 
 public class BookingDaoService {
 
-	public static ArrayList<Booking> getAllBookings(){
+	public static ArrayList<Booking> getAllBookings() throws PseudoException{
 		return BookingDao.getAllBookings();
 	}
 
@@ -165,18 +165,18 @@ public class BookingDaoService {
 		return booking;
 	}
 
-	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation b_sr) {
+	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation b_sr) throws PseudoException {
 		return BookingDao.searchBooking(b_sr);
 	}
 
-	public static ArrayList<Booking> getBookingByReference(String reference){
+	public static ArrayList<Booking> getBookingByReference(String reference) throws PseudoException{
 		BookingSearchRepresentation sr = new BookingSearchRepresentation();
 		sr.setReference(reference);
 		return searchBooking(sr);
 	}
 
 
-	public static boolean isReferenceAvailable(String reference){
+	public static boolean isReferenceAvailable(String reference) throws PseudoException{
 		return getBookingByReference(reference).size() == 0;
 	}
 }

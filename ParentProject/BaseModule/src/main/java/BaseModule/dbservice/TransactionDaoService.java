@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import BaseModule.eduDAO.TransactionDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.TransactionNotFoundException;
 import BaseModule.model.Transaction;
 import BaseModule.model.representation.TransactionSearchRepresentation;
@@ -15,32 +16,32 @@ public class TransactionDaoService {
 		return TransactionDao.addTransactionToDatabases(transaction,connections);
 	}
 	
-	public static Transaction getTransactionByTransactionId(int transactionId) throws TransactionNotFoundException{
-		return TransactionDao.getTransactionById(transactionId);
+	public static Transaction getTransactionByTransactionId(int transactionId,Connection...connections) throws PseudoException, SQLException{
+		return TransactionDao.getTransactionById(transactionId, connections);
 	}
 	
 	
-	public static ArrayList<Transaction> getTransactionsByUserId(int userId,Connection...connections){
+	public static ArrayList<Transaction> getTransactionsByUserId(int userId,Connection...connections) throws SQLException{
 		TransactionSearchRepresentation t_sr = new TransactionSearchRepresentation();
 		t_sr.setUserId(userId);
 		return searchTransaction(t_sr, connections);
 	}
 	
 	
-	public static ArrayList<Transaction> getTransactionsByBookingId(int bookingId,Connection...connections){
+	public static ArrayList<Transaction> getTransactionsByBookingId(int bookingId,Connection...connections)throws SQLException{
 		TransactionSearchRepresentation t_sr = new TransactionSearchRepresentation();
 		t_sr.setBookingId(bookingId);
 		return searchTransaction(t_sr, connections);
 	}
 	
-	public static ArrayList<Transaction> getTransactionByCouponId(long couponId,Connection...connections){
+	public static ArrayList<Transaction> getTransactionByCouponId(long couponId,Connection...connections) throws SQLException{
 		TransactionSearchRepresentation t_sr = new TransactionSearchRepresentation();
 		t_sr.setCouponId(couponId);
 		return searchTransaction(t_sr, connections);
 	}
 	
-	public static ArrayList<Transaction> searchTransaction(TransactionSearchRepresentation t_sr,Connection...connections){
-		return null;
+	public static ArrayList<Transaction> searchTransaction(TransactionSearchRepresentation t_sr,Connection...connections) throws SQLException{
+		return TransactionDaoService.searchTransaction(t_sr, connections);
 	}
 	
 }

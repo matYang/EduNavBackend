@@ -22,6 +22,7 @@ import BaseModule.dbservice.CourseDaoService;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
@@ -216,7 +217,7 @@ public class MemcachedBenchMarkResource extends AdminPseudoResource {
 
 	}
 	
-	private void loadPartners(Connection...connections){
+	private void loadPartners(Connection...connections) throws PseudoException{
 		try{
 			String name = "XDF";
 			String instName = "xiaofeng";

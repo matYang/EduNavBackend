@@ -11,6 +11,7 @@ import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.TransactionNotFoundException;
 import BaseModule.exception.validation.ValidationException;
@@ -20,7 +21,7 @@ import BaseModule.model.User;
 public class TransactionDaoTest {
 
 	@Test
-	public void testAdd() throws ValidationException, PasswordHashingException, SQLException{
+	public void testAdd() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
 		String phone = "12345612312";
@@ -43,7 +44,7 @@ public class TransactionDaoTest {
 	}
 	
 	@Test
-	public void testGet() throws SQLException, TransactionNotFoundException{
+	public void testGet() throws SQLException, PseudoException{
 		EduDaoBasic.clearAllDatabase();
 		int userId = 1;
 		int bookingId = 1;
@@ -73,20 +74,12 @@ public class TransactionDaoTest {
 			//Passed;
 		}else fail();
 		
-		tlist = TransactionDao.getTransactionByBookingId(bookingId2);
-		if(tlist.size() == 1 && tlist.get(0).equals(transaction2)){
-			//Passed;
-		}else fail();
-		
+
 		Transaction storedTransaction = TransactionDao.getTransactionById(transaction3.getTransactionId());
 		if(storedTransaction.equals(transaction3)){
 			//Passed;
 		}else fail();
 		
-		tlist = TransactionDao.getTransactionByCouponId(couponId);
-		if(tlist.size() == 1 && tlist.get(0).equals(transaction3)){
-			//Passed;
-		}else fail();
 				
 	}
 }

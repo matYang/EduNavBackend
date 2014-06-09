@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.factory.QueryFactory;
@@ -19,7 +20,7 @@ import BaseModule.model.representation.BookingSearchRepresentation;
 
 public class BookingDao {
 
-	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr){
+	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr) throws PseudoException{
 		ArrayList<Booking> blist = new ArrayList<Booking>();
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
@@ -179,7 +180,7 @@ public class BookingDao {
 
 	}
 
-	public static ArrayList<Booking> getAllBookings(){
+	public static ArrayList<Booking> getAllBookings() throws PseudoException{
 		String query = "SELECT * FROM BookingDao";
 		ArrayList<Booking> blist = new ArrayList<Booking>();
 		PreparedStatement stmt = null;
@@ -201,7 +202,7 @@ public class BookingDao {
 		return blist;
 	}
 
-	public static Booking getBookingById(int id,Connection...connections) throws BookingNotFoundException{
+	public static Booking getBookingById(int id,Connection...connections) throws PseudoException{
 		String query = "SELECT * FROM BookingDao WHERE id = ?";
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
@@ -224,7 +225,7 @@ public class BookingDao {
 	}
 	
 
-	protected static Booking createBookingByResultSet(ResultSet rs,Connection...connections) throws SQLException {		
+	protected static Booking createBookingByResultSet(ResultSet rs,Connection...connections) throws SQLException, PseudoException {		
 		int courseId = rs.getInt("course_Id");
 		Course course = null;
 		try {

@@ -1,6 +1,7 @@
 package AdminModule.resources.admin;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -139,7 +140,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 	}
 	
 	
-	protected AdminAccount validateAdminAccountJSON(JSONObject jsonAdmin) throws ValidationException{
+	protected AdminAccount validateAdminAccountJSON(JSONObject jsonAdmin) throws ValidationException, SQLException{
 		AdminAccount account = null;
 		
 		try {

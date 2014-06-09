@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CreditStatus;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CreditNotFoundException;
 import BaseModule.model.Credit;
 
@@ -48,7 +49,7 @@ public class CreditDao {
 	}
 
 
-	public static void updateCreditInDatabases(Credit c,Connection...connections) throws CreditNotFoundException, SQLException{
+	public static void updateCreditInDatabases(Credit c,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -80,7 +81,7 @@ public class CreditDao {
 		}	
 	}
 
-	public static ArrayList<Credit> getCreditByUserId(int userId,Connection...connections){
+	public static ArrayList<Credit> getCreditByUserId(int userId,Connection...connections) throws PseudoException, SQLException{
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
@@ -102,7 +103,7 @@ public class CreditDao {
 		return clist;
 	}
 
-	public static Credit getCreditByCreditId(long creditId, Connection... connections) throws CreditNotFoundException, SQLException{
+	public static Credit getCreditByCreditId(long creditId, Connection... connections) throws PseudoException, SQLException{
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;

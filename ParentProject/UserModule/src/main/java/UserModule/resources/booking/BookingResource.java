@@ -1,6 +1,7 @@
 package UserModule.resources.booking;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -86,7 +87,7 @@ public class BookingResource extends UserPseudoResource{
 		return result;
 	}
 
-	protected Booking parseJSON(JSONObject jsonBooking) throws ValidationException, ParseException {
+	protected Booking parseJSON(JSONObject jsonBooking) throws ValidationException, ParseException, SQLException {
 		Booking booking = null;
 		try{
 			

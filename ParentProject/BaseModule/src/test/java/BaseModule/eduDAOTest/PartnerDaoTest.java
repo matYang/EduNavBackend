@@ -57,10 +57,7 @@ public class PartnerDaoTest {
 			//Passed;
 		}else fail();
 		
-		Partner partner3 = PartnerDao.getPartnerByPhone(partner.getPhone());
-		if(partner2.equals(partner3)){
-			//Passed;
-		}else fail();
+
 		
 		String name2 = "HQYS";
 		String instName2 = "daofeng";
@@ -102,7 +99,9 @@ public class PartnerDaoTest {
 		partner.setPassword("dsfdsf23234");
 		
 		PartnerDao.updatePartnerInDatabases(partner);
-		partner = PartnerDao.getPartnerByPhone(phone);
+		PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
+		p_sr.setPhone(phone);
+		partner = PartnerDao.searchPartner(p_sr).get(0);
 		if(partner.getWholeName().equals("HQYS")&&partner.getPassword().equals("dsfds23234")){
 			
 		}

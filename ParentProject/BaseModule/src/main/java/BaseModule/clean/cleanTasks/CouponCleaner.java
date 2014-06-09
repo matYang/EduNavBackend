@@ -10,6 +10,7 @@ import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.model.Coupon;
@@ -17,7 +18,7 @@ import BaseModule.model.Coupon;
 
 public class CouponCleaner extends CouponDao{
 
-	public static void clean() {
+	public static void clean() throws PseudoException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn = EduDaoBasic.getSQLConnection();		

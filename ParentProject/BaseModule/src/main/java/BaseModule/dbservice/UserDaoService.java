@@ -18,15 +18,15 @@ import BaseModule.model.representation.UserSearchRepresentation;
 
 public class UserDaoService {
 
-	public static ArrayList<User> getAllUsers(){
-		return UserDao.getAllUsers();
+	public static ArrayList<User> getAllUsers() throws SQLException{
+		return searchUser(new UserSearchRepresentation());
 	}
 
 	public static User getUserById(int id,Connection...connections) throws PseudoException, SQLException{
 		return UserDao.getUserById(id,connections);
 	}
 
-	public static User getUserByPhone(String phone) throws UserNotFoundException{
+	public static User getUserByPhone(String phone) throws UserNotFoundException, SQLException{
 		UserSearchRepresentation u_sr = new UserSearchRepresentation();
 		u_sr.setPhone(phone);
 		ArrayList<User> users = searchUser(u_sr);
@@ -60,7 +60,7 @@ public class UserDaoService {
 		UserDao.updateUserInDatabases(user,connections);
 	}
 
-	public static boolean isCellPhoneAvailable(String phone){
+	public static boolean isCellPhoneAvailable(String phone) throws SQLException{
 		UserSearchRepresentation u_sr = new UserSearchRepresentation();
 		u_sr.setPhone(phone);
 		ArrayList<User> users = searchUser(u_sr);
@@ -99,7 +99,7 @@ public class UserDaoService {
 		}
 	}
 
-	public static ArrayList<User> searchUser(UserSearchRepresentation sr) {
+	public static ArrayList<User> searchUser(UserSearchRepresentation sr) throws SQLException {
 		return UserDao.searchUser(sr);
 	}	
 

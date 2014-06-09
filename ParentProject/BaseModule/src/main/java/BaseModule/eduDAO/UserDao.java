@@ -10,8 +10,8 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.encryption.PasswordCrypto;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
-import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.QueryFactory;
@@ -20,7 +20,7 @@ import BaseModule.model.representation.UserSearchRepresentation;
 
 public class UserDao {
 
-	public static ArrayList<User> searchUser(UserSearchRepresentation sr){
+	public static ArrayList<User> searchUser(UserSearchRepresentation sr) throws SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -66,44 +66,14 @@ public class UserDao {
 				user.setTransactionList(TransactionDao.getTransactionByUserId(user.getUserId(),conn));				
 				ulist.add(user);
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
 		return ulist;
 	}
-	
-	public static ArrayList<User> getAllUsers(){
-		String query = "SELECT * FROM UserDao";
-		ArrayList<User> users = new ArrayList<User>();
-
-		PreparedStatement stmt = null;
-		Connection conn = null;
-		ResultSet rs = null;
-		User user = null;
-		try{
-			conn = EduDaoBasic.getSQLConnection();
-			stmt = conn.prepareStatement(query);
-
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				user = createUserByResultSet(rs);
-				user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
-				user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
-				user.setTransactionList(TransactionDao.getTransactionByUserId(user.getUserId(),conn));
-				users.add(user);
-			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
-		} 
-		return users;
-	}
 
 
-	public static User addUserToDatabase(User user,Connection...connections) throws ValidationException, PasswordHashingException, SQLException{
+	public static User addUserToDatabase(User user,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -141,7 +111,7 @@ public class UserDao {
 		} 
 	}
 
-	public static void updateUserInDatabases(User user,Connection...connections) throws ValidationException, SQLException, UserNotFoundException{
+	public static void updateUserInDatabases(User user,Connection...connections)  throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=?,email=? where id=?";
@@ -167,7 +137,7 @@ public class UserDao {
 	}
 
 
-	public static User getUserById(int id,Connection...connections) throws UserNotFoundException, SQLException{
+	public static User getUserById(int id,Connection...connections) throws PseudoException, SQLException{
 		String query = "SELECT * FROM UserDao WHERE id = ?";
 		User user = null;
 		PreparedStatement stmt = null;
@@ -193,7 +163,7 @@ public class UserDao {
 		return user;
 	}
 
-	public static void updateUserBCC(int balance,int credit,int coupon,int userId,Connection...connections) throws UserNotFoundException, SQLException{
+	public static void updateUserBCC(int balance,int credit,int coupon,int userId,Connection...connections)  throws PseudoException, SQLException{
 		String bopr = balance >= 0 ? "+" : "-";
 		String cropr = credit >= 0 ? "+" : "-";
 		String coopr = coupon >= 0 ? "+" : "-";
@@ -227,7 +197,7 @@ public class UserDao {
 	}
 	
 	//currently this method is not being used as UserSearchRepresentation does its job
-	public static User getUserByPhone(String phone) throws UserNotFoundException, SQLException{
+	public static User getUserByPhone(String phone)  throws PseudoException, SQLException{
 		String query = "SELECT * FROM UserDao WHERE phone = ?";
 		User user = null;
 		PreparedStatement stmt = null;
@@ -253,7 +223,7 @@ public class UserDao {
 		return user;
 	}
 
-	public static void changeUserPassword(int userId, String oldPassword, String newPassword) throws AuthenticationException, SQLException, PasswordHashingException, UserNotFoundException{
+	public static void changeUserPassword(int userId, String oldPassword, String newPassword)  throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
@@ -287,7 +257,7 @@ public class UserDao {
 
 	}
 
-	public static User authenticateUser(String phone, String password,Connection...connections) throws SQLException, AuthenticationException, PasswordHashingException, UserNotFoundException{
+	public static User authenticateUser(String phone, String password,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
@@ -319,7 +289,7 @@ public class UserDao {
 		return user;
 	}
 
-	public static void recoverUserPassword(String phone,String newPassword) throws AuthenticationException, SQLException, PasswordHashingException{
+	public static void recoverUserPassword(String phone,String newPassword) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;			

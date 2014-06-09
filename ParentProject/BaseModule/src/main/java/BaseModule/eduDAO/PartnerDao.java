@@ -10,7 +10,9 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.encryption.PasswordCrypto;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
+import BaseModule.exception.encryptionException.PasswordHashingException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.QueryFactory;
@@ -19,7 +21,7 @@ import BaseModule.model.representation.PartnerSearchRepresentation;
 
 public class PartnerDao {
 
-	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr){
+	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr) throws SQLException{
 		ArrayList<Partner> plist = new ArrayList<Partner>();
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
@@ -62,15 +64,13 @@ public class PartnerDao {
 				plist.add(createPartnerByResultSet(rs));
 			}
 
-		}catch(SQLException e){
-			DebugLog.d(e);
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
 		return plist;
 	}
 
-	public static Partner addPartnerToDatabases(Partner p,Connection...connections) throws ValidationException, SQLException{
+	public static Partner addPartnerToDatabases(Partner p,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
@@ -95,20 +95,15 @@ public class PartnerDao {
 			rs = stmt.getGeneratedKeys();
 			rs.next();
 			p.setPartnerId(rs.getInt(1));
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
-		} catch (Exception e) {			
-			DebugLog.d(e);
-			throw new ValidationException("创建用户失败，账户信息错误");
-		}  finally  {
+			p.setPassword("");
+			
+		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
-		p.setPassword("");
 		return p;
 	}
 
-	public static void updatePartnerInDatabases(Partner p,Connection...connections) throws PartnerNotFoundException, SQLException{
+	public static void updatePartnerInDatabases(Partner p,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;
 		String query = "UPDATE PartnerDao SET name=?,licence=?,organizationNum=?,reference=?,phone=?," +
@@ -129,38 +124,13 @@ public class PartnerDao {
 			if(recordsAffected==0){
 				throw new PartnerNotFoundException();
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
-		} finally  {
+		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}
 	}
 
-	public static ArrayList<Partner> getAllPartners(){
-		String query = "SELECT * FROM PartnerDao";
-		ArrayList<Partner> partners = new ArrayList<Partner>();
 
-		PreparedStatement stmt = null;
-		Connection conn = null;
-		ResultSet rs = null;
-		try{
-			conn = EduDaoBasic.getSQLConnection();
-			stmt = conn.prepareStatement(query);
-
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				partners.add(createPartnerByResultSet(rs));
-			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
-		} 
-		return partners;
-	}
-
-	public static Partner getPartnerById(int id,Connection...connections) throws PartnerNotFoundException{
+	public static Partner getPartnerById(int id,Connection...connections) throws PseudoException, SQLException{
 		String query = "SELECT * FROM PartnerDao WHERE id = ?";
 		Partner partner = null;
 		PreparedStatement stmt = null;
@@ -176,8 +146,6 @@ public class PartnerDao {
 			}else{
 				throw new PartnerNotFoundException();
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -185,83 +153,8 @@ public class PartnerDao {
 		return partner;
 	}
 
-	public static int getPartnerIdByReference(String reference,Connection...connections) throws PartnerNotFoundException{
-		String query = "SELECT * FROM PartnerDao WHERE reference = ?";
-		int partnerId = -1;
-		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
-		ResultSet rs = null;
-		try{		
-			stmt = conn.prepareStatement(query);
 
-			stmt.setString(1, reference);
-			rs = stmt.executeQuery();
-			if(rs.next()){
-				partnerId = rs.getInt("id");
-			}else{
-				throw new PartnerNotFoundException();
-			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
-		} 
-
-		return partnerId;
-	}
-
-	public static int getPartnerIdByInstName(String instName,Connection...connections) throws PartnerNotFoundException{
-		String query = "SELECT * FROM PartnerDao WHERE instName = ?";
-		int partnerId = -1;
-		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
-		ResultSet rs = null;
-		try{		
-			stmt = conn.prepareStatement(query);
-
-			stmt.setString(1, instName);
-			rs = stmt.executeQuery();
-			if(rs.next()){
-				partnerId = rs.getInt("id");
-			}else{
-				throw new PartnerNotFoundException();
-			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
-		} 
-
-		return partnerId;
-	}
-
-	public static Partner getPartnerByPhone(String phone) throws PartnerNotFoundException{
-		String query = "SELECT * FROM PartnerDao WHERE phone = ?";
-		Partner partner = null;
-		PreparedStatement stmt = null;
-		Connection conn = null;
-		ResultSet rs = null;
-		try{
-			conn = EduDaoBasic.getSQLConnection();
-			stmt = conn.prepareStatement(query);
-
-			stmt.setString(1, phone);
-			rs = stmt.executeQuery();
-			if(rs.next()){
-				partner = createPartnerByResultSet(rs);
-			}else{
-				throw new PartnerNotFoundException();
-			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
-		} 
-
-		return partner;
-	}
-
-	public static void changePartnerPassword(int partnerId, String oldPassword, String newPassword) throws AuthenticationException, SQLException{
+	public static void changePartnerPassword(int partnerId, String oldPassword, String newPassword) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
@@ -272,42 +165,33 @@ public class PartnerDao {
 			stmt.setInt(1, partnerId);					
 			rs = stmt.executeQuery();						
 			if(rs.next()){
-				validOldPassword = PasswordCrypto.validatePassword(oldPassword, rs.getString("password"));						
-			}		
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
-		}
-		catch(Exception e){
-			DebugLog.d(e);
-			throw new AuthenticationException("更改密码失败");
-		}
-		if(validOldPassword){
-			query = "UPDATE PartnerDao set password = ? where id = ?";
-			try{
-				stmt = conn.prepareStatement(query);
-				stmt.setString(1, PasswordCrypto.createHash(newPassword));				
-				stmt.setInt(2, partnerId);
-				int recordsAffected = stmt.executeUpdate();
-				if(recordsAffected==0){
-					throw new PartnerNotFoundException();
+				validOldPassword = PasswordCrypto.validatePassword(oldPassword, rs.getString("password"));
+				if(validOldPassword){
+					query = "UPDATE PartnerDao set password = ? where id = ?";
+
+					stmt = conn.prepareStatement(query);
+					stmt.setString(1, PasswordCrypto.createHash(newPassword));				
+					stmt.setInt(2, partnerId);
+					int recordsAffected = stmt.executeUpdate();
+					if(recordsAffected==0){
+						throw new PartnerNotFoundException();
+					}
 				}
-			}catch(SQLException e){
-				DebugLog.d(e);
-				throw new SQLException();
-			}catch(Exception e){				
-				DebugLog.d(e);	
-				throw new AuthenticationException("更改密码失败");
-			}finally{
-				EduDaoBasic.closeResources(conn, stmt, rs, true);				
+				else {
+					throw new AuthenticationException("更改密码失败");
+				}		
 			}
-		}else {
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
-			throw new AuthenticationException("更改密码失败");
-		}		
+			else{
+				throw new AuthenticationException();
+			}
+		}
+		finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, true);				
+		}
+		
 	}
 
-	public static Partner authenticatePartner(String phone, String password) throws AuthenticationException, SQLException{
+	public static Partner authenticatePartner(String phone, String password) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
@@ -326,20 +210,13 @@ public class PartnerDao {
 					throw new AuthenticationException("手机号码或密码输入错误");
 				}				
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
-		}
-		catch(Exception e){
-			DebugLog.d(e);			
-			throw new AuthenticationException("手机号码或密码输入错误");
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);			
 		}
 		return partner;
 	}
 
-	public static void recoverPartnerPassword(String phone, String newPassword) throws AuthenticationException, SQLException{
+	public static void recoverPartnerPassword(String phone, String newPassword) throws PseudoException, SQLException{
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
@@ -352,12 +229,6 @@ public class PartnerDao {
 			if(recordsAffected==0){
 				throw new AuthenticationException("手机号码或密码输入有误");
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-			throw new SQLException();
-		}catch(Exception e){			
-			DebugLog.d(e);	
-			throw new AuthenticationException("手机号码或密码输入有误");
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);			
 		}
@@ -369,7 +240,5 @@ public class PartnerDao {
 				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")), rs.getString("phone"), AccountStatus.fromInt(rs.getInt("status")),
 				rs.getString("instName"),rs.getString("logoUrl"));
 	}
-
-
 
 }

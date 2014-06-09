@@ -9,10 +9,17 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.TransactionType;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.TransactionNotFoundException;
 import BaseModule.model.Transaction;
+import BaseModule.model.representation.TransactionSearchRepresentation;
 
 public class TransactionDao {
+	
+	public static ArrayList<Transaction> searchTransaction(TransactionSearchRepresentation t_sr) throws SQLException{
+		return null;
+	}
+	
 
 	public static Transaction addTransactionToDatabases(Transaction transaction,Connection...connections) throws SQLException{
 		Connection conn = EduDaoBasic.getConnection(connections);
@@ -41,7 +48,7 @@ public class TransactionDao {
 		return transaction;
 	}	
 
-	public static Transaction getTransactionById(int id, Connection...connections) throws TransactionNotFoundException{
+	public static Transaction getTransactionById(int id, Connection...connections) throws PseudoException, SQLException{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
@@ -58,8 +65,6 @@ public class TransactionDao {
 			else{
 				throw new TransactionNotFoundException();
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -67,7 +72,7 @@ public class TransactionDao {
 		return transaction;
 	}
 	
-	public static ArrayList<Transaction> getTransactionByUserId(int id, Connection...connections){
+	public static ArrayList<Transaction> getTransactionByUserId(int id, Connection...connections) throws SQLException{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
@@ -81,54 +86,6 @@ public class TransactionDao {
 			while (rs.next()){
 				transactions.add(createTransactionByResultSet(rs));
 			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
-		} 
-		
-		return transactions;
-	}
-	
-	public static ArrayList<Transaction> getTransactionByCouponId(long id, Connection...connections){
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
-		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-		
-		String query = "SELECT * from TransactionDao where couponId = ?";
-		try{
-			stmt = conn.prepareStatement(query);
-			stmt.setLong(1, id);
-			rs = stmt.executeQuery();
-			while (rs.next()){
-				transactions.add(createTransactionByResultSet(rs));
-			}
-		}catch(SQLException e){
-			DebugLog.d(e);
-		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
-		} 
-		
-		return transactions;
-	}
-	
-	public static ArrayList<Transaction> getTransactionByBookingId(int id, Connection...connections){
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
-		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-		
-		String query = "SELECT * from TransactionDao where bookingId = ?";
-		try{
-			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, id);
-			rs = stmt.executeQuery();
-			while (rs.next()){
-				transactions.add(createTransactionByResultSet(rs));
-			}
-		}catch(SQLException e){
-			DebugLog.d(e);
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 

@@ -1,11 +1,14 @@
 package BaseModule.factory;
 
+import java.sql.SQLException;
+
 import org.apache.commons.lang3.RandomStringUtils;
 
 import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.dbservice.PartnerDaoService;
+import BaseModule.exception.PseudoException;
 
 public class ReferenceFactory {
 	
@@ -15,7 +18,7 @@ public class ReferenceFactory {
 	public static final int adminReferenceLength = 8;
 	
 	
-	public static String generatePartnerReference(){
+	public static String generatePartnerReference() throws SQLException{
 		String ref = RandomStringUtils.randomAlphanumeric(partnerReferenceLength).toUpperCase();
 		while (!PartnerDaoService.isReferenceAvailable(ref)){
 			ref = RandomStringUtils.randomAlphanumeric(partnerReferenceLength).toUpperCase();
@@ -23,7 +26,7 @@ public class ReferenceFactory {
 		return ref;
 	}
 	
-	public static String generateCourseReference(){
+	public static String generateCourseReference() throws SQLException, PseudoException{
 		String ref = RandomStringUtils.randomAlphanumeric(courseReferenceLength).toUpperCase();
 		while (!CourseDaoService.isReferenceAvailable(ref)){
 			ref = RandomStringUtils.randomAlphanumeric(courseReferenceLength).toUpperCase();
@@ -31,7 +34,7 @@ public class ReferenceFactory {
 		return ref;
 	}
 	
-	public static String generateBookingReference(){
+	public static String generateBookingReference() throws SQLException, PseudoException{
 		String ref = RandomStringUtils.randomAlphanumeric(bookingReferenceLength);
 		while (BookingDaoService.isReferenceAvailable(ref)){
 			ref = RandomStringUtils.randomAlphanumeric(bookingReferenceLength);
@@ -39,7 +42,7 @@ public class ReferenceFactory {
 		return ref;
 	}
 	
-	public static String generateAdminReference(){
+	public static String generateAdminReference() throws SQLException{
 		String ref = RandomStringUtils.randomAlphanumeric(adminReferenceLength).toUpperCase();
 		while (AdminAccountDaoService.isReferenceAvailable(ref)){
 			ref = RandomStringUtils.randomAlphanumeric(adminReferenceLength).toUpperCase();

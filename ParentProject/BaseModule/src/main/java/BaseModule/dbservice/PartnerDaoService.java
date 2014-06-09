@@ -15,15 +15,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 public class PartnerDaoService {
 
-	public static ArrayList<Partner> getAllPartners(){
-		return PartnerDao.getAllPartners();
+	public static ArrayList<Partner> getAllPartners() throws SQLException{
+		return searchPartner(new PartnerSearchRepresentation());
 	}
 
-	public static Partner getPartnerById(int id,Connection...connections) throws PseudoException{
+	public static Partner getPartnerById(int id,Connection...connections) throws PseudoException, SQLException{
 		return PartnerDao.getPartnerById(id, connections);
 	}
 
-	public static Partner getPartnerByPhone(String phone) throws PartnerNotFoundException{
+	public static Partner getPartnerByPhone(String phone) throws PartnerNotFoundException, SQLException{
 		PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
 		p_sr.setPhone(phone);
 		ArrayList<Partner> partners = searchPartner(p_sr);
@@ -41,7 +41,7 @@ public class PartnerDaoService {
 		return PartnerDao.addPartnerToDatabases(p,connections);
 	}
 
-	public static boolean isCellPhoneAvailable(String phone){
+	public static boolean isCellPhoneAvailable(String phone) throws SQLException{
 		PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
 		p_sr.setPhone(phone);
 		ArrayList<Partner> partners = searchPartner(p_sr);
@@ -63,18 +63,18 @@ public class PartnerDaoService {
 		return partner;
 	}
 
-	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr){
+	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr) throws SQLException{
 		return PartnerDao.searchPartner(sr);
 	}
 
-	public static ArrayList<Partner> getPartnerByReference(String reference){
+	public static ArrayList<Partner> getPartnerByReference(String reference) throws SQLException{
 		PartnerSearchRepresentation sr = new PartnerSearchRepresentation();
 		sr.setReference(reference);
 		return searchPartner(sr);
 
 	}
 	
-	public static boolean isReferenceAvailable(String reference){
+	public static boolean isReferenceAvailable(String reference) throws SQLException{
 		return getPartnerByReference(reference).size() == 0;
 	}
 }

@@ -1,6 +1,7 @@
 package UserModule.resources.user.auth;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,7 +71,7 @@ public class UserChangeCellPhone extends UserPseudoResource{
 		return result;
 	}
 	
-	protected String[] validateChangeCellPhoneJSON(JSONObject jsonPhones) throws ValidationException{
+	protected String[] validateChangeCellPhoneJSON(JSONObject jsonPhones) throws ValidationException, SQLException{
 		String[] phones = new String[2];
 		
 		try{

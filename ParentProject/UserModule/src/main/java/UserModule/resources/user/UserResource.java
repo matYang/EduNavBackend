@@ -1,6 +1,7 @@
 package UserModule.resources.user;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -54,7 +55,7 @@ public class UserResource extends UserPseudoResource{
 		return result;
 	}
 
-	protected User validateUserJSON(JSONObject jsonUser) throws ValidationException{
+	protected User validateUserJSON(JSONObject jsonUser) throws ValidationException, SQLException{
 		User user = null;
 
 		try {

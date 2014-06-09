@@ -16,6 +16,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
 import BaseModule.configurations.EnumConfig.TeachingMaterialType;
+import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
 import BaseModule.factory.QueryFactory;
@@ -26,7 +27,7 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 public class CourseDao {
 
 
-	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr){
+	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws PseudoException{
 		ArrayList<Course> clist = new ArrayList<Course>();
 		Connection conn = EduDaoBasic.getSQLConnection();
 		PreparedStatement stmt = null;	
@@ -287,7 +288,7 @@ public class CourseDao {
 		}
 	}
 
-	public static Course getCourseById(int courseId,Connection...connections) throws CourseNotFoundException{
+	public static Course getCourseById(int courseId,Connection...connections) throws PseudoException{
 		String query = "SELECT * FROM CourseDao where id = ?";
 		Course course = null;
 		PreparedStatement stmt = null;
@@ -310,7 +311,7 @@ public class CourseDao {
 		return course;
 	}
 	
-	public static ArrayList<Course> getCourseByIdList(ArrayList<Integer> idList, Connection...connections){
+	public static ArrayList<Course> getCourseByIdList(ArrayList<Integer> idList, Connection...connections) throws PseudoException{
 		PreparedStatement stmt = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
@@ -346,7 +347,7 @@ public class CourseDao {
 		return clist;
 	}
 	
-	public static Course getCourseByReference(String reference,Connection...connections) throws CourseNotFoundException{
+	public static Course getCourseByReference(String reference,Connection...connections) throws PseudoException{
 		String query = "SELECT * FROM CourseDao where reference = ?";
 		Course course = null;
 		PreparedStatement stmt = null;
@@ -370,7 +371,7 @@ public class CourseDao {
 	}
 
 	
-	public static ArrayList<Course> getCoursesFromPartner(int p_Id){
+	public static ArrayList<Course> getCoursesFromPartner(int p_Id) throws PseudoException{
 		String query = "SELECT * FROM CourseDao where p_Id = ? ";
 		ArrayList<Course> clist = new ArrayList<Course>();
 		PreparedStatement stmt = null;
@@ -403,7 +404,7 @@ public class CourseDao {
 		return clist;
 	}
 
-	protected static Course createCourseByResultSet(ResultSet rs,Partner partner,Connection...connections) throws SQLException {
+	protected static Course createCourseByResultSet(ResultSet rs,Partner partner,Connection...connections) throws SQLException, PseudoException {
 		int p_Id =  rs.getInt("p_Id");
 		String logoUrl;
 		String instName;

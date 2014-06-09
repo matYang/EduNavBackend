@@ -54,7 +54,7 @@ public class CourseDaoService {
 		return storedCourse;
 	}	
 	
-	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException{
+	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, PseudoException{
 		ArrayList<Course> result = new ArrayList<Course>();
 		boolean useCache = sr.getUseCache() == 1;
 		if (!useCache){
@@ -120,13 +120,13 @@ public class CourseDaoService {
 		}
 	}
 	
-	public static  ArrayList<Course> getCourseByReference(String reference){
+	public static  ArrayList<Course> getCourseByReference(String reference) throws PseudoException{
 		CourseSearchRepresentation sr = new CourseSearchRepresentation();
 		sr.setCourseReference(reference);
 		return CourseDao.searchCourse(sr);				
 	}
 	
-	public static boolean isReferenceAvailable(String reference){
+	public static boolean isReferenceAvailable(String reference) throws PseudoException{
 		return getCourseByReference(reference).size() == 0;
 	}
 	
