@@ -18,9 +18,9 @@ public class Booking implements PseudoModel, Serializable{
 
 	private int bookingId;
 
-	//private int couponId;
+	private int couponId;
 	private int transactionId;
-	//private int adminId;
+	private int adminId;
 	private int userId;
 	private int partnerId;
 	private int courseId;
@@ -38,10 +38,10 @@ public class Booking implements PseudoModel, Serializable{
 	private boolean wasConfirmed;
 	private String actionRecord;
 	
-	private String note;
-	private long cashbackId;
-	private boolean useCoupon;
-	
+//	private String note;
+//	private long cashbackId;
+//	private boolean useCoupon;
+//	
 	
 	
 	private transient Course course;
