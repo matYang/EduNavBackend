@@ -144,6 +144,9 @@ public class Coupon implements PseudoModel, Serializable{
 	}
 	
 	public boolean equals(Coupon c){
+		if (c == null){
+			return false;
+		}
 		return this.couponId == c.getCouponId() && 
 				this.bookingId == c.getBookingId() && 
 				this.transactionId == c.getTransactionId() &&

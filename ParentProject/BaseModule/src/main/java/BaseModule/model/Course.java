@@ -827,7 +827,10 @@ public class Course implements PseudoModel, Serializable{
 		return jsonSearchRepresentation;
 	}
 
-	public boolean equals(Course c){	
+	public boolean equals(Course c){
+		if (c == null){
+			return false;
+		}
 			return  this.category.equals(c.getCategory()) &&
 					this.subCategory.equals(c.getSubCategory()) && 
 					this.courseId == c.getCourseId() && 

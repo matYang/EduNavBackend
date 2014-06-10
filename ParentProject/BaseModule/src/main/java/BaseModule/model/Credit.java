@@ -143,6 +143,9 @@ public class Credit implements PseudoModel, Serializable{
 	}
 	
 	public boolean equals(Credit c){
+		if (c == null){
+			return false;
+		}
 		return this.creditId == c.getCreditId() && 
 				this.bookingId == c.getBookingId() && 				
 				this.userId == c.getUserId() && 

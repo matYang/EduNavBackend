@@ -203,7 +203,9 @@ public class User implements PseudoModel, Serializable{
 	}
 
 	public boolean equals(User another){	
-
+		if (another == null){
+			return false;
+		}
 		return this.name.equals(another.getName()) &&
 				this.phone.equals(another.getPhone()) && 
 				this.status.code == another.getStatus().code &&

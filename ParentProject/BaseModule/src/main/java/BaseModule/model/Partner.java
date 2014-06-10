@@ -171,6 +171,9 @@ public class Partner implements PseudoModel, Serializable{
 	}
 
 	public boolean equals(Partner p){
+		if (p == null){
+			return false;
+		}
 		return this.partnerId==p.getPartnerId() && this.wholeName.equals(p.getWholeName()) &&
 				this.organizationNum.equals(p.getOrganizationNum()) && this.reference.equals(p.getReference()) &&
 				this.phone.equals(p.getPhone()) && this.licence.equals(p.getLicence()) && this.status.code == p.getStatus().code &&

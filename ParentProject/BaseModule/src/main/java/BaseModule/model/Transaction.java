@@ -128,6 +128,9 @@ public class Transaction implements PseudoModel, Serializable{
 	}
 	
 	public boolean equals(Transaction transaction){
+		if (transaction == null){
+			return false;
+		}
 		return this.bookingId == transaction.getBookingId() && this.transactionId == transaction.getTransactionId() &&
 				this.userId == transaction.getUserId() && this.transactionAmount == transaction.getTransactionAmount() &&
 				this.creationTime.getTime().toString().equals(transaction.getCreationTime().getTime().toString()) &&

@@ -147,6 +147,9 @@ public class AdminAccount implements PseudoModel, Serializable{
 	}
 
 	public boolean equals(AdminAccount a){
+		if (a == null){
+			return false;
+		}
 		return this.adminId == a.getAdminId() && this.name.equals(a.getName()) && this.phone.equals(a.getPhone()) &&
 				this.privilege.code == a.getPrivilege().code && this.status.code == a.getStatus().code &&
 				this.reference.equals(a.getReference()) && this.creationTime.getTime().toString().equals(a.getCreationTime().getTime().toString()) &&
