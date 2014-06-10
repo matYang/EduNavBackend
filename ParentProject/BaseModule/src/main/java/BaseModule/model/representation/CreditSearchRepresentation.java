@@ -145,6 +145,92 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 				+ status + "]";
 	}
 	
+	public String getSearchQuery(){
+		String query = "SELECT * from CreditDao ";
+		boolean start = false;
+
+		/* Note:Make sure the order following is the same as that in Dao */
+
+		if(this.getCreditId() > 0){
+			query += "where ";
+			start = true;
+
+			query += "couponId = ? ";
+		}
+		if(this.getBookingId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "bookingId = ? ";
+		}
+		if(this.getStartPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "amount >= ? ";
+		}
+		if(this.getFinishPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "amount <= ? ";
+		}
+		if(this.getUsableTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "useableTime = ? ";
+		}
+		if(this.getUserId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "userId = ? ";
+		}
+		if(this.getCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime = ? ";
+		}
+		if(this.getExpireTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "expireTime = ? ";
+		}
+		if(this.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "status = ? ";
+		}
+		return query;
+	}	
 	
 
 }

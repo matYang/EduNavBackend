@@ -17,7 +17,6 @@ import BaseModule.configurations.EnumConfig.PartnerQualification;
 import BaseModule.configurations.EnumConfig.TeachingMaterialType;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CourseNotFoundException;
-import BaseModule.factory.QueryFactory;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.CourseSearchRepresentation;
@@ -32,7 +31,7 @@ public class CourseDao {
 		ResultSet rs = null;
 		HashMap<Integer,Partner> pmap = new HashMap<Integer,Partner>();
 		Partner partner = null;		
-		String query = QueryFactory.getSearchQuery(sr);
+		String query = sr.getSearchQuery();
 		int stmtInt = 1;
 		boolean joinQ = false;		
 

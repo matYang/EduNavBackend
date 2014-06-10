@@ -18,6 +18,7 @@ import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.model.Coupon;
 import BaseModule.model.User;
+import BaseModule.model.representation.CouponSearchRepresentation;
 
 public class CouponDaoTest {
 
@@ -73,6 +74,72 @@ public class CouponDaoTest {
 		CouponDao.updateCouponInDatabases(c);
 		c = CouponDao.getCouponByCouponId(c.getCouponId());
 		if(c.getAmount()==1 && c.getTransactionId() == 2){
+			//Passed;
+		}else fail();
+	}
+	
+	@Test
+	public void testSearch() throws SQLException{
+		EduDaoBasic.clearAllDatabase();
+		int bookingId = 1;
+		int userId = 1;
+		int amount = 234;
+		Calendar expireTime = DateUtility.getCurTimeInstance();
+		Coupon c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);		
+		CouponDao.addCouponToDatabases(c);
+		
+		int transactionId = 1000;
+		bookingId = 2;
+		userId = 1;
+		amount = 0;
+		expireTime = DateUtility.getCurTimeInstance();
+		Coupon c2 = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.expired);	
+		c2.setTransactionId(transactionId);
+		CouponDao.addCouponToDatabases(c2);
+		
+		transactionId = 10;
+		bookingId = 2;
+		userId = 2;
+		amount = 67;
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.DAY_OF_YEAR, 1);
+		Coupon c3 = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.used);	
+		c3.setTransactionId(transactionId);
+		CouponDao.addCouponToDatabases(c3);
+		
+		ArrayList<Coupon> clist = new ArrayList<Coupon>();
+		CouponSearchRepresentation csr = new CouponSearchRepresentation();
+		csr.setBookingId(1);
+		csr.setStartPrice(4);
+		csr.setFinishPrice(100);
+		clist = CouponDao.searchCoupon(csr);
+		
+		if(clist.size()==0){
+			//Passed;
+		}else fail();
+		
+		
+		csr.setBookingId(2);
+		clist = CouponDao.searchCoupon(csr);
+		
+		if(clist.size()==1 && clist.get(0).equals(c3)){
+			//Passed;
+		}else fail();
+		
+		csr.setBookingId(-1);
+		csr.setExpireTime(expireTime);
+		clist = CouponDao.searchCoupon(csr);
+		
+		if(clist.size()==1 && clist.get(0).equals(c3)){
+			//Passed;
+		}else fail();
+		
+		csr.setExpireTime(null);
+		csr.setTransactionId(1000);
+		csr.setStartPrice(0);
+		clist = CouponDao.searchCoupon(csr);
+		
+		if(clist.size()==1 && clist.get(0).equals(c2)){
 			//Passed;
 		}else fail();
 	}

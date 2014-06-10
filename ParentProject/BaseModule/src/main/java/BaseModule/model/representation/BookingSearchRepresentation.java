@@ -208,6 +208,146 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				+ adjustTime + "]";
 	}
 
+	public String getSearchQuery() {
+		String query = "SELECT * from BookingDao ";
+		boolean start = false;
+		
+		/* Note:Make sure the order following is the same as that in Dao */
+		
+		if(this.getBookingId() > 0){
+			query += "where ";
+			start = true;
+			
+			query += "id = ? ";
+		}
+		if(this.getCourseId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "course_Id = ? ";
+		}
+		if(this.getPartnerId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "p_Id = ? ";
+		}
+		if(this.getUserId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "u_Id = ? ";
+		}		
+		if(this.getStartPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "price >= ? ";
+		}
+		if(this.getFinishPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "price <= ? ";
+		}		
+		if(this.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "status = ? ";
+		}		
+		if(this.getReference() !=null && this.getReference().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "reference = ? ";
+		}
+		if(this.getCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime = ? ";
+		}		
+		if(this.getScheduledTime() != null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "scheduledTime = ? ";
+		}	
+		if(this.getEmail() != null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "email = ? ";
+		}
+		if(this.getName() != null && this.getName().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "name = ? ";
+		}
+		if(this.getPhone() != null && this.getPhone().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "phone = ? ";
+		}
+		if(this.getAdjustTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "adjustTime = ? ";
+		}
+		if(this.getWasConfirmedIndex() != -1){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "wasConfirmed = ? ";
+		}
+		return query;
+	}
 	
 
 	

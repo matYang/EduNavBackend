@@ -143,5 +143,90 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 				+ phone + ", status=" + status + ", instName=" + instName + "]";
 	}
 	
-	
+	public String getSearchQuery() {
+		String query = "SELECT * from PartnerDao ";		
+		boolean start = false;		
+		
+		/* Note:Make sure the order following is the same as that in Dao */
+		
+		if(this.getPartnerId()>0){
+			query += "where ";
+			start = true;
+			
+			query += "id = ? ";
+		}
+		if(this.getCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime = ? ";
+		}
+		if(this.getWholeName() != null && this.getWholeName().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "name = ? ";
+		}
+		if(this.getPhone() != null && this.getPhone().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "phone = ? ";
+		}
+		if(this.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}			
+			query += "status = ? ";
+		}		
+		if(this.getInstName() != null && this.getInstName().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "instName = ? ";
+		}
+		if(this.getLicence() != null && this.getLicence().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "licence = ? ";
+		}
+		if(this.getOrganizationNum() != null && this.getOrganizationNum().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "organizationNum = ? ";
+		}
+		if(this.getReference() != null && this.getReference().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "reference = ? ";
+		}		
+		return query;
+	}
 }

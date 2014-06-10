@@ -112,6 +112,65 @@ public class AdminSearchRepresentation implements PseudoModel, PseudoRepresentat
 	}
 	
 	
-	
+	public String getSearchQuery() {
+		String query = "SELECT * from AdminAccountDao ";
+		boolean start = false;
+		
+		/* Note:Make sure the order following is the same as that in Dao */
+		
+		if(this.getAdminId() > 0){
+			query += "where ";
+			start = true;
+			
+			query += "id = ? ";
+		}
+		if(this.getName() != null && this.getName().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "name = ? ";
+		}
+		if(this.getPhone() != null && this.getPhone().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "phone = ? ";
+		}
+		if(this.getReference() != null && this.getReference().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "reference = ? ";
+		}
+		if(this.getPrivilege() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "privilege = ? ";
+		}
+		if(this.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "status = ? ";
+		}
+		
+		return query;
+	}
 	
 }

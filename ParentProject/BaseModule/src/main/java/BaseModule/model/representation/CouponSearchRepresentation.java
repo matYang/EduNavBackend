@@ -14,7 +14,7 @@ import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.service.RepresentationReflectiveService;
 
 public class CouponSearchRepresentation implements PseudoModel, PseudoRepresentation {
-	
+
 	private long couponId;
 	private int bookingId;
 	private int transactionId;
@@ -24,9 +24,9 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private Calendar creationTime;
 	private Calendar expireTime;
 	private CouponStatus status;
-	
 
-	
+
+
 	public CouponSearchRepresentation() {
 		this.couponId = -1l;
 		this.bookingId = -1;
@@ -48,12 +48,12 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	public void storeKvps(Map<String, String> kvps) throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
 		RepresentationReflectiveService.storeKvps(this, kvps);
 	}
-	
+
 	@Override
 	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
 		return RepresentationReflectiveService.serialize(this);
 	}
-	
+
 	@Override
 	public boolean isEmpty() throws Exception {
 		return RepresentationReflectiveService.isEmpty(this);
@@ -145,7 +145,92 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 				+ ", creationTime=" + creationTime + ", expireTime="
 				+ expireTime + ", status=" + status + "]";
 	}
-	
-	
-	
+
+	public String getSearchQuery(){
+		String query = "SELECT * from CouponDao ";
+		boolean start = false;
+
+		/* Note:Make sure the order following is the same as that in Dao */
+
+		if(this.getCouponId() > 0){
+			query += "where ";
+			start = true;
+
+			query += "couponId = ? ";
+		}
+		if(this.getBookingId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "bookingId = ? ";
+		}
+		if(this.getStartPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "amount >= ? ";
+		}
+		if(this.getFinishPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "amount <= ? ";
+		}
+		if(this.getTransactionId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "transactionId = ? ";
+		}
+		if(this.getUserId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "userId = ? ";
+		}
+		if(this.getCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime = ? ";
+		}
+		if(this.getExpireTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "expireTime = ? ";
+		}
+		if(this.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "status = ? ";
+		}
+		return query;
+	}	
+
 }

@@ -13,7 +13,6 @@ import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.AdminAccountNotFoundException;
-import BaseModule.factory.QueryFactory;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.representation.AdminSearchRepresentation;
 
@@ -24,7 +23,7 @@ public class AdminAccountDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		ArrayList<AdminAccount> alist = new ArrayList<AdminAccount>();
-		String query = QueryFactory.getSearchQuery(sr);
+		String query = sr.getSearchQuery();
 		int stmtInt = 1;
 		try{
 			stmt = conn.prepareStatement(query);

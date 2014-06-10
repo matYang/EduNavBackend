@@ -16,10 +16,10 @@ import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.service.RepresentationReflectiveService;
 
 public class CourseSearchRepresentation implements PseudoModel, PseudoRepresentation, PseudoMemCacheKey{
-	
+
 	//used for broad search
 	private ClassModel classModel;
-	
+
 	private String category;
 	private String subCategory;	
 	private String city;
@@ -27,23 +27,23 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private String institutionName;
 	private String courseReference;
 	private String partnerReference;
-	
+
 	private Calendar startTime;
 	private Calendar finishTime;
 	private Calendar creationTime;
-	
-	
+
+
 	private AccountStatus status;
-	
+
 	private int startPrice;
 	private int finishPrice;	
 	private int courseId;
 	private int partnerId;
 	private int userId;
-	
+
 	private int useCache;
-	
-	
+
+
 	public CourseSearchRepresentation(){
 		super();
 		this.category = null;
@@ -76,12 +76,12 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		RepresentationReflectiveService.storeKvps(this, kvps);
 
 	}
-	
+
 	@Override
 	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
 		return RepresentationReflectiveService.serialize(this);
 	}
-	
+
 	@Override
 	public boolean isEmpty() throws Exception {
 		return RepresentationReflectiveService.isEmpty(this);
@@ -91,13 +91,13 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	public JSONObject toJSON() {
 		return RepresentationReflectiveService.toJSON(this);
 	}
-	
+
 
 	@Override
 	public String toCacheKey() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
 		return this.serialize();
 	}
-	
+
 	public String getCategory() {
 		return category;
 	}
@@ -233,11 +233,11 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	public void setClassModel(ClassModel classModel) {
 		this.classModel = classModel;
 	}
-	
+
 	public void setUseCache(int useCache){
 		this.useCache = useCache;
 	}
-	
+
 	public int getUseCache(){
 		return this.useCache;
 	}
@@ -256,7 +256,166 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				+ ", userId=" + userId + ", useCache=" + useCache + "]";
 	}
 
+	public String getSearchQuery() {
 
-	
-	
+		String query = "SELECT * from CourseDao ";		
+		String joinQuery = "JOIN PartnerDao On " +
+				"CourseDao.p_Id = PartnerDao.id ";
+
+		boolean joinQ = false;		
+		boolean start = false;	
+
+		/* Note:Make sure the order following is the same as that in Dao */
+
+		if(this.getPartnerId() > 0){				
+			query += joinQuery;
+			joinQ = true;				
+		}
+		if(this.getInstitutionName() != null && this.getInstitutionName().length() > 0){
+			if(!joinQ){										
+				query += joinQuery;
+				joinQ = true;
+			}				
+			query += "where ";
+			start = true;
+
+			query += "PartnerDao.instName = ? ";
+		}
+		if(this.getPartnerReference() != null && this.getPartnerReference().length() > 0){
+			if(!joinQ){										
+				query += joinQuery;
+				joinQ = true;
+			}
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "PartnerDao.reference = ? ";
+		}
+
+		if(this.getCreationTime() != null){			
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.creationTime = ? ";
+		}
+		if(this.getStartTime() != null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.startTime >= ? ";			
+		}
+		if(this.getFinishTime() != null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.finishTime <= ? ";
+		}	
+
+		if(this.getStartPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "CourseDao.price >= ? ";
+		}
+		if(this.getFinishPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "CourseDao.price <= ? ";
+		}
+		if(this.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}	
+			query += "CourseDao.status = ?  ";
+		}
+		if(this.getCategory()!=null&&this.getCategory().length()>0){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.category = ? ";
+		}
+		if(this.getSubCategory()!=null&&this.getSubCategory().length()>0){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.subcategory = ? ";
+		}
+		if(this.getCity()!=null&&this.getCity().length()>0){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.city = ? ";
+		}
+		if(this.getDistrict()!=null&&this.getDistrict().length()>0){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.district = ? ";
+		}
+		if(this.getCourseReference()!=null&&this.getCourseReference().length()>0){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.reference = ? ";
+		}
+		if(this.getCourseId()>0){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += " CourseDao.id = ? ";
+		}
+		if(this.getClassModel()!=null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.classModel = ? ";
+		}
+
+		return query;
+	}
+
+
 }

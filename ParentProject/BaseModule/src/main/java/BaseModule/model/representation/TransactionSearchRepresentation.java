@@ -134,7 +134,83 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 				+ "]";
 	}
 
-	
+	public String getSearchQuery(){
+		String query = "SELECT * from TransactionDao ";
+		boolean start = false;
+		
+		/* Note:Make sure the order following is the same as that in Dao */
+		
+		if(this.getTransactionId() > 0){
+			query += "where ";
+			start = true;
+			
+			query += "transactionId = ? ";
+		}
+		if(this.getBookingId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "bookingId = ? ";
+		}
+		if(this.getCouponId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "couponId = ? ";
+		}
+		if(this.getUserId() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "userId = ? ";
+		}
+		if(this.getStartPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "amount >= ? ";
+		}
+		if(this.getFinishPrice() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "amount <= ? ";
+		}
+		if(this.getCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime = ? ";
+		}
+		if(this.getTransactionType() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "transactionType = ? ";
+		}
+		return query;
+	}
 	
 
 }

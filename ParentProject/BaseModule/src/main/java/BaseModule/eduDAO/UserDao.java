@@ -13,7 +13,6 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.QueryFactory;
 import BaseModule.model.User;
 import BaseModule.model.representation.UserSearchRepresentation;
 
@@ -24,7 +23,7 @@ public class UserDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		ArrayList<User> ulist = new ArrayList<User>();
-		String query = QueryFactory.getSearchQuery(sr);
+		String query = sr.getSearchQuery();
 		User user = null;
 		int stmtInt = 1;		
 		try{

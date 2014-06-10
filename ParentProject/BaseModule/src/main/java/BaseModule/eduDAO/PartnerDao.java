@@ -12,7 +12,6 @@ import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
-import BaseModule.factory.QueryFactory;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 
@@ -24,7 +23,7 @@ public class PartnerDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		int stmtInt = 1;
-		String query = QueryFactory.getSearchQuery(sr);		
+		String query = sr.getSearchQuery();
 		try{
 			stmt = conn.prepareStatement(query);
 

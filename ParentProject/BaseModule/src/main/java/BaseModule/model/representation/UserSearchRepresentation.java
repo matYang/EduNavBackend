@@ -142,7 +142,92 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 				+ ", status=" + status + ", creationTime=" + creationTime + "]";
 	}
 
-	
+	public String getSearchQuery() {
+		String query = "SELECT * from UserDao ";		
+		boolean start = false;	
+		
+		/* Note:Make sure the order following is the same as that in Dao */
+		
+		if(this.getUserId()>0){
+			query += "where ";
+			start = true;
+			
+			query += "id = ? ";
+		}
+		if(this.getCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime = ? ";
+		}
+		if(this.getName() != null && this.getName().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "name = ? ";
+		}
+		if(this.getPhone() != null && this.getPhone().length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "phone = ? ";
+		}		
+		if(this.getStatus() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}			
+			query += "status = ? ";
+		}
+		if(this.getBalance() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "balance = ? ";
+		}
+		if(this.getCoupon() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "coupon = ? ";
+		}
+		if(this.getCredit() >= 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "credit = ? ";
+		}
+		if(this.getEmail() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "email = ? ";
+		}
+		return query;
+	}
 	
 	
 

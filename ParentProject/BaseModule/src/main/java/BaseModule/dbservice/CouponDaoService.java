@@ -31,6 +31,6 @@ public class CouponDaoService {
 
 	
 	public static ArrayList<Coupon> searchCoupon(CouponSearchRepresentation coup_sr) throws SQLException{
-		return null;
+		return CouponDao.searchCoupon(coup_sr);
 	}
 }

@@ -11,10 +11,62 @@ import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.model.Coupon;
+import BaseModule.model.representation.CouponSearchRepresentation;
 
 
 public class CouponDao {
 
+	public static ArrayList<Coupon> searchCoupon(CouponSearchRepresentation sr, Connection...connections) throws SQLException{
+		ArrayList<Coupon> clist = new ArrayList<Coupon>();
+		Connection conn = EduDaoBasic.getConnection();
+		PreparedStatement stmt = null;	
+		ResultSet rs = null;
+		int stmtInt = 1;
+		String query = sr.getSearchQuery();
+		try{
+			stmt = conn.prepareStatement(query);
+			
+			if(sr.getCouponId() > 0){
+				stmt.setLong(stmtInt++, sr.getCouponId());
+			}
+			if(sr.getBookingId() > 0){
+				stmt.setInt(stmtInt++, sr.getBookingId());
+			}
+			if(sr.getStartPrice() >= 0){
+				stmt.setInt(stmtInt++, sr.getStartPrice());
+			}
+			if(sr.getFinishPrice() >= 0){
+				stmt.setInt(stmtInt++, sr.getFinishPrice());
+			}
+			if(sr.getTransactionId() > 0){
+				stmt.setInt(stmtInt++, sr.getTransactionId());
+			}
+			if(sr.getUserId() > 0){
+				stmt.setInt(stmtInt++, sr.getUserId());
+			}
+			if(sr.getCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
+			}
+			if(sr.getExpireTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getExpireTime()));
+			}
+			if(sr.getStatus() != null){
+				stmt.setInt(stmtInt++, sr.getStatus().code);
+			}
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				clist.add(createCouponByResultSet(rs));
+			}
+			
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
+		}
+		
+		return clist;
+		
+	}
+	
+	
 	public static Coupon addCouponToDatabases(Coupon c,Connection...connections) throws SQLException{
 		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;	

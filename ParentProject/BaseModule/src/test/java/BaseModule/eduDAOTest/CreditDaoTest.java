@@ -17,6 +17,7 @@ import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.model.Credit;
 import BaseModule.model.User;
+import BaseModule.model.representation.CreditSearchRepresentation;
 
 
 public class CreditDaoTest {
@@ -79,6 +80,58 @@ public class CreditDaoTest {
 		if(c.getStatus().code == CreditStatus.expired.code){
 			//Passed;
 		}else fail();
+	}
+	
+	@Test
+	public void testSearch() throws SQLException{
+		EduDaoBasic.clearAllDatabase();
+		int bookingId = 1;
+		int userId = 1;
+		int amount = 2;
+		Calendar expireTime = DateUtility.getCurTimeInstance();
+		Calendar usableTime = DateUtility.getCurTimeInstance();
+		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used,usableTime);
+		CreditDao.addCreditToDatabases(c);
+		
+		bookingId = 2;
+		userId = 1;
+		amount = 500;
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.DAY_OF_YEAR,1);
+		usableTime = DateUtility.getCurTimeInstance();
+		usableTime.add(Calendar.DAY_OF_YEAR, 30);
+		Credit c2 = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used,usableTime);
+		CreditDao.addCreditToDatabases(c2);
+		
+		bookingId = 1;
+		userId = 2;
+		amount = 1500;
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.DAY_OF_YEAR,7);
+		usableTime = DateUtility.getCurTimeInstance();
+		usableTime.add(Calendar.DAY_OF_YEAR, 10);
+		Credit c3 = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used,usableTime);
+		CreditDao.addCreditToDatabases(c3);
+		
+		ArrayList<Credit> clist = new ArrayList<Credit>();
+		CreditSearchRepresentation csr = new CreditSearchRepresentation();
+		
+		csr.setBookingId(1);
+		csr.setStartPrice(100);
+		clist = CreditDao.searchCredit(csr);
+		
+		if(clist.size()==1&&clist.get(0).equals(c3)){
+			//Passed;
+		}else fail();
+		
+		csr.setStartPrice(-1);
+		csr.setExpireTime(DateUtility.getCurTimeInstance());
+		clist = CreditDao.searchCredit(csr);
+		
+		if(clist.size()==1&&clist.get(0).equals(c)){
+			//Passed;
+		}else fail();
+		
 	}
 	
 	@Test

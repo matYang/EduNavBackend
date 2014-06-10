@@ -10,7 +10,6 @@ import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.BookingNotFoundException;
-import BaseModule.factory.QueryFactory;
 import BaseModule.model.Booking;
 import BaseModule.model.Course;
 import BaseModule.model.representation.BookingSearchRepresentation;
@@ -23,7 +22,7 @@ public class BookingDao {
 		Connection conn = EduDaoBasic.getConnection();
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = QueryFactory.getSearchQuery(sr);		
+		String query = sr.getSearchQuery();	
 		int stmtInt = 1;
 		try{
 			stmt = conn.prepareStatement(query);

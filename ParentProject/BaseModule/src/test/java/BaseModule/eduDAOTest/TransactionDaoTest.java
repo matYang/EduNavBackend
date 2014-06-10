@@ -14,6 +14,7 @@ import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.model.Transaction;
 import BaseModule.model.User;
+import BaseModule.model.representation.TransactionSearchRepresentation;
 
 public class TransactionDaoTest {
 
@@ -38,6 +39,59 @@ public class TransactionDaoTest {
 			e.printStackTrace();
 			fail();
 		}		
+	}
+	
+	@Test
+	public void testSearch() throws SQLException{
+		EduDaoBasic.clearAllDatabase();
+		int userId = 1;
+		int bookingId = 1;
+		int amount = 20;
+		Transaction transaction = new Transaction(userId,bookingId,amount);
+		transaction.setCouponId(5);
+		transaction.setTransactionType(TransactionType.withdraw);
+		TransactionDao.addTransactionToDatabases(transaction);
+	
+		userId = 2;
+		bookingId = 1;
+		amount = 200;
+		Transaction transaction2 = new Transaction(userId,bookingId,amount);
+		transaction2.setCouponId(5);
+		transaction2.setTransactionType(TransactionType.deposit);
+		TransactionDao.addTransactionToDatabases(transaction2);
+		
+		userId = 1;
+		bookingId = 1;
+		amount = 50;
+		Transaction transaction3 = new Transaction(userId,bookingId,amount);
+		transaction3.setCouponId(6);
+		transaction3.setTransactionType(TransactionType.withdraw);
+		TransactionDao.addTransactionToDatabases(transaction3);
+		
+		ArrayList<Transaction> tlist = new ArrayList<Transaction>();
+		TransactionSearchRepresentation tsr = new TransactionSearchRepresentation();
+		tsr.setUserId(1);
+		tsr.setFinishPrice(1999);
+		tlist = TransactionDao.searchTransaction(tsr);
+		
+		if(tlist.size()==2&&tlist.get(0).equals(transaction)&&tlist.get(1).equals(transaction3)){
+			//Passed;
+		}else fail();
+		
+		tsr.setStartPrice(50);
+		tlist = TransactionDao.searchTransaction(tsr);
+		
+		if(tlist.size()==1&&tlist.get(0).equals(transaction3)){
+			//Passed;
+		}else fail();
+		
+		tsr.setUserId(-1);
+		tsr.setStartPrice(-1);
+		tsr.setCouponId(5);
+		tlist = TransactionDao.searchTransaction(tsr);
+		if(tlist.size()==2&&tlist.get(0).equals(transaction)&&tlist.get(1).equals(transaction2)){
+			//Passed;
+		}else fail();
 	}
 	
 	@Test

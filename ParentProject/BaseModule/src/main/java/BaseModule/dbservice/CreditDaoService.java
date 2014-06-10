@@ -23,14 +23,14 @@ public class CreditDaoService {
 		return CreditDao.getCreditByCreditId(creditId, connections);
 	}
 	
-	public static ArrayList<Credit> getCreditByUserId(int userId,Connection...connections){
+	public static ArrayList<Credit> getCreditByUserId(int userId,Connection...connections) throws SQLException{
 		CreditSearchRepresentation cr_sr = new CreditSearchRepresentation();
 		cr_sr.setUserId(userId);
 		return searchCredit(cr_sr);
 	}
 	
 	
-	public static ArrayList<Credit> searchCredit(CreditSearchRepresentation cr_sr,Connection...connections){
-		return null;
+	public static ArrayList<Credit> searchCredit(CreditSearchRepresentation cr_sr,Connection...connections) throws SQLException{
+		return CreditDao.searchCredit(cr_sr, connections);
 	}
 }
