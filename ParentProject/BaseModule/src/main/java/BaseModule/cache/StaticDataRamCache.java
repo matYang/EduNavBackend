@@ -1,6 +1,5 @@
 package BaseModule.cache;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
@@ -16,28 +15,47 @@ public class StaticDataRamCache {
 	private static volatile long catCacheTimeStamp = 0l;
 	private static final long catCacheExpireTime = 600000l;		//10 min 
 	
+	/**
+	 * Thread safety logic:
+	 * read / writes of references and 32 bit primitive types are atomic, read and writes of volatile longs are atomic
+	 * reads of contents of JSONObject may not be atomic, but there are no writes so it is thread safe
+	 * reference of locationDataCache and catDataCache will never be null once the cache is initialized, thus there will be no null pointer exceptions as long as clear() is not called concurrently
+	 * setters are synchronized to ensure the synchronization of time stamp and cache
+	 * if the rare event of exception occur, in writes exception will be caught to avoid any side effect, in reads null is returned to force a fetch from Redis
+	 * all of above assures data availability and integrity
+	 */
 	
 	public synchronized static void setLocationData(JSONObject locationData){
-		long curTime = DateUtility.getCurTime();
-		locationCacheTimeStamp = curTime;
-		locationDataCache = new JSONObject(locationData.toString());
+		try{
+			long curTime = DateUtility.getCurTime();
+			locationCacheTimeStamp = curTime;
+			locationDataCache = new JSONObject(locationData.toString());
+		} catch (Exception e){
+			DebugLog.d(e);
+		}
 	}
 	
 	public synchronized static void setCatData(JSONObject catData){
-		long curTime = DateUtility.getCurTime();
-		catCacheTimeStamp = curTime;
-		catDataCache = new JSONObject(catData.toString());
+		try{
+			long curTime = DateUtility.getCurTime();
+			catCacheTimeStamp = curTime;
+			catDataCache = new JSONObject(catData.toString());
+		}
+		catch (Exception e){
+			DebugLog.d(e);
+		}
 	}
 	
 	public static JSONObject getLocationData(){
-		//expired
-		if (DateUtility.getCurTime() - locationCacheTimeStamp > locationCacheExpireTime){
-			return null;
-		}
-		if (locationDataCache == null){
-			return null;
-		}
 		try{
+			//expired
+			if (DateUtility.getCurTime() - locationCacheTimeStamp > locationCacheExpireTime){
+				return null;
+			}
+			if (locationDataCache == null){
+				return null;
+			}
+			
 			return new JSONObject(locationDataCache.toString());
 		} catch (Exception e){
 			DebugLog.d(e);
@@ -46,14 +64,15 @@ public class StaticDataRamCache {
 	}
 	
 	public static JSONObject getCatData(){
-		//expired
-		if (DateUtility.getCurTime() - catCacheTimeStamp > catCacheExpireTime){
-			return null;
-		}
-		if (catDataCache == null){
-			return null;
-		}
 		try{
+			//expired
+			if (DateUtility.getCurTime() - catCacheTimeStamp > catCacheExpireTime){
+				return null;
+			}
+			if (catDataCache == null){
+				return null;
+			}
+			
 			return new JSONObject(catDataCache.toString());
 		} catch (Exception e){
 			DebugLog.d(e);
@@ -62,7 +81,7 @@ public class StaticDataRamCache {
 	}
 	
 
-	//Warning: setting the cache to null breaks thread safety, could result in null pointer exceptions, once initialized cache should never be null
+	//Warning: setting the cache to null breaks thread safety guarantee, could result in null pointer exceptions, once initialized cache should never be null
 	public synchronized static void clear(){
 		locationDataCache = null;
 		locationCacheTimeStamp = 0l;

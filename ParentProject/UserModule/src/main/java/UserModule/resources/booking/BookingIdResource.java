@@ -20,6 +20,7 @@ import BaseModule.model.Booking;
 import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
+
 public class BookingIdResource extends UserPseudoResource{
 	private final String apiId = BookingIdResource.class.getSimpleName();
 	
@@ -49,7 +50,6 @@ public class BookingIdResource extends UserPseudoResource{
 		this.addCORSHeader();
 		return result;
 	}
-	
 	
 
 	@Put
@@ -92,6 +92,9 @@ public class BookingIdResource extends UserPseudoResource{
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
 		BookingStatus status = BookingStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
 		
+		if (status != BookingStatus.canceled){
+			throw new ValidationException("无权执行该操作");
+		}
 		booking.setAdjustTime(timeStamp);
 		booking.setStatus(status);
 		
