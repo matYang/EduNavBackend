@@ -1,33 +1,35 @@
 package BaseModule.cache;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
+
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 
 public class StaticDataRamCache {
 	//just an fyi...by default reads and writes of long are not atomic in java, however volatile could change that
-	private static volatile JSONArray locationDataCache = null;
+	private static volatile JSONObject locationDataCache = null;
 	private static volatile long locationCacheTimeStamp = 0l;
 	private static final long locationCacheExpireTime = 600000l;		//10 min 
 	
-	private static volatile JSONArray catDataCache = null;
+	private static volatile JSONObject catDataCache = null;
 	private static volatile long catCacheTimeStamp = 0l;
 	private static final long catCacheExpireTime = 600000l;		//10 min 
 	
 	
-	public synchronized static void setLocationData(JSONArray locationData){
+	public synchronized static void setLocationData(JSONObject locationData){
 		long curTime = DateUtility.getCurTime();
 		locationCacheTimeStamp = curTime;
-		locationDataCache = new JSONArray(locationData.toString());
+		locationDataCache = new JSONObject(locationData.toString());
 	}
 	
-	public synchronized static void setCatData(JSONArray catData){
+	public synchronized static void setCatData(JSONObject catData){
 		long curTime = DateUtility.getCurTime();
 		catCacheTimeStamp = curTime;
-		catDataCache = new JSONArray(catData.toString());
+		catDataCache = new JSONObject(catData.toString());
 	}
 	
-	public static JSONArray getLocationData(){
+	public static JSONObject getLocationData(){
 		//expired
 		if (DateUtility.getCurTime() - locationCacheTimeStamp > locationCacheExpireTime){
 			return null;
@@ -36,14 +38,14 @@ public class StaticDataRamCache {
 			return null;
 		}
 		try{
-			return new JSONArray(locationDataCache.toString());
+			return new JSONObject(locationDataCache.toString());
 		} catch (Exception e){
 			DebugLog.d(e);
 			return null;
 		}
 	}
 	
-	public static JSONArray getCatData(){
+	public static JSONObject getCatData(){
 		//expired
 		if (DateUtility.getCurTime() - catCacheTimeStamp > catCacheExpireTime){
 			return null;
@@ -52,7 +54,7 @@ public class StaticDataRamCache {
 			return null;
 		}
 		try{
-			return new JSONArray(catDataCache.toString());
+			return new JSONObject(catDataCache.toString());
 		} catch (Exception e){
 			DebugLog.d(e);
 			return null;

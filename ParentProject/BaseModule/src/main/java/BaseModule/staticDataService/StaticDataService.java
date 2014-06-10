@@ -24,8 +24,12 @@ public class StaticDataService {
 		try{
 			String[] catDataArray = new String[catData.size()];
 			catDataArray = catData.toArray(catDataArray);
+			String catDataString = "";
+			for (String str : catDataArray){
+				catDataString += str;
+			}
 			jedis.del(catDataRedisKey);
-			jedis.rpush(catDataRedisKey, catDataArray);
+			jedis.set(catDataRedisKey, catDataString);
 			
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
@@ -39,8 +43,12 @@ public class StaticDataService {
 		try{
 			String[] locationDataArray = new String[locationData.size()];
 			locationDataArray = locationData.toArray(locationDataArray);
+			String locationDataString = "";
+			for (String str : locationDataArray){
+				locationDataString += str;
+			}
 			jedis.del(locationDataRedisKey);
-			jedis.rpush(locationDataRedisKey, locationDataArray);
+			jedis.set(locationDataRedisKey, locationDataString);
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
 		}
@@ -48,124 +56,49 @@ public class StaticDataService {
 	}
 	
 	
-	
-	
-	public static LinkedHashMap<String, ArrayList<String>> getCatDataMap(){
-		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> catDataList;
-		try{
-			catDataList = jedis.lrange(catDataRedisKey, 0, jedis.llen(catDataRedisKey)-1);
-		} finally{
-			EduDaoBasic.returnJedis(jedis);
-		}
-		
-		
-		LinkedHashMap<String, ArrayList<String>> catDataMap = new LinkedHashMap<String, ArrayList<String>>();
-		
-		for (String singleCat : catDataList){
-			JSONObject singleCatJson = new JSONObject(singleCat);
-			String catKey = "";
-			ArrayList<String> singleCatSubCat = new ArrayList<String>();
-			
-			Set<String> keys = singleCatJson.keySet();
-			JSONArray singleCatJsonArr = null;
-			for (String key: keys){
-				catKey = key;
-				singleCatJsonArr = singleCatJson.getJSONArray(key);
-			}
-			for (int i = 0; i < singleCatJsonArr.length(); i++){
-				singleCatSubCat.add(singleCatJsonArr.getString(i));
-			}
-			catDataMap.put(catKey, singleCatSubCat);
-		}
-		
-		return catDataMap;
-	}
-	
-	public static LinkedHashMap<String, ArrayList<String>> getLocationDataMap(){
-		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> locationDataList;
-		try{
-			locationDataList = jedis.lrange(locationDataRedisKey, 0, jedis.llen(locationDataRedisKey)-1);
-		} finally{
-			EduDaoBasic.returnJedis(jedis);
-		}
-
-		
-		LinkedHashMap<String, ArrayList<String>> locationDataMap = new LinkedHashMap<String, ArrayList<String>>();
-		
-		for (String singleLocation : locationDataList){
-			JSONObject singleLocationJson = new JSONObject(singleLocation);
-			String locationKey = "";
-			ArrayList<String> singleLocationSubLocation = new ArrayList<String>();
-			
-			Set<String> keys = singleLocationJson.keySet();
-			JSONArray singleLocationJsonArr = null;
-			for (String key: keys){
-				locationKey = key;
-				singleLocationJsonArr = singleLocationJson.getJSONArray(key);
-			}
-			for (int i = 0; i < singleLocationJsonArr.length(); i++){
-				singleLocationSubLocation.add(singleLocationJsonArr.getString(i));
-			}
-			locationDataMap.put(locationKey, singleLocationSubLocation);
-		}
-		return locationDataMap;
-	}
-	
-	
-	
-	public static JSONArray getCatDataJSON(){
-		JSONArray catData = StaticDataRamCache.getCatData();
+	public static JSONObject getCatDataJSON(){
+		JSONObject catData = StaticDataRamCache.getCatData();
 		if (catData != null){
 			//System.out.println("Hitting cache");
 			return catData;
 		}
 		
 		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> catDataList;
+		String catDataString;
 		try{
-			catDataList = jedis.lrange(catDataRedisKey, 0, jedis.llen(catDataRedisKey)-1);
+			catDataString = jedis.get(catDataRedisKey);
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
 		}
 		
+		JSONObject catDatObj = new JSONObject(catDataString);
 		
-		JSONArray catDataArr = new JSONArray();
-		
-		for (String singleCat : catDataList){
-			JSONObject singleCatJson = new JSONObject(singleCat);
-			catDataArr.put(singleCatJson);
-		}
 		//System.out.println("Cache miss, setting cache");
-		StaticDataRamCache.setCatData(catDataArr);
-		return catDataArr;
+		StaticDataRamCache.setCatData(catDatObj);
+		return catDatObj;
 	}
 	
-	public static JSONArray getLocationDataJSON(){
-		JSONArray locationData = StaticDataRamCache.getLocationData();
+	public static JSONObject getLocationDataJSON(){
+		JSONObject locationData = StaticDataRamCache.getLocationData();
 		if (locationData != null){
 			//System.out.println("Hitting cache");
 			return locationData;
 		}
 		
 		Jedis jedis = EduDaoBasic.getJedis();
-		List<String> locationDataList;
+		String locationDataString;
 		try{
-			locationDataList = jedis.lrange(locationDataRedisKey, 0, jedis.llen(locationDataRedisKey)-1);
+			locationDataString = jedis.get(locationDataRedisKey);
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
 		}
 		
 		
-		JSONArray locationDataArr = new JSONArray();
-		for (String singleLocation : locationDataList){
-			JSONObject singleLocationJson = new JSONObject(singleLocation);
-			locationDataArr.put(singleLocationJson);
-		}
+		JSONObject locationDataObj = new JSONObject(locationDataString);
+
 		//System.out.println("Cache miss, setting cache");
-		StaticDataRamCache.setLocationData(locationDataArr);
-		return locationDataArr;
+		StaticDataRamCache.setLocationData(locationDataObj);
+		return locationDataObj;
 	}
 	
 

@@ -4,22 +4,23 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import BaseModule.cache.StaticDataRamCache;
 import BaseModule.common.DateUtility;
 import BaseModule.staticDataService.StaticDataService;
+import BaseModule.staticDataService.SystemDataInit;
 
 public class ConcurrentStaticDataCacheTest {
 	
 	public class TestReadThread extends Thread {  
 		private CountDownLatch threadsSignal;
 		private int index;
-		private ArrayList<JSONArray> dataS;
+		private ArrayList<JSONObject> dataS;
 		private String id;
 		
-		public TestReadThread(CountDownLatch threadsSignal, int index, ArrayList<JSONArray> dataS, String id) {  
+		public TestReadThread(CountDownLatch threadsSignal, int index, ArrayList<JSONObject> dataS, String id) {  
 			this.threadsSignal = threadsSignal;
 			this.index = index;
 			this.dataS = dataS;
@@ -30,7 +31,7 @@ public class ConcurrentStaticDataCacheTest {
 		public void run() {
 			try{
 				for (int i = 0; i < 1000; i++){
-					JSONArray newData;
+					JSONObject newData;
 					if (id.equals("loc")){
 						newData = StaticDataService.getLocationDataJSON();
 					}
@@ -38,15 +39,19 @@ public class ConcurrentStaticDataCacheTest {
 						newData = StaticDataService.getCatDataJSON();
 					}
 					else{
+						new RuntimeException().printStackTrace();
 						throw new RuntimeException("[ERROR]unknown thread id");
 					}
 					boolean found = false;
 					for (int j = 0; j < dataS.size() && !found; j++){
-						if (newData.toString().equals(dataS.get(j).toString())){
+						//System.out.println(dataS.get(j).toString());
+						if (newData.toString().length() == dataS.get(j).toString().length()){
 							found = true;
 						}
 					}
 					if (!found){
+						//System.out.println(newData.toString());
+						new RuntimeException().printStackTrace();
 						throw new RuntimeException("[ERROR]Data not equal, thread index: " + this.index);
 					}
 				}
@@ -59,10 +64,10 @@ public class ConcurrentStaticDataCacheTest {
 	public class TestSetThread extends Thread {  
 		private CountDownLatch threadsSignal;
 		private int index;
-		private ArrayList<JSONArray> dataS;
+		private ArrayList<JSONObject> dataS;
 		private String id;
 		
-		public TestSetThread(CountDownLatch threadsSignal, int index, ArrayList<JSONArray> dataS, String id) {  
+		public TestSetThread(CountDownLatch threadsSignal, int index, ArrayList<JSONObject> dataS, String id) {  
 			this.threadsSignal = threadsSignal;
 			this.index = index;
 			this.dataS = dataS;
@@ -77,27 +82,28 @@ public class ConcurrentStaticDataCacheTest {
 					if (id.equals("loc")){
 						Random random = new Random();
 						int index = (random.nextInt(100)+1) % dataS.size();
-						System.out.println("Setting cache");
+						//System.out.println("Setting cache");
 						StaticDataRamCache.setLocationData(dataS.get(index));
 						
 						if (random.nextInt(100) % 17 == 0){
-							System.out.println("Clearing cache");
+							//System.out.println("Clearing cache");
 							StaticDataRamCache.clear();
 						}
 					}
 					else if (id.equals("cat")){
 						Random random = new Random();
 						int index = (random.nextInt(100)+1) % dataS.size();
-						System.out.println("Setting cache");
+						//System.out.println("Setting cache");
 						StaticDataRamCache.setCatData(dataS.get(index));
 						
 						if (random.nextInt(100) % 17 == 0){
-							System.out.println("Clearing cache");
+							//System.out.println("Clearing cache");
 							StaticDataRamCache.clear();
 						}
 					}
 					else{
-						throw new RuntimeException("[ERROR]unknown thread id");
+						new RuntimeException().printStackTrace();
+						throw new RuntimeException("[ERROR]unknown thread id, thread index: " + this.index);
 					}
 				}
 			} finally{
@@ -109,35 +115,35 @@ public class ConcurrentStaticDataCacheTest {
 
 	@Test
 	public void test() throws InterruptedException {
-		String cat_source1 = "[{\"数学\":[\"初中\",\"高中\"]},{\"语文\":[\"初中\",\"高中\"]},{\"英语\":[\"四级\",\"六级\",\"托福\",\"雅思\",\"SAT\",\"GRE\"]},{\"考研\":[\"考研\"]},{\"会计\":[\"会计证\",\"职称证\",\"职业资格证\"]},{\"小语种\":[\"日语\",\"韩语\",\"法语\",\"西班牙语\",\"阿拉伯语\",\"Simon语\"]}]";
-		String cat_source2 = "[{\"数学\":[\"初中\",\"高中\"]},{\"语文\":[\"初中\",\"高中\"]},{\"英语\":[\"四级\",\"六级\",\"托福\",\"雅思\",\"SAT\",\"GRE\"]},{\"考研\":[\"考研\"]},{\"会计\":[\"会计证\",\"职称证\",\"职业资格证\"]}]";
-		String cat_source3 = "[{\"英语\":[\"四级\",\"六级\",\"托福\",\"雅思\",\"SAT\",\"GRE\"]},{\"考研\":[\"考研\"]},{\"会计\":[\"会计证\",\"职称证\",\"职业资格证\"]},{\"小语种\":[\"日语\",\"韩语\",\"法语\",\"西班牙语\",\"阿拉伯语\",\"Simon语\"]}]";
-		String cat_source4 = "[{\"会计\":[\"会计证\",\"职称证\",\"职业资格证\"]}]";
-		JSONArray cat_json1 = new JSONArray(cat_source1);
-		JSONArray cat_json2 = new JSONArray(cat_source2);
-		JSONArray cat_json3 = new JSONArray(cat_source3);
-		JSONArray cat_json4 = new JSONArray(cat_source4);
-		ArrayList<JSONArray> catDataS = new ArrayList<JSONArray>();
+		String cat_source1 = "{\"语文\":{\"高中\":\"\",\"初中\":\"\"},\"小语种\":{\"日语\":\"\",\"法语\":\"\",\"西班牙语\":\"\",\"韩语\":\"\",\"阿拉伯语\":\"\",\"Simon语\":\"\"},\"英语\":{\"四级\":\"\",\"SAT\":\"\",\"GRE\":\"\",\"托福\":\"\",\"六级\":\"\",\"雅思\":\"\"},\"考研\":{\"考研\":\"\"},\"数学\":{\"高中\":\"\",\"初中\":\"\"},\"会计\":{\"会计证\":\"\",\"职称证\":\"\",\"职业资格证\":\"\"}}";
+		String cat_source2 = "{\"语文\":{\"高中\":\"\",\"初中\":\"\"},\"考研\":{\"考研\":\"\"},\"数学\":{\"高中\":\"\",\"初中\":\"\"},\"会计\":{\"会计证\":\"\",\"职称证\":\"\",\"职业资格证\":\"\"}}";
+		String cat_source3 = "{\"语文\":{\"高中\":\"\"},\"小语种\":{\"日语\":\"\",\"Simon语\":\"\"},\"英语\":{\"四级\":\"\",\"SAT\":\"\",\"GRE\":\"\",\"托福\":\"\",\"六级\":\"\",\"雅思\":\"\"},\"考研\":{\"考研\":\"\"},\"数学\":{\"高中\":\"\",\"初中\":\"\"},\"会计\":{\"职称证\":\"\",\"职业资格证\":\"\"}}";
+		String cat_source4 = "{\"语文\":{\"高中\":\"\",\"初中\":\"\",\"法语\":\"\",\"西班牙语\":\"\"},\"小语种\":{\"日语\":\"\",\"法语\":\"\",\"西班牙语\":\"\",\"韩语\":\"\",\"阿拉伯语\":\"\",\"Simon语\":\"\"},\"英语\":{\"四级\":\"\",\"SAT\":\"\"},\"考研\":{\"考研\":\"\"},\"数学\":{\"高中\":\"\",\"初中\":\"\"}}";
+		JSONObject cat_json1 = new JSONObject(cat_source1);
+		JSONObject cat_json2 = new JSONObject(cat_source2);
+		JSONObject cat_json3 = new JSONObject(cat_source3);
+		JSONObject cat_json4 = new JSONObject(cat_source4);
+		ArrayList<JSONObject> catDataS = new ArrayList<JSONObject>();
 		catDataS.add(cat_json1);
 		catDataS.add(cat_json2);
 		catDataS.add(cat_json3);
 		catDataS.add(cat_json4);
 		
-		String location_source1 = "[{\"南京\":[\"玄武区\",\"秦淮区\",\"建邺区\",\"鼓楼区\",\"浦口区\",\"栖霞区\",\"雨花区\",\"江宁区\",\"六合区\",\"溧水区\",\"高淳区\"]},{\"苏州\":[\"马修区\"]}]";
-		String location_source2 = "[{\"南京\":[\"玄武区\",\"秦淮区\",\"建邺区\",\"鼓楼区\",\"栖霞区\",\"雨花区\",\"江宁区\",\"溧水区\"]},{\"苏州\":[\"马修区\"]}]";
-		String location_source3 = "[{\"南京\":[\"鼓楼区\",\"浦口区\",\"栖霞区\",\"雨花区\",\"江宁区\",\"六合区\",\"溧水区\",\"高淳区\"]},{\"苏州\":[\"啦啦区\"]}]";
-		String location_source4 = "[{\"南京\":[\"玄武区\",\"秦淮区\",\"建邺区\",\"江宁区\",\"六合区\",\"溧水区\",\"高淳区\"]},{\"苏州\":[\"皮卡丘区\"]}]";
-		JSONArray location_json1 = new JSONArray(location_source1);
-		JSONArray location_json2 = new JSONArray(location_source2);
-		JSONArray location_json3 = new JSONArray(location_source3);
-		JSONArray location_json4 = new JSONArray(location_source4);
-		ArrayList<JSONArray> locationDataS = new ArrayList<JSONArray>();
+		String location_source1 = "{\"南京\":{\"江宁区\":\"\",\"秦淮区\":\"\",\"浦口区\":\"\",\"六合区\":\"\",\"建邺区\":\"\",\"栖霞区\":\"\",\"高淳区\":\"\",\"溧水区\":\"\",\"玄武区\":\"\",\"雨花区\":\"\",\"鼓楼区\":\"\"},\"苏州\":{\"马修区\":\"\"}}";
+		String location_source2 = "{\"南京\":{\"江宁区\":\"\",\"秦淮区\":\"\",\"浦口区\":\"\",\"高淳区\":\"\",\"溧水区\":\"\",\"玄武区\":\"\",\"雨花区\":\"\",\"鼓楼区\":\"\"},\"苏州\":{\"马修区\":\"\",\"拉拉区\":\"\"}}";
+		String location_source3 = "{\"南京\":{\"江宁区\":\"\",\"秦淮区\":\"\",\"浦口区\":\"\",\"六合区\":\"\",\"建邺区\":\"\",\"栖霞区\":\"\",\"高淳区\":\"\",\"溧水区\":\"\",\"玄武区\":\"\",\"雨花区\":\"\",\"鼓楼区\":\"\"}}";
+		String location_source4 = "{\"苏州\":{\"马修区\":\"\"}}";
+		JSONObject location_json1 = new JSONObject(location_source1);
+		JSONObject location_json2 = new JSONObject(location_source2);
+		JSONObject location_json3 = new JSONObject(location_source3);
+		JSONObject location_json4 = new JSONObject(location_source4);
+		ArrayList<JSONObject> locationDataS = new ArrayList<JSONObject>();
 		locationDataS.add(location_json1);
 		locationDataS.add(location_json2);
 		locationDataS.add(location_json3);
 		locationDataS.add(location_json4);
 		
-		
+		SystemDataInit.init();
 		int readThreadNum = 1000;
 		int setThreadNum = 100;
 		CountDownLatch readThreadSignal = new CountDownLatch(readThreadNum);
