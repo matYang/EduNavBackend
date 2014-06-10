@@ -18,8 +18,8 @@ import BaseModule.model.representation.AdminSearchRepresentation;
 
 public class AdminAccountDao {
 
-	public static ArrayList<AdminAccount> searchAdminAccount(AdminSearchRepresentation sr) throws SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static ArrayList<AdminAccount> searchAdminAccount(AdminSearchRepresentation sr,Connection...connections) throws SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		ArrayList<AdminAccount> alist = new ArrayList<AdminAccount>();
@@ -53,7 +53,7 @@ public class AdminAccountDao {
 				alist.add(createAdminAccountByResultSet(rs));
 			}
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 		return alist;
 	}
@@ -85,8 +85,8 @@ public class AdminAccountDao {
 		return account;
 	}
 
-	public static void updateAdminAccountInDatabases(AdminAccount account) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static void updateAdminAccountInDatabases(AdminAccount account,Connection...connections) throws PseudoException, SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;
 		String query = "UPDATE AdminAccountDao SET lastLogin=?,status=?,reference=?,privilege=?,name=?,phone=? where id = ?";
 		try{
@@ -104,15 +104,15 @@ public class AdminAccountDao {
 				throw new AdminAccountNotFoundException();
 			}
 		} finally  {
-			EduDaoBasic.closeResources(conn, stmt, null,true);			
+			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));			
 		}
 	}
 
 
-	public static AdminAccount getAdminAccountById(int id) throws PseudoException, SQLException{
+	public static AdminAccount getAdminAccountById(int id,Connection...connections) throws PseudoException, SQLException{
 		String query = "SELECT * FROM AdminAccountDao where id = ?";
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		ResultSet rs = null;
 		AdminAccount account = null;
 		try{
@@ -126,7 +126,7 @@ public class AdminAccountDao {
 				throw new AdminAccountNotFoundException();
 			}
 		}finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 
 		return account;
@@ -134,8 +134,8 @@ public class AdminAccountDao {
 
 
 
-	public static void changeAdminAccountPassword(int adminId, String oldPassword, String newPassword) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static void changeAdminAccountPassword(int adminId, String oldPassword, String newPassword,Connection...connections) throws PseudoException, SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
@@ -160,12 +160,12 @@ public class AdminAccountDao {
 				throw new AuthenticationException();
 			}
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 	}
 
-	public static AdminAccount authenticateAdminAccount(String reference, String password) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static AdminAccount authenticateAdminAccount(String reference, String password,Connection...connections) throws PseudoException, SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		AdminAccount account = null;
@@ -188,13 +188,13 @@ public class AdminAccountDao {
 				throw new AuthenticationException("编号或密码输入错误");
 			}
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 		return account;
 	}
 
-	public static void changeAdminAccountPassword(int adminId, String password) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static void changeAdminAccountPassword(int adminId, String password,Connection...connections) throws PseudoException, SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		String query = "UPDATE AdminAccountDao set password = ? where id = ?";
@@ -207,7 +207,7 @@ public class AdminAccountDao {
 				throw new AuthenticationException("手机号码或密码输入有误");
 			}
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 	}
 
