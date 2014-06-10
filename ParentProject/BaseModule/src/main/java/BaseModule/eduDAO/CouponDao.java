@@ -18,7 +18,7 @@ public class CouponDao {
 
 	public static ArrayList<Coupon> searchCoupon(CouponSearchRepresentation sr, Connection...connections) throws SQLException{
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		int stmtInt = 1;
@@ -68,7 +68,7 @@ public class CouponDao {
 	
 	
 	public static Coupon addCouponToDatabases(Coupon c,Connection...connections) throws SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO CouponDao (bookingId,transactionId,userId,creationTime,expireTime,status,amount)" +

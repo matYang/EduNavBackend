@@ -18,8 +18,8 @@ import BaseModule.model.representation.UserSearchRepresentation;
 
 public class UserDao {
 
-	public static ArrayList<User> searchUser(UserSearchRepresentation sr) throws SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static ArrayList<User> searchUser(UserSearchRepresentation sr,Connection...connections) throws SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		ArrayList<User> ulist = new ArrayList<User>();
@@ -65,7 +65,7 @@ public class UserDao {
 				ulist.add(user);
 			}
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 		return ulist;
 	}
@@ -194,8 +194,8 @@ public class UserDao {
 	}
 	
 
-	public static void changeUserPassword(int userId, String oldPassword, String newPassword)  throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static void changeUserPassword(int userId, String oldPassword, String newPassword,Connection...connections)  throws PseudoException, SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
@@ -223,7 +223,7 @@ public class UserDao {
 				throw new AuthenticationException();
 			}
 		} finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 
 	}
@@ -260,8 +260,8 @@ public class UserDao {
 		return user;
 	}
 
-	public static void recoverUserPassword(String phone,String newPassword) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static void recoverUserPassword(String phone,String newPassword,Connection...connections) throws PseudoException, SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;			
 		String query = "UPDATE UserDao set password = ? where phone = ?";		
@@ -274,7 +274,7 @@ public class UserDao {
 				throw new AuthenticationException("手机号码输入有误");
 			}
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);			
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));			
 		}
 	}
 

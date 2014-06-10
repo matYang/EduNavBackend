@@ -301,7 +301,7 @@ public class ModelDataLoaderService {
 		AccountStatus status2 = AccountStatus.activated;		
 		AdminAccount account2 = new AdminAccount(name2,phone2,reference2,privilege2,status2,password);
 		try {
-			AdminAccountDao.addAdminAccountToDatabases(account2);
+			AdminAccountDao.addAdminAccountToDatabases(account2,connections);
 		} catch (SQLException | PseudoException e) {			
 			e.printStackTrace();
 		}
@@ -313,7 +313,7 @@ public class ModelDataLoaderService {
 		AccountStatus status3 = AccountStatus.activated;		
 		AdminAccount account3 = new AdminAccount(name3,phone3,reference3,privilege3,status3,password);
 		try {
-			AdminAccountDao.addAdminAccountToDatabases(account3);
+			AdminAccountDao.addAdminAccountToDatabases(account3,connections);
 		} catch(Exception e){
 			DebugLog.d(e);
 		}

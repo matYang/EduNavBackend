@@ -17,9 +17,9 @@ import BaseModule.model.representation.PartnerSearchRepresentation;
 
 public class PartnerDao {
 
-	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr) throws SQLException{
+	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr,Connection...connections) throws SQLException{
 		ArrayList<Partner> plist = new ArrayList<Partner>();
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		int stmtInt = 1;
@@ -61,7 +61,7 @@ public class PartnerDao {
 			}
 
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 		return plist;
 	}
@@ -150,8 +150,8 @@ public class PartnerDao {
 	}
 
 
-	public static void changePartnerPassword(int partnerId, String oldPassword, String newPassword) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static void changePartnerPassword(int partnerId, String oldPassword, String newPassword,Connection...connections) throws PseudoException, SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
@@ -182,13 +182,13 @@ public class PartnerDao {
 			}
 		}
 		finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);				
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));				
 		}
 		
 	}
 
-	public static Partner authenticatePartner(String phone, String password) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static Partner authenticatePartner(String phone, String password,Connection...connections) throws PseudoException, SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		Partner partner = null;
@@ -210,13 +210,13 @@ public class PartnerDao {
 				throw new AuthenticationException();
 			}
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);			
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));			
 		}
 		return partner;
 	}
 
-	public static void recoverPartnerPassword(String phone, String newPassword) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+	public static void recoverPartnerPassword(String phone, String newPassword,Connection...connections) throws PseudoException, SQLException{
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		String query = "UPDATE PartnerDao set password = ? where phone = ?";		
@@ -229,7 +229,7 @@ public class PartnerDao {
 				throw new AuthenticationException("手机号码或密码输入有误");
 			}
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);			
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));			
 		}
 	}
 

@@ -18,7 +18,7 @@ public class CreditDao {
 
 	public static ArrayList<Credit> searchCredit(CreditSearchRepresentation sr, Connection...connections) throws SQLException{
 		ArrayList<Credit> clist = new ArrayList<Credit>();
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		int stmtInt = 1;

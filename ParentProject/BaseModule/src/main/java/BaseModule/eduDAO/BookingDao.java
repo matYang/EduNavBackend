@@ -17,9 +17,9 @@ import BaseModule.model.representation.BookingSearchRepresentation;
 
 public class BookingDao {
 
-	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr) throws PseudoException, SQLException{
+	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr,Connection...connections) throws PseudoException, SQLException{
 		ArrayList<Booking> blist = new ArrayList<Booking>();
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = sr.getSearchQuery();	
@@ -76,7 +76,7 @@ public class BookingDao {
 				blist.add(createBookingByResultSet(rs,conn));
 			}
 		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
 		return blist;
 

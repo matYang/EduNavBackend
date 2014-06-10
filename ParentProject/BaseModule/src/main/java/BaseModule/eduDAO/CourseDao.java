@@ -24,9 +24,9 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 public class CourseDao {
 
 
-	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws PseudoException, SQLException{
+	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr,Connection...connections) throws PseudoException, SQLException{
 		ArrayList<Course> clist = new ArrayList<Course>();
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		HashMap<Integer,Partner> pmap = new HashMap<Integer,Partner>();
@@ -115,7 +115,7 @@ public class CourseDao {
 				//ignore the partner not founds
 			}
 		} finally  {
-			EduDaoBasic.closeResources(conn, stmt, rs,true);
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 
 		return clist;

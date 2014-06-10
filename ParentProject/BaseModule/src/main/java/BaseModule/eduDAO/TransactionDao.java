@@ -17,7 +17,7 @@ public class TransactionDao {
 	
 	public static ArrayList<Transaction> searchTransaction(TransactionSearchRepresentation sr,Connection...connections) throws SQLException{
 		ArrayList<Transaction> tlist = new ArrayList<Transaction>();
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		int stmtInt = 1;
