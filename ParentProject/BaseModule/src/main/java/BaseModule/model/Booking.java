@@ -24,6 +24,7 @@ public class Booking implements PseudoModel, Serializable{
 	private int price;
 
 	private BookingStatus status;
+	private BookingStatus preStatus;
 	private String reference;
 	private String name;
 	private String phone;
@@ -47,7 +48,7 @@ public class Booking implements PseudoModel, Serializable{
 			int price, int userId,int partnerId, int courseId, String name, String phone,
 			BookingStatus status, String reference, long transactionId, String email,Calendar scheduledTime,
 			boolean wasConfirmed,String note, int cashbackAmount, String couponRecord,
-			String actionRecord, Course course) {
+			String actionRecord, Course course,BookingStatus preStatus) {
 		super();
 		this.bookingId = bookingId;
 		this.creationTime = creationTime;
@@ -69,6 +70,7 @@ public class Booking implements PseudoModel, Serializable{
 		this.couponRecord = couponRecord;
 		this.actionRecord = actionRecord;
 		this.course = course;
+		this.preStatus = preStatus;
 	}
 
 	
@@ -88,7 +90,8 @@ public class Booking implements PseudoModel, Serializable{
 		this.name = name;
 		this.phone = phone;
 		this.reference = reference;
-		this.status = status;		
+		this.status = status;	
+		this.preStatus = status;
 		this.email = email;		
 		this.creationTime = DateUtility.getCurTimeInstance();
 		this.wasConfirmed = false;
@@ -237,6 +240,16 @@ public class Booking implements PseudoModel, Serializable{
 		this.note = note;
 	}
 
+	public BookingStatus getPreStatus() {
+		return preStatus;
+	}
+
+
+	public void setPreStatus(BookingStatus preStatus) {
+		this.preStatus = preStatus;
+	}
+
+
 	public int getCashbackAmount() {
 		return cashbackAmount;
 	}
@@ -264,6 +277,7 @@ public class Booking implements PseudoModel, Serializable{
 			jsonObj.put("phone", EncodingService.encodeURI(this.phone));
 			jsonObj.put("price", this.price);
 			jsonObj.put("status", this.status.code);
+			jsonObj.put("preStaus", this.preStatus.code);
 			jsonObj.put("reference", EncodingService.encodeURI(this.reference));
 			jsonObj.put("userId", this.userId);
 			jsonObj.put("partnerId", this.partnerId);
@@ -304,6 +318,7 @@ public class Booking implements PseudoModel, Serializable{
 				this.adjustTime.getTime().toString().equals(booking.getAdjustTime().getTime().toString()) &&
 				this.scheduledTime.getTime().toString().equals(booking.getScheduledTime().getTime().toString()) &&
 				this.reference.equals(booking.getReference()) && this.status.code == booking.getStatus().code && 
+				this.preStatus.code == booking.getPreStatus().code &&
 				this.userId == booking.getUserId() &&
 				this.wasConfirmed == booking.wasConfirmed &&
 				this.actionRecord.equals(booking.actionRecord) &&

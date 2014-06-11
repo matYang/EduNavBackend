@@ -27,6 +27,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private String name;
 	private String phone;
 	private BookingStatus status;
+	private BookingStatus preStatus;
 	private String reference;
 	private int wasConfirmedIndex;	//1 for yes, 2 for no
 	private Calendar adjustTime;	
@@ -43,6 +44,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.name = null;
 		this.phone = null;
 		this.status = null;
+		this.preStatus = null;
 		this.reference = null;
 		this.email = null;
 		this.wasConfirmedIndex = -1;
@@ -147,6 +149,14 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.courseId = courseId;
 	}
 
+	public BookingStatus getPreStatus() {
+		return preStatus;
+	}
+
+	public void setPreStatus(BookingStatus preStatus) {
+		this.preStatus = preStatus;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -203,7 +213,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				+ ", finishPrice=" + finishPrice + ", userId=" + userId
 				+ ", partnerId=" + partnerId + ", courseId=" + courseId
 				+ ", email=" + email + ", name=" + name + ", phone=" + phone
-				+ ", status=" + status + ", reference=" + reference
+				+ ", status=" + status + ", preStatus=" + preStatus + ", reference=" + reference
 				+ ", wasConfirmedIndex=" + wasConfirmedIndex + ", adjustTime="
 				+ adjustTime + "]";
 	}
@@ -345,6 +355,15 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				query += "and ";
 			}
 			query += "wasConfirmed = ? ";
+		}
+		if(this.preStatus != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "preStatus = ? ";
 		}
 		return query;
 	}

@@ -51,7 +51,7 @@ public class EnumConfig {
     }
 	
 	public static enum BookingStatus{
-        awaiting(0),confirmed(1),canceled(2),pending(3),finished(4),failed(5);
+        awaiting(0),confirmed(1),canceled(2),enter(3),finished(4),failed(5),quit(6),delivered(7);
         public int code;
         BookingStatus(int code){
             this.code = code;
