@@ -103,14 +103,13 @@ public class BookingResource extends UserPseudoResource{
 			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
 			String email = EncodingService.decodeURI(jsonBooking.getString("email"));
-			String reference = ReferenceFactory.generateBookingReference();
-			String couponRecord = EncodingService.decodeURI(jsonBooking.getString("couponRecord"));
+			String reference = ReferenceFactory.generateBookingReference();		
 			
 			BookingStatus status = BookingStatus.awaiting;		
 			
 		    booking = new Booking(scheduledTime,adjustTime, 
 					price,userId, partnerId, courseId, name,
-					phone,email,reference,status,cashbackAmount,couponRecord);
+					phone,email,reference,status,cashbackAmount);
 			
 			ValidationService.validateBooking(booking);
 			
