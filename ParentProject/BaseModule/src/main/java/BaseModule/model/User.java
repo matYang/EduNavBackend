@@ -29,6 +29,8 @@ public class User implements PseudoModel, Serializable{
 	private String email;
 	
 	private AccountStatus status;
+	private String invitationalCode;
+	private String appliedInvitationalCode;
 	
 	private Calendar creationTime;
 	private Calendar lastLogin;
@@ -55,7 +57,7 @@ public class User implements PseudoModel, Serializable{
 	}
 	
 	//Normal Construction
-	public User(String phone, String password,AccountStatus status) {
+	public User(String phone, String password, String appliedInvitationalCode, String invitationalCode, AccountStatus status) {
 		super();		
 		this.balance = 0;
 		this.coupon = 0;

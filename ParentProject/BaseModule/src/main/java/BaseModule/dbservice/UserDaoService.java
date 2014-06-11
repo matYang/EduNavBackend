@@ -94,6 +94,16 @@ public class UserDaoService {
 
 	public static ArrayList<User> searchUser(UserSearchRepresentation sr) throws SQLException {
 		return UserDao.searchUser(sr);
-	}	
+	}
+	
+	public static ArrayList<User> getUserByInvitationalCode(String code){
+		UserSearchRepresentation sr = new UserSearchRepresentation();
+		sr.setUserInvitationalCode(code);
+		return searchUser(sr);
+	}
+	
+	public static boolean isInvitationalCodeAvaialble(String code) throws SQLException{
+		return getUserByInvitationalCode(code).size() == 0;
+	}
 
 }

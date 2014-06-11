@@ -36,7 +36,7 @@ public class UserSessionRedirect extends UserPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
 			
 			//if not authenticated, return default user with id -1
-			user = new User("default","default", AccountStatus.activated);
+			user = new User("default","default", "", "",AccountStatus.activated);
 			user.setUserId(-1);
 			jsonObject = JSONFactory.toJSON(user);
 		

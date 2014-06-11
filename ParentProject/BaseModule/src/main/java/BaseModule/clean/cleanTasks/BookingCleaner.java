@@ -25,13 +25,12 @@ public class BookingCleaner extends BookingDao{
 		try{
 			conn = EduDaoBasic.getConnection();
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, BookingStatus.confirmed.code);
+			stmt.setInt(1, BookingStatus.finished.code);
 			stmt.setString(2, ct);
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				try{
 					booking = BookingDao.createBookingByResultSet(rs);
-					booking.setStatus(BookingStatus.pending);				
 					BookingDao.updateBookingInDatabases(booking,conn);
 				} catch(Exception e){
 					DebugLog.d(e);
