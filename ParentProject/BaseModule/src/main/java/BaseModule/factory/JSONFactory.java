@@ -54,6 +54,15 @@ public class JSONFactory {
 		else if (obj instanceof AdminSearchRepresentation){
 			return ((AdminSearchRepresentation)obj).toJSON();
 		}
+		else if (obj instanceof CouponSearchRepresentation){
+			return ((CouponSearchRepresentation)obj).toJSON();
+		}
+		else if (obj instanceof CreditSearchRepresentation){
+			return ((CreditSearchRepresentation)obj).toJSON();
+		}
+		else if (obj instanceof TransactionSearchRepresentation){
+			return ((TransactionSearchRepresentation)obj).toJSON();
+		}
 		else{
 			return new JSONObject();
 		}

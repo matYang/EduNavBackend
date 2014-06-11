@@ -13,6 +13,8 @@ import AdminModule.resources.admin.auth.AdminChangePassword;
 import AdminModule.resources.admin.auth.AdminSessionRedirect;
 import AdminModule.resources.booking.BookingIdResource;
 import AdminModule.resources.booking.BookingResource;
+import AdminModule.resources.coupon.CouponIdResource;
+import AdminModule.resources.coupon.CouponResource;
 import AdminModule.resources.course.CourseIdResource;
 import AdminModule.resources.course.CourseResource;
 import AdminModule.resources.modelLoader.MemcachedBenchMarkResource;
@@ -80,10 +82,10 @@ public class RoutingService extends Application{
 		/** -------------------- APIs for booking module ------------------ **/
 		String bookingServicePrefix = "/booking";
 		
-		//  API for admin to get/update booking : /a-api/v1.0/admin/booking/:id
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + bookingServicePrefix + "/{id}", BookingIdResource.class); 
 		//  API for admin to query bookings : /a-api/v1.0/admin/booking
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + bookingServicePrefix, BookingResource.class);
+		//  API for admin to get/update booking : /a-api/v1.0/admin/booking/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + bookingServicePrefix + "/{id}", BookingIdResource.class); 
 		
 		
 		/** -------------------- APIs for course module ------------------ **/
@@ -91,8 +93,18 @@ public class RoutingService extends Application{
 		
 		//  API for admin to create course : /a-api/v1.0/admin/course
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + courseServicePrefix, CourseResource.class);
-		//  API for admin to get course : /a-api/v1.0/admin/course/:id
+		//  API for admin to update course : /a-api/v1.0/admin/course/:id
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + courseServicePrefix + "/{id}", CourseIdResource.class);
+		
+		
+		/** -------------------- APIs for coupon module ------------------ **/
+		String couponServicePrefix = "/coupon";
+		
+		//  API for admin to search/create coupon : /a-api/v1.0/admin/coupon
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + couponServicePrefix, CouponResource.class);
+		//  API for admin to update coupon : /a-api/v1.0/admin/coupon/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + couponServicePrefix + "/{id}", CouponIdResource.class);
+		
 		
 		/** -------------------- API for ModelLoader module ------------------ **/
 		String modelLoaderPrefix = "/modelLoader";

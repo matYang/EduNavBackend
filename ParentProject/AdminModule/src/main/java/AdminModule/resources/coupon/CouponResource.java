@@ -1,16 +1,21 @@
 package AdminModule.resources.coupon;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
-
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
+import org.restlet.resource.Post;
 
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.CouponDaoService;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Coupon;
 import BaseModule.model.representation.CouponSearchRepresentation;
@@ -44,4 +49,47 @@ public class CouponResource extends AdminPseudoResource{
 		return result;
 		
 	}
+	
+	@Post
+	public Representation createCoupon(Representation entity){
+		Coupon coupon = null;
+		JSONObject couponObject = new JSONObject();
+		try{
+			this.checkEntity(entity);
+			JSONObject jsonCoupon = this.getJSONObj(entity);
+			int adminId = this.validateAuthentication();
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, adminId, this.getUserAgent(), couponObject.toString());
+			
+			coupon = parseJSON(jsonCoupon);
+
+			coupon = CouponDaoService.addCouponToUser(coupon);
+			couponObject = JSONFactory.toJSON(coupon);
+			
+		} catch(PseudoException e){
+			this.addCORSHeader();
+			return this.doPseudoException(e);
+		} catch (Exception e) {
+			return this.doException(e);
+		}
+
+		Representation result = new JsonRepresentation(couponObject);
+		this.addCORSHeader(); 
+		return result;
+	}
+	
+	protected Coupon parseJSON(JSONObject jsonCoupon) throws ParseException, SQLException, PseudoException {
+		Coupon Coupon = null;
+		try{
+			int userId= jsonCoupon.getInt("userId");
+			int amount = jsonCoupon.getInt("amount");
+			
+		    Coupon = new Coupon(userId, amount);
+		}catch (JSONException e) {
+			throw new ValidationException("无效数据格式");
+		}
+		
+		return Coupon;
+	}
+	
 }
