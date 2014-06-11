@@ -69,11 +69,10 @@ public class CouponDaoTest {
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Coupon c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
 		CouponDao.addCouponToDatabases(c);
-		c.setAmount(1);
-		c.setTransactionId(2);
+		c.setAmount(1);		
 		CouponDao.updateCouponInDatabases(c);
 		c = CouponDao.getCouponByCouponId(c.getCouponId());
-		if(c.getAmount()==1 && c.getTransactionId() == 2){
+		if(c.getAmount()==1){
 			//Passed;
 		}else fail();
 	}
@@ -88,23 +87,21 @@ public class CouponDaoTest {
 		Coupon c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);		
 		CouponDao.addCouponToDatabases(c);
 		
-		int transactionId = 1000;
+		
 		bookingId = 2;
 		userId = 1;
 		amount = 0;
 		expireTime = DateUtility.getCurTimeInstance();
-		Coupon c2 = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.expired);	
-		c2.setTransactionId(transactionId);
+		Coupon c2 = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.expired);			
 		CouponDao.addCouponToDatabases(c2);
 		
-		transactionId = 10;
+		
 		bookingId = 2;
 		userId = 2;
 		amount = 67;
 		expireTime = DateUtility.getCurTimeInstance();
 		expireTime.add(Calendar.DAY_OF_YEAR, 1);
-		Coupon c3 = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.used);	
-		c3.setTransactionId(transactionId);
+		Coupon c3 = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.used);			
 		CouponDao.addCouponToDatabases(c3);
 		
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
@@ -134,9 +131,9 @@ public class CouponDaoTest {
 			//Passed;
 		}else fail();
 		
-		csr.setExpireTime(null);
-		csr.setTransactionId(1000);
+		csr.setExpireTime(null);		
 		csr.setStartPrice(0);
+		csr.setFinishPrice(60);
 		clist = CouponDao.searchCoupon(csr);
 		
 		if(clist.size()==1 && clist.get(0).equals(c2)){
