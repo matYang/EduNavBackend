@@ -15,9 +15,8 @@ import BaseModule.service.RepresentationReflectiveService;
 
 public class TransactionSearchRepresentation implements PseudoModel, PseudoRepresentation {
 	
-	private int transactionId;
-	private int userId;
-	private long couponId;
+	private long transactionId;
+	private int userId;	
 	private int bookingId;
 	private TransactionType transactionType;
 	private Calendar creationTime;
@@ -26,8 +25,7 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 	
 	public TransactionSearchRepresentation(){
 		this.transactionId = -1;
-		this.userId = -1;
-		this.couponId = -1;
+		this.userId = -1;		
 		this.bookingId = -1;
 		this.transactionType = null;
 		this.creationTime = null;
@@ -60,11 +58,11 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 		return RepresentationReflectiveService.toJSON(this);
 	}
 
-	public int getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(int transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
@@ -75,15 +73,7 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-
-	public long getCouponId() {
-		return couponId;
-	}
-
-	public void setCouponId(long couponId) {
-		this.couponId = couponId;
-	}
-
+	
 	public int getBookingId() {
 		return bookingId;
 	}
@@ -127,8 +117,8 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 	@Override
 	public String toString() {
 		return "TransactionSearchRepresentation [transactionId="
-				+ transactionId + ", userId=" + userId + ", couponId="
-				+ couponId + ", bookingId=" + bookingId + ", transactionType="
+				+ transactionId + ", userId=" + userId 
+				+ ", bookingId=" + bookingId + ", transactionType="
 				+ transactionType + ", creationTime=" + creationTime
 				+ ", startPrice=" + startPrice + ", finishPrice=" + finishPrice
 				+ "]";
@@ -154,16 +144,7 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 				query += "and ";
 			}
 			query += "bookingId = ? ";
-		}
-		if(this.getCouponId() > 0){
-			if(!start){
-				query += "where ";
-				start = true;
-			}else{
-				query += "and ";
-			}
-			query += "couponId = ? ";
-		}
+		}		
 		if(this.getUserId() > 0){
 			if(!start){
 				query += "where ";

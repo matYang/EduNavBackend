@@ -47,24 +47,21 @@ public class TransactionDaoTest {
 		int userId = 1;
 		int bookingId = 1;
 		int amount = 20;
-		Transaction transaction = new Transaction(userId,bookingId,amount);
-		transaction.setCouponId(5);
+		Transaction transaction = new Transaction(userId,bookingId,amount);		
 		transaction.setTransactionType(TransactionType.withdraw);
 		TransactionDao.addTransactionToDatabases(transaction);
 	
 		userId = 2;
 		bookingId = 1;
 		amount = 200;
-		Transaction transaction2 = new Transaction(userId,bookingId,amount);
-		transaction2.setCouponId(5);
+		Transaction transaction2 = new Transaction(userId,bookingId,amount);		
 		transaction2.setTransactionType(TransactionType.deposit);
 		TransactionDao.addTransactionToDatabases(transaction2);
 		
 		userId = 1;
 		bookingId = 1;
 		amount = 50;
-		Transaction transaction3 = new Transaction(userId,bookingId,amount);
-		transaction3.setCouponId(6);
+		Transaction transaction3 = new Transaction(userId,bookingId,amount);		
 		transaction3.setTransactionType(TransactionType.withdraw);
 		TransactionDao.addTransactionToDatabases(transaction3);
 		
@@ -86,10 +83,10 @@ public class TransactionDaoTest {
 		}else fail();
 		
 		tsr.setUserId(-1);
-		tsr.setStartPrice(-1);
-		tsr.setCouponId(5);
+		tsr.setStartPrice(-1);		
+		tsr.setTransactionType(TransactionType.withdraw);
 		tlist = TransactionDao.searchTransaction(tsr);
-		if(tlist.size()==2&&tlist.get(0).equals(transaction)&&tlist.get(1).equals(transaction2)){
+		if(tlist.size()==2&&tlist.get(0).equals(transaction)&&tlist.get(1).equals(transaction3)){
 			//Passed;
 		}else fail();
 	}
@@ -114,11 +111,9 @@ public class TransactionDaoTest {
 		int amount3 = 23454354;
 		long couponId = 1L;
 		Transaction transaction3 = new Transaction(userId3,bookingId3,amount3);
-		transaction3.setTransactionType(TransactionType.coupon);
-		transaction3.setCouponId(couponId);
+		transaction3.setTransactionType(TransactionType.coupon);		
 		transaction3 = TransactionDao.addTransactionToDatabases(transaction3);		
-		couponId = 1;
-		transaction3.setCouponId(couponId);
+		couponId = 1;		
 		ArrayList<Transaction> tlist = new ArrayList<Transaction>();
 		tlist = TransactionDao.getTransactionByUserId(userId);
 		if(tlist.size() == 1 && tlist.get(0).equals(transaction)){

@@ -17,7 +17,7 @@ public class Booking implements PseudoModel, Serializable{
 	private static final long serialVersionUID = 5L;
 
 	private int bookingId;
-	private int transactionId;
+	private long transactionId;
 	private int userId;
 	private int partnerId;
 	private int courseId;
@@ -38,14 +38,14 @@ public class Booking implements PseudoModel, Serializable{
 	private int cashbackAmount;
 	private String couponRecord;	//id_amount-...
 	private String actionRecord;	//id_action_timestamp-..
+	
 	private transient Course course;
 	
-	//TODO deleting adminId and couponId, adding note, cashbackAmount and couponRecord
 
 	//SQL Retrieving
 	public Booking(int bookingId, Calendar creationTime, Calendar adjustTime,
 			int price, int userId,int partnerId, int courseId, String name, String phone,
-			BookingStatus status, String reference, int transactionId, String email,Calendar scheduledTime,
+			BookingStatus status, String reference, long transactionId, String email,Calendar scheduledTime,
 			boolean wasConfirmed,String note, int cashbackAmount, String couponRecord,
 			String actionRecord, Course course) {
 		super();
@@ -179,11 +179,11 @@ public class Booking implements PseudoModel, Serializable{
 		this.reference = reference;
 	}	
 
-	public int getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(int transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
@@ -285,12 +285,12 @@ public class Booking implements PseudoModel, Serializable{
 	}
 
 	public boolean equals(Booking booking){
-		boolean result = true;
+		boolean courseEqualResult = true;
 		if (booking == null){
 			return false;
 		}
 		if (this.course != null && booking.course != null){
-			result = this.course.equals(booking.getCourse());
+			courseEqualResult = this.course.equals(booking.getCourse());
 		}
 		return this.bookingId==booking.getBookingId() && 
 				this.transactionId == booking.getTransactionId() &&
@@ -307,7 +307,7 @@ public class Booking implements PseudoModel, Serializable{
 				this.userId == booking.getUserId() &&
 				this.wasConfirmed == booking.wasConfirmed &&
 				this.actionRecord.equals(booking.actionRecord) &&
-				result;
+				courseEqualResult;
 
 	}
 

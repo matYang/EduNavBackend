@@ -26,14 +26,11 @@ public class TransactionDao {
 			stmt = conn.prepareStatement(query);
 			
 			if(sr.getTransactionId() > 0){
-				stmt.setInt(stmtInt++, sr.getTransactionId());
+				stmt.setLong(stmtInt++, sr.getTransactionId());
 			}
 			if(sr.getBookingId() > 0){
 				stmt.setInt(stmtInt++, sr.getBookingId());
-			}
-			if(sr.getCouponId() > 0){
-				stmt.setLong(stmtInt++, sr.getCouponId());
-			}
+			}			
 			if(sr.getUserId() > 0){
 				stmt.setInt(stmtInt++, sr.getUserId());
 			}
@@ -68,16 +65,15 @@ public class TransactionDao {
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO TransactionDao (userId,bookingId,amount,creationTime,couponId,transactionType)" +
-				" values (?,?,?,?,?,?);";		
+		String query = "INSERT INTO TransactionDao (userId,bookingId,amount,creationTime,transactionType)" +
+				" values (?,?,?,?,?);";		
 		try{			
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, transaction.getUserId());
 			stmt.setInt(2, transaction.getBookingId());
 			stmt.setInt(3, transaction.getTransactionAmount());
-			stmt.setString(4, DateUtility.toSQLDateTime(transaction.getCreationTime()));
-			stmt.setLong(5, transaction.getCouponId());
-			stmt.setInt(6, transaction.getTransactionType().code);
+			stmt.setString(4, DateUtility.toSQLDateTime(transaction.getCreationTime()));			
+			stmt.setInt(5, transaction.getTransactionType().code);
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -88,7 +84,7 @@ public class TransactionDao {
 		return transaction;
 	}	
 
-	public static Transaction getTransactionById(int id, Connection...connections) throws PseudoException, SQLException{
+	public static Transaction getTransactionById(long id, Connection...connections) throws PseudoException, SQLException{
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn = EduDaoBasic.getConnection(connections);
@@ -97,7 +93,7 @@ public class TransactionDao {
 		String query = "SELECT * from TransactionDao where transactionId = ?";
 		try{
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, id);
+			stmt.setLong(1, id);
 			rs = stmt.executeQuery();
 			if (rs.next()){
 				transaction = createTransactionByResultSet(rs);
@@ -136,7 +132,7 @@ public class TransactionDao {
 
 
 	private static Transaction createTransactionByResultSet(ResultSet rs) throws SQLException {		
-		return new Transaction(rs.getInt("transactionId"),rs.getInt("userId"), rs.getInt("bookingId"),rs.getLong("couponId"),
+		return new Transaction(rs.getInt("transactionId"),rs.getInt("userId"), rs.getInt("bookingId"),
 				rs.getInt("amount"),TransactionType.fromInt(rs.getInt("transactionType")),DateUtility.DateToCalendar(rs.getTimestamp("creationTime")));
 	}
 

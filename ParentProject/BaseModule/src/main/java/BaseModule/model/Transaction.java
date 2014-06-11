@@ -14,10 +14,9 @@ public class Transaction implements PseudoModel, Serializable{
 
 	private static final long serialVersionUID = 6L;
 	
-	private int transactionId;
+	private long transactionId;
 	private int userId;
-	private int bookingId;
-	private long couponId;
+	private int bookingId;	
 	private int transactionAmount;
 	private TransactionType transactionType;
 	private Calendar creationTime;
@@ -25,8 +24,7 @@ public class Transaction implements PseudoModel, Serializable{
 	//Normal Construction
 	public Transaction(int userId, int bookingId, int transactionAmount) {
 		super();
-		this.transactionId = -1;
-		this.couponId = -1;
+		this.transactionId = -1;		
 		this.userId = userId;
 		this.bookingId = bookingId;
 		this.transactionAmount = transactionAmount;
@@ -34,10 +32,9 @@ public class Transaction implements PseudoModel, Serializable{
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 	
-	public Transaction(int userId, int bookingId, long couponId,int transactionAmount, TransactionType transactionType) {
+	public Transaction(int userId, int bookingId, int transactionAmount, TransactionType transactionType) {
 		super();
-		this.transactionId = -1;
-		this.couponId = couponId;
+		this.transactionId = -1;		
 		this.userId = userId;
 		this.bookingId = bookingId;
 		this.transactionAmount = transactionAmount;
@@ -46,13 +43,12 @@ public class Transaction implements PseudoModel, Serializable{
 	}
 	
 	//SQL Construction
-	public Transaction(int transactionId,int userId, int bookingId, long couponId,
+	public Transaction(long transactionId,int userId, int bookingId, 
 			int transactionAmount,TransactionType transactionType,Calendar creationTime) {
 		super();
 		this.transactionId = transactionId;
 		this.userId = userId;
-		this.bookingId = bookingId;
-		this.couponId = couponId;
+		this.bookingId = bookingId;		
 		this.transactionAmount = transactionAmount;
 		this.transactionType = transactionType;
 		this.creationTime = creationTime;
@@ -64,14 +60,6 @@ public class Transaction implements PseudoModel, Serializable{
 
 	public void setUserId(int userId) {
 		this.userId = userId;
-	}
-
-	public long getCouponId() {
-		return couponId;
-	}
-
-	public void setCouponId(long couponId) {
-		this.couponId = couponId;
 	}
 
 	public TransactionType getTransactionType() {
@@ -98,11 +86,11 @@ public class Transaction implements PseudoModel, Serializable{
 		this.transactionAmount = transactionAmount;
 	}
 
-	public int getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(int transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
 	}
 
@@ -115,8 +103,7 @@ public class Transaction implements PseudoModel, Serializable{
 		try{
 			jsonSearchRepresentation.put("transactionId", this.transactionId);
 			jsonSearchRepresentation.put("bookingId", this.bookingId);
-			jsonSearchRepresentation.put("userId", this.userId);
-			jsonSearchRepresentation.put("couponId", this.couponId);
+			jsonSearchRepresentation.put("userId", this.userId);			
 			jsonSearchRepresentation.put("transactionType", this.transactionType.code);
 			jsonSearchRepresentation.put("transactionAmount", this.transactionAmount);		
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
@@ -134,7 +121,7 @@ public class Transaction implements PseudoModel, Serializable{
 		return this.bookingId == transaction.getBookingId() && this.transactionId == transaction.getTransactionId() &&
 				this.userId == transaction.getUserId() && this.transactionAmount == transaction.getTransactionAmount() &&
 				this.creationTime.getTime().toString().equals(transaction.getCreationTime().getTime().toString()) &&
-				this.couponId == transaction.getCouponId() && this.transactionType.code == transaction.getTransactionType().code;
+				this.transactionType.code == transaction.getTransactionType().code;
 	}
 	
 	

@@ -92,22 +92,25 @@ public class BookingResource extends UserPseudoResource{
 		try{
 			
 			Calendar adjustTime = DateUtility.getCurTimeInstance();
-			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));
+			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));			
 			
-			int couponId = jsonBooking.getInt("couponId");
 			int price = jsonBooking.getInt("price");
 			int userId = jsonBooking.getInt("userId");
 			int partnerId = jsonBooking.getInt("partnerId");
 			int courseId = jsonBooking.getInt("courseId");
+			int cashbackAmount = jsonBooking.getInt("cashbackAmount");
 			
 			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
 			String email = EncodingService.decodeURI(jsonBooking.getString("email"));
 			String reference = ReferenceFactory.generateBookingReference();
-			BookingStatus status = BookingStatus.awaiting;
+			String couponRecord = EncodingService.decodeURI(jsonBooking.getString("couponRecord"));
+			
+			BookingStatus status = BookingStatus.awaiting;		
+			
 		    booking = new Booking(scheduledTime,adjustTime, 
-					price, couponId, userId, partnerId, courseId, name,
-					phone,email,reference,status);
+					price,userId, partnerId, courseId, name,
+					phone,email,reference,status,cashbackAmount,couponRecord);
 			
 			ValidationService.validateBooking(booking);
 			

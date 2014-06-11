@@ -128,7 +128,7 @@ public class ValidationService {
 				booking.getEmail().length() == 0){
 			throw new ValidationException("预定信息不完整");
 		}
-		if(booking.getPrice() < 0 || !validatePhone(booking.getPhone())||!validateEmail(booking.getEmail())){
+		if(booking.getPrice() < 0 || !validatePhone(booking.getPhone())||!validateEmail(booking.getEmail())||booking.getCashbackAmount()<0){
 			throw new ValidationException("预定信息不规范");
 		}
 		return true;
