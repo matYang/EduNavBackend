@@ -77,7 +77,7 @@ public class TransactionDao {
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
-			transaction.setTransactionId(rs.getInt(1));				
+			transaction.setTransactionId(rs.getLong(1));				
 		}finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -132,7 +132,7 @@ public class TransactionDao {
 
 
 	private static Transaction createTransactionByResultSet(ResultSet rs) throws SQLException {		
-		return new Transaction(rs.getInt("transactionId"),rs.getInt("userId"), rs.getInt("bookingId"),
+		return new Transaction(rs.getLong("transactionId"),rs.getInt("userId"), rs.getInt("bookingId"),
 				rs.getInt("amount"),TransactionType.fromInt(rs.getInt("transactionType")),DateUtility.DateToCalendar(rs.getTimestamp("creationTime")));
 	}
 
