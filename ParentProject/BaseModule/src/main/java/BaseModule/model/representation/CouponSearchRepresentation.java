@@ -17,7 +17,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 
 	private long couponId;
 	private int bookingId;
-	private int transactionId;
+
 	private int userId;
 	private int startPrice;
 	private int finishPrice;
@@ -30,7 +30,6 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	public CouponSearchRepresentation() {
 		this.couponId = -1l;
 		this.bookingId = -1;
-		this.transactionId = -1;
 		this.userId = -1;
 		this.startPrice = -1;
 		this.finishPrice = -1;
@@ -78,14 +77,6 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 
 	public void setBookingId(int bookingId) {
 		this.bookingId = bookingId;
-	}
-
-	public int getTransactionId() {
-		return transactionId;
-	}
-
-	public void setTransactionId(int transactionId) {
-		this.transactionId = transactionId;
 	}
 
 	public int getUserId() {
@@ -139,8 +130,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	@Override
 	public String toString() {
 		return "CouponSearchRepresentation [couponId=" + couponId
-				+ ", bookingId=" + bookingId + ", transactionId="
-				+ transactionId + ", userId=" + userId + ", startPrice="
+				+ ", bookingId=" + bookingId + ", userId=" + userId + ", startPrice="
 				+ startPrice + ", finishPrice=" + finishPrice
 				+ ", creationTime=" + creationTime + ", expireTime="
 				+ expireTime + ", status=" + status + "]";
@@ -184,15 +174,6 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "and ";
 			}	
 			query += "amount <= ? ";
-		}
-		if(this.getTransactionId() > 0){
-			if(!start){
-				query += "where ";
-				start = true;
-			}else{
-				query += "and ";
-			}	
-			query += "transactionId = ? ";
 		}
 		if(this.getUserId() > 0){
 			if(!start){
