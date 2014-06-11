@@ -77,7 +77,7 @@ public class Booking implements PseudoModel, Serializable{
 	public Booking(Calendar scheduledTime, Calendar adjustTime,
 			int price, int userId, int partnerId, int courseId, 
 			String name, String phone, String email,
-			String reference,BookingStatus status, int cashbackAmount, String couponRecord) {
+			String reference,BookingStatus status, int cashbackAmount) {
 		super();
 		this.bookingId = -1;
 		this.transactionId = -1;
@@ -97,7 +97,7 @@ public class Booking implements PseudoModel, Serializable{
 		this.wasConfirmed = false;
 		this.note = "";
 		this.cashbackAmount = cashbackAmount;
-		this.couponRecord = couponRecord;
+		this.couponRecord = "";
 		this.actionRecord = "";
 		this.course = null;
 	}
@@ -258,6 +258,11 @@ public class Booking implements PseudoModel, Serializable{
 		return couponRecord;
 	}
 
+	public void setCouponRecord(String couponRecord) {
+		this.couponRecord = couponRecord;
+	}
+
+
 	public void appendActionRecord(BookingStatus newStatus, int adminId){
 		String actionRecordPiece = newStatus.code + "_" + adminId + "_" + DateUtility.getCurTime();
 		this.actionRecord = this.actionRecord.length() == 0 ? actionRecordPiece : this.actionRecord + "-" + actionRecordPiece;
@@ -321,6 +326,7 @@ public class Booking implements PseudoModel, Serializable{
 				this.preStatus.code == booking.getPreStatus().code &&
 				this.userId == booking.getUserId() &&
 				this.wasConfirmed == booking.wasConfirmed &&
+				this.couponRecord.equals(booking.getCouponRecord()) && 
 				this.actionRecord.equals(booking.actionRecord) &&
 				courseEqualResult;
 

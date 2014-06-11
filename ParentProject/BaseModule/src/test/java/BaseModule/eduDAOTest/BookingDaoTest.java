@@ -82,11 +82,10 @@ public class BookingDaoTest {
 		int courseId = course.getCourseId();		
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
 		String email2 = "xiongchuhanplace@hotmail.com";
-		int cashbackAmount = 50;
-		String couponRecord = "1+"+DateUtility.getTimeStamp();
+		int cashbackAmount = 50;		
 		Booking booking = new Booking(timeStamp,timeStamp,course.getPrice(),
 				userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email2,partner.getReference(),BookingStatus.awaiting,cashbackAmount,couponRecord);
+				email2,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
 		try{
 			BookingDao.addBookingToDatabases(booking);			
 		}catch(Exception e){
@@ -160,12 +159,11 @@ public class BookingDaoTest {
 		int courseId = course.getCourseId();		
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
 		String email = "xiongchuhanplace@hotmail.com";
-		int cashbackAmount = 50;
-		String couponRecord = "1+"+DateUtility.getTimeStamp();
+		int cashbackAmount = 50;		
 		Booking booking = new Booking(timeStamp,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId,
 				user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount,couponRecord);
+				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking);
 		booking = BookingDao.getBookingById(booking.getBookingId());
 		
@@ -191,7 +189,7 @@ public class BookingDaoTest {
 		Booking booking2 = new Booking(timeStamp,timeStamp, 
 				course2.getPrice(),userId, partnerId, 
 				course2Id, user.getName(), partner2.getPhone(),
-				email,partner2.getReference(),BookingStatus.awaiting,cashbackAmount,couponRecord);
+				email,partner2.getReference(),BookingStatus.awaiting,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking2);
 		booking2 = BookingDao.getBookingById(booking2.getBookingId());
 		
@@ -264,12 +262,11 @@ public class BookingDaoTest {
 		int courseId = course.getCourseId();		
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
 		String email = "xiongchuhanplace@hotmail.com";
-		int cashbackAmount = 50;
-		String couponRecord = "1+"+DateUtility.getTimeStamp();
+		int cashbackAmount = 50;		
 		Booking booking = new Booking(timeStamp,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId,
 				user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount,couponRecord);
+				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
 		try{
 			BookingDao.addBookingToDatabases(booking);			
 		}catch(Exception e){
@@ -427,11 +424,10 @@ public class BookingDaoTest {
 		timeStamp0.add(Calendar.DAY_OF_MONTH, 15);
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
 		String email = "xiongchuhanplace@hotmail.com";
-		int cashbackAmount = 50;
-		String couponRecord = "1+"+DateUtility.getTimeStamp();
+		int cashbackAmount = 50;		
 		Booking booking = new Booking(timeStamp0,timeStamp, 
 				2000, userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount,couponRecord);
+				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking);		
 		booking = BookingDao.getBookingById(booking.getBookingId());
 		
@@ -439,7 +435,7 @@ public class BookingDaoTest {
 		int course2Id = course2.getCourseId();			
 		Booking booking2 = new Booking(timeStamp,timeStamp,
 				5000, userId, partnerId, course2Id, user.getName(), partner2.getPhone(),
-				email,partner2.getReference(),BookingStatus.awaiting,cashbackAmount,couponRecord);
+				email,partner2.getReference(),BookingStatus.awaiting,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking2);
 		booking2 = BookingDao.getBookingById(booking2.getBookingId());
 		
@@ -448,7 +444,7 @@ public class BookingDaoTest {
 		int course3Id = course3.getCourseId();		
 		Booking booking3 = new Booking(timeStamp,timeStamp, 
 				10000, userId, partner2Id, course3Id, user.getName(), partner2.getPhone(),
-				email,partner2.getReference(),BookingStatus.awaiting,cashbackAmount,couponRecord);
+				email,partner2.getReference(),BookingStatus.awaiting,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking3);
 		booking3 = BookingDao.getBookingById(booking3.getBookingId());
 		
@@ -456,7 +452,7 @@ public class BookingDaoTest {
 		int user2Id = user2.getUserId();			
 		Booking booking4 = new Booking(timeStamp,timeStamp,
 				15000, user2Id, partner2Id, course3Id, user2.getName(), partner2.getPhone(),
-				email,partner2.getReference(),BookingStatus.enter,cashbackAmount,couponRecord);
+				email,partner2.getReference(),BookingStatus.enter,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking4);
 		booking4 = BookingDao.getBookingById(booking4.getBookingId());
 		
@@ -464,7 +460,7 @@ public class BookingDaoTest {
 		int course4Id = course4.getCourseId();	
 		Booking booking5 = new Booking(timeStamp,timeStamp,
 				20000, user2Id, partner2Id, course4Id, user2.getName(), partner2.getPhone(),
-				email,partner2.getReference(),BookingStatus.enter,cashbackAmount,couponRecord);
+				email,partner2.getReference(),BookingStatus.enter,cashbackAmount);
 		booking5.setPreStatus(BookingStatus.delivered);
 		BookingDao.addBookingToDatabases(booking5);
 		booking5 = BookingDao.getBookingById(booking5.getBookingId());

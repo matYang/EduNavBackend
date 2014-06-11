@@ -29,7 +29,7 @@ public class Coupon implements PseudoModel, Serializable{
 	//SQL Construction
 	public Coupon(long couponId, int bookingId, int userId,
 			int amount, Calendar creationTime, Calendar expireTime,
-			CouponStatus status) {
+			CouponStatus status,CouponOrigin origin) {
 		super();
 		this.couponId = couponId;
 		this.bookingId = bookingId;
@@ -38,6 +38,7 @@ public class Coupon implements PseudoModel, Serializable{
 		this.creationTime = creationTime;
 		this.expireTime = expireTime;
 		this.status = status;
+		this.origin = origin;
 	}
 
 
@@ -49,6 +50,7 @@ public class Coupon implements PseudoModel, Serializable{
 		this.amount = amount;
 		this.expireTime = expireTime;
 		this.status = status;
+		this.origin = CouponOrigin.admin;
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 	
@@ -60,6 +62,7 @@ public class Coupon implements PseudoModel, Serializable{
 		this.amount = amount;
 		this.expireTime = DateUtility.getTimeFromLong(DateUtility.getCurTime() + expireThreshould);
 		this.status = CouponStatus.usable;
+		this.origin = CouponOrigin.registration;
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 
@@ -112,6 +115,16 @@ public class Coupon implements PseudoModel, Serializable{
 		this.status = status;
 	}
 
+	public CouponOrigin getOrigin() {
+		return origin;
+	}
+
+
+	public void setOrigin(CouponOrigin origin) {
+		this.origin = origin;
+	}
+
+
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
@@ -126,6 +139,7 @@ public class Coupon implements PseudoModel, Serializable{
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
 			jsonSearchRepresentation.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
 			jsonSearchRepresentation.put("status", this.status.code);
+			jsonSearchRepresentation.put("couponOrigin", this.origin.code);
 			
 		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -141,6 +155,7 @@ public class Coupon implements PseudoModel, Serializable{
 				this.bookingId == c.getBookingId() && 
 				this.userId == c.getUserId() && 
 				this.status.code == c.getStatus().code &&
+				this.origin.code == c.getOrigin().code &&
 				this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) &&
 				this.expireTime.getTime().toString().equals(c.getExpireTime().getTime().toString()) && 
 				this.amount == c.getAmount();

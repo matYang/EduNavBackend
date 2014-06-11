@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.interfaces.PseudoModel;
@@ -24,7 +25,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private Calendar creationTime;
 	private Calendar expireTime;
 	private CouponStatus status;
-
+	private CouponOrigin origin;
 
 
 	public CouponSearchRepresentation() {
@@ -36,6 +37,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.creationTime = null;
 		this.expireTime = null;
 		this.status = null;
+		this.origin = null;
 	}
 
 	@Override
@@ -127,11 +129,19 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.status = status;
 	}
 
+	public CouponOrigin getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(CouponOrigin origin) {
+		this.origin = origin;
+	}
+
 	@Override
 	public String toString() {
 		return "CouponSearchRepresentation [couponId=" + couponId
 				+ ", bookingId=" + bookingId + ", userId=" + userId + ", startPrice="
-				+ startPrice + ", finishPrice=" + finishPrice
+				+ startPrice + ", finishPrice=" + finishPrice + ", origin=" + origin
 				+ ", creationTime=" + creationTime + ", expireTime="
 				+ expireTime + ", status=" + status + "]";
 	}
@@ -210,6 +220,15 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "and ";
 			}
 			query += "status = ? ";
+		}
+		if(this.getOrigin() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "couponOrigin = ? ";
 		}
 		return query;
 	}	

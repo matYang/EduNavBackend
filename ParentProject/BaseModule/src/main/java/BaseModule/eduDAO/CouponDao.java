@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
+import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CouponNotFoundException;
@@ -50,6 +51,9 @@ public class CouponDao {
 			if(sr.getStatus() != null){
 				stmt.setInt(stmtInt++, sr.getStatus().code);
 			}
+			if(sr.getOrigin() != null){
+				stmt.setInt(stmtInt++, sr.getOrigin().code);
+			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				clist.add(createCouponByResultSet(rs));
@@ -68,8 +72,8 @@ public class CouponDao {
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO CouponDao (bookingId,userId,creationTime,expireTime,status,amount)" +
-				" values (?,?,?,?,?,?);";		
+		String query = "INSERT INTO CouponDao (bookingId,userId,creationTime,expireTime,status,amount,couponOrigin)" +
+				" values (?,?,?,?,?,?,?);";		
 		int stmtInt = 1;
 		try{
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -79,6 +83,7 @@ public class CouponDao {
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(c.getExpireTime()));
 			stmt.setInt(stmtInt++,c.getStatus().code);
 			stmt.setInt(stmtInt++, c.getAmount());
+			stmt.setInt(stmtInt++, c.getOrigin().code);
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -96,7 +101,7 @@ public class CouponDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query0 = "SELECT * From CouponDao where couponId = ? for update";
-		String query = "UPDATE CouponDao set expireTime=?,status=?,amount=? where couponId = ?";
+		String query = "UPDATE CouponDao set expireTime=?,status=?,amount=?,couponOrigin=? where couponId = ?";
 		try{
 			stmt = conn.prepareStatement(query0);
 			stmt.setLong(1, c.getCouponId());
@@ -109,6 +114,7 @@ public class CouponDao {
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(c.getExpireTime()));
 			stmt.setInt(stmtInt++,c.getStatus().code);
 			stmt.setInt(stmtInt++, c.getAmount());
+			stmt.setInt(stmtInt++, c.getOrigin().code);
 			stmt.setLong(stmtInt++, c.getCouponId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
@@ -166,7 +172,8 @@ public class CouponDao {
 	protected static Coupon createCouponByResultSet(ResultSet rs) throws SQLException {
 		return new Coupon(rs.getLong("couponId"), rs.getInt("bookingId"),rs.getInt("userId"),
 				rs.getInt("amount"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), 
-				DateUtility.DateToCalendar(rs.getTimestamp("expireTime")),CouponStatus.fromInt(rs.getInt("status")));
+				DateUtility.DateToCalendar(rs.getTimestamp("expireTime")),CouponStatus.fromInt(rs.getInt("status")),
+				CouponOrigin.fromInt(rs.getInt("couponOrigin")));
 	}
 
 }

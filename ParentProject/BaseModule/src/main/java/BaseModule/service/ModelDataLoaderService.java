@@ -111,7 +111,7 @@ public class ModelDataLoaderService {
 			Partner partner = PartnerDao.getPartnerById(1, connections);
 			Booking booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
-					user.getEmail(),"4trg45rt",BookingStatus.awaiting,50,"id+amount");
+					user.getEmail(),"4trg45rt",BookingStatus.awaiting,50);
 			try {
 				BookingDao.addBookingToDatabases(booking,connections);
 			} catch (SQLException e) {				
@@ -123,7 +123,7 @@ public class ModelDataLoaderService {
 			partner = PartnerDao.getPartnerById(2, connections);
 			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(),
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
-					user.getEmail(),"iuyiohy89",BookingStatus.confirmed,50,"id+amount");
+					user.getEmail(),"iuyiohy89",BookingStatus.confirmed,50);
 			try {
 				BookingDao.addBookingToDatabases(booking,connections);
 			} catch (SQLException e) {				
@@ -147,7 +147,7 @@ public class ModelDataLoaderService {
 			partner = PartnerDao.getPartnerById(2, connections);
 			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
-					user.getEmail(),"regtret",BookingStatus.finished,50,"id+amount");
+					user.getEmail(),"regtret",BookingStatus.finished,50);
 			try {
 				BookingDao.addBookingToDatabases(booking,connections);
 			} catch (SQLException e) {				
@@ -159,7 +159,7 @@ public class ModelDataLoaderService {
 			partner = PartnerDao.getPartnerById(1, connections);
 			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(),
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
-					user.getEmail(),"klpupkl",BookingStatus.canceled,50,"id+amount");
+					user.getEmail(),"klpupkl",BookingStatus.canceled,50);
 			try {
 				BookingDao.addBookingToDatabases(booking,connections);
 			} catch (SQLException e) {				
@@ -171,7 +171,7 @@ public class ModelDataLoaderService {
 			partner = PartnerDao.getPartnerById(2, connections);
 			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(),
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
-					user.getEmail(),"fgjuifug",BookingStatus.failed,50,"id+amount");
+					user.getEmail(),"fgjuifug",BookingStatus.failed,50);
 			try {
 				BookingDao.addBookingToDatabases(booking,connections);
 			} catch (SQLException e) {				

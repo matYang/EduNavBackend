@@ -595,10 +595,9 @@ public class ValidationTest {
 		Calendar adjustTime = DateUtility.getCurTimeInstance();
 		Calendar scheduledTime = DateUtility.getCurTimeInstance();
 		String email = "xiongchuhanplace@hotmail.com";
-		int cashbackAmount = 50;
-		String couponRecord = "1+"+DateUtility.getTimeStamp();
+		int cashbackAmount = 50;		
 		Booking booking = new Booking(scheduledTime,adjustTime, 
-				price, userId, partnerId, courseId,name, phone,email,reference,BookingStatus.awaiting,cashbackAmount,couponRecord);
+				price, userId, partnerId, courseId,name, phone,email,reference,BookingStatus.awaiting,cashbackAmount);
 		booking.setTransactionId(1);
 		BookingDao.addBookingToDatabases(booking);
 
@@ -611,7 +610,7 @@ public class ValidationTest {
 		boolean fail = true;
 		booking = new Booking(scheduledTime,adjustTime, 
 				price, userId, partnerId, courseId,"", 
-				phone,email,reference,BookingStatus.awaiting,cashbackAmount,couponRecord);
+				phone,email,reference,BookingStatus.awaiting,cashbackAmount);
 		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
@@ -626,7 +625,7 @@ public class ValidationTest {
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime,
 				price, userId, partnerId, courseId,name,
-				"dsf3323",email,reference,BookingStatus.awaiting,cashbackAmount,couponRecord);
+				"dsf3323",email,reference,BookingStatus.awaiting,cashbackAmount);
 		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
@@ -641,7 +640,7 @@ public class ValidationTest {
 		fail = true;
 		booking = new Booking(null,adjustTime, 
 				price, userId, partnerId, courseId,
-				name, phone,email,reference,BookingStatus.awaiting,cashbackAmount,couponRecord);
+				name, phone,email,reference,BookingStatus.awaiting,cashbackAmount);
 		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
@@ -656,7 +655,7 @@ public class ValidationTest {
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime,
 				 -1, userId, partnerId, courseId,name, phone,
-				email,reference,BookingStatus.awaiting,cashbackAmount,couponRecord);
+				email,reference,BookingStatus.awaiting,cashbackAmount);
 		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
@@ -671,7 +670,7 @@ public class ValidationTest {
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime,
 				price, -1, partnerId, courseId,name,
-				phone,email,reference,BookingStatus.awaiting,cashbackAmount,couponRecord);
+				phone,email,reference,BookingStatus.awaiting,cashbackAmount);
 		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
@@ -686,7 +685,7 @@ public class ValidationTest {
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime, 
 				price, userId, -1, courseId,name, phone,
-				email,reference,BookingStatus.awaiting,cashbackAmount,couponRecord);
+				email,reference,BookingStatus.awaiting,cashbackAmount);
 		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
@@ -701,7 +700,7 @@ public class ValidationTest {
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime, 
 				price, userId,partnerId, -1,name, phone,
-				email,reference,BookingStatus.awaiting,cashbackAmount,couponRecord);
+				email,reference,BookingStatus.awaiting,cashbackAmount);
 		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
@@ -716,7 +715,7 @@ public class ValidationTest {
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime, 
 				price, userId, partnerId, courseId,name, phone,
-				email,"",BookingStatus.awaiting,-1,couponRecord);
+				email,"",BookingStatus.awaiting,-1);
 		booking.setTransactionId(1);
 		try{
 			ValidationService.validateBooking(booking);
@@ -731,7 +730,7 @@ public class ValidationTest {
 		fail = true;
 		booking = new Booking(scheduledTime,adjustTime, 
 				price,  userId, partnerId, courseId,name, 
-				phone,"sdfj-@hg",reference,BookingStatus.awaiting,cashbackAmount,couponRecord);
+				phone,"sdfj-@hg",reference,BookingStatus.awaiting,cashbackAmount);
 		try{
 			ValidationService.validateBooking(booking);
 		}catch(ValidationException e){
