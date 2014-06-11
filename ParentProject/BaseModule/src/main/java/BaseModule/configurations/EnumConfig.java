@@ -27,7 +27,7 @@ public class EnumConfig {
     }
 	
 	public static enum CouponStatus{
-        usable(0),expired(1),used(2);
+        usable(0),expired(1),used(2), inactive(3);
         public int code;
         CouponStatus(int code){
             this.code = code;

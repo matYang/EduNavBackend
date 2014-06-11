@@ -13,6 +13,7 @@ import org.restlet.resource.Post;
 
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.dbservice.CouponDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -79,17 +80,18 @@ public class CouponResource extends AdminPseudoResource{
 	}
 	
 	protected Coupon parseJSON(JSONObject jsonCoupon) throws ParseException, SQLException, PseudoException {
-		Coupon Coupon = null;
+		Coupon coupon = null;
 		try{
 			int userId= jsonCoupon.getInt("userId");
 			int amount = jsonCoupon.getInt("amount");
 			
-		    Coupon = new Coupon(userId, amount);
+		    coupon = new Coupon(userId, amount);
+		    coupon.setOrigin(CouponOrigin.admin);
 		}catch (JSONException e) {
 			throw new ValidationException("无效数据格式");
 		}
 		
-		return Coupon;
+		return coupon;
 	}
 	
 }
