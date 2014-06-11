@@ -35,29 +35,11 @@ public class BookingDaoService {
 			if (updatedBooking.getStatus() == previousStatus){
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 				BookingDao.updateBookingInDatabases(updatedBooking);
+				return;
 			}
-			else if ((previousStatus == BookingStatus.confirmed || previousStatus == BookingStatus.pending) && updatedBooking.getStatus() == BookingStatus.finished){
-				User user = UserDaoService.getUserById(updatedBooking.getUserId());
-				if (updatedBooking.getCouponId() > 0){
-					Coupon coupon = CouponDaoService.getCouponByCouponId(updatedBooking.getCouponId(),conn);
-					if (coupon.getUserId() != updatedBooking.getUserId()){
-						throw new ValidationException("Not Your Coupon!");
-					}
-					Transaction transaction = new Transaction(coupon.getUserId(), updatedBooking.getBookingId(), coupon.getCouponId(), coupon.getAmount(), TransactionType.coupon);
-					transaction = TransactionDaoService.createTransaction(transaction,conn);
-					coupon.setTransactionId(transaction.getTransactionId());
-					CouponDaoService.updateCoupon(coupon,conn);
-					user.incBalance(coupon.getAmount());
-				}
-				Credit credit = new Credit(updatedBooking.getBookingId(), updatedBooking.getPrice(), updatedBooking.getUserId());
-				CreditDaoService.createCredit(credit,conn);
-				user.incCredit(credit.getAmount());
-				UserDaoService.updateUser(user,conn);
-				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-				updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-				BookingDao.updateBookingInDatabases(updatedBooking,conn);
-			}
-			else if (previousStatus == BookingStatus.awaiting){
+
+			
+			if (previousStatus == BookingStatus.awaiting){
 				if (updatedBooking.getStatus() == BookingStatus.failed || updatedBooking.getStatus() == BookingStatus.canceled){
 					if (updatedBooking.getCouponId() > 0){
 						Coupon coupon = CouponDaoService.getCouponByCouponId(updatedBooking.getCouponId(),conn);
@@ -85,6 +67,28 @@ public class BookingDaoService {
 					SMSService.sendBookingConfirmedSMS(updatedBooking);
 				}
 			}
+			else if ((previousStatus == BookingStatus.confirmed || previousStatus == BookingStatus.pending) && updatedBooking.getStatus() == BookingStatus.finished){
+				User user = UserDaoService.getUserById(updatedBooking.getUserId());
+				if (updatedBooking.getCouponId() > 0){
+					Coupon coupon = CouponDaoService.getCouponByCouponId(updatedBooking.getCouponId(),conn);
+					if (coupon.getUserId() != updatedBooking.getUserId()){
+						throw new ValidationException("Not Your Coupon!");
+					}
+					Transaction transaction = new Transaction(coupon.getUserId(), updatedBooking.getBookingId(), coupon.getCouponId(), coupon.getAmount(), TransactionType.coupon);
+					transaction = TransactionDaoService.createTransaction(transaction,conn);
+					coupon.setTransactionId(transaction.getTransactionId());
+					CouponDaoService.updateCoupon(coupon,conn);
+					user.incBalance(coupon.getAmount());
+				}
+				Credit credit = new Credit(updatedBooking.getBookingId(), updatedBooking.getPrice(), updatedBooking.getUserId());
+				CreditDaoService.createCredit(credit,conn);
+				user.incCredit(credit.getAmount());
+				UserDaoService.updateUser(user,conn);
+				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
+				updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
+				BookingDao.updateBookingInDatabases(updatedBooking,conn);
+			}
+			
 			else if (previousStatus == BookingStatus.confirmed){
 				if (updatedBooking.getStatus() == BookingStatus.canceled){
 					updatedBooking.setWasConfirmed(true);
@@ -93,7 +97,7 @@ public class BookingDaoService {
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
 				}
 			}
-			else if (previousStatus == BookingStatus.pending){
+			else if (previousStatus == BookingStatus.delivered){
 				if (updatedBooking.getStatus() == BookingStatus.canceled){
 					updatedBooking.setWasConfirmed(true);
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());

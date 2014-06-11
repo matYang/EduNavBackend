@@ -32,7 +32,6 @@ public class Booking implements PseudoModel, Serializable{
 	private Calendar creationTime;
 	private Calendar adjustTime;
 	
-	private boolean wasConfirmed;
 	private String note;
 	
 	private int cashbackAmount;
@@ -46,7 +45,7 @@ public class Booking implements PseudoModel, Serializable{
 	public Booking(int bookingId, Calendar creationTime, Calendar adjustTime,
 			int price, int userId,int partnerId, int courseId, String name, String phone,
 			BookingStatus status, String reference, long transactionId, String email,Calendar scheduledTime,
-			boolean wasConfirmed,String note, int cashbackAmount, String couponRecord,
+			String note, int cashbackAmount, String couponRecord,
 			String actionRecord, Course course) {
 		super();
 		this.bookingId = bookingId;
@@ -63,7 +62,6 @@ public class Booking implements PseudoModel, Serializable{
 		this.reference = reference;
 		this.email = email;
 		this.transactionId = transactionId;
-		this.wasConfirmed = wasConfirmed;
 		this.note = note;
 		this.cashbackAmount = cashbackAmount;
 		this.couponRecord = couponRecord;
@@ -91,7 +89,6 @@ public class Booking implements PseudoModel, Serializable{
 		this.status = status;		
 		this.email = email;		
 		this.creationTime = DateUtility.getCurTimeInstance();
-		this.wasConfirmed = false;
 		this.note = "";
 		this.cashbackAmount = cashbackAmount;
 		this.couponRecord = couponRecord;
@@ -215,14 +212,7 @@ public class Booking implements PseudoModel, Serializable{
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
-	
-	public void setWasConfirmed(boolean wasConfirmed){
-		this.wasConfirmed = wasConfirmed;
-	}
-	
-	public boolean isWasConfirmed(){
-		return this.wasConfirmed;
-	}
+
 	
 	public void setActionRecord(String actionRecord) {
 		this.actionRecord = actionRecord;
@@ -271,7 +261,6 @@ public class Booking implements PseudoModel, Serializable{
 			jsonObj.put("adjustTime", DateUtility.castToAPIFormat(this.adjustTime));
 			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
 			jsonObj.put("scheduledTime", DateUtility.castToAPIFormat(this.scheduledTime));
-			jsonObj.put("wasConfirmed", this.wasConfirmed);
 			jsonObj.put("note", EncodingService.encodeURI(this.note));
 			jsonObj.put("cashbackAmount", this.cashbackAmount);
 			jsonObj.put("couponRecord", EncodingService.encodeURI(this.couponRecord));
@@ -305,7 +294,6 @@ public class Booking implements PseudoModel, Serializable{
 				this.scheduledTime.getTime().toString().equals(booking.getScheduledTime().getTime().toString()) &&
 				this.reference.equals(booking.getReference()) && this.status.code == booking.getStatus().code && 
 				this.userId == booking.getUserId() &&
-				this.wasConfirmed == booking.wasConfirmed &&
 				this.actionRecord.equals(booking.actionRecord) &&
 				courseEqualResult;
 
