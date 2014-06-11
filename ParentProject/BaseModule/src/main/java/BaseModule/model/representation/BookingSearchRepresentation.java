@@ -17,7 +17,6 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	
 	private int bookingId;
 	private Calendar creationTime;
-	private Calendar scheduledTime;
 	private int startPrice;
 	private int finishPrice;
 	private int userId;
@@ -29,12 +28,16 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private BookingStatus status;
 	private BookingStatus preStatus;
 	private String reference;	
-	private Calendar adjustTime;	
+	
+	//TODO
+	private Calendar startScheduledTime;
+	private Calendar finishScheduledTime;
+	private Calendar startAdjustTime;
+	private Calendar finishAdjustTime;
 
 	public BookingSearchRepresentation(){
 		this.bookingId = -1;
 		this.creationTime = null;
-		this.scheduledTime = null;
 		this.startPrice = -1;
 		this.finishPrice = -1;
 		this.userId = -1;
@@ -46,7 +49,11 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.preStatus = null;
 		this.reference = null;
 		this.email = null;		
-		this.adjustTime = null;
+		
+		this.startScheduledTime = null;
+		this.finishScheduledTime = null;
+		this.startAdjustTime = null;
+		this.finishAdjustTime = null;
 	}
 
 	@Override
@@ -89,14 +96,6 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 
 	public void setCreationTime(Calendar creationTime) {
 		this.creationTime = creationTime;
-	}
-	
-	public Calendar getScheduledTime() {
-		return scheduledTime;
-	}
-
-	public void setScheduledTime(Calendar scheduledTime) {
-		this.scheduledTime = scheduledTime;
 	}
 
 	public String getEmail() {
@@ -186,25 +185,53 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
-	
-	public Calendar getAdjustTime() {
-		return adjustTime;
+
+	public Calendar getStartScheduledTime() {
+		return startScheduledTime;
 	}
 
-	public void setAdjustTime(Calendar adjustTime) {
-		this.adjustTime = adjustTime;
+	public void setStartScheduledTime(Calendar startScheduledTime) {
+		this.startScheduledTime = startScheduledTime;
 	}
+
+	public Calendar getFinishScheduledTime() {
+		return finishScheduledTime;
+	}
+
+	public void setFinishScheduledTime(Calendar finishScheduledTime) {
+		this.finishScheduledTime = finishScheduledTime;
+	}
+
+	public Calendar getStartAdjustTime() {
+		return startAdjustTime;
+	}
+
+	public void setStartAdjustTime(Calendar startAdjustTime) {
+		this.startAdjustTime = startAdjustTime;
+	}
+
+	public Calendar getFinishAdjustTime() {
+		return finishAdjustTime;
+	}
+
+	public void setFinishAdjustTime(Calendar finishAdjustTime) {
+		this.finishAdjustTime = finishAdjustTime;
+	}
+	
+	
 
 	@Override
 	public String toString() {
 		return "BookingSearchRepresentation [bookingId=" + bookingId
-				+ ", creationTime=" + creationTime + ", scheduledTime="
-				+ scheduledTime + ", startPrice=" + startPrice
-				+ ", finishPrice=" + finishPrice + ", userId=" + userId
-				+ ", partnerId=" + partnerId + ", courseId=" + courseId
-				+ ", email=" + email + ", name=" + name + ", phone=" + phone
-				+ ", status=" + status + ", preStatus=" + preStatus + ", reference=" + reference
-				+ ", wasConfirmedIndex=" + adjustTime + "]";
+				+ ", creationTime=" + creationTime + ", startPrice="
+				+ startPrice + ", finishPrice=" + finishPrice + ", userId="
+				+ userId + ", partnerId=" + partnerId + ", courseId="
+				+ courseId + ", email=" + email + ", name=" + name + ", phone="
+				+ phone + ", status=" + status + ", preStatus=" + preStatus
+				+ ", reference=" + reference + ", startScheduledTime="
+				+ startScheduledTime + ", finishScheduledTime="
+				+ finishScheduledTime + ", startAdjustTime=" + startAdjustTime
+				+ ", finishAdjustTime=" + finishAdjustTime + "]";
 	}
 
 	public String getSearchQuery() {
@@ -291,15 +318,6 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 			}
 			query += "creationTime = ? ";
 		}		
-		if(this.getScheduledTime() != null){
-			if(start){				
-				query += "and ";
-			}else {
-				query += "where ";
-				start = true;
-			}
-			query += "scheduledTime = ? ";
-		}	
 		if(this.getEmail() != null){
 			if(start){				
 				query += "and ";
@@ -326,15 +344,6 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				query += "and ";
 			}
 			query += "phone = ? ";
-		}
-		if(this.getAdjustTime() != null){
-			if(!start){
-				query += "where ";
-				start = true;
-			}else{
-				query += "and ";
-			}
-			query += "adjustTime = ? ";
 		}		
 		if(this.preStatus != null){
 			if(!start){

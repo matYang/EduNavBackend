@@ -129,20 +129,20 @@ public class AdminAccount implements PseudoModel, Serializable{
 	}
 
 	public JSONObject toJSON(){
-		JSONObject jsonSearchRepresentation = new JSONObject();
+		JSONObject jsonObj = new JSONObject();
 		try{
-			jsonSearchRepresentation.put("adminId", this.adminId);
-			jsonSearchRepresentation.put("name", EncodingService.encodeURI(this.name));
-			jsonSearchRepresentation.put("phone", EncodingService.encodeURI(this.phone));			
-			jsonSearchRepresentation.put("reference", EncodingService.encodeURI(this.reference));
-			jsonSearchRepresentation.put("status", this.status.code);
-			jsonSearchRepresentation.put("privilege", this.privilege.code);
-			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
-			jsonSearchRepresentation.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
+			jsonObj.put("adminId", this.adminId);
+			jsonObj.put("name", EncodingService.encodeURI(this.name));
+			jsonObj.put("phone", EncodingService.encodeURI(this.phone));			
+			jsonObj.put("reference", EncodingService.encodeURI(this.reference));
+			jsonObj.put("status", this.status.code);
+			jsonObj.put("privilege", this.privilege.code);
+			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
+			jsonObj.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
 		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return jsonSearchRepresentation;
+		return jsonObj;
 
 	}
 
