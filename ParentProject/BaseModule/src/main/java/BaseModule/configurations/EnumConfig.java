@@ -38,6 +38,19 @@ public class EnumConfig {
         }
     }
 	
+	
+	public static enum CouponOrigin{
+        registration(0), invitation(1), admin(2);
+        public int code;
+        CouponOrigin(int code){
+            this.code = code;
+        }
+        private final static CouponOrigin[] map = CouponOrigin.values();
+        public static CouponOrigin fromInt(int n){
+            return map[n];
+        }
+    }
+	
 	public static enum TransactionType{
         coupon(0),deposit(1),withdraw(2);
         public int code;

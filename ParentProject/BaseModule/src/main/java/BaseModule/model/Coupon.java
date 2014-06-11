@@ -6,6 +6,7 @@ import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
+import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.interfaces.PseudoModel;
 
@@ -23,6 +24,7 @@ public class Coupon implements PseudoModel, Serializable{
 	private Calendar creationTime;
 	private Calendar expireTime;
 	private CouponStatus status;
+	private CouponOrigin origin;
 	
 	//SQL Construction
 	public Coupon(long couponId, int bookingId, int userId,
