@@ -582,7 +582,7 @@ public class BookingDaoTest {
 			//Passed;
 		}else fail();
 		
-		sr.setScheduledTime(timeStamp0);
+		
 		if(blist.size()==1 && blist.get(0).equals(booking)){
 			//Passed;
 		}else fail();
