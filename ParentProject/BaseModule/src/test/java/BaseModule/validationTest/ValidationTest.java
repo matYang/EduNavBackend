@@ -12,6 +12,8 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.exception.PseudoException;
+import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Booking;
 import BaseModule.model.Course;
@@ -583,7 +585,7 @@ public class ValidationTest {
 	}
 
 	@Test
-	public void testBookingValidation() throws SQLException{
+	public void testBookingValidation() throws SQLException, ValidationException, CouponNotFoundException, PseudoException{
 		EduDaoBasic.clearAllDatabase();			
 		int price = 12;
 		int userId = 1;
