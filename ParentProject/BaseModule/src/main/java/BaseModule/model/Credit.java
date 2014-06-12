@@ -22,14 +22,13 @@ public class Credit implements PseudoModel, Serializable{
 	private int userId;
 	private int amount;
 	private Calendar creationTime;
-	private Calendar expireTime;
-	private Calendar usableTime;
+	private Calendar expireTime;	
 	
 	private CreditStatus status;
 	
 	//SQL Construction
 	public Credit(long creditId, int bookingId, int userId, int amount,
-			Calendar creationTime, Calendar expireTime, CreditStatus status,Calendar usableTime) {
+			Calendar creationTime, Calendar expireTime, CreditStatus status) {
 		super();
 		this.creditId = creditId;
 		this.bookingId = bookingId;
@@ -38,11 +37,11 @@ public class Credit implements PseudoModel, Serializable{
 		this.creationTime = creationTime;
 		this.expireTime = expireTime;
 		this.status = status;
-		this.usableTime = usableTime;
+		
 	}
 
 	public Credit(int bookingId, int userId, int amount,
-			 Calendar expireTime, CreditStatus status,Calendar usableTime) {
+			 Calendar expireTime, CreditStatus status) {
 		super();
 		this.bookingId = bookingId;
 		this.userId = userId;
@@ -50,7 +49,7 @@ public class Credit implements PseudoModel, Serializable{
 		this.creationTime = DateUtility.getCurTimeInstance();
 		this.expireTime = expireTime;
 		this.status = status;
-		this.usableTime = usableTime;
+		
 	}
 	
 	public Credit(int bookingId, int amount, int userId){
@@ -60,8 +59,7 @@ public class Credit implements PseudoModel, Serializable{
 		this.amount = amount;
 		this.creationTime = DateUtility.getCurTimeInstance();
 		this.expireTime =DateUtility.getTimeFromLong(DateUtility.getCurTime() + usableThreshould);
-		this.status = CreditStatus.usable;
-		this.usableTime = DateUtility.getTimeFromLong(DateUtility.getCurTime() + expireThreshould);
+		this.status = CreditStatus.usable;		
 	}
 
 	public long getCreditId() {

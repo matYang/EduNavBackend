@@ -22,7 +22,6 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private int finishPrice;
 	private Calendar creationTime;
 	private Calendar expireTime;
-	private Calendar usableTime;
 	private CreditStatus status;
 	
 	
@@ -33,8 +32,7 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.startPrice = -1;
 		this.finishPrice = -1;
 		this.creationTime = null;
-		this.expireTime = null;
-		this.usableTime = null;
+		this.expireTime = null;		
 		this.status = null;
 	}
 
@@ -118,15 +116,7 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 	public void setExpireTime(Calendar expireTime) {
 		this.expireTime = expireTime;
 	}
-
-	public Calendar getUsableTime() {
-		return usableTime;
-	}
-
-	public void setUsableTime(Calendar usableTime) {
-		this.usableTime = usableTime;
-	}
-
+	
 	public CreditStatus getStatus() {
 		return status;
 	}
@@ -141,8 +131,7 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 				+ ", bookingId=" + bookingId + ", userId=" + userId
 				+ ", startPrice=" + startPrice + ", finishPrice=" + finishPrice
 				+ ", creationTime=" + creationTime + ", expireTime="
-				+ expireTime + ", usableTime=" + usableTime + ", status="
-				+ status + "]";
+				+ expireTime + ", status=" + status + "]";
 	}
 	
 	public String getSearchQuery(){
@@ -183,16 +172,7 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "and ";
 			}	
 			query += "amount <= ? ";
-		}
-		if(this.getUsableTime() != null){
-			if(!start){
-				query += "where ";
-				start = true;
-			}else{
-				query += "and ";
-			}	
-			query += "useableTime = ? ";
-		}
+		}		
 		if(this.getUserId() > 0){
 			if(!start){
 				query += "where ";
