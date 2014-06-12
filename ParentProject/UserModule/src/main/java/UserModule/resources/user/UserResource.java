@@ -16,6 +16,7 @@ import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
+import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.User;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
@@ -33,7 +34,9 @@ public class UserResource extends UserPseudoResource{
 			String password = EncodingService.decodeURI(jsonUser.getString("password"));
 			String confirmPassword = EncodingService.decodeURI(jsonUser.getString("confirmPassword"));
 			String authCode = EncodingService.decodeURI(jsonUser.getString("authCode"));
-			user = new User(phone, password, AccountStatus.activated);
+			String appliedInvitationalCode = EncodingService.decodeURI(jsonUser.getString("appliedInvitationalCode"));
+			String invitationalCode = ReferenceFactory.generateUserInvitationalCode();
+			user = new User(phone, password,appliedInvitationalCode, invitationalCode, AccountStatus.activated);
 
 			if (!ValidationService.validatePhone(phone)){
 				throw new ValidationException("手机号码格式不正确");

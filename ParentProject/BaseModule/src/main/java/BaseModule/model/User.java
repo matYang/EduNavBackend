@@ -30,6 +30,10 @@ public class User implements PseudoModel, Serializable{
 	
 	private AccountStatus status;
 	
+	//TODO adding two fields
+	private String invitationalCode;
+	private String appliedInvitationalCode;
+	
 	private Calendar creationTime;
 	private Calendar lastLogin;
 	
@@ -55,7 +59,7 @@ public class User implements PseudoModel, Serializable{
 	}
 	
 	//Normal Construction
-	public User(String phone, String password,AccountStatus status) {
+	public User(String phone, String password, String appliedInvitationalCode, String invitationalCode, AccountStatus status) {
 		super();		
 		this.balance = 0;
 		this.coupon = 0;
@@ -179,26 +183,44 @@ public class User implements PseudoModel, Serializable{
 		return creationTime;
 	}
 
+	public String getInvitationalCode() {
+		return invitationalCode;
+	}
+
+	public void setInvitationalCode(String invitationalCode) {
+		this.invitationalCode = invitationalCode;
+	}
+
+	public String getAppliedInvitationalCode() {
+		return appliedInvitationalCode;
+	}
+
+	public void setAppliedInvitationalCode(String appliedInvitationalCode) {
+		this.appliedInvitationalCode = appliedInvitationalCode;
+	}
+
 	public JSONObject toJSON(){
-		JSONObject jsonSearchRepresentation = new JSONObject();
+		JSONObject jsonObj = new JSONObject();
 		try{
-			jsonSearchRepresentation.put("id", this.userId);
-			jsonSearchRepresentation.put("name", EncodingService.encodeURI(this.name));
-			jsonSearchRepresentation.put("phone", EncodingService.encodeURI(this.phone));	
-			jsonSearchRepresentation.put("email", EncodingService.encodeURI(this.email));
-			jsonSearchRepresentation.put("status", this.status.code);
-			jsonSearchRepresentation.put("amount", this.balance);
-			jsonSearchRepresentation.put("coupon", this.coupon);
-			jsonSearchRepresentation.put("score", this.credit);
-			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
-			jsonSearchRepresentation.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
-			jsonSearchRepresentation.put("couponList",JSONFactory.toJSON(this.couponList));
-			jsonSearchRepresentation.put("creditList",JSONFactory.toJSON(this.creditList));
-			jsonSearchRepresentation.put("transactionList",JSONFactory.toJSON(this.transactionList));
+			jsonObj.put("id", this.userId);
+			jsonObj.put("name", EncodingService.encodeURI(this.name));
+			jsonObj.put("phone", EncodingService.encodeURI(this.phone));	
+			jsonObj.put("email", EncodingService.encodeURI(this.email));
+			jsonObj.put("invitationalCode", EncodingService.encodeURI(this.invitationalCode));
+			jsonObj.put("appliedInvitationalCode", EncodingService.encodeURI(this.appliedInvitationalCode));
+			jsonObj.put("status", this.status.code);
+			jsonObj.put("amount", this.balance);
+			jsonObj.put("coupon", this.coupon);
+			jsonObj.put("score", this.credit);
+			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
+			jsonObj.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
+			jsonObj.put("couponList",JSONFactory.toJSON(this.couponList));
+			jsonObj.put("creditList",JSONFactory.toJSON(this.creditList));
+			jsonObj.put("transactionList",JSONFactory.toJSON(this.transactionList));
 		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return jsonSearchRepresentation;
+		return jsonObj;
 
 	}
 
@@ -213,6 +235,8 @@ public class User implements PseudoModel, Serializable{
 				this.balance == another.getBalance() && 
 				this.credit == another.getCredit() &&
 				this.coupon == another.getCoupon() && 
-				this.email.equals(another.getEmail());
+				this.email.equals(another.getEmail()) &&
+				this.invitationalCode.equals(another.getInvitationalCode()) &&
+				this.appliedInvitationalCode.equals(another.getInvitationalCode());
 	}
 }

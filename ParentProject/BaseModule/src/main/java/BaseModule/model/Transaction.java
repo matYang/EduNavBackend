@@ -99,18 +99,18 @@ public class Transaction implements PseudoModel, Serializable{
 	}
 	
 	public JSONObject toJSON(){
-		JSONObject jsonSearchRepresentation = new JSONObject();
+		JSONObject jsonObj = new JSONObject();
 		try{
-			jsonSearchRepresentation.put("transactionId", this.transactionId);
-			jsonSearchRepresentation.put("bookingId", this.bookingId);
-			jsonSearchRepresentation.put("userId", this.userId);			
-			jsonSearchRepresentation.put("transactionType", this.transactionType.code);
-			jsonSearchRepresentation.put("transactionAmount", this.transactionAmount);		
-			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
+			jsonObj.put("transactionId", this.transactionId);
+			jsonObj.put("bookingId", this.bookingId);
+			jsonObj.put("userId", this.userId);			
+			jsonObj.put("transactionType", this.transactionType.code);
+			jsonObj.put("transactionAmount", this.transactionAmount);		
+			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
 		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return jsonSearchRepresentation;
+		return jsonObj;
 
 	}
 	

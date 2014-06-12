@@ -64,45 +64,7 @@ public class CourseDaoService {
 		Object obj = EduDaoBasic.getCache(sr.toCacheKey());
 		if (obj != null){
 			ArrayList<Integer> idList = (ArrayList<Integer>) obj;
-			
-			//get ram cached courses, copy into result
-			result.addAll(CourseRamCache.getBulk(idList));
-			//remove existing course ids from idList
-			for (int i = 0; i < result.size(); i++){
-				idList.remove(new Integer(result.get(i).getCourseId()));
-			}
-			
-			//fetch from memcached server
-			ArrayList<String> keyList = new ArrayList<String>();
-			for (int i = 0; i < idList.size(); i++){
-				keyList.add(CacheConfig.course_keyPrefix + idList.get(i));
-			}
-			Map<String, Object> resultMap = new HashMap<String, Object>();
-			if (keyList.size() > 0){
-				resultMap = EduDaoBasic.getBulkCache(keyList);
-			}
-			//find if there are missing courses
-			ArrayList<Integer> missingIdList = new ArrayList<Integer>();
-			for (int i = 0; i < idList.size(); i++){
-				Object single = resultMap.get(CacheConfig.course_keyPrefix + idList.get(i));
-				if (single == null){
-					missingIdList.add(idList.get(i));
-				}
-				else{
-					Course course = (Course) single;
-					result.add(course);
-					CourseRamCache.set(course);
-				}
-			}
-			
-			//fetched from mysql, add to ram cache and memcache
-			ArrayList<Course> finalPieces = CourseDao.getCourseByIdList(missingIdList);
-			for (Course piece : finalPieces){
-				EduDaoBasic.addCache(CacheConfig.course_keyPrefix + piece.getCourseId(), CacheConfig.course_expireTime, piece);
-				CourseRamCache.set(piece);
-			}
-			result.addAll(finalPieces);
-			return result;
+			return getCourseByIdList(idList);
 		}
 		else{
 			result = CourseDao.searchCourse(sr);
@@ -117,6 +79,48 @@ public class CourseDaoService {
 
 			return result;
 		}
+	}
+	
+	public static ArrayList<Course> getCourseByIdList(ArrayList<Integer> idList) throws PseudoException, SQLException{
+		ArrayList<Course> result = new ArrayList<Course>();
+		//get ram cached courses, copy into result
+		result.addAll(CourseRamCache.getBulk(idList));
+		//remove existing course ids from idList
+		for (int i = 0; i < result.size(); i++){
+			idList.remove(new Integer(result.get(i).getCourseId()));
+		}
+		
+		//fetch from memcached server
+		ArrayList<String> keyList = new ArrayList<String>();
+		for (int i = 0; i < idList.size(); i++){
+			keyList.add(CacheConfig.course_keyPrefix + idList.get(i));
+		}
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		if (keyList.size() > 0){
+			resultMap = EduDaoBasic.getBulkCache(keyList);
+		}
+		//find if there are missing courses
+		ArrayList<Integer> missingIdList = new ArrayList<Integer>();
+		for (int i = 0; i < idList.size(); i++){
+			Object single = resultMap.get(CacheConfig.course_keyPrefix + idList.get(i));
+			if (single == null){
+				missingIdList.add(idList.get(i));
+			}
+			else{
+				Course course = (Course) single;
+				result.add(course);
+				CourseRamCache.set(course);
+			}
+		}
+		
+		//fetched from mysql, add to ram cache and memcache
+		ArrayList<Course> finalPieces = CourseDao.getCourseByIdList(missingIdList);
+		for (Course piece : finalPieces){
+			EduDaoBasic.addCache(CacheConfig.course_keyPrefix + piece.getCourseId(), CacheConfig.course_expireTime, piece);
+			CourseRamCache.set(piece);
+		}
+		result.addAll(finalPieces);
+		return result;
 	}
 	
 	public static  ArrayList<Course> getCourseByReference(String reference) throws PseudoException, SQLException{

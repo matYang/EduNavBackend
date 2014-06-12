@@ -125,21 +125,21 @@ public class Credit implements PseudoModel, Serializable{
 	}
 	
 	public JSONObject toJSON(){
-		JSONObject jsonSearchRepresentation = new JSONObject();
+		JSONObject jsonObj = new JSONObject();
 		try{
-			jsonSearchRepresentation.put("credit", this.creditId);
-			jsonSearchRepresentation.put("bookingId", this.bookingId);
-			jsonSearchRepresentation.put("userId", this.userId);			
-			jsonSearchRepresentation.put("amount", this.amount);
-			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
-			jsonSearchRepresentation.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
-			jsonSearchRepresentation.put("usableTime", DateUtility.castToAPIFormat(this.usableTime));
-			jsonSearchRepresentation.put("status", this.status.code);
+			jsonObj.put("credit", this.creditId);
+			jsonObj.put("bookingId", this.bookingId);
+			jsonObj.put("userId", this.userId);			
+			jsonObj.put("amount", this.amount);
+			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
+			jsonObj.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
+			jsonObj.put("usableTime", DateUtility.castToAPIFormat(this.usableTime));
+			jsonObj.put("status", this.status.code);
 			
 		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return jsonSearchRepresentation;
+		return jsonObj;
 	}
 	
 	public boolean equals(Credit c){

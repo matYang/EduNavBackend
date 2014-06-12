@@ -22,8 +22,12 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	private String name;
 	private String phone;
 	private String email;
+	//TODO adding two fields
+	private String invitationalCode;
+	private String appliedInvitationalCode;
 	private AccountStatus status;
 	private Calendar creationTime;
+	
 	
 	public UserSearchRepresentation(){
 		this.userId = -1;
@@ -35,6 +39,8 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 		this.status = null;
 		this.creationTime = null;
 		this.email = null;
+		this.invitationalCode = null;
+		this.appliedInvitationalCode = null;
 	}
 	
 	@Override
@@ -133,12 +139,33 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+
+	public String getInvitationalCode() {
+		return invitationalCode;
+	}
+
+	public void setInvitationalCode(String invitationalCode) {
+		this.invitationalCode = invitationalCode;
+	}
+
+	public String getAppliedInvitationalCode() {
+		return appliedInvitationalCode;
+	}
+
+	public void setAppliedInvitationalCode(String appliedInvitationalCode) {
+		this.appliedInvitationalCode = appliedInvitationalCode;
+	}
+
+
 
 	@Override
 	public String toString() {
 		return "UserSearchRepresentation [userId=" + userId + ", balance="
 				+ balance + ", coupon=" + coupon + ", credit=" + credit
 				+ ", name=" + name + ", phone=" + phone + ", email=" + email
+				+ ", invitationalCode=" + invitationalCode
+				+ ", appliedInvitationalCode=" + appliedInvitationalCode
 				+ ", status=" + status + ", creationTime=" + creationTime + "]";
 	}
 
