@@ -78,9 +78,10 @@ public class UserDaoService {
 				coupon_inviter = CouponDaoService.createCoupon(coupon_inviter,conn);
 			}
 			user.setCouponList(coupons);
-		} finally{
+			
 			conn.commit();
 			conn.setAutoCommit(true);
+		} finally{
 			EduDaoBasic.closeResources(conn, null, null, true);
 		}
 		return user;

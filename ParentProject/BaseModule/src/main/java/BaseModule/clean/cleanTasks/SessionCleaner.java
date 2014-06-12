@@ -4,6 +4,7 @@ import java.util.Set;
 
 import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.RedisAuthenticationConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 
@@ -97,6 +98,9 @@ public class SessionCleaner {
 					redis.del(key);
 				}
 			}
+		}
+		catch (Exception e){
+			DebugLog.d(e);
 		}
 		finally{
 			EduDaoBasic.returnJedis(redis);

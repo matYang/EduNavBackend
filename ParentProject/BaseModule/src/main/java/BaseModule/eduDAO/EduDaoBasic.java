@@ -109,9 +109,21 @@ public class EduDaoBasic {
     public static void closeResources(Connection conn, PreparedStatement stmt, ResultSet rs,boolean closeconn){
     	try{
 			if (stmt != null)  stmt.close();  
-			if (conn != null &&closeconn)  conn.close(); 
-			if (rs != null) rs.close();
 		} catch (SQLException e){
+			DebugLog.d("Exception when closing stmt, rs and conn");
+			DebugLog.d(e);
+		}
+    	try{
+    		if (conn != null &&closeconn){
+    			conn.close();
+    		}
+    	} catch (SQLException e){
+			DebugLog.d("Exception when closing stmt, rs and conn");
+			DebugLog.d(e);
+		}
+    	try{
+    		if (rs != null) rs.close();
+    	} catch (SQLException e){
 			DebugLog.d("Exception when closing stmt, rs and conn");
 			DebugLog.d(e);
 		}

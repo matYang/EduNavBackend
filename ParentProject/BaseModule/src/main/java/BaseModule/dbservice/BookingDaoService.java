@@ -151,12 +151,11 @@ public class BookingDaoService {
 			else{
 				throw new ValidationException("预订状态操作错误，请刷新页面");
 			}
+			
+			conn.commit();
+			conn.setAutoCommit(true);
 		} finally{
-			if (conn != null){
-				conn.commit();
-				conn.setAutoCommit(true);
-				EduDaoBasic.closeResources(conn, null, null, true);
-			}
+			EduDaoBasic.closeResources(conn, null, null, true);
 			
 		}
 	}

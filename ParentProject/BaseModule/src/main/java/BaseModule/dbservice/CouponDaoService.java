@@ -42,13 +42,12 @@ public class CouponDaoService {
 
 			c = createCoupon(c, conn);
 			UserDao.updateUserBCC(0, 0, c.getAmount(), c.getUserId(), conn);
+			
+			conn.commit();
+			conn.setAutoCommit(true);
 			return c;
 		} finally{
-			if (conn != null){
-				conn.commit();
-				conn.setAutoCommit(true);
-				EduDaoBasic.closeResources(conn, null, null, true);
-			}
+			EduDaoBasic.closeResources(conn, null, null, true);
 		}
 	}
 	
@@ -81,12 +80,11 @@ public class CouponDaoService {
 				throw new ValidationException("未能识别消费券更新状态");
 			}
 			updateCoupon(c, conn);
+			
+			conn.commit();
+			conn.setAutoCommit(true);
 		} finally{
-			if (conn != null){
-				conn.commit();
-				conn.setAutoCommit(true);
-				EduDaoBasic.closeResources(conn, null, null, true);
-			}
+			EduDaoBasic.closeResources(conn, null, null, true);
 		}
 	}
 
