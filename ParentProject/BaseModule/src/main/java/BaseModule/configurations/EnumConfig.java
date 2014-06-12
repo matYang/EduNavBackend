@@ -3,7 +3,7 @@ package BaseModule.configurations;
 public class EnumConfig {
 
 	public static enum AccountStatus{
-        activated(0),deactivated(1),deleted(2);
+        activated(0),deactivated(1),deleted(2), consolidated(3);
         public int code;
         AccountStatus(int code){
             this.code = code;
@@ -15,7 +15,7 @@ public class EnumConfig {
     }
 	
 	public static enum CreditStatus{
-        usable(0),expired(1),used(2),awaiting(3);
+        usable(0),expired(1),used(2);
         public int code;
         CreditStatus(int code){
             this.code = code;
@@ -64,7 +64,7 @@ public class EnumConfig {
     }
 	
 	public static enum BookingStatus{
-        awaiting(0),confirmed(1),canceled(2),enter(3),finished(4),failed(5),quit(6),delivered(7);
+        awaiting(0),confirmed(1),canceled(2),enter(3),finished(4),failed(5),quit(6),delivered(7), consolidated(8);
         public int code;
         BookingStatus(int code){
             this.code = code;

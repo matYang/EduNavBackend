@@ -16,7 +16,6 @@ import BaseModule.service.RepresentationReflectiveService;
 public class BookingSearchRepresentation implements PseudoModel, PseudoRepresentation {
 	
 	private int bookingId;
-	private Calendar creationTime;
 	private int startPrice;
 	private int finishPrice;
 	private int userId;
@@ -34,10 +33,11 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private Calendar finishScheduledTime;
 	private Calendar startAdjustTime;
 	private Calendar finishAdjustTime;
+	private Calendar startCreationTime;
+	private Calendar finishCreationTime;
 
 	public BookingSearchRepresentation(){
 		this.bookingId = -1;
-		this.creationTime = null;
 		this.startPrice = -1;
 		this.finishPrice = -1;
 		this.userId = -1;
@@ -54,6 +54,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.finishScheduledTime = null;
 		this.startAdjustTime = null;
 		this.finishAdjustTime = null;
+		this.startCreationTime = null;
+		this.finishCreationTime = null;
 	}
 
 	@Override
@@ -90,13 +92,6 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.bookingId = bookingId;
 	}
 
-	public Calendar getCreationTime() {
-		return creationTime;
-	}
-
-	public void setCreationTime(Calendar creationTime) {
-		this.creationTime = creationTime;
-	}
 
 	public String getEmail() {
 		return email;
@@ -217,22 +212,40 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	public void setFinishAdjustTime(Calendar finishAdjustTime) {
 		this.finishAdjustTime = finishAdjustTime;
 	}
-	
+
+	public Calendar getStartCreationTime() {
+		return startCreationTime;
+	}
+
+	public void setStartCreationTime(Calendar startCreationTime) {
+		this.startCreationTime = startCreationTime;
+	}
+
+	public Calendar getFinishCreationTime() {
+		return finishCreationTime;
+	}
+
+	public void setFinishCreationTime(Calendar finishCreationTime) {
+		this.finishCreationTime = finishCreationTime;
+	}
 	
 
 	@Override
 	public String toString() {
 		return "BookingSearchRepresentation [bookingId=" + bookingId
-				+ ", creationTime=" + creationTime + ", startPrice="
-				+ startPrice + ", finishPrice=" + finishPrice + ", userId="
-				+ userId + ", partnerId=" + partnerId + ", courseId="
-				+ courseId + ", email=" + email + ", name=" + name + ", phone="
-				+ phone + ", status=" + status + ", preStatus=" + preStatus
-				+ ", reference=" + reference + ", startScheduledTime="
-				+ startScheduledTime + ", finishScheduledTime="
-				+ finishScheduledTime + ", startAdjustTime=" + startAdjustTime
-				+ ", finishAdjustTime=" + finishAdjustTime + "]";
+				+ ", startPrice=" + startPrice + ", finishPrice=" + finishPrice
+				+ ", userId=" + userId + ", partnerId=" + partnerId
+				+ ", courseId=" + courseId + ", email=" + email + ", name="
+				+ name + ", phone=" + phone + ", status=" + status
+				+ ", preStatus=" + preStatus + ", reference=" + reference
+				+ ", startScheduledTime=" + startScheduledTime
+				+ ", finishScheduledTime=" + finishScheduledTime
+				+ ", startAdjustTime=" + startAdjustTime
+				+ ", finishAdjustTime=" + finishAdjustTime
+				+ ", startCreationTime=" + startCreationTime
+				+ ", finishCreationTime=" + finishCreationTime + "]";
 	}
+	
 
 	public String getSearchQuery() {
 		String query = "SELECT * from BookingDao ";
@@ -308,16 +321,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				query += "and ";
 			}
 			query += "reference = ? ";
-		}
-		if(this.getCreationTime() != null){
-			if(!start){
-				query += "where ";
-				start = true;
-			}else{
-				query += "and ";
-			}
-			query += "creationTime = ? ";
-		}		
+		}	
 		if(this.getEmail() != null){
 			if(start){				
 				query += "and ";

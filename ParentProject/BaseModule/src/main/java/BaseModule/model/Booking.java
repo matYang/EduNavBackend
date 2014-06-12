@@ -14,6 +14,7 @@ import BaseModule.service.EncodingService;
 
 public class Booking implements PseudoModel, Serializable{
 	
+	public static final long cashbackDelay = 777600l;	//unconditioanlly 9 days
 	private static final long serialVersionUID = 5L;
 
 	private int bookingId;

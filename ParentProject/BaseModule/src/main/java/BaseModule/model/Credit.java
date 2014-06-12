@@ -14,8 +14,8 @@ public class Credit implements PseudoModel, Serializable{
 	
 	private static final long serialVersionUID = 8L;
 	
-	public static final long usableThreshould = 604800l;
-	public static final long expireThreshould = 31536000l + 604800l;	//1 year
+	public static final long usableThreshould = 31536000l;
+	public static final long expireThreshould = 31536000l;	//1 year
 
 	private long creditId;
 	private int bookingId;
@@ -60,7 +60,7 @@ public class Credit implements PseudoModel, Serializable{
 		this.amount = amount;
 		this.creationTime = DateUtility.getCurTimeInstance();
 		this.expireTime =DateUtility.getTimeFromLong(DateUtility.getCurTime() + usableThreshould);
-		this.status = CreditStatus.awaiting;
+		this.status = CreditStatus.usable;
 		this.usableTime = DateUtility.getTimeFromLong(DateUtility.getCurTime() + expireThreshould);
 	}
 
@@ -112,13 +112,6 @@ public class Credit implements PseudoModel, Serializable{
 		this.status = status;
 	}
 
-	public Calendar getUsableTime() {
-		return usableTime;
-	}
-
-	public void setUsableTime(Calendar usableTime) {
-		this.usableTime = usableTime;
-	}
 
 	public Calendar getCreationTime() {
 		return creationTime;
@@ -133,7 +126,6 @@ public class Credit implements PseudoModel, Serializable{
 			jsonObj.put("amount", this.amount);
 			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
 			jsonObj.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
-			jsonObj.put("usableTime", DateUtility.castToAPIFormat(this.usableTime));
 			jsonObj.put("status", this.status.code);
 			
 		} catch (JSONException | UnsupportedEncodingException e) {
@@ -152,7 +144,6 @@ public class Credit implements PseudoModel, Serializable{
 				this.status.code == c.getStatus().code &&
 				this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) &&
 				this.expireTime.getTime().toString().equals(c.getExpireTime().getTime().toString()) && 
-				this.usableTime.getTime().toString().equals(c.getUsableTime().getTime().toString()) &&
 				this.amount == c.getAmount();
 	}
 	

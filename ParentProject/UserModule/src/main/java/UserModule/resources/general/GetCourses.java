@@ -39,6 +39,5 @@ public class GetCourses extends UserPseudoResource{
 		return result;
 		
 	}
-
 	
 }

@@ -34,7 +34,7 @@ public class BookingCleanerTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email0 = "xiongchuhan@hotmail.com";
-		User user = new User(userphone, password,status);
+		User user = new User(userphone, password, "", "", status);
 		user.setName(name);
 		user.setEmail(email0);
 		UserDao.addUserToDatabase(user);

@@ -1,8 +1,8 @@
 package BaseModule.clean.cleanScheduler;
+
 import java.util.Calendar;
 import java.util.Date;
 
-import BaseModule.clean.cleanTasks.BookingCleaner;
 import BaseModule.clean.cleanTasks.CouponCleaner;
 import BaseModule.clean.cleanTasks.CourseCleaner;
 import BaseModule.clean.cleanTasks.CreditCleaner;
@@ -20,11 +20,11 @@ public class Clean{
 
 	
 	public void cleanSchedules(){
-		BookingCleaner.clean();
-		CourseCleaner.clean();
 		SessionCleaner.clean();
 		CreditCleaner.clean();
 		CouponCleaner.clean();
+		CourseCleaner.cleanCourse();
+		CourseCleaner.cleanCourseRelatedBooking();
 	}
 
 
