@@ -92,6 +92,7 @@ public class BookingIdResource extends UserPseudoResource{
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
 		BookingStatus status = BookingStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
 		
+		//once a booking is created, user can only cancel it, can not do anything else
 		if (status != BookingStatus.canceled){
 			throw new ValidationException("无权执行该操作");
 		}

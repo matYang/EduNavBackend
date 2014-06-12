@@ -88,7 +88,7 @@ public class EnumConfig {
     }
 	
 	public static enum SMSEvent{
-		user_cellVerification(0), user_changePassword(1), user_forgetPassword(2), partner_forgetPassword(3), partner_changePassword(4), user_bookingConfirmed(5), user_bookingFailed(6);
+		user_cellVerification(0), user_changePassword(1), user_forgetPassword(2), partner_forgetPassword(3), partner_changePassword(4), user_bookingConfirmed(5), user_bookingFailed(6), user_invitee(7), user_inviter(8);
 		public int code;
 		SMSEvent(int code){
 			this.code = code;
