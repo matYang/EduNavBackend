@@ -21,6 +21,7 @@ public class Coupon implements PseudoModel, Serializable{
 	private int bookingId;
 	private int userId;
 	private int amount;
+	private int originalAmount;
 	private Calendar creationTime;
 	private Calendar expireTime;
 	private CouponStatus status;
@@ -29,7 +30,7 @@ public class Coupon implements PseudoModel, Serializable{
 	//SQL Construction
 	public Coupon(long couponId, int bookingId, int userId,
 			int amount, Calendar creationTime, Calendar expireTime,
-			CouponStatus status,CouponOrigin origin) {
+			CouponStatus status,CouponOrigin origin,int originalAmount) {
 		super();
 		this.couponId = couponId;
 		this.bookingId = bookingId;
@@ -39,6 +40,7 @@ public class Coupon implements PseudoModel, Serializable{
 		this.expireTime = expireTime;
 		this.status = status;
 		this.origin = origin;
+		this.originalAmount = originalAmount;
 	}
 
 
@@ -48,6 +50,7 @@ public class Coupon implements PseudoModel, Serializable{
 		this.bookingId = bookingId;
 		this.userId = userId;
 		this.amount = amount;
+		this.originalAmount = amount;
 		this.expireTime = expireTime;
 		this.status = status;
 		this.origin = CouponOrigin.admin;
@@ -60,6 +63,7 @@ public class Coupon implements PseudoModel, Serializable{
 		this.bookingId = -1;
 		this.userId = userId;
 		this.amount = amount;
+		this.originalAmount = amount;
 		this.expireTime = DateUtility.getTimeFromLong(DateUtility.getCurTime() + expireThreshould);
 		this.status = CouponStatus.usable;
 		this.origin = CouponOrigin.registration;
@@ -125,6 +129,11 @@ public class Coupon implements PseudoModel, Serializable{
 	}
 
 
+	public int getOriginalAmount() {
+		return originalAmount;
+	}
+
+
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
@@ -136,6 +145,7 @@ public class Coupon implements PseudoModel, Serializable{
 			jsonSearchRepresentation.put("bookingId", this.bookingId);
 			jsonSearchRepresentation.put("userId", this.userId);
 			jsonSearchRepresentation.put("amount", this.amount);
+			jsonSearchRepresentation.put("originalAmount", this.originalAmount);
 			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
 			jsonSearchRepresentation.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
 			jsonSearchRepresentation.put("status", this.status.code);
@@ -158,7 +168,7 @@ public class Coupon implements PseudoModel, Serializable{
 				this.origin.code == c.getOrigin().code &&
 				this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) &&
 				this.expireTime.getTime().toString().equals(c.getExpireTime().getTime().toString()) && 
-				this.amount == c.getAmount();
+				this.amount == c.getAmount() && this.originalAmount == c.getOriginalAmount();
 	}
 	
 }

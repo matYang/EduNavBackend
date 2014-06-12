@@ -7,9 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
+import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.BookingNotFoundException;
+import BaseModule.exception.notFound.CouponNotFoundException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Booking;
 import BaseModule.model.Course;
 import BaseModule.model.representation.BookingSearchRepresentation;
@@ -82,15 +85,28 @@ public class BookingDao {
 
 	}
 
-	public static Booking addBookingToDatabases(Booking booking,Connection...connections) throws SQLException{
+	public static Booking addBookingToDatabases(Booking booking,Connection...connections) throws 
+	ValidationException,SQLException, PseudoException,CouponNotFoundException{
 		Connection conn = EduDaoBasic.getConnection(connections);
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
+		String couponRecord ="";
+		int cashbackAmount = 0;		
 		String query = "INSERT INTO BookingDao (name,phone,creationTime,adjustTime,price," +
 				"status,u_Id,p_Id,course_Id,reference,transaction_Id,cashbackAmount,note,couponRecord," +
 				"scheduledTime,email,actionRecord,preStatus)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-		try{
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";		
+		try{	
+			stmt = conn.prepareStatement("set autocommit = 0");
+			System.out.println("autocommit = 0");
+			stmt.execute();
+			
+			if(booking.getCashbackAmount() > 0){
+				couponRecord = CouponDao.getCouponRecord(booking.getUserId(), booking.getCashbackAmount(), conn);
+				booking.setCouponRecord(couponRecord);
+				cashbackAmount = Parser.getCashBackFromCouponRecord(couponRecord);
+			}			
+			
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, booking.getName());
@@ -104,7 +120,7 @@ public class BookingDao {
 			stmt.setInt(9, booking.getCourseId());
 			stmt.setString(10, booking.getReference());
 			stmt.setLong(11, booking.getTransactionId());
-			stmt.setInt(12, booking.getCashbackAmount());
+			stmt.setInt(12, cashbackAmount);
 			stmt.setString(13, booking.getNote());
 			stmt.setString(14, booking.getCouponRecord());
 			stmt.setString(15, DateUtility.toSQLDateTime(booking.getScheduledTime()));
@@ -115,8 +131,17 @@ public class BookingDao {
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
-			booking.setBookingId(rs.getInt(1));
+			booking.setBookingId(rs.getInt(1));			
+		
 		}finally  {
+			stmt = conn.prepareStatement("commit");
+			System.out.println("commitr");
+			stmt.execute();
+			
+			stmt = conn.prepareStatement("set autocommit = 1");
+			System.out.println("autocommit = 1");
+			stmt.execute();
+			
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 

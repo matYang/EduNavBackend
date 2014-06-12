@@ -14,7 +14,7 @@ public class Parser {
 		}
 		return serializedList;
 	}
-	
+
 	public static ArrayList<?> stringToList(String listString, Object optionFlag){
 		String[] strArray = listString != null ? listString.split("-") : null;
 		if (optionFlag instanceof Integer){
@@ -32,7 +32,22 @@ public class Parser {
 			}
 			return strList;
 		}
-		
+
 		return null;
+	}
+
+	public static int getCashBackFromCouponRecord(String crd){
+		int cashback = 0;
+		if(crd==null || crd.equals("")){
+			return cashback;
+		}
+		
+		String[] cashArray = crd.split("-");
+		
+		for(int i=0;i<cashArray.length;i++){
+			cashback += Integer.parseInt(cashArray[i].split("_")[1]);
+		}
+		
+		return cashback;
 	}
 }

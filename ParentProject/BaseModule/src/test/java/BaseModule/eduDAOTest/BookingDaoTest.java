@@ -11,13 +11,16 @@ import org.junit.Test;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.BookingDao;
+import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.model.Booking;
+import BaseModule.model.Coupon;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.User;
@@ -32,10 +35,10 @@ public class BookingDaoTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
-		String email = "xiongchuhan@hotmail.com";
+		String email = "xiongchuhan@hotmail.com";			
 		User user = new User(userphone, password,status);
 		user.setName(name);
-		user.setEmail(email);
+		user.setEmail(email);		
 		UserDao.addUserToDatabase(user);
 		
 		String pname = "XDF";
@@ -81,17 +84,117 @@ public class BookingDaoTest {
 		int partnerId = partner.getPartnerId();
 		int courseId = course.getCourseId();		
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
-		String email2 = "xiongchuhanplace@hotmail.com";
-		int cashbackAmount = 50;		
+		String email2 = "xiongchuhanplace@hotmail.com";		
+		int cashbackAmount = 50;
+		
+		//50
+		Coupon c = new Coupon(userId,cashbackAmount);	
+		Calendar expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.DAY_OF_MONTH, 1);
+		c.setExpireTime(expireTime);
+		CouponDao.addCouponToDatabases(c);
+		
+		//70
+		Coupon c2 = new Coupon(userId,cashbackAmount + 20);		
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.DAY_OF_MONTH, 15);
+		c2.setExpireTime(expireTime);
+		CouponDao.addCouponToDatabases(c2);
+		
+		//100
+		Coupon c3 = new Coupon(userId,cashbackAmount + 50);		
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.DAY_OF_MONTH, -15);		
+		c3.setExpireTime(expireTime);
+		CouponDao.addCouponToDatabases(c3);
+		
+		//66
+		Coupon c4 = new Coupon(userId,cashbackAmount + 11);		
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.MINUTE, -15);
+		c4.setExpireTime(expireTime);
+		CouponDao.addCouponToDatabases(c4);
+		
+		//89
+		Coupon c5 = new Coupon(userId,cashbackAmount + 39);		
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.MINUTE, 1);
+		c5.setExpireTime(expireTime);
+		CouponDao.addCouponToDatabases(c5);
+		
+		//1
+		Coupon c6 = new Coupon(userId,cashbackAmount - 49);		
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.DAY_OF_YEAR, 2);
+		c6.setExpireTime(expireTime);
+		CouponDao.addCouponToDatabases(c6);
+		
+		//100
+		Coupon c7 = new Coupon(userId,cashbackAmount + 50);		
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.DAY_OF_MONTH, -15);
+		c7.setExpireTime(expireTime);
+		c7.setStatus(CouponStatus.expired);
+		CouponDao.addCouponToDatabases(c7);
+				
+		//66
+		Coupon c8 = new Coupon(userId,cashbackAmount + 11);		
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.MINUTE, -15);
+		c8.setExpireTime(expireTime);
+		c8.setStatus(CouponStatus.used);
+		CouponDao.addCouponToDatabases(c8);
+				
+		//89
+		Coupon c9 = new Coupon(userId,cashbackAmount + 39);		
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.MINUTE, 1);
+		c9.setExpireTime(expireTime);
+		c9.setStatus(CouponStatus.expired);
+		CouponDao.addCouponToDatabases(c9);
+				
+		//2
+		Coupon c10 = new Coupon(userId,cashbackAmount - 48);		
+		expireTime = DateUtility.getCurTimeInstance();
+		expireTime.add(Calendar.DAY_OF_YEAR, 2);
+		c10.setExpireTime(expireTime);
+		c10.setStatus(CouponStatus.usable);
+		CouponDao.addCouponToDatabases(c10);
+		
+		UserDao.updateUserBCC(0, 0, 212, userId);
+		
+		int backcash = 211;//剩一块
+		
 		Booking booking = new Booking(timeStamp,timeStamp,course.getPrice(),
 				userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email2,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
+				email2,partner.getReference(),BookingStatus.confirmed,backcash);
 		try{
 			BookingDao.addBookingToDatabases(booking);			
-		}catch(Exception e){
+		}catch(Exception e){	
 			e.printStackTrace();
 			fail();
 		}
+		
+		ArrayList<Coupon> clist = new ArrayList<Coupon>();
+		clist = CouponDao.getCouponByUserId(userId);
+		user = UserDao.getUserById(userId);
+		booking = BookingDao.getBookingById(booking.getBookingId());
+		if(clist.size()==10&&
+				clist.get(0).getOriginalAmount()==cashbackAmount&&clist.get(0).getAmount()==cashbackAmount&&clist.get(0).getStatus().code==CouponStatus.used.code&&
+				clist.get(1).getOriginalAmount()==cashbackAmount+20&&clist.get(1).getAmount()==1&&clist.get(1).getStatus().code==CouponStatus.usable.code&&
+				clist.get(2).getOriginalAmount()==cashbackAmount+50&&clist.get(2).getAmount()==cashbackAmount+50&&clist.get(2).getStatus().code==CouponStatus.usable.code&&
+				clist.get(3).getOriginalAmount()==cashbackAmount+11&&clist.get(3).getAmount()==cashbackAmount+11&&clist.get(3).getStatus().code==CouponStatus.usable.code&&
+				clist.get(4).getOriginalAmount()==cashbackAmount+39&&clist.get(4).getAmount()==cashbackAmount+39&&clist.get(4).getStatus().code==CouponStatus.used.code&&
+				clist.get(5).getOriginalAmount()==1&&clist.get(5).getAmount()==1&&clist.get(5).getStatus().code==CouponStatus.used.code&&
+				clist.get(6).getOriginalAmount()==cashbackAmount+50&&clist.get(6).getAmount()==cashbackAmount+50&&clist.get(6).getStatus().code==CouponStatus.expired.code&&
+				clist.get(7).getOriginalAmount()==cashbackAmount+11&&clist.get(7).getAmount()==cashbackAmount+11&&clist.get(7).getStatus().code==CouponStatus.used.code&&
+				clist.get(8).getOriginalAmount()==cashbackAmount+39&&clist.get(8).getAmount()==cashbackAmount+39&&clist.get(8).getStatus().code==CouponStatus.expired.code&&
+				clist.get(9).getOriginalAmount()==2&&clist.get(9).getAmount()==2&&clist.get(9).getStatus().code==CouponStatus.used.code&&
+				user.getCoupon()==1&&booking.getCashbackAmount()==backcash){
+			//Passed;
+		}else fail();
+		
+		
 	}
 	
 	@Test
