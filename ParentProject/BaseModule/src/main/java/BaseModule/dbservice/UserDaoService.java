@@ -24,7 +24,11 @@ public class UserDaoService {
 	public static User getUserById(int id,Connection...connections) throws PseudoException, SQLException{
 		return UserDao.getUserById(id,connections);
 	}
-
+	
+	public static void updateUserBCC(int balance,int credit,int coupon,int userId,Connection...connections) throws PseudoException, SQLException{
+		UserDao.updateUserBCC(balance, credit, coupon, userId, connections);
+	}
+	
 	public static User getUserByPhone(String phone) throws UserNotFoundException, SQLException{
 		UserSearchRepresentation u_sr = new UserSearchRepresentation();
 		u_sr.setPhone(phone);

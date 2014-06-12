@@ -244,6 +244,11 @@ public class Booking implements PseudoModel, Serializable{
 		return cashbackAmount;
 	}
 
+	public void setCashbackAmount(int cashbackAmount) {
+		this.cashbackAmount = cashbackAmount;
+	}
+
+
 	public String getCouponRecord() {
 		return couponRecord;
 	}

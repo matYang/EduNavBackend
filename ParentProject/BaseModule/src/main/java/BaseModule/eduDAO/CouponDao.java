@@ -6,17 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
-
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CouponNotFoundException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Coupon;
-import BaseModule.model.User;
 import BaseModule.model.representation.CouponSearchRepresentation;
 
 
@@ -24,12 +19,13 @@ public class CouponDao {
 
 	public static ArrayList<Coupon> searchCoupon(CouponSearchRepresentation sr, Connection...connections) throws SQLException{
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		int stmtInt = 1;
 		String query = sr.getSearchQuery();
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			if(sr.getCouponId() > 0){
@@ -94,7 +90,7 @@ public class CouponDao {
 			rs = stmt.getGeneratedKeys();
 			rs.next();
 			c.setCouponId(rs.getLong(1));			
-
+			System.out.println("adding coupon: " + c.getCouponId());
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
@@ -236,121 +232,6 @@ public class CouponDao {
 				DateUtility.DateToCalendar(rs.getTimestamp("expireTime")),CouponStatus.fromInt(rs.getInt("status")),
 				CouponOrigin.fromInt(rs.getInt("couponOrigin")),rs.getInt("originalAmount"));
 	}
-
-	public static String getCouponRecord(int userId,int cashback,Connection...connections) throws ValidationException, 
-	SQLException, PseudoException,CouponNotFoundException{
-		Connection conn = EduDaoBasic.getConnection(connections);
-		ArrayList<Coupon> clist = new ArrayList<Coupon>();
-		ArrayList<Coupon> vlist = new ArrayList<Coupon>();	
-		Coupon c = null;		
-		User user = null;
-		ResultSet rs = null;
-		PreparedStatement stmt = null;		
-		int amount = 0;
-		int i = 0;
-		int totalCoupon = 0;
-		String couponRecord = "";
-		try{			
-			/*    Lock User Table   */
-			String userDaoQueryString = "select * from UserDao where id = " + userId + " for update";
-			stmt = conn.prepareStatement(userDaoQueryString);
-			rs = stmt.executeQuery();
-			if(rs.next()){
-				user = createUserByResultSet(rs);
-			}else{
-				throw new ValidationException("用户不存在");
-			}
-			totalCoupon = user.getCoupon();
-			
-			/*  Lock Coupon Table  */
-			String couponDaoQueryString = "select * from CouponDao where userId = " + userId + " for update";
-			stmt = conn.prepareStatement(couponDaoQueryString);
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				clist.add(createCouponByResultSet(rs));
-			}
-			System.out.println("clist num: " + clist.size());
-			if(clist.size()==0){
-				return couponRecord;			
-			}
-			//Sort
-			Collections.sort(clist, DateUtility.couponExpireComparator);
-			
-			while(i < clist.size()){
-				c = clist.get(i);
-				String ct = DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance());
-				String expireTime = DateUtility.toSQLDateTime(c.getExpireTime());
-				
-				//Check if usable
-				if(c.getStatus().code == CouponStatus.usable.code && ct.compareTo(expireTime) < 0){
-					amount += c.getAmount();
-					System.out.println("adding coupon: " + c.getCouponId() + " By amount: " + c.getAmount());
-					vlist.add(c);
-				}
-
-				if(amount >= cashback){
-					if(amount > totalCoupon){
-						//Error
-						System.out.println("amount: "  + amount + " totalCoupon: " +totalCoupon);
-						throw new ValidationException("账户出错！ 需要管理员处理");
-					}else{
-						break;
-					}					
-				}
-
-				i++;
-			}
-
-			if(i== clist.size() && amount != totalCoupon){
-				//Error
-				throw new ValidationException("账户出错！ 需要管理员处理");
-			}
-
-			//update coupons
-			for(int k=0;k<vlist.size()-1;k++){		
-				couponRecord += vlist.get(k).getCouponId() + "_" + vlist.get(k).getAmount() + "-";
-				vlist.get(k).setStatus(CouponStatus.used);				
-			}
-			
-			if(amount > cashback){
-				//too many coupons: split one
-				int newAmount = amount-cashback;
-				couponRecord += vlist.get(vlist.size()-1).getCouponId() + "_" + (vlist.get(vlist.size()-1).getAmount()-newAmount) + "-";
-				vlist.get(vlist.size()-1).setAmount(newAmount);						
-			}else{
-				couponRecord += vlist.get(vlist.size()-1).getCouponId() + "_" + vlist.get(vlist.size()-1).getAmount() + "-";
-				vlist.get(vlist.size()-1).setStatus(CouponStatus.used);				
-			}
-
-			//update coupons in database
-			updateCouponsInDatabases(vlist,conn);
-			stmt = conn.prepareStatement("commit");
-			stmt.execute();
-			
-			System.out.println("amount: "  + amount + " totalCoupon: " +totalCoupon);
-			//update user in database
-			if(amount >= cashback){				
-				UserDao.updateUserBCC(0, 0, -cashback, userId, conn);
-				System.out.println("user account - " + cashback);
-			}else{				
-				UserDao.updateUserBCC(0, 0, -amount, userId, conn);
-				System.out.println("user account - " + amount);
-			}
-			
-			stmt = conn.prepareStatement("commit");
-			stmt.execute();
-			
-		}finally{			
-			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
-		}
-
-		return couponRecord;
-	}
 	
-	private static User createUserByResultSet(ResultSet rs) throws SQLException {		
-		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
-				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),"", AccountStatus.fromInt(rs.getInt("status")),rs.getInt("balance"),rs.getInt("coupon"),
-				rs.getInt("credit"),rs.getString("email"));
-	}
 
 }

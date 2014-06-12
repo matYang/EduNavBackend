@@ -26,9 +26,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private String phone;
 	private BookingStatus status;
 	private BookingStatus preStatus;
-	private String reference;	
-	
-	//TODO
+	private String reference;		
+
 	private Calendar startScheduledTime;
 	private Calendar finishScheduledTime;
 	private Calendar startAdjustTime;
@@ -357,6 +356,60 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				query += "and ";
 			}
 			query += "preStatus = ? ";
+		}
+		if(this.startAdjustTime != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "adjustTime >= ? ";
+		}
+		if(this.finishAdjustTime != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "adjustTime <= ? ";
+		}
+		if(this.startCreationTime != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime >= ? ";
+		}
+		if(this.finishCreationTime != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime <= ? ";
+		}
+		if(this.startScheduledTime != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "scheduledTime >= ? ";
+		}
+		if(this.finishScheduledTime != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "scheduledTime <= ? ";
 		}
 		return query;
 	}

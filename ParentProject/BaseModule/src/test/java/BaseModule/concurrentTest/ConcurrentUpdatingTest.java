@@ -59,7 +59,7 @@ public class ConcurrentUpdatingTest {
 							}
 						}else if(layer.equals("Service")){								
 							try {
-								BookingDaoService.updateBooking((Booking)list.get(i), ((Booking)list.get(i)).getStatus(), ((Booking)list.get(i)).getAdminId());
+								BookingDaoService.updateBooking((Booking)list.get(i), ((Booking)list.get(i)).getStatus(),1);
 							} catch ( PseudoException | SQLException e) {
 
 								e.printStackTrace();

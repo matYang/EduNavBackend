@@ -28,9 +28,8 @@ public class User implements PseudoModel, Serializable{
 	private String password;
 	private String email;
 	
-	private AccountStatus status;
+	private AccountStatus status;	
 	
-	//TODO adding two fields
 	private String invitationalCode;
 	private String appliedInvitationalCode;
 	
@@ -43,7 +42,8 @@ public class User implements PseudoModel, Serializable{
 
 	//SQL Retrieving
 	public User(int userId, String name, String phone, Calendar creationTime,
-			Calendar lastLogin, String password, AccountStatus status,int balance,int coupon,int credit,String email) {
+			Calendar lastLogin, String password, AccountStatus status,int balance,
+			int coupon,int credit,String email,String invitationalCode,String appliedInvitationalCode) {
 		super();
 		this.userId = userId;		
 		this.name = name;
@@ -56,6 +56,8 @@ public class User implements PseudoModel, Serializable{
 		this.coupon = coupon;
 		this.credit = credit;
 		this.email = email;
+		this.invitationalCode = invitationalCode;
+		this.appliedInvitationalCode = appliedInvitationalCode;
 	}
 	
 	//Normal Construction
@@ -69,6 +71,26 @@ public class User implements PseudoModel, Serializable{
 		this.password = password;
 		this.status = status;
 		this.email = "";
+		this.invitationalCode = invitationalCode;
+		this.appliedInvitationalCode = appliedInvitationalCode;
+		this.creationTime = DateUtility.getCurTimeInstance();
+		if(this.lastLogin==null){
+			this.lastLogin = (Calendar) this.creationTime.clone();
+		}		
+	}
+	
+	//For Testing
+	public User(String phone, String password,AccountStatus status){
+		this.balance = 0;
+		this.coupon = 0;
+		this.credit = 0;
+		this.name = "";
+		this.phone = phone;
+		this.password = password;
+		this.status = status;
+		this.email = "";
+		this.invitationalCode = "";
+		this.appliedInvitationalCode = "";
 		this.creationTime = DateUtility.getCurTimeInstance();
 		if(this.lastLogin==null){
 			this.lastLogin = (Calendar) this.creationTime.clone();

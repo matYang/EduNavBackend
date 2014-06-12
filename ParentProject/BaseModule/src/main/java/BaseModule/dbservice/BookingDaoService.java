@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
+import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.BookingDao;
+import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
@@ -33,7 +35,7 @@ public class BookingDaoService {
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
-			
+
 			if (updatedBooking.getStatus() == previousStatus){
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 				BookingDao.updateBookingInDatabases(updatedBooking);
@@ -64,7 +66,7 @@ public class BookingDaoService {
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
 					SMSService.sendBookingConfirmedSMS(updatedBooking);
 				}
-				
+
 			}
 			else if (previousStatus == BookingStatus.confirmed){
 				if (updatedBooking.getStatus() == BookingStatus.delivered){
@@ -151,47 +153,44 @@ public class BookingDaoService {
 			else{
 				throw new ValidationException("预订状态操作错误，请刷新页面");
 			}
-			
-			conn.commit();
-			conn.setAutoCommit(true);
 		} finally{
-			EduDaoBasic.closeResources(conn, null, null, true);
-			
+			if (conn != null){
+				if(!conn.getAutoCommit()){
+					conn.commit();
+					conn.setAutoCommit(true);
+				}	
+				EduDaoBasic.closeResources(conn, null, null, true);
+			}
+
 		}
 	}
 
 
-	public static Booking createBooking(Booking booking) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection();
-		Coupon coupon = null;
+	public static Booking createBooking(Booking booking,Connection...connections) throws PseudoException, SQLException{
+		Connection conn = null;		
+		String couponRecord = "";
+		int cashbackAmount = 0;
 		try{
-			//if using coupon, validation coupon
-			if (booking.getCouponId() > 0){
-				coupon = CouponDaoService.getCouponByCouponId(booking.getCouponId(),conn);
-				if (coupon.getUserId() != booking.getUserId()){
-					throw new ValidationException("消费券主人并非当前用户！");
-				}
-				else if (coupon.getStatus() != CouponStatus.usable){
-					throw new ValidationException("该消费券当前不可使用！");
-				}
+			conn = EduDaoBasic.getConnection(connections);
+			if(conn.getAutoCommit()){
+				conn.setAutoCommit(false);
+			}			
+			if(booking.getCashbackAmount() > 0){
+				couponRecord = CouponDaoService.getCouponRecord(booking.getUserId(), booking.getCashbackAmount(), conn);
+				booking.setCouponRecord(couponRecord);
+				cashbackAmount = Parser.getCashBackFromCouponRecord(couponRecord);
+				booking.setCashbackAmount(cashbackAmount);
+				booking = BookingDao.addBookingToDatabases(booking, conn);
+			}	
+		}finally{			
+			if (conn != null){
+				if(!conn.getAutoCommit()){
+					conn.commit();
+					conn.setAutoCommit(true);
+				}				
+				EduDaoBasic.closeResources(conn, null, null, EduDaoBasic.shouldConnectionClose(connections));
 			}
-			booking = BookingDao.addBookingToDatabases(booking,conn);
-			if (booking.getCouponId() > 0){
-				//if use coupon, use that coupon
-				coupon.setStatus(CouponStatus.used);
-				coupon.setBookingId(booking.getBookingId());
-				CouponDaoService.updateCoupon(coupon,conn);
-				User user = UserDaoService.getUserById(coupon.getUserId(),conn);
-				user.decCoupon(coupon.getAmount());
-				UserDaoService.updateUser(user,conn);
-			}
-		}catch (SQLException | CouponNotFoundException 
-				| UserNotFoundException | ValidationException e) {			
-			throw e;
-		}finally{
-			EduDaoBasic.closeResources(conn, null, null, true);
 		}
-
 		return booking;
 	}
 

@@ -112,7 +112,7 @@ public class UserDaoTest {
 		expireTime.add(Calendar.DAY_OF_MONTH, -15);
 		Calendar usableTime = DateUtility.getCurTimeInstance();
 		usableTime.add(Calendar.DAY_OF_MONTH, -30);
-		Credit credit = new Credit(bookingId,userId,amount,expireTime, CreditStatus.usable,usableTime);
+		Credit credit = new Credit(bookingId,userId,amount,expireTime, CreditStatus.usable);
 		CreditDao.addCreditToDatabases(credit);
 		
 		CreditCleaner.clean();

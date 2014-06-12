@@ -12,6 +12,7 @@ import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CouponStatus;
+import BaseModule.dbservice.BookingDaoService;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.CourseDao;
@@ -169,7 +170,7 @@ public class BookingDaoTest {
 				userId, partnerId, courseId, user.getName(), partner.getPhone(),
 				email2,partner.getReference(),BookingStatus.confirmed,backcash);
 		try{
-			BookingDao.addBookingToDatabases(booking);			
+			BookingDaoService.createBooking(booking);		
 		}catch(Exception e){	
 			e.printStackTrace();
 			fail();
@@ -582,7 +583,7 @@ public class BookingDaoTest {
 			//Passed;
 		}else fail();
 		
-		sr.setScheduledTime(timeStamp0);
+		
 		if(blist.size()==1 && blist.get(0).equals(booking)){
 			//Passed;
 		}else fail();
