@@ -1,17 +1,11 @@
 package UserModule.resources.coupon;
 
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-import java.util.Calendar;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
 
-import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;

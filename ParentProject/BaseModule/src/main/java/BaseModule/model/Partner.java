@@ -150,24 +150,24 @@ public class Partner implements PseudoModel, Serializable{
 	}
 
 	public JSONObject toJSON(){
-		JSONObject jsonSearchRepresentation = new JSONObject();
+		JSONObject jsonObj = new JSONObject();
 		try{
-			jsonSearchRepresentation.put("partnerId", this.partnerId);
-			jsonSearchRepresentation.put("wholeName", EncodingService.encodeURI(this.wholeName));
-			jsonSearchRepresentation.put("phone", EncodingService.encodeURI(this.phone));			
-			jsonSearchRepresentation.put("licence", EncodingService.encodeURI(this.licence));
-			jsonSearchRepresentation.put("organizationNum", EncodingService.encodeURI(this.organizationNum));
-			jsonSearchRepresentation.put("reference", EncodingService.encodeURI(this.reference));
-			jsonSearchRepresentation.put("status", this.status.code);
-			jsonSearchRepresentation.put("instName", EncodingService.encodeURI(this.instName));
-			jsonSearchRepresentation.put("logoUrl", EncodingService.encodeURI(this.logoUrl));
-			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));		
-			jsonSearchRepresentation.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
+			jsonObj.put("partnerId", this.partnerId);
+			jsonObj.put("wholeName", EncodingService.encodeURI(this.wholeName));
+			jsonObj.put("phone", EncodingService.encodeURI(this.phone));			
+			jsonObj.put("licence", EncodingService.encodeURI(this.licence));
+			jsonObj.put("organizationNum", EncodingService.encodeURI(this.organizationNum));
+			jsonObj.put("reference", EncodingService.encodeURI(this.reference));
+			jsonObj.put("status", this.status.code);
+			jsonObj.put("instName", EncodingService.encodeURI(this.instName));
+			jsonObj.put("logoUrl", EncodingService.encodeURI(this.logoUrl));
+			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));		
+			jsonObj.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
 
 		} catch (JSONException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return jsonSearchRepresentation;
+		return jsonObj;
 	}
 
 	public boolean equals(Partner p){

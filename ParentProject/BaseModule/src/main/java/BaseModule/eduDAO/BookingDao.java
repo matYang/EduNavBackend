@@ -50,12 +50,6 @@ public class BookingDao {
 			if(sr.getReference() !=null && sr.getReference().length() > 0){
 				stmt.setString(stmtInt++, sr.getReference());
 			}
-			if(sr.getCreationTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
-			}
-			if(sr.getScheduledTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getScheduledTime()));
-			}
 			if(sr.getEmail() != null){
 				stmt.setString(stmtInt,sr.getEmail());
 			}	
@@ -64,10 +58,7 @@ public class BookingDao {
 			}
 			if(sr.getPhone() != null && sr.getPhone().length() > 0){
 				stmt.setString(stmtInt++, sr.getPhone());
-			}
-			if(sr.getAdjustTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getAdjustTime()));
-			}			
+			}		
 			if(sr.getPreStatus() != null){
 				stmt.setInt(stmtInt++, sr.getPreStatus().code);
 			}

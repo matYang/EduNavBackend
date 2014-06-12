@@ -32,6 +32,7 @@ public class BookingCleaner extends BookingDao{
 				try{
 					booking = BookingDao.createBookingByResultSet(rs);
 					BookingDao.updateBookingInDatabases(booking,conn);
+					//add cash back to user's balance, generate transaction, create credit and incr user's credit balance
 				} catch(Exception e){
 					DebugLog.d(e);
 				}
