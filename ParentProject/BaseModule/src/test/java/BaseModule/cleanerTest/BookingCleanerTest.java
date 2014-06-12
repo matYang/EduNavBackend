@@ -1,13 +1,11 @@
 package BaseModule.cleanerTest;
 
 import static org.junit.Assert.*;
-
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
-
 import org.junit.Test;
 
+import BaseModule.clean.cleanTasks.CourseCleaner;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
@@ -21,7 +19,7 @@ import BaseModule.model.Booking;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.User;
-import BaseModule.model.representation.BookingSearchRepresentation;
+
 
 public class BookingCleanerTest {
 
@@ -83,8 +81,7 @@ public class BookingCleanerTest {
 		Calendar timeStamp = DateUtility.getCurTimeInstance();	
 		timeStamp.add(Calendar.SECOND, -1);
 		String email = "xiongchuhanplace@hotmail.com";
-		int cashbackAmount = 50;
-		String couponRecord = "1+"+DateUtility.getTimeStamp();
+		int cashbackAmount = 50;		
 		Booking booking = new Booking(timeStamp,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
 				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
@@ -111,7 +108,7 @@ public class BookingCleanerTest {
 				email,partner.getReference(),BookingStatus.canceled,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking4);
 		
-//		BookingCleaner.clean();
+		CourseCleaner.cleanCourseRelatedBooking();
 //		
 //		ArrayList<Booking> list = new ArrayList<Booking>();
 //		list = BookingDao.searchBooking(new BookingSearchRepresentation());

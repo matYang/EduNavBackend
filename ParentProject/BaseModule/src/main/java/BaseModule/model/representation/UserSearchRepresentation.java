@@ -22,9 +22,10 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	private String name;
 	private String phone;
 	private String email;
-	//TODO adding two fields
+	
 	private String invitationalCode;
 	private String appliedInvitationalCode;
+	
 	private AccountStatus status;
 	private Calendar creationTime;
 	
@@ -252,6 +253,24 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 				query += "and ";
 			}
 			query += "email = ? ";
+		}
+		if(this.invitationalCode != null && this.invitationalCode.length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "invitationalCode = ? ";
+		}
+		if(this.appliedInvitationalCode != null && this.appliedInvitationalCode.length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "appliedInvitationalCode = ? ";
 		}
 		return query;
 	}

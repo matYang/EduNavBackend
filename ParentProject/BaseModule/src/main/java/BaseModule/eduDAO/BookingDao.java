@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
-import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.BookingNotFoundException;
@@ -64,6 +63,24 @@ public class BookingDao {
 			}						
 			if(sr.getPreStatus() != null){
 				stmt.setInt(stmtInt++, sr.getPreStatus().code);
+			}
+			if(sr.getStartAdjustTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartAdjustTime()));
+			}
+			if(sr.getFinishAdjustTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishAdjustTime()));
+			}
+			if(sr.getStartCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartCreationTime()));
+			}
+			if(sr.getFinishCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishCreationTime()));
+			}
+			if(sr.getStartScheduledTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartScheduledTime()));
+			}
+			if(sr.getFinishScheduledTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishScheduledTime()));
 			}
 			rs = stmt.executeQuery();
 			while(rs.next()){

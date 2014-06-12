@@ -78,7 +78,9 @@ public class CouponDaoService {
 		String couponRecord = "";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
-			conn.setAutoCommit(false);
+			if(conn.getAutoCommit()){
+				conn.setAutoCommit(false);
+			}
 			user = UserDaoService.getUserById(userId, conn);
 			if(user == null){
 				conn.rollback();

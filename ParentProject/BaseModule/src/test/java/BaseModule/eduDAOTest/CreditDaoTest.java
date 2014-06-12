@@ -28,8 +28,7 @@ public class CreditDaoTest {
 		int bookingId = 1;
 		int userId = 1;
 		int amount = 234;
-		Calendar expireTime = DateUtility.getCurTimeInstance();
-		Calendar usableTime = DateUtility.getCurTimeInstance();
+		Calendar expireTime = DateUtility.getCurTimeInstance();		
 		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
 		try{
 			CreditDao.addCreditToDatabases(c);
@@ -46,8 +45,7 @@ public class CreditDaoTest {
 		int userId = 1;
 		int amount = 5653;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
-		Calendar usableTime = DateUtility.getCurTimeInstance();
-		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
+				Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
 		c = CreditDao.addCreditToDatabases(c);
 		Credit test = CreditDao.getCreditByCreditId(c.getCreditId());
 		if(test.equals(c)){
@@ -70,8 +68,7 @@ public class CreditDaoTest {
 		int bookingId = 1;
 		int userId = 1;
 		int amount = 2;
-		Calendar expireTime = DateUtility.getCurTimeInstance();
-		Calendar usableTime = DateUtility.getCurTimeInstance();
+		Calendar expireTime = DateUtility.getCurTimeInstance();		
 		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
 		c = CreditDao.addCreditToDatabases(c);
 		c.setStatus(CreditStatus.expired);
