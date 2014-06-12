@@ -1,6 +1,5 @@
 package BaseModule.cleanerTest;
 
-import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.Calendar;
 import org.junit.Test;
@@ -9,6 +8,7 @@ import BaseModule.clean.cleanTasks.CourseCleaner;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.dbservice.UserDaoService;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
@@ -57,6 +57,7 @@ public class BookingCleanerTest {
 		String subCategory = "sub-Phy";		
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
 		CourseDao.addCourseToDatabases(course);		
+		
 		course = CourseDao.getCourseById(course.getCourseId());	
 		String location = "China";
 		String city = "NanJing";
@@ -71,7 +72,9 @@ public class BookingCleanerTest {
 		course.setTeachingMethodsIntro("Hand and Ass");
 		course.setCourseName("bababa");
 		course.setTeacherIntro("sdfkljrghiuoghrer");		
-		course.setPrice(price);		
+		course.setPrice(price);
+		course.setStatus(AccountStatus.deactivated);
+		course.setStartTime(DateUtility.getTimeFromLong(DateUtility.getCurTime() - Booking.cashbackDelay - 600000l));
 		CourseDao.updateCourseInDatabases(course);		
 		course = CourseDao.getCourseById(course.getCourseId());			
 		
@@ -81,45 +84,37 @@ public class BookingCleanerTest {
 		Calendar timeStamp = DateUtility.getCurTimeInstance();	
 		timeStamp.add(Calendar.SECOND, -1);
 		String email = "xiongchuhanplace@hotmail.com";
-		int cashbackAmount = 50;		
+		int cashbackAmount = 50;	
+		
 		Booking booking = new Booking(timeStamp,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
+				email,partner.getReference(),BookingStatus.finished,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking);
 		
 		Calendar finishTime2 = Calendar.getInstance();
 		finishTime2.add(Calendar.DAY_OF_YEAR, -1);			
 		Booking booking2 = new Booking(finishTime2,timeStamp,
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.confirmed,cashbackAmount);
+				email,partner.getReference(),BookingStatus.canceled,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking2);
 		
 		Calendar finishTime3 = Calendar.getInstance();
 		finishTime3.add(Calendar.HOUR_OF_DAY, 1);
 		Booking booking3 = new Booking(finishTime3,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.confirmed,cashbackAmount);
+				email,partner.getReference(),BookingStatus.finished,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking3);
 		
 		Calendar finishTime4 = Calendar.getInstance();
 		finishTime4.add(Calendar.HOUR_OF_DAY, 1);
 		Booking booking4 = new Booking(finishTime4,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.canceled,cashbackAmount);
+				email,partner.getReference(),BookingStatus.quit,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking4);
 		
 		CourseCleaner.cleanCourseRelatedBooking();
-//		
-//		ArrayList<Booking> list = new ArrayList<Booking>();
-//		list = BookingDao.searchBooking(new BookingSearchRepresentation());
-//		if(list.size()==4 && list.get(0).getStatus().code==BookingStatus.awaiting.code && 
-//				list.get(1).getStatus().code==BookingStatus.pending.code&&
-//				list.get(2).getStatus().code==BookingStatus.confirmed.code&&
-//				list.get(3).getStatus().code==BookingStatus.canceled.code){
-//			//Passed;
-//		}else{
-//			fail();
-//		}
+		user = UserDaoService.getUserById(userId);
+		System.out.println(user.toJSON().toString());
 		
 	}
 }

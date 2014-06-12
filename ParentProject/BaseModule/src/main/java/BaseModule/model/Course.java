@@ -40,6 +40,7 @@ public class Course implements PseudoModel, Serializable{
 	private int courseHourNum;
 	private int courseHourLength;	
 	private int teachingMaterialCost;
+	private int cashback;
 	
 	private Calendar creationTime;
 	private Calendar startTime;
@@ -748,6 +749,14 @@ public class Course implements PseudoModel, Serializable{
 		return creationTime;
 	}
 	
+	public int getCashback() {
+		return cashback;
+	}
+
+	public void setCashback(int cashback) {
+		this.cashback = cashback;
+	}
+
 	public Course deepCopy() throws IOException, ClassNotFoundException{
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
         final ObjectOutputStream oos = new ObjectOutputStream(baos);

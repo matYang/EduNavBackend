@@ -76,6 +76,9 @@ public class BookingResource extends UserPseudoResource{
 			if (course.getPrice() != booking.getPrice()){
 				throw new ValidationException("预约与课程价格不一致");
 			}
+			if (course.getCashback() != booking.getCashbackAmount()){
+				throw new ValidationException("返现不一致");
+			}
 			
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONFactory.toJSON(booking);

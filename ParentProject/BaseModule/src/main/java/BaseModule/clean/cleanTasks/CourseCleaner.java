@@ -109,6 +109,8 @@ public class CourseCleaner extends CourseDao{
 						
 						//commit after each run to decease side effect of an error
 						transientConnection.commit();
+						
+						System.out.println("cleaned booking: " + booking.getBookingId());
 					}
 
 					//only commit the course to be consolidated after all bookings are committed to be consolidated
