@@ -327,7 +327,7 @@ public class ModelDataLoaderService {
 		int amount = 50;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Calendar usableTime = DateUtility.getCurTimeInstance();
-		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used,usableTime);
+		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -336,7 +336,7 @@ public class ModelDataLoaderService {
 
 		bookingId = 3;
 		userId = 2;		
-		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.awaiting,usableTime);
+		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -345,7 +345,7 @@ public class ModelDataLoaderService {
 
 		bookingId = 4;
 		userId = 3;		
-		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.expired,usableTime);
+		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.expired);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -354,7 +354,7 @@ public class ModelDataLoaderService {
 
 		bookingId = 5;
 		userId = 4;		
-		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used,usableTime);
+		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -363,7 +363,7 @@ public class ModelDataLoaderService {
 
 		bookingId = 2;
 		userId = 1;		
-		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.awaiting,usableTime);
+		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.usable);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);
 		} catch (SQLException e) {			

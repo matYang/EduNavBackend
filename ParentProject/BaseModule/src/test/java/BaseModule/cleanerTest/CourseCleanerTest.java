@@ -78,7 +78,7 @@ public class CourseCleanerTest {
 		course3.setReference(reference3);
 		CourseDao.addCourseToDatabases(course3);		
 	
-		CourseCleaner.clean();		
+		CourseCleaner.cleanCourse();		
 		
 		ArrayList<Course> clist = new ArrayList<Course>();
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();

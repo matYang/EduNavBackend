@@ -94,7 +94,7 @@ public class CreditDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query0 = "SELECT * from CreditDao where creditId = ? for update";
-		String query = "UPDATE CreditDao set expireTime=?,status=?,amount=?, where creditId = ?";
+		String query = "UPDATE CreditDao set expireTime=?,status=?,amount=? where creditId = ?";
 		try{
 			stmt = conn.prepareStatement(query0);
 			stmt.setLong(1, c.getCreditId());

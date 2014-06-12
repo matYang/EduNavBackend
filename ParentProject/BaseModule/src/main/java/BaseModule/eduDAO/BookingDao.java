@@ -52,10 +52,7 @@ public class BookingDao {
 			}
 			if(sr.getReference() !=null && sr.getReference().length() > 0){
 				stmt.setString(stmtInt++, sr.getReference());
-			}
-			if(sr.getCreationTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
-			}			
+			}					
 			if(sr.getEmail() != null){
 				stmt.setString(stmtInt,sr.getEmail());
 			}	
@@ -81,7 +78,7 @@ public class BookingDao {
 
 	public static Booking addBookingToDatabases(Booking booking,Connection...connections) throws 
 	ValidationException,SQLException, PseudoException,CouponNotFoundException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;			
 		String query = "INSERT INTO BookingDao (name,phone,creationTime,adjustTime,price," +
@@ -89,7 +86,7 @@ public class BookingDao {
 				"scheduledTime,email,actionRecord,preStatus)" +
 				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";		
 		try{				
-			
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, booking.getName());

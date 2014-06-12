@@ -155,8 +155,10 @@ public class BookingDaoService {
 			}
 		} finally{
 			if (conn != null){
-				conn.commit();
-				conn.setAutoCommit(true);
+				if(!conn.getAutoCommit()){
+					conn.commit();
+					conn.setAutoCommit(true);
+				}	
 				EduDaoBasic.closeResources(conn, null, null, true);
 			}
 
