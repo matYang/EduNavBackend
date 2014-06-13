@@ -171,18 +171,10 @@ public class UserDao {
 	public static void updateUserInDatabases(User user,Connection...connections)  throws PseudoException, SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String query0 = "select * from UserDao where id = ? for update";
+		
 		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=?,email=?,invitationalCode=?,appliedInvitationalCode=? where id=?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
-			
-			stmt = conn.prepareStatement(query0);
-			stmt.setInt(1, user.getUserId());
-			rs = stmt.executeQuery();
-			if(!rs.next()){
-				throw new UserNotFoundException();
-			}
 			
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, user.getName());			
@@ -273,7 +265,7 @@ public class UserDao {
 		ResultSet rs = null;
 		User user = null;
 		boolean validPassword = false;
-		String query = "SELECT * FROM UserDao where phone = ?  ";
+		String query = "SELECT * FROM UserDao where phone = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -286,6 +278,8 @@ public class UserDao {
 					user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
 					user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
 					user.setTransactionList(TransactionDao.getTransactionByUserId(user.getUserId(),conn));
+					user.setLastLogin(DateUtility.getCurTimeInstance());
+					updateUserInDatabases(user,conn);
 				}
 				else{
 					throw new AuthenticationException("手机号码或密码输入错误");

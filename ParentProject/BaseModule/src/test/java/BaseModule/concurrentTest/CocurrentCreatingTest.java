@@ -111,7 +111,8 @@ public class CocurrentCreatingTest {
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
 		ArrayList<Booking> blist = new ArrayList<Booking>();
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
-
+		int startCoupon = 0;
+		int backcash = 0;
 		for(int i=0;i<bookingNum;i++){
 			//50
 			Coupon c = new Coupon(userId,cashbackAmount);	
@@ -196,11 +197,13 @@ public class CocurrentCreatingTest {
 			c10.setStatus(CouponStatus.usable);
 			CouponDao.addCouponToDatabases(c10);
 			clist.add(c10);
+			
+			startCoupon = 25312;
+			
+			UserDao.updateUserBCC(0, 0, startCoupon, userId);
+			en(startCoupon);
 
-			UserDao.updateUserBCC(0, 0, 25312, userId);
-			en(25312);
-
-			int backcash = 2;//剩一块
+			backcash = 2;//剩一块
 
 			Booking booking = new Booking(timeStamp,timeStamp,price,
 					userId, partnerId, courseId, user.getName(), phone,
@@ -228,12 +231,10 @@ public class CocurrentCreatingTest {
 		System.out.println("Test End");
 		user = UserDao.getUserById(userId);
 		System.out.println("user coupon final value: " + user.getCoupon());
-		int exptvalue =  25312+threadNum*25310;
+		int exptvalue =  startCoupon+threadNum*(startCoupon-backcash);
 		System.out.println("expected value: " + exptvalue);
-		System.out.println("amount: " + amount);
-		System.out.println("in total we added : " + coupon + "coupon");
-		System.out.println("we failed cashback: " + counter);
-		if(exptvalue==user.getCoupon() && user.getCoupon()==amount){
+		System.out.println("amount: " + amount);		
+		if(exptvalue==user.getCoupon()){
 			//Passed;
 		}else fail();
 	}	

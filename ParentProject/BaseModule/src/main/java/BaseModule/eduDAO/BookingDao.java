@@ -131,8 +131,7 @@ public class BookingDao {
 			rs = stmt.getGeneratedKeys();
 			rs.next();
 			booking.setBookingId(rs.getInt(1));
-						
-//			System.out.println("adding booking: " + booking.getBookingId() + " it gets cashback: " + booking.getCashbackAmount());			
+			
 		}finally{			
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -145,20 +144,12 @@ public class BookingDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		int stmtInt = 1;		
-		String query0 = "SELECT * FROM BookingDao where id = ? for UPDATE;";
 		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,price=?," +
 				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,cashbackAmount=?,note=?,couponRecord=?," +
 				"scheduledTime=?,email=?,actionRecord=?,preStatus=? where id=?";		
 		try{		
 			conn = EduDaoBasic.getConnection(connections);
-			stmt = conn.prepareStatement(query0);
-			
-			stmt.setInt(1, booking.getBookingId());
-			rs = stmt.executeQuery();
-			if(!rs.next()){
-				throw new BookingNotFoundException();
-			}
-			
+					
 			stmt = conn.prepareStatement(query);
 		
 			stmt.setString(stmtInt++, booking.getName());

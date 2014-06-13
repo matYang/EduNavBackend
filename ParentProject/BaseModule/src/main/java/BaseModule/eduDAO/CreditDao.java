@@ -94,18 +94,10 @@ public class CreditDao {
 	public static void updateCreditInDatabases(Credit c,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;	
-		ResultSet rs = null;
-		String query0 = "SELECT * from CreditDao where creditId = ? for update";
+		ResultSet rs = null;		
 		String query = "UPDATE CreditDao set expireTime=?,status=?,amount=? where creditId = ?";
 		try{
-			conn = EduDaoBasic.getConnection(connections);
-			stmt = conn.prepareStatement(query0);
-			stmt.setLong(1, c.getCreditId());
-			rs = stmt.executeQuery();
-			if(!rs.next()){
-				throw new CreditNotFoundException();
-			}
-			
+			conn = EduDaoBasic.getConnection(connections);		
 			stmt = conn.prepareStatement(query);			
 			stmt.setString(1, DateUtility.toSQLDateTime(c.getExpireTime()));
 			stmt.setInt(2,c.getStatus().code);

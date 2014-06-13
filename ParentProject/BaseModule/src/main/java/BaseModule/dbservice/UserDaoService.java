@@ -3,8 +3,6 @@ package BaseModule.dbservice;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
@@ -106,9 +104,7 @@ public class UserDaoService {
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
-			user = UserDao.authenticateUser(phone, password,conn);
-			user.setLastLogin(DateUtility.getCurTimeInstance());
-			UserDao.updateUserInDatabases(user,conn);
+			user = UserDao.authenticateUser(phone, password,conn);			
 			ok = true;
 		} finally{
 			EduDaoBasic.handleCommitFinally(conn, ok, true);
@@ -130,7 +126,7 @@ public class UserDaoService {
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
-			User user = UserDao.getUserById(userId);
+			User user = UserDao.selectUserForUpdate(userId, conn);
 			user.setPhone(phone);
 			UserDao.updateUserInDatabases(user);
 			ok = true;
