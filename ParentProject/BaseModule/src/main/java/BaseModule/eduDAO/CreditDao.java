@@ -18,12 +18,13 @@ public class CreditDao {
 
 	public static ArrayList<Credit> searchCredit(CreditSearchRepresentation sr, Connection...connections) throws SQLException{
 		ArrayList<Credit> clist = new ArrayList<Credit>();
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		int stmtInt = 1;
 		String query = sr.getSearchQuery();
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			
 			if(sr.getCreditId() > 0){
@@ -64,13 +65,14 @@ public class CreditDao {
 	}
 	
 	public static Credit addCreditToDatabases(Credit c,Connection...connections) throws SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO CreditDao (bookingId,userId,creationTime,expireTime,status,amount)" +
 				" values (?,?,?,?,?,?);";		
 
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, c.getBookingId());		
 			stmt.setInt(2, c.getUserId());
@@ -90,12 +92,13 @@ public class CreditDao {
 
 
 	public static void updateCreditInDatabases(Credit c,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query0 = "SELECT * from CreditDao where creditId = ? for update";
 		String query = "UPDATE CreditDao set expireTime=?,status=?,amount=? where creditId = ?";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query0);
 			stmt.setLong(1, c.getCreditId());
 			rs = stmt.executeQuery();
@@ -119,11 +122,12 @@ public class CreditDao {
 
 	public static ArrayList<Credit> getCreditByUserId(int userId,Connection...connections) throws SQLException{
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		ResultSet rs = null;
 		ArrayList<Credit> clist = new ArrayList<Credit>();
 		String query = "SELECT * from CreditDao where userId = ?";
 		try{		
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			stmt.setInt(1, userId);
@@ -139,11 +143,12 @@ public class CreditDao {
 
 	public static Credit getCreditByCreditId(long creditId, Connection... connections) throws PseudoException, SQLException{
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		ResultSet rs = null;
 		Credit c = null;
 		String query = "SELECT * from CreditDao where creditId = ?";
 		try{		
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			stmt.setLong(1, creditId);

@@ -2,6 +2,7 @@ package BaseModule.concurrentTest;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CouponNotFoundException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Booking;
 import BaseModule.model.Coupon;
 import BaseModule.model.User;
@@ -35,7 +37,12 @@ public class CocurrentCreatingTest {
 	public synchronized static void inc(){
 		counter++;
 	}
-
+	
+	private static int coupon = 10;	
+	public synchronized static void incc(){
+		coupon++;
+	}
+	
 	private static int amount = 0;
 	public synchronized static void en(int $){
 		amount += $;
@@ -43,6 +50,7 @@ public class CocurrentCreatingTest {
 	public synchronized static void dn(int $){
 		amount -= $;
 	}
+	
 
 	public class TestThread extends Thread {  
 		private CountDownLatch threadsSignal;		
@@ -59,15 +67,17 @@ public class CocurrentCreatingTest {
 			try{
 				int i = 0;			
 				try {
-					BookingDaoService.createBooking(blist.get(0));	
-				} catch (SQLException | PseudoException e) {												
+					Booking booking = blist.get(0).deepCopy();			
+					booking.setReference(ReferenceFactory.generateBookingReference());
+					BookingDaoService.createBooking(booking);	
+				} catch (SQLException | PseudoException | ClassNotFoundException | IOException e) {												
 					e.printStackTrace();
 				}
 				while(i < clist.size()){					
 					if(clist.get(i).getStatus().code == CouponStatus.usable.code && DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance()).compareTo(DateUtility.toSQLDateTime(clist.get(i).getExpireTime()))<0){
 						try {
-							CouponDaoService.addCouponToUser(clist.get(i));
-						} catch (SQLException | PseudoException e) {							
+							CouponDaoService.addCouponToUser(clist.get(i).deepCopy());
+						} catch (SQLException | PseudoException | ClassNotFoundException | IOException e) {							
 							e.printStackTrace();
 						}
 					}						
@@ -226,6 +236,8 @@ public class CocurrentCreatingTest {
 		int exptvalue = 212+threadNum+counter*211;
 		System.out.println("expected value: " + exptvalue);
 		System.out.println("amount: " + amount);
+		System.out.println("in total we added : " + coupon + "coupon");
+		
 		if(exptvalue==user.getCoupon() && user.getCoupon()==amount){
 			//Passed;
 		}else fail();

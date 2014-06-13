@@ -70,13 +70,14 @@ public class CouponDao {
 
 
 	public static Coupon addCouponToDatabases(Coupon c,Connection...connections) throws SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO CouponDao (bookingId,userId,creationTime,expireTime,status,amount,couponOrigin,originalAmount)" +
 				" values (?,?,?,?,?,?,?,?);";		
 		int stmtInt = 1;
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(stmtInt++, c.getBookingId());			
 			stmt.setInt(stmtInt++, c.getUserId());
@@ -99,13 +100,15 @@ public class CouponDao {
 
 	public static void updateCouponsInDatabases(ArrayList<Coupon>clist,Connection...connections) 
 			throws SQLException, CouponNotFoundException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		Coupon c = null;
 		String query0 = "SELECT * From CouponDao where couponId = ? ";		
 		String query = "UPDATE CouponDao set expireTime=?,status=?,amount=?,couponOrigin=? where couponId = ?;";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
+			
 			if(clist.size() == 0){
 				return;
 			}
@@ -154,12 +157,13 @@ public class CouponDao {
 	}
 
 	public static void updateCouponInDatabases(Coupon c,Connection...connections) throws CouponNotFoundException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query0 = "SELECT * From CouponDao where couponId = ? for update";
 		String query = "UPDATE CouponDao set expireTime=?,status=?,amount=?,couponOrigin=? where couponId = ?";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query0);
 			stmt.setLong(1, c.getCouponId());
 			rs =stmt.executeQuery();
@@ -184,11 +188,12 @@ public class CouponDao {
 
 	public static ArrayList<Coupon> getCouponByUserId(int userId,Connection...connections) throws SQLException{
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		ResultSet rs = null;
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
 		String query = "SELECT * from CouponDao where userId = ?";
 		try{		
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			stmt.setInt(1, userId);
@@ -201,14 +206,15 @@ public class CouponDao {
 		} 
 		return clist;
 	}
-
+	
 	public static Coupon getCouponByCouponId(long couponId,Connection...connections) throws PseudoException, SQLException{
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		ResultSet rs = null;
 		Coupon c = null;
 		String query = "SELECT * from CouponDao where couponId = ?";
 		try{		
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			stmt.setLong(1, couponId);

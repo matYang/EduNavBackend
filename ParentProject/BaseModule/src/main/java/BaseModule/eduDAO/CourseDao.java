@@ -26,7 +26,7 @@ public class CourseDao {
 
 	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr,Connection...connections) throws PseudoException, SQLException{
 		ArrayList<Course> clist = new ArrayList<Course>();
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		HashMap<Integer,Partner> pmap = new HashMap<Integer,Partner>();
@@ -43,6 +43,7 @@ public class CourseDao {
 		}		
 
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);	
 
 			if(joinQ){	
@@ -122,7 +123,7 @@ public class CourseDao {
 	}
 
 	public static Course addCourseToDatabases(Course course,Connection...connections) throws SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO CourseDao (p_Id,creationTime,startTime,finishTime,t_Intro,t_ImgUrl,classroomImgUrl,price," +
@@ -134,6 +135,7 @@ public class CourseDao {
 				"passAgreement,provideAssignments,provideMarking,extracurricularIntro,phone,studyDays,t_MaterialName)" +
 				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	
 
 			stmt.setInt(1, course.getPartnerId());
@@ -200,7 +202,7 @@ public class CourseDao {
 	}
 
 	public static void updateCourseInDatabases(Course course,Connection...connections) throws CourseNotFoundException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;
 		String query = "UPDATE CourseDao SET p_Id=?,startTime=?,finishTime=?,t_Intro=?,t_ImgUrl=?,classroomImgUrl=?,price=?," +
 				"seatsTotal=?,seatsLeft=?,status=?,category=?,subCategory=?,location=?,city=?,district=?,reference=?,courseIntro=?," +
@@ -210,6 +212,7 @@ public class CourseDao {
 				"t_Methods=?,t_MaterialType=?,t_MaterialCost=?,t_MaterialFree=?,t_MaterialIntro=?,t_MethodsIntro=?,questionBankIntro=?," +
 				"passAgreement=?,provideAssignments=?,provideMarking=?,extracurricularIntro=?,phone=?,studyDays=?,t_MaterialName=? where id=?";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			stmt.setInt(1, course.getPartnerId());			
@@ -278,10 +281,11 @@ public class CourseDao {
 		String query = "SELECT * FROM CourseDao where id = ?";
 		Course course = null;
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		ResultSet rs = null;
 
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			stmt.setInt(1, courseId);
@@ -299,12 +303,14 @@ public class CourseDao {
 	
 	public static ArrayList<Course> getCourseByIdList(ArrayList<Integer> idList, Connection...connections) throws PseudoException, SQLException{
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		ResultSet rs = null;
 		int stmtInt = 1;
 		ArrayList<Course> clist = null;
 		
 		try{
+			conn = EduDaoBasic.getConnection(connections);
+			
 			clist = new ArrayList<Course>();
 			if(idList == null || idList.size() == 0){
 				return clist;

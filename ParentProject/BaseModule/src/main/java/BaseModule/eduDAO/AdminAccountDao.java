@@ -19,13 +19,14 @@ import BaseModule.model.representation.AdminSearchRepresentation;
 public class AdminAccountDao {
 
 	public static ArrayList<AdminAccount> searchAdminAccount(AdminSearchRepresentation sr,Connection...connections) throws SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		ArrayList<AdminAccount> alist = new ArrayList<AdminAccount>();
 		String query = sr.getSearchQuery();
 		int stmtInt = 1;
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			
 			if(sr.getAdminId() > 0){
@@ -59,12 +60,13 @@ public class AdminAccountDao {
 	}
 	
 	public static AdminAccount addAdminAccountToDatabases(AdminAccount account,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO AdminAccountDao (creationTime,lastLogin,status,reference,privilege,name,phone,password)" +
 				" values (?,?,?,?,?,?,?,?);";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, DateUtility.toSQLDateTime(account.getCreationTime()));
@@ -86,10 +88,11 @@ public class AdminAccountDao {
 	}
 
 	public static void updateAdminAccountInDatabases(AdminAccount account,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;
 		String query = "UPDATE AdminAccountDao SET lastLogin=?,status=?,reference=?,privilege=?,name=?,phone=? where id = ?";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			stmt.setString(1, DateUtility.toSQLDateTime(account.getLastLogin()));
@@ -112,10 +115,11 @@ public class AdminAccountDao {
 	public static AdminAccount getAdminAccountById(int id,Connection...connections) throws PseudoException, SQLException{
 		String query = "SELECT * FROM AdminAccountDao where id = ?";
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		ResultSet rs = null;
 		AdminAccount account = null;
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			stmt.setInt(1, id);
@@ -135,12 +139,13 @@ public class AdminAccountDao {
 
 
 	public static void changeAdminAccountPassword(int adminId, String oldPassword, String newPassword,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
 		String query = "SELECT * FROM AdminAccountDao where id = ? ";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, adminId);						
 			rs = stmt.executeQuery();						
@@ -165,13 +170,14 @@ public class AdminAccountDao {
 	}
 
 	public static AdminAccount authenticateAdminAccount(String reference, String password,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		AdminAccount account = null;
 		boolean validReference = true;
 		String query = "SELECT * FROM AdminAccountDao where reference = ? ";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);			
 			stmt.setString(1, reference);
 			rs = stmt.executeQuery();		
@@ -194,11 +200,12 @@ public class AdminAccountDao {
 	}
 
 	public static void changeAdminAccountPassword(int adminId, String password,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		String query = "UPDATE AdminAccountDao set password = ? where id = ?";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, PasswordCrypto.createHash(password));				
 			stmt.setInt(2, adminId);

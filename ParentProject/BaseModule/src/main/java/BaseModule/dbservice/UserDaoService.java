@@ -23,17 +23,30 @@ public class UserDaoService {
 
 	public static User getUserById(int id,Connection...connections) throws PseudoException, SQLException{
 		return UserDao.getUserById(id,connections);
-	}
+	}	
 	
 	public static void updateUserBCC(int balance,int credit,int coupon,int userId,Connection...connections) throws PseudoException, SQLException{
 		UserDao.updateUserBCC(balance, credit, coupon, userId, connections);
 	}
 	
-	//TODO
+	public static User getUserByPhone(String phone) throws UserNotFoundException, SQLException{
+		UserSearchRepresentation u_sr = new UserSearchRepresentation();
+		u_sr.setPhone(phone);
+		ArrayList<User> users = searchUser(u_sr);
+		if (users.size() == 0){
+			throw new UserNotFoundException();
+		}
+		return users.get(0);
+	}
+	
+	public static User selectUserForUpdate(int userId,Connection...connections) throws UserNotFoundException, SQLException{
+		return UserDao.selectUserForUpdate(userId, connections);
+	}
+	
 	public static User createUser(User user) throws PseudoException,SQLException{
-		Boolean ok = false;
 		//initialize coupons on registration
 		Connection conn = null;
+		boolean ok = false;
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
@@ -68,9 +81,7 @@ public class UserDaoService {
 				SMSService.sendInviterSMS(inviter.getPhone(), invitee.getPhone());
 			}
 			user.setCouponList(coupons);
-			
-			conn.commit();
-			ok = true;
+			ok = true;			
 		} finally{
 			EduDaoBasic.handleCommitFinally(conn, ok, true);
 		}
@@ -87,24 +98,24 @@ public class UserDaoService {
 		ArrayList<User> users = searchUser(u_sr);
 		return users.size() == 0;
 	}
-	
-	
-	//TODO combine and  add lock
+
 	public static User authenticateUser(String phone, String password) throws PseudoException, SQLException{ 
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = null;
 		User user = null;
+		boolean ok = false;
 		try{
+			conn = EduDaoBasic.getConnection();
+			conn.setAutoCommit(false);
 			user = UserDao.authenticateUser(phone, password,conn);
 			user.setLastLogin(DateUtility.getCurTimeInstance());
 			UserDao.updateUserInDatabases(user,conn);
+			ok = true;
 		} finally{
-			EduDaoBasic.closeResources(conn, null, null, true);
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
 		}
 		return user;
 	}
-	
-	
-	//add lock
+
 	public static void changePassword(int userId, String oldPassword, String newPassword) throws PseudoException,SQLException{
 		UserDao.changeUserPassword(userId, oldPassword, newPassword);
 	}
@@ -114,25 +125,18 @@ public class UserDaoService {
 	}
 
 	public static void updatePhone(int userId, String phone) throws PseudoException,SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = null;
+		boolean ok = false;
 		try{
+			conn = EduDaoBasic.getConnection();
+			conn.setAutoCommit(false);
 			User user = UserDao.getUserById(userId);
 			user.setPhone(phone);
 			UserDao.updateUserInDatabases(user);
+			ok = true;
 		}finally{
-			EduDaoBasic.closeResources(conn, null, null, true);
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
 		}
-	}
-	
-	
-	public static User getUserByPhone(String phone) throws UserNotFoundException, SQLException{
-		UserSearchRepresentation u_sr = new UserSearchRepresentation();
-		u_sr.setPhone(phone);
-		ArrayList<User> users = searchUser(u_sr);
-		if (users.size() == 0){
-			throw new UserNotFoundException();
-		}
-		return users.get(0);
 	}
 
 	public static ArrayList<User> searchUser(UserSearchRepresentation sr) throws SQLException {

@@ -19,12 +19,13 @@ public class PartnerDao {
 
 	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr,Connection...connections) throws SQLException{
 		ArrayList<Partner> plist = new ArrayList<Partner>();
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		int stmtInt = 1;
 		String query = sr.getSearchQuery();
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			if(sr.getPartnerId()>0){
@@ -67,12 +68,13 @@ public class PartnerDao {
 	}
 
 	public static Partner addPartnerToDatabases(Partner p,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = "INSERT INTO PartnerDao (name,licence,organizationNum,reference,password,phone,creationTime,lastLogin,status,instName,logoUrl)" +
 				" values (?,?,?,?,?,?,?,?,?,?,?);";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, p.getWholeName());
@@ -100,11 +102,12 @@ public class PartnerDao {
 	}
 
 	public static void updatePartnerInDatabases(Partner p,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;
 		String query = "UPDATE PartnerDao SET name=?,licence=?,organizationNum=?,reference=?,phone=?," +
 				"lastLogin=?,status=?, instName=?, logoUrl=? where id=?";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, p.getWholeName());
 			stmt.setString(2, p.getLicence());
@@ -130,9 +133,10 @@ public class PartnerDao {
 		String query = "SELECT * FROM PartnerDao WHERE id = ?";
 		Partner partner = null;
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		ResultSet rs = null;
 		try{		
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			stmt.setInt(1, id);
@@ -151,12 +155,13 @@ public class PartnerDao {
 
 
 	public static void changePartnerPassword(int partnerId, String oldPassword, String newPassword,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
 		String query = "SELECT * FROM PartnerDao where id = ? ";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, partnerId);					
 			rs = stmt.executeQuery();						
@@ -188,13 +193,14 @@ public class PartnerDao {
 	}
 
 	public static Partner authenticatePartner(String phone, String password,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		Partner partner = null;
 		boolean validPassword = false;
 		String query = "SELECT * FROM PartnerDao where phone = ? ";
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, phone);			
 			rs = stmt.executeQuery();		
@@ -216,11 +222,12 @@ public class PartnerDao {
 	}
 
 	public static void recoverPartnerPassword(String phone, String newPassword,Connection...connections) throws PseudoException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		String query = "UPDATE PartnerDao set password = ? where phone = ?";		
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 			stmt.setString(2, phone);
