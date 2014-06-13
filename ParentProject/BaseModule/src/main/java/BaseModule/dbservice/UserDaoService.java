@@ -14,6 +14,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Coupon;
 import BaseModule.model.User;
 import BaseModule.model.representation.UserSearchRepresentation;
+import BaseModule.service.SMSService;
 
 public class UserDaoService {
 	
@@ -74,12 +75,14 @@ public class UserDaoService {
 				UserDao.updateUserBCC(0, 0, invitationCouponAmount, invitee.getUserId(), conn);
 				coupon_invitee = CouponDaoService.createCoupon(coupon_invitee,conn);
 				coupons.add(coupon_invitee);
+				SMSService.sendInviteeSMS(invitee.getPhone(), invitee.getPhone());
 				
 				Coupon coupon_inviter = new Coupon(inviter.getUserId(), invitationCouponAmount);
 				coupon_inviter.setOrigin(CouponOrigin.invitation);
 				inviter.incCoupon(invitationCouponAmount);
 				UserDao.updateUserBCC(0, 0, invitationCouponAmount, inviter.getUserId(), conn);
 				coupon_inviter = CouponDaoService.createCoupon(coupon_inviter,conn);
+				SMSService.sendInviterSMS(inviter.getPhone(), invitee.getPhone());
 			}
 			user.setCouponList(coupons);
 			

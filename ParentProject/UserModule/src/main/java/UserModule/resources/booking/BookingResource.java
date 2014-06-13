@@ -16,11 +16,13 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
+import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Booking;
+import BaseModule.model.Course;
 import BaseModule.model.representation.BookingSearchRepresentation;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
@@ -69,6 +71,13 @@ public class BookingResource extends UserPseudoResource{
 			booking = parseJSON(jsonBooking);
 			if (userId != booking.getUserId()){
 				throw new ValidationException("不允许替其他用户预约");
+			}
+			Course course = CourseDaoService.getCourseById(booking.getCourseId());
+			if (course.getPrice() != booking.getPrice()){
+				throw new ValidationException("预约与课程价格不一致");
+			}
+			if (course.getCashback() != booking.getCashbackAmount()){
+				throw new ValidationException("返现不一致");
 			}
 			
 			booking = BookingDaoService.createBooking(booking);

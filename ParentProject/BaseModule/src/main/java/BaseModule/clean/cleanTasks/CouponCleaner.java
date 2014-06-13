@@ -3,6 +3,8 @@ package BaseModule.clean.cleanTasks;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CouponStatus;
@@ -49,6 +51,13 @@ public class CouponCleaner extends CouponDao{
 			transientConnection.setAutoCommit(true);
 		}catch(Exception e){
 			DebugLog.d(e);
+			if (transientConnection != null){
+				try {
+					transientConnection.rollback();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 			EduDaoBasic.closeResources(transientConnection, null, null, true);

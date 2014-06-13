@@ -130,14 +130,21 @@ public class EduDaoBasic {
 		}
     }
     
-    public static void closeResources(Connection conn, Statement stmt, ResultSet rs,boolean closeconn){
+    public static void handleCommitFinally(Connection conn, boolean ok, boolean shouldCloseConnection){
     	try{
-			if (stmt != null)  stmt.close();  
-			if (conn != null && closeconn)  conn.close(); 
-			if (rs != null) rs.close();
+			if (conn != null){
+				if (ok){
+					conn.commit();
+				}
+				else{
+					conn.rollback();
+				}
+				conn.setAutoCommit(true);
+			}
 		} catch (SQLException e){
-			DebugLog.d("Exception when closing stmt, rs and conn");
 			DebugLog.d(e);
+		} finally{
+			EduDaoBasic.closeResources(conn, null, null, shouldCloseConnection);
 		}
     }
     

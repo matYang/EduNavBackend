@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.concurrentTest.CocurrentCreatingTest;
@@ -44,39 +43,32 @@ public class CouponDaoService {
 		coup_sr.setUserId(userId);
 		return searchCoupon(coup_sr,connections);
 	}
-	
-	public static Coupon addCouponToUser(Coupon c,Connection...connections) throws SQLException, PseudoException,NullPointerException{
+
+	public static Coupon addCouponToUser(Coupon c,Connection...connections) throws SQLException, PseudoException{
+		boolean ok = false;
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;		
-		boolean ok = false;
 		try{
 			conn =  EduDaoBasic.getConnection(connections);				
-			conn.setAutoCommit(false);
-			
+			conn.setAutoCommit(false);			
 			c = createCoupon(c, conn);
-//			stmt = conn.prepareStatement("select * from UserDao where id = " + c.getUserId() + " for update");
-//			rs = stmt.executeQuery();
-			UserDaoService.updateUserBCC(0, 0, c.getAmount(), c.getUserId(), conn);		
+			UserDaoService.updateUserBCC(0, 0, c.getAmount(), c.getUserId(), conn);	
+			
+			//For ConcurrentCreation
 			CocurrentCreatingTest.en(c.getAmount());
+			
 			ok = true;
-		}finally{
-			if (conn != null){
-				if(ok && !conn.getAutoCommit()){
-					conn.commit();
-					conn.setAutoCommit(true);
-				}else if(!ok){
-					conn.rollback();
-				}				
-				EduDaoBasic.closeResources(conn, null, null, EduDaoBasic.shouldConnectionClose(connections));
-			}
+			
+		} finally{
+			EduDaoBasic.handleCommitFinally(conn, ok, EduDaoBasic.shouldConnectionClose(connections));
 		}
 		return c;
 	}
 	
-	
 	public static String getCouponRecord(int userId,int cashback,Connection...connections) throws ValidationException,SQLException, PseudoException{
-		Connection conn = null;		
+		Connection conn = null;
+		Boolean ok = false;		
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
 		ArrayList<Coupon> vlist = new ArrayList<Coupon>();	
 		Coupon c = null;		
@@ -84,11 +76,12 @@ public class CouponDaoService {
 		int amount = 0;
 		int i = 0;
 		int totalCoupon = 0;
-		String couponRecord = "";
-		boolean ok = false;
+		String couponRecord = "";		
+		
 		try{
 			conn = EduDaoBasic.getConnection(connections);			
 			conn.setAutoCommit(false);			
+
 			user = UserDaoService.getUserById(userId, conn);
 			if(user == null){
 				conn.rollback();
@@ -117,11 +110,9 @@ public class CouponDaoService {
 //					System.out.println("adding coupon: " + c.getCouponId() + " By amount: " + c.getAmount());
 					vlist.add(c);
 				}
-
 				if(amount >= cashback){
 					break;				
 				}
-
 				i++;
 			}
 
@@ -167,21 +158,17 @@ public class CouponDaoService {
 			
 			ok = true;
 		}finally{
-			if (conn != null){
-				if(ok && !conn.getAutoCommit()){
-					conn.commit();
-					conn.setAutoCommit(true);
-				}				
-				EduDaoBasic.closeResources(conn, null, null, EduDaoBasic.shouldConnectionClose(connections));
-			}			
+			EduDaoBasic.handleCommitFinally(conn, ok,EduDaoBasic.shouldConnectionClose(connections));
+
 		}
 		return couponRecord;
 	}
 	
-	public static void updateCouponToUser(Coupon c, int previousAmount, CouponStatus previousStatus) throws SQLException, PseudoException{
+	public static void updateCouponToUser(Coupon c, int previousAmount, CouponStatus previousStatus,Connection...connections) throws SQLException, PseudoException{
+		boolean ok = false;
 		Connection conn = null;
 		try{
-			conn =  EduDaoBasic.getConnection();
+			conn =  EduDaoBasic.getConnection(connections);
 			conn.setAutoCommit(false);
 
 			if (previousStatus == CouponStatus.usable || c.getStatus() == CouponStatus.inactive){
@@ -205,13 +192,13 @@ public class CouponDaoService {
 			else{
 				throw new ValidationException("未能识别消费券更新状态");
 			}
+			
 			updateCoupon(c, conn);
+			
+			//must always always leave ok to the last line
+			ok = true;
 		} finally{
-			if (conn != null){
-				conn.commit();
-				conn.setAutoCommit(true);
-				EduDaoBasic.closeResources(conn, null, null, true);
-			}
+			EduDaoBasic.handleCommitFinally(conn, ok,EduDaoBasic.shouldConnectionClose(connections));
 		}
 	}
 
