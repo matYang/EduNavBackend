@@ -22,12 +22,13 @@ public class BookingDao {
 
 	public static ArrayList<Booking> searchBooking(BookingSearchRepresentation sr,Connection...connections) throws PseudoException, SQLException{
 		ArrayList<Booking> blist = new ArrayList<Booking>();
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		String query = sr.getSearchQuery();	
 		int stmtInt = 1;
 		try{
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			if(sr.getBookingId() > 0){
 				stmt.setInt(stmtInt,sr.getBookingId());
@@ -140,7 +141,7 @@ public class BookingDao {
 	}
 
 	public static void updateBookingInDatabases(Booking booking,Connection...connections) throws BookingNotFoundException, SQLException{
-		Connection conn = EduDaoBasic.getConnection(connections);		
+		Connection conn = null;		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		int stmtInt = 1;		
@@ -149,6 +150,7 @@ public class BookingDao {
 				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,cashbackAmount=?,note=?,couponRecord=?," +
 				"scheduledTime=?,email=?,actionRecord=?,preStatus=? where id=?";		
 		try{		
+			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query0);
 			
 			stmt.setInt(1, booking.getBookingId());
@@ -191,10 +193,11 @@ public class BookingDao {
 	public static Booking getBookingById(int id,Connection...connections) throws PseudoException, SQLException{
 		String query = "SELECT * FROM BookingDao WHERE id = ?";
 		PreparedStatement stmt = null;
-		Connection conn = EduDaoBasic.getConnection(connections);
+		Connection conn = null;
 		ResultSet rs = null;
 		Booking booking = null;
 		try{
+			conn =EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 
 			stmt.setInt(1, id);

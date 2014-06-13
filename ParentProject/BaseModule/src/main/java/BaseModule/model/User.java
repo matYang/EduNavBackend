@@ -259,6 +259,6 @@ public class User implements PseudoModel, Serializable{
 				this.coupon == another.getCoupon() && 
 				this.email.equals(another.getEmail()) &&
 				this.invitationalCode.equals(another.getInvitationalCode()) &&
-				this.appliedInvitationalCode.equals(another.getInvitationalCode());
+				this.appliedInvitationalCode.equals(another.getAppliedInvitationalCode());
 	}
 }

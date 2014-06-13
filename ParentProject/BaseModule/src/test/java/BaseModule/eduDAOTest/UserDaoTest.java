@@ -76,11 +76,14 @@ public class UserDaoTest {
 		User user2 = new User(phone2, password2,status2);
 		user2.setName(name2);
 		user2.setEmail(email);
+		user2.setInvitationalCode("ghjgiohj");
 		UserDao.addUserToDatabase(user2);
 
 		ArrayList<User> ulist = new ArrayList<User>();
-		ulist = UserDao.searchUser(new UserSearchRepresentation());
-		if(ulist.size()==2 && ulist.get(0).equals(user) && ulist.get(1).equals(user2)){
+		UserSearchRepresentation sr = new UserSearchRepresentation();
+		sr.setName("Matt");
+		ulist = UserDao.searchUser(sr);
+		if(ulist.size()==1 && ulist.get(0).equals(user2)){
 			//Passed;
 		}else fail();
 	}
@@ -284,6 +287,7 @@ public class UserDaoTest {
 		User user11 = new User(phone11, password11, status);
 		user11.setName(name11);
 		user11.setEmail(email);
+		user11.setInvitationalCode("dfghfg");
 		user11 = UserDao.addUserToDatabase(user11);
 		user11 = UserDao.getUserById(user11.getUserId());
 		
@@ -293,6 +297,7 @@ public class UserDaoTest {
 		User user2 = new User(phone2, password2, status);
 		user2.setName(name2);
 		user2.setEmail(email);
+		user2.setInvitationalCode("dfg546g");
 		user2 = UserDao.addUserToDatabase(user2);
 		user2 = UserDao.getUserById(user2.getUserId());
 		
@@ -302,6 +307,7 @@ public class UserDaoTest {
 		User user22 = new User(phone22, password22,status);
 		user22.setName(name22);
 		user22.setEmail(email);
+		user22.setInvitationalCode("dfghyktho546g");
 		user22 = UserDao.addUserToDatabase(user22);
 		user22 = UserDao.getUserById(user22.getUserId());
 		
@@ -311,6 +317,7 @@ public class UserDaoTest {
 		User user3 = new User(phone3, password3,status);
 		user3.setName(name3);
 		user3.setEmail(email);
+		user3.setInvitationalCode("dfg5");
 		user3 = UserDao.addUserToDatabase(user3);
 		user3 = UserDao.getUserById(user3.getUserId());
 		

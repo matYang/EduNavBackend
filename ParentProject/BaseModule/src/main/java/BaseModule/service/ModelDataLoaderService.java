@@ -203,6 +203,7 @@ public class ModelDataLoaderService {
 			User user2 = new User(phone2, password2, "", "", status2);
 			user2.setName(name2);
 			user2.setEmail(email2);
+			user2.setInvitationalCode("MattSexHotLine:18502877744");
 			UserDao.addUserToDatabase(user2,connections);
 
 			String name3 = "Fan";
@@ -213,6 +214,7 @@ public class ModelDataLoaderService {
 			User user3 = new User(phone3, password3, "", "", status3);
 			user3.setName(name3);
 			user3.setEmail(email3);
+			user3.setInvitationalCode("MattSexHotLine:1850287774");
 			UserDao.addUserToDatabase(user3,connections);
 
 			String name4 = "Jiang";
@@ -223,6 +225,7 @@ public class ModelDataLoaderService {
 			User user4 = new User(phone4, password4, "", "", status4);
 			user4.setName(name4);
 			user4.setEmail(email4);
+			user4.setInvitationalCode("MattSexHotLine:185028777");
 			UserDao.addUserToDatabase(user4,connections);
 		}catch(Exception e){
 			DebugLog.d(e);
@@ -325,8 +328,7 @@ public class ModelDataLoaderService {
 		int bookingId = 1;
 		int userId = 1;
 		int amount = 50;
-		Calendar expireTime = DateUtility.getCurTimeInstance();
-		Calendar usableTime = DateUtility.getCurTimeInstance();
+		Calendar expireTime = DateUtility.getCurTimeInstance();		
 		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);

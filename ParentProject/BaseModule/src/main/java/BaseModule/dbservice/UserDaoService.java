@@ -23,7 +23,7 @@ public class UserDaoService {
 
 	public static User getUserById(int id,Connection...connections) throws PseudoException, SQLException{
 		return UserDao.getUserById(id,connections);
-	}
+	}	
 	
 	public static void updateUserBCC(int balance,int credit,int coupon,int userId,Connection...connections) throws PseudoException, SQLException{
 		UserDao.updateUserBCC(balance, credit, coupon, userId, connections);
@@ -42,6 +42,7 @@ public class UserDaoService {
 	public static User createUser(User user) throws PseudoException,SQLException{
 		//initialize coupons on registration
 		Connection conn = null;
+		boolean ok = false;
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
@@ -85,11 +86,9 @@ public class UserDaoService {
 				SMSService.sendInviterSMS(inviter.getPhone(), invitee.getPhone());
 			}
 			user.setCouponList(coupons);
-			
-			conn.commit();
-			conn.setAutoCommit(true);
+			ok = true;			
 		} finally{
-			EduDaoBasic.closeResources(conn, null, null, true);
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
 		}
 		return user;
 	}
@@ -106,14 +105,18 @@ public class UserDaoService {
 	}
 
 	public static User authenticateUser(String phone, String password) throws PseudoException, SQLException{ 
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = null;
 		User user = null;
+		boolean ok = false;
 		try{
+			conn = EduDaoBasic.getConnection();
+			conn.setAutoCommit(false);
 			user = UserDao.authenticateUser(phone, password,conn);
 			user.setLastLogin(DateUtility.getCurTimeInstance());
 			UserDao.updateUserInDatabases(user,conn);
+			ok = true;
 		} finally{
-			EduDaoBasic.closeResources(conn, null, null, true);
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
 		}
 		return user;
 	}
@@ -127,13 +130,17 @@ public class UserDaoService {
 	}
 
 	public static void updatePhone(int userId, String phone) throws PseudoException,SQLException{
-		Connection conn = EduDaoBasic.getConnection();
+		Connection conn = null;
+		boolean ok = false;
 		try{
+			conn = EduDaoBasic.getConnection();
+			conn.setAutoCommit(false);
 			User user = UserDao.getUserById(userId);
 			user.setPhone(phone);
 			UserDao.updateUserInDatabases(user);
+			ok = true;
 		}finally{
-			EduDaoBasic.closeResources(conn, null, null, true);
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
 		}
 	}
 
