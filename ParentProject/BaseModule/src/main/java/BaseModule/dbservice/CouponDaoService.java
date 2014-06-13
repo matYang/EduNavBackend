@@ -139,8 +139,10 @@ public class CouponDaoService {
 				couponRecord += usedlist.get(usedlist.size()-1).getCouponId() + "_" + (usedlist.get(usedlist.size()-1).getAmount()-newAmount) + "-";				
 				usedlist.get(usedlist.size()-1).setAmount(newAmount);
 			}else{
-				couponRecord += usedlist.get(usedlist.size()-1).getCouponId() + "_" + usedlist.get(usedlist.size()-1).getAmount() + "-";
-				usedlist.get(usedlist.size()-1).setStatus(CouponStatus.used);				
+				if (usedlist.size() > 0){
+					couponRecord += usedlist.get(usedlist.size()-1).getCouponId() + "_" + usedlist.get(usedlist.size()-1).getAmount() + "-";
+					usedlist.get(usedlist.size()-1).setStatus(CouponStatus.used);		
+				}
 			}
 
 			//update coupons in database
@@ -162,7 +164,7 @@ public class CouponDaoService {
 
 			ok = true;
 		}finally{
-			EduDaoBasic.handleCommitFinally(conn, ok,EduDaoBasic.shouldConnectionClose(connections));
+			//EduDaoBasic.handleCommitFinally(conn, ok,EduDaoBasic.shouldConnectionClose(connections));
 
 		}
 		return couponRecord;
