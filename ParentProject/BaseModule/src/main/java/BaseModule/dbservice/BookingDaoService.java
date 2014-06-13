@@ -177,7 +177,6 @@ public class BookingDaoService {
 			
 		}finally{			
 			EduDaoBasic.handleCommitFinally(conn, ok, EduDaoBasic.shouldConnectionClose(connections));
-			
 		}
 		return booking;
 	}

@@ -29,17 +29,9 @@ public class UserDaoService {
 		UserDao.updateUserBCC(balance, credit, coupon, userId, connections);
 	}
 	
-	public static User getUserByPhone(String phone) throws UserNotFoundException, SQLException{
-		UserSearchRepresentation u_sr = new UserSearchRepresentation();
-		u_sr.setPhone(phone);
-		ArrayList<User> users = searchUser(u_sr);
-		if (users.size() == 0){
-			throw new UserNotFoundException();
-		}
-		return users.get(0);
-	}
-
+	//TODO
 	public static User createUser(User user) throws PseudoException,SQLException{
+		Boolean ok = false;
 		//initialize coupons on registration
 		Connection conn = null;
 		try{
@@ -78,9 +70,9 @@ public class UserDaoService {
 			user.setCouponList(coupons);
 			
 			conn.commit();
-			conn.setAutoCommit(true);
+			ok = true;
 		} finally{
-			EduDaoBasic.closeResources(conn, null, null, true);
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
 		}
 		return user;
 	}
@@ -95,7 +87,9 @@ public class UserDaoService {
 		ArrayList<User> users = searchUser(u_sr);
 		return users.size() == 0;
 	}
-
+	
+	
+	//TODO combine and  add lock
 	public static User authenticateUser(String phone, String password) throws PseudoException, SQLException{ 
 		Connection conn = EduDaoBasic.getConnection();
 		User user = null;
@@ -108,7 +102,9 @@ public class UserDaoService {
 		}
 		return user;
 	}
-
+	
+	
+	//add lock
 	public static void changePassword(int userId, String oldPassword, String newPassword) throws PseudoException,SQLException{
 		UserDao.changeUserPassword(userId, oldPassword, newPassword);
 	}
@@ -126,6 +122,17 @@ public class UserDaoService {
 		}finally{
 			EduDaoBasic.closeResources(conn, null, null, true);
 		}
+	}
+	
+	
+	public static User getUserByPhone(String phone) throws UserNotFoundException, SQLException{
+		UserSearchRepresentation u_sr = new UserSearchRepresentation();
+		u_sr.setPhone(phone);
+		ArrayList<User> users = searchUser(u_sr);
+		if (users.size() == 0){
+			throw new UserNotFoundException();
+		}
+		return users.get(0);
 	}
 
 	public static ArrayList<User> searchUser(UserSearchRepresentation sr) throws SQLException {

@@ -49,7 +49,7 @@ public class CouponDaoService {
 		Connection conn = null;				
 		try{
 			conn =  EduDaoBasic.getConnection(connections);				
-			conn.setAutoCommit(false);			
+			conn.setAutoCommit(false);
 			c = createCoupon(c, conn);
 			UserDaoService.updateUserBCC(0, 0, c.getAmount(), c.getUserId(), conn);	
 
