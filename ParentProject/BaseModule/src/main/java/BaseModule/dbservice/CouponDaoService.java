@@ -111,6 +111,7 @@ public class CouponDaoService {
 			
 			if(amount != totalCoupon){
 				CocurrentCreatingTest.inc();
+				System.out.println("amount: " + amount + " totalCoupon: " + totalCoupon);
 				throw new ValidationException("账户出错！ 需要管理员处理");
 			}			
 			

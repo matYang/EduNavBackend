@@ -100,7 +100,7 @@ public class CocurrentCreatingTest {
 		user.setName(name);
 		user.setEmail(email);		
 		UserDao.addUserToDatabase(user);
-		int cashbackAmount = 50;
+		int cashbackAmount = 5050;
 		int userId = 1;
 		int partnerId = 1;
 		int courseId = 1;
@@ -154,7 +154,7 @@ public class CocurrentCreatingTest {
 			clist.add(c5);
 
 			//1
-			Coupon c6 = new Coupon(userId,cashbackAmount - 49);		
+			Coupon c6 = new Coupon(userId,cashbackAmount + 51);		
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.DAY_OF_YEAR, 2);
 			c6.setExpireTime(expireTime);
@@ -197,10 +197,10 @@ public class CocurrentCreatingTest {
 			CouponDao.addCouponToDatabases(c10);
 			clist.add(c10);
 
-			UserDao.updateUserBCC(0, 0, 10000212, userId);
-			en(10000212);
+			UserDao.updateUserBCC(0, 0, 25312, userId);
+			en(25312);
 
-			int backcash = 211;//剩一块
+			int backcash = 2;//剩一块
 
 			Booking booking = new Booking(timeStamp,timeStamp,price,
 					userId, partnerId, courseId, user.getName(), phone,
@@ -209,7 +209,7 @@ public class CocurrentCreatingTest {
 			blist.add(booking);
 		}		
 
-		int threadNum = 2;
+		int threadNum = 1000;
 		CountDownLatch threadSignal = new CountDownLatch(threadNum);
 
 		System.out.println("Test Begin");
@@ -228,7 +228,7 @@ public class CocurrentCreatingTest {
 		System.out.println("Test End");
 		user = UserDao.getUserById(userId);
 		System.out.println("user coupon final value: " + user.getCoupon());
-		int exptvalue = 212+threadNum+counter*211;
+		int exptvalue =  25312+threadNum*25310;
 		System.out.println("expected value: " + exptvalue);
 		System.out.println("amount: " + amount);
 		System.out.println("in total we added : " + coupon + "coupon");
