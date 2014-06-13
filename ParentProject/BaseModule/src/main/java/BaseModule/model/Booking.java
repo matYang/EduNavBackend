@@ -35,14 +35,13 @@ public class Booking implements PseudoModel, Serializable{
 	private Calendar adjustTime;
 	
 	private String note;
-	
 	private int cashbackAmount;
 	private String couponRecord;	//id_amount-...
 	private String actionRecord;	//id_action_timestamp-..
 	
 	private transient Course course;
-	
 
+	
 	//SQL Retrieving
 	public Booking(int bookingId, Calendar creationTime, Calendar adjustTime,
 			int price, int userId,int partnerId, int courseId, String name, String phone,
@@ -72,7 +71,7 @@ public class Booking implements PseudoModel, Serializable{
 		this.preStatus = preStatus;
 	}
 
-	
+	//normal construction
 	public Booking(Calendar scheduledTime, Calendar adjustTime,
 			int price, int userId, int partnerId, int courseId, 
 			String name, String phone, String email,

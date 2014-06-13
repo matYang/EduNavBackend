@@ -327,7 +327,9 @@ public class ModelDataLoaderService {
 		int amount = 50;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		Calendar usableTime = DateUtility.getCurTimeInstance();
-		Credit c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
+		Credit c = new Credit(bookingId,userId,amount);
+		c.setExpireTime(expireTime);
+		c.setStatus(CreditStatus.used);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -336,7 +338,9 @@ public class ModelDataLoaderService {
 
 		bookingId = 3;
 		userId = 2;		
-		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
+		c = new Credit(bookingId,userId,amount);
+		c.setExpireTime(expireTime);
+		c.setStatus(CreditStatus.used);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -345,7 +349,9 @@ public class ModelDataLoaderService {
 
 		bookingId = 4;
 		userId = 3;		
-		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.expired);
+		c = new Credit(bookingId,userId,amount);
+		c.setExpireTime(expireTime);
+		c.setStatus(CreditStatus.expired);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -354,7 +360,9 @@ public class ModelDataLoaderService {
 
 		bookingId = 5;
 		userId = 4;		
-		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.used);
+		c = new Credit(bookingId,userId,amount);
+		c.setExpireTime(expireTime);
+		c.setStatus(CreditStatus.used);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -363,7 +371,9 @@ public class ModelDataLoaderService {
 
 		bookingId = 2;
 		userId = 1;		
-		c = new Credit(bookingId,userId,amount,expireTime, CreditStatus.usable);
+		c = new Credit(bookingId,userId,amount);
+		c.setExpireTime(expireTime);
+		c.setStatus(CreditStatus.usable);
 		try {
 			CreditDao.addCreditToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -376,7 +386,10 @@ public class ModelDataLoaderService {
 		int userId = 1;
 		int amount = 50;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
-		Coupon c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
+		Coupon c = new Coupon(userId, amount);
+		c.setBookingId(bookingId);
+		c.setExpireTime(expireTime);
+		c.setStatus(CouponStatus.usable);
 		try {
 			CouponDao.addCouponToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -385,7 +398,10 @@ public class ModelDataLoaderService {
 
 		bookingId = 3;
 		userId = 2;				
-		c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.expired);
+		c = new Coupon(userId, amount);
+		c.setBookingId(bookingId);
+		c.setExpireTime(expireTime);
+		c.setStatus(CouponStatus.expired);
 		try {
 			CouponDao.addCouponToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -394,7 +410,10 @@ public class ModelDataLoaderService {
 
 		bookingId = 4;
 		userId = 3;				
-		c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.used);
+		c = new Coupon(userId, amount);
+		c.setBookingId(bookingId);
+		c.setExpireTime(expireTime);
+		c.setStatus(CouponStatus.used);
 		try {
 			CouponDao.addCouponToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -403,7 +422,10 @@ public class ModelDataLoaderService {
 
 		bookingId = 5;
 		userId = 4;				
-		c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
+		c = new Coupon(userId, amount);
+		c.setBookingId(bookingId);
+		c.setExpireTime(expireTime);
+		c.setStatus(CouponStatus.usable);
 		try {
 			CouponDao.addCouponToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -412,7 +434,10 @@ public class ModelDataLoaderService {
 
 		bookingId = 2;
 		userId = 1;				
-		c = new Coupon(bookingId,userId, amount, expireTime, CouponStatus.usable);
+		c = new Coupon(userId, amount);
+		c.setBookingId(bookingId);
+		c.setExpireTime(expireTime);
+		c.setStatus(CouponStatus.usable);
 		try {
 			CouponDao.addCouponToDatabases(c,connections);
 		} catch (SQLException e) {			
@@ -426,7 +451,7 @@ public class ModelDataLoaderService {
 			User user = UserDao.getUserById(1,connections);
 			Booking booking = BookingDao.getBookingById(1,connections);		
 			int amount = 2000;
-			Transaction transaction = new Transaction(user.getUserId(),booking.getBookingId(),amount,TransactionType.coupon);
+			Transaction transaction = new Transaction(user.getUserId(),booking.getBookingId(),amount,TransactionType.cashback);
 			try {
 				TransactionDao.addTransactionToDatabases(transaction, connections);
 			} catch (SQLException e) {				

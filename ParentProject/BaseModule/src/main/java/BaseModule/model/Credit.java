@@ -39,26 +39,15 @@ public class Credit implements PseudoModel, Serializable{
 		this.status = status;
 		
 	}
-
-	public Credit(int bookingId, int userId, int amount,
-			 Calendar expireTime, CreditStatus status) {
-		super();
-		this.bookingId = bookingId;
-		this.userId = userId;
-		this.amount = amount;
-		this.creationTime = DateUtility.getCurTimeInstance();
-		this.expireTime = expireTime;
-		this.status = status;
-		
-	}
 	
+	//normal construction
 	public Credit(int bookingId, int amount, int userId){
 		this.creditId = -1;
 		this.bookingId = bookingId;
 		this.userId = userId;
 		this.amount = amount;
 		this.creationTime = DateUtility.getCurTimeInstance();
-		this.expireTime =DateUtility.getTimeFromLong(DateUtility.getCurTime() + usableThreshould);
+		this.expireTime = DateUtility.getTimeFromLong(DateUtility.getCurTime() + usableThreshould);
 		this.status = CreditStatus.usable;		
 	}
 
