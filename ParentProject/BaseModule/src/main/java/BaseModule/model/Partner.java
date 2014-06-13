@@ -69,7 +69,7 @@ public class Partner implements PseudoModel, Serializable{
 		}
 	}
 	
-	//default constructor
+	//default constructor, set minimum default behavior and hand over to reflection for filling in content
 	public Partner(){
 		super();
 		this.creationTime = DateUtility.getCurTimeInstance();

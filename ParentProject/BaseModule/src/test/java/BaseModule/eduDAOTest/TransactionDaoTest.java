@@ -26,13 +26,13 @@ public class TransactionDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(phone, password,status);
+		User user = new User(phone, password, "", "",status);
 		user.setName(name);
 		user.setEmail(email);
 		UserDao.addUserToDatabase(user);
 		int bookingId = 1;
 		int amount = 20;
-		Transaction transaction = new Transaction(user.getUserId(),bookingId,amount);
+		Transaction transaction = new Transaction(user.getUserId(),bookingId,amount,TransactionType.deposit);
 		try{
 			transaction = TransactionDao.addTransactionToDatabases(transaction);
 		}catch(Exception e){
@@ -47,21 +47,21 @@ public class TransactionDaoTest {
 		int userId = 1;
 		int bookingId = 1;
 		int amount = 20;
-		Transaction transaction = new Transaction(userId,bookingId,amount);		
+		Transaction transaction = new Transaction(userId,bookingId,amount,TransactionType.deposit);		
 		transaction.setTransactionType(TransactionType.withdraw);
 		TransactionDao.addTransactionToDatabases(transaction);
 	
 		userId = 2;
 		bookingId = 1;
 		amount = 200;
-		Transaction transaction2 = new Transaction(userId,bookingId,amount);		
+		Transaction transaction2 = new Transaction(userId,bookingId,amount,TransactionType.deposit);		
 		transaction2.setTransactionType(TransactionType.deposit);
 		TransactionDao.addTransactionToDatabases(transaction2);
 		
 		userId = 1;
 		bookingId = 1;
 		amount = 50;
-		Transaction transaction3 = new Transaction(userId,bookingId,amount);		
+		Transaction transaction3 = new Transaction(userId,bookingId,amount,TransactionType.deposit);		
 		transaction3.setTransactionType(TransactionType.withdraw);
 		TransactionDao.addTransactionToDatabases(transaction3);
 		
@@ -97,21 +97,21 @@ public class TransactionDaoTest {
 		int userId = 1;
 		int bookingId = 1;
 		int amount = 20;
-		Transaction transaction = new Transaction(userId,bookingId,amount);
+		Transaction transaction = new Transaction(userId,bookingId,amount,TransactionType.deposit);
 		transaction = TransactionDao.addTransactionToDatabases(transaction);
 		
 		int userId2 = 2;
 		int bookingId2 =2;
 		int amount2 = -234;
-		Transaction transaction2 = new Transaction(userId2,bookingId2,amount2);
+		Transaction transaction2 = new Transaction(userId2,bookingId2,amount2,TransactionType.deposit);
 		transaction2 = TransactionDao.addTransactionToDatabases(transaction2);
 		
 		int userId3 = 3;
 		int bookingId3 =3;
 		int amount3 = 23454354;
 		long couponId = 1L;
-		Transaction transaction3 = new Transaction(userId3,bookingId3,amount3);
-		transaction3.setTransactionType(TransactionType.coupon);		
+		Transaction transaction3 = new Transaction(userId3,bookingId3,amount3,TransactionType.deposit);
+		transaction3.setTransactionType(TransactionType.cashback);		
 		transaction3 = TransactionDao.addTransactionToDatabases(transaction3);		
 		couponId = 1;		
 		ArrayList<Transaction> tlist = new ArrayList<Transaction>();

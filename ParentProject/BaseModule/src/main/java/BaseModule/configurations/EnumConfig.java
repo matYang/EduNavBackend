@@ -52,7 +52,7 @@ public class EnumConfig {
     }
 	
 	public static enum TransactionType{
-        coupon(0),deposit(1),withdraw(2);
+        cashback(0),deposit(1),withdraw(2);
         public int code;
         TransactionType(int code){
             this.code = code;

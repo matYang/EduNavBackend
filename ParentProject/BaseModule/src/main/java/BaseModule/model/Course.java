@@ -179,6 +179,7 @@ public class Course implements PseudoModel, Serializable{
 		this.wholeName = wholeName;
 	}
 
+	//testing
 	public Course(int partnerId,Calendar startTime, Calendar finishTime, int price,
 			int seatsTotal, int seatsLeft, AccountStatus status,
 			String category, String subCategory, String phone) {
@@ -237,64 +238,11 @@ public class Course implements PseudoModel, Serializable{
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}	
 	
-	public Course(Calendar startTime, Calendar finishTime, int price,
-			int seatsTotal, int seatsLeft, AccountStatus status) {		
-		super();
-		this.courseId = -1;
-		this.partnerId = -1;
-		this.startTime = startTime;
-		this.finishTime = finishTime;
-		this.price = price;
-		this.seatsTotal = seatsTotal;
-		this.seatsLeft = seatsLeft;
-		this.status = status;
-		this.category = "";
-		this.subCategory = "";
-		this.location = "";
-		this.city =  "";
-		this.district =  "";
-		this.reference =  "";
-		this.teacherIntro =  "";
-		this.teacherImgUrl =  "";
-		this.teachingMethodsIntro =  "";
-		this.teachingMaterialName = "";
-		this.classroomImgUrl =  "";
-		this.courseIntro =  "";		
-		this.classModel = ClassModel.smallclass;
-		this.hasDownloadMaterials = false;
-		this.quiz =  "";
-		this.certification =  "";
-		this.openCourseRequirement =  "";		
-		this.suitableStudent =  "";
-		this.prerequest = "";
-		this.highScoreReward = "";		
-		this.courseName = "";
-		this.dailyStartTime = "";
-		this.dailyFinishTime = "";		
-		this.studyDaysNote = "";
-		this.courseHourNum = -1;
-		this.courseHourLength = -1;
-		this.partnerCourseReference = "";
-		this.classroomIntro = "";
-		this.partnerQualification = PartnerQualification.unverified;
-		this.partnerIntro = "";	
-		this.teachingMaterialType = TeachingMaterialType.pub;
-		this.teachingMaterialIntro = "";
-		this.teachingMaterialCost = -1;
-		this.teachingMaterialFree = true;
-		this.questionBankIntro = "";
-		this.passAgreement = "";
-		this.provideAssignments = false;
-		this.provideMarking = false;
-		this.extracurricularIntro = "";
-		this.phone = "";
-		this.logoUrl = "";
-		this.instName = "";
-		this.wholeName = "";
-		this.creationTime = DateUtility.getCurTimeInstance();
-	}
+	
 
+	//default constructor, set minimal behavior and hand over to reflection for filling in content
 	public Course(){
+		super();
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 	public int getCourseId() {

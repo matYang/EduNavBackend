@@ -48,20 +48,7 @@ public class Coupon implements PseudoModel, Serializable{
 		this.originalAmount = originalAmount;
 	}
 
-
-	public Coupon(int bookingId, int userId, int amount, Calendar expireTime, CouponStatus status) {
-		super();
-		this.couponId = -1l;
-		this.bookingId = bookingId;
-		this.userId = userId;
-		this.amount = amount;
-		this.originalAmount = amount;
-		this.expireTime = expireTime;
-		this.status = status;
-		this.origin = CouponOrigin.admin;
-		this.creationTime = DateUtility.getCurTimeInstance();
-	}
-	
+	//normal construction
 	public Coupon(int userId, int amount){
 		super();
 		this.couponId = -1;

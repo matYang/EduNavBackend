@@ -10,6 +10,7 @@ import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
+import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Booking;
 import BaseModule.model.representation.BookingSearchRepresentation;
@@ -185,14 +186,25 @@ public class BookingDaoService {
 		return BookingDao.searchBooking(b_sr);
 	}
 
-	public static ArrayList<Booking> getBookingByReference(String reference) throws PseudoException, SQLException{
+	public static Booking getBookingByReference(String reference) throws PseudoException, SQLException{
 		BookingSearchRepresentation sr = new BookingSearchRepresentation();
 		sr.setReference(reference);
-		return searchBooking(sr);
+		ArrayList<Booking> bookings = BookingDao.searchBooking(sr);
+		if (bookings.size() == 0){
+			throw new BookingNotFoundException();
+		}
+		else if (bookings.size() > 1){
+			throw new ValidationException("系统错误：编码重复");
+		}
+		else{
+			return bookings.get(0);
+		}
 	}
 
 
 	public static boolean isReferenceAvailable(String reference) throws PseudoException, SQLException{
-		return getBookingByReference(reference).size() == 0;
+		BookingSearchRepresentation sr = new BookingSearchRepresentation();
+		sr.setReference(reference);
+		return BookingDao.searchBooking(sr).size() == 0;
 	}
 }

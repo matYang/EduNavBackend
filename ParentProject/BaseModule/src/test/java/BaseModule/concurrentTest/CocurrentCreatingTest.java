@@ -95,7 +95,7 @@ public class CocurrentCreatingTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhan@hotmail.com";			
-		User user = new User(userphone, password,status);
+		User user = new User(userphone, password, "", "",status);
 		user.setName(name);
 		user.setEmail(email);		
 		UserDao.addUserToDatabase(user);
@@ -170,7 +170,7 @@ public class CocurrentCreatingTest {
 			clist.add(c7);
 
 			//66
-			Coupon c8 = new Coupon(userId,cashbackAmount + 11);		
+			Coupon c8 = new Coupon(userId,cashbackAmount + 11);
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.MINUTE, -15);
 			c8.setExpireTime(expireTime);

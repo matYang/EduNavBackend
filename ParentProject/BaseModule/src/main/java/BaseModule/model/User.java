@@ -79,24 +79,6 @@ public class User implements PseudoModel, Serializable{
 		}		
 	}
 	
-	//For Testing
-	public User(String phone, String password,AccountStatus status){
-		this.balance = 0;
-		this.coupon = 0;
-		this.credit = 0;
-		this.name = "";
-		this.phone = phone;
-		this.password = password;
-		this.status = status;
-		this.email = "";
-		this.invitationalCode = "";
-		this.appliedInvitationalCode = "";
-		this.creationTime = DateUtility.getCurTimeInstance();
-		if(this.lastLogin==null){
-			this.lastLogin = (Calendar) this.creationTime.clone();
-		}		
-	}
-	
 	public int getUserId() {
 		return userId;
 	}

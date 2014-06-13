@@ -20,28 +20,7 @@ public class Transaction implements PseudoModel, Serializable{
 	private int transactionAmount;
 	private TransactionType transactionType;
 	private Calendar creationTime;
-	
-	//Normal Construction
-	public Transaction(int userId, int bookingId, int transactionAmount) {
-		super();
-		this.transactionId = -1;		
-		this.userId = userId;
-		this.bookingId = bookingId;
-		this.transactionAmount = transactionAmount;
-		this.transactionType = TransactionType.deposit;
-		this.creationTime = DateUtility.getCurTimeInstance();
-	}
-	
-	public Transaction(int userId, int bookingId, int transactionAmount, TransactionType transactionType) {
-		super();
-		this.transactionId = -1;		
-		this.userId = userId;
-		this.bookingId = bookingId;
-		this.transactionAmount = transactionAmount;
-		this.transactionType = transactionType;
-		this.creationTime = DateUtility.getCurTimeInstance();
-	}
-	
+
 	//SQL Construction
 	public Transaction(long transactionId,int userId, int bookingId, 
 			int transactionAmount,TransactionType transactionType,Calendar creationTime) {
@@ -53,7 +32,18 @@ public class Transaction implements PseudoModel, Serializable{
 		this.transactionType = transactionType;
 		this.creationTime = creationTime;
 	}
-
+	
+	//normal construction
+	public Transaction(int userId, int bookingId, int transactionAmount, TransactionType transactionType) {
+		super();
+		this.transactionId = -1;		
+		this.userId = userId;
+		this.bookingId = bookingId;
+		this.transactionAmount = transactionAmount;
+		this.transactionType = transactionType;
+		this.creationTime = DateUtility.getCurTimeInstance();
+	}
+	
 	public int getUserId() {
 		return userId;
 	}

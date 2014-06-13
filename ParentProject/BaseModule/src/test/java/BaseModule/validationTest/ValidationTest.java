@@ -323,7 +323,7 @@ public class ValidationTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(phone, password,status);
+		User user = new User(phone, password, "", "",status);
 		user.setName(name);
 		user.setEmail(email);
 		try{
@@ -334,7 +334,7 @@ public class ValidationTest {
 			fail();
 		}
 		boolean fail = true;
-		user = new User(phone, password,status);
+		user = new User(phone, password, "", "",status);
 		user.setName(name+"1");
 		user.setEmail(email);
 		try{
@@ -349,7 +349,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		user = new User("d12", password,status);
+		user = new User("d12", password, "", "",status);
 		user.setName(name);
 		user.setEmail(email);
 		try{
@@ -363,7 +363,7 @@ public class ValidationTest {
 		if(fail) fail();
 		
 		fail = true;
-		user = new User(phone, password,status);
+		user = new User(phone, password, "", "",status);
 		user.setName(name);
 		user.setEmail("sdfs=-@hot");
 		try{

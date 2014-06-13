@@ -10,14 +10,18 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.configurations.EnumConfig.TransactionType;
+import BaseModule.dbservice.TransactionDaoService;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.model.Booking;
 import BaseModule.model.Course;
 import BaseModule.model.Credit;
+import BaseModule.model.Transaction;
 import BaseModule.model.representation.BookingSearchRepresentation;
 
 public class CourseCleaner extends CourseDao{
@@ -107,6 +111,12 @@ public class CourseCleaner extends CourseDao{
 							//create credit
 							Credit credit = new Credit(booking.getBookingId(), booking.getPrice(), booking.getUserId());
 							CreditDao.addCreditToDatabases(credit, transientConnection);
+							
+							//create transaction if cash back
+							if (booking.getCashbackAmount() > 0){
+								Transaction transaction = new Transaction(booking.getUserId(), booking.getBookingId(), booking.getCashbackAmount(), TransactionType.cashback);
+								TransactionDao.addTransactionToDatabases(transaction, transientConnection);
+							}
 							
 							//update user's money and credit balance
 							UserDao.updateUserBCC(booking.getCashbackAmount(), booking.getPrice(), 0, booking.getUserId(), transientConnection);
