@@ -46,12 +46,13 @@ public class CouponDaoService {
 		try{
 			conn =  EduDaoBasic.getConnection(connections);				
 			conn.setAutoCommit(false);			
-			c = createCoupon(c, conn);
+			
+			c = createCoupon(c, conn);			
 			UserDaoService.updateUserBCC(0, 0, c.getAmount(), c.getUserId(), conn);	
-
+			UserDaoService.selectUserForUpdate(c.getUserId(), conn);
 			//For ConcurrentCreation
 			CocurrentCreatingTest.en(c.getAmount());
-
+			CocurrentCreatingTest.incc();			
 			ok = true;
 
 		} finally{
@@ -76,8 +77,8 @@ public class CouponDaoService {
 		try{
 			conn = EduDaoBasic.getConnection(connections);			
 			conn.setAutoCommit(false);
-			
-			user = UserDaoService.getUserById(userId, conn);
+
+			user = UserDaoService.selectUserForUpdate(userId, conn);
 			
 			if(user == null){				
 				/*      Used By ConcurrentCreatingTest              */
@@ -85,7 +86,7 @@ public class CouponDaoService {
 				throw new UserNotFoundException("订单用户不存在");
 			}
 			totalCoupon = user.getCoupon();
-
+			
 			clist = CouponDaoService.getCouponByUserId(userId, conn);
 
 			//System.out.println("clist num: " + clist.size());
@@ -94,7 +95,7 @@ public class CouponDaoService {
 			}
 			//Sort
 			Collections.sort(clist, DateUtility.couponExpireComparator);
-
+			
 			while(i < clist.size()){
 				c = clist.get(i);
 				String ct = DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance());
@@ -144,12 +145,12 @@ public class CouponDaoService {
 			if(amount >= cashback){			
 				UserDaoService.updateUserBCC(0, 0, -cashback, userId, conn);
 				/*      Used By ConcurrentCreatingTest              */
-				CocurrentCreatingTest.dn(cashback);
+				CocurrentCreatingTest.dn(cashback);				
 				//System.out.println("user account - " + cashback);
 			}else{				
 				UserDaoService.updateUserBCC(0, 0, -amount, userId, conn);
 				/*      Used By ConcurrentCreatingTest              */
-				CocurrentCreatingTest.dn(amount);
+				CocurrentCreatingTest.dn(amount);			
 				//System.out.println("user account - " + amount);
 			}
 

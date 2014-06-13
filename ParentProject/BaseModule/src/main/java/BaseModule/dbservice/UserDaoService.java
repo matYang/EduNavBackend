@@ -38,7 +38,11 @@ public class UserDaoService {
 		}
 		return users.get(0);
 	}
-
+	
+	public static User selectUserForUpdate(int userId,Connection...connections) throws UserNotFoundException, SQLException{
+		return UserDao.selectUserForUpdate(userId, connections);
+	}
+	
 	public static User createUser(User user) throws PseudoException,SQLException{
 		//initialize coupons on registration
 		Connection conn = null;

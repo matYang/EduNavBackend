@@ -37,7 +37,12 @@ public class CocurrentCreatingTest {
 	public synchronized static void inc(){
 		counter++;
 	}
-
+	
+	private static int coupon = 10;	
+	public synchronized static void incc(){
+		coupon++;
+	}
+	
 	private static int amount = 0;
 	public synchronized static void en(int $){
 		amount += $;
@@ -45,6 +50,7 @@ public class CocurrentCreatingTest {
 	public synchronized static void dn(int $){
 		amount -= $;
 	}
+	
 
 	public class TestThread extends Thread {  
 		private CountDownLatch threadsSignal;		
@@ -230,6 +236,7 @@ public class CocurrentCreatingTest {
 		int exptvalue = 212+threadNum+counter*211;
 		System.out.println("expected value: " + exptvalue);
 		System.out.println("amount: " + amount);
+		System.out.println("in total we added : " + coupon + "coupon");
 		
 		if(exptvalue==user.getCoupon() && user.getCoupon()==amount){
 			//Passed;

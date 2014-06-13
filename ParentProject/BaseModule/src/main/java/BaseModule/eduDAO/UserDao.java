@@ -18,6 +18,28 @@ import BaseModule.model.representation.UserSearchRepresentation;
 
 public class UserDao {
 
+	public static User selectUserForUpdate(int userId,Connection...connections) throws SQLException, UserNotFoundException{
+		Connection conn = null;
+		PreparedStatement stmt = null;	
+		ResultSet rs = null;
+		String query = "select * from UserDao where id =? for update";
+		User user = null;
+		try{
+			conn = EduDaoBasic.getConnection(connections);
+			stmt = conn.prepareStatement(query);
+			stmt.setInt(1, userId);
+			rs = stmt.executeQuery();
+			if(rs.next()){
+				user = createUserByResultSet(rs);
+			}else{
+				throw new UserNotFoundException("用户不存在");
+			}
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
+		}
+		return user;
+	}
+	
 	public static ArrayList<User> searchUser(UserSearchRepresentation sr,Connection...connections) throws SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;	
