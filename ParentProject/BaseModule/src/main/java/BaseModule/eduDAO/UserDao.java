@@ -209,8 +209,7 @@ public class UserDao {
 	public static void updateUserBCC(int balance,int credit,int coupon,int userId,Connection...connections)  throws PseudoException, SQLException{
 		String bopr = balance >= 0 ? "+" : "-";
 		String cropr = credit >= 0 ? "+" : "-";
-		String coopr = coupon >= 0 ? "+" : "-";
-		String query0 = "SELECT * From UserDao where id = ? for UPDATE";
+		String coopr = coupon >= 0 ? "+" : "-";		
 		String query = "UPDATE UserDao set balance = balance " + bopr + " ?, " + "credit = credit "  + cropr + " ?, "
 				+ "coupon = coupon " + coopr + " ? " + "where id = ?";
 		Connection conn = null;
@@ -218,13 +217,6 @@ public class UserDao {
 		PreparedStatement stmt = null;	
 		try{
 			conn = EduDaoBasic.getConnection(connections);
-			stmt = conn.prepareStatement(query0);
-			stmt.setInt(1, userId);
-			rs = stmt.executeQuery();
-			if(!rs.next()){
-				throw new UserNotFoundException();
-			}
-			
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, Math.abs(balance));
 			stmt.setInt(2, Math.abs(credit));

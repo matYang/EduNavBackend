@@ -112,7 +112,7 @@ public class CouponDaoService {
 			if(amount != totalCoupon){
 				CocurrentCreatingTest.inc();
 				throw new ValidationException("账户出错！ 需要管理员处理");
-			}
+			}			
 			
 			amount = 0;
 			i = 0;
@@ -121,6 +121,11 @@ public class CouponDaoService {
 				amount += vlist.get(i).getAmount();
 				usedlist.add(vlist.get(i));
 				i++;
+			}
+			
+			if(vlist.size()==0 || usedlist.size()==0){
+				CocurrentCreatingTest.inc();
+				return couponRecord;
 			}
 			
 			//update coupons
