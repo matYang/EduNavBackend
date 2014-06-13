@@ -12,6 +12,9 @@ import BaseModule.configurations.CacheConfig;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.notFound.BookingNotFoundException;
+import BaseModule.exception.notFound.CourseNotFoundException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import BaseModule.model.representation.CourseSearchRepresentation;
 
@@ -123,14 +126,25 @@ public class CourseDaoService {
 		return result;
 	}
 	
-	public static  ArrayList<Course> getCourseByReference(String reference) throws PseudoException, SQLException{
+	public static  Course getCourseByReference(String reference) throws PseudoException, SQLException{
 		CourseSearchRepresentation sr = new CourseSearchRepresentation();
 		sr.setCourseReference(reference);
-		return CourseDao.searchCourse(sr);				
+		ArrayList<Course> courses = CourseDao.searchCourse(sr);
+		if (courses.size() == 0){
+			throw new CourseNotFoundException();
+		}
+		else if (courses.size() > 1){
+			throw new ValidationException("系统错误：编码重复");
+		}
+		else{
+			return courses.get(0);
+		}
 	}
 	
 	public static boolean isReferenceAvailable(String reference) throws PseudoException, SQLException{
-		return getCourseByReference(reference).size() == 0;
+		CourseSearchRepresentation sr = new CourseSearchRepresentation();
+		sr.setCourseReference(reference);
+		return CourseDao.searchCourse(sr).size() == 0;
 	}
 	
 }

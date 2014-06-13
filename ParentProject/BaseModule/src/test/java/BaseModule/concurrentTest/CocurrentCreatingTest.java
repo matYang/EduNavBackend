@@ -166,7 +166,7 @@ public class CocurrentCreatingTest {
 			clist.add(c7);
 
 			//66
-			Coupon c8 = new Coupon(userId,cashbackAmount + 11);		
+			Coupon c8 = new Coupon(userId,cashbackAmount + 11);
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.MINUTE, -15);
 			c8.setExpireTime(expireTime);

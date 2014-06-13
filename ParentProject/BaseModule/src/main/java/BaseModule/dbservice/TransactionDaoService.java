@@ -34,7 +34,6 @@ public class TransactionDaoService {
 	}
 	
 	
-	
 	public static ArrayList<Transaction> searchTransaction(TransactionSearchRepresentation t_sr,Connection...connections) throws SQLException{
 		return TransactionDao.searchTransaction(t_sr, connections);
 	}

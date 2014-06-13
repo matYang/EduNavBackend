@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 
 import BaseModule.common.DateUtility;
+import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
+import BaseModule.exception.validation.ValidationException;
+import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 
@@ -62,14 +66,25 @@ public class PartnerDaoService {
 		return PartnerDao.searchPartner(sr);
 	}
 
-	public static ArrayList<Partner> getPartnerByReference(String reference) throws SQLException{
+	public static Partner getPartnerByReference(String reference) throws SQLException, PseudoException{
 		PartnerSearchRepresentation sr = new PartnerSearchRepresentation();
 		sr.setReference(reference);
-		return searchPartner(sr);
+		ArrayList<Partner> partners = PartnerDao.searchPartner(sr);
+		if (partners.size() == 0){
+			throw new PartnerNotFoundException();
+		}
+		else if (partners.size() > 1){
+			throw new ValidationException("系统错误：编码重复");
+		}
+		else{
+			return partners.get(0);
+		}
 
 	}
 	
 	public static boolean isReferenceAvailable(String reference) throws SQLException{
-		return getPartnerByReference(reference).size() == 0;
+		PartnerSearchRepresentation sr = new PartnerSearchRepresentation();
+		sr.setReference(reference);
+		return PartnerDao.searchPartner(sr).size() == 0;
 	}
 }

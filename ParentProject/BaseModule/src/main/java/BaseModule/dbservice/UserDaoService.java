@@ -58,17 +58,8 @@ public class UserDaoService {
 			
 			if (user.getAppliedInvitationalCode() != null || user.getAppliedInvitationalCode().length() != 0){
 				User invitee = user;
-				User inviter = null;
-				ArrayList<User> inviters = getUserByInvitationalCode(user.getAppliedInvitationalCode());
-				if (inviters.size() < 0){
-					throw new ValidationException("对不起，邀请人不存在");
-				}
-				else if (inviters.size() > 1){
-					throw new ValidationException("邀请码出现错误，请您联系客服人员");
-				}
-				else{
-					inviter = inviters.get(0);
-				}
+				User inviter  = getUserByInvitationalCode(user.getAppliedInvitationalCode());
+
 				Coupon coupon_invitee = new Coupon(invitee.getUserId(), invitationCouponAmount);
 				coupon_invitee.setOrigin(CouponOrigin.invitation);
 				invitee.incCoupon(invitationCouponAmount);
@@ -141,14 +132,25 @@ public class UserDaoService {
 		return UserDao.searchUser(sr);
 	}
 	
-	public static ArrayList<User> getUserByInvitationalCode(String code) throws SQLException{
+	public static User getUserByInvitationalCode(String code) throws SQLException, PseudoException{
 		UserSearchRepresentation sr = new UserSearchRepresentation();
 		sr.setInvitationalCode(code);
-		return searchUser(sr);
+		ArrayList<User> users =  UserDao.searchUser(sr);
+		if (users.size() == 0){
+			throw new UserNotFoundException();
+		}
+		else if (users.size() > 1){
+			throw new ValidationException("系统错误：编码重复");
+		}
+		else{
+			return users.get(0);
+		}
 	}
 	
 	public static boolean isInvitationalCodeAvaialble(String code) throws SQLException{
-		return getUserByInvitationalCode(code).size() == 0;
+		UserSearchRepresentation sr = new UserSearchRepresentation();
+		sr.setInvitationalCode(code);
+		return UserDao.searchUser(sr).size() == 0;
 	}
 
 }

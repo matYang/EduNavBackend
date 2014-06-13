@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.notFound.AdminAccountNotFoundException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.representation.AdminSearchRepresentation;
 
@@ -42,14 +44,25 @@ public class AdminAccountDaoService {
 		return AdminAccountDao.searchAdminAccount(sr);
 	}
 	
-	public static ArrayList<AdminAccount> getAdminAccountByReference(String reference) throws SQLException{
+	public static AdminAccount getAdminAccountByReference(String reference) throws SQLException, PseudoException{
 		AdminSearchRepresentation sr = new AdminSearchRepresentation();
 		sr.setReference(reference);
-		return AdminAccountDao.searchAdminAccount(sr);
+		ArrayList<AdminAccount> accounts = AdminAccountDao.searchAdminAccount(sr);
+		if (accounts.size() == 0){
+			throw new AdminAccountNotFoundException();
+		}
+		else if (accounts.size() > 1){
+			throw new ValidationException("系统错误：编码重复");
+		}
+		else{
+			return accounts.get(0);
+		}
 	}
 	
 	public static boolean isReferenceAvailable(String reference) throws SQLException{
-		return getAdminAccountByReference(reference).size() == 0;
+		AdminSearchRepresentation sr = new AdminSearchRepresentation();
+		sr.setReference(reference);
+		return AdminAccountDao.searchAdminAccount(sr).size() == 0;
 	}
 	
 }
