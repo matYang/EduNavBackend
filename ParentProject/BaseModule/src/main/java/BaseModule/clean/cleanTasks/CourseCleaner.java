@@ -94,6 +94,9 @@ public class CourseCleaner extends CourseDao{
 					
 					//for each unconsolidated booking
 					for (Booking booking : unconsolidatedBookings){
+						try{
+							
+						}
 						//create credit
 						Credit credit = new Credit(booking.getBookingId(), booking.getPrice(), booking.getUserId());
 						CreditDao.addCreditToDatabases(credit, transientConnection);

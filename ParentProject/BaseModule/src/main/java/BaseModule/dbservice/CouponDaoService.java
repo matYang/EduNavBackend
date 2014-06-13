@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
@@ -43,6 +44,7 @@ public class CouponDaoService {
 	}
 	
 	public static Coupon addCouponToUser(Coupon c,Connection...connections) throws SQLException, PseudoException{
+		boolean ok = false;
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -53,20 +55,16 @@ public class CouponDaoService {
 			stmt = conn.prepareStatement("select * from UserDao where id = " + c.getUserId() + " for update");
 			rs = stmt.executeQuery();
 			UserDaoService.updateUserBCC(0, 0, c.getAmount(), c.getUserId(), conn);		
-	
+			
+			ok = true;
 		} finally{
-			if (conn != null){
-				if(!conn.getAutoCommit()){
-					conn.commit();
-					conn.setAutoCommit(true);
-				}				
-				EduDaoBasic.closeResources(conn, null, null, EduDaoBasic.shouldConnectionClose(connections));
-			}
+			EduDaoBasic.handleManualCommitFinally(conn, ok);
 		}
 		return c;
 	}
 	
 	public static String getCouponRecord(int userId,int cashback,Connection...connections) throws SQLException, PseudoException{
+		Boolean ok = false;
 		Connection conn = null;
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
 		ArrayList<Coupon> vlist = new ArrayList<Coupon>();	
@@ -78,9 +76,8 @@ public class CouponDaoService {
 		String couponRecord = "";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
-			if(conn.getAutoCommit()){
-				conn.setAutoCommit(false);
-			}
+			conn.setAutoCommit(false);
+				
 			user = UserDaoService.getUserById(userId, conn);
 			if(user == null){
 				conn.rollback();
@@ -157,20 +154,17 @@ public class CouponDaoService {
 			}else{				
 				UserDaoService.updateUserBCC(0, 0, -amount, userId, conn);
 				System.out.println("user account - " + amount);
-			}			
+			}
+			
+			ok = true;
 		}finally{
-			if (conn != null){
-				if(!conn.getAutoCommit()){
-					conn.commit();
-					conn.setAutoCommit(true);
-				}				
-				EduDaoBasic.closeResources(conn, null, null, EduDaoBasic.shouldConnectionClose(connections));
-			}			
+			EduDaoBasic.handleManualCommitFinally(conn, ok);
 		}
 		return couponRecord;
 	}
 	
 	public static void updateCouponToUser(Coupon c, int previousAmount, CouponStatus previousStatus) throws SQLException, PseudoException{
+		boolean ok = false;
 		Connection conn = null;
 		try{
 			conn =  EduDaoBasic.getConnection();
@@ -197,13 +191,13 @@ public class CouponDaoService {
 			else{
 				throw new ValidationException("未能识别消费券更新状态");
 			}
+			
 			updateCoupon(c, conn);
+			
+			//must always always leave ok to the last line
+			ok = true;
 		} finally{
-			if (conn != null){
-				conn.commit();
-				conn.setAutoCommit(true);
-				EduDaoBasic.closeResources(conn, null, null, true);
-			}
+			EduDaoBasic.handleManualCommitFinally(conn, ok);
 		}
 	}
 
