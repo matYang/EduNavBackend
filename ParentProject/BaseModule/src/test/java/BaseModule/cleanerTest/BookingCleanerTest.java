@@ -95,7 +95,7 @@ public class BookingCleanerTest {
 		finishTime2.add(Calendar.DAY_OF_YEAR, -1);			
 		Booking booking2 = new Booking(finishTime2,timeStamp,
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.canceled,cashbackAmount);
+				email,partner.getReference(),BookingStatus.cancelled,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking2);
 		
 		Calendar finishTime3 = Calendar.getInstance();
@@ -110,6 +110,7 @@ public class BookingCleanerTest {
 		Booking booking4 = new Booking(finishTime4,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
 				email,partner.getReference(),BookingStatus.quit,cashbackAmount);
+
 		BookingDao.addBookingToDatabases(booking4);
 		
 		CourseCleaner.cleanCourseRelatedBooking();

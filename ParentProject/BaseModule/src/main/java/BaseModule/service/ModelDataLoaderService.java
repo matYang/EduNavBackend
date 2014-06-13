@@ -159,7 +159,7 @@ public class ModelDataLoaderService {
 			partner = PartnerDao.getPartnerById(1, connections);
 			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(),
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
-					user.getEmail(),"klpupkl",BookingStatus.canceled,50);
+					user.getEmail(),"klpupkl",BookingStatus.cancelled,50);
 			try {
 				BookingDao.addBookingToDatabases(booking,connections);
 			} catch (SQLException e) {				
