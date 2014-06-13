@@ -132,12 +132,12 @@ public class EduDaoBasic {
     
     public static void handleCommitFinally(Connection conn, boolean ok, boolean shouldCloseConnection){
     	try{
-			if (conn != null){
-				if (ok){
-					conn.commit();
-				}
-				else{
+			if (conn != null && !conn.getAutoCommit()){				
+				if (!ok){
 					conn.rollback();
+				}
+				else if(ok){
+					conn.commit();
 				}
 				conn.setAutoCommit(true);
 			}

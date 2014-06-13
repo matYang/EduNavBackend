@@ -26,6 +26,7 @@ public class BookingDaoService {
 
 	public static void updateBooking(Booking updatedBooking, BookingStatus previousStatus, int adminId) throws PseudoException, SQLException{
 		Connection conn = null;
+		boolean ok = false;
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
@@ -33,6 +34,7 @@ public class BookingDaoService {
 			if (updatedBooking.getStatus() == previousStatus){
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 				BookingDao.updateBookingInDatabases(updatedBooking);
+				ok = true;
 				return;
 			}
 			//user can only change state to cancelled, cannot do anything else, adminId <= 0 implies this is a user
@@ -59,7 +61,7 @@ public class BookingDaoService {
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
 					SMSService.sendBookingConfirmedSMS(updatedBooking);
-				}
+				}				
 
 			}
 			else if (previousStatus == BookingStatus.confirmed){
@@ -81,7 +83,7 @@ public class BookingDaoService {
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
 					SMSService.sendBookingFailedSMS(updatedBooking);
-				}
+				}				
 			}
 			else if (previousStatus == BookingStatus.delivered){
 				if (updatedBooking.getStatus() == BookingStatus.cancelled){
@@ -95,7 +97,7 @@ public class BookingDaoService {
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-				}
+				}				
 			}
 			else if (previousStatus == BookingStatus.enter){
 				if (updatedBooking.getStatus() == BookingStatus.finished){
@@ -109,7 +111,7 @@ public class BookingDaoService {
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-				}
+				}				
 			}
 			else if (previousStatus == BookingStatus.failed){
 				if (updatedBooking.getStatus() == BookingStatus.cancelled){
@@ -117,7 +119,7 @@ public class BookingDaoService {
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-				}
+				}				
 			}
 			else if (previousStatus == BookingStatus.cancelled){
 				if (updatedBooking.getStatus() == BookingStatus.failed){
@@ -142,19 +144,14 @@ public class BookingDaoService {
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-				}
+				}			
 			}
-			else{
+			else{				
 				throw new ValidationException("预订状态操作错误，请刷新页面");
 			}
+			ok = true;
 		} finally{
-			if (conn != null){
-				if(!conn.getAutoCommit()){
-					conn.commit();
-					conn.setAutoCommit(true);
-				}	
-				EduDaoBasic.closeResources(conn, null, null, true);
-			}
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
 
 		}
 	}
@@ -162,13 +159,12 @@ public class BookingDaoService {
 
 	public static Booking createBooking(Booking booking,Connection...connections) throws ValidationException,PseudoException, SQLException{
 		Connection conn = null;		
-		String couponRecord = "";
-		Savepoint savepoint = null;
+		String couponRecord = "";		
 		int cashbackAmount = 0;		
 		boolean ok = false;
+		
 		try{
-			conn = EduDaoBasic.getConnection(connections);	
-			savepoint = conn.setSavepoint("savepoint");
+			conn = EduDaoBasic.getConnection(connections);				
 			conn.setAutoCommit(false);		
 			
 			if(booking.getCashbackAmount() > 0){
@@ -177,32 +173,12 @@ public class BookingDaoService {
 				cashbackAmount = Parser.getCashBackFromCouponRecord(couponRecord);
 				booking.setCashbackAmount(cashbackAmount);
 				booking = BookingDao.addBookingToDatabases(booking,conn);
-			}	
-			ok = true;
-		}catch(SQLException sql){
-			try{
-				if(savepoint==null){
-					conn.rollback();
-					System.out.println("");
-					System.out.println("");
-					DebugLog.b_d("Not give back $ for 211-JDBC Transaction rolled back successfully");					
-					System.out.println("");
-					System.out.println("");
-				}else{
-					conn.rollback(savepoint);
-					conn.commit();
-				}
-			}catch(SQLException ex){
-				throw ex;
 			}
+			
+			ok = true;
+			
 		}finally{			
-			if(ok && !conn.getAutoCommit()){
-				conn.commit();
-				conn.setAutoCommit(true);
-			}else if(!ok){
-				conn.rollback();
-			}		
-			EduDaoBasic.closeResources(conn, null, null, EduDaoBasic.shouldConnectionClose(connections));
+			EduDaoBasic.handleCommitFinally(conn, ok, EduDaoBasic.shouldConnectionClose(connections));
 			
 		}
 		return booking;

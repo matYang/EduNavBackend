@@ -229,8 +229,8 @@ public class CocurrentCreatingTest {
 		if(exptvalue==user.getCoupon() && user.getCoupon()==amount){
 			//Passed;
 		}else fail();
-	}
-
+	}	
+	
 }
 
 
