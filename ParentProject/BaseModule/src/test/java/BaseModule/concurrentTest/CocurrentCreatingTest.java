@@ -3,7 +3,6 @@ package BaseModule.concurrentTest;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,19 +11,15 @@ import java.util.concurrent.CountDownLatch;
 import org.junit.Test;
 
 import BaseModule.common.DateUtility;
-import BaseModule.concurrentTest.ConcurrentUpdatingTest.TestThread;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.dbservice.CouponDaoService;
-import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.notFound.CouponNotFoundException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Booking;
 import BaseModule.model.Coupon;
@@ -119,7 +114,7 @@ public class CocurrentCreatingTest {
 
 		for(int i=0;i<bookingNum;i++){
 			//50
-			Coupon c = new Coupon(userId,cashbackAmount);	
+			Coupon c = new Coupon(userId,cashbackAmount+100000);	
 			Calendar expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.DAY_OF_MONTH, 1);
 			c.setExpireTime(expireTime);
@@ -127,7 +122,7 @@ public class CocurrentCreatingTest {
 			clist.add(c);
 
 			//70
-			Coupon c2 = new Coupon(userId,cashbackAmount + 20);		
+			Coupon c2 = new Coupon(userId,cashbackAmount + 20 + 100000);		
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.DAY_OF_MONTH, 15);
 			c2.setExpireTime(expireTime);
@@ -135,7 +130,7 @@ public class CocurrentCreatingTest {
 			clist.add(c2);
 
 			//100
-			Coupon c3 = new Coupon(userId,cashbackAmount + 50);		
+			Coupon c3 = new Coupon(userId,cashbackAmount + 50 + 100000);		
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.DAY_OF_MONTH, -15);		
 			c3.setExpireTime(expireTime);
@@ -143,7 +138,7 @@ public class CocurrentCreatingTest {
 			clist.add(c3);
 
 			//66
-			Coupon c4 = new Coupon(userId,cashbackAmount + 11);		
+			Coupon c4 = new Coupon(userId,cashbackAmount + 11 + 100000);		
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.MINUTE, -15);
 			c4.setExpireTime(expireTime);
@@ -151,7 +146,7 @@ public class CocurrentCreatingTest {
 			clist.add(c4);
 
 			//89
-			Coupon c5 = new Coupon(userId,cashbackAmount + 39);		
+			Coupon c5 = new Coupon(userId,cashbackAmount + 39 + 100000);		
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.MINUTE, 1);
 			c5.setExpireTime(expireTime);
@@ -159,7 +154,7 @@ public class CocurrentCreatingTest {
 			clist.add(c5);
 
 			//1
-			Coupon c6 = new Coupon(userId,cashbackAmount - 49);		
+			Coupon c6 = new Coupon(userId,cashbackAmount - 49 + 100000);		
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.DAY_OF_YEAR, 2);
 			c6.setExpireTime(expireTime);
@@ -167,7 +162,7 @@ public class CocurrentCreatingTest {
 			clist.add(c6);
 
 			//100
-			Coupon c7 = new Coupon(userId,cashbackAmount + 50);		
+			Coupon c7 = new Coupon(userId,cashbackAmount + 50 + 100000);		
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.DAY_OF_MONTH, -15);
 			c7.setExpireTime(expireTime);				
@@ -176,7 +171,7 @@ public class CocurrentCreatingTest {
 			clist.add(c7);
 
 			//66
-			Coupon c8 = new Coupon(userId,cashbackAmount + 11);
+			Coupon c8 = new Coupon(userId,cashbackAmount + 11 + 100000);
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.MINUTE, -15);
 			c8.setExpireTime(expireTime);
@@ -185,7 +180,7 @@ public class CocurrentCreatingTest {
 			clist.add(c8);
 
 			//89
-			Coupon c9 = new Coupon(userId,cashbackAmount + 39);		
+			Coupon c9 = new Coupon(userId,cashbackAmount + 39 + 100000);		
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.MINUTE, 1);
 			c9.setExpireTime(expireTime);
@@ -194,7 +189,7 @@ public class CocurrentCreatingTest {
 			clist.add(c9);
 
 			//2
-			Coupon c10 = new Coupon(userId,cashbackAmount - 48);		
+			Coupon c10 = new Coupon(userId,cashbackAmount - 48 + 100000);		
 			expireTime = DateUtility.getCurTimeInstance();
 			expireTime.add(Calendar.DAY_OF_YEAR, 2);
 			c10.setExpireTime(expireTime);

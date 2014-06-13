@@ -46,6 +46,7 @@ public class CouponDaoService {
 		try{
 			conn =  EduDaoBasic.getConnection(connections);				
 			conn.setAutoCommit(false);			
+			UserDaoService.selectUserForUpdate(c.getUserId(), conn);
 			
 			c = createCoupon(c, conn);			
 			UserDaoService.updateUserBCC(0, 0, c.getAmount(), c.getUserId(), conn);	
