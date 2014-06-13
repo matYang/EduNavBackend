@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
+import BaseModule.concurrentTest.CocurrentCreatingTest;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
@@ -42,23 +45,28 @@ public class CouponDaoService {
 		return searchCoupon(coup_sr,connections);
 	}
 	
-	public static Coupon addCouponToUser(Coupon c,Connection...connections) throws SQLException, PseudoException{
+	public static Coupon addCouponToUser(Coupon c,Connection...connections) throws SQLException, PseudoException,NullPointerException{
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		ResultSet rs = null;		
+		boolean ok = false;
 		try{
-			conn =  EduDaoBasic.getConnection(connections);	
+			conn =  EduDaoBasic.getConnection(connections);				
 			conn.setAutoCommit(false);
+			
 			c = createCoupon(c, conn);
-			stmt = conn.prepareStatement("select * from UserDao where id = " + c.getUserId() + " for update");
-			rs = stmt.executeQuery();
+//			stmt = conn.prepareStatement("select * from UserDao where id = " + c.getUserId() + " for update");
+//			rs = stmt.executeQuery();
 			UserDaoService.updateUserBCC(0, 0, c.getAmount(), c.getUserId(), conn);		
-	
-		} finally{
+			CocurrentCreatingTest.en(c.getAmount());
+			ok = true;
+		}finally{
 			if (conn != null){
-				if(!conn.getAutoCommit()){
+				if(ok && !conn.getAutoCommit()){
 					conn.commit();
 					conn.setAutoCommit(true);
+				}else if(!ok){
+					conn.rollback();
 				}				
 				EduDaoBasic.closeResources(conn, null, null, EduDaoBasic.shouldConnectionClose(connections));
 			}
@@ -66,8 +74,9 @@ public class CouponDaoService {
 		return c;
 	}
 	
-	public static String getCouponRecord(int userId,int cashback,Connection...connections) throws SQLException, PseudoException{
-		Connection conn = null;
+	
+	public static String getCouponRecord(int userId,int cashback,Connection...connections) throws ValidationException,SQLException, PseudoException{
+		Connection conn = null;		
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
 		ArrayList<Coupon> vlist = new ArrayList<Coupon>();	
 		Coupon c = null;		
@@ -76,21 +85,21 @@ public class CouponDaoService {
 		int i = 0;
 		int totalCoupon = 0;
 		String couponRecord = "";
+		boolean ok = false;
 		try{
-			conn = EduDaoBasic.getConnection(connections);
-			if(conn.getAutoCommit()){
-				conn.setAutoCommit(false);
-			}
+			conn = EduDaoBasic.getConnection(connections);			
+			conn.setAutoCommit(false);			
 			user = UserDaoService.getUserById(userId, conn);
 			if(user == null){
 				conn.rollback();
+				CocurrentCreatingTest.inc();
 				throw new UserNotFoundException("订单用户不存在");
 			}
 			totalCoupon = user.getCoupon();
 			
 			clist = CouponDaoService.getCouponByUserId(userId,conn);		
 					
-			System.out.println("clist num: " + clist.size());
+//			System.out.println("clist num: " + clist.size());
 			if(clist.size()==0){
 				return couponRecord;			
 			}
@@ -105,28 +114,22 @@ public class CouponDaoService {
 				//Check if usable
 				if(c.getStatus().code == CouponStatus.usable.code && ct.compareTo(expireTime) < 0){
 					amount += c.getAmount();
-					System.out.println("adding coupon: " + c.getCouponId() + " By amount: " + c.getAmount());
+//					System.out.println("adding coupon: " + c.getCouponId() + " By amount: " + c.getAmount());
 					vlist.add(c);
 				}
 
 				if(amount >= cashback){
-					if(amount > totalCoupon){
-						//Error
-						System.out.println("error: amount: "  + amount + " totalCoupon: " +totalCoupon);
-						conn.rollback();
-						throw new ValidationException("账户出错！ 需要管理员处理");
-					}else{
-						break;
-					}					
+					break;				
 				}
 
 				i++;
 			}
 
-			if(i== clist.size() && amount != totalCoupon){
+			if((i== clist.size() && amount != totalCoupon) || (i < clist.size() && amount >= totalCoupon)){
 				//Error
-				System.out.println("error: amount: "  + amount + " totalCoupon: " +totalCoupon);
+//				System.out.println("error: amount: "  + amount + " totalCoupon: " +totalCoupon);
 				conn.rollback();
+				CocurrentCreatingTest.inc();
 				throw new ValidationException("账户出错！ 需要管理员处理");
 			}
 
@@ -140,7 +143,8 @@ public class CouponDaoService {
 				//too many coupons: split one
 				int newAmount = amount-cashback;
 				couponRecord += vlist.get(vlist.size()-1).getCouponId() + "_" + (vlist.get(vlist.size()-1).getAmount()-newAmount) + "-";
-				vlist.get(vlist.size()-1).setAmount(newAmount);						
+				vlist.get(vlist.size()-1).setAmount(newAmount);			
+				CocurrentCreatingTest.dn(vlist.get(vlist.size()-1).getAmount()-newAmount);
 			}else{
 				couponRecord += vlist.get(vlist.size()-1).getCouponId() + "_" + vlist.get(vlist.size()-1).getAmount() + "-";
 				vlist.get(vlist.size()-1).setStatus(CouponStatus.used);				
@@ -149,18 +153,22 @@ public class CouponDaoService {
 			//update coupons in database
 			updateCoupons(clist,conn);		
 			
-			System.out.println("amount: "  + amount + " totalCoupon: " +totalCoupon);
+//			System.out.println("amount: "  + amount + " totalCoupon: " +totalCoupon);
 			//update user in database
 			if(amount >= cashback){			
 				UserDaoService.updateUserBCC(0, 0, -cashback, userId, conn);
-				System.out.println("user account - " + cashback);
+				CocurrentCreatingTest.dn(cashback);
+//				System.out.println("user account - " + cashback);
 			}else{				
 				UserDaoService.updateUserBCC(0, 0, -amount, userId, conn);
-				System.out.println("user account - " + amount);
-			}			
+				CocurrentCreatingTest.dn(amount);
+//				System.out.println("user account - " + amount);
+			}
+			
+			ok = true;
 		}finally{
 			if (conn != null){
-				if(!conn.getAutoCommit()){
+				if(ok && !conn.getAutoCommit()){
 					conn.commit();
 					conn.setAutoCommit(true);
 				}				

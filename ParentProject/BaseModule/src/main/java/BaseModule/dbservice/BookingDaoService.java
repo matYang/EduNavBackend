@@ -2,9 +2,12 @@ package BaseModule.dbservice;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.common.Parser;
+import BaseModule.concurrentTest.CocurrentCreatingTest;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.configurations.EnumConfig.TransactionType;
@@ -42,11 +45,11 @@ public class BookingDaoService {
 				return;
 			}
 			//user can only change state to cancelled, cannot do anything else, adminId <= 0 implies this is a user
-			if (updatedBooking.getStatus() != BookingStatus.canceled && adminId <= 0){
+			if (updatedBooking.getStatus() != BookingStatus.cancelled && adminId <= 0){
 				throw new AuthenticationException("当前用户无权进行此操作");
 			}
 			if (previousStatus == BookingStatus.awaiting){
-				if (updatedBooking.getStatus() == BookingStatus.canceled){
+				if (updatedBooking.getStatus() == BookingStatus.cancelled){
 					updatedBooking.setPreStatus(previousStatus);
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
@@ -75,7 +78,7 @@ public class BookingDaoService {
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
 				}
-				else if (updatedBooking.getStatus() == BookingStatus.canceled){
+				else if (updatedBooking.getStatus() == BookingStatus.cancelled){
 					updatedBooking.setPreStatus(previousStatus);
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
@@ -90,7 +93,7 @@ public class BookingDaoService {
 				}
 			}
 			else if (previousStatus == BookingStatus.delivered){
-				if (updatedBooking.getStatus() == BookingStatus.canceled){
+				if (updatedBooking.getStatus() == BookingStatus.cancelled){
 					updatedBooking.setPreStatus(previousStatus);
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
@@ -118,26 +121,26 @@ public class BookingDaoService {
 				}
 			}
 			else if (previousStatus == BookingStatus.failed){
-				if (updatedBooking.getStatus() == BookingStatus.canceled){
+				if (updatedBooking.getStatus() == BookingStatus.cancelled){
 					updatedBooking.setPreStatus(previousStatus);
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
 				}
 			}
-			else if (previousStatus == BookingStatus.canceled){
+			else if (previousStatus == BookingStatus.cancelled){
 				if (updatedBooking.getStatus() == BookingStatus.failed){
 					//not in error state, and do nothing, stay cancelled
 				}
 				else if (updatedBooking.getStatus() == BookingStatus.confirmed){
-					updatedBooking.setStatus(BookingStatus.canceled);
+					updatedBooking.setStatus(BookingStatus.cancelled);
 					updatedBooking.setPreStatus(BookingStatus.confirmed);
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
 				}
 				else if (updatedBooking.getStatus() == BookingStatus.delivered){
-					updatedBooking.setStatus(BookingStatus.canceled);
+					updatedBooking.setStatus(BookingStatus.cancelled);
 					updatedBooking.setPreStatus(BookingStatus.delivered);
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
@@ -166,30 +169,50 @@ public class BookingDaoService {
 	}
 
 
-	public static Booking createBooking(Booking booking,Connection...connections) throws PseudoException, SQLException{
+	public static Booking createBooking(Booking booking,Connection...connections) throws ValidationException,PseudoException, SQLException{
 		Connection conn = null;		
 		String couponRecord = "";
-		int cashbackAmount = 0;
+		Savepoint savepoint = null;
+		int cashbackAmount = 0;		
+		boolean ok = false;
 		try{
-			conn = EduDaoBasic.getConnection(connections);
-			if(conn.getAutoCommit()){
-				conn.setAutoCommit(false);
-			}			
+			conn = EduDaoBasic.getConnection(connections);	
+			savepoint = conn.setSavepoint("savepoint");
+			conn.setAutoCommit(false);		
+			
 			if(booking.getCashbackAmount() > 0){
-				couponRecord = CouponDaoService.getCouponRecord(booking.getUserId(), booking.getCashbackAmount(), conn);
+				couponRecord = CouponDaoService.getCouponRecord(booking.getUserId(), booking.getCashbackAmount(),conn);
 				booking.setCouponRecord(couponRecord);
 				cashbackAmount = Parser.getCashBackFromCouponRecord(couponRecord);
 				booking.setCashbackAmount(cashbackAmount);
-				booking = BookingDao.addBookingToDatabases(booking, conn);
+				booking = BookingDao.addBookingToDatabases(booking,conn);
 			}	
-		}finally{			
-			if (conn != null){
-				if(!conn.getAutoCommit()){
+			ok = true;
+		}catch(SQLException sql){
+			try{
+				if(savepoint==null){
+					conn.rollback();
+					System.out.println("");
+					System.out.println("");
+					DebugLog.b_d("Not give back $ for 211-JDBC Transaction rolled back successfully");					
+					System.out.println("");
+					System.out.println("");
+				}else{
+					conn.rollback(savepoint);
 					conn.commit();
-					conn.setAutoCommit(true);
-				}				
-				EduDaoBasic.closeResources(conn, null, null, EduDaoBasic.shouldConnectionClose(connections));
+				}
+			}catch(SQLException ex){
+				throw ex;
 			}
+		}finally{			
+			if(ok && !conn.getAutoCommit()){
+				conn.commit();
+				conn.setAutoCommit(true);
+			}else if(!ok){
+				conn.rollback();
+			}		
+			EduDaoBasic.closeResources(conn, null, null, EduDaoBasic.shouldConnectionClose(connections));
+			
 		}
 		return booking;
 	}

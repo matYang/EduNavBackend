@@ -90,7 +90,7 @@ public class CouponDao {
 			rs = stmt.getGeneratedKeys();
 			rs.next();
 			c.setCouponId(rs.getLong(1));			
-			System.out.println("adding coupon: " + c.getCouponId());
+//			System.out.println("adding coupon: " + c.getCouponId());
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}

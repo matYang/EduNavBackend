@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
@@ -130,7 +131,7 @@ public class BookingDao {
 			rs.next();
 			booking.setBookingId(rs.getInt(1));
 						
-			System.out.println("adding booking: " + booking.getBookingId() + " it gets cashback: " + booking.getCashbackAmount());			
+//			System.out.println("adding booking: " + booking.getBookingId() + " it gets cashback: " + booking.getCashbackAmount());			
 		}finally{			
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 

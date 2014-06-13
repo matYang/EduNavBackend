@@ -1,5 +1,7 @@
 package BaseModule.concurrentTest;
 
+import static org.junit.Assert.*;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,11 +31,23 @@ import BaseModule.model.User;
 
 public class CocurrentCreatingTest {
 
+	private static int counter = 0;	
+	public synchronized static void inc(){
+		counter++;
+	}
+
+	private static int amount = 0;
+	public synchronized static void en(int $){
+		amount += $;
+	}
+	public synchronized static void dn(int $){
+		amount -= $;
+	}
+
 	public class TestThread extends Thread {  
 		private CountDownLatch threadsSignal;		
 		private ArrayList<Booking> blist;
-		private ArrayList<Coupon> clist;	
-
+		private ArrayList<Coupon> clist;		
 		public TestThread(CountDownLatch threadsSignal,ArrayList<Booking> blist,ArrayList<Coupon> clist) {  
 			this.threadsSignal = threadsSignal;			
 			this.blist = blist;
@@ -43,46 +57,27 @@ public class CocurrentCreatingTest {
 		@Override  
 		public void run() {
 			try{
-				int i = 0;
-				int total = blist.size() + clist.size();
-				int b=0;
-				int c=0;
-				while(i < total){
-					if(i % 2 == 0){
-						if(b < blist.size()){							
-							try {
-								BookingDaoService.createBooking(blist.get(b));	
-							} catch (SQLException | PseudoException e) {												
-								e.printStackTrace();
-							}
-							b++;
-						}else if(c < clist.size()){
-							if(clist.get(c).getStatus().code == CouponStatus.usable.code && DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance()).compareTo(DateUtility.toSQLDateTime(clist.get(c).getExpireTime()))<0){
-								try {									
-									CouponDaoService.addCouponToUser(clist.get(c));	
-								} catch (SQLException | PseudoException e) {							
-									e.printStackTrace();
-								}
-							}
-							c++;								
-						}						
-					}else{
-						if(c < clist.size()){
-							if(clist.get(c).getStatus().code == CouponStatus.usable.code && DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance()).compareTo(DateUtility.toSQLDateTime(clist.get(c).getExpireTime()))<0){
-								try {
-									CouponDaoService.addCouponToUser(clist.get(c));
-								} catch (SQLException | PseudoException e) {							
-									e.printStackTrace();
-								}
-							}
-							c++;
-						}					
-					}
+				int i = 0;			
+				try {
+					BookingDaoService.createBooking(blist.get(0));	
+				} catch (SQLException | PseudoException e) {												
+					e.printStackTrace();
+				}
+				while(i < clist.size()){					
+					if(clist.get(i).getStatus().code == CouponStatus.usable.code && DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance()).compareTo(DateUtility.toSQLDateTime(clist.get(i).getExpireTime()))<0){
+						try {
+							CouponDaoService.addCouponToUser(clist.get(i));
+						} catch (SQLException | PseudoException e) {							
+							e.printStackTrace();
+						}
+					}						
+
 					i++;
 				}
+
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
-			} finally{
+			} finally{				
 				threadsSignal.countDown();
 			}
 		}  
@@ -90,7 +85,7 @@ public class CocurrentCreatingTest {
 
 	@Test
 	public void testBenchMark() throws PseudoException, SQLException, InterruptedException{
-		EduDaoBasic.clearAllDatabase();		
+		EduDaoBasic.clearAllDatabase();				
 		String name = "Harry";
 		String userphone = "12345612312";
 		String password = "36krfinal";
@@ -198,6 +193,7 @@ public class CocurrentCreatingTest {
 			clist.add(c10);
 
 			UserDao.updateUserBCC(0, 0, 212, userId);
+			en(212);
 
 			int backcash = 211;//剩一块
 
@@ -208,7 +204,7 @@ public class CocurrentCreatingTest {
 			blist.add(booking);
 		}		
 
-		int threadNum = 60;
+		int threadNum = 100;
 		CountDownLatch threadSignal = new CountDownLatch(threadNum);
 
 		System.out.println("Test Begin");
@@ -216,20 +212,25 @@ public class CocurrentCreatingTest {
 		System.out.println("");	
 		System.out.println("user coupon start value: " + user.getCoupon());
 		System.out.println("");	
-		
+
 		for(int i=0;i<threadNum;i++){
 			Thread bookingThread = new TestThread(threadSignal, blist,clist);	
 			bookingThread.start();
 		}			
 		threadSignal.await();		
-		
-		
+
+
 		System.out.println("Test End");
 		user = UserDao.getUserById(userId);
 		System.out.println("user coupon final value: " + user.getCoupon());
-		
+		int exptvalue = 212+threadNum+counter*211;
+		System.out.println("expected value: " + exptvalue);
+		System.out.println("amount: " + amount);
+		if(exptvalue==user.getCoupon() && user.getCoupon()==amount){
+			//Passed;
+		}else fail();
 	}
-		
+
 }
 
 

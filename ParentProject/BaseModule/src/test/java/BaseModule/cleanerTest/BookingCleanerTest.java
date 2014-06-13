@@ -105,7 +105,7 @@ public class BookingCleanerTest {
 		finishTime4.add(Calendar.HOUR_OF_DAY, 1);
 		Booking booking4 = new Booking(finishTime4,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.canceled,cashbackAmount);
+				email,partner.getReference(),BookingStatus.cancelled,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking4);
 		
 		CourseCleaner.cleanCourseRelatedBooking();
