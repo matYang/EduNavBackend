@@ -103,42 +103,19 @@ public class CouponDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		Coupon c = null;
-		String query0 = "SELECT * From CouponDao where couponId = ? ";		
+		Coupon c = null;				
 		String query = "UPDATE CouponDao set expireTime=?,status=?,amount=?,couponOrigin=? where couponId = ?;";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			
 			if(clist.size() == 0){
 				return;
-			}
-
-			for(int i=1;i<clist.size();i++){
-				query0 += "or couponId = ? ";
-			}
-
-			query0 += "for update";
-
-			for(int i=1;i<clist.size();i++){
-				query += "UPDATE CouponDao set expireTime=?,status=?,amount=?,couponOrigin=? where couponId = ?;";
-			}
-
-			stmt = conn.prepareStatement(query0);
-			for(int i=0;i<clist.size();i++){
-				stmt.setLong(i+1, clist.get(i).getCouponId());
-			}
-			rs =stmt.executeQuery();
-			int couponNum = 0;
-			while(rs.next()){
-				couponNum++;				
-			}			
-			if(couponNum != clist.size()){
-				throw new CouponNotFoundException();
-			}
+			}		
 			
 			stmt = conn.prepareStatement(query);
 			int stmtInt = 1;
 			for(int i=0;i<clist.size();i++){
+				stmtInt = 1;
 				c = clist.get(i);											
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(c.getExpireTime()));
 				stmt.setInt(stmtInt++,c.getStatus().code);
