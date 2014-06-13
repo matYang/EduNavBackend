@@ -90,8 +90,8 @@ public class CouponDao {
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
-			c.setCouponId(rs.getLong(1));			
-//			System.out.println("adding coupon: " + c.getCouponId());
+			c.setCouponId(rs.getLong(1));		
+
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
 		}
@@ -137,16 +137,11 @@ public class CouponDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query0 = "SELECT * From CouponDao where couponId = ? for update";
+		
 		String query = "UPDATE CouponDao set expireTime=?,status=?,amount=?,couponOrigin=? where couponId = ?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
-			stmt = conn.prepareStatement(query0);
-			stmt.setLong(1, c.getCouponId());
-			rs =stmt.executeQuery();
-			if(!rs.next()){
-				throw new CouponNotFoundException();
-			}
+			
 			int stmtInt = 1;
 			stmt = conn.prepareStatement(query);			
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(c.getExpireTime()));
