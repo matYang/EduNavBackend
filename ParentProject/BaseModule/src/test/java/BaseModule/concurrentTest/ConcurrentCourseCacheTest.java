@@ -101,6 +101,7 @@ public class ConcurrentCourseCacheTest {
 		System.out.println("middle time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		
 		c_sr.setUseCache(1);
+//		//warm up cache
 //		threadSignal = new CountDownLatch(1);
 //		Thread testRuna = new TestThread(threadSignal, c_sr, 2);
 //		testRuna.start();

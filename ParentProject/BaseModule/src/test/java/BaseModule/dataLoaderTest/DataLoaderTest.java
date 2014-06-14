@@ -29,7 +29,7 @@ public class DataLoaderTest {
 		System.out.println(locationDataArr);
 	}
 	
-	@Test
+	//@Test
 	public void modelLoaderTest(){
 		EduDaoBasic.clearAllDatabase();
 		try{
