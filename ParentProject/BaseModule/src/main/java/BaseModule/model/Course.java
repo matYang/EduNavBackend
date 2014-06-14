@@ -13,13 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Map;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
 import BaseModule.configurations.EnumConfig.TeachingMaterialType;
@@ -49,7 +47,7 @@ public class Course implements PseudoModel, Serializable{
 	private int startTime1;
 	private int finishTime1;
 	private int startTime2;
-	private int finishiTime2;
+	private int finishTime2;
 	
 	private String category;
 	private String subCategory;
@@ -106,87 +104,92 @@ public class Course implements PseudoModel, Serializable{
 	
 	
 	// SQL Construction;
-	public Course(int courseId, int partnerId, Calendar startTime,
-			Calendar finishTime, int price, int seatsTotal, int seatsLeft,
-			AccountStatus status, String category, String subCategory,
-			String location, String city, String district, String reference,
-			String teacherIntro, String teacherImgUrl,
-			String teachingMethodsIntro, String classroomImgUrl,
-			String courseIntro, Calendar creationTime, ClassModel classModel,
-			boolean hasDownloadMaterials, String quiz, String certification,
-			String openCourseRequirement, ArrayList<String> questionBank,
+
+
+	public Course(int courseId, int partnerId, int price, int courseHourNum,
+			int courseHourLength, int classSize, int cashback, int popularity,
+			Calendar creationTime, Calendar startDate, Calendar finishDate,
+			int startTime1, int finishTime1, int startTime2, int finishiTime2,
+			String category, String subCategory, String location, String city,
+			String district, String reference, String courseIntro, String quiz,
+			String certification, String openCourseRequirement,
 			String suitableStudent, String prerequest, String highScoreReward,
-			ArrayList<String> extracurricular, String courseName,
-			String dailyStartTime, String dailyFinishTime,
-			ArrayList<Integer> studyDays, String studyDaysNote,
-			int courseHourNum, int courseHourLength,
-			String partnerCourseReference, String classroomIntro,
-			PartnerQualification partnerQualification, String partnerIntro,
-			ArrayList<String> teachingMethods,
-			TeachingMaterialType teachingMaterialType,
-			String teachingMaterialIntro, int teacingMaterialCost,
-			boolean teachingMaterialFree, String questionBankIntro,
-			String passAgreement, boolean provideAssignments,
-			boolean provideMarking, String extracurricularIntro,
-			String phone, String logoUrl, String instName, String wholeName,String teachingMaterialName) {
+			String courseName, String studyDaysNote,
+			String partnerCourseReference, String partnerIntro,
+			String teachingMaterialIntro, String questionBank,
+			String passAgreement, String extracurricular, String phone,
+			String partnerDistinction, String outline, String goal,
+			String classTeacher, String teachingAndExercise,
+			String questionSession, String trail, String assignments,
+			String marking, String bonusService, String downloadMaterials,
+			CourseStatus status, PartnerQualification partnerQualification,
+			String teachingMaterialFree, ArrayList<Integer> studyDays,
+			ArrayList<String> classImgUrls, ArrayList<String> teacherIntros,
+			ArrayList<String> teacherImgUrls, ArrayList<String> teacherNames,
+			String logoUrl, String instName, String wholeName) {
 		super();
 		this.courseId = courseId;
 		this.partnerId = partnerId;
-		this.startTime = startTime;
-		this.finishTime = finishTime;
 		this.price = price;
-		this.seatsTotal = seatsTotal;
-		this.seatsLeft = seatsLeft;
-		this.status = status;
+		this.courseHourNum = courseHourNum;
+		this.courseHourLength = courseHourLength;
+		this.classSize = classSize;
+		this.cashback = cashback;
+		this.popularity = popularity;
+		this.creationTime = creationTime;
+		this.startDate = startDate;
+		this.finishDate = finishDate;
+		this.startTime1 = startTime1;
+		this.finishTime1 = finishTime1;
+		this.startTime2 = startTime2;
+		this.finishTime2 = finishiTime2;
 		this.category = category;
 		this.subCategory = subCategory;
 		this.location = location;
 		this.city = city;
 		this.district = district;
 		this.reference = reference;
-		this.teacherIntro = teacherIntro;
-		this.teacherImgUrl = teacherImgUrl;
-		this.teachingMethodsIntro = teachingMethodsIntro;
-		this.teachingMaterialName = teachingMaterialName;
-		this.classroomImgUrl = classroomImgUrl;
 		this.courseIntro = courseIntro;
-		this.creationTime = creationTime;
-		this.classModel = classModel;
-		this.hasDownloadMaterials = hasDownloadMaterials;
 		this.quiz = quiz;
 		this.certification = certification;
 		this.openCourseRequirement = openCourseRequirement;
-		this.questionBank = questionBank;
 		this.suitableStudent = suitableStudent;
 		this.prerequest = prerequest;
 		this.highScoreReward = highScoreReward;
-		this.extracurricular = extracurricular;
 		this.courseName = courseName;
-		this.dailyStartTime = dailyStartTime;
-		this.dailyFinishTime = dailyFinishTime;
-		this.studyDays = studyDays;
 		this.studyDaysNote = studyDaysNote;
-		this.courseHourNum = courseHourNum;
-		this.courseHourLength = courseHourLength;
 		this.partnerCourseReference = partnerCourseReference;
-		this.classroomIntro = classroomIntro;
-		this.partnerQualification = partnerQualification;
 		this.partnerIntro = partnerIntro;
-		this.teachingMethods = teachingMethods;
-		this.teachingMaterialType = teachingMaterialType;
 		this.teachingMaterialIntro = teachingMaterialIntro;
-		this.teachingMaterialCost = teacingMaterialCost;
-		this.teachingMaterialFree = teachingMaterialFree;
-		this.questionBankIntro = questionBankIntro;
+		this.questionBank = questionBank;
 		this.passAgreement = passAgreement;
-		this.provideAssignments = provideAssignments;
-		this.provideMarking = provideMarking;
-		this.extracurricularIntro = extracurricularIntro;
+		this.extracurricular = extracurricular;
 		this.phone = phone;
+		this.partnerDistinction = partnerDistinction;
+		this.outline = outline;
+		this.goal = goal;
+		this.classTeacher = classTeacher;
+		this.teachingAndExercise = teachingAndExercise;
+		this.questionSession = questionSession;
+		this.trail = trail;
+		this.assignments = assignments;
+		this.marking = marking;
+		this.bonusService = bonusService;
+		this.downloadMaterials = downloadMaterials;
+		this.status = status;
+		this.partnerQualification = partnerQualification;
+		this.teachingMaterialFree = teachingMaterialFree;
+		this.studyDays = studyDays;
+		this.classImgUrls = classImgUrls;
+		this.teacherIntros = teacherIntros;
+		this.teacherImgUrls = teacherImgUrls;
+		this.teacherNames = teacherNames;
 		this.logoUrl = logoUrl;
 		this.instName = instName;
 		this.wholeName = wholeName;
 	}
+
+
 
 	//testing
 	public Course(int partnerId,Calendar startTime, Calendar finishTime, int price,
@@ -195,56 +198,63 @@ public class Course implements PseudoModel, Serializable{
 		super();
 		this.courseId = -1;
 		this.partnerId = partnerId;
-		this.startTime = startTime;
-		this.finishTime = finishTime;
 		this.price = price;
-		this.seatsTotal = seatsTotal;
-		this.seatsLeft = seatsLeft;
-		this.status = status;
+		this.courseHourNum = -1;
+		this.courseHourLength = -1;
+		this.classSize = -1;
+		this.cashback = -1;
+		this.popularity = -1;
+		this.creationTime = DateUtility.getCurTimeInstance();
+		this.startDate = DateUtility.getCurTimeInstance();
+		this.finishDate = DateUtility.getCurTimeInstance();
+		this.startTime1 = -1;
+		this.finishTime1 = -1;
+		this.startTime2 = -1;
+		this.finishTime2 = -1;
 		this.category = category;
 		this.subCategory = subCategory;
 		this.location = "";
-		this.city =  "";
-		this.district =  "";
-		this.reference =  "";
-		this.teacherIntro =  "";
-		this.teacherImgUrl =  "";
-		this.teachingMethodsIntro =  "";
-		this.teachingMaterialName = "";
-		this.classroomImgUrl =  "";
-		this.courseIntro =  "";		
-		this.classModel = ClassModel.smallclass;
-		this.hasDownloadMaterials = false;
-		this.quiz =  "";
-		this.certification =  "";
-		this.openCourseRequirement =  "";		
-		this.suitableStudent =  "";
+		this.city = "";
+		this.district = "";
+		this.reference = "";
+		this.courseIntro = "";
+		this.quiz = "";
+		this.certification = "";
+		this.openCourseRequirement = "";
+		this.suitableStudent = "";
 		this.prerequest = "";
-		this.highScoreReward = "";		
+		this.highScoreReward = "";
 		this.courseName = "";
-		this.dailyStartTime = "";
-		this.dailyFinishTime = "";		
 		this.studyDaysNote = "";
-		this.courseHourNum = -1;
-		this.courseHourLength = -1;
 		this.partnerCourseReference = "";
-		this.classroomIntro = "";
-		this.partnerQualification = PartnerQualification.unverified;
-		this.partnerIntro = "";	
-		this.teachingMaterialType = TeachingMaterialType.pub;
+		this.partnerIntro = "";
 		this.teachingMaterialIntro = "";
-		this.teachingMaterialCost = -1;
-		this.teachingMaterialFree = true;
-		this.questionBankIntro = "";
+		this.questionBank = "";
 		this.passAgreement = "";
-		this.provideAssignments = false;
-		this.provideMarking = false;
-		this.extracurricularIntro = "";
+		this.extracurricular = "";
 		this.phone = phone;
+		this.partnerDistinction = "";
+		this.outline = "";
+		this.goal = "";
+		this.classTeacher = "";
+		this.teachingAndExercise = "";
+		this.questionSession = "";
+		this.trail = "";
+		this.assignments = "";
+		this.marking = "";
+		this.bonusService = "";
+		this.downloadMaterials = "";
+		this.status = CourseStatus.openEnroll;
+		this.partnerQualification = PartnerQualification.verified;
+		this.teachingMaterialFree = "";
+		this.studyDays = new ArrayList<Integer>();
+		this.classImgUrls = new ArrayList<String>();
+		this.teacherIntros = new ArrayList<String>();;
+		this.teacherImgUrls = new ArrayList<String>();;
+		this.teacherNames = new ArrayList<String>();;
 		this.logoUrl = "";
 		this.instName = "";
 		this.wholeName = "";
-		this.creationTime = DateUtility.getCurTimeInstance();
 	}	
 	
 	
@@ -254,465 +264,715 @@ public class Course implements PseudoModel, Serializable{
 		super();
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
+	
+
 	public int getCourseId() {
 		return courseId;
 	}
+
+
 
 	public void setCourseId(int courseId) {
 		this.courseId = courseId;
 	}
 
+
+
 	public int getPartnerId() {
 		return partnerId;
 	}
+
+
 
 	public void setPartnerId(int partnerId) {
 		this.partnerId = partnerId;
 	}
 
-	public Calendar getStartTime() {
-		return startTime;
-	}
 
-	public void setStartTime(Calendar startTime) {
-		this.startTime = startTime;
-	}
-
-	public Calendar getFinishTime() {
-		return finishTime;
-	}
-
-	public void setFinishTime(Calendar finishTime) {
-		this.finishTime = finishTime;
-	}
 
 	public int getPrice() {
 		return price;
 	}
 
+
+
 	public void setPrice(int price) {
 		this.price = price;
 	}
 
-	public int getSeatsTotal() {
-		return seatsTotal;
-	}
 
-	public void setSeatsTotal(int seatsTotal) {
-		this.seatsTotal = seatsTotal;
-	}
-
-	public int getSeatsLeft() {
-		return seatsLeft;
-	}
-
-	public void setSeatsLeft(int seatsLeft) {
-		this.seatsLeft = seatsLeft;
-	}
-
-	public AccountStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(AccountStatus status) {
-		this.status = status;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getSubCategory() {
-		return subCategory;
-	}
-
-	public void setSubCategory(String subCategory) {
-		this.subCategory = subCategory;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getDistrict() {
-		return district;
-	}
-
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
-	public String getReference() {
-		return reference;
-	}
-
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
-	public String getTeacherIntro() {
-		return teacherIntro;
-	}
-
-	public void setTeacherIntro(String teacherIntro) {
-		this.teacherIntro = teacherIntro;
-	}
-
-	public String getTeacherImgUrl() {
-		return teacherImgUrl;
-	}
-
-	public void setTeacherImgUrl(String teacherImgUrl) {
-		this.teacherImgUrl = teacherImgUrl;
-	}
-
-	public String getTeachingMethodsIntro() {
-		return teachingMethodsIntro;
-	}
-
-	public void setTeachingMethodsIntro(String teachingMethodsIntro) {
-		this.teachingMethodsIntro = teachingMethodsIntro;
-	}
-
-	public String getClassroomImgUrl() {
-		return classroomImgUrl;
-	}
-
-	public void setClassroomImgUrl(String classroomImgUrl) {
-		this.classroomImgUrl = classroomImgUrl;
-	}
-
-	public String getCourseIntro() {
-		return courseIntro;
-	}
-
-	public void setCourseIntro(String courseIntro) {
-		this.courseIntro = courseIntro;
-	}
-
-	public ClassModel getClassModel() {
-		return classModel;
-	}
-
-	public void setClassModel(ClassModel classModel) {
-		this.classModel = classModel;
-	}
-
-	public boolean isHasDownloadMaterials() {
-		return hasDownloadMaterials;
-	}
-
-	public void setHasDownloadMaterials(boolean hasDownloadMaterials) {
-		this.hasDownloadMaterials = hasDownloadMaterials;
-	}
-
-	public String getQuiz() {
-		return quiz;
-	}
-
-	public void setQuiz(String quiz) {
-		this.quiz = quiz;
-	}
-
-	public String getCertification() {
-		return certification;
-	}
-
-	public void setCertification(String certification) {
-		this.certification = certification;
-	}
-
-	public String getOpenCourseRequirement() {
-		return openCourseRequirement;
-	}
-
-	public void setOpenCourseRequirement(String openCourseRequirement) {
-		this.openCourseRequirement = openCourseRequirement;
-	}
-
-	public ArrayList<String> getQuestionBank() {
-		return questionBank;
-	}
-
-	public void setQuestionBank(ArrayList<String> questionBank) {
-		this.questionBank = questionBank;
-	}
-
-	public String getSuitableStudent() {
-		return suitableStudent;
-	}
-
-	public void setSuitableStudent(String suitableStudent) {
-		this.suitableStudent = suitableStudent;
-	}
-
-	public String getPrerequest() {
-		return prerequest;
-	}
-
-	public void setPrerequest(String prerequest) {
-		this.prerequest = prerequest;
-	}
-
-	public String getHighScoreReward() {
-		return highScoreReward;
-	}
-
-	public void setHighScoreReward(String highScoreReward) {
-		this.highScoreReward = highScoreReward;
-	}
-
-	public ArrayList<String> getExtracurricular() {
-		return extracurricular;
-	}
-
-	public void setExtracurricular(ArrayList<String> extracurricular) {
-		this.extracurricular = extracurricular;
-	}
-
-	public String getCourseName() {
-		return courseName;
-	}
-
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
-
-	public String getDailyStartTime() {
-		return dailyStartTime;
-	}
-
-	public void setDailyStartTime(String dailyStartTime) {
-		this.dailyStartTime = dailyStartTime;
-	}
-
-	public String getDailyFinishTime() {
-		return dailyFinishTime;
-	}
-
-	public void setDailyFinishTime(String dailyFinishTime) {
-		this.dailyFinishTime = dailyFinishTime;
-	}
-
-	public ArrayList<Integer> getStudyDays() {
-		return studyDays;
-	}
-
-	public void setStudyDays(ArrayList<Integer> studyDays) {
-		this.studyDays = studyDays;
-	}
-
-	public String getStudyDaysNote() {
-		return studyDaysNote;
-	}
-
-	public void setStudyDaysNote(String studyDaysNote) {
-		this.studyDaysNote = studyDaysNote;
-	}
 
 	public int getCourseHourNum() {
 		return courseHourNum;
 	}
 
+
+
 	public void setCourseHourNum(int courseHourNum) {
 		this.courseHourNum = courseHourNum;
 	}
+
+
 
 	public int getCourseHourLength() {
 		return courseHourLength;
 	}
 
+
+
 	public void setCourseHourLength(int courseHourLength) {
 		this.courseHourLength = courseHourLength;
 	}
+
+
+
+	public int getClassSize() {
+		return classSize;
+	}
+
+
+
+	public void setClassSize(int classSize) {
+		this.classSize = classSize;
+	}
+
+
+
+	public int getCashback() {
+		return cashback;
+	}
+
+
+
+	public void setCashback(int cashback) {
+		this.cashback = cashback;
+	}
+
+
+
+	public int getPopularity() {
+		return popularity;
+	}
+
+
+
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
+	}
+
+
+
+	public Calendar getStartDate() {
+		return startDate;
+	}
+
+
+
+	public void setStartDate(Calendar startDate) {
+		this.startDate = startDate;
+	}
+
+
+
+	public Calendar getFinishDate() {
+		return finishDate;
+	}
+
+
+
+	public void setFinishDate(Calendar finishDate) {
+		this.finishDate = finishDate;
+	}
+
+
+
+	public int getStartTime1() {
+		return startTime1;
+	}
+
+
+
+	public void setStartTime1(int startTime1) {
+		this.startTime1 = startTime1;
+	}
+
+
+
+	public int getFinishTime1() {
+		return finishTime1;
+	}
+
+
+
+	public void setFinishTime1(int finishTime1) {
+		this.finishTime1 = finishTime1;
+	}
+
+
+
+	public int getStartTime2() {
+		return startTime2;
+	}
+
+
+
+	public void setStartTime2(int startTime2) {
+		this.startTime2 = startTime2;
+	}
+
+
+
+	public int getFinishTime2() {
+		return finishTime2;
+	}
+
+
+
+	public void setFinishTime2(int finishTime2) {
+		this.finishTime2 = finishTime2;
+	}
+
+
+
+	public String getCategory() {
+		return category;
+	}
+
+
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+
+
+	public String getSubCategory() {
+		return subCategory;
+	}
+
+
+
+	public void setSubCategory(String subCategory) {
+		this.subCategory = subCategory;
+	}
+
+
+
+	public String getLocation() {
+		return location;
+	}
+
+
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+
+	public String getDistrict() {
+		return district;
+	}
+
+
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+
+
+	public String getReference() {
+		return reference;
+	}
+
+
+
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+
+
+	public String getCourseIntro() {
+		return courseIntro;
+	}
+
+
+
+	public void setCourseIntro(String courseIntro) {
+		this.courseIntro = courseIntro;
+	}
+
+
+
+	public String getQuiz() {
+		return quiz;
+	}
+
+
+
+	public void setQuiz(String quiz) {
+		this.quiz = quiz;
+	}
+
+
+
+	public String getCertification() {
+		return certification;
+	}
+
+
+
+	public void setCertification(String certification) {
+		this.certification = certification;
+	}
+
+
+
+	public String getOpenCourseRequirement() {
+		return openCourseRequirement;
+	}
+
+
+
+	public void setOpenCourseRequirement(String openCourseRequirement) {
+		this.openCourseRequirement = openCourseRequirement;
+	}
+
+
+
+	public String getSuitableStudent() {
+		return suitableStudent;
+	}
+
+
+
+	public void setSuitableStudent(String suitableStudent) {
+		this.suitableStudent = suitableStudent;
+	}
+
+
+
+	public String getPrerequest() {
+		return prerequest;
+	}
+
+
+
+	public void setPrerequest(String prerequest) {
+		this.prerequest = prerequest;
+	}
+
+
+
+	public String getHighScoreReward() {
+		return highScoreReward;
+	}
+
+
+
+	public void setHighScoreReward(String highScoreReward) {
+		this.highScoreReward = highScoreReward;
+	}
+
+
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+
+
+
+	public String getStudyDaysNote() {
+		return studyDaysNote;
+	}
+
+
+
+	public void setStudyDaysNote(String studyDaysNote) {
+		this.studyDaysNote = studyDaysNote;
+	}
+
+
 
 	public String getPartnerCourseReference() {
 		return partnerCourseReference;
 	}
 
+
+
 	public void setPartnerCourseReference(String partnerCourseReference) {
 		this.partnerCourseReference = partnerCourseReference;
 	}
 
-	public String getClassroomIntro() {
-		return classroomIntro;
-	}
 
-	public void setClassroomIntro(String classroomIntro) {
-		this.classroomIntro = classroomIntro;
-	}
-
-	public PartnerQualification getPartnerQualification() {
-		return partnerQualification;
-	}
-
-	public void setPartnerQualification(PartnerQualification partnerQualification) {
-		this.partnerQualification = partnerQualification;
-	}
 
 	public String getPartnerIntro() {
 		return partnerIntro;
 	}
 
+
+
 	public void setPartnerIntro(String partnerIntro) {
 		this.partnerIntro = partnerIntro;
 	}
 
-	public ArrayList<String> getTeachingMethods() {
-		return teachingMethods;
-	}
 
-	public void setTeachingMethods(ArrayList<String> teachingMethods) {
-		this.teachingMethods = teachingMethods;
-	}
-
-	public TeachingMaterialType getTeachingMaterialType() {
-		return teachingMaterialType;
-	}
-
-	public void setTeachingMaterialType(TeachingMaterialType teachingMaterialType) {
-		this.teachingMaterialType = teachingMaterialType;
-	}
 
 	public String getTeachingMaterialIntro() {
-		return this.teachingMaterialIntro;
+		return teachingMaterialIntro;
 	}
+
+
 
 	public void setTeachingMaterialIntro(String teachingMaterialIntro) {
 		this.teachingMaterialIntro = teachingMaterialIntro;
 	}
 
-	public int getTeacingMaterialCost() {
-		return teachingMaterialCost;
+
+
+	public String getQuestionBank() {
+		return questionBank;
 	}
 
-	public void setTeacingMaterialCost(int teacingMaterialCost) {
-		this.teachingMaterialCost = teacingMaterialCost;
+
+
+	public void setQuestionBank(String questionBank) {
+		this.questionBank = questionBank;
 	}
 
-	public boolean isTeachingMaterialFree() {
-		return teachingMaterialFree;
-	}
 
-	public void setTeachingMaterialFree(boolean teachingMaterialFree) {
-		this.teachingMaterialFree = teachingMaterialFree;
-	}
-
-	public String getQuestionBankIntro() {
-		return questionBankIntro;
-	}
-
-	public void setQuestionBankIntro(String questionBankIntro) {
-		this.questionBankIntro = questionBankIntro;
-	}
 
 	public String getPassAgreement() {
 		return passAgreement;
 	}
 
+
+
 	public void setPassAgreement(String passAgreement) {
 		this.passAgreement = passAgreement;
 	}
 
-	public boolean isProvideAssignments() {
-		return provideAssignments;
+
+
+	public String getExtracurricular() {
+		return extracurricular;
 	}
 
-	public void setProvideAssignments(boolean provideAssignments) {
-		this.provideAssignments = provideAssignments;
+
+
+	public void setExtracurricular(String extracurricular) {
+		this.extracurricular = extracurricular;
 	}
 
-	public boolean isProvideMarking() {
-		return provideMarking;
-	}
 
-	public void setProvideMarking(boolean provideMarking) {
-		this.provideMarking = provideMarking;
-	}
-
-	public String getExtracurricularIntro() {
-		return extracurricularIntro;
-	}
-
-	public void setExtracurricularIntro(String extracurricularIntro) {
-		this.extracurricularIntro = extracurricularIntro;
-	}
 
 	public String getPhone() {
 		return phone;
 	}
 
+
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
+
+
+	public String getPartnerDistinction() {
+		return partnerDistinction;
+	}
+
+
+
+	public void setPartnerDistinction(String partnerDistinction) {
+		this.partnerDistinction = partnerDistinction;
+	}
+
+
+
+	public String getOutline() {
+		return outline;
+	}
+
+
+
+	public void setOutline(String outline) {
+		this.outline = outline;
+	}
+
+
+
+	public String getGoal() {
+		return goal;
+	}
+
+
+
+	public void setGoal(String goal) {
+		this.goal = goal;
+	}
+
+
+
+	public String getClassTeacher() {
+		return classTeacher;
+	}
+
+
+
+	public void setClassTeacher(String classTeacher) {
+		this.classTeacher = classTeacher;
+	}
+
+
+
+	public String getTeachingAndExercise() {
+		return teachingAndExercise;
+	}
+
+
+
+	public void setTeachingAndExercise(String teachingAndExercise) {
+		this.teachingAndExercise = teachingAndExercise;
+	}
+
+
+
+	public String getQuestionSession() {
+		return questionSession;
+	}
+
+
+
+	public void setQuestionSession(String questionSession) {
+		this.questionSession = questionSession;
+	}
+
+
+
+	public String getTrail() {
+		return trail;
+	}
+
+
+
+	public void setTrail(String trail) {
+		this.trail = trail;
+	}
+
+
+
+	public String getAssignments() {
+		return assignments;
+	}
+
+
+
+	public void setAssignments(String assignments) {
+		this.assignments = assignments;
+	}
+
+
+
+	public String getMarking() {
+		return marking;
+	}
+
+
+
+	public void setMarking(String marking) {
+		this.marking = marking;
+	}
+
+
+
+	public String getBonusService() {
+		return bonusService;
+	}
+
+
+
+	public void setBonusService(String bonusService) {
+		this.bonusService = bonusService;
+	}
+
+
+
+	public String getDownloadMaterials() {
+		return downloadMaterials;
+	}
+
+
+
+	public void setDownloadMaterials(String downloadMaterials) {
+		this.downloadMaterials = downloadMaterials;
+	}
+
+
+
+	public CourseStatus getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(CourseStatus status) {
+		this.status = status;
+	}
+
+
+
+	public PartnerQualification getPartnerQualification() {
+		return partnerQualification;
+	}
+
+
+
+	public void setPartnerQualification(PartnerQualification partnerQualification) {
+		this.partnerQualification = partnerQualification;
+	}
+
+
+
+	public String getTeachingMaterialFree() {
+		return teachingMaterialFree;
+	}
+
+
+
+	public void setTeachingMaterialFree(String teachingMaterialFree) {
+		this.teachingMaterialFree = teachingMaterialFree;
+	}
+
+
+
+	public ArrayList<Integer> getStudyDays() {
+		return studyDays;
+	}
+
+
+
+	public void setStudyDays(ArrayList<Integer> studyDays) {
+		this.studyDays = studyDays;
+	}
+
+
+
+	public ArrayList<String> getClassImgUrls() {
+		return classImgUrls;
+	}
+
+
+
+	public void setClassImgUrls(ArrayList<String> classImgUrls) {
+		this.classImgUrls = classImgUrls;
+	}
+
+
+
+	public ArrayList<String> getTeacherIntros() {
+		return teacherIntros;
+	}
+
+
+
+	public void setTeacherIntros(ArrayList<String> teacherIntros) {
+		this.teacherIntros = teacherIntros;
+	}
+
+
+
+	public ArrayList<String> getTeacherImgUrls() {
+		return teacherImgUrls;
+	}
+
+
+
+	public void setTeacherImgUrls(ArrayList<String> teacherImgUrls) {
+		this.teacherImgUrls = teacherImgUrls;
+	}
+
+
+
+	public ArrayList<String> getTeacherNames() {
+		return teacherNames;
+	}
+
+
+
+	public void setTeacherNames(ArrayList<String> teacherNames) {
+		this.teacherNames = teacherNames;
+	}
+
+
 
 	public String getLogoUrl() {
 		return logoUrl;
 	}
 
+
+
 	public void setLogoUrl(String logoUrl) {
 		this.logoUrl = logoUrl;
 	}
+
+
 
 	public String getInstName() {
 		return instName;
 	}
 
+
+
 	public void setInstName(String instName) {
 		this.instName = instName;
 	}
+
+
 
 	public String getWholeName() {
 		return wholeName;
 	}
 
+
+
 	public void setWholeName(String wholeName) {
 		this.wholeName = wholeName;
 	}
 
-	public int getTeachingMaterialCost() {
-		return teachingMaterialCost;
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setTeachingMaterialCost(int teachingMaterialCost) {
-		this.teachingMaterialCost = teachingMaterialCost;
-	}
 
-	public String getTeachingMaterialName() {
-		return teachingMaterialName;
-	}
-
-	public void setTeachingMaterialName(String teachingMaterialName) {
-		this.teachingMaterialName = teachingMaterialName;
-	}
 
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
-	
-	public int getCashback() {
-		return cashback;
-	}
 
-	public void setCashback(int cashback) {
-		this.cashback = cashback;
-	}
+
 
 	public Course deepCopy() throws IOException, ClassNotFoundException{
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
@@ -732,57 +992,60 @@ public class Course implements PseudoModel, Serializable{
 		try{
 			jsonObj.put("id", this.courseId);
 			jsonObj.put("partnerId", this.partnerId);
-			jsonObj.put("partnerIntro", EncodingService.encodeURI(this.partnerIntro));
-			jsonObj.put("partnerQualification", this.partnerQualification.code);
-			jsonObj.put("partnerCourseReference", EncodingService.encodeURI(this.partnerCourseReference));
-			jsonObj.put("courseName", EncodingService.encodeURI(this.courseName));
-			jsonObj.put("courseIntro",EncodingService.encodeURI(this.courseIntro));
-			jsonObj.put("teacherIntro", EncodingService.encodeURI(this.teacherIntro));
-			jsonObj.put("teacherImgUrl", EncodingService.encodeURI(this.teacherImgUrl));
-			jsonObj.put("teachingMethods", EncodingService.encodeURI(Parser.listToString(this.teachingMethods)));
-			jsonObj.put("teachingMethodsIntro", EncodingService.encodeURI(this.teachingMethodsIntro));
-			jsonObj.put("teachingMaterialIntro", EncodingService.encodeURI(this.teachingMaterialIntro));
-			jsonObj.put("teachingMaterialName", EncodingService.encodeURI(this.teachingMaterialName));
-			jsonObj.put("teachingMaterialType",this.teachingMaterialType.code);
-			jsonObj.put("teachingMaterialCost",this.teachingMaterialCost);
-			jsonObj.put("teachingMaterialFree",this.teachingMaterialFree);
-			jsonObj.put("classroomIntro", EncodingService.encodeURI(this.classroomIntro));
-			jsonObj.put("classroomImgUrl", EncodingService.encodeURI(this.classroomImgUrl));
-			jsonObj.put("reference", EncodingService.encodeURI(this.reference));
+			jsonObj.put("price", this.price);
+			jsonObj.put("courseHourNum", this.courseHourNum);
+			jsonObj.put("courseHourLength", this.courseHourLength);
+			jsonObj.put("classSize", this.classSize);
+			jsonObj.put("cashback", this.cashback);
+			jsonObj.put("popularity", this.popularity);
+			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));		
+			jsonObj.put("startDate", DateUtility.castToAPIFormat(this.startDate));
+			jsonObj.put("finishDate", DateUtility.castToAPIFormat(this.finishDate));
+			jsonObj.put("startTime1", this.startTime1);
+			jsonObj.put("finishTime1", this.finishTime1);
+			jsonObj.put("startTime2", this.startTime2);
+			jsonObj.put("finishTime2", this.finishTime2);
 			jsonObj.put("category", EncodingService.encodeURI(this.category));
 			jsonObj.put("subcategory", EncodingService.encodeURI(this.subCategory));
 			jsonObj.put("location", EncodingService.encodeURI(this.location));
 			jsonObj.put("city", EncodingService.encodeURI(this.city));
 			jsonObj.put("district", EncodingService.encodeURI(this.district));
-			jsonObj.put("price", this.price);
-			jsonObj.put("seatsTotal", this.seatsTotal);
-			jsonObj.put("seatsLeft", this.seatsLeft);
-			jsonObj.put("status", this.status.code);
-			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));		
-			jsonObj.put("startTime", DateUtility.castToAPIFormat(this.startTime));
-			jsonObj.put("finishTime", DateUtility.castToAPIFormat(this.finishTime));
-			jsonObj.put("dailyStartTime", this.dailyStartTime);
-			jsonObj.put("dailyFinishTime", this.dailyFinishTime);
-			jsonObj.put("studyDays", EncodingService.encodeURI(Parser.listToString(this.studyDays)));
-			jsonObj.put("studyDaysNote", this.studyDaysNote);
-			jsonObj.put("courseHourNum", this.courseHourNum);
-			jsonObj.put("courseHourLength", this.courseHourLength);
-			jsonObj.put("classModel", this.classModel.code);			
-			jsonObj.put("hasDownloadMaterials", this.hasDownloadMaterials);
-			jsonObj.put("passAgreement", EncodingService.encodeURI(this.passAgreement));
-			jsonObj.put("provideAssignments", this.provideAssignments);
-			jsonObj.put("provideMarking", this.provideMarking);
+			jsonObj.put("reference", EncodingService.encodeURI(this.reference));
+			jsonObj.put("courseIntro",EncodingService.encodeURI(this.courseIntro));
 			jsonObj.put("quiz", EncodingService.encodeURI(this.quiz));
-			jsonObj.put("questionBank", EncodingService.encodeURI(Parser.listToString(this.questionBank)));
-			jsonObj.put("questionBankIntro", EncodingService.encodeURI(this.questionBankIntro));
-			jsonObj.put("certification", EncodingService.encodeURI(this.certification));			
+			jsonObj.put("certification", EncodingService.encodeURI(this.certification));
 			jsonObj.put("openCourseRequirement",EncodingService.encodeURI(this.openCourseRequirement));
 			jsonObj.put("suitableStudent",EncodingService.encodeURI(this.suitableStudent));
-			jsonObj.put("prerequest",EncodingService.encodeURI(this.prerequest));		
+			jsonObj.put("prerequest",EncodingService.encodeURI(this.prerequest));	
 			jsonObj.put("highScoreReward",EncodingService.encodeURI(this.highScoreReward));
-			jsonObj.put("extracurricular", EncodingService.encodeURI(Parser.listToString(this.extracurricular)));
-			jsonObj.put("extracurricularIntro",EncodingService.encodeURI(this.extracurricularIntro));
+			jsonObj.put("courseName", EncodingService.encodeURI(this.courseName));
+			jsonObj.put("studyDaysNote", this.studyDaysNote);
+			jsonObj.put("partnerCourseReference", EncodingService.encodeURI(this.partnerCourseReference));			
+			jsonObj.put("partnerIntro", EncodingService.encodeURI(this.partnerIntro));
+			jsonObj.put("teachingMaterialIntro", EncodingService.encodeURI(this.teachingMaterialIntro));
+			jsonObj.put("questionBank", EncodingService.encodeURI(this.questionBank));
+			jsonObj.put("passAgreement", EncodingService.encodeURI(this.passAgreement));
+			jsonObj.put("extracurricular", EncodingService.encodeURI(this.extracurricular));
 			jsonObj.put("phone",EncodingService.encodeURI(this.phone));
+			jsonObj.put("partnerDistinction",EncodingService.encodeURI(this.partnerDistinction));
+			jsonObj.put("outline",EncodingService.encodeURI(this.outline));			
+			jsonObj.put("goal",EncodingService.encodeURI(this.goal));
+			jsonObj.put("classTeacher",EncodingService.encodeURI(this.classTeacher));
+			jsonObj.put("teachingAndExercise",EncodingService.encodeURI(this.teachingAndExercise));
+			jsonObj.put("questionSession",EncodingService.encodeURI(this.questionSession));
+			jsonObj.put("trail",EncodingService.encodeURI(this.trail));
+			jsonObj.put("assignments",EncodingService.encodeURI(this.assignments));
+			jsonObj.put("marking",EncodingService.encodeURI(this.marking));
+			jsonObj.put("bonusService",EncodingService.encodeURI(this.bonusService));
+			jsonObj.put("downloadMaterials", this.downloadMaterials);
+			jsonObj.put("status", this.status.code);
+			jsonObj.put("partnerQualification", this.partnerQualification.code);
+			jsonObj.put("teachingMaterialFree",this.teachingMaterialFree);
+			jsonObj.put("studyDays", EncodingService.encodeURI(Parser.listToString(this.studyDays)));
+			jsonObj.put("classImgUrls", EncodingService.encodeURI(Parser.listToString(this.classImgUrls)));
+			jsonObj.put("teacherIntros", EncodingService.encodeURI(Parser.listToString(this.teacherIntros)));
+			jsonObj.put("teacherImgUrls", EncodingService.encodeURI(Parser.listToString(this.teacherImgUrls)));			
+			jsonObj.put("teacherNames", EncodingService.encodeURI(Parser.listToString(this.teacherNames)));			
 			jsonObj.put("logoUrl",EncodingService.encodeURI(this.logoUrl));
 			jsonObj.put("instName",EncodingService.encodeURI(this.instName));
 			jsonObj.put("wholeName",EncodingService.encodeURI(this.wholeName));
@@ -802,28 +1065,24 @@ public class Course implements PseudoModel, Serializable{
 					this.courseId == c.getCourseId() && 
 					this.partnerId == c.getPartnerId() &&					
 					this.price == c.getPrice() && 
-					this.seatsTotal == c.getSeatsTotal() &&
-					this.seatsLeft == c.getSeatsLeft() && 
+					this.classSize == c.getClassSize() && 
 					this.status.code == c.getStatus().code  &&
 					this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) && 
-					this.startTime.getTime().toString().equals(c.getStartTime().getTime().toString()) &&
-					this.finishTime.getTime().toString().equals(c.getFinishTime().getTime().toString()) &&
+					this.startDate.getTime().toString().equals(c.getStartDate().getTime().toString()) &&
+					this.finishDate.getTime().toString().equals(c.getFinishDate().getTime().toString()) &&
+					this.startTime1 == c.getStartTime1() && this.finishTime1 == c.getFinishTime1() && this.startTime2 == c.getStartTime2() && this.finishTime2 == c.getFinishTime2() &&
 					this.location.equals(c.getLocation()) && 
 					this.city.equals(c.getCity()) && 
 					this.district.equals(c.getDistrict()) &&
 					this.reference.equals(c.getReference()) && 
-					this.courseIntro.equals(c.getCourseIntro())&& 
-					this.classModel.code == c.getClassModel().code &&
-				    this.hasDownloadMaterials == c.isHasDownloadMaterials() &&				 
+					this.courseIntro.equals(c.getCourseIntro())&& 					
+				    this.downloadMaterials == c.getDownloadMaterials() &&				 
 					this.openCourseRequirement.equals(c.getOpenCourseRequirement()) &&
 					this.suitableStudent.equals(c.getSuitableStudent()) &&
-					this.prerequest.equals(c.getPrerequest()) && 					
-					this.teacherImgUrl.equals(c.getTeacherImgUrl()) &&
-					this.classroomImgUrl.equals(c.getClassroomImgUrl()) && 					
+					this.prerequest.equals(c.getPrerequest()) && 									
 					this.certification.equals(c.getCertification()) &&
 					this.courseName.equals(c.getCourseName()) &&
-					this.dailyStartTime.equals(c.getDailyStartTime()) &&
-					this.dailyFinishTime.equals(c.getDailyFinishTime());			
+					this.classTeacher.equals(c.getClassTeacher());		
 				
 	}
 	
