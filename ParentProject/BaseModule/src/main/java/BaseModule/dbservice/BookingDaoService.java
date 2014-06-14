@@ -25,13 +25,16 @@ public class BookingDaoService {
 	public static void updateBooking(Booking updatedBooking, BookingStatus previousStatus, int adminId) throws PseudoException, SQLException{
 		Connection conn = null;
 		boolean ok = false;
+		boolean sendConfirmedSMS = false;
+		boolean sendFailedSMS = false;
+		Booking bookingToSend = null;
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
 
 			if (updatedBooking.getStatus() == previousStatus){
 				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-				BookingDao.updateBookingInDatabases(updatedBooking);
+				BookingDao.updateBookingInDatabases(updatedBooking, conn);
 				ok = true;
 				return;
 			}
@@ -50,15 +53,17 @@ public class BookingDaoService {
 					updatedBooking.setPreStatus(previousStatus);
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-					BookingDao.updateBookingInDatabases(updatedBooking,conn); 
-					SMSService.sendBookingFailedSMS(updatedBooking);
+					BookingDao.updateBookingInDatabases(updatedBooking,conn);
+					sendFailedSMS = true;
+					bookingToSend = updatedBooking;
 				}
 				else if (updatedBooking.getStatus() == BookingStatus.confirmed){
 					updatedBooking.setPreStatus(previousStatus);
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-					SMSService.sendBookingConfirmedSMS(updatedBooking);
+					sendConfirmedSMS = true;
+					bookingToSend = updatedBooking;
 				}				
 
 			}
@@ -80,7 +85,8 @@ public class BookingDaoService {
 					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-					SMSService.sendBookingFailedSMS(updatedBooking);
+					sendFailedSMS = true;
+					bookingToSend = updatedBooking;
 				}				
 			}
 			else if (previousStatus == BookingStatus.delivered){
@@ -149,8 +155,14 @@ public class BookingDaoService {
 			}
 			ok = true;
 		} finally{
-			EduDaoBasic.handleCommitFinally(conn, ok, true);
-
+			if (EduDaoBasic.handleCommitFinally(conn, ok, true)){
+				if (bookingToSend != null && sendConfirmedSMS){
+					SMSService.sendBookingConfirmedSMS(bookingToSend);
+				}
+				else if (bookingToSend != null && sendFailedSMS){
+					SMSService.sendBookingFailedSMS(bookingToSend);
+				}
+			}
 		}
 	}
 
@@ -176,7 +188,6 @@ public class BookingDaoService {
 			}
 			
 			ok = true;
-			
 		}finally{			
 			EduDaoBasic.handleCommitFinally(conn, ok, EduDaoBasic.shouldConnectionClose(connections));
 		}

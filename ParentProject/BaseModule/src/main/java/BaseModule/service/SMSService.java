@@ -44,6 +44,12 @@ public class SMSService {
 		ExecutorProvider.executeRelay(sms);
 	}
 	
+	public static void sendInviterConsolidationSMS(String cellNum, String payload){
+		SMSTask sms = new SMSTask(SMSEvent.user_inviterConsolidation, cellNum, payload);
+		ExecutorProvider.executeRelay(sms);
+	}
+	
+	
 	
 	//partner sms
 	public static void sendPartnerForgetPasswordSMS(String cellNum, String authCode){

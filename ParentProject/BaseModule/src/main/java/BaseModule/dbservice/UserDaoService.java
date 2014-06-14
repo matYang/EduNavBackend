@@ -45,6 +45,8 @@ public class UserDaoService {
 		//initialize coupons on registration
 		Connection conn = null;
 		boolean ok = false;
+		User inviter = null;
+		User invitee = null;
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
@@ -53,15 +55,18 @@ public class UserDaoService {
 			//pre incr, stored when user is added saves 1 query
 			user.incCoupon(registrationCouponAmount);
 			user = UserDao.addUserToDatabase(user,conn);
-
+			
+			//lock user
+			UserDao.selectUserForUpdate(user.getUserId(), conn);
+			
 			Coupon coupon = new Coupon(user.getUserId(), registrationCouponAmount);
 			coupon.setOrigin(CouponOrigin.registration);
 			coupon = CouponDaoService.createCoupon(coupon,conn);
 			coupons.add(coupon);
 			
 			if (user.getAppliedInvitationalCode() != null || user.getAppliedInvitationalCode().length() != 0){
-				User invitee = user;
-				User inviter  = getUserByInvitationalCode(user.getAppliedInvitationalCode());
+				invitee = user;
+				inviter  = getUserByInvitationalCode(user.getAppliedInvitationalCode());
 
 				Coupon coupon_invitee = new Coupon(invitee.getUserId(), invitationCouponAmount);
 				coupon_invitee.setOrigin(CouponOrigin.invitation);
@@ -69,19 +74,25 @@ public class UserDaoService {
 				UserDao.updateUserBCC(0, 0, invitationCouponAmount, invitee.getUserId(), conn);
 				coupon_invitee = CouponDaoService.createCoupon(coupon_invitee,conn);
 				coupons.add(coupon_invitee);
-				SMSService.sendInviteeSMS(invitee.getPhone(), invitee.getPhone());
+				
+				//lock inviter
+				inviter = UserDao.selectUserForUpdate(inviter.getUserId(), conn);
 				
 				Coupon coupon_inviter = new Coupon(inviter.getUserId(), invitationCouponAmount);
 				coupon_inviter.setOrigin(CouponOrigin.invitation);
 				inviter.incCoupon(invitationCouponAmount);
 				UserDao.updateUserBCC(0, 0, invitationCouponAmount, inviter.getUserId(), conn);
 				coupon_inviter = CouponDaoService.createCoupon(coupon_inviter,conn);
-				SMSService.sendInviterSMS(inviter.getPhone(), invitee.getPhone());
+				
 			}
 			user.setCouponList(coupons);
 			ok = true;			
 		} finally{
-			EduDaoBasic.handleCommitFinally(conn, ok, true);
+			if (EduDaoBasic.handleCommitFinally(conn, ok, true)){
+				//only notify user when everything has absolutely gone right
+				SMSService.sendInviteeSMS(invitee.getPhone(), invitee.getPhone());
+				SMSService.sendInviterSMS(inviter.getPhone(), invitee.getPhone());
+			}
 		}
 		return user;
 	}
@@ -104,6 +115,7 @@ public class UserDaoService {
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
+			//in this case Dao layers takes care of locking
 			user = UserDao.authenticateUser(phone, password,conn);			
 			ok = true;
 		} finally{
@@ -113,7 +125,17 @@ public class UserDaoService {
 	}
 
 	public static void changePassword(int userId, String oldPassword, String newPassword) throws PseudoException,SQLException{
-		UserDao.changeUserPassword(userId, oldPassword, newPassword);
+		Connection conn = null;
+		boolean ok = false;
+		try{
+			conn = EduDaoBasic.getConnection();
+			conn.setAutoCommit(false);
+			//in this case Dao layers takes care of locking
+			UserDao.changeUserPassword(userId, oldPassword, newPassword, conn);
+			ok = true;
+		}finally{
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
+		}
 	}
 
 	public static void recoverPassword(String phone, String newPassword) throws PseudoException,SQLException{

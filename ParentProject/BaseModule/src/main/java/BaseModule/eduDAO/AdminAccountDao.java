@@ -143,7 +143,7 @@ public class AdminAccountDao {
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
-		String query = "SELECT * FROM AdminAccountDao where id = ? ";
+		String query = "SELECT * FROM AdminAccountDao where id = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -175,7 +175,7 @@ public class AdminAccountDao {
 		ResultSet rs = null;
 		AdminAccount account = null;
 		boolean validReference = true;
-		String query = "SELECT * FROM AdminAccountDao where reference = ? ";
+		String query = "SELECT * FROM AdminAccountDao where reference = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);			
@@ -185,6 +185,9 @@ public class AdminAccountDao {
 				validReference = PasswordCrypto.validatePassword(password, rs.getString("password"));
 				if(validReference){
 					account = createAdminAccountByResultSet(rs);
+					
+					account.setLastLogin(DateUtility.getCurTimeInstance());
+					AdminAccountDao.updateAdminAccountInDatabases(account, conn);
 				}
 				else{
 					throw new AuthenticationException("编号或密码输入错误");

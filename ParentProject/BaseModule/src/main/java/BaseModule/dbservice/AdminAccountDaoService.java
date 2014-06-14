@@ -1,14 +1,18 @@
 package BaseModule.dbservice;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.AdminAccountDao;
+import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.eduDAO.PartnerDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.AdminAccountNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.AdminAccount;
+import BaseModule.model.Partner;
 import BaseModule.model.representation.AdminSearchRepresentation;
 
 public class AdminAccountDaoService {
@@ -26,7 +30,17 @@ public class AdminAccountDaoService {
 	}
 	
 	public static void changePassword(int adminId, String oldPassword, String newPassword) throws PseudoException, SQLException{
-		AdminAccountDao.changeAdminAccountPassword(adminId, oldPassword, newPassword);
+		Connection conn = null;
+		boolean ok = false;
+		try{
+			conn = EduDaoBasic.getConnection();
+			conn.setAutoCommit(false);
+			//in this case Dao layers takes care of locking
+			AdminAccountDao.changeAdminAccountPassword(adminId, oldPassword, newPassword, conn);
+			ok = true;
+		}finally{
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
+		}
 	}
 	
 	public static void changeAdminPassword(int adminId, String password) throws PseudoException, SQLException{
@@ -34,9 +48,19 @@ public class AdminAccountDaoService {
 	}
 	
 	public static AdminAccount authenticateAdminAccount(String referece, String password) throws PseudoException, SQLException{
-		AdminAccount account = AdminAccountDao.authenticateAdminAccount(referece, password);
-		account.setLastLogin(DateUtility.getCurTimeInstance());
-		updateAdminAccount(account);
+		Connection conn = null;
+		boolean ok = false;
+		AdminAccount account = null;
+		try{
+			conn = EduDaoBasic.getConnection();
+			conn.setAutoCommit(false);
+			//in this case Dao layers takes care of locking
+			account = AdminAccountDao.authenticateAdminAccount(referece, password, conn);
+			ok = true;
+		}finally{
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
+		}
+
 		return account;
 	}
 	

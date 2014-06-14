@@ -45,6 +45,9 @@ public class SMSTask implements PseudoAsyncTask{
 		else if (event == SMSEvent.user_inviter){
 			this.content = "尊敬的爱上课用户，手机尾号为： " + payload.substring(payload.length() - 4, payload.length()) + " 的用户使用了您的邀请码注册为您带来了额外消费券，请您登录ishangke.cn领取";
 		}
+		else if (event == SMSEvent.user_inviterConsolidation){
+			this.content = "尊敬的爱上课用户，您邀请的手机尾号为： " + payload.substring(payload.length() - 4, payload.length()) + " 的用户完成了第一笔预定，奖励5元";
+		}
 		else if (event == SMSEvent.partner_forgetPassword){
 			this.content = "您的找回密码验证码是：" + payload + ", 请尽快更改密码";
 		}

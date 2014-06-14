@@ -130,7 +130,7 @@ public class EduDaoBasic {
 		}
     }
     
-    public static void handleCommitFinally(Connection conn, boolean ok, boolean shouldCloseConnection){
+    public static boolean handleCommitFinally(Connection conn, boolean ok, boolean shouldCloseConnection){
     	try{
 			if (conn != null && !conn.getAutoCommit()){				
 				if (!ok){
@@ -138,11 +138,14 @@ public class EduDaoBasic {
 				}
 				else if(ok){
 					conn.commit();
+					return true;
 				}
 				conn.setAutoCommit(true);
 			}
+			return false;
 		} catch (SQLException e){
 			DebugLog.d(e);
+			return false;
 		} finally{
 			EduDaoBasic.closeResources(conn, null, null, shouldCloseConnection);
 		}

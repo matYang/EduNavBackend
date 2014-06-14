@@ -52,7 +52,7 @@ public class EnumConfig {
     }
 	
 	public static enum TransactionType{
-        cashback(0),deposit(1),withdraw(2);
+        cashback(0),deposit(1),withdraw(2), invitation(3);
         public int code;
         TransactionType(int code){
             this.code = code;
@@ -88,7 +88,7 @@ public class EnumConfig {
     }
 	
 	public static enum SMSEvent{
-		user_cellVerification(0), user_changePassword(1), user_forgetPassword(2), partner_forgetPassword(3), partner_changePassword(4), user_bookingConfirmed(5), user_bookingFailed(6), user_invitee(7), user_inviter(8);
+		user_cellVerification(0), user_changePassword(1), user_forgetPassword(2), partner_forgetPassword(3), partner_changePassword(4), user_bookingConfirmed(5), user_bookingFailed(6), user_invitee(7), user_inviter(8), user_inviterConsolidation(9);
 		public int code;
 		SMSEvent(int code){
 			this.code = code;

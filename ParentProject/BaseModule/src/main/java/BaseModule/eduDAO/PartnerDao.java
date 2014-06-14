@@ -159,7 +159,7 @@ public class PartnerDao {
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
-		String query = "SELECT * FROM PartnerDao where id = ? ";
+		String query = "SELECT * FROM PartnerDao where id = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -198,7 +198,7 @@ public class PartnerDao {
 		ResultSet rs = null;
 		Partner partner = null;
 		boolean validPassword = false;
-		String query = "SELECT * FROM PartnerDao where phone = ? ";
+		String query = "SELECT * FROM PartnerDao where phone = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -208,6 +208,9 @@ public class PartnerDao {
 				validPassword = PasswordCrypto.validatePassword(password, rs.getString("password"));
 				if(validPassword){
 					partner = createPartnerByResultSet(rs);
+					
+					partner.setLastLogin(DateUtility.getCurTimeInstance());
+					updatePartnerInDatabases(partner, conn);
 				}else{
 					throw new AuthenticationException("手机号码或密码输入错误");
 				}				

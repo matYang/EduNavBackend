@@ -98,6 +98,7 @@ public class BookingIdResource extends AdminPseudoResource{
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
 			BookingStatus status = BookingStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
 			String email = EncodingService.decodeURI(jsonBooking.getString("email"));
+			String note = EncodingService.decodeURI(jsonBooking.getString("note"));
 			
 			booking.setAdjustTime(timeStamp);
 			booking.setScheduledTime(scheduledTime);
@@ -105,6 +106,7 @@ public class BookingIdResource extends AdminPseudoResource{
 			booking.setPhone(phone);
 			booking.setStatus(status);
 			booking.setEmail(email);
+			booking.setNote(note);
 			
 			ValidationService.validateBooking(booking);
 		}catch (JSONException|IOException e) {

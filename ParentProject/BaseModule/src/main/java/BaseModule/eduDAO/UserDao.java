@@ -40,6 +40,8 @@ public class UserDao {
 		return user;
 	}
 	
+	
+	
 	public static ArrayList<User> searchUser(UserSearchRepresentation sr,Connection...connections) throws SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;	
@@ -157,13 +159,7 @@ public class UserDao {
 			
 			user.setPassword("");
 			return user;
-		}catch(SQLException e){
-			if(e.getMessage().contains("Duplicate")){
-				throw new ValidationException("一部分账户内容与其他账户冲突");
-			}else{
-				throw e;
-			}
-		} finally  {
+		} finally {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
 	}
@@ -192,7 +188,7 @@ public class UserDao {
 			if(recordsAffected==0){
 				throw new UserNotFoundException();
 			}
-		}finally  {
+		} finally {
 			EduDaoBasic.closeResources(conn, stmt, null,EduDaoBasic.shouldConnectionClose(connections));
 		}
 	}

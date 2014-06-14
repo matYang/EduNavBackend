@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 import BaseModule.common.DateUtility;
 import BaseModule.eduDAO.CourseDao;
+import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
@@ -46,20 +48,41 @@ public class PartnerDaoService {
 		ArrayList<Partner> partners = searchPartner(p_sr);
 		return partners.size() == 0;
 	}
+	
+	public static Partner authenticatePartner(String phone,String password) throws PseudoException, SQLException{
+		Connection conn = null;
+		boolean ok = false;
+		Partner partner = null;
+		try{
+			conn = EduDaoBasic.getConnection();
+			conn.setAutoCommit(false);
+			//in this case Dao layers takes care of locking
+			partner = PartnerDao.authenticatePartner(phone, password, conn);
+			ok = true;
+		}finally{
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
+		}
+
+		return partner;
+	}
 
 	public static void changePassword(int partnerId, String oldPassword, String newPassword) throws PseudoException, SQLException{
-		PartnerDao.changePartnerPassword(partnerId, oldPassword, newPassword);
+		Connection conn = null;
+		boolean ok = false;
+		try{
+			conn = EduDaoBasic.getConnection();
+			conn.setAutoCommit(false);
+			//in this case Dao layers takes care of locking
+			PartnerDao.changePartnerPassword(partnerId, oldPassword, newPassword, conn);
+			ok = true;
+		}finally{
+			EduDaoBasic.handleCommitFinally(conn, ok, true);
+		}
+		
 	}
 
 	public static void recoverPassword(String phone, String newPassword) throws PseudoException, SQLException{
 		PartnerDao.recoverPartnerPassword(phone, newPassword);
-	}
-
-	public static Partner authenticatePartner(String phone,String password) throws PseudoException, SQLException{
-		Partner partner =  PartnerDao.authenticatePartner(phone, password);
-		partner.setLastLogin(DateUtility.getCurTimeInstance());
-		updatePartner(partner);
-		return partner;
 	}
 
 	public static ArrayList<Partner> searchPartner(PartnerSearchRepresentation sr) throws SQLException{
@@ -87,4 +110,5 @@ public class PartnerDaoService {
 		sr.setReference(reference);
 		return PartnerDao.searchPartner(sr).size() == 0;
 	}
+
 }

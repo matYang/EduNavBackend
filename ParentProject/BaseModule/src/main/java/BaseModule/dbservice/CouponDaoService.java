@@ -52,7 +52,6 @@ public class CouponDaoService {
 			UserDaoService.updateUserBCC(0, 0, c.getAmount(), c.getUserId(), conn);	
 			
 			ok = true;
-
 		} finally{
 			EduDaoBasic.handleCommitFinally(conn, ok, EduDaoBasic.shouldConnectionClose(connections));
 		}

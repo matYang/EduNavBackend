@@ -24,7 +24,7 @@ public class CouponCleaner extends CouponDao{
 		
 		String ct = DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance());
 		String query = "SELECT * FROM CouponDao where (status = ? or status = ?) and expireTime < ?";
-		Coupon c = null;		
+		Coupon coupon = null;		
 		try{
 			conn = EduDaoBasic.getConnection();	
 			stmt = conn.prepareStatement(query);
@@ -37,11 +37,25 @@ public class CouponCleaner extends CouponDao{
 			transientConnection.setAutoCommit(false);
 			while(rs.next()){
 				try{
-					c = createCouponByResultSet(rs);
-					c.setStatus(CouponStatus.expired);
-					CouponDao.updateCouponInDatabases(c,transientConnection);	
-					UserDao.updateUserBCC(0, 0, -c.getAmount(), c.getUserId(), transientConnection);
+					coupon = createCouponByResultSet(rs);
 					
+					//lock user; now user, booking, coupon or credit can begin
+					UserDao.selectUserForUpdate(coupon.getUserId(), transientConnection);
+					
+					//fetch a fresh copy of coupon, guard during concurrency, though protection against high concurrency is limited
+					coupon = CouponDao.getCouponByCouponId(coupon.getCouponId(), transientConnection);
+					
+					//double check preconditions
+					if ( (coupon.getStatus() == CouponStatus.inactive || coupon.getStatus() == CouponStatus.usable)  && coupon.getExpireTime().compareTo(DateUtility.getCurTimeInstance()) < 0){
+						//set coupon as expired
+						coupon.setStatus(CouponStatus.expired);
+						CouponDao.updateCouponInDatabases(coupon,transientConnection);	
+						
+						//update uer's account balance
+						UserDao.updateUserBCC(0, 0, -coupon.getAmount(), coupon.getUserId(), transientConnection);
+					}
+					
+					//commit changes, end transaction/release lock on that user
 					transientConnection.commit();
 				} catch (Exception e){
 					transientConnection.rollback();
@@ -55,14 +69,12 @@ public class CouponCleaner extends CouponDao{
 				try {
 					transientConnection.rollback();
 				} catch (SQLException e1) {
-					e1.printStackTrace();
+					DebugLog.d(e1);
 				}
 			}
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 			EduDaoBasic.closeResources(transientConnection, null, null, true);
 		}
-		
 	}
-
 }
