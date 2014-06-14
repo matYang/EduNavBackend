@@ -212,7 +212,7 @@ public class CocurrentCreatingTest {
 			blist.add(booking);
 		}		
 
-		int threadNum = 950;
+		int threadNum = 900;
 		CountDownLatch threadSignal = new CountDownLatch(threadNum);
 
 		System.out.println("Test Begin");

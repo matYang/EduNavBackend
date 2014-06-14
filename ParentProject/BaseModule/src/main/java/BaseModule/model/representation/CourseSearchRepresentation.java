@@ -7,8 +7,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.configurations.EnumConfig.ClassModel;
+import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.interfaces.PseudoMemCacheKey;
 import BaseModule.interfaces.PseudoModel;
@@ -18,25 +17,29 @@ import BaseModule.service.RepresentationReflectiveService;
 public class CourseSearchRepresentation implements PseudoModel, PseudoRepresentation, PseudoMemCacheKey{
 
 	//used for broad search
-	private ClassModel classModel;
-
 	private String category;
 	private String subCategory;	
+	private String subSubCategory;
+	private String province;
 	private String city;
 	private String district;
 	private String institutionName;
 	private String courseReference;
 	private String partnerReference;
 
-	private Calendar startTime;
-	private Calendar finishTime;
+	private Calendar startDate;
+	private Calendar finishDate;
 	private Calendar creationTime;
-
-
-	private AccountStatus status;
-
+	
 	private int startPrice;
-	private int finishPrice;	
+	private int finishPrice;
+	private int startClassSize;
+	private int finishClassSize;
+	private int startCashback;
+	private int finishCashback;
+
+	private CourseStatus status;
+		
 	private int courseId;
 	private int partnerId;
 	private int userId;
@@ -44,25 +47,31 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private int useCache;
 
 
-	public CourseSearchRepresentation(){
+
+	public CourseSearchRepresentation() {
 		super();
 		this.category = null;
 		this.subCategory = null;
+		this.subSubCategory = null;
+		this.province = null;
 		this.city = null;
 		this.district = null;
-		this.startTime = null;
-		this.finishTime = null;
 		this.institutionName = null;
-		this.status = null;
+		this.courseReference = null;
+		this.partnerReference = null;
+		this.startDate = null;
+		this.finishDate = null;
+		this.creationTime = null;
 		this.startPrice = -1;
 		this.finishPrice = -1;
+		this.startClassSize = -1;
+		this.finishClassSize = -1;
+		this.startCashback = -1;
+		this.finishCashback = -1;
+		this.status = null;
 		this.courseId = -1;
 		this.partnerId = -1;
 		this.userId = -1;
-		this.courseReference = null;
-		this.partnerReference = null;
-		this.creationTime = null;
-		this.classModel = null;
 		this.useCache = -1;
 	}
 
@@ -114,6 +123,22 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.subCategory = subCategory;
 	}
 
+	public String getSubSubCategory() {
+		return subSubCategory;
+	}
+
+	public void setSubSubCategory(String subSubCategory) {
+		this.subSubCategory = subSubCategory;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
 	public String getCity() {
 		return city;
 	}
@@ -130,22 +155,6 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.district = district;
 	}
 
-	public Calendar getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Calendar startTime) {
-		this.startTime = startTime;
-	}
-
-	public Calendar getFinishTime() {
-		return finishTime;
-	}
-
-	public void setFinishTime(Calendar finishTime) {
-		this.finishTime = finishTime;
-	}
-
 	public String getInstitutionName() {
 		return institutionName;
 	}
@@ -154,12 +163,44 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.institutionName = institutionName;
 	}
 
-	public AccountStatus getStatus() {
-		return status;
+	public String getCourseReference() {
+		return courseReference;
 	}
 
-	public void setStatus(AccountStatus status) {
-		this.status = status;
+	public void setCourseReference(String courseReference) {
+		this.courseReference = courseReference;
+	}
+
+	public String getPartnerReference() {
+		return partnerReference;
+	}
+
+	public void setPartnerReference(String partnerReference) {
+		this.partnerReference = partnerReference;
+	}
+
+	public Calendar getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Calendar startDate) {
+		this.startDate = startDate;
+	}
+
+	public Calendar getFinishDate() {
+		return finishDate;
+	}
+
+	public void setFinishDate(Calendar finishDate) {
+		this.finishDate = finishDate;
+	}
+
+	public Calendar getCreationTime() {
+		return creationTime;
+	}
+
+	public void setCreationTime(Calendar creationTime) {
+		this.creationTime = creationTime;
 	}
 
 	public int getStartPrice() {
@@ -178,20 +219,44 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.finishPrice = finishPrice;
 	}
 
-	public String getCourseReference() {
-		return courseReference;
+	public int getStartClassSize() {
+		return startClassSize;
 	}
 
-	public void setCourseReference(String courseReference) {
-		this.courseReference = courseReference;
+	public void setStartClassSize(int startClassSize) {
+		this.startClassSize = startClassSize;
 	}
 
-	public String getPartnerReference() {
-		return partnerReference;
+	public int getFinishClassSize() {
+		return finishClassSize;
 	}
 
-	public void setPartnerReference(String partnerReference) {
-		this.partnerReference = partnerReference;
+	public void setFinishClassSize(int finishClassSize) {
+		this.finishClassSize = finishClassSize;
+	}
+
+	public int getStartCashback() {
+		return startCashback;
+	}
+
+	public void setStartCashback(int startCashback) {
+		this.startCashback = startCashback;
+	}
+
+	public int getFinishCashback() {
+		return finishCashback;
+	}
+
+	public void setFinishCashback(int finishCashback) {
+		this.finishCashback = finishCashback;
+	}
+
+	public CourseStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(CourseStatus status) {
+		this.status = status;
 	}
 
 	public int getCourseId() {
@@ -218,42 +283,31 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.userId = userId;
 	}
 
-	public Calendar getCreationTime() {
-		return creationTime;
+	public int getUseCache() {
+		return useCache;
 	}
 
-	public void setCreationTime(Calendar creationTime) {
-		this.creationTime = creationTime;
-	}
-
-	public ClassModel getClassModel() {
-		return classModel;
-	}
-
-	public void setClassModel(ClassModel classModel) {
-		this.classModel = classModel;
-	}
-
-	public void setUseCache(int useCache){
+	public void setUseCache(int useCache) {
 		this.useCache = useCache;
 	}
-
-	public int getUseCache(){
-		return this.useCache;
-	}
+	
 
 	@Override
 	public String toString() {
-		return "CourseSearchRepresentation [classModel=" + classModel
-				+ ", category=" + category + ", subCategory=" + subCategory
-				+ ", city=" + city + ", district=" + district
-				+ ", institutionName=" + institutionName + ", courseReference="
-				+ courseReference + ", partnerReference=" + partnerReference
-				+ ", startTime=" + startTime + ", finishTime=" + finishTime
-				+ ", creationTime=" + creationTime + ", status=" + status
-				+ ", startPrice=" + startPrice + ", finishPrice=" + finishPrice
-				+ ", courseId=" + courseId + ", partnerId=" + partnerId
-				+ ", userId=" + userId + ", useCache=" + useCache + "]";
+		return "CourseSearchRepresentation [category=" + category
+				+ ", subCategory=" + subCategory + ", subSubCategory="
+				+ subSubCategory + ", province=" + province + ", city=" + city
+				+ ", district=" + district + ", institutionName="
+				+ institutionName + ", courseReference=" + courseReference
+				+ ", partnerReference=" + partnerReference + ", startDate="
+				+ startDate + ", finishDate=" + finishDate + ", creationTime="
+				+ creationTime + ", startPrice=" + startPrice
+				+ ", finishPrice=" + finishPrice + ", startClassSize="
+				+ startClassSize + ", finishClassSize=" + finishClassSize
+				+ ", startCashback=" + startCashback + ", finishCashback="
+				+ finishCashback + ", status=" + status + ", courseId="
+				+ courseId + ", partnerId=" + partnerId + ", userId=" + userId
+				+ ", useCache=" + useCache + "]";
 	}
 
 	public String getSearchQuery() {
@@ -294,7 +348,6 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}
 			query += "PartnerDao.reference = ? ";
 		}
-
 		if(this.getCreationTime() != null){			
 			if(start){				
 				query += "and ";
@@ -304,25 +357,6 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}
 			query += "CourseDao.creationTime = ? ";
 		}
-		if(this.getStartTime() != null){
-			if(start){				
-				query += "and ";
-			}else {
-				query += "where ";
-				start = true;
-			}
-			query += "CourseDao.startTime >= ? ";			
-		}
-		if(this.getFinishTime() != null){
-			if(start){				
-				query += "and ";
-			}else {
-				query += "where ";
-				start = true;
-			}
-			query += "CourseDao.finishTime <= ? ";
-		}	
-
 		if(this.getStartPrice() >= 0){
 			if(!start){
 				query += "where ";
@@ -404,15 +438,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}
 			query += " CourseDao.id = ? ";
 		}
-		if(this.getClassModel()!=null){
-			if(start){				
-				query += "and ";
-			}else {
-				query += "where ";
-				start = true;
-			}
-			query += "CourseDao.classModel = ? ";
-		}
+
 
 		return query;
 	}
