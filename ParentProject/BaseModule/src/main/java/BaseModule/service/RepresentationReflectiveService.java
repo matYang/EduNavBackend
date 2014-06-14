@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.ClassModel;
+import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
@@ -74,6 +75,9 @@ public class RepresentationReflectiveService {
 					}
 					else if (fieldClass.isAssignableFrom(CouponStatus.class)){
 						field.set(representation, CouponStatus.fromInt(Integer.parseInt(value, 10)));
+					}
+					else if (fieldClass.isAssignableFrom(CouponOrigin.class)){
+						field.set(representation, CouponOrigin.fromInt(Integer.parseInt(value, 10)));
 					}
 					else if (fieldClass.isAssignableFrom(CreditStatus.class)){
 						field.set(representation, CreditStatus.fromInt(Integer.parseInt(value, 10)));
@@ -147,6 +151,12 @@ public class RepresentationReflectiveService {
 				Object value = field.get(representation);
 				if (value != null){
 					serializedMembers.add(field.getName() + "_" +  String.valueOf(  ((CouponStatus) value).code  )  );
+				}
+			}
+			else if (fieldClass.isAssignableFrom(CouponOrigin.class)){
+				Object value = field.get(representation);
+				if (value != null){
+					serializedMembers.add(field.getName() + "_" +  String.valueOf(  ((CouponOrigin) value).code  )  );
 				}
 			}
 			else if (fieldClass.isAssignableFrom(CreditStatus.class)){
@@ -227,6 +237,12 @@ public class RepresentationReflectiveService {
 						jsonRepresentation.put(field.getName(),  ((CouponStatus) value).code );
 					}
 				}
+				else if (fieldClass.isAssignableFrom(CouponOrigin.class)){
+					Object value = field.get(representation);
+					if (value != null){
+						jsonRepresentation.put(field.getName(),  ((CouponOrigin) value).code );
+					}
+				}
 				else if (fieldClass.isAssignableFrom(CreditStatus.class)){
 					Object value = field.get(representation);
 					if (value != null){
@@ -257,7 +273,7 @@ public class RepresentationReflectiveService {
 						return false;
 					}
 				}
-				else if (fieldClass.isAssignableFrom(String.class) || fieldClass.isAssignableFrom(Calendar.class) || fieldClass.isAssignableFrom(AccountStatus.class) || fieldClass.isAssignableFrom(Privilege.class) || fieldClass.isAssignableFrom(ClassModel.class) || fieldClass.isAssignableFrom(TransactionType.class) || fieldClass.isAssignableFrom(CouponStatus.class) || fieldClass.isAssignableFrom(CreditStatus.class)){
+				else if (fieldClass.isAssignableFrom(String.class) || fieldClass.isAssignableFrom(Calendar.class) || fieldClass.isAssignableFrom(AccountStatus.class) || fieldClass.isAssignableFrom(Privilege.class) || fieldClass.isAssignableFrom(ClassModel.class) || fieldClass.isAssignableFrom(TransactionType.class) || fieldClass.isAssignableFrom(CouponStatus.class) || fieldClass.isAssignableFrom(CouponOrigin.class) || fieldClass.isAssignableFrom(CreditStatus.class)){
 					Object value = field.get(representation);
 					if (value != null){
 						return false;
