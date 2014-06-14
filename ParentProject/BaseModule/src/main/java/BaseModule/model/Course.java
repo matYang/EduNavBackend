@@ -20,6 +20,7 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.ClassModel;
+import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
 import BaseModule.configurations.EnumConfig.TeachingMaterialType;
 import BaseModule.exception.PseudoException;
@@ -33,32 +34,30 @@ public class Course implements PseudoModel, Serializable{
 	
 	private int courseId;
 	private int partnerId;	
-	
 	private int price;
-	private int seatsTotal;
-	private int seatsLeft;
 	private int courseHourNum;
 	private int courseHourLength;	
-	private int teachingMaterialCost;
+	
+	private int classSize;
 	private int cashback;
+	private int popularity;
 	
 	private Calendar creationTime;
-	private Calendar startTime;
-	private Calendar finishTime;	
+	private Calendar startDate;
+	private Calendar finishDate;	
 	
-	private String dailyStartTime;
-	private String dailyFinishTime;
+	private int startTime1;
+	private int finishTime1;
+	private int startTime2;
+	private int finishiTime2;
+	
 	private String category;
 	private String subCategory;
 	private String location;
 	private String city;
 	private String district;
 	private String reference;
-	private String teacherIntro;
-	private String teacherImgUrl;
-	private String teachingMethodsIntro;
-	private String teachingMaterialName;
-	private String classroomImgUrl;
+	
 	private String courseIntro;		
 	private String quiz;
 	private String certification;
@@ -69,32 +68,42 @@ public class Course implements PseudoModel, Serializable{
 	private String courseName;
 	private String studyDaysNote;
 	private String partnerCourseReference;
-	private String classroomIntro;	
 	private String partnerIntro;	
 	private String teachingMaterialIntro;
-	private String questionBankIntro;
+
+	private String questionBank;
 	private String passAgreement;
-	private String extracurricularIntro;;
+	private String extracurricular;
 	private String phone;
 	
-	private ClassModel classModel;	
-	private AccountStatus status;
-	private TeachingMaterialType teachingMaterialType;
-	private PartnerQualification partnerQualification;
-	private boolean teachingMaterialFree;
-	private boolean hasDownloadMaterials;
-	private boolean provideAssignments;
-	private boolean provideMarking;
+	private String partnerDistinction;
+	private String outline;	//text area
+	private String goal;	//test area
+	private String classTeacher;
+	private String teachingAndExercise;
+	private String questionSession;
+	private String trail;
+	private String assignments;
+	private String marking;
+	private String bonusService;
+	private String downloadMaterials;
 	
-	private ArrayList<String> extracurricular = new ArrayList<String>();
+	private CourseStatus status;
+	private PartnerQualification partnerQualification;
+	private String teachingMaterialFree;
+	
 	private ArrayList<Integer> studyDays = new ArrayList<Integer>();
-	private ArrayList<String> teachingMethods = new ArrayList<String>();
-	private ArrayList<String> questionBank = new ArrayList<String>();
+	private ArrayList<String> classImgUrls = new ArrayList<String>();
+	private ArrayList<String> teacherIntros = new ArrayList<String>();
+	private ArrayList<String> teacherImgUrls = new ArrayList<String>();
+	private ArrayList<String> teacherNames = new ArrayList<String>();
 	
 	// Partner
 	private String logoUrl;
 	private String instName;
 	private String wholeName;
+
+	
 	
 	// SQL Construction;
 	public Course(int courseId, int partnerId, Calendar startTime,

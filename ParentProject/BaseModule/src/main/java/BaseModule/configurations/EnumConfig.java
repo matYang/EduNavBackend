@@ -99,14 +99,14 @@ public class EnumConfig {
 		}
 	}
 	
-	public static enum ClassModel{
-        smallclass(0),medianclass(1),bigclass(2);
+	public static enum CourseStatus{
+		openEnroll(0),deactivated(1),consolidated(2);
         public int code;
-        ClassModel(int code){
+        CourseStatus(int code){
             this.code = code;
         }
-        private final static ClassModel[] map = ClassModel.values();
-        public static ClassModel fromInt(int n){
+        private final static CourseStatus[] map = CourseStatus.values();
+        public static CourseStatus fromInt(int n){
             return map[n];
         }
     }	
