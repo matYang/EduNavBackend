@@ -27,9 +27,7 @@ public class CouponDaoService {
 	public static void updateCoupon(Coupon c,Connection...connections) throws PseudoException, SQLException{
 		CouponDao.updateCouponInDatabases(c,connections);
 	}
-	public static void updateCoupons(ArrayList<Coupon>clist, Connection...connections) throws CouponNotFoundException, SQLException{
-		CouponDao.updateCouponsInDatabases(clist, connections);
-	}
+	
 	public static Coupon getCouponByCouponId(int couponId,Connection...connections) throws SQLException, PseudoException{
 		return CouponDao.getCouponByCouponId(couponId,connections);
 	}
@@ -138,7 +136,9 @@ public class CouponDaoService {
 			}
 
 			//update coupons in database
-			updateCoupons(usedlist,conn);
+			for(i =0 ; i < usedlist.size() ; i++){
+				updateCoupon(usedlist.get(i),conn);
+			}
 			
 			if(amount >= cashback){			
 				UserDaoService.updateUserBCC(0, 0, -cashback, userId, conn);				

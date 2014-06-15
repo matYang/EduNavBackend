@@ -9,6 +9,6 @@ public class ImgConfig {
 	
 	public static final int img_FactorySize = 3000000;
 	public static final String ImgFolder = "imgs/";
-		
+	public static final String ImgSpliter = "$";
 		
 }

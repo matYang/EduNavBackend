@@ -115,6 +115,10 @@ public class ValidationService {
 				(course.getStartTime2() <= course.getFinishTime1() && course.getStartTime2() != -1)){
 			throw new ValidationException("课程开始或完成时间不合理");
 		}		
+		if(course.getStartTime1()>=2400 || course.getFinishTime1()>=2400 ||
+				course.getStartTime2()>=2400 || course.getFinishTime2()>=2400){
+			throw new ValidationException("课程开始或完成时间不合理");
+		}
 		if(course.getCategory() == null || course.getCategory().length() == 0 ||
 				course.getSubCategory() == null || course.getSubCategory().length() == 0 ||
 				course.getSubSubCategory() == null || course.getSubSubCategory().length() == 0 ||

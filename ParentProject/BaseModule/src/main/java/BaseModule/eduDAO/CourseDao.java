@@ -11,6 +11,8 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
+import BaseModule.configurations.ImgConfig;
+import BaseModule.configurations.ServerConfig;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.model.Course;
@@ -154,9 +156,9 @@ public class CourseDao {
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCreationTime()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getStartDate()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getFinishDate()));
-			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherIntros()));
-			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls()));
-			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls()));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherIntros(),ServerConfig.normalSpliter));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls(),ImgConfig.ImgSpliter));
+			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls(),ImgConfig.ImgSpliter));
 			stmt.setInt(stmtInt++, course.getPrice());			
 			stmt.setInt(stmtInt++, course.getStatus().code);			
 			stmt.setString(stmtInt++, course.getCategory());
@@ -177,7 +179,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getHighScoreReward());
 			stmt.setString(stmtInt++, course.getExtracurricular());
 			stmt.setString(stmtInt++, course.getCourseName());
-			stmt.setString(stmtInt++,Parser.listToString(course.getStudyDays()));
+			stmt.setString(stmtInt++,Parser.listToString(course.getStudyDays(),ServerConfig.normalSpliter));
 			stmt.setInt(stmtInt++, course.getCourseHourNum());
 			stmt.setInt(stmtInt++, course.getCourseHourLength());
 			stmt.setString(stmtInt++, course.getPartnerCourseReference());
@@ -206,7 +208,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getMarking());
 			stmt.setString(stmtInt++, course.getBonusService());
 			stmt.setString(stmtInt++, course.getDownloadMaterials());
-			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames()));		
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter));		
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -236,9 +238,9 @@ public class CourseDao {
 			stmt.setInt(stmtInt++, course.getPartnerId());			
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getStartDate()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getFinishDate()));
-			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherIntros()));
-			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls()));
-			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls()));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherIntros(),ServerConfig.normalSpliter));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls(),ImgConfig.ImgSpliter));
+			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls(),ImgConfig.ImgSpliter));
 			stmt.setInt(stmtInt++, course.getPrice());			
 			stmt.setInt(stmtInt++, course.getStatus().code);			
 			stmt.setString(stmtInt++, course.getCategory());
@@ -259,7 +261,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getHighScoreReward());
 			stmt.setString(stmtInt++, course.getExtracurricular());
 			stmt.setString(stmtInt++, course.getCourseName());
-			stmt.setString(stmtInt++,Parser.listToString(course.getStudyDays()));
+			stmt.setString(stmtInt++,Parser.listToString(course.getStudyDays(),ServerConfig.normalSpliter));
 			stmt.setInt(stmtInt++, course.getCourseHourNum());
 			stmt.setInt(stmtInt++, course.getCourseHourLength());
 			stmt.setString(stmtInt++, course.getPartnerCourseReference());
@@ -288,7 +290,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getMarking());
 			stmt.setString(stmtInt++, course.getBonusService());
 			stmt.setString(stmtInt++, course.getDownloadMaterials());
-			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames()));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter));
 			stmt.setInt(stmtInt++, course.getCourseId());
 			
 			int recordsAffected = stmt.executeUpdate();
@@ -397,11 +399,11 @@ public class CourseDao {
 				rs.getString("teachingAndExercise"),rs.getString("questionSession"),rs.getString("trail"),
 				rs.getString("assignments"),rs.getString("marking"), rs.getString("bonusService"),rs.getString("downloadMaterials"),
 				CourseStatus.fromInt(rs.getInt("status")),PartnerQualification.fromInt(rs.getInt("partnerQualification")),
-				rs.getString("t_MaterialFree"),	(ArrayList<Integer>)Parser.stringToList(rs.getString("studyDays"), new Integer(0)),
-				(ArrayList<String>)Parser.stringToList(rs.getString("classroomImgUrls"),new String("")),
-				(ArrayList<String>)Parser.stringToList(rs.getString("t_Intros"),new String("")),
-				(ArrayList<String>)Parser.stringToList(rs.getString("t_ImgUrls"),new String("")),
-				(ArrayList<String>)Parser.stringToList(rs.getString("teacherNames"), new String("")),logoUrl, instName, wholeName);					
+				rs.getString("t_MaterialFree"),	(ArrayList<Integer>)Parser.stringToList(rs.getString("studyDays"),ServerConfig.normalSpliter, new Integer(0)),
+				(ArrayList<String>)Parser.stringToList(rs.getString("classroomImgUrls"),ImgConfig.ImgSpliter,new String("")),
+				(ArrayList<String>)Parser.stringToList(rs.getString("t_Intros"),ServerConfig.normalSpliter,new String("")),
+				(ArrayList<String>)Parser.stringToList(rs.getString("t_ImgUrls"),ImgConfig.ImgSpliter,new String("")),
+				(ArrayList<String>)Parser.stringToList(rs.getString("teacherNames"),ServerConfig.normalSpliter, new String("")),logoUrl, instName, wholeName);					
 	}
 
 

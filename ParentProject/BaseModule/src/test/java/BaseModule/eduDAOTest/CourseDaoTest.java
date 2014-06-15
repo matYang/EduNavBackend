@@ -189,8 +189,8 @@ public class CourseDaoTest {
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
 		finishTime.add(Calendar.DAY_OF_YEAR, 1);		
-		int seatsTotal = 50;
-		int seatsLeft = 5;
+		int classSize = 0;
+		int popularity = 5;
 		String category1 = "category1";
 		String subCategory1 = "subcategory1";		
 		int price1 = 12000;		
@@ -198,7 +198,7 @@ public class CourseDaoTest {
 		String city1 = "city1";
 		String district1 = "district1";
 		String coursereference1 = "course-reference1";	
-		Course course = new Course(p_Id, startTime, finishTime,price1,seatsTotal, seatsLeft,category1,subCategory1,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price1,classSize, popularity,category1,subCategory1,phone);
 		course.setLocation(location1);
 		course.setCity(city1);
 		course.setDistrict(district1);
@@ -219,7 +219,7 @@ public class CourseDaoTest {
 		String city2 = "city2";
 		String district2 = "district2";
 		String coursereference2 = "course-reference2";			
-		Course course2 = new Course(p_Id2, startTime2, finishTime2,price2,seatsTotal, seatsLeft,category2,subCategory2,phone);
+		Course course2 = new Course(p_Id2, startTime2, finishTime2,price2,classSize, popularity,category2,subCategory2,phone);
 		course2.setLocation(location2);
 		course2.setCity(city2);
 		course2.setDistrict(district2);
@@ -240,7 +240,7 @@ public class CourseDaoTest {
 		String city21 = "city2";
 		String district21 = "district2";
 		String coursereference21 = "course-reference21";				
-		Course course21 = new Course(p_Id2, startTime21, finishTime21,price21,seatsTotal, seatsLeft,category21,subCategory21,phone);
+		Course course21 = new Course(p_Id2, startTime21, finishTime21,price21,classSize, popularity,category21,subCategory21,phone);
 		course21.setLocation(location21);
 		course21.setCity(city21);
 		course21.setDistrict(district21);
@@ -260,7 +260,7 @@ public class CourseDaoTest {
 		String city3 = "city0";
 		String district3 = "district0";
 		String coursereference3 = "course-reference30";		
-		Course course3 = new Course(p_Id3, startTime3, finishTime3,price3,seatsTotal, seatsLeft,category3,subCategory3,phone);
+		Course course3 = new Course(p_Id3, startTime3, finishTime3,price3,classSize, popularity,category3,subCategory3,phone);
 		course3.setLocation(location3);
 		course3.setCity(city3);
 		course3.setDistrict(district3);
@@ -280,7 +280,7 @@ public class CourseDaoTest {
 		String city31 = "city1";
 		String district31 = "district1";
 		String coursereference31 = "course-reference31";
-		Course course31 = new Course(p_Id3, startTime31, finishTime31,price31,seatsTotal, seatsLeft,category31,subCategory31,phone);
+		Course course31 = new Course(p_Id3, startTime31, finishTime31,price31,classSize, popularity,category31,subCategory31,phone);
 		course31.setLocation(location31);
 		course31.setCity(city31);
 		course31.setDistrict(district31);
@@ -300,7 +300,7 @@ public class CourseDaoTest {
 		String city32 = "city2";
 		String district32 = "district2";
 		String coursereference32 = "course-reference32";		
-		Course course32 = new Course(p_Id3, startTime32, finishTime32,price32,seatsTotal, seatsLeft,category32,subCategory32,phone);
+		Course course32 = new Course(p_Id3, startTime32, finishTime32,price32,classSize, popularity,category32,subCategory32,phone);
 		course32.setLocation(location32);
 		course32.setCity(city32);
 		course32.setDistrict(district32);

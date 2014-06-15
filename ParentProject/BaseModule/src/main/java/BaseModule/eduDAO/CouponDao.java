@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;
@@ -98,41 +100,6 @@ public class CouponDao {
 		return c;
 	}
 
-	public static void updateCouponsInDatabases(ArrayList<Coupon>clist,Connection...connections) 
-			throws SQLException, CouponNotFoundException{
-		Connection conn = null;
-		PreparedStatement stmt = null;	
-		ResultSet rs = null;
-		Coupon c = null;				
-		String query = "UPDATE CouponDao set expireTime=?,status=?,amount=?,couponOrigin=? where couponId = ?;";
-		try{
-			conn = EduDaoBasic.getConnection(connections);
-			
-			if(clist.size() == 0){
-				return;
-			}		
-			
-			stmt = conn.prepareStatement(query);
-			int stmtInt = 1;
-			for(int i=0;i<clist.size();i++){
-				stmtInt = 1;
-				c = clist.get(i);											
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(c.getExpireTime()));
-				stmt.setInt(stmtInt++,c.getStatus().code);
-				stmt.setInt(stmtInt++, c.getAmount());
-				stmt.setInt(stmtInt++, c.getOrigin().code);
-				stmt.setLong(stmtInt++, c.getCouponId());					
-			}
-			int recordsAffected = stmt.executeUpdate();
-			if(recordsAffected==0){
-				throw new CouponNotFoundException();
-			}
-
-		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));
-		}
-	}
-
 	public static void updateCouponInDatabases(Coupon c,Connection...connections) throws CouponNotFoundException, SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;	
@@ -209,6 +176,7 @@ public class CouponDao {
 				rs.getInt("amount"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), 
 				DateUtility.DateToCalendar(rs.getTimestamp("expireTime")),CouponStatus.fromInt(rs.getInt("status")),
 				CouponOrigin.fromInt(rs.getInt("couponOrigin")),rs.getInt("originalAmount"));
+				
 	}
 	
 

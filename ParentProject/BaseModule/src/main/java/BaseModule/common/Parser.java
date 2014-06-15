@@ -4,19 +4,21 @@ import java.util.ArrayList;
 
 public class Parser {
 
-	public static String listToString(ArrayList<?> list){
+	public static String listToString(ArrayList<?> list,String spliter){
 		String serializedList = null;
 		for(int i=0; i <list.size(); i++){
 			if (serializedList == null){
 				serializedList = "";
 			}
-			serializedList += list.get(i).toString() +"-";
+			serializedList += list.get(i).toString() + spliter;
 		}
 		return serializedList;
 	}
 
-	public static ArrayList<?> stringToList(String listString, Object optionFlag){
-		String[] strArray = listString != null && !listString.equals("") ? listString.split("-") : null;
+	public static ArrayList<?> stringToList(String listString, String spliter,Object optionFlag){	
+		
+		String[] strArray = (listString == null || listString.length() == 0) ? null : listString.split(spliter);
+		
 		if (optionFlag instanceof Integer){
 			ArrayList<Integer> intList = new ArrayList<Integer>();
 

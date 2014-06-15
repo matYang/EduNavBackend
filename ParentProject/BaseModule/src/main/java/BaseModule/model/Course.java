@@ -17,6 +17,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.common.Parser;
+import BaseModule.configurations.ImgConfig;
+import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
@@ -194,7 +196,7 @@ public class Course implements PseudoModel, Serializable{
 
 
 	//testing
-	public Course(int partnerId,Calendar startTime, Calendar finishTime, int price,
+	public Course(int partnerId,Calendar startDate, Calendar finishDate, int price,
 			int classSize, int popularity, String category, String subCategory, String phone) {
 		super();
 		this.courseId = -1;
@@ -202,12 +204,12 @@ public class Course implements PseudoModel, Serializable{
 		this.price = price;
 		this.courseHourNum = -1;
 		this.courseHourLength = -1;
-		this.classSize = -1;
+		this.classSize = classSize;
 		this.cashback = -1;
-		this.popularity = -1;
+		this.popularity = popularity;
 		this.creationTime = DateUtility.getCurTimeInstance();
-		this.startDate = startTime;		
-		this.finishDate = finishTime;
+		this.startDate = startDate;		
+		this.finishDate = finishDate;
 		this.startTime1 = -1;
 		this.finishTime1 = -1;
 		this.startTime2 = -1;
@@ -828,11 +830,11 @@ public class Course implements PseudoModel, Serializable{
 			jsonObj.put("status", this.status.code);
 			jsonObj.put("partnerQualification", this.partnerQualification.code);
 			jsonObj.put("teachingMaterialFree",this.teachingMaterialFree);
-			jsonObj.put("studyDays", EncodingService.encodeURI(Parser.listToString(this.studyDays)));
-			jsonObj.put("classImgUrls", EncodingService.encodeURI(Parser.listToString(this.classImgUrls)));
-			jsonObj.put("teacherIntros", EncodingService.encodeURI(Parser.listToString(this.teacherIntros)));
-			jsonObj.put("teacherImgUrls", EncodingService.encodeURI(Parser.listToString(this.teacherImgUrls)));			
-			jsonObj.put("teacherNames", EncodingService.encodeURI(Parser.listToString(this.teacherNames)));			
+			jsonObj.put("studyDays", EncodingService.encodeURI(Parser.listToString(this.studyDays,ServerConfig.normalSpliter)));
+			jsonObj.put("classImgUrls", EncodingService.encodeURI(Parser.listToString(this.classImgUrls,ImgConfig.ImgSpliter)));
+			jsonObj.put("teacherIntros", EncodingService.encodeURI(Parser.listToString(this.teacherIntros,ServerConfig.normalSpliter)));
+			jsonObj.put("teacherImgUrls", EncodingService.encodeURI(Parser.listToString(this.teacherImgUrls,ImgConfig.ImgSpliter)));			
+			jsonObj.put("teacherNames", EncodingService.encodeURI(Parser.listToString(this.teacherNames,ServerConfig.normalSpliter)));			
 			jsonObj.put("logoUrl",EncodingService.encodeURI(this.logoUrl));
 			jsonObj.put("instName",EncodingService.encodeURI(this.instName));
 			jsonObj.put("wholeName",EncodingService.encodeURI(this.wholeName));
