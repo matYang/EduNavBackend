@@ -22,8 +22,10 @@ public class DebugLog {
 		//using reflection to get caller name, 500x faster than stack trace
 		//if not accessible, do:  right click on project -> configure build path -> remove JRE system library -> add Library -> JRE System Library (Default) -> OK, clean & recompile
 		String caller = sun.reflect.Reflection.getCallerClass(2).getName();
-		systemLogger.info(caller + " got Exception! ",e);			
-		e.printStackTrace();
+		systemLogger.info(caller + " got Exception! ",e);
+		if (ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_LOCAL)){
+			e.printStackTrace();
+		}
 	}
 
 	

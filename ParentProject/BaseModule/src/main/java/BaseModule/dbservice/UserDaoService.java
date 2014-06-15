@@ -64,7 +64,7 @@ public class UserDaoService {
 			coupon = CouponDaoService.createCoupon(coupon,conn);
 			coupons.add(coupon);
 			
-			if (user.getAppliedInvitationalCode() != null || user.getAppliedInvitationalCode().length() != 0){
+			if (user.getAppliedInvitationalCode() != null && user.getAppliedInvitationalCode().length() != 0){
 				invitee = user;
 				inviter  = getUserByInvitationalCode(user.getAppliedInvitationalCode());
 

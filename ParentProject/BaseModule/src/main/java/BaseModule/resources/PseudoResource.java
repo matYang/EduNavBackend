@@ -222,33 +222,45 @@ public class PseudoResource extends ServerResource{
 			} else {
 				String imgName;
 				String path;
-				if (fi.getFieldName().equals("teacherImg")){
-					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
-					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 800, 600, Scalr.OP_ANTIALIAS);
-					
-					imgName = ImgConfig.teacherImgPrefix + ImgConfig.imgSize_m + id;
-					imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder+ imgName + ".png");
-					ImageIO.write(bufferedImage, "png", imgFile);
-					//warning: can only call this upload once, as it will delete the image file before it exits
-					path = FileService.uploadTeacherImg(id, imgFile, imgName);
-					props.put("teacherImgUrl", path);
-					
+				String fieldName = fi.getFieldName();
+				if (fieldName.equals("teacherImg1") || fieldName.equals("teacherImg2") || fieldName.equals("teacherImg3") || fieldName.equals("teacherImg4")){
+					try{
+						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
+						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 800, 600, Scalr.OP_ANTIALIAS);
+						
+						imgName = ImgConfig.teacherImgPrefix + fi.getFieldName() + "-" + id;
+						imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder+ imgName + ".png");
+						ImageIO.write(bufferedImage, "png", imgFile);
+						//warning: can only call this upload once, as it will delete the image file before it exits
+						path = FileService.uploadTeacherImg(id, imgFile, imgName);
+						props.put("url-" + fieldName, path);
+					}
+					catch (NullPointerException e){
+						DebugLog.d(e);
+						//do nothing
+					}
 				}
-				else if (fi.getFieldName().equals("classroomImg")){
-					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
-					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 800, 600, Scalr.OP_ANTIALIAS);
-					imgName = ImgConfig.classroomImgPrefix + ImgConfig.imgSize_m + id;
-					imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName + ".png");
-					ImageIO.write(bufferedImage, "png", imgFile);
-					//warning: can only call this upload once, as it will delete the image file before it exits
-					path = FileService.uploadBackgroundImg(id, imgFile, imgName);
-					props.put("backgroundUrl", path);
+				else if (fieldName.equals("classImg1") || fieldName.equals("classImg2") || fieldName.equals("classImg3")|| fieldName.equals("classImg4")|| fieldName.equals("classImg5")){
+					try{
+						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
+						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 800, 600, Scalr.OP_ANTIALIAS);
+						imgName = ImgConfig.classImgPrefix + fi.getFieldName() + "-" + id;
+						imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName + ".png");
+						ImageIO.write(bufferedImage, "png", imgFile);
+						//warning: can only call this upload once, as it will delete the image file before it exits
+						path = FileService.uploadBackgroundImg(id, imgFile, imgName);
+						props.put("url-" + fieldName, path);
+					} 
+					catch (NullPointerException e){
+						DebugLog.d(e);
+						//do nothing
+					}
 				}
 				else if (fi.getFieldName().equals("logo")){
 					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
 					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 300, 300, Scalr.OP_ANTIALIAS);
 
-					imgName = ImgConfig.logoPrefix + ImgConfig.imgSize_m + id;
+					imgName = ImgConfig.logoPrefix + id;
 					imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder+ imgName + ".png");
 					ImageIO.write(bufferedImage, "png", imgFile);
 					//warning: can only call this upload once, as it will delete the image file before it exits

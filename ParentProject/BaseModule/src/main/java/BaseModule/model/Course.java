@@ -106,8 +106,6 @@ public class Course implements PseudoModel, Serializable{
 	
 	
 	// SQL Construction;
-
-
 	public Course(int courseId, int partnerId, int price, int courseHourNum,
 			int courseHourLength, int classSize, int cashback, int popularity,
 			Calendar creationTime, Calendar startDate, Calendar finishDate,
@@ -275,727 +273,485 @@ public class Course implements PseudoModel, Serializable{
 		return courseId;
 	}
 
-
-
 	public void setCourseId(int courseId) {
 		this.courseId = courseId;
 	}
-
-
 
 	public int getPartnerId() {
 		return partnerId;
 	}
 
-
-
 	public void setPartnerId(int partnerId) {
 		this.partnerId = partnerId;
 	}
-
-
 
 	public int getPrice() {
 		return price;
 	}
 
-
-
 	public void setPrice(int price) {
 		this.price = price;
 	}
-
-
 
 	public int getCourseHourNum() {
 		return courseHourNum;
 	}
 
-
-
 	public void setCourseHourNum(int courseHourNum) {
 		this.courseHourNum = courseHourNum;
 	}
-
-
 
 	public int getCourseHourLength() {
 		return courseHourLength;
 	}
 
-
-
 	public void setCourseHourLength(int courseHourLength) {
 		this.courseHourLength = courseHourLength;
 	}
-
-
 
 	public int getClassSize() {
 		return classSize;
 	}
 
-
-
 	public void setClassSize(int classSize) {
 		this.classSize = classSize;
 	}
-
-
 
 	public int getCashback() {
 		return cashback;
 	}
 
-
-
 	public void setCashback(int cashback) {
 		this.cashback = cashback;
 	}
-
-
 
 	public int getPopularity() {
 		return popularity;
 	}
 
-
-
 	public void setPopularity(int popularity) {
 		this.popularity = popularity;
 	}
-
-
 
 	public String getSubSubCategory() {
 		return subSubCategory;
 	}
 
-
-
 	public void setSubSubCategory(String subSubCategory) {
 		this.subSubCategory = subSubCategory;
 	}
-
-
 
 	public String getProvince() {
 		return province;
 	}
 
-
-
 	public void setProvince(String province) {
 		this.province = province;
 	}
-
-
 
 	public Calendar getStartDate() {
 		return startDate;
 	}
 
-
-
 	public void setStartDate(Calendar startDate) {
 		this.startDate = startDate;
 	}
-
-
 
 	public Calendar getFinishDate() {
 		return finishDate;
 	}
 
-
-
 	public void setFinishDate(Calendar finishDate) {
 		this.finishDate = finishDate;
 	}
-
-
 
 	public int getStartTime1() {
 		return startTime1;
 	}
 
-
-
 	public void setStartTime1(int startTime1) {
 		this.startTime1 = startTime1;
 	}
-
-
 
 	public int getFinishTime1() {
 		return finishTime1;
 	}
 
-
-
 	public void setFinishTime1(int finishTime1) {
 		this.finishTime1 = finishTime1;
 	}
-
-
 
 	public int getStartTime2() {
 		return startTime2;
 	}
 
-
-
 	public void setStartTime2(int startTime2) {
 		this.startTime2 = startTime2;
 	}
-
-
 
 	public int getFinishTime2() {
 		return finishTime2;
 	}
 
-
-
 	public void setFinishTime2(int finishTime2) {
 		this.finishTime2 = finishTime2;
 	}
-
-
 
 	public String getCategory() {
 		return category;
 	}
 
-
-
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
-
 
 	public String getSubCategory() {
 		return subCategory;
 	}
 
-
-
 	public void setSubCategory(String subCategory) {
 		this.subCategory = subCategory;
 	}
-
-
 
 	public String getLocation() {
 		return location;
 	}
 
-
-
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
-
 
 	public String getCity() {
 		return city;
 	}
 
-
-
 	public void setCity(String city) {
 		this.city = city;
 	}
-
-
 
 	public String getDistrict() {
 		return district;
 	}
 
-
-
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-
-
 
 	public String getReference() {
 		return reference;
 	}
 
-
-
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
-
-
 
 	public String getCourseIntro() {
 		return courseIntro;
 	}
 
-
-
 	public void setCourseIntro(String courseIntro) {
 		this.courseIntro = courseIntro;
 	}
-
-
 
 	public String getQuiz() {
 		return quiz;
 	}
 
-
-
 	public void setQuiz(String quiz) {
 		this.quiz = quiz;
 	}
-
-
 
 	public String getCertification() {
 		return certification;
 	}
 
-
-
 	public void setCertification(String certification) {
 		this.certification = certification;
 	}
-
-
 
 	public String getOpenCourseRequirement() {
 		return openCourseRequirement;
 	}
 
-
-
 	public void setOpenCourseRequirement(String openCourseRequirement) {
 		this.openCourseRequirement = openCourseRequirement;
 	}
-
-
 
 	public String getSuitableStudent() {
 		return suitableStudent;
 	}
 
-
-
 	public void setSuitableStudent(String suitableStudent) {
 		this.suitableStudent = suitableStudent;
 	}
-
-
 
 	public String getPrerequest() {
 		return prerequest;
 	}
 
-
-
 	public void setPrerequest(String prerequest) {
 		this.prerequest = prerequest;
 	}
-
-
 
 	public String getHighScoreReward() {
 		return highScoreReward;
 	}
 
-
-
 	public void setHighScoreReward(String highScoreReward) {
 		this.highScoreReward = highScoreReward;
 	}
-
-
 
 	public String getCourseName() {
 		return courseName;
 	}
 
-
-
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
-
-
 
 	public String getStudyDaysNote() {
 		return studyDaysNote;
 	}
 
-
-
 	public void setStudyDaysNote(String studyDaysNote) {
 		this.studyDaysNote = studyDaysNote;
 	}
-
-
 
 	public String getPartnerCourseReference() {
 		return partnerCourseReference;
 	}
 
-
-
 	public void setPartnerCourseReference(String partnerCourseReference) {
 		this.partnerCourseReference = partnerCourseReference;
 	}
-
-
 
 	public String getPartnerIntro() {
 		return partnerIntro;
 	}
 
-
-
 	public void setPartnerIntro(String partnerIntro) {
 		this.partnerIntro = partnerIntro;
 	}
-
-
 
 	public String getTeachingMaterialIntro() {
 		return teachingMaterialIntro;
 	}
 
-
-
 	public void setTeachingMaterialIntro(String teachingMaterialIntro) {
 		this.teachingMaterialIntro = teachingMaterialIntro;
 	}
-
-
 
 	public String getQuestionBank() {
 		return questionBank;
 	}
 
-
-
 	public void setQuestionBank(String questionBank) {
 		this.questionBank = questionBank;
 	}
-
-
 
 	public String getPassAgreement() {
 		return passAgreement;
 	}
 
-
-
 	public void setPassAgreement(String passAgreement) {
 		this.passAgreement = passAgreement;
 	}
-
-
 
 	public String getExtracurricular() {
 		return extracurricular;
 	}
 
-
-
 	public void setExtracurricular(String extracurricular) {
 		this.extracurricular = extracurricular;
 	}
-
-
 
 	public String getPhone() {
 		return phone;
 	}
 
-
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
-
 
 	public String getPartnerDistinction() {
 		return partnerDistinction;
 	}
 
-
-
 	public void setPartnerDistinction(String partnerDistinction) {
 		this.partnerDistinction = partnerDistinction;
 	}
-
-
 
 	public String getOutline() {
 		return outline;
 	}
 
-
-
 	public void setOutline(String outline) {
 		this.outline = outline;
 	}
-
-
 
 	public String getGoal() {
 		return goal;
 	}
 
-
-
 	public void setGoal(String goal) {
 		this.goal = goal;
 	}
-
-
 
 	public String getClassTeacher() {
 		return classTeacher;
 	}
 
-
-
 	public void setClassTeacher(String classTeacher) {
 		this.classTeacher = classTeacher;
 	}
-
-
 
 	public String getTeachingAndExercise() {
 		return teachingAndExercise;
 	}
 
-
-
 	public void setTeachingAndExercise(String teachingAndExercise) {
 		this.teachingAndExercise = teachingAndExercise;
 	}
-
-
 
 	public String getQuestionSession() {
 		return questionSession;
 	}
 
-
-
 	public void setQuestionSession(String questionSession) {
 		this.questionSession = questionSession;
 	}
-
-
 
 	public String getTrail() {
 		return trail;
 	}
 
-
-
 	public void setTrail(String trail) {
 		this.trail = trail;
 	}
-
-
 
 	public String getAssignments() {
 		return assignments;
 	}
 
-
-
 	public void setAssignments(String assignments) {
 		this.assignments = assignments;
 	}
-
-
 
 	public String getMarking() {
 		return marking;
 	}
 
-
-
 	public void setMarking(String marking) {
 		this.marking = marking;
 	}
-
-
 
 	public String getBonusService() {
 		return bonusService;
 	}
 
-
-
 	public void setBonusService(String bonusService) {
 		this.bonusService = bonusService;
 	}
-
-
 
 	public String getDownloadMaterials() {
 		return downloadMaterials;
 	}
 
-
-
 	public void setDownloadMaterials(String downloadMaterials) {
 		this.downloadMaterials = downloadMaterials;
 	}
-
-
 
 	public CourseStatus getStatus() {
 		return status;
 	}
 
-
-
 	public void setStatus(CourseStatus status) {
 		this.status = status;
 	}
-
-
 
 	public PartnerQualification getPartnerQualification() {
 		return partnerQualification;
 	}
 
-
-
 	public void setPartnerQualification(PartnerQualification partnerQualification) {
 		this.partnerQualification = partnerQualification;
 	}
-
-
 
 	public String getTeachingMaterialFree() {
 		return teachingMaterialFree;
 	}
 
-
-
 	public void setTeachingMaterialFree(String teachingMaterialFree) {
 		this.teachingMaterialFree = teachingMaterialFree;
 	}
-
-
 
 	public ArrayList<Integer> getStudyDays() {
 		return studyDays;
 	}
 
-
-
 	public void setStudyDays(ArrayList<Integer> studyDays) {
 		this.studyDays = studyDays;
 	}
-
-
 
 	public ArrayList<String> getClassImgUrls() {
 		return classImgUrls;
 	}
 
-
-
 	public void setClassImgUrls(ArrayList<String> classImgUrls) {
 		this.classImgUrls = classImgUrls;
 	}
-
-
 
 	public ArrayList<String> getTeacherIntros() {
 		return teacherIntros;
 	}
 
-
-
 	public void setTeacherIntros(ArrayList<String> teacherIntros) {
 		this.teacherIntros = teacherIntros;
 	}
-
-
 
 	public ArrayList<String> getTeacherImgUrls() {
 		return teacherImgUrls;
 	}
 
-
-
 	public void setTeacherImgUrls(ArrayList<String> teacherImgUrls) {
 		this.teacherImgUrls = teacherImgUrls;
 	}
-
-
 
 	public ArrayList<String> getTeacherNames() {
 		return teacherNames;
 	}
 
-
-
 	public void setTeacherNames(ArrayList<String> teacherNames) {
 		this.teacherNames = teacherNames;
 	}
-
-
 
 	public String getLogoUrl() {
 		return logoUrl;
 	}
 
-
-
 	public void setLogoUrl(String logoUrl) {
 		this.logoUrl = logoUrl;
 	}
-
-
 
 	public String getInstName() {
 		return instName;
 	}
 
-
-
 	public void setInstName(String instName) {
 		this.instName = instName;
 	}
-
-
 
 	public String getWholeName() {
 		return wholeName;
 	}
 
-
-
 	public void setWholeName(String wholeName) {
 		this.wholeName = wholeName;
 	}
 
-
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-
 
 	public Calendar getCreationTime() {
 		return creationTime;
@@ -1118,7 +874,7 @@ public class Course implements PseudoModel, Serializable{
 				
 	}
 	
-	//TODO inform frontend of list formats in table
+
 	public void loadFromMap(Map<String, String> kvps) throws PseudoException, IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ParseException{
 		Field[] fields = this.getClass().getDeclaredFields();
 		
@@ -1162,15 +918,54 @@ public class Course implements PseudoModel, Serializable{
 							}
 							field.set(this, intList);
 						}
-						else{
-							String[] vals = value.split("-");
-							ArrayList<String> strList = new ArrayList<String>(Arrays.asList(vals)); 
-							field.set(this, strList);
-						}
 					}
 					else{
 						throw new RuntimeException("[ERROR][Reflection] Course loadFromMap suffered fatal reflection error, field type not matched");
 					}
+				}
+				else if (field.getName().equals("classImgUrls")){
+					ArrayList<String> classImgUrlList = new ArrayList<String>();
+					for (int i = 1; i <= 5; i++){
+						String val = kvps.get("url-classImg" + i);
+						if (val == null){
+							throw new ValidationException("教室图片 " + i + " 不能为null");
+						}
+						classImgUrlList.add(val);
+					}
+					field.set(this, classImgUrlList);
+				}
+				else if (field.getName().equals("teacherIntros")){
+					ArrayList<String> teacherIntroList = new ArrayList<String>();
+					for (int i = 1; i <= 4; i++){
+						String val = EncodingService.decodeURI(kvps.get("teacherIntro" + i));
+						if (val == null){
+							break;
+						}
+						teacherIntroList.add(val);
+					}
+					field.set(this, teacherIntroList);
+				}
+				else if (field.getName().equals("teacherImgUrls")){
+					ArrayList<String> teacherImgUrlList = new ArrayList<String>();
+					for (int i = 1; i <= 4; i++){
+						String val = kvps.get("url-teacherImg" + i);
+						if (val == null){
+							break;
+						}
+						teacherImgUrlList.add(val);
+					}
+					field.set(this, teacherImgUrlList);
+				}
+				else if (field.getName().equals("teacherNames")){
+					ArrayList<String> teacherNameList = new ArrayList<String>();
+					for (int i = 1; i <= 4; i++){
+						String val = EncodingService.decodeURI(kvps.get("teacherName" + i));
+						if (val == null){
+							break;
+						}
+						teacherNameList.add(val);
+					}
+					field.set(this, teacherNameList);
 				}
 				else{
 					//null value from kvps, do nothing

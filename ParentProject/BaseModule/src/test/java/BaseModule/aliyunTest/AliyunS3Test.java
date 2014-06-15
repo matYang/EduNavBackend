@@ -22,7 +22,7 @@ public class AliyunS3Test {
 		File file = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName+".png");
 		AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunTeacherImgBucket,false);
 		//Background
-		String backImgPrefix = ImgConfig.classroomImgPrefix;
+		String backImgPrefix = ImgConfig.classImgPrefix;
 		imgName = backImgPrefix + imgSize + userId;
 		file = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName+".png");
 		AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunClassroomImgBucket,false);
