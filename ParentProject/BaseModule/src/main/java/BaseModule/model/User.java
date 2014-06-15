@@ -32,6 +32,7 @@ public class User implements PseudoModel, Serializable{
 	
 	private String invitationalCode;
 	private String appliedInvitationalCode;
+	private String accountNumber;
 	
 	private Calendar creationTime;
 	private Calendar lastLogin;
@@ -43,7 +44,7 @@ public class User implements PseudoModel, Serializable{
 	//SQL Retrieving
 	public User(int userId, String name, String phone, Calendar creationTime,
 			Calendar lastLogin, String password, AccountStatus status,int balance,
-			int coupon,int credit,String email,String invitationalCode,String appliedInvitationalCode) {
+			int coupon,int credit,String email,String invitationalCode,String appliedInvitationalCode, String accountNumber) {
 		super();
 		this.userId = userId;		
 		this.name = name;
@@ -58,10 +59,11 @@ public class User implements PseudoModel, Serializable{
 		this.email = email;
 		this.invitationalCode = invitationalCode;
 		this.appliedInvitationalCode = appliedInvitationalCode;
+		this.accountNumber = accountNumber;
 	}
 	
 	//Normal Construction
-	public User(String phone, String password, String appliedInvitationalCode, String invitationalCode, AccountStatus status) {
+	public User(String phone, String password, String appliedInvitationalCode, String invitationalCode, String accountNumber, AccountStatus status) {
 		super();		
 		this.balance = 0;
 		this.coupon = 0;
@@ -73,6 +75,7 @@ public class User implements PseudoModel, Serializable{
 		this.email = "";
 		this.invitationalCode = invitationalCode;
 		this.appliedInvitationalCode = appliedInvitationalCode;
+		this.accountNumber = accountNumber;
 		this.creationTime = DateUtility.getCurTimeInstance();
 		if(this.lastLogin==null){
 			this.lastLogin = (Calendar) this.creationTime.clone();
@@ -202,6 +205,10 @@ public class User implements PseudoModel, Serializable{
 	public void setAppliedInvitationalCode(String appliedInvitationalCode) {
 		this.appliedInvitationalCode = appliedInvitationalCode;
 	}
+	
+	public String getAccountNumber() {
+		return accountNumber;
+	}
 
 	public JSONObject toJSON(){
 		JSONObject jsonObj = new JSONObject();
@@ -212,6 +219,7 @@ public class User implements PseudoModel, Serializable{
 			jsonObj.put("email", EncodingService.encodeURI(this.email));
 			jsonObj.put("invitationalCode", EncodingService.encodeURI(this.invitationalCode));
 			jsonObj.put("appliedInvitationalCode", EncodingService.encodeURI(this.appliedInvitationalCode));
+			jsonObj.put("accountNumber", EncodingService.encodeURI(this.accountNumber));
 			jsonObj.put("status", this.status.code);
 			jsonObj.put("amount", this.balance);
 			jsonObj.put("coupon", this.coupon);
@@ -240,6 +248,7 @@ public class User implements PseudoModel, Serializable{
 				this.credit == another.getCredit() &&
 				this.coupon == another.getCoupon() && 
 				this.email.equals(another.getEmail()) &&
+				this.accountNumber.equals(another.accountNumber) &&
 				this.invitationalCode.equals(another.getInvitationalCode()) &&
 				this.appliedInvitationalCode.equals(another.getAppliedInvitationalCode());
 	}
