@@ -12,7 +12,6 @@ import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.UserNotFoundException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.User;
 import BaseModule.model.representation.UserSearchRepresentation;
 
@@ -133,8 +132,8 @@ public class UserDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO UserDao (name,password,phone,creationTime,lastLogin,status,balance,coupon,credit,email,invitationalCode,appliedInvitationalCode)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?);";		
+		String query = "INSERT INTO UserDao (name,password,phone,creationTime,lastLogin,status,balance,coupon,credit,email,invitationalCode,appliedInvitationalCode,accountNum)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?);";		
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);			
@@ -151,6 +150,7 @@ public class UserDao {
 			stmt.setString(10, user.getEmail());
 			stmt.setString(11, user.getInvitationalCode());
 			stmt.setString(12, user.getAppliedInvitationalCode());
+			stmt.setString(13, user.getAccountNumber());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -168,7 +168,7 @@ public class UserDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
-		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=?,email=?,invitationalCode=?,appliedInvitationalCode=? where id=?";
+		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=?,email=?,invitationalCode=?,appliedInvitationalCode=?,accountNum=? where id=?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			
@@ -183,7 +183,8 @@ public class UserDao {
 			stmt.setString(8, user.getEmail());
 			stmt.setString(9, user.getInvitationalCode());
 			stmt.setString(10, user.getAppliedInvitationalCode());
-			stmt.setInt(11, user.getUserId());
+			stmt.setString(11, user.getAccountNumber());
+			stmt.setInt(12, user.getUserId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new UserNotFoundException();
@@ -312,7 +313,7 @@ public class UserDao {
 	private static User createUserByResultSet(ResultSet rs) throws SQLException {		
 		return new User(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
 				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),"", AccountStatus.fromInt(rs.getInt("status")),rs.getInt("balance"),rs.getInt("coupon"),
-				rs.getInt("credit"),rs.getString("email"),rs.getString("invitationalCode"),rs.getString("appliedInvitationalCode"));
+				rs.getInt("credit"),rs.getString("email"),rs.getString("invitationalCode"),rs.getString("appliedInvitationalCode"),rs.getString("accountNum"));
 	}
 
 }

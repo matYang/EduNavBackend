@@ -34,7 +34,8 @@ public class UserDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(phone, password, "", "",status);
+		String accountNum = "1";
+		User user = new User(phone, password, "", "",accountNum,status);
 		user.setName(name);
 		user.setEmail(email);
 
@@ -54,7 +55,8 @@ public class UserDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(phone, password, "", "",status);
+		String accountNum = "1";
+		User user = new User(phone, password, "", "",accountNum,status);
 		user.setName(name);
 		user.setEmail(email);
 
@@ -73,7 +75,7 @@ public class UserDaoTest {
 		String phone2 = "1324234234";
 		String password2 = "36krl";
 		AccountStatus status2 = AccountStatus.activated;		
-		User user2 = new User(phone2, password2, "", "",status2);
+		User user2 = new User(phone2, password2, "", "",accountNum+"2",status2);
 		user2.setName(name2);
 		user2.setEmail(email);
 		user2.setInvitationalCode("ghjgiohj");
@@ -96,7 +98,8 @@ public class UserDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(phone, password, "", "",status);
+		String accountNum = "1";
+		User user = new User(phone, password, "", "",accountNum,status);
 		user.setName(name);
 		user.setEmail(email);
 
@@ -144,7 +147,8 @@ public class UserDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(phone, password, "", "",status);
+		String accountNum = "1";
+		User user = new User(phone, password, "", "",accountNum,status);
 		user.setName(name);
 		user.setEmail(email);
 		user.setName("Matt");		
@@ -205,7 +209,8 @@ public class UserDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(phone, password, "", "",status);
+		String accountNum = "1";
+		User user = new User(phone, password, "", "",accountNum,status);
 		user.setName(name);
 		user.setEmail(email);
 		user.setName("Matt");		
@@ -239,7 +244,8 @@ public class UserDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(phone, password, "", "",status);
+		String accountNum = "1";
+		User user = new User(phone, password, "", "",accountNum,status);
 		user.setName(name);
 		user.setEmail(email);
 		user.setName("Matt");		
@@ -280,7 +286,8 @@ public class UserDaoTest {
 		String password = "password";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(phone, password, "", "",status);
+		String accountNum = "1";
+		User user = new User(phone, password, "", "",accountNum,status);
 		user.setName(name);
 		user.setEmail(email+"test");
 		user = UserDao.addUserToDatabase(user);
@@ -289,7 +296,7 @@ public class UserDaoTest {
 		String name11 = "name11";
 		String phone11 = "phone1";
 		String password11 = "password11";		
-		User user11 = new User(phone11, password11, "", "", status);
+		User user11 = new User(phone11, password11, "", "",accountNum+"2", status);
 		user11.setName(name11);
 		user11.setEmail(email);
 		user11.setInvitationalCode("dfghfg");
@@ -299,7 +306,7 @@ public class UserDaoTest {
 		String name2 = "name2";
 		String phone2 = "phone2";
 		String password2 = "password2";		
-		User user2 = new User(phone2, password2, "", "", status);
+		User user2 = new User(phone2, password2, "", "",accountNum+"3", status);
 		user2.setName(name2);
 		user2.setEmail(email);
 		user2.setInvitationalCode("dfg546g");
@@ -309,7 +316,7 @@ public class UserDaoTest {
 		String name22 = "name22";
 		String phone22 = "phone3";
 		String password22 = "password22";		
-		User user22 = new User(phone22, password22, "", "",status);
+		User user22 = new User(phone22, password22, "", "",accountNum+"4",status);
 		user22.setName(name22);
 		user22.setEmail(email);
 		user22.setInvitationalCode("dfghyktho546g");
@@ -319,7 +326,7 @@ public class UserDaoTest {
 		String name3 = "name3";
 		String phone3 = "phone4";
 		String password3 = "password3";		
-		User user3 = new User(phone3, password3, "", "",status);
+		User user3 = new User(phone3, password3, "", "",accountNum+"5",status);
 		user3.setName(name3);
 		user3.setEmail(email);
 		user3.setInvitationalCode("dfg5");

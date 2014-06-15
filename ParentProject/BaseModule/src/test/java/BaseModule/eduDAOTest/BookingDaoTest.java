@@ -37,7 +37,7 @@ public class BookingDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhan@hotmail.com";			
-		User user = new User(userphone, password, "", "",status);
+		User user = new User(userphone, password, "", "","1",status);
 		user.setName(name);
 		user.setEmail(email);		
 		UserDao.addUserToDatabase(user);
@@ -205,7 +205,7 @@ public class BookingDaoTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;		
-		User user = new User(userphone, password, "", "",status);
+		User user = new User(userphone, password, "", "","1",status);
 		user.setName(name);
 		user.setEmail("xiongchuhanplace@hotmail.com");
 		UserDao.addUserToDatabase(user);
@@ -315,7 +315,7 @@ public class BookingDaoTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
-		User user = new User(userphone, password, "", "",status);
+		User user = new User(userphone, password, "", "","1",status);
 		user.setName(name);
 		user.setEmail("xiongchuhan@uwaterloo.ca");
 		UserDao.addUserToDatabase(user);
@@ -394,7 +394,7 @@ public class BookingDaoTest {
 		String userphone = "12345612312";
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
-		User user = new User(userphone, password, "", "",status);
+		User user = new User(userphone, password, "", "","1",status);
 		user.setName(name);
 		user.setEmail("349@hotmail.com");
 		user.setInvitationalCode("sdfdsf");
@@ -403,7 +403,7 @@ public class BookingDaoTest {
 		String name2 = "Fang";
 		String userphone2 = "123312";
 		String password2 = "36knal";		
-		User user2 = new User(userphone2, password2, "", "",status);
+		User user2 = new User(userphone2, password2, "", "","12",status);
 		user2.setName(name2);
 		user2.setEmail("kebi@hotmail.com");
 		user2.setInvitationalCode("sdfdsfdsgfg");

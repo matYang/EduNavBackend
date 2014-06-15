@@ -153,7 +153,8 @@ public class CreditDaoTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhanplace@hotmail.com";
-		User user = new User(phone, password, "", "",status);
+		String accountNum = "1";
+		User user = new User(phone, password, "", "",accountNum,status);
 		user.setName(name);
 		user.setEmail(email);
 		UserDao.addUserToDatabase(user);

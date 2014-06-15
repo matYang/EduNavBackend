@@ -96,7 +96,7 @@ public class CocurrentCreatingTest {
 		String password = "36krfinal";
 		AccountStatus status = AccountStatus.activated;
 		String email = "xiongchuhan@hotmail.com";			
-		User user = new User(userphone, password, "", "",status);
+		User user = new User(userphone, password, "", "","1",status);
 		user.setName(name);
 		user.setEmail(email);		
 		UserDao.addUserToDatabase(user);
