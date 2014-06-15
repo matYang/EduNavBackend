@@ -17,18 +17,17 @@ public class AliyunS3Test {
 		int userId = 1;
 		//Teacher
 		String teacherImgPrefix = ImgConfig.teacherImgPrefix;
-		String imgSize = ImgConfig.imgSize_m;
-		String imgName = teacherImgPrefix + imgSize +userId;
+		String imgName = teacherImgPrefix +userId;
 		File file = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName+".png");
 		AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunTeacherImgBucket,false);
 		//Background
 		String backImgPrefix = ImgConfig.classImgPrefix;
-		imgName = backImgPrefix + imgSize + userId;
+		imgName = backImgPrefix + userId;
 		file = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName+".png");
 		AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunClassroomImgBucket,false);
 		//Logo
 		String logoPrefix = ImgConfig.logoPrefix;
-		imgName = logoPrefix + imgSize + userId;
+		imgName = logoPrefix + userId;
 		file = new File(ServerConfig.resourcePrefix + ImgConfig.ImgFolder + imgName+".png");
 		AliyunMain.uploadImg(userId, file, imgName, ServerConfig.AliyunLogoBucket,false);
 	}
