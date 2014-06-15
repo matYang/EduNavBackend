@@ -51,7 +51,9 @@ public class Course implements PseudoModel, Serializable{
 	
 	private String category;
 	private String subCategory;
+	private String subSubCategory;
 	private String location;
+	private String province;
 	private String city;
 	private String district;
 	private String reference;
@@ -110,7 +112,7 @@ public class Course implements PseudoModel, Serializable{
 			int courseHourLength, int classSize, int cashback, int popularity,
 			Calendar creationTime, Calendar startDate, Calendar finishDate,
 			int startTime1, int finishTime1, int startTime2, int finishiTime2,
-			String category, String subCategory, String location, String city,
+			String category, String subCategory, String subSubCategory,String location, String province,String city,
 			String district, String reference, String courseIntro, String quiz,
 			String certification, String openCourseRequirement,
 			String suitableStudent, String prerequest, String highScoreReward,
@@ -145,7 +147,9 @@ public class Course implements PseudoModel, Serializable{
 		this.finishTime2 = finishiTime2;
 		this.category = category;
 		this.subCategory = subCategory;
+		this.subSubCategory = subSubCategory;
 		this.location = location;
+		this.province = province;
 		this.city = city;
 		this.district = district;
 		this.reference = reference;
@@ -213,7 +217,9 @@ public class Course implements PseudoModel, Serializable{
 		this.finishTime2 = -1;
 		this.category = category;
 		this.subCategory = subCategory;
+		this.subSubCategory = "";
 		this.location = "";
+		this.province = "";
 		this.city = "";
 		this.district = "";
 		this.reference = "";
@@ -358,6 +364,30 @@ public class Course implements PseudoModel, Serializable{
 
 	public void setPopularity(int popularity) {
 		this.popularity = popularity;
+	}
+
+
+
+	public String getSubSubCategory() {
+		return subSubCategory;
+	}
+
+
+
+	public void setSubSubCategory(String subSubCategory) {
+		this.subSubCategory = subSubCategory;
+	}
+
+
+
+	public String getProvince() {
+		return province;
+	}
+
+
+
+	public void setProvince(String province) {
+		this.province = province;
 	}
 
 
@@ -1006,8 +1036,10 @@ public class Course implements PseudoModel, Serializable{
 			jsonObj.put("startTime2", this.startTime2);
 			jsonObj.put("finishTime2", this.finishTime2);
 			jsonObj.put("category", EncodingService.encodeURI(this.category));
-			jsonObj.put("subcategory", EncodingService.encodeURI(this.subCategory));
+			jsonObj.put("subCategory", EncodingService.encodeURI(this.subCategory));
+			jsonObj.put("subSubCategory", EncodingService.encodeURI(this.subSubCategory));
 			jsonObj.put("location", EncodingService.encodeURI(this.location));
+			jsonObj.put("province", EncodingService.encodeURI(this.province));
 			jsonObj.put("city", EncodingService.encodeURI(this.city));
 			jsonObj.put("district", EncodingService.encodeURI(this.district));
 			jsonObj.put("reference", EncodingService.encodeURI(this.reference));
@@ -1072,6 +1104,7 @@ public class Course implements PseudoModel, Serializable{
 					this.finishDate.getTime().toString().equals(c.getFinishDate().getTime().toString()) &&
 					this.startTime1 == c.getStartTime1() && this.finishTime1 == c.getFinishTime1() && this.startTime2 == c.getStartTime2() && this.finishTime2 == c.getFinishTime2() &&
 					this.location.equals(c.getLocation()) && 
+					this.province.equals(c.getProvince()) &&
 					this.city.equals(c.getCity()) && 
 					this.district.equals(c.getDistrict()) &&
 					this.reference.equals(c.getReference()) && 
