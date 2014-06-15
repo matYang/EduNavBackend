@@ -196,7 +196,7 @@ public class Course implements PseudoModel, Serializable{
 
 
 	//testing
-	public Course(int partnerId,Calendar startTime, Calendar finishTime, int price,
+	public Course(int partnerId,Calendar startDate, Calendar finishDate, int price,
 			int classSize, int popularity, String category, String subCategory, String phone) {
 		super();
 		this.courseId = -1;
@@ -204,12 +204,12 @@ public class Course implements PseudoModel, Serializable{
 		this.price = price;
 		this.courseHourNum = -1;
 		this.courseHourLength = -1;
-		this.classSize = -1;
+		this.classSize = classSize;
 		this.cashback = -1;
-		this.popularity = -1;
+		this.popularity = popularity;
 		this.creationTime = DateUtility.getCurTimeInstance();
-		this.startDate = startTime;		
-		this.finishDate = finishTime;
+		this.startDate = startDate;		
+		this.finishDate = finishDate;
 		this.startTime1 = -1;
 		this.finishTime1 = -1;
 		this.startTime2 = -1;

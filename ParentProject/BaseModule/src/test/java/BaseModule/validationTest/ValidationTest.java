@@ -453,15 +453,19 @@ public class ValidationTest {
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
 		finishTime.add(Calendar.DAY_OF_YEAR, 1);		
-		int seatsTotal = 50;
-		int seatsLeft = 5;
+		int classSize = 50;
+		int popularity = 5;
 		int price = 1000;	
 		String category = "Physics";
-		String subCategory = "sub-Phy";		
-		AccountStatus status = AccountStatus.activated;
+		String subCategory = "sub-Phy";			
 		String phone = "12344545";
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,phone);
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
 		course.setCourseName("sdlkjoeghjeior");
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
 		}catch(Exception e){
@@ -469,8 +473,13 @@ public class ValidationTest {
 		}
 
 		boolean fail = true;
-		course = new Course(-1, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		course = new Course(-1, startTime, finishTime,price,classSize, popularity,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -482,8 +491,13 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course =new Course(p_Id, startTime, startTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		course =new Course(p_Id, startTime, startTime,price,classSize, popularity,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -495,7 +509,12 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsTotal+1,category,subCategory,phone);
+		course = new Course(p_Id, startTime, finishTime,price,classSize, classSize+1,category,subCategory,phone);
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -509,6 +528,11 @@ public class ValidationTest {
 		fail = true;
 		course = new Course(p_Id, startTime, finishTime,price,-1, -2,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -520,7 +544,12 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course =new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,"",subCategory,phone);
+		course =new Course(p_Id, startTime, finishTime,price,classSize, popularity,"",subCategory,phone);
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -532,8 +561,13 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,-1,seatsTotal, seatsLeft,category,subCategory,phone);
+		course = new Course(p_Id, startTime, finishTime,-1,classSize, popularity,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -545,8 +579,13 @@ public class ValidationTest {
 		if(fail) fail();		
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,"",phone);
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,"",phone);
 		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -558,8 +597,13 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, null, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		course = new Course(p_Id, null, finishTime,price,classSize, popularity,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -571,8 +615,13 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,"dsf124");
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"dsf124");
 		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -580,6 +629,104 @@ public class ValidationTest {
 			fail = false;
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+		if(fail) fail();
+		
+		fail = true;
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"dsf124");
+		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setStartTime2(900);
+		course.setFinishTime2(1200);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
+		try{
+			ValidationService.validateCourse(course);
+		}catch(ValidationException e){
+			//Passed;
+			fail = false;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(fail) fail();		
+		
+		fail = true;
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"dsf124");
+		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setStartTime2(1000);
+		course.setFinishTime2(1400);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
+		try{
+			ValidationService.validateCourse(course);
+		}catch(ValidationException e){
+			//Passed;
+			fail = false;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(fail) fail();
+		
+		fail = true;
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"dsf124");
+		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setStartTime2(1200);
+		course.setFinishTime2(1400);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
+		try{
+			ValidationService.validateCourse(course);
+		}catch(ValidationException e){
+			//Passed;
+			fail = false;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(fail) fail();
+		
+		fail = true;
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"dsf124");
+		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setStartTime2(1205);
+		course.setFinishTime2(1205);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
+		try{
+			ValidationService.validateCourse(course);
+		}catch(ValidationException e){
+			//Passed;
+			fail = false;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(fail) fail();
+		
+		fail = true;
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"13585226500");
+		course.setCourseName("sdlkjoeghjeior");
+		course.setStartTime1(900);
+		course.setFinishTime1(1200);
+		course.setStartTime2(1205);
+		course.setFinishTime2(1305);
+		course.setCourseHourLength(1);
+		course.setCourseHourNum(2);
+		course.setSubSubCategory("xch");
+		try{
+			ValidationService.validateCourse(course);
+			fail = false;
+		}catch(Exception e){
+			//fail
 		}
 		if(fail) fail();
 	}
