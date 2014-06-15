@@ -23,7 +23,9 @@ public class ServerConfig {
 		public static final String MAP_MODULE_USER = "user";
 		public static final String MAP_MODULE_PARTNER = "partner";
 		public static final String MAP_MODULE_ADMIN = "admin";
-
+		
+		public static final String normalSpliter = "-";
+		 
 		//use concurrent hashmap to guarantee thread safety
 		public static final Map<String, String> configurationMap = new ConcurrentHashMap<String, String>();
 		
