@@ -102,9 +102,6 @@ public class EduDaoBasic {
     	if(connections==null||connections.length==0){
     		return getSQLConnection();
     	}else return connections[0];
-//    	}else if(connections.length==1&& connections[0] instanceof java.sql.Connection){
-//    		return connections[0];
-//    	}else return null;
     }
     
     public static void closeResources(Connection conn, PreparedStatement stmt, ResultSet rs,boolean closeconn){
