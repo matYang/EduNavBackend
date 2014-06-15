@@ -39,7 +39,8 @@ public class UserResource extends UserPseudoResource{
 				appliedInvitationalCode = "";
 			}
 			String invitationalCode = ReferenceFactory.generateUserInvitationalCode();
-			user = new User(phone, password,appliedInvitationalCode, invitationalCode, AccountStatus.activated);
+			String accountNumber = ReferenceFactory.generateUserAccountNumber();
+			user = new User(phone, password,appliedInvitationalCode, invitationalCode, accountNumber, AccountStatus.activated);
 			user.setName("爱会员");
 			
 			if (!ValidationService.validatePhone(phone)){

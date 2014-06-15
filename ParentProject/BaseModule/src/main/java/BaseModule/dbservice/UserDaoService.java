@@ -181,5 +181,11 @@ public class UserDaoService {
 		sr.setInvitationalCode(code);
 		return UserDao.searchUser(sr).size() == 0;
 	}
+	
+	public static boolean isAccountnumberAvailable(String accountNumber) throws SQLException{
+		UserSearchRepresentation sr = new UserSearchRepresentation();
+		sr.setAccountNumber(accountNumber);
+		return UserDao.searchUser(sr).size() == 0;
+	}
 
 }
