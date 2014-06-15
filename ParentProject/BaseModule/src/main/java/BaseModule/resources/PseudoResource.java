@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -160,7 +161,20 @@ public class PseudoResource extends ServerResource{
 	public StringRepresentation doException(Exception e){
 		DebugLog.d(e);
 		setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
-		return new StringRepresentation("不好意思..哪里弄错了，请稍后重试");
+		if (e instanceof SQLException){
+			if (e.getMessage().contains("Duplicate")){
+				return new StringRepresentation("关键信息重复，请重新填写");
+			}
+			else if (e.getMessage().contains("Deadlock") || e.getMessage().contains("Lock") || e.getMessage().contains("lock")){
+				return new StringRepresentation("系统繁忙，请稍后再试");
+			}
+			else{
+				return new StringRepresentation("数据库遇到问题，请重试");
+			}
+		}
+		else{
+			return new StringRepresentation("不好意思..哪里弄错了，请稍后重试");
+		}
 	}
 	
 

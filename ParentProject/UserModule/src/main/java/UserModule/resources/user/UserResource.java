@@ -40,7 +40,8 @@ public class UserResource extends UserPseudoResource{
 			}
 			String invitationalCode = ReferenceFactory.generateUserInvitationalCode();
 			user = new User(phone, password,appliedInvitationalCode, invitationalCode, AccountStatus.activated);
-
+			user.setName("爱会员");
+			
 			if (!ValidationService.validatePhone(phone)){
 				throw new ValidationException("手机号码格式不正确");
 			}
