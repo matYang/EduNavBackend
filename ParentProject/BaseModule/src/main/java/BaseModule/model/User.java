@@ -214,7 +214,7 @@ public class User implements PseudoModel, Serializable{
 	public JSONObject toJSON(){
 		JSONObject jsonObj = new JSONObject();
 		try{
-			jsonObj.put("id", this.userId);
+			jsonObj.put("userId", this.userId);
 			jsonObj.put("name", EncodingService.encodeURI(this.name));
 			jsonObj.put("phone", EncodingService.encodeURI(this.phone));	
 			jsonObj.put("email", EncodingService.encodeURI(this.email));
