@@ -44,7 +44,8 @@ public class User implements PseudoModel, Serializable{
 	//SQL Retrieving
 	public User(int userId, String name, String phone, Calendar creationTime,
 			Calendar lastLogin, String password, AccountStatus status,int balance,
-			int coupon,int credit,String email,String invitationalCode,String appliedInvitationalCode, String accountNumber) {
+			int coupon,int credit,String email,String invitationalCode,String appliedInvitationalCode, 
+			String accountNumber) {
 		super();
 		this.userId = userId;		
 		this.name = name;

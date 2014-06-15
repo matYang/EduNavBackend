@@ -35,11 +35,12 @@ public class UserResource extends UserPseudoResource{
 			String confirmPassword = EncodingService.decodeURI(jsonUser.getString("confirmPassword"));
 			String authCode = EncodingService.decodeURI(jsonUser.getString("authCode"));
 			String appliedInvitationalCode = EncodingService.decodeURI(jsonUser.getString("appliedInvitationalCode"));
+			String accountNum = EncodingService.decodeURI(jsonUser.getString("accountNumber"));
 			if (appliedInvitationalCode == null || appliedInvitationalCode.length() == 0){
 				appliedInvitationalCode = "";
 			}
 			String invitationalCode = ReferenceFactory.generateUserInvitationalCode();
-			user = new User(phone, password,appliedInvitationalCode, invitationalCode, AccountStatus.activated);
+			user = new User(phone, password,appliedInvitationalCode, invitationalCode, accountNum,AccountStatus.activated);
 			user.setName("爱会员");
 			
 			if (!ValidationService.validatePhone(phone)){

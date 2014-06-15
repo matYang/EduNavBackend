@@ -190,7 +190,8 @@ public class ModelDataLoaderService {
 			String password = "36krfinal";
 			AccountStatus status = AccountStatus.activated;
 			String email = "xiongchuhanplace@hotmail.com";
-			User user = new User(phone, password, "", "", status);
+			String accountNum = "1";
+			User user = new User(phone, password, "", "", accountNum,status);
 			user.setName(name);
 			user.setEmail(email);
 			UserDao.addUserToDatabase(user,connections);
@@ -200,7 +201,7 @@ public class ModelDataLoaderService {
 			String password2 = "36krlrethjhgu";
 			String email2 = "uwse@me";
 			AccountStatus status2 = AccountStatus.activated;		
-			User user2 = new User(phone2, password2, "", "", status2);
+			User user2 = new User(phone2, password2, "", "", accountNum+"2",status2);
 			user2.setName(name2);
 			user2.setEmail(email2);
 			user2.setInvitationalCode("MattSexHotLine:18502877744");
@@ -211,7 +212,7 @@ public class ModelDataLoaderService {
 			String password3 = "36krlfgfdgdf";
 			String email3 = "uwse@me";
 			AccountStatus status3 = AccountStatus.deactivated;		
-			User user3 = new User(phone3, password3, "", "", status3);
+			User user3 = new User(phone3, password3, "", "", accountNum+"3",status3);
 			user3.setName(name3);
 			user3.setEmail(email3);
 			user3.setInvitationalCode("MattSexHotLine:1850287774");
@@ -222,7 +223,7 @@ public class ModelDataLoaderService {
 			String password4 = "36kr53ty4ylfgfdgdf";
 			String email4 = "45r4235@me";
 			AccountStatus status4 = AccountStatus.deleted;		
-			User user4 = new User(phone4, password4, "", "", status4);
+			User user4 = new User(phone4, password4, "", "", accountNum+"4",status4);
 			user4.setName(name4);
 			user4.setEmail(email4);
 			user4.setInvitationalCode("MattSexHotLine:185028777");
