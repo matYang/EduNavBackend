@@ -1,9 +1,11 @@
 package BaseModule.factory;
 
 import java.sql.SQLException;
+import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import BaseModule.common.DateUtility;
 import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.dbservice.CourseDaoService;
@@ -18,6 +20,8 @@ public class ReferenceFactory {
 	private static final int bookingReferenceLength = 10;
 	private static final int adminReferenceLength = 8;
 	private static final int userInvitionalCodeLength = 8;
+	private static final int userAccountNumberLength = 19;
+	private static final long userAccountNumberEpoch = 1402835376803l;
 	
 	
 	public static String generatePartnerReference() throws SQLException{
@@ -61,8 +65,23 @@ public class ReferenceFactory {
 		return code;
 	}
 	
+	private static String generateAccountNumber() throws SQLException{
+		String prefix = "6";
+		Random random = new Random();
+		int randomCount = random.nextInt(100);
+		String sufix = (DateUtility.getCurTime() - userAccountNumberEpoch) + "" + randomCount;
+		while (sufix.length() < userAccountNumberLength-1){
+			sufix = "0" + sufix;
+		}
+		return prefix + sufix;
+	}
+	
 	public static String generateUserAccountNumber() throws SQLException{
-		return null;
+		String accountNumber = generateAccountNumber();
+		while (!UserDaoService.isAccountnumberAvailable(accountNumber)){
+			accountNumber = generateAccountNumber();
+		}
+		return accountNumber;
 	}
 	
 }
