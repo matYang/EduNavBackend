@@ -12,7 +12,6 @@ import BaseModule.configurations.CacheConfig;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
