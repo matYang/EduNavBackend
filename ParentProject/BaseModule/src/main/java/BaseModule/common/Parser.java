@@ -16,7 +16,7 @@ public class Parser {
 	}
 
 	public static ArrayList<?> stringToList(String listString, Object optionFlag){
-		String[] strArray = listString != null ? listString.split("-") : null;
+		String[] strArray = listString != null && !listString.equals("") ? listString.split("-") : null;
 		if (optionFlag instanceof Integer){
 			ArrayList<Integer> intList = new ArrayList<Integer>();
 

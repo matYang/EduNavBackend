@@ -41,7 +41,7 @@ public class Credit implements PseudoModel, Serializable{
 	}
 	
 	//normal construction
-	public Credit(int bookingId, int amount, int userId){
+	public Credit(int bookingId, int userId, int amount){
 		this.creditId = -1;
 		this.bookingId = bookingId;
 		this.userId = userId;

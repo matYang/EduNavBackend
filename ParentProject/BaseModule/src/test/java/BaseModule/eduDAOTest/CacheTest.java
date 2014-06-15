@@ -98,7 +98,7 @@ public class CacheTest {
 		String subCategory = "sub-Phy";		
 		String phone = "12344565654";
 		AccountStatus status = AccountStatus.activated;		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
 		try {
 			CourseDao.addCourseToDatabases(course, connections);
 		} catch (SQLException e) {	
@@ -112,7 +112,7 @@ public class CacheTest {
 		category = "Chinese";
 		subCategory = "sub-Chin";		
 		status = AccountStatus.deactivated;		
-		Course course2 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course2 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
 		try {
 			CourseDao.addCourseToDatabases(course2, connections);
 		} catch (SQLException e) {			
@@ -127,7 +127,7 @@ public class CacheTest {
 		category = "French";
 		subCategory = "sub-French";		
 		status = AccountStatus.deleted;		
-		Course course3 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course3 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
 		try {
 			CourseDao.addCourseToDatabases(course3, connections);
 		} catch (SQLException e) {		
@@ -147,7 +147,7 @@ public class CacheTest {
 		String subCategory = "sub-Phy";		
 		String phone = "12344565654";
 		AccountStatus status = AccountStatus.activated;		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
 		try {
 			CourseDao.addCourseToDatabases(course, connections);
 		} catch (SQLException e) {	

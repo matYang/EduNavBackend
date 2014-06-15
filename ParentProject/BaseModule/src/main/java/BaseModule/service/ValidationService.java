@@ -95,22 +95,29 @@ public class ValidationService {
 	}
 	
 	public static boolean validateCourse(Course course) throws ValidationException{
-		if(course.getPartnerId() <= 0 || course.getSeatsLeft() < 0 || 
-				course.getSeatsTotal() < 0 || course.getPrice() < 0 ||
+		if(course.getPartnerId() <= 0 || course.getClassSize() < 0 || 
+				course.getCourseHourNum() < 0 || course.getPrice() < 0 ||
+				course.getCourseHourLength() < 0 ||
 				!validatePhone(course.getPhone())){
 			throw new ValidationException("课程信息不符合规范");
-		}
-		if(course.getSeatsLeft() > course.getSeatsTotal()){
-			throw new ValidationException("课程信息不符合规范");
-		}
-		if(course.getStartTime() == null || course.getFinishTime() == null){
+		}		
+		if(course.getStartDate() == null || course.getFinishDate() == null ||
+				course.getStartTime1() == -1 || course.getFinishTime1() == -1){
 			throw new ValidationException("课程开始或完成时间不能为空");
 		}
-		if(DateUtility.compareday(course.getStartTime(), course.getFinishTime()) >= 0){
-			throw new ValidationException("课程开始或完成时间不合理");
+		if((course.getStartTime2() == -1 && course.getFinishTime2() != -1) ||
+				(course.getStartTime2() != -1 && course.getFinishTime2() == -1)){
+			throw new ValidationException("课程时间安排不合理");
 		}
+		if(DateUtility.compareday(course.getStartDate(), course.getFinishDate()) >= 0 ||
+				(course.getStartTime1() >= course.getFinishTime1()) || 
+				(course.getStartTime2() >= course.getFinishTime2() && (course.getStartTime2() != -1 || course.getFinishTime2() != -1)) ||
+				(course.getStartTime2() <= course.getFinishTime1() && course.getStartTime2() != -1)){
+			throw new ValidationException("课程开始或完成时间不合理");
+		}		
 		if(course.getCategory() == null || course.getCategory().length() == 0 ||
 				course.getSubCategory() == null || course.getSubCategory().length() == 0 ||
+				course.getSubSubCategory() == null || course.getSubSubCategory().length() == 0 ||
 				course.getCourseName() == null || course.getCourseName().length() == 0){
 			throw new ValidationException("课程信息不完整");
 		}

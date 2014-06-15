@@ -11,6 +11,7 @@ import org.restlet.resource.Post;
 
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -34,7 +35,7 @@ public class CourseResource extends PartnerPseudoResource{
 			}
 			
 			Course course = new Course();
-			course.setStatus(AccountStatus.deleted);
+			course.setStatus(CourseStatus.deactivated);
 			course = CourseDaoService.createCourse(course);
 			
 			props = this.handleMultiForm(entity, course.getCourseId(), props);

@@ -65,7 +65,7 @@ public class ModelDataLoaderService {
 		String subCategory = "sub-Phy";		
 		String phone = "12344565654";
 		AccountStatus status = AccountStatus.activated;		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
 		try {
 			CourseDao.addCourseToDatabases(course, connections);
 		} catch (SQLException e) {	
@@ -79,7 +79,7 @@ public class ModelDataLoaderService {
 		category = "Chinese";
 		subCategory = "sub-Chin";		
 		status = AccountStatus.deactivated;		
-		Course course2 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course2 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
 		try {
 			CourseDao.addCourseToDatabases(course2, connections);
 		} catch (SQLException e) {			
@@ -94,7 +94,7 @@ public class ModelDataLoaderService {
 		category = "French";
 		subCategory = "sub-French";		
 		status = AccountStatus.deleted;		
-		Course course3 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course3 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
 		try {
 			CourseDao.addCourseToDatabases(course3, connections);
 		} catch (SQLException e) {		
@@ -109,7 +109,7 @@ public class ModelDataLoaderService {
 			Course course = CourseDao.getCourseById(1, connections);
 			User user = UserDao.getUserById(1, connections);
 			Partner partner = PartnerDao.getPartnerById(1, connections);
-			Booking booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), 
+			Booking booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(), 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"4trg45rt",BookingStatus.awaiting,50);
 			try {
@@ -121,7 +121,7 @@ public class ModelDataLoaderService {
 			course = CourseDao.getCourseById(2, connections);
 			user = UserDao.getUserById(1, connections);
 			partner = PartnerDao.getPartnerById(2, connections);
-			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(),
+			booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(),
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"iuyiohy89",BookingStatus.confirmed,50);
 			try {
@@ -133,7 +133,7 @@ public class ModelDataLoaderService {
 			course = CourseDao.getCourseById(3, connections);
 			user = UserDao.getUserById(2, connections);
 			partner = PartnerDao.getPartnerById(3, connections);
-			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(),
+			booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(),
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"ihjgijrth",BookingStatus.delivered,50);
 			try {
@@ -145,7 +145,7 @@ public class ModelDataLoaderService {
 			course = CourseDao.getCourseById(2, connections);
 			user = UserDao.getUserById(3, connections);
 			partner = PartnerDao.getPartnerById(2, connections);
-			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(), 
+			booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(), 
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"regtret",BookingStatus.finished,50);
 			try {
@@ -157,7 +157,7 @@ public class ModelDataLoaderService {
 			course = CourseDao.getCourseById(1, connections);
 			user = UserDao.getUserById(4, connections);
 			partner = PartnerDao.getPartnerById(1, connections);
-			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(),
+			booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(),
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"klpupkl",BookingStatus.cancelled,50);
 			try {
@@ -169,7 +169,7 @@ public class ModelDataLoaderService {
 			course = CourseDao.getCourseById(2, connections);
 			user = UserDao.getUserById(2, connections);
 			partner = PartnerDao.getPartnerById(2, connections);
-			booking = new Booking(course.getStartTime(),course.getCreationTime(),course.getPrice(),
+			booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(),
 					user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 					user.getEmail(),"fgjuifug",BookingStatus.failed,50);
 			try {

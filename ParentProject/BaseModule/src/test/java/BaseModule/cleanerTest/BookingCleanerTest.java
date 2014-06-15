@@ -1,6 +1,7 @@
 package BaseModule.cleanerTest;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import org.junit.Test;
 
@@ -8,6 +9,7 @@ import BaseModule.clean.cleanTasks.CourseCleaner;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.CourseDao;
@@ -55,7 +57,8 @@ public class BookingCleanerTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		course.setReference("courseFGgf");
 		CourseDao.addCourseToDatabases(course);		
 		
 		course = CourseDao.getCourseById(course.getCourseId());	
@@ -67,14 +70,15 @@ public class BookingCleanerTest {
 		course.setCity(city);
 		course.setDistrict(district);
 		course.setReference(reference2);
-		course.setClassroomImgUrl("www.hotmail.com");
-		course.setTeacherImgUrl("www.google.ca");
-		course.setTeachingMethodsIntro("Hand and Ass");
-		course.setCourseName("bababa");
-		course.setTeacherIntro("sdfkljrghiuoghrer");		
+		ArrayList<String> ImgUrls = new ArrayList<String>();
+		ImgUrls.add("www.hotmail.com");
+		course.setClassImgUrls(ImgUrls);
+		course.setTeacherImgUrls(ImgUrls);
+		course.setTeachingMaterialIntro("Hand and Ass");
+		course.setCourseName("bababa");				
 		course.setPrice(price);
-		course.setStatus(AccountStatus.deactivated);
-		course.setStartTime(DateUtility.getTimeFromLong(DateUtility.getCurTime() - Booking.cashbackDelay - 600000l));
+		course.setStatus(CourseStatus.deactivated);
+		course.setStartDate(DateUtility.getTimeFromLong(DateUtility.getCurTime() - Booking.cashbackDelay - 600000l));
 		CourseDao.updateCourseInDatabases(course);		
 		course = CourseDao.getCourseById(course.getCourseId());			
 		
@@ -95,21 +99,21 @@ public class BookingCleanerTest {
 		finishTime2.add(Calendar.DAY_OF_YEAR, -1);			
 		Booking booking2 = new Booking(finishTime2,timeStamp,
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.cancelled,cashbackAmount);
+				email,partner.getReference()+"2",BookingStatus.cancelled,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking2);
 		
 		Calendar finishTime3 = Calendar.getInstance();
 		finishTime3.add(Calendar.HOUR_OF_DAY, 1);
 		Booking booking3 = new Booking(finishTime3,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.finished,cashbackAmount);
+				email,partner.getReference()+"3",BookingStatus.finished,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking3);
 		
 		Calendar finishTime4 = Calendar.getInstance();
 		finishTime4.add(Calendar.HOUR_OF_DAY, 1);
 		Booking booking4 = new Booking(finishTime4,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.quit,cashbackAmount);
+				email,partner.getReference()+"4",BookingStatus.quit,cashbackAmount);
 
 		BookingDao.addBookingToDatabases(booking4);
 		

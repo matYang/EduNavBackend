@@ -357,6 +357,24 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}
 			query += "CourseDao.creationTime = ? ";
 		}
+		if(this.getStartDate() != null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.startDate >= ? ";
+		}
+		if(this.getFinishDate() != null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.finishDate <= ? ";
+		}
 		if(this.getStartPrice() >= 0){
 			if(!start){
 				query += "where ";
@@ -400,7 +418,25 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.subcategory = ? ";
+			query += "CourseDao.subCategory = ? ";
+		}
+		if(this.getSubSubCategory() != null && this.getSubSubCategory().length() > 0){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.subSubCategory = ? ";
+		}
+		if(this.getProvince() != null && this.getProvince().length() > 0){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.province = ? ";
 		}
 		if(this.getCity()!=null&&this.getCity().length()>0){
 			if(start){				
@@ -437,6 +473,42 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				start = true;
 			}
 			query += " CourseDao.id = ? ";
+		}
+		if(this.getStartClassSize() != -1){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.classSize >= ? ";
+		}
+		if(this.getFinishClassSize() != -1){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.classSize <= ? ";
+		}
+		if(this.getStartCashback() != -1){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.cashback >= ? ";
+		}
+		if(this.getFinishCashback() != -1){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.cashback <= ? ";
 		}
 
 

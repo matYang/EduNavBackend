@@ -11,6 +11,7 @@ import org.junit.Test;
 import BaseModule.clean.cleanTasks.CourseCleaner;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
@@ -36,14 +37,14 @@ public class CourseCleanerTest {
 		PartnerDao.addPartnerToDatabases(partner);
 		int p_Id = partner.getPartnerId();
 		Calendar startTime = DateUtility.getCurTimeInstance();
-		Calendar finishTime = DateUtility.getCurTimeInstance();		
-		startTime.add(Calendar.DAY_OF_YEAR, 1);		
-		int seatsTotal = 50;
-		int seatsLeft = 5;
+		startTime.add(Calendar.SECOND, -1);
+		Calendar finishTime = DateUtility.getCurTimeInstance();				
+		int classSize = 50;
+		int popularity = 5;
 		String category = "Physics";
 		String subCategory = "sub-Phy";			
 		int price = 124;
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,classSize,popularity,category,subCategory,phone);
 		String location = "China";
 		String city = "NanJing";
 		String district = "JiangNing";
@@ -57,17 +58,18 @@ public class CourseCleanerTest {
 		
 		Calendar startTime2 = DateUtility.getCurTimeInstance();		
 		startTime2.add(Calendar.DAY_OF_YEAR, -1);			
-		Course course2 = new Course(p_Id, startTime2, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course2 = new Course(p_Id, startTime2, finishTime,price,classSize,popularity,category,subCategory,phone);
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
 		course2.setReference(reference2);
+		course2.setStatus(CourseStatus.consolidated);
 		CourseDao.addCourseToDatabases(course2);
 		
 						
 		Calendar startTime3 = DateUtility.getCurTimeInstance();		
 		startTime3.add(Calendar.MINUTE, 1);
-		Course course3 = new Course(p_Id, startTime3, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course3 = new Course(p_Id, startTime3, finishTime,price,classSize,popularity,category,subCategory,phone);
 		String location2= "China";
 		String city2 = "ChengDu";
 		String district2 = "ChengHua";
@@ -76,6 +78,7 @@ public class CourseCleanerTest {
 		course3.setCity(city2);
 		course3.setDistrict(district2);
 		course3.setReference(reference3);
+		course3.setStatus(CourseStatus.openEnroll);
 		CourseDao.addCourseToDatabases(course3);		
 	
 		CourseCleaner.cleanCourse();		
@@ -84,9 +87,9 @@ public class CourseCleanerTest {
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		c_sr.setPartnerId(p_Id);
 		clist = CourseDao.searchCourse(c_sr);
-		if(clist.size()==3&&clist.get(0).getStatus().code==AccountStatus.activated.code&&
-				clist.get(1).getStatus().code==AccountStatus.deactivated.code&&
-				clist.get(2).getStatus().code==AccountStatus.activated.code){
+		if(clist.size()==3&&clist.get(0).getStatus().code==CourseStatus.deactivated.code &&
+				clist.get(1).getStatus().code==CourseStatus.consolidated.code &&
+				clist.get(2).getStatus().code==CourseStatus.openEnroll.code){
 			//Passed;
 		}else fail();
 				

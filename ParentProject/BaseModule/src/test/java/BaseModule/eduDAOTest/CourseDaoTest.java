@@ -5,12 +5,9 @@ import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import org.junit.Test;
-
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.configurations.EnumConfig.ClassModel;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
@@ -35,7 +32,7 @@ public class CourseDaoTest {
 		String subCategory = "sub-Phy";		
 		String phone = "12344565654";
 		AccountStatus status = AccountStatus.activated;		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,status,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
 		try{
 			CourseDao.addCourseToDatabases(course);
 		}catch(Exception e){
@@ -66,7 +63,7 @@ public class CourseDaoTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
 		int price = 1000;				
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,status,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
 		String location = "China";
 		String city = "NanJing";
 		String district = "JiangNing";
@@ -77,11 +74,11 @@ public class CourseDaoTest {
 		course.setReference(reference2);
 		CourseDao.addCourseToDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
-		course.setClassroomImgUrl("www.hotmail.com");
-		course.setTeacherImgUrl("www.google.ca");
-		course.setTeachingMethodsIntro("Hand and Ass");
-		course.setCourseName("bababa");
-		course.setTeacherIntro("sdfkljrghiuoghrer");
+		ArrayList<String> ImgUrls = new ArrayList<String>();
+		ImgUrls.add("www.hotmail.com");
+		course.setClassImgUrls(ImgUrls);
+		course.setTeacherImgUrls(ImgUrls);
+		course.setTeachingMaterialIntro("Hand and Ass");
 		course.setPrice(1111);
 		CourseDao.updateCourseInDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
@@ -98,18 +95,17 @@ public class CourseDaoTest {
 		int seatsLeft2 = 5;
 		String category2 = "Physics";
 		String subCategory2 = "sub-Chin";			
-		Course course2 = new Course(p_Id, startTime2, finishTime2,price,seatsTotal2, seatsLeft2,status,category2,subCategory2,phone);
+		Course course2 = new Course(p_Id, startTime2, finishTime2,price,seatsTotal2, seatsLeft2,category2,subCategory2,phone);
 		CourseDao.addCourseToDatabases(course2);
 		course2 = CourseDao.getCourseById(course2.getCourseId());		
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
-		course2.setReference(reference2);
-		course2.setClassroomImgUrl("www.hocom");
-		course2.setTeacherImgUrl("wwwgle.ca");
-		course2.setTeachingMethodsIntro("Hass");
-		course2.setCourseName("baa");
-		course2.setTeacherIntro("sdfklghrer");
+		course2.setReference(reference2);		
+		ImgUrls.add("www.hotmail.com");
+		course2.setClassImgUrls(ImgUrls);
+		course2.setTeacherImgUrls(ImgUrls);
+		course2.setTeachingMaterialIntro("Hand and Ass");
 		course2.setPrice(2222);
 		CourseDao.updateCourseInDatabases(course2);
 		
@@ -131,11 +127,11 @@ public class CourseDaoTest {
 			//Passed;
 		}else fail();		
 		
-		course2.setProvideMarking(true);
+		course2.setMarking("true");
 		CourseDao.updateCourseInDatabases(course2);
 		test = CourseDao.getCourseById(course2.getCourseId());
 		
-		if(test.isProvideMarking()){
+		if(test.getMarking().equals("true")){
 			//Passed;
 		}else fail();
 		
@@ -202,14 +198,14 @@ public class CourseDaoTest {
 		String city1 = "city1";
 		String district1 = "district1";
 		String coursereference1 = "course-reference1";	
-		Course course = new Course(p_Id, startTime, finishTime,price1,seatsTotal, seatsLeft,status,category1,subCategory1,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price1,seatsTotal, seatsLeft,category1,subCategory1,phone);
 		course.setLocation(location1);
 		course.setCity(city1);
 		course.setDistrict(district1);
 		course.setReference(coursereference1);
-		course.setTeachingMethodsIntro("teachingMaterial1");
-		course.setCourseName("title1");
-		course.setTeacherIntro("teachingInfo1");
+		course.setTeachingMaterialIntro("teachingMaterial1");
+		course.setCourseName("title1");		
+		course.setClassSize(5);
 		course = CourseDao.addCourseToDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
 		
@@ -223,14 +219,14 @@ public class CourseDaoTest {
 		String city2 = "city2";
 		String district2 = "district2";
 		String coursereference2 = "course-reference2";			
-		Course course2 = new Course(p_Id2, startTime2, finishTime2,price2,seatsTotal, seatsLeft,status,category2,subCategory2,phone);
+		Course course2 = new Course(p_Id2, startTime2, finishTime2,price2,seatsTotal, seatsLeft,category2,subCategory2,phone);
 		course2.setLocation(location2);
 		course2.setCity(city2);
 		course2.setDistrict(district2);
 		course2.setReference(coursereference2);
-		course2.setTeachingMethodsIntro("teachingMaterial2");
-		course2.setCourseName("title2");
-		course2.setTeacherIntro("teachingInfo2");
+		course2.setTeachingMaterialIntro("teachingMaterial2");
+		course2.setCourseName("title2");	
+		course2.setClassSize(5);
 		course2 = CourseDao.addCourseToDatabases(course2);
 		course2 = CourseDao.getCourseById(course2.getCourseId());
 		
@@ -244,15 +240,13 @@ public class CourseDaoTest {
 		String city21 = "city2";
 		String district21 = "district2";
 		String coursereference21 = "course-reference21";				
-		Course course21 = new Course(p_Id2, startTime21, finishTime21,price21,seatsTotal, seatsLeft,status,category21,subCategory21,phone);
-		course21.setClassModel(ClassModel.medianclass);
+		Course course21 = new Course(p_Id2, startTime21, finishTime21,price21,seatsTotal, seatsLeft,category21,subCategory21,phone);
 		course21.setLocation(location21);
 		course21.setCity(city21);
 		course21.setDistrict(district21);
 		course21.setReference(coursereference21);
-		course21.setTeachingMethodsIntro("teachingMaterial21");
-		course21.setCourseName("title21");
-		course21.setTeacherIntro("teachingInfo21");
+		course21.setTeachingMaterialIntro("teachingMaterial21");
+		course21.setCourseName("title21");		
 		course21 = CourseDao.addCourseToDatabases(course21);
 		course21 = CourseDao.getCourseById(course21.getCourseId());
 		
@@ -266,14 +260,13 @@ public class CourseDaoTest {
 		String city3 = "city0";
 		String district3 = "district0";
 		String coursereference3 = "course-reference30";		
-		Course course3 = new Course(p_Id3, startTime3, finishTime3,price3,seatsTotal, seatsLeft,status,category3,subCategory3,phone);
+		Course course3 = new Course(p_Id3, startTime3, finishTime3,price3,seatsTotal, seatsLeft,category3,subCategory3,phone);
 		course3.setLocation(location3);
 		course3.setCity(city3);
 		course3.setDistrict(district3);
 		course3.setReference(coursereference3);
-		course3.setTeachingMethodsIntro("teachingMaterial3");
-		course3.setCourseName("title3");
-		course3.setTeacherIntro("teachingInfo3");
+		course3.setTeachingMaterialIntro("teachingMaterial3");
+		course3.setCourseName("title3");		
 		course3 = CourseDao.addCourseToDatabases(course3);
 		course3 = CourseDao.getCourseById(course3.getCourseId());
 		
@@ -287,14 +280,13 @@ public class CourseDaoTest {
 		String city31 = "city1";
 		String district31 = "district1";
 		String coursereference31 = "course-reference31";
-		Course course31 = new Course(p_Id3, startTime31, finishTime31,price31,seatsTotal, seatsLeft,status,category31,subCategory31,phone);
+		Course course31 = new Course(p_Id3, startTime31, finishTime31,price31,seatsTotal, seatsLeft,category31,subCategory31,phone);
 		course31.setLocation(location31);
 		course31.setCity(city31);
 		course31.setDistrict(district31);
 		course31.setReference(coursereference31);
-		course31.setTeachingMethodsIntro("teachingMaterial31");
-		course31.setCourseName("title31");
-		course31.setTeacherIntro("teachingInfo31");
+		course31.setTeachingMaterialIntro("teachingMaterial31");
+		course31.setCourseName("title31");		
 		course31 = CourseDao.addCourseToDatabases(course31);
 		course31 = CourseDao.getCourseById(course31.getCourseId());
 		
@@ -308,14 +300,13 @@ public class CourseDaoTest {
 		String city32 = "city2";
 		String district32 = "district2";
 		String coursereference32 = "course-reference32";		
-		Course course32 = new Course(p_Id3, startTime32, finishTime32,price32,seatsTotal, seatsLeft,status,category32,subCategory32,phone);
+		Course course32 = new Course(p_Id3, startTime32, finishTime32,price32,seatsTotal, seatsLeft,category32,subCategory32,phone);
 		course32.setLocation(location32);
 		course32.setCity(city32);
 		course32.setDistrict(district32);
 		course32.setReference(coursereference32);
-		course32.setTeachingMethodsIntro("teachingMaterial32");
-		course32.setCourseName("title32");
-		course32.setTeacherIntro("teachingInfo32");
+		course32.setTeachingMaterialIntro("teachingMaterial32");
+		course32.setCourseName("title32");		
 		course32 = CourseDao.addCourseToDatabases(course32);
 		course32 = CourseDao.getCourseById(course32.getCourseId());
 		
@@ -375,7 +366,7 @@ public class CourseDaoTest {
 		}else fail();
 		
 		finishTimeTest.add(Calendar.DAY_OF_YEAR, 8);
-		sr3.setFinishTime(finishTimeTest);
+		sr3.setFinishDate(finishTimeTest);
 		clist = CourseDao.searchCourse(sr3);
 		if(clist.size()==1 && clist.get(0).equals(course2)){
 			//Passed;
@@ -392,20 +383,20 @@ public class CourseDaoTest {
 		
 		CourseSearchRepresentation sr5 = new CourseSearchRepresentation();
 		startTimeTest.add(Calendar.DAY_OF_YEAR, -1);
-		sr5.setStartTime(startTimeTest);
+		sr5.setStartDate(startTimeTest);
 		sr5.setStartPrice(0);
 		sr5.setFinishPrice(40000);
-		sr5.setClassModel(ClassModel.smallclass);
 		clist = CourseDao.searchCourse(sr5);
-		if(clist.size()==5 && clist.get(0).equals(course) && clist.get(1).equals(course2) && 
-				clist.get(2).equals(course3) && clist.get(3).equals(course31) &&
-				clist.get(4).equals(course32)){
+		if(clist.size()==6 && clist.get(0).equals(course) && clist.get(1).equals(course2) && 
+				clist.get(2).equals(course21) && clist.get(3).equals(course3) && 
+				clist.get(4).equals(course31) && clist.get(5).equals(course32)){
 			//Passed;
 		}else fail();
 		
 		finishTimeTest = DateUtility.getCurTimeInstance();
 		finishTimeTest.add(Calendar.DAY_OF_YEAR, 15);
-		sr5.setFinishTime(finishTimeTest);
+		sr5.setFinishDate(finishTimeTest);
+		sr5.setStartClassSize(3);
 		clist = CourseDao.searchCourse(sr5);
 		if(clist.size()==2 && clist.get(0).equals(course) && clist.get(1).equals(course2)){
 			//Passed;

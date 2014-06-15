@@ -10,6 +10,7 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.dbservice.UserDaoService;
@@ -34,7 +35,7 @@ public class CourseCleaner extends CourseDao{
 	public static void cleanCourse(){
 		Calendar currentDate = DateUtility.getCurTimeInstance();
 		String ct = DateUtility.toSQLDateTime(currentDate);
-		String query = "SELECT * FROM CourseDao where status = ? and startTime < ? for update";
+		String query = "SELECT * FROM CourseDao where status = ? and startDate < ? for update";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;	
@@ -43,8 +44,8 @@ public class CourseCleaner extends CourseDao{
 			conn.setAutoCommit(false);
 			
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, AccountStatus.activated.code);
-			stmt.setString(2, ct);
+			stmt.setInt(1, CourseStatus.openEnroll.code);
+			stmt.setString(2, ct);			
 			rs = stmt.executeQuery();
 			
 			//set default course so that CourseDao does not have to pull out partner every single time
@@ -52,7 +53,7 @@ public class CourseCleaner extends CourseDao{
 			while(rs.next()){
 				//courses are locked, so this can be considered atomic, thus cannot put in a try and commit inside while loop, though cost may be a little higher to lock them all and release at once
 				Course course = CourseDao.createCourseByResultSet(rs,partner,conn);
-				course.setStatus(AccountStatus.deactivated);
+				course.setStatus(CourseStatus.deactivated);
 				CourseDao.updateCourseInDatabases(course,conn);
 			}
 			
@@ -78,7 +79,7 @@ public class CourseCleaner extends CourseDao{
 		Calendar targetDate = DateUtility.getTimeFromLong(mili);
 	    String ct = DateUtility.toSQLDateTime(targetDate);
 
-	    String query = "SELECT * FROM CourseDao where status = ? and startTime < ? ";
+	    String query = "SELECT * FROM CourseDao where status = ? and startDate < ? ";
 	    Connection conn = null;
 	    Connection transientConnection = null;
 		PreparedStatement stmt = null;
@@ -86,7 +87,7 @@ public class CourseCleaner extends CourseDao{
 		try{
 			conn = EduDaoBasic.getConnection();
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1, AccountStatus.deactivated.code);
+			stmt.setInt(1, CourseStatus.deactivated.code);
 			stmt.setString(2, ct);
 			rs = stmt.executeQuery();
 			
@@ -185,7 +186,7 @@ public class CourseCleaner extends CourseDao{
 					//only commit the course to be consolidated after all bookings are committed to be consolidated
 					if (allOk){
 						//probably not a good idea to re-check here, as consolidated course is a very important ending state
-						course.setStatus(AccountStatus.consolidated);
+						course.setStatus(CourseStatus.consolidated);
 						CourseDao.updateCourseInDatabases(course,transientConnection);
 						transientConnection.commit();
 					}

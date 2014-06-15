@@ -1,5 +1,4 @@
 package BaseModule.eduDAO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,13 +7,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-
 import BaseModule.common.DateUtility;
 import BaseModule.common.Parser;
-import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.configurations.EnumConfig.ClassModel;
+import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
-import BaseModule.configurations.EnumConfig.TeachingMaterialType;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.model.Course;
@@ -57,15 +53,15 @@ public class CourseDao {
 			if(sr.getCreationTime() != null){				
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
 			}
-			if(sr.getStartTime() != null){
-				Calendar startTime = (Calendar) sr.getStartTime().clone();
+			if(sr.getStartDate() != null){
+				Calendar startTime = (Calendar) sr.getStartDate().clone();
 				startTime.set(Calendar.HOUR_OF_DAY,0);
 				startTime.set(Calendar.MINUTE, 0);
 				startTime.set(Calendar.SECOND, 0);
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(startTime));
 			}
-			if(sr.getFinishTime() != null){
-				Calendar finishTime = (Calendar) sr.getFinishTime().clone();
+			if(sr.getFinishDate() != null){
+				Calendar finishTime = (Calendar) sr.getFinishDate().clone();
 				finishTime.set(Calendar.HOUR_OF_DAY,23);
 				finishTime.set(Calendar.MINUTE, 59);
 				finishTime.set(Calendar.SECOND, 59);
@@ -86,6 +82,12 @@ public class CourseDao {
 			if(sr.getSubCategory()!=null&&sr.getSubCategory().length()>0){
 				stmt.setString(stmtInt++, sr.getSubCategory());		
 			}
+			if(sr.getSubSubCategory()!=null&&sr.getSubSubCategory().length()>0){
+				stmt.setString(stmtInt++, sr.getSubSubCategory());		
+			}
+			if(sr.getProvince() != null && sr.getProvince().length() > 0){
+				stmt.setString(stmtInt++, sr.getProvince());
+			}
 			if(sr.getCity()!=null&&sr.getCity().length()>0){
 				stmt.setString(stmtInt++, sr.getCity());
 			}
@@ -98,10 +100,19 @@ public class CourseDao {
 			if(sr.getCourseId()>0){
 				stmt.setInt(stmtInt++, sr.getCourseId());		
 			}	
-			if(sr.getClassModel()!=null){
-				stmt.setInt(stmtInt++, sr.getClassModel().code);
+			if(sr.getStartClassSize() != -1){
+				stmt.setInt(stmtInt++, sr.getStartClassSize());
 			}
-
+			if(sr.getFinishClassSize() != -1){
+				stmt.setInt(stmtInt++, sr.getFinishClassSize());
+			}
+			if(sr.getStartCashback() != -1){
+				stmt.setInt(stmtInt++, sr.getStartCashback());
+			}
+			if(sr.getFinishCashback() != -1){
+				stmt.setInt(stmtInt++, sr.getFinishCashback());
+			}
+			
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				int p_Id = rs.getInt("p_Id");
@@ -126,70 +137,76 @@ public class CourseDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO CourseDao (p_Id,creationTime,startTime,finishTime,t_Intro,t_ImgUrl,classroomImgUrl,price," +
-				"seatsTotal,seatsLeft,status,category,subCategory,location,city,district,reference,courseIntro," +
-				"classModel,hasDownloadMaterials,openCourseRequirement,suitableStudent,prerequest,highScoreReward," +
-				"quiz,certification,questionBank,extracurricular,courseName,dailyStartTime,dailyFinishTime,studyDaysNote," +
-				"courseHourNum,courseHourLength,partnerCourseReference,partnerIntro,classroomIntro,partnerQualification," +
-				"t_Methods,t_MaterialType,t_MaterialCost,t_MaterialFree,t_MaterialIntro,t_MethodsIntro,questionBankIntro," +
-				"passAgreement,provideAssignments,provideMarking,extracurricularIntro,phone,studyDays,t_MaterialName)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+		int stmtInt = 1;
+		String query = "INSERT INTO CourseDao (p_Id,creationTime,startDate,finishDate,t_Intros,t_ImgUrls,classroomImgUrls,price," +
+				"status,category,subCategory,subSubCategory,location,province,city,district,reference,courseIntro," +
+				"quiz,certification,openCourseRequirement,questionBank,suitableStudent,prerequest,highScoreReward," +
+				"extracurricular,courseName,studyDaysNote,courseHourNum,courseHourLength,partnerCourseReference,partnerQualification,partnerIntro," +
+				"t_MaterialFree,t_MaterialIntro,passAgreement,phone,studyDays,classSize,cashback,popularity,startTime1,finishTime1,startTime2,finishTime2," +
+				"partnerDistinction,outline,goal,classTeacher,teachingAndExercise,questionSession,trail,assignments,marking,bonusService," +
+				"downloadMaterials,teacherNames)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	
 
-			stmt.setInt(1, course.getPartnerId());
-			stmt.setString(2, DateUtility.toSQLDateTime(course.getCreationTime()));
-			stmt.setString(3, DateUtility.toSQLDateTime(course.getStartTime()));
-			stmt.setString(4, DateUtility.toSQLDateTime(course.getFinishTime()));
-			stmt.setString(5, course.getTeacherIntro());
-			stmt.setString(6, course.getTeacherImgUrl());
-			stmt.setString(7, course.getClassroomImgUrl());
-			stmt.setInt(8, course.getPrice());
-			stmt.setInt(9, course.getSeatsTotal());
-			stmt.setInt(10, course.getSeatsLeft());	
-			stmt.setInt(11, course.getStatus().code);			
-			stmt.setString(12, course.getCategory());
-			stmt.setString(13, course.getSubCategory());			
-			stmt.setString(14, course.getLocation());
-			stmt.setString(15, course.getCity());
-			stmt.setString(16, course.getDistrict());
-			stmt.setString(17, course.getReference());
-			stmt.setString(18, course.getCourseIntro());
-			stmt.setInt(19, course.getClassModel().code);			
-			stmt.setInt(20, course.isHasDownloadMaterials() ? 1 : 0);			
-			stmt.setString(21, course.getOpenCourseRequirement());		
-			stmt.setString(22,course.getSuitableStudent());
-			stmt.setString(23, course.getPrerequest());			
-			stmt.setString(24, course.getHighScoreReward());
-			stmt.setString(25, course.getQuiz());
-			stmt.setString(26, course.getCertification());
-			stmt.setString(27, Parser.listToString(course.getQuestionBank()));
-			stmt.setString(28, Parser.listToString(course.getExtracurricular()));
-			stmt.setString(29, course.getCourseName());
-			stmt.setString(30, course.getDailyStartTime());
-			stmt.setString(31, course.getDailyFinishTime());
-			stmt.setString(32, course.getStudyDaysNote());
-			stmt.setInt(33, course.getCourseHourNum());
-			stmt.setInt(34, course.getCourseHourLength());
-			stmt.setString(35, course.getPartnerCourseReference());
-			stmt.setString(36, course.getPartnerIntro());
-			stmt.setString(37, course.getClassroomIntro());
-			stmt.setInt(38, course.getPartnerQualification().code);
-			stmt.setString(39, Parser.listToString(course.getTeachingMethods()));
-			stmt.setInt(40, course.getTeachingMaterialType().code);
-			stmt.setInt(41, course.getTeacingMaterialCost());
-			stmt.setInt(42, course.isTeachingMaterialFree() ? 1 : 0);
-			stmt.setString(43, course.getTeachingMaterialIntro());
-			stmt.setString(44, course.getTeachingMethodsIntro());
-			stmt.setString(45, course.getQuestionBankIntro());
-			stmt.setString(46, course.getPassAgreement());
-			stmt.setInt(47, course.isProvideAssignments() ? 1 : 0);
-			stmt.setInt(48, course.isProvideMarking() ? 1 : 0);
-			stmt.setString(49, course.getExtracurricularIntro());
-			stmt.setString(50, course.getPhone());
-			stmt.setString(51,Parser.listToString(course.getStudyDays()));
-			stmt.setString(52, course.getTeachingMaterialName());
+			stmt.setInt(stmtInt++, course.getPartnerId());
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCreationTime()));
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getStartDate()));
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getFinishDate()));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherIntros()));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls()));
+			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls()));
+			stmt.setInt(stmtInt++, course.getPrice());			
+			stmt.setInt(stmtInt++, course.getStatus().code);			
+			stmt.setString(stmtInt++, course.getCategory());
+			stmt.setString(stmtInt++, course.getSubCategory());	
+			stmt.setString(stmtInt++, course.getSubSubCategory());		
+			stmt.setString(stmtInt++, course.getLocation());
+			stmt.setString(stmtInt++, course.getProvince());
+			stmt.setString(stmtInt++, course.getCity());
+			stmt.setString(stmtInt++, course.getDistrict());
+			stmt.setString(stmtInt++, course.getReference());
+			stmt.setString(stmtInt++, course.getCourseIntro());
+			stmt.setString(stmtInt++, course.getQuiz());
+			stmt.setString(stmtInt++, course.getCertification());			
+			stmt.setString(stmtInt++, course.getOpenCourseRequirement());	
+			stmt.setString(stmtInt++, course.getQuestionBank());			
+			stmt.setString(stmtInt++,course.getSuitableStudent());
+			stmt.setString(stmtInt++, course.getPrerequest());			
+			stmt.setString(stmtInt++, course.getHighScoreReward());
+			stmt.setString(stmtInt++, course.getExtracurricular());
+			stmt.setString(stmtInt++, course.getCourseName());
+			stmt.setString(stmtInt++,Parser.listToString(course.getStudyDays()));
+			stmt.setInt(stmtInt++, course.getCourseHourNum());
+			stmt.setInt(stmtInt++, course.getCourseHourLength());
+			stmt.setString(stmtInt++, course.getPartnerCourseReference());
+			stmt.setInt(stmtInt++, course.getPartnerQualification().code);
+			stmt.setString(stmtInt++, course.getPartnerIntro());
+			stmt.setString(stmtInt++, course.getTeachingMaterialFree());
+			stmt.setString(stmtInt++, course.getTeachingMaterialIntro());
+			stmt.setString(stmtInt++, course.getPassAgreement());
+			stmt.setString(stmtInt++, course.getPhone());
+			stmt.setString(stmtInt++, course.getStudyDaysNote());
+			stmt.setInt(stmtInt++, course.getClassSize());
+			stmt.setInt(stmtInt++, course.getCashback());			
+			stmt.setInt(stmtInt++, course.getPopularity());
+			stmt.setInt(stmtInt++, course.getStartTime1());
+			stmt.setInt(stmtInt++, course.getFinishTime1());
+			stmt.setInt(stmtInt++, course.getStartTime2());
+			stmt.setInt(stmtInt++, course.getFinishTime2());
+			stmt.setString(stmtInt++, course.getPartnerDistinction());
+			stmt.setString(stmtInt++, course.getOutline());
+			stmt.setString(stmtInt++, course.getGoal());
+			stmt.setString(stmtInt++, course.getClassTeacher());
+			stmt.setString(stmtInt++, course.getTeachingAndExercise());
+			stmt.setString(stmtInt++, course.getQuestionSession());
+			stmt.setString(stmtInt++, course.getTrail());
+			stmt.setString(stmtInt++, course.getAssignments());
+			stmt.setString(stmtInt++, course.getMarking());
+			stmt.setString(stmtInt++, course.getBonusService());
+			stmt.setString(stmtInt++, course.getDownloadMaterials());
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames()));		
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -204,69 +221,75 @@ public class CourseDao {
 	public static void updateCourseInDatabases(Course course,Connection...connections) throws CourseNotFoundException, SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		String query = "UPDATE CourseDao SET p_Id=?,startTime=?,finishTime=?,t_Intro=?,t_ImgUrl=?,classroomImgUrl=?,price=?," +
-				"seatsTotal=?,seatsLeft=?,status=?,category=?,subCategory=?,location=?,city=?,district=?,reference=?,courseIntro=?," +
-				"classModel=?,hasDownloadMaterials=?,openCourseRequirement=?,suitableStudent=?,prerequest=?,highScoreReward=?," +
-				"quiz=?,certification=?,questionBank=?,extracurricular=?,courseName=?,dailyStartTime=?,dailyFinishTime=?,studyDaysNote=?," +
-				"courseHourNum=?,courseHourLength=?,partnerCourseReference=?,partnerIntro=?,classroomIntro=?,partnerQualification=?," +
-				"t_Methods=?,t_MaterialType=?,t_MaterialCost=?,t_MaterialFree=?,t_MaterialIntro=?,t_MethodsIntro=?,questionBankIntro=?," +
-				"passAgreement=?,provideAssignments=?,provideMarking=?,extracurricularIntro=?,phone=?,studyDays=?,t_MaterialName=? where id=?";
+		int stmtInt = 1;
+		String query = "UPDATE CourseDao SET p_Id=?,startDate=?,finishDate=?,t_Intros=?,t_ImgUrls=?,classroomImgUrls=?,price=?," +
+				"status=?,category=?,subCategory=?,subSubCategory=?,location=?,province=?,city=?,district=?,reference=?,courseIntro=?," +
+				"quiz=?,certification=?,openCourseRequirement=?,questionBank=?,suitableStudent=?,prerequest=?,highScoreReward=?," +
+				"extracurricular=?,courseName=?,studyDaysNote=?,courseHourNum=?,courseHourLength=?,partnerCourseReference=?,partnerQualification=?,partnerIntro=?," +
+				"t_MaterialFree=?,t_MaterialIntro=?,passAgreement=?,phone=?,studyDays=?,classSize=?,cashback=?,popularity=?,startTime1=?," +
+				"finishTime1=?,startTime2=?,finishTime2=?,partnerDistinction=?,outline=?,goal=?,classTeacher=?,teachingAndExercise=?," +
+				"questionSession=?,trail=?,assignments=?,marking=?,bonusService=?,downloadMaterials=?,teacherNames=? where id=?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
-
-			stmt.setInt(1, course.getPartnerId());			
-			stmt.setString(2, DateUtility.toSQLDateTime(course.getStartTime()));
-			stmt.setString(3, DateUtility.toSQLDateTime(course.getFinishTime()));
-			stmt.setString(4, course.getTeacherIntro());
-			stmt.setString(5, course.getTeacherImgUrl());
-			stmt.setString(6, course.getClassroomImgUrl());
-			stmt.setInt(7, course.getPrice());
-			stmt.setInt(8, course.getSeatsTotal());
-			stmt.setInt(9, course.getSeatsLeft());	
-			stmt.setInt(10, course.getStatus().code);			
-			stmt.setString(11, course.getCategory());
-			stmt.setString(12, course.getSubCategory());			
-			stmt.setString(13, course.getLocation());
-			stmt.setString(14, course.getCity());
-			stmt.setString(15, course.getDistrict());
-			stmt.setString(16, course.getReference());
-			stmt.setString(17, course.getCourseIntro());
-			stmt.setInt(18, course.getClassModel().code);			
-			stmt.setInt(19, course.isHasDownloadMaterials() ? 1 : 0);			
-			stmt.setString(20, course.getOpenCourseRequirement());		
-			stmt.setString(21,course.getSuitableStudent());
-			stmt.setString(22, course.getPrerequest());			
-			stmt.setString(23, course.getHighScoreReward());
-			stmt.setString(24, course.getQuiz());
-			stmt.setString(25, course.getCertification());
-			stmt.setString(26, Parser.listToString(course.getQuestionBank()));
-			stmt.setString(27, Parser.listToString(course.getExtracurricular()));
-			stmt.setString(28, course.getCourseName());
-			stmt.setString(29, course.getDailyStartTime());
-			stmt.setString(30, course.getDailyFinishTime());
-			stmt.setString(31, course.getStudyDaysNote());
-			stmt.setInt(32, course.getCourseHourNum());
-			stmt.setInt(33, course.getCourseHourLength());
-			stmt.setString(34, course.getPartnerCourseReference());
-			stmt.setString(35, course.getPartnerIntro());
-			stmt.setString(36, course.getClassroomIntro());
-			stmt.setInt(37, course.getPartnerQualification().code);
-			stmt.setString(38, Parser.listToString(course.getTeachingMethods()));
-			stmt.setInt(39, course.getTeachingMaterialType().code);
-			stmt.setInt(40, course.getTeacingMaterialCost());
-			stmt.setInt(41, course.isTeachingMaterialFree() ? 1 : 0);
-			stmt.setString(42, course.getTeachingMaterialIntro());
-			stmt.setString(43, course.getTeachingMethodsIntro());
-			stmt.setString(44, course.getQuestionBankIntro());
-			stmt.setString(45, course.getPassAgreement());
-			stmt.setInt(46, course.isProvideAssignments() ? 1 : 0);
-			stmt.setInt(47, course.isProvideMarking() ? 1 : 0);
-			stmt.setString(48, course.getExtracurricularIntro());
-			stmt.setString(49, course.getPhone());
-			stmt.setString(50,Parser.listToString(course.getStudyDays()));			
-			stmt.setString(51, course.getTeachingMaterialName());
-			stmt.setInt(52, course.getCourseId());
+			
+			stmt.setInt(stmtInt++, course.getPartnerId());			
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getStartDate()));
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getFinishDate()));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherIntros()));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls()));
+			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls()));
+			stmt.setInt(stmtInt++, course.getPrice());			
+			stmt.setInt(stmtInt++, course.getStatus().code);			
+			stmt.setString(stmtInt++, course.getCategory());
+			stmt.setString(stmtInt++, course.getSubCategory());	
+			stmt.setString(stmtInt++, course.getSubSubCategory());		
+			stmt.setString(stmtInt++, course.getLocation());
+			stmt.setString(stmtInt++, course.getProvince());
+			stmt.setString(stmtInt++, course.getCity());
+			stmt.setString(stmtInt++, course.getDistrict());
+			stmt.setString(stmtInt++, course.getReference());
+			stmt.setString(stmtInt++, course.getCourseIntro());
+			stmt.setString(stmtInt++, course.getQuiz());
+			stmt.setString(stmtInt++, course.getCertification());			
+			stmt.setString(stmtInt++, course.getOpenCourseRequirement());	
+			stmt.setString(stmtInt++, course.getQuestionBank());			
+			stmt.setString(stmtInt++,course.getSuitableStudent());
+			stmt.setString(stmtInt++, course.getPrerequest());			
+			stmt.setString(stmtInt++, course.getHighScoreReward());
+			stmt.setString(stmtInt++, course.getExtracurricular());
+			stmt.setString(stmtInt++, course.getCourseName());
+			stmt.setString(stmtInt++,Parser.listToString(course.getStudyDays()));
+			stmt.setInt(stmtInt++, course.getCourseHourNum());
+			stmt.setInt(stmtInt++, course.getCourseHourLength());
+			stmt.setString(stmtInt++, course.getPartnerCourseReference());
+			stmt.setInt(stmtInt++, course.getPartnerQualification().code);
+			stmt.setString(stmtInt++, course.getPartnerIntro());
+			stmt.setString(stmtInt++, course.getTeachingMaterialFree());
+			stmt.setString(stmtInt++, course.getTeachingMaterialIntro());
+			stmt.setString(stmtInt++, course.getPassAgreement());
+			stmt.setString(stmtInt++, course.getPhone());
+			stmt.setString(stmtInt++, course.getStudyDaysNote());
+			stmt.setInt(stmtInt++, course.getClassSize());
+			stmt.setInt(stmtInt++, course.getCashback());			
+			stmt.setInt(stmtInt++, course.getPopularity());
+			stmt.setInt(stmtInt++, course.getStartTime1());
+			stmt.setInt(stmtInt++, course.getFinishTime1());
+			stmt.setInt(stmtInt++, course.getStartTime2());
+			stmt.setInt(stmtInt++, course.getFinishTime2());
+			stmt.setString(stmtInt++, course.getPartnerDistinction());
+			stmt.setString(stmtInt++, course.getOutline());
+			stmt.setString(stmtInt++, course.getGoal());
+			stmt.setString(stmtInt++, course.getClassTeacher());
+			stmt.setString(stmtInt++, course.getTeachingAndExercise());
+			stmt.setString(stmtInt++, course.getQuestionSession());
+			stmt.setString(stmtInt++, course.getTrail());
+			stmt.setString(stmtInt++, course.getAssignments());
+			stmt.setString(stmtInt++, course.getMarking());
+			stmt.setString(stmtInt++, course.getBonusService());
+			stmt.setString(stmtInt++, course.getDownloadMaterials());
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames()));
+			stmt.setInt(stmtInt++, course.getCourseId());
 			
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
@@ -353,35 +376,32 @@ public class CourseDao {
 		instName = partner.getInstName();
 		wholeName = partner.getWholeName();
 		
-		return new Course(rs.getInt("id"),p_Id,DateUtility.DateToCalendar(rs.getDate("startTime")), 
-				DateUtility.DateToCalendar(rs.getDate("finishTime")),rs.getInt("price"),
-				rs.getInt("seatsTotal"), rs.getInt("seatsLeft"),
-				AccountStatus.fromInt(rs.getInt("status")), 
-				rs.getString("category"), rs.getString("subCategory"),
-				rs.getString("location"),rs.getString("city"),
+		return new Course(rs.getInt("id"),p_Id,rs.getInt("price"),rs.getInt("courseHourNum"), 
+				rs.getInt("courseHourLength"),rs.getInt("classSize"),rs.getInt("cashback"),rs.getInt("popularity"),
+				DateUtility.DateToCalendar(rs.getDate("creationTime")),
+				DateUtility.DateToCalendar(rs.getDate("startDate")), 
+				DateUtility.DateToCalendar(rs.getDate("finishDate")),
+				rs.getInt("startTime1"),rs.getInt("finishTime1"),rs.getInt("startTime2"),rs.getInt("finishTime2"),
+				rs.getString("category"), rs.getString("subCategory"),rs.getString("subSubCategory"),
+				rs.getString("location"),rs.getString("province"),rs.getString("city"),
 				rs.getString("district"),rs.getString("reference"),
-				rs.getString("t_Intro"),rs.getString("t_ImgUrl"),
-				rs.getString("t_MethodsIntro"), rs.getString("classroomImgUrl"),
-				rs.getString("courseIntro"), DateUtility.DateToCalendar(rs.getDate("creationTime")), 
-				ClassModel.fromInt(rs.getInt("classModel")),
-				rs.getBoolean("hasDownloadMaterials"), rs.getString("quiz"), rs.getString("certification"),
-				rs.getString("openCourseRequirement"),
-				(ArrayList<String>)Parser.stringToList(rs.getString("questionBank"), new String("")),
-				rs.getString("suitableStudent"), rs.getString("prerequest"), rs.getString("highScoreReward"),
-				(ArrayList<String>)Parser.stringToList(rs.getString("extracurricular"), new String("")),  
-				rs.getString("courseName"),
-				rs.getString("dailyStartTime"),rs.getString("dailyFinishTime"),
-				(ArrayList<Integer>)Parser.stringToList(rs.getString("studyDays"), new Integer(0)), rs.getString("studyDaysNote"),
-				rs.getInt("courseHourNum"), rs.getInt("courseHourLength"),
-				rs.getString("partnerCourseReference"), rs.getString("classroomIntro"),
-				PartnerQualification.fromInt(rs.getInt("partnerQualification")), rs.getString("partnerIntro"),
-				(ArrayList<String>)Parser.stringToList(rs.getString("t_Methods"), new String("")),
-				TeachingMaterialType.fromInt(rs.getInt("t_MaterialType")),
-				rs.getString("t_MaterialIntro"), rs.getInt("t_MaterialCost"),
-				rs.getBoolean("t_MaterialFree"), rs.getString("questionBankIntro"),
-				rs.getString("passAgreement"), rs.getBoolean("provideAssignments"),
-				rs.getBoolean("provideMarking"), rs.getString("extracurricularIntro"),
-				rs.getString("phone"), logoUrl, instName, wholeName,rs.getString("t_MaterialName"));					
+				rs.getString("courseIntro"),rs.getString("quiz"),		
+				 rs.getString("certification"),	rs.getString("openCourseRequirement"),					
+				 rs.getString("suitableStudent"), rs.getString("prerequest"), 
+				rs.getString("highScoreReward"),rs.getString("courseName"), 
+				rs.getString("studyDaysNote"),rs.getString("partnerCourseReference"),  
+				rs.getString("partnerIntro"),rs.getString("t_MaterialIntro"),
+				rs.getString("questionBank"),rs.getString("passAgreement"),
+				rs.getString("extracurricular"),rs.getString("phone"),
+				rs.getString("partnerDistinction"),rs.getString("outline"),rs.getString("goal"),rs.getString("classTeacher"),
+				rs.getString("teachingAndExercise"),rs.getString("questionSession"),rs.getString("trail"),
+				rs.getString("assignments"),rs.getString("marking"), rs.getString("bonusService"),rs.getString("downloadMaterials"),
+				CourseStatus.fromInt(rs.getInt("status")),PartnerQualification.fromInt(rs.getInt("partnerQualification")),
+				rs.getString("t_MaterialFree"),	(ArrayList<Integer>)Parser.stringToList(rs.getString("studyDays"), new Integer(0)),
+				(ArrayList<String>)Parser.stringToList(rs.getString("classroomImgUrls"),new String("")),
+				(ArrayList<String>)Parser.stringToList(rs.getString("t_Intros"),new String("")),
+				(ArrayList<String>)Parser.stringToList(rs.getString("t_ImgUrls"),new String("")),
+				(ArrayList<String>)Parser.stringToList(rs.getString("teacherNames"), new String("")),logoUrl, instName, wholeName);					
 	}
 
 
