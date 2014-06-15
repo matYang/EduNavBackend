@@ -460,7 +460,7 @@ public class ValidationTest {
 		String subCategory = "sub-Phy";		
 		AccountStatus status = AccountStatus.activated;
 		String phone = "12344545";
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,status,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
 		try{
 			ValidationService.validateCourse(course);
@@ -469,7 +469,7 @@ public class ValidationTest {
 		}
 
 		boolean fail = true;
-		course = new Course(-1, startTime, finishTime,price,seatsTotal, seatsLeft,status,category,subCategory,phone);
+		course = new Course(-1, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
 		try{
 			ValidationService.validateCourse(course);
@@ -482,7 +482,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course =new Course(p_Id, startTime, startTime,price,seatsTotal, seatsLeft,status,category,subCategory,phone);
+		course =new Course(p_Id, startTime, startTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
 		try{
 			ValidationService.validateCourse(course);
@@ -495,7 +495,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsTotal+1,status,category,subCategory,phone);
+		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsTotal+1,category,subCategory,phone);
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -507,7 +507,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,-1, -2,status,category,subCategory,phone);
+		course = new Course(p_Id, startTime, finishTime,price,-1, -2,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
 		try{
 			ValidationService.validateCourse(course);
@@ -520,7 +520,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course =new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,status,"",subCategory,phone);
+		course =new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,"",subCategory,phone);
 		try{
 			ValidationService.validateCourse(course);
 		}catch(ValidationException e){
@@ -532,7 +532,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,-1,seatsTotal, seatsLeft,status,category,subCategory,phone);
+		course = new Course(p_Id, startTime, finishTime,-1,seatsTotal, seatsLeft,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
 		try{
 			ValidationService.validateCourse(course);
@@ -545,7 +545,7 @@ public class ValidationTest {
 		if(fail) fail();		
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,status,category,"",phone);
+		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,"",phone);
 		course.setCourseName("sdlkjoeghjeior");
 		try{
 			ValidationService.validateCourse(course);
@@ -558,7 +558,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, null, finishTime,price,seatsTotal, seatsLeft,status,category,subCategory,phone);
+		course = new Course(p_Id, null, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
 		course.setCourseName("sdlkjoeghjeior");
 		try{
 			ValidationService.validateCourse(course);
@@ -571,7 +571,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,status,category,subCategory,"dsf124");
+		course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,"dsf124");
 		course.setCourseName("sdlkjoeghjeior");
 		try{
 			ValidationService.validateCourse(course);

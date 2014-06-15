@@ -197,8 +197,7 @@ public class Course implements PseudoModel, Serializable{
 
 	//testing
 	public Course(int partnerId,Calendar startTime, Calendar finishTime, int price,
-			int seatsTotal, int seatsLeft, AccountStatus status,
-			String category, String subCategory, String phone) {
+			int classSize, int popularity, String category, String subCategory, String phone) {
 		super();
 		this.courseId = -1;
 		this.partnerId = partnerId;
@@ -209,8 +208,8 @@ public class Course implements PseudoModel, Serializable{
 		this.cashback = -1;
 		this.popularity = -1;
 		this.creationTime = DateUtility.getCurTimeInstance();
-		this.startDate = DateUtility.getCurTimeInstance();
-		this.finishDate = DateUtility.getCurTimeInstance();
+		this.startDate = startTime;		
+		this.finishDate = finishTime;
 		this.startTime1 = -1;
 		this.finishTime1 = -1;
 		this.startTime2 = -1;
@@ -1109,7 +1108,7 @@ public class Course implements PseudoModel, Serializable{
 					this.district.equals(c.getDistrict()) &&
 					this.reference.equals(c.getReference()) && 
 					this.courseIntro.equals(c.getCourseIntro())&& 					
-				    this.downloadMaterials == c.getDownloadMaterials() &&				 
+				    this.downloadMaterials.equals(c.getDownloadMaterials()) &&				 
 					this.openCourseRequirement.equals(c.getOpenCourseRequirement()) &&
 					this.suitableStudent.equals(c.getSuitableStudent()) &&
 					this.prerequest.equals(c.getPrerequest()) && 									
@@ -1145,8 +1144,8 @@ public class Course implements PseudoModel, Serializable{
 					else if (fieldClass.isAssignableFrom(AccountStatus.class)){
 						field.set(this, AccountStatus.fromInt(Integer.parseInt(value, 10)));
 					}
-					else if (fieldClass.isAssignableFrom(ClassModel.class)){
-						field.set(this, ClassModel.fromInt(Integer.parseInt(value, 10)));
+					else if (fieldClass.isAssignableFrom(CourseStatus.class)){
+						field.set(this, CourseStatus.fromInt(Integer.parseInt(value, 10)));
 					}
 					else if (fieldClass.isAssignableFrom(TeachingMaterialType.class)){
 						field.set(this, TeachingMaterialType.fromInt(Integer.parseInt(value, 10)));

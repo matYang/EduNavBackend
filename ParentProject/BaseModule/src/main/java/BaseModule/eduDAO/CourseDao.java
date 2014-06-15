@@ -1,5 +1,4 @@
 package BaseModule.eduDAO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,10 +9,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import BaseModule.common.DateUtility;
 import BaseModule.common.Parser;
-import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
-import BaseModule.configurations.EnumConfig.TeachingMaterialType;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CourseNotFoundException;
 import BaseModule.model.Course;
@@ -56,15 +53,15 @@ public class CourseDao {
 			if(sr.getCreationTime() != null){				
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
 			}
-			if(sr.getStartTime() != null){
-				Calendar startTime = (Calendar) sr.getStartTime().clone();
+			if(sr.getStartDate() != null){
+				Calendar startTime = (Calendar) sr.getStartDate().clone();
 				startTime.set(Calendar.HOUR_OF_DAY,0);
 				startTime.set(Calendar.MINUTE, 0);
 				startTime.set(Calendar.SECOND, 0);
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(startTime));
 			}
-			if(sr.getFinishTime() != null){
-				Calendar finishTime = (Calendar) sr.getFinishTime().clone();
+			if(sr.getFinishDate() != null){
+				Calendar finishTime = (Calendar) sr.getFinishDate().clone();
 				finishTime.set(Calendar.HOUR_OF_DAY,23);
 				finishTime.set(Calendar.MINUTE, 59);
 				finishTime.set(Calendar.SECOND, 59);
@@ -85,6 +82,12 @@ public class CourseDao {
 			if(sr.getSubCategory()!=null&&sr.getSubCategory().length()>0){
 				stmt.setString(stmtInt++, sr.getSubCategory());		
 			}
+			if(sr.getSubSubCategory()!=null&&sr.getSubSubCategory().length()>0){
+				stmt.setString(stmtInt++, sr.getSubSubCategory());		
+			}
+			if(sr.getProvince() != null && sr.getProvince().length() > 0){
+				stmt.setString(stmtInt++, sr.getProvince());
+			}
 			if(sr.getCity()!=null&&sr.getCity().length()>0){
 				stmt.setString(stmtInt++, sr.getCity());
 			}
@@ -97,10 +100,19 @@ public class CourseDao {
 			if(sr.getCourseId()>0){
 				stmt.setInt(stmtInt++, sr.getCourseId());		
 			}	
-			if(sr.getClassModel()!=null){
-				stmt.setInt(stmtInt++, sr.getClassModel().code);
+			if(sr.getStartClassSize() != -1){
+				stmt.setInt(stmtInt++, sr.getStartClassSize());
 			}
-
+			if(sr.getFinishClassSize() != -1){
+				stmt.setInt(stmtInt++, sr.getFinishClassSize());
+			}
+			if(sr.getStartCashback() != -1){
+				stmt.setInt(stmtInt++, sr.getStartCashback());
+			}
+			if(sr.getFinishCashback() != -1){
+				stmt.setInt(stmtInt++, sr.getFinishCashback());
+			}
+			
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				int p_Id = rs.getInt("p_Id");
@@ -133,7 +145,7 @@ public class CourseDao {
 				"t_MaterialFree,t_MaterialIntro,passAgreement,phone,studyDays,classSize,cashback,popularity,startTime1,finishTime1,startTime2,finishTime2," +
 				"partnerDistinction,outline,goal,classTeacher,teachingAndExercise,questionSession,trail,assignments,marking,bonusService," +
 				"downloadMaterials,teacherNames)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	

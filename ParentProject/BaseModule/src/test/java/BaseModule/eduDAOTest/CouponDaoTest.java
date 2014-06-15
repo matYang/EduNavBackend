@@ -58,9 +58,9 @@ public class CouponDaoTest {
 			//Passed;
 		}else fail();
 		Coupon c2 = new Coupon(userId, amount);
-		c.setBookingId(bookingId+1);
-		c.setExpireTime(expireTime);
-		c.setStatus(CouponStatus.usable);
+		c2.setBookingId(bookingId+1);
+		c2.setExpireTime(expireTime);
+		c2.setStatus(CouponStatus.usable);
 		c2 = CouponDao.addCouponToDatabases(c2);
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
 		clist = CouponDao.getCouponByUserId(userId);
