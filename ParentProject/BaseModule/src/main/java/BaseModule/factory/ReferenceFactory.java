@@ -61,4 +61,8 @@ public class ReferenceFactory {
 		return code;
 	}
 	
+	public static String generateUserAccountNumber() throws SQLException{
+		return null;
+	}
+	
 }

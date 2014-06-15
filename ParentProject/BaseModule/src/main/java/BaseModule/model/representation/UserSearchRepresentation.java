@@ -25,6 +25,7 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	
 	private String invitationalCode;
 	private String appliedInvitationalCode;
+	private String accountNumber;
 	
 	private AccountStatus status;
 	private Calendar creationTime;
@@ -42,6 +43,7 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 		this.email = null;
 		this.invitationalCode = null;
 		this.appliedInvitationalCode = null;
+		this.accountNumber = null;
 	}
 	
 	@Override
@@ -158,6 +160,13 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 		this.appliedInvitationalCode = appliedInvitationalCode;
 	}
 
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
 
 
 	@Override
@@ -167,7 +176,8 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 				+ ", name=" + name + ", phone=" + phone + ", email=" + email
 				+ ", invitationalCode=" + invitationalCode
 				+ ", appliedInvitationalCode=" + appliedInvitationalCode
-				+ ", status=" + status + ", creationTime=" + creationTime + "]";
+				+ ", accountNumber=" + accountNumber + ", status=" + status
+				+ ", creationTime=" + creationTime + "]";
 	}
 
 	public String getSearchQuery() {
@@ -271,6 +281,15 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 				query += "and ";
 			}
 			query += "appliedInvitationalCode = ? ";
+		}
+		if(this.accountNumber != null && this.accountNumber.length() > 0){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "accountNumber = ? ";
 		}
 		return query;
 	}
