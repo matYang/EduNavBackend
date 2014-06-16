@@ -6,6 +6,7 @@ import org.restlet.Restlet;
 import org.restlet.routing.Router;
 import UserModule.resources.booking.BookingIdResource;
 import UserModule.resources.booking.BookingResource;
+import UserModule.resources.coupon.CouponIdResource;
 import UserModule.resources.general.*;
 import UserModule.resources.user.UserChangeInfoResource;
 import UserModule.resources.user.UserIdResource;
@@ -92,6 +93,11 @@ public class RoutingService extends Application {
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix, BookingResource.class);
 		//	API for booking get/put : /api/v1.0/booking/:id
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + "/{id}", BookingIdResource.class);
+		
+		/** -------------------- APIs for booking module ------------------ **/
+		String couponServicePrefix = "/coupon";
+		//	API for booking get/post : /api/v1.0/coupon
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + couponServicePrefix + "/{id}", CouponIdResource.class);
 				
 		return router;
 	}
