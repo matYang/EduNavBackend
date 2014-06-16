@@ -3,7 +3,7 @@ package BaseModule.configurations;
 public class EnumConfig {
 
 	public static enum AccountStatus{
-        activated(0),deactivated(1),deleted(2), consolidated(3);
+        activated(0),deactivated(1),deleted(2);
         public int code;
         AccountStatus(int code){
             this.code = code;
@@ -112,7 +112,7 @@ public class EnumConfig {
     }	
 	
 	public static enum PartnerQualification{
-       verified(0),unverified(1);
+		verified(0),unverified(1);
         public int code;
         PartnerQualification(int code){
             this.code = code;
@@ -122,16 +122,5 @@ public class EnumConfig {
             return map[n];
         }
     }	
-	
-	public static enum TeachingMaterialType{
-	       self(0),pub(1);
-	        public int code;
-	        TeachingMaterialType(int code){
-	            this.code = code;
-	        }
-	        private final static TeachingMaterialType[] map = TeachingMaterialType.values();
-	        public static TeachingMaterialType fromInt(int n){
-	            return map[n];
-	        }
-	    }	
+
 }

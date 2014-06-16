@@ -17,10 +17,12 @@ import AdminModule.resources.coupon.CouponIdResource;
 import AdminModule.resources.coupon.CouponResource;
 import AdminModule.resources.course.CourseIdResource;
 import AdminModule.resources.course.CourseResource;
+import AdminModule.resources.credit.CreditResource;
 import AdminModule.resources.modelLoader.MemcachedBenchMarkResource;
 import AdminModule.resources.modelLoader.ModelLoaderResource;
 import AdminModule.resources.partner.PartnerIdResource;
 import AdminModule.resources.partner.PartnerResource;
+import AdminModule.resources.transaction.TransactionResource;
 import AdminModule.resources.user.UserResource;
 import AdminModule.resources.user.UserIdResource;
 import BaseModule.common.DebugLog;
@@ -57,62 +59,93 @@ public class RoutingService extends Application{
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + loginPrefix, AdminAccountLogin.class);
 		String logoutPrefix = "/logout";
 		//  API for AdminAccount logout : /a-api/v1.0/admin/logout
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + logoutPrefix, AdminAccountLogout.class);
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + logoutPrefix + "/{id}", AdminAccountLogout.class);
 		String changePassword = "/changePassword";
 		//  API for AdminAccount logout : /a-api/v1.0/admin/changePassword
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + changePassword, AdminChangePassword.class);
 		
+		
 		/** -------------------- APIs for partner module ------------------ **/
 		String partnerServicePrefix = "/partner";
 		
-
-		//  API for admin to create partner : /a-api/v1.0/admin/partner
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + partnerServicePrefix, PartnerResource.class);
-		//  API for admin to update partner : /a-api/v1.0/admin/partner/:id
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + partnerServicePrefix + "/{id}", PartnerIdResource.class);
+		String PartnerPrefix = "/partner";
+		//  API for admin to create partner : /a-api/v1.0/partner/partner
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PartnerPrefix, PartnerResource.class);
+		//  API for admin to update partner : /a-api/v1.0/partner/partner/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PartnerPrefix + "/{id}", PartnerIdResource.class);
+		
+		
 		
 		/** -------------------- APIs for user module ------------------ **/
 		String userServicePrefix = "/user";
 		
-		//  API for admin to query users : /a-api/v1.0/admin/user
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + userServicePrefix, UserResource.class);
-		//  API for admin to update user : /a-api/v1.0/admin/user/:id
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + userServicePrefix + "/{id}", UserIdResource.class);
+		String UserPrefix = "/user";
+		//  API for admin to query users : /a-api/v1.0/user/user
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix, UserResource.class);
+		//  API for admin to update user : /a-api/v1.0/user/user/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + userServicePrefix + UserPrefix + "/{id}", UserIdResource.class);
+		
+		
 		
 		/** -------------------- APIs for booking module ------------------ **/
 		String bookingServicePrefix = "/booking";
 		
-		//  API for admin to query bookings : /a-api/v1.0/admin/booking
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + bookingServicePrefix, BookingResource.class);
-		//  API for admin to get/update booking : /a-api/v1.0/admin/booking/:id
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + bookingServicePrefix + "/{id}", BookingIdResource.class); 
+		String BookingPrefix = "/booking";
+		//  API for admin to query bookings : /a-api/v1.0/booking/booking
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + BookingPrefix, BookingResource.class);
+		//  API for admin to get/update booking : /a-api/v1.0/booking/booking/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + BookingPrefix + "/{id}", BookingIdResource.class); 
+		
 		
 		
 		/** -------------------- APIs for course module ------------------ **/
 		String courseServicePrefix = "/course";
 		
-		//  API for admin to create course : /a-api/v1.0/admin/course
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + courseServicePrefix, CourseResource.class);
-		//  API for admin to update course : /a-api/v1.0/admin/course/:id
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + courseServicePrefix + "/{id}", CourseIdResource.class);
+		String CoursePrefix = "/course";
+		//  API for admin to create course : /a-api/v1.0/course/course
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + courseServicePrefix + CoursePrefix, CourseResource.class);
+		//  API for admin to update course : /a-api/v1.0/course/course/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + courseServicePrefix + CoursePrefix + "/{id}", CourseIdResource.class);
 		
 		
 		/** -------------------- APIs for coupon module ------------------ **/
 		String couponServicePrefix = "/coupon";
 		
-		//  API for admin to search/create coupon : /a-api/v1.0/admin/coupon
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + couponServicePrefix, CouponResource.class);
-		//  API for admin to update coupon : /a-api/v1.0/admin/coupon/:id
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + couponServicePrefix + "/{id}", CouponIdResource.class);
+		String CouponPrefix = "/coupon";
+		//  API for admin to search/create coupon : /a-api/v1.0/coupon/coupon
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + couponServicePrefix + CouponPrefix, CouponResource.class);
+		//  API for admin to update coupon : /a-api/v1.0/coupon/coupon/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + couponServicePrefix + CouponPrefix + "/{id}", CouponIdResource.class);
+		
+		
+		
+		/** -------------------- APIs for credit module ------------------ **/
+		String creditServicePrefix = "/credit";
+		
+		String CreditPrefix = "/credit";
+		//  API for admin to search for credit : /a-api/v1.0/credit/credit
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + creditServicePrefix + CreditPrefix, CreditResource.class);
+		
+		
+		
+		/** -------------------- APIs for transaction module ------------------ **/
+		String transactionServicePrefix = "/transaction";
+		
+		String TransactionPrefix = "/transaction";
+		//  API for admin to search for transaction : /a-api/v1.0/transaction/transaction
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + transactionServicePrefix + TransactionPrefix, TransactionResource.class);
+
 		
 		
 		/** -------------------- API for ModelLoader module ------------------ **/
-		String modelLoaderPrefix = "/modelLoader";
-		//  API for model to load : /a-api/v1.0/admin/modelLoader
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + modelLoaderPrefix, ModelLoaderResource.class);
-		String memcachedBenchMarkPrefix = "/memcached";
-		//	API for making a memcached bench mark: /a-api/v1.0/admin/memcached
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + memcachedBenchMarkPrefix, MemcachedBenchMarkResource.class);
+		String testServicePrefix = "/test";
+		
+		String ModelLoaderPrefix = "/modelLoader";
+		//  API for model to load : /a-api/v1.0/test/modelLoader
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + testServicePrefix + ModelLoaderPrefix, ModelLoaderResource.class);
+		String MemcachedBenchMarkPrefix = "/memcached";
+		//	API for making a memcached bench mark: /a-api/v1.0/test/memcached
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + testServicePrefix + MemcachedBenchMarkPrefix, MemcachedBenchMarkResource.class);
 		
 		
 		

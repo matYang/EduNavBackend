@@ -10,7 +10,6 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -18,13 +17,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
-import BaseModule.common.Parser;
-import BaseModule.configurations.ImgConfig;
-import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
-import BaseModule.configurations.EnumConfig.TeachingMaterialType;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
@@ -914,9 +909,6 @@ public class Course implements PseudoModel, Serializable{
 					}
 					else if (fieldClass.isAssignableFrom(CourseStatus.class)){
 						field.set(this, CourseStatus.fromInt(Integer.parseInt(value, 10)));
-					}
-					else if (fieldClass.isAssignableFrom(TeachingMaterialType.class)){
-						field.set(this, TeachingMaterialType.fromInt(Integer.parseInt(value, 10)));
 					}
 					else if (fieldClass.isAssignableFrom(PartnerQualification.class)){
 						field.set(this, PartnerQualification.fromInt(Integer.parseInt(value, 10)));

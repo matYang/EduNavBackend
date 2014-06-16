@@ -46,7 +46,6 @@ public class CourseTest {
 		kvps.put("teachingMethods", "实战-考研-测试-毕业-享受人生");
 		kvps.put("price", "50");
 		kvps.put("provideMarking", "false");
-		kvps.put("teachingMaterialType", "1");
 		kvps.put("provideAssignments", "true");
 		kvps.put("phone", "18662241356");
 		kvps.put("dailyFinishTime", "08:00");

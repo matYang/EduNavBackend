@@ -57,10 +57,11 @@ public class RoutingService extends Application {
 		/** -------------------- apis for partner module ------------------ **/
 		String courseServicePrefix = "/course";
 		
-		//  p-api for partner to create course : /p-api/v1.0/partner/course
-		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + courseServicePrefix, CourseResource.class);
-		//  p-api for partner to update course: /p-api/v1.0/partner/course/:id
-		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + courseServicePrefix + "/{id}", CourseIdResource.class);
+		String CoursePrefix = "/course";
+		//  p-api for partner to create course : /p-api/v1.0/course/course
+		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + courseServicePrefix + CoursePrefix, CourseResource.class);
+		//  p-api for partner to update course: /p-api/v1.0/course/course/:id
+		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + courseServicePrefix + CoursePrefix + "/{id}", CourseIdResource.class);
 		return router;
 	}
 

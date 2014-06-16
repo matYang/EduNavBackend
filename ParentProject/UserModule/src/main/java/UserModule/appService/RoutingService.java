@@ -86,18 +86,24 @@ public class RoutingService extends Application {
 		//	API for getting courses: /api/v1.0/general/course
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + generalServicePrefix + getCoursesPrefix, GetCourses.class);
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + generalServicePrefix + getCoursesPrefix + "/{id}", GetCourseDetail.class);
+		String getCourseByIdListPrefix = "/courseByIdList";
+		//	API for getting courses: /api/v1.0/general/courseByIdList
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + generalServicePrefix + getCourseByIdListPrefix, GetCourseByIdList.class);
 
 		/** -------------------- APIs for booking module ------------------ **/
 		String bookingServicePrefix = "/booking";
-		//	API for booking get/post : /api/v1.0/booking
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix, BookingResource.class);
-		//	API for booking get/put : /api/v1.0/booking/:id
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + "/{id}", BookingIdResource.class);
+		String BookingPrefix = "/booking";
+		//	API for booking get/post : /api/v1.0/booking/booking
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + BookingPrefix, BookingResource.class);
+		//	API for booking get/put : /api/v1.0/booking/booking/:id
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + BookingPrefix + "/{id}", BookingIdResource.class);
 		
-		/** -------------------- APIs for booking module ------------------ **/
+		
+		/** -------------------- APIs for coupon module ------------------ **/
 		String couponServicePrefix = "/coupon";
-		//	API for booking get/post : /api/v1.0/coupon
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + couponServicePrefix + "/{id}", CouponIdResource.class);
+		String CouponPrefix =  "/coupon";
+		//	API for coupon activation : /api/v1.0/coupon/coupon/:id
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + couponServicePrefix + CouponPrefix + "/{id}", CouponIdResource.class);
 				
 		return router;
 	}
