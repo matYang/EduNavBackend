@@ -183,12 +183,13 @@ public class SessionCleanerTest {
 		if(keys.size() != 2){
 			fail();
 		}
+		
 		for(String key : keys){
-			String sessionString = redis.get(key);
-			if(itr==0){
-				if(!sessionString.equals(sessionString0))fail();
-			}else if(itr==1){
+			String sessionString = redis.get(key);			
+			if(itr==0){				
 				if(!sessionString.equals(sessionString2))fail();
+			}else if(itr==1){
+				if(!sessionString.equals(sessionString0))fail();
 			}
 			itr++;
 		}
