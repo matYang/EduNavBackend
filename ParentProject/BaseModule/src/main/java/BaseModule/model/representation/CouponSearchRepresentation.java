@@ -20,8 +20,10 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private int bookingId;
 
 	private int userId;
-	private int startPrice;
-	private int finishPrice;
+	private int startAmount;
+	private int finishAmount;
+	private int startOriginalAmount;
+	private int finishOriginalAmount;
 	private Calendar creationTime;
 	private Calendar expireTime;
 	private CouponStatus status;
@@ -32,8 +34,10 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.couponId = -1l;
 		this.bookingId = -1;
 		this.userId = -1;
-		this.startPrice = -1;
-		this.finishPrice = -1;
+		this.startAmount = -1;
+		this.finishAmount = -1;
+		this.startOriginalAmount = -1;
+		this.finishOriginalAmount = -1;
 		this.creationTime = null;
 		this.expireTime = null;
 		this.status = null;
@@ -89,20 +93,36 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.userId = userId;
 	}
 
-	public int getStartPrice() {
-		return startPrice;
+	public int getStartAmount() {
+		return startAmount;
 	}
 
-	public void setStartPrice(int startPrice) {
-		this.startPrice = startPrice;
+	public void setStartAmount(int startAmount) {
+		this.startAmount = startAmount;
 	}
 
-	public int getFinishPrice() {
-		return finishPrice;
+	public int getFinishAmount() {
+		return finishAmount;
 	}
 
-	public void setFinishPrice(int finishPrice) {
-		this.finishPrice = finishPrice;
+	public void setFinishAmount(int finishAmount) {
+		this.finishAmount = finishAmount;
+	}
+	
+	public int getStartOriginalAmount() {
+		return startOriginalAmount;
+	}
+
+	public void setStartOriginalAmount(int startOriginalAmount) {
+		this.startOriginalAmount = startOriginalAmount;
+	}
+
+	public int getFinishOriginalAmount() {
+		return finishOriginalAmount;
+	}
+
+	public void setFinishOriginalAmount(int finishOriginalAmount) {
+		this.finishOriginalAmount = finishOriginalAmount;
 	}
 
 	public Calendar getCreationTime() {
@@ -136,14 +156,17 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	public void setOrigin(CouponOrigin origin) {
 		this.origin = origin;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "CouponSearchRepresentation [couponId=" + couponId
-				+ ", bookingId=" + bookingId + ", userId=" + userId + ", startPrice="
-				+ startPrice + ", finishPrice=" + finishPrice + ", origin=" + origin
+				+ ", bookingId=" + bookingId + ", userId=" + userId
+				+ ", startAmount=" + startAmount + ", finishAmount="
+				+ finishAmount + ", startOriginalAmount=" + startOriginalAmount
+				+ ", finishOriginalAmount=" + finishOriginalAmount
 				+ ", creationTime=" + creationTime + ", expireTime="
-				+ expireTime + ", status=" + status + "]";
+				+ expireTime + ", status=" + status + ", origin=" + origin
+				+ "]";
 	}
 
 	public String getSearchQuery(){
@@ -167,7 +190,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}
 			query += "bookingId = ? ";
 		}
-		if(this.getStartPrice() >= 0){
+		if(this.getStartAmount() >= 0){
 			if(!start){
 				query += "where ";
 				start = true;
@@ -176,7 +199,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}	
 			query += "amount >= ? ";
 		}
-		if(this.getFinishPrice() >= 0){
+		if(this.getFinishAmount() >= 0){
 			if(!start){
 				query += "where ";
 				start = true;

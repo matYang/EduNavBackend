@@ -69,14 +69,14 @@ public class TransactionDaoTest {
 		ArrayList<Transaction> tlist = new ArrayList<Transaction>();
 		TransactionSearchRepresentation tsr = new TransactionSearchRepresentation();
 		tsr.setUserId(1);
-		tsr.setFinishPrice(1999);
+		tsr.setFinishAmount(1999);
 		tlist = TransactionDao.searchTransaction(tsr);
 		
 		if(tlist.size()==2&&tlist.get(0).equals(transaction)&&tlist.get(1).equals(transaction3)){
 			//Passed;
 		}else fail();
 		
-		tsr.setStartPrice(50);
+		tsr.setStartAmount(50);
 		tlist = TransactionDao.searchTransaction(tsr);
 		
 		if(tlist.size()==1&&tlist.get(0).equals(transaction3)){
@@ -84,7 +84,7 @@ public class TransactionDaoTest {
 		}else fail();
 		
 		tsr.setUserId(-1);
-		tsr.setStartPrice(-1);		
+		tsr.setStartAmount(-1);		
 		tsr.setTransactionType(TransactionType.withdraw);
 		tlist = TransactionDao.searchTransaction(tsr);
 		if(tlist.size()==2&&tlist.get(0).equals(transaction)&&tlist.get(1).equals(transaction3)){

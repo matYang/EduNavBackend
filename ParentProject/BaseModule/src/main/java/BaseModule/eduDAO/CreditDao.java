@@ -33,11 +33,11 @@ public class CreditDao {
 			if(sr.getBookingId() > 0){
 				stmt.setInt(stmtInt++, sr.getBookingId());
 			}
-			if(sr.getStartPrice() >= 0){
-				stmt.setInt(stmtInt++, sr.getStartPrice());
+			if(sr.getStartAmount() >= 0){
+				stmt.setInt(stmtInt++, sr.getStartAmount());
 			}
-			if(sr.getFinishPrice() >= 0){
-				stmt.setInt(stmtInt++, sr.getFinishPrice());
+			if(sr.getFinishAmount() >= 0){
+				stmt.setInt(stmtInt++, sr.getFinishAmount());
 			}			
 			if(sr.getUserId() > 0){
 				stmt.setInt(stmtInt++, sr.getUserId());

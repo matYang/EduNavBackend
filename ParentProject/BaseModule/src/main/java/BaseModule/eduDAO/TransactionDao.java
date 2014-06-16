@@ -35,11 +35,11 @@ public class TransactionDao {
 			if(sr.getUserId() > 0){
 				stmt.setInt(stmtInt++, sr.getUserId());
 			}
-			if(sr.getStartPrice() >= 0){
-				stmt.setInt(stmtInt++, sr.getStartPrice());
+			if(sr.getStartAmount() >= 0){
+				stmt.setInt(stmtInt++, sr.getStartAmount());
 			}
-			if(sr.getFinishPrice() >= 0){
-				stmt.setInt(stmtInt++, sr.getFinishPrice());
+			if(sr.getFinishAmount() >= 0){
+				stmt.setInt(stmtInt++, sr.getFinishAmount());
 			}
 			if(sr.getCreationTime() != null){
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));

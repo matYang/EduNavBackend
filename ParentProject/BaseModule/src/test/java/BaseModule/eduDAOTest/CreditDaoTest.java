@@ -128,14 +128,14 @@ public class CreditDaoTest {
 		CreditSearchRepresentation csr = new CreditSearchRepresentation();
 		
 		csr.setBookingId(1);
-		csr.setStartPrice(100);
+		csr.setStartAmount(100);
 		clist = CreditDao.searchCredit(csr);
 		
 		if(clist.size()==1&&clist.get(0).equals(c3)){
 			//Passed;
 		}else fail();
 		
-		csr.setStartPrice(-1);
+		csr.setStartAmount(-1);
 		csr.setExpireTime(DateUtility.getCurTimeInstance());
 		clist = CreditDao.searchCredit(csr);
 		
