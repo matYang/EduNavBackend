@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Map;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
@@ -89,10 +91,10 @@ public class Course implements PseudoModel, Serializable{
 	private String marking;
 	private String bonusService;
 	private String downloadMaterials;
+	private String teachingMaterialFree;
 	
 	private CourseStatus status;
 	private PartnerQualification partnerQualification;
-	private String teachingMaterialFree;
 	
 	private ArrayList<Integer> studyDays = new ArrayList<Integer>();
 	private ArrayList<String> classImgUrls = new ArrayList<String>();
@@ -830,11 +832,19 @@ public class Course implements PseudoModel, Serializable{
 			jsonObj.put("status", this.status.code);
 			jsonObj.put("partnerQualification", this.partnerQualification.code);
 			jsonObj.put("teachingMaterialFree",this.teachingMaterialFree);
-			jsonObj.put("studyDays", EncodingService.encodeURI(Parser.listToString(this.studyDays,ServerConfig.normalSpliter)));
-			jsonObj.put("classImgUrls", EncodingService.encodeURI(Parser.listToString(this.classImgUrls,ImgConfig.ImgSpliter)));
-			jsonObj.put("teacherIntros", EncodingService.encodeURI(Parser.listToString(this.teacherIntros,ServerConfig.normalSpliter)));
-			jsonObj.put("teacherImgUrls", EncodingService.encodeURI(Parser.listToString(this.teacherImgUrls,ImgConfig.ImgSpliter)));			
-			jsonObj.put("teacherNames", EncodingService.encodeURI(Parser.listToString(this.teacherNames,ServerConfig.normalSpliter)));			
+			jsonObj.put("studyDays", new JSONArray(this.studyDays));
+			jsonObj.put("classImgUrls", new JSONArray(this.classImgUrls));
+			jsonObj.put("teacherImgUrls", new JSONArray(this.teacherImgUrls));
+			ArrayList<String> tempEncodedIntros = new ArrayList<String>();
+			for (String intro : this.teacherIntros){
+				tempEncodedIntros.add(EncodingService.encodeURI(intro));
+			}
+			jsonObj.put("teacherIntros", new JSONArray(tempEncodedIntros));
+			ArrayList<String> tempEncodedNames = new ArrayList<String>();
+			for (String name : this.teacherNames){
+				tempEncodedNames.add(EncodingService.encodeURI(name));
+			}
+			jsonObj.put("teacherNames", new JSONArray(tempEncodedNames));			
 			jsonObj.put("logoUrl",EncodingService.encodeURI(this.logoUrl));
 			jsonObj.put("instName",EncodingService.encodeURI(this.instName));
 			jsonObj.put("wholeName",EncodingService.encodeURI(this.wholeName));
