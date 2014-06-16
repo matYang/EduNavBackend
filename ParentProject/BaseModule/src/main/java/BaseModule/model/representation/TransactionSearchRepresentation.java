@@ -20,8 +20,8 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 	private int bookingId;
 	private TransactionType transactionType;
 	private Calendar creationTime;
-	private int startPrice;
-	private int finishPrice;
+	private int startAmount;
+	private int finishAmount;
 	
 	public TransactionSearchRepresentation(){
 		this.transactionId = -1;
@@ -29,8 +29,8 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 		this.bookingId = -1;
 		this.transactionType = null;
 		this.creationTime = null;
-		this.startPrice = -1;
-		this.finishPrice = -1;
+		this.startAmount = -1;
+		this.finishAmount = -1;
 	}
 
 	@Override
@@ -98,30 +98,29 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 		this.creationTime = creationTime;
 	}
 
-	public int getStartPrice() {
-		return startPrice;
+	public int getStartAmount() {
+		return startAmount;
 	}
 
-	public void setStartPrice(int startPrice) {
-		this.startPrice = startPrice;
+	public void setStartAmount(int startAmount) {
+		this.startAmount = startAmount;
 	}
 
-	public int getFinishPrice() {
-		return finishPrice;
+	public int getFinishAmount() {
+		return finishAmount;
 	}
 
-	public void setFinishPrice(int finishPrice) {
-		this.finishPrice = finishPrice;
+	public void setFinishAmount(int finishAmount) {
+		this.finishAmount = finishAmount;
 	}
 
 	@Override
 	public String toString() {
 		return "TransactionSearchRepresentation [transactionId="
-				+ transactionId + ", userId=" + userId 
-				+ ", bookingId=" + bookingId + ", transactionType="
-				+ transactionType + ", creationTime=" + creationTime
-				+ ", startPrice=" + startPrice + ", finishPrice=" + finishPrice
-				+ "]";
+				+ transactionId + ", userId=" + userId + ", bookingId="
+				+ bookingId + ", transactionType=" + transactionType
+				+ ", creationTime=" + creationTime + ", startAmount="
+				+ startAmount + ", finishAmount=" + finishAmount + "]";
 	}
 
 	public String getSearchQuery(){
@@ -154,7 +153,7 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 			}
 			query += "userId = ? ";
 		}
-		if(this.getStartPrice() >= 0){
+		if(this.getStartAmount() >= 0){
 			if(!start){
 				query += "where ";
 				start = true;
@@ -163,7 +162,7 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 			}
 			query += "amount >= ? ";
 		}
-		if(this.getFinishPrice() >= 0){
+		if(this.getFinishAmount() >= 0){
 			if(!start){
 				query += "where ";
 				start = true;

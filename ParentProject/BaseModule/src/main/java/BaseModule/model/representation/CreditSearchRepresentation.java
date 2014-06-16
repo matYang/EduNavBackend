@@ -18,8 +18,8 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private long creditId;
 	private int bookingId;
 	private int userId;
-	private int startPrice;
-	private int finishPrice;
+	private int startAmount;
+	private int finishAmount;
 	private Calendar creationTime;
 	private Calendar expireTime;
 	private CreditStatus status;
@@ -29,8 +29,8 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.creditId = -1l;
 		this.bookingId = -1;
 		this.userId = -1;
-		this.startPrice = -1;
-		this.finishPrice = -1;
+		this.startAmount = -1;
+		this.finishAmount = -1;
 		this.creationTime = null;
 		this.expireTime = null;		
 		this.status = null;
@@ -85,20 +85,20 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.userId = userId;
 	}
 
-	public int getStartPrice() {
-		return startPrice;
+	public int getStartAmount() {
+		return startAmount;
 	}
 
-	public void setStartPrice(int startPrice) {
-		this.startPrice = startPrice;
+	public void setStartAmount(int startAmount) {
+		this.startAmount = startAmount;
 	}
 
-	public int getFinishPrice() {
-		return finishPrice;
+	public int getFinishAmount() {
+		return finishAmount;
 	}
 
-	public void setFinishPrice(int finishPrice) {
-		this.finishPrice = finishPrice;
+	public void setFinishAmount(int finishAmount) {
+		this.finishAmount = finishAmount;
 	}
 
 	public Calendar getCreationTime() {
@@ -125,15 +125,16 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.status = status;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "CreditSearchRepresentation [creditId=" + creditId
 				+ ", bookingId=" + bookingId + ", userId=" + userId
-				+ ", startPrice=" + startPrice + ", finishPrice=" + finishPrice
-				+ ", creationTime=" + creationTime + ", expireTime="
-				+ expireTime + ", status=" + status + "]";
+				+ ", startAmount=" + startAmount + ", finishAmount="
+				+ finishAmount + ", creationTime=" + creationTime
+				+ ", expireTime=" + expireTime + ", status=" + status + "]";
 	}
-	
+
 	public String getSearchQuery(){
 		String query = "SELECT * from CreditDao ";
 		boolean start = false;
@@ -155,7 +156,7 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}
 			query += "bookingId = ? ";
 		}
-		if(this.getStartPrice() >= 0){
+		if(this.getStartAmount() >= 0){
 			if(!start){
 				query += "where ";
 				start = true;
@@ -164,7 +165,7 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}	
 			query += "amount >= ? ";
 		}
-		if(this.getFinishPrice() >= 0){
+		if(this.getFinishAmount() >= 0){
 			if(!start){
 				query += "where ";
 				start = true;

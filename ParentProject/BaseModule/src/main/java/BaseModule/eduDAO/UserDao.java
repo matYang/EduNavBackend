@@ -68,15 +68,6 @@ public class UserDao {
 			if(sr.getStatus() != null){
 				stmt.setInt(stmtInt++, sr.getStatus().code);
 			}
-			if(sr.getBalance() >= 0){
-				stmt.setInt(stmtInt++,sr.getBalance());
-			}
-			if(sr.getCoupon() >= 0){
-				stmt.setInt(stmtInt++, sr.getCoupon());
-			}
-			if(sr.getCredit() >= 0){
-				stmt.setInt(stmtInt++,sr.getCredit());
-			}
 			if(sr.getEmail() != null){
 				stmt.setString(stmtInt++, sr.getEmail());
 			}

@@ -128,8 +128,8 @@ public class CouponDaoTest {
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
 		CouponSearchRepresentation csr = new CouponSearchRepresentation();
 		csr.setBookingId(1);
-		csr.setStartPrice(4);
-		csr.setFinishPrice(100);
+		csr.setStartAmount(4);
+		csr.setFinishAmount(100);
 		clist = CouponDao.searchCoupon(csr);
 		
 		if(clist.size()==0){
@@ -153,8 +153,8 @@ public class CouponDaoTest {
 		}else fail();
 		
 		csr.setExpireTime(null);		
-		csr.setStartPrice(0);
-		csr.setFinishPrice(60);
+		csr.setStartAmount(0);
+		csr.setFinishAmount(60);
 		clist = CouponDao.searchCoupon(csr);
 		
 		if(clist.size()==1 && clist.get(0).equals(c2)){
