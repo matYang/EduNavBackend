@@ -42,14 +42,14 @@ public class CourseTest {
 		kvps.put("partnerQualification", "1");
 		kvps.put("classModel", "0");
 		kvps.put("status", "0");
-		kvps.put("teachingMaterialFree", "false");
-		kvps.put("teachingMethods", "实战-考研-测试-毕业-享受人生");
+		kvps.put("teachingMaterialFee", "false");
+		kvps.put("url-classImg1", "fasdf");
 		kvps.put("price", "50");
-		kvps.put("provideMarking", "false");
-		kvps.put("provideAssignments", "true");
+		kvps.put("url-classImg2", "adfdas");
+		kvps.put("url-classImg3", "fdasf");
 		kvps.put("phone", "18662241356");
-		kvps.put("dailyFinishTime", "08:00");
-		kvps.put("dailyStartTime", "23:00");
+		kvps.put("url-classImg4", "adsfas");
+		kvps.put("url-classImg5", "asdf");
 
 		
 		Course course = null;
@@ -59,7 +59,7 @@ public class CourseTest {
 			course.loadFromMap(kvps);
 		}
 		System.out.println("100000 refelction finished at: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		System.out.println(course.toJSON());
+		//System.out.println(course.toJSON());
 		
 
 	}
