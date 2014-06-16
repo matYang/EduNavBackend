@@ -1,12 +1,13 @@
 package BaseModule.model;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CreditStatus;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 
 
@@ -104,7 +105,7 @@ public class Credit implements PseudoModel, Serializable{
 		return creationTime;
 	}
 	
-	public JSONObject toJSON(){
+	public JSONObject toJSON() throws ValidationException{
 		JSONObject jsonObj = new JSONObject();
 		try{
 			jsonObj.put("credit", this.creditId);
@@ -115,8 +116,9 @@ public class Credit implements PseudoModel, Serializable{
 			jsonObj.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
 			jsonObj.put("status", this.status.code);
 			
-		} catch (JSONException | UnsupportedEncodingException e) {
-			e.printStackTrace();
+		} catch (JSONException e) {
+			DebugLog.d(e);
+			throw new ValidationException("信息数据格式转换失败");
 		}
 		return jsonObj;
 	}

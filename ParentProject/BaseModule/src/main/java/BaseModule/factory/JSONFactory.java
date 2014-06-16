@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.model.*;
 import BaseModule.model.representation.*;
 
 public class JSONFactory {
 	
-	public static JSONObject toJSON(PseudoModel obj){
+	public static JSONObject toJSON(PseudoModel obj) throws ValidationException{
 		if (obj == null){
 			return new JSONObject();
 		}
@@ -68,7 +69,7 @@ public class JSONFactory {
 		}
 	}
 	
-	public static JSONArray toJSON(ArrayList<? extends PseudoModel> objs){
+	public static JSONArray toJSON(ArrayList<? extends PseudoModel> objs) throws ValidationException{
 		ArrayList<JSONObject> temps = new ArrayList<JSONObject>();
 		if (objs == null){
 			return new JSONArray();

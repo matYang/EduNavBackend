@@ -38,7 +38,12 @@ public class UserSessionRedirect extends UserPseudoResource{
 			//if not authenticated, return default user with id -1
 			user = new User("default","default", "", "", "",AccountStatus.activated);
 			user.setUserId(-1);
-			jsonObject = JSONFactory.toJSON(user);
+			try {
+				jsonObject = JSONFactory.toJSON(user);
+			} catch (PseudoException e1){
+				this.addCORSHeader();
+				return this.doPseudoException(e1);
+			} 
 		
 		} catch (PseudoException e){
 			this.addCORSHeader();

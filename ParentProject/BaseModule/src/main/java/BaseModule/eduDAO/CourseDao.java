@@ -185,7 +185,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getPartnerCourseReference());
 			stmt.setInt(stmtInt++, course.getPartnerQualification().code);
 			stmt.setString(stmtInt++, course.getPartnerIntro());
-			stmt.setString(stmtInt++, course.getTeachingMaterialFree());
+			stmt.setString(stmtInt++, course.getTeachingMaterialFee());
 			stmt.setString(stmtInt++, course.getTeachingMaterialIntro());
 			stmt.setString(stmtInt++, course.getPassAgreement());
 			stmt.setString(stmtInt++, course.getPhone());
@@ -267,7 +267,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getPartnerCourseReference());
 			stmt.setInt(stmtInt++, course.getPartnerQualification().code);
 			stmt.setString(stmtInt++, course.getPartnerIntro());
-			stmt.setString(stmtInt++, course.getTeachingMaterialFree());
+			stmt.setString(stmtInt++, course.getTeachingMaterialFee());
 			stmt.setString(stmtInt++, course.getTeachingMaterialIntro());
 			stmt.setString(stmtInt++, course.getPassAgreement());
 			stmt.setString(stmtInt++, course.getPhone());

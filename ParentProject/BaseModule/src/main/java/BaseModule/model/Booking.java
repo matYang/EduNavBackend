@@ -13,7 +13,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
 
@@ -284,7 +286,7 @@ public class Booking implements PseudoModel, Serializable{
         return clone;
 	}
 
-	public JSONObject toJSON(){
+	public JSONObject toJSON() throws ValidationException{
 		JSONObject jsonObj = new JSONObject();
 		try{
 			jsonObj.put("bookingId", this.bookingId);
@@ -308,7 +310,8 @@ public class Booking implements PseudoModel, Serializable{
 			jsonObj.put("actionRecord", EncodingService.encodeURI(this.actionRecord));
 			jsonObj.put("course", this.course == null ? new JSONObject() : this.course.toJSON());
 		} catch (JSONException | UnsupportedEncodingException e) {
-			e.printStackTrace();
+			DebugLog.d(e);
+			throw new ValidationException("信息数据格式转换失败");
 		}
 		return jsonObj;
 

@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
@@ -77,7 +78,7 @@ public class Course implements PseudoModel, Serializable{
 	
 	private String partnerDistinction;
 	private String outline;	//text area
-	private String goal;	//test area
+	private String goal;	//text area
 	private String classTeacher;
 	private String teachingAndExercise;
 	private String questionSession;
@@ -86,7 +87,7 @@ public class Course implements PseudoModel, Serializable{
 	private String marking;
 	private String bonusService;
 	private String downloadMaterials;
-	private String teachingMaterialFree;
+	private String teachingMaterialFee;
 	
 	private CourseStatus status;
 	private PartnerQualification partnerQualification;
@@ -179,7 +180,7 @@ public class Course implements PseudoModel, Serializable{
 		this.downloadMaterials = downloadMaterials;
 		this.status = status;
 		this.partnerQualification = partnerQualification;
-		this.teachingMaterialFree = teachingMaterialFree;
+		this.teachingMaterialFee = teachingMaterialFree;
 		this.studyDays = studyDays;
 		this.classImgUrls = classImgUrls;
 		this.teacherIntros = teacherIntros;
@@ -248,7 +249,7 @@ public class Course implements PseudoModel, Serializable{
 		this.downloadMaterials = "";
 		this.status = CourseStatus.openEnroll;
 		this.partnerQualification = PartnerQualification.verified;
-		this.teachingMaterialFree = "";
+		this.teachingMaterialFee = "";
 		this.studyDays = new ArrayList<Integer>();
 		this.classImgUrls = new ArrayList<String>();
 		this.teacherIntros = new ArrayList<String>();;
@@ -676,12 +677,12 @@ public class Course implements PseudoModel, Serializable{
 		this.partnerQualification = partnerQualification;
 	}
 
-	public String getTeachingMaterialFree() {
-		return teachingMaterialFree;
+	public String getTeachingMaterialFee() {
+		return teachingMaterialFee;
 	}
 
-	public void setTeachingMaterialFree(String teachingMaterialFree) {
-		this.teachingMaterialFree = teachingMaterialFree;
+	public void setTeachingMaterialFee(String teachingMaterialFee) {
+		this.teachingMaterialFee = teachingMaterialFee;
 	}
 
 	public ArrayList<Integer> getStudyDays() {
@@ -771,7 +772,7 @@ public class Course implements PseudoModel, Serializable{
         return clone;
 	}
 
-	public JSONObject toJSON(){
+	public JSONObject toJSON() throws ValidationException{
 		JSONObject jsonObj = new JSONObject();
 		try{
 			jsonObj.put("id", this.courseId);
@@ -826,7 +827,7 @@ public class Course implements PseudoModel, Serializable{
 			jsonObj.put("downloadMaterials", this.downloadMaterials);
 			jsonObj.put("status", this.status.code);
 			jsonObj.put("partnerQualification", this.partnerQualification.code);
-			jsonObj.put("teachingMaterialFree",this.teachingMaterialFree);
+			jsonObj.put("teachingMaterialFee",this.teachingMaterialFee);
 			jsonObj.put("studyDays", new JSONArray(this.studyDays));
 			jsonObj.put("classImgUrls", new JSONArray(this.classImgUrls));
 			jsonObj.put("teacherImgUrls", new JSONArray(this.teacherImgUrls));
@@ -845,7 +846,8 @@ public class Course implements PseudoModel, Serializable{
 			jsonObj.put("wholeName",EncodingService.encodeURI(this.wholeName));
 			
 		} catch (JSONException | UnsupportedEncodingException e) {
-			e.printStackTrace();
+			DebugLog.d(e);
+			throw new ValidationException("信息数据格式转换失败");
 		}
 		return jsonObj;
 	}

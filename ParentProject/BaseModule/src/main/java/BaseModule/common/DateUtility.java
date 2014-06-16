@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import BaseModule.configurations.ServerConfig;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Coupon;
 import BaseModule.service.EncodingService;
 
@@ -51,30 +52,31 @@ public class DateUtility {
 	}
 
 
-	public static Calendar castFromAPIFormat(String dateString) throws UnsupportedEncodingException, ParseException{
-		Calendar cal = getCurTimeInstance();
-		dateString = EncodingService.decodeURI(dateString);
-		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		cal.setTime(sdf1.parse(dateString));
-		return cal;
+	public static Calendar castFromAPIFormat(String dateString) throws ValidationException{
+		try{
+			Calendar cal = getCurTimeInstance();
+			dateString = EncodingService.decodeURI(dateString);
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			cal.setTime(sdf1.parse(dateString));
+			return cal;
+		} catch (ParseException | UnsupportedEncodingException e) {
+			DebugLog.d(e);
+			throw new ValidationException("无效日期格式");
+		}
+		
 	}
-	public static String castToAPIFormat(Calendar c) throws UnsupportedEncodingException{
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return EncodingService.encodeURI(sdf.format(c.getTime()));
+	public static String castToAPIFormat(Calendar c) throws ValidationException{
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			return EncodingService.encodeURI(sdf.format(c.getTime()));
+		} catch (UnsupportedEncodingException e){
+			DebugLog.d(e);
+			throw new ValidationException("无效日期源");
+		}
 	}
 
-	//representation format must be url-friendly, and no longer will be forced to be url encoded
-	public static Calendar castFromRepresentationFormat(String dateString){
-		Calendar cal = getCurTimeInstance();
-		try {
-			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-			cal.setTime(sdf1.parse(dateString));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return cal;
-	}
-	public static String castToRepresentationFormat(Calendar c){
+	
+	public static String castToDateFormat(Calendar c){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(c.getTime());
 	}

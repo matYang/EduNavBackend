@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.service.RepresentationReflectiveService;
@@ -65,7 +66,7 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	}
 	
 	@Override
-	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
+	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
 		return RepresentationReflectiveService.serialize(this);
 	}
 	
@@ -75,7 +76,7 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	}
 
 	@Override
-	public JSONObject toJSON() {
+	public JSONObject toJSON() throws ValidationException {
 		return RepresentationReflectiveService.toJSON(this);
 	}
 

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoMemCacheKey;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.interfaces.PseudoRepresentation;
@@ -87,7 +88,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 
 	@Override
-	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
+	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
 		return RepresentationReflectiveService.serialize(this);
 	}
 
@@ -97,13 +98,13 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 
 	@Override
-	public JSONObject toJSON() {
+	public JSONObject toJSON() throws ValidationException {
 		return RepresentationReflectiveService.toJSON(this);
 	}
 
 
 	@Override
-	public String toCacheKey() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
+	public String toCacheKey() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
 		return this.serialize();
 	}
 

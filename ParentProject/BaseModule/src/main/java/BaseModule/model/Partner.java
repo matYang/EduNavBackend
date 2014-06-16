@@ -8,7 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
 
@@ -149,7 +151,7 @@ public class Partner implements PseudoModel, Serializable{
 		return creationTime;
 	}
 
-	public JSONObject toJSON(){
+	public JSONObject toJSON() throws ValidationException{
 		JSONObject jsonObj = new JSONObject();
 		try{
 			jsonObj.put("partnerId", this.partnerId);
@@ -165,7 +167,8 @@ public class Partner implements PseudoModel, Serializable{
 			jsonObj.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
 
 		} catch (JSONException | UnsupportedEncodingException e) {
-			e.printStackTrace();
+			DebugLog.d(e);
+			throw new ValidationException("信息数据格式转换失败");
 		}
 		return jsonObj;
 	}

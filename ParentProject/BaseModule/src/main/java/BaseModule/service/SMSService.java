@@ -30,7 +30,7 @@ public class SMSService {
 	}
 	
 	public static void sendBookingConfirmedSMS(Booking booking){
-		SMSTask sms = new SMSTask(SMSEvent.user_bookingConfirmed, booking.getPhone(), booking.getCourse().getCourseName(), DateUtility.castToRepresentationFormat(booking.getScheduledTime()));
+		SMSTask sms = new SMSTask(SMSEvent.user_bookingConfirmed, booking.getPhone(), booking.getCourse().getCourseName(), DateUtility.castToDateFormat(booking.getScheduledTime()));
 		ExecutorProvider.executeRelay(sms);
 	}
 	

@@ -39,7 +39,12 @@ public class PartnerSessionRedirect extends PartnerPseudoResource{
 			partner = new Partner("default", "default","default", "default",
 					"default", "default", "default",AccountStatus.activated);
 			partner.setPartnerId(-1);
-			jsonObject = JSONFactory.toJSON(partner);
+			try {
+				jsonObject = JSONFactory.toJSON(partner);
+			} catch (PseudoException e1) {
+				this.addCORSHeader();
+				return this.doPseudoException(e1);
+			}
 			
 		} catch (PseudoException e){
 			this.addCORSHeader();

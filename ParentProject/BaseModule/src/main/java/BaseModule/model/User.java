@@ -9,7 +9,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
@@ -211,7 +213,7 @@ public class User implements PseudoModel, Serializable{
 		return accountNumber;
 	}
 
-	public JSONObject toJSON(){
+	public JSONObject toJSON() throws ValidationException{
 		JSONObject jsonObj = new JSONObject();
 		try{
 			jsonObj.put("userId", this.userId);
@@ -231,7 +233,8 @@ public class User implements PseudoModel, Serializable{
 			jsonObj.put("creditList",JSONFactory.toJSON(this.creditList));
 			jsonObj.put("transactionList",JSONFactory.toJSON(this.transactionList));
 		} catch (JSONException | UnsupportedEncodingException e) {
-			e.printStackTrace();
+			DebugLog.d(e);
+			throw new ValidationException("信息数据格式转换失败");
 		}
 		return jsonObj;
 

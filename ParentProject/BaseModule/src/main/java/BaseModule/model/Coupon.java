@@ -6,13 +6,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 
 
@@ -143,7 +144,7 @@ public class Coupon implements PseudoModel, Serializable{
         return clone;
 	}
 	
-	public JSONObject toJSON(){
+	public JSONObject toJSON() throws ValidationException{
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
 			jsonSearchRepresentation.put("couponId", this.couponId);
@@ -156,8 +157,9 @@ public class Coupon implements PseudoModel, Serializable{
 			jsonSearchRepresentation.put("status", this.status.code);
 			jsonSearchRepresentation.put("couponOrigin", this.origin.code);
 			
-		} catch (JSONException | UnsupportedEncodingException e) {
-			e.printStackTrace();
+		} catch (JSONException e) {
+			DebugLog.d(e);
+			throw new ValidationException("信息数据格式转换失败");
 		}
 		return jsonSearchRepresentation;
 	}

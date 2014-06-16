@@ -59,7 +59,7 @@ public class RepresentationReflectiveService {
 						field.set(representation, value);
 					}
 					else if (fieldClass.isAssignableFrom(Calendar.class)){
-						field.set(representation, DateUtility.castFromRepresentationFormat(value));
+						field.set(representation, DateUtility.castFromAPIFormat(value));
 					}
 					else if (fieldClass.isAssignableFrom(AccountStatus.class)){
 						field.set(representation, AccountStatus.fromInt(Integer.parseInt(value, 10)));
@@ -98,7 +98,7 @@ public class RepresentationReflectiveService {
 	
 
 	
-	public static String serialize(PseudoRepresentation representation) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
+	public static String serialize(PseudoRepresentation representation) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
 		Field[] fields = getFields(representation);
 		
 		ArrayList<String> serializedMembers = new ArrayList<String>();
@@ -120,7 +120,7 @@ public class RepresentationReflectiveService {
 			else if (fieldClass.isAssignableFrom(Calendar.class)){
 				Object value = field.get(representation);
 				if (value != null){
-					serializedMembers.add(field.getName() + "_" +  DateUtility.castToRepresentationFormat((Calendar) value)  );
+					serializedMembers.add(field.getName() + "_" +  DateUtility.castToAPIFormat((Calendar) value)  );
 				}
 			}
 			else if (fieldClass.isAssignableFrom(AccountStatus.class)){
@@ -181,7 +181,7 @@ public class RepresentationReflectiveService {
 	}
 
 
-	public static JSONObject toJSON(PseudoRepresentation representation) {
+	public static JSONObject toJSON(PseudoRepresentation representation) throws ValidationException {
 		Field[] fields = getFields(representation);
 		JSONObject jsonRepresentation = new JSONObject();
 		
@@ -204,7 +204,7 @@ public class RepresentationReflectiveService {
 				else if (fieldClass.isAssignableFrom(Calendar.class)){
 					Object value = field.get(representation);
 					if (value != null){
-						jsonRepresentation.put(field.getName(),  DateUtility.castToRepresentationFormat((Calendar) value)  );
+						jsonRepresentation.put(field.getName(),  DateUtility.castToAPIFormat((Calendar) value)  );
 					}
 				}
 				else if (fieldClass.isAssignableFrom(AccountStatus.class)){
