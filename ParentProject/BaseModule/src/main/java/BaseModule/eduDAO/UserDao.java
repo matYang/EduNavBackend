@@ -77,6 +77,24 @@ public class UserDao {
 			if(sr.getAppliedInvitationalCode() != null && sr.getAppliedInvitationalCode().length() > 0){
 				stmt.setString(stmtInt++, sr.getAppliedInvitationalCode());
 			}
+			if(sr.getStartBalance() != -1){
+				stmt.setInt(stmtInt++, sr.getStartBalance());
+			}
+			if(sr.getFinishBalance() != -1){
+				stmt.setInt(stmtInt++, sr.getFinishBalance());
+			}
+			if(sr.getStartCoupon() != -1){
+				stmt.setInt(stmtInt++, sr.getStartCoupon());
+			}
+			if(sr.getFinishCoupon() != -1){
+				stmt.setInt(stmtInt++, sr.getFinishCoupon());
+			}
+			if(sr.getStartCredit() != -1){
+				stmt.setInt(stmtInt++, sr.getStartCredit());
+			}
+			if(sr.getFinishCredit() != -1){
+				stmt.setInt(stmtInt++, sr.getFinishCredit());
+			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				user = createUserByResultSet(rs);

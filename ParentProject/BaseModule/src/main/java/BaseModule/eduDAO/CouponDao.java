@@ -56,6 +56,12 @@ public class CouponDao {
 			if(sr.getOrigin() != null){
 				stmt.setInt(stmtInt++, sr.getOrigin().code);
 			}
+			if(sr.getStartOriginalAmount() != -1){
+				stmt.setInt(stmtInt++, sr.getStartOriginalAmount());
+			}
+			if(sr.getFinishOriginalAmount() != -1){
+				stmt.setInt(stmtInt++, sr.getFinishOriginalAmount());
+			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				clist.add(createCouponByResultSet(rs));

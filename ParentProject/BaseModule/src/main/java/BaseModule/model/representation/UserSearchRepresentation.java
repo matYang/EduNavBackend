@@ -298,6 +298,60 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 			}
 			query += "accountNumber = ? ";
 		}
+		if(this.startBalance != -1){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "balance >= ? ";
+		}
+		if(this.finishBalance != -1){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "balance <= ? ";
+		}
+		if(this.startCoupon != -1){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "coupon >= ? ";
+		}
+		if(this.finishCoupon != -1){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "coupon <= ? ";
+		}
+		if(this.startCredit != -1){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "credit >= ? ";
+		}
+		if(this.finishCredit != -1){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "credit <= ? ";
+		}
 		return query;
 	}
 	

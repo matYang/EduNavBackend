@@ -253,6 +253,24 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}
 			query += "couponOrigin = ? ";
 		}
+		if(this.getStartOriginalAmount() != -1){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "originalAmount >= ? ";
+		}
+		if(this.getFinishOriginalAmount() != -1){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "originalAmount <= ? ";
+		}
 		return query;
 	}	
 
