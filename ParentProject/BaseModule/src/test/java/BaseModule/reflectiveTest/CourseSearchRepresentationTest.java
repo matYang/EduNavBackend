@@ -22,11 +22,11 @@ public class CourseSearchRepresentationTest {
 		kvps.put("category", "英语");
 		kvps.put("subCategory", "托福");
 		kvps.put("partnerReference", "GA3tt90_--+0jlkfhkl990jiof56DFHK83");
-		kvps.put("startTime", "2014-05-15");
+		kvps.put("startTime", "2014-05-15 00:00:00");
 		kvps.put("startPrice", null);
 		kvps.put("finishPrice", "1000");
-		kvps.put("creationTime", "2014-05-1");
-		kvps.put("finishTime", "2018-09-1");
+		kvps.put("creationTime", "2014-05-11 00:00:00");
+		kvps.put("finishTime", "2018-09-11 00:00:00");
 		
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
@@ -49,11 +49,11 @@ public class CourseSearchRepresentationTest {
 		kvps.put("category", "英语");
 		kvps.put("subCategory", "托福");
 		kvps.put("partnerReference", "GA3tt90_--+0jlkfhkl990jiof56DFHK83");
-		kvps.put("startTime", "2014-05-15");
+		kvps.put("startTime", "2014-05-15 00:00:00");
 		kvps.put("startPrice", "90");
 		kvps.put("finishPrice", "1000");
-		kvps.put("creationTime", "2014-05-1");
-		kvps.put("finishTime", "2018-09-1");
+		kvps.put("creationTime", "2014-05-11 00:00:00");
+		kvps.put("finishTime", "2018-09-01 00:00:00");
 		
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		c_sr.storeKvps(kvps);
