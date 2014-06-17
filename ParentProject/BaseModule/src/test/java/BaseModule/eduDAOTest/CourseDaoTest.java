@@ -20,7 +20,7 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 public class CourseDaoTest {
 
 	@Test
-	public void testCreate(){
+	public void testCreate() throws SQLException{
 		EduDaoBasic.clearAllDatabase();
 		int p_Id = 1;
 		Calendar startTime = DateUtility.getCurTimeInstance();
@@ -31,15 +31,10 @@ public class CourseDaoTest {
 		int price = 1000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		String phone = "12344565654";
-		AccountStatus status = AccountStatus.activated;		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
-		try{
-			CourseDao.addCourseToDatabases(course);
-		}catch(Exception e){
-			e.printStackTrace();
-			fail();
-		}
+		String phone = "12344565654";		
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);		
+		CourseDao.addCourseToDatabases(course);
+		
 	}
 	
 	@Test
