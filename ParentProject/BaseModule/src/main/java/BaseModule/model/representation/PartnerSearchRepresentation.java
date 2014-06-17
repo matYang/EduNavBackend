@@ -21,7 +21,6 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 	private String licence;
 	private String organizationNum;
 	private String reference;
-	private Calendar creationTime;
 	private String phone;
 	private AccountStatus status;	
 	private String instName;

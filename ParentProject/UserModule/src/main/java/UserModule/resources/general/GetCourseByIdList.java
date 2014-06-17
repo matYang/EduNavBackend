@@ -26,13 +26,15 @@ public class GetCourseByIdList extends UserPseudoResource{
 		try {
 			String idListStr = this.getQueryVal("idList");
 			ArrayList<Integer> idList = new ArrayList<Integer>();
-			for (String id : idListStr.split("-")){
-				idList.add(Integer.parseInt(id));
+			if (idListStr != null){
+				for (String id : idListStr.split("-")){
+					idList.add(Integer.parseInt(id));
+				}
+				
+				DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), idListStr);
+				
+				response = JSONFactory.toJSON(CourseDaoService.getCourseByIdList(idList));
 			}
-			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), idListStr);
-			
-			response = JSONFactory.toJSON(CourseDaoService.getCourseByIdList(idList));
 			
 		} catch (PseudoException e){
 			this.addCORSHeader();

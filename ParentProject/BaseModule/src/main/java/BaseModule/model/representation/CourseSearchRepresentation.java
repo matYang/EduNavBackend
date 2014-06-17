@@ -30,7 +30,6 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 
 	private Calendar startDate;
 	private Calendar finishDate;
-	private Calendar creationTime;
 	
 	private int startPrice;
 	private int finishPrice;
@@ -40,6 +39,9 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private int finishCashback;
 
 	private CourseStatus status;
+	
+	private Calendar startCreationTime;
+	private Calendar finishCreationTime;
 		
 	private int courseId;
 	private int partnerId;

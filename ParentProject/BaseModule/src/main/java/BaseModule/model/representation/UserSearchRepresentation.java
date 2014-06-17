@@ -34,7 +34,9 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	private String accountNumber;
 	
 	private AccountStatus status;
-	private Calendar creationTime;
+	
+	private Calendar startCreationTime;
+	private Calendar finishCreationTime;
 	
 	
 	public UserSearchRepresentation(){

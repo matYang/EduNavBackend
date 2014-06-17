@@ -25,7 +25,6 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private int finishAmount;
 	private int startOriginalAmount;
 	private int finishOriginalAmount;
-	private Calendar creationTime;
 	private Calendar expireTime;
 	private CouponStatus status;
 	private CouponOrigin origin;

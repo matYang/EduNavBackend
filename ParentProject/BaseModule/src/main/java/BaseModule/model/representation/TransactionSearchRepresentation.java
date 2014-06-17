@@ -20,9 +20,11 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 	private int userId;	
 	private int bookingId;
 	private TransactionType transactionType;
-	private Calendar creationTime;
 	private int startAmount;
 	private int finishAmount;
+	
+	private Calendar startCreationTime;
+	private Calendar finishCreationTime;
 	
 	public TransactionSearchRepresentation(){
 		this.transactionId = -1;

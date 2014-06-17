@@ -7,7 +7,7 @@ public class CacheConfig {
 	public static final int course_expireTime = 7200;
 	public static final String course_keyPrefix = "course_";
 	
-	public static final int courseSearch_expireTime = 3600;
+	public static final int courseSearch_expireTime = 900;
 	
 	
 	public static String castIdListToValue(ArrayList<Integer> idList){

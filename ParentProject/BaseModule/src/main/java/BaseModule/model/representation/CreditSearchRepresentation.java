@@ -21,9 +21,11 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private int userId;
 	private int startAmount;
 	private int finishAmount;
-	private Calendar creationTime;
 	private Calendar expireTime;
 	private CreditStatus status;
+	
+	private Calendar startCreationTime;
+	private Calendar finishCreationTime;
 	
 	
 	public CreditSearchRepresentation() {
