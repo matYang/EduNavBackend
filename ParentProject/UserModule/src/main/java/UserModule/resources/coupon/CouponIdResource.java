@@ -28,8 +28,8 @@ public class CouponIdResource extends UserPseudoResource{
 			this.checkEntity(entity);
 			int userId = this.validateAuthentication();
 			couponId = Integer.parseInt(this.getReqAttr("id"));
-			JSONObject jsonCoupon = this.getJSONObj(entity);
-			jsonCoupon.put("couponId", couponId);
+			//JSONObject jsonCoupon = this.getJSONObj(entity);
+			//jsonCoupon.put("couponId", couponId);
 			
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), couponObject.toString());
 			
