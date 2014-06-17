@@ -42,6 +42,9 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	
 	private Calendar startCreationTime;
 	private Calendar finishCreationTime;
+	private Calendar startCutoffDate;
+	private Calendar finishCutoffDate;
+	private int startUponArrival;	//one means true, two or larger means false
 		
 	private int courseId;
 	private int partnerId;
