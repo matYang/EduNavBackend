@@ -67,12 +67,12 @@ public class UserCleaner extends UserDao{
 					boolean validCouponList = validCreditList(ulist.get(i).getCredit(),ulist.get(i).getCreditList());
 					
 					if(!validTransactionList || !validCreditList || !validCouponList){
-//						String bstr = validTransactionList ? "Pass" : "Failed";
-//						String crestr = validCreditList ? "Pass" : "Failed";
-//						String coustr = validCouponList ? "Pass" : "Failed";
-//						System.out.println("user: " + ulist.get(i).getUserId() + " balance account: " + bstr + " credit account: " + crestr + " coupon account: " + coustr);
-//						System.out.println("user: " + ulist.get(i).getUserId() + " balance account: " + ulist.get(i).getBalance() + " coupon account: " + ulist.get(i).getCoupon() + " credit account: " + ulist.get(i).getCredit());
-//						
+						String bstr = validTransactionList ? "Pass" : "Failed";
+						String crestr = validCreditList ? "Pass" : "Failed";
+						String coustr = validCouponList ? "Pass" : "Failed";
+						System.out.println("user: " + ulist.get(i).getUserId() + " balance account: " + bstr + " credit account: " + crestr + " coupon account: " + coustr);
+						System.out.println("user: " + ulist.get(i).getUserId() + " balance account: " + ulist.get(i).getBalance() + " coupon account: " + ulist.get(i).getCoupon() + " credit account: " + ulist.get(i).getCredit());
+						
 						DebugLog.c_d(ulist.get(i).getUserId(), validTransactionList, validCreditList, validCouponList);
 					}	
 					

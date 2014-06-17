@@ -55,6 +55,9 @@ public class RepresentationReflectiveService {
 					if (fieldClass.isAssignableFrom(int.class)){
 						field.setInt(representation, Integer.parseInt(value, 10));
 					}
+					else if (fieldClass.isAssignableFrom(long.class)){
+						field.setLong(representation, Long.parseLong(value, 10));
+					}
 					else if (fieldClass.isAssignableFrom(String.class)){
 						field.set(representation, value);
 					}
@@ -107,6 +110,12 @@ public class RepresentationReflectiveService {
 			Class<?> fieldClass = field.getType();
 			if (fieldClass.isAssignableFrom(int.class)){
 				int number = field.getInt(representation);
+				if (number > 0){
+					serializedMembers.add(field.getName() + "_" + String.valueOf(number));
+				}
+			}
+			else if (fieldClass.isAssignableFrom(long.class)){
+				long number = field.getLong(representation);
 				if (number > 0){
 					serializedMembers.add(field.getName() + "_" + String.valueOf(number));
 				}
@@ -195,6 +204,12 @@ public class RepresentationReflectiveService {
 						jsonRepresentation.put(field.getName(), number);
 					}
 				}
+				else if (fieldClass.isAssignableFrom(long.class)){
+					long number = field.getLong(representation);
+					if (number > 0){
+						jsonRepresentation.put(field.getName(), number);
+					}
+				}
 				else if (fieldClass.isAssignableFrom(String.class)){
 					Object value = field.get(representation);
 					if (value != null){
@@ -269,6 +284,12 @@ public class RepresentationReflectiveService {
 				Class<?> fieldClass = field.getType();
 				if (fieldClass.isAssignableFrom(int.class)){
 					int number = field.getInt(representation);
+					if (number > 0){
+						return false;
+					}
+				}
+				else if (fieldClass.isAssignableFrom(long.class)){
+					long number = field.getLong(representation);
 					if (number > 0){
 						return false;
 					}
