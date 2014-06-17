@@ -24,9 +24,9 @@ public class Clean{
 		SessionCleaner.clean();
 		CreditCleaner.clean();
 		CouponCleaner.clean();
-		UserCleaner.clean();
 		CourseCleaner.cleanCourse();
 		CourseCleaner.cleanCourseRelatedBooking();
+		UserCleaner.clean();
 	}
 
 

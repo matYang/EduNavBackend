@@ -9,6 +9,7 @@ import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.model.Coupon;
 import BaseModule.model.Credit;
 import BaseModule.model.Transaction;
@@ -57,23 +58,35 @@ public class UserCleaner extends UserDao{
 		try {
 			ulist = UserDao.getAllUsers(conn);
 			for(int i=0;i<ulist.size();i++){
-				
-				boolean validTransactionList = validTransactionList(ulist.get(i).getBalance(),ulist.get(i).getTransactionList());
-				boolean validCreditList = validCouponList(ulist.get(i).getCoupon(),ulist.get(i).getCouponList());
-				boolean validCouponList = validCreditList(ulist.get(i).getCredit(),ulist.get(i).getCreditList());
-				
-				if(!validTransactionList || !validCreditList || !validCouponList){
-					String bstr = validTransactionList ? "Pass" : "Failed";
-					String crestr = validCreditList ? "Pass" : "Failed";
-					String coustr = validCouponList ? "Pass" : "Failed";
-					System.out.println("user: " + ulist.get(i).getUserId() + " balance account: " + bstr + " credit account: " + crestr + " coupon account: " + coustr);
-					System.out.println("user: " + ulist.get(i).getUserId() + " balance account: " + ulist.get(i).getBalance() + " coupon account: " + ulist.get(i).getCoupon() + " credit account: " + ulist.get(i).getCredit());
-					DebugLog.c_d(ulist.get(i).getUserId(), validTransactionList, validCreditList, validCouponList);
-				}				
+				try{
+					conn.setAutoCommit(false);
+					UserDao.selectUserForUpdate(ulist.get(i).getUserId(), conn);
+					
+					boolean validTransactionList = validTransactionList(ulist.get(i).getBalance(),ulist.get(i).getTransactionList());
+					boolean validCreditList = validCouponList(ulist.get(i).getCoupon(),ulist.get(i).getCouponList());
+					boolean validCouponList = validCreditList(ulist.get(i).getCredit(),ulist.get(i).getCreditList());
+					
+					if(!validTransactionList || !validCreditList || !validCouponList){
+//						String bstr = validTransactionList ? "Pass" : "Failed";
+//						String crestr = validCreditList ? "Pass" : "Failed";
+//						String coustr = validCouponList ? "Pass" : "Failed";
+//						System.out.println("user: " + ulist.get(i).getUserId() + " balance account: " + bstr + " credit account: " + crestr + " coupon account: " + coustr);
+//						System.out.println("user: " + ulist.get(i).getUserId() + " balance account: " + ulist.get(i).getBalance() + " coupon account: " + ulist.get(i).getCoupon() + " credit account: " + ulist.get(i).getCredit());
+//						
+						DebugLog.c_d(ulist.get(i).getUserId(), validTransactionList, validCreditList, validCouponList);
+					}	
+					
+					conn.commit();
+					conn.setAutoCommit(true);
+				}
+				catch (SQLException | UserNotFoundException e){
+					conn.rollback();
+					DebugLog.d(e);
+				}
 			}
 		} catch (SQLException e) {
 			DebugLog.d(e);
-		}finally{
+		} finally{
 			EduDaoBasic.closeResources(conn, null, null, true);
 		}
 			
