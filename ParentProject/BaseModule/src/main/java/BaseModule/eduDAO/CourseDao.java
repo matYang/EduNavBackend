@@ -117,7 +117,15 @@ public class CourseDao {
 			if(sr.getFinishCashback() != -1){
 				stmt.setInt(stmtInt++, sr.getFinishCashback());
 			}
-			
+			if(sr.getStartUponArrival() != -1){
+				stmt.setInt(stmtInt++, sr.getStartUponArrival());
+			}
+			if(sr.getStartCutoffDate() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartCutoffDate()));
+			}
+			if(sr.getFinishCutoffDate() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishCutoffDate()));
+			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				int p_Id = rs.getInt("p_Id");
@@ -149,8 +157,8 @@ public class CourseDao {
 				"extracurricular,courseName,studyDaysNote,courseHourNum,courseHourLength,partnerCourseReference,partnerQualification,partnerIntro," +
 				"t_MaterialFree,t_MaterialIntro,passAgreement,phone,studyDays,classSize,cashback,popularity,startTime1,finishTime1,startTime2,finishTime2," +
 				"partnerDistinction,outline,goal,classTeacher,teachingAndExercise,questionSession,trail,assignments,marking,bonusService," +
-				"downloadMaterials,teacherNames)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				"downloadMaterials,teacherNames,startUponArrival,cutoffDate)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	
@@ -212,6 +220,8 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getBonusService());
 			stmt.setString(stmtInt++, course.getDownloadMaterials());
 			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter));		
+			stmt.setInt(stmtInt++, course.getStartUponArrival());
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCutoffDate()));
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -233,7 +243,7 @@ public class CourseDao {
 				"extracurricular=?,courseName=?,studyDaysNote=?,courseHourNum=?,courseHourLength=?,partnerCourseReference=?,partnerQualification=?,partnerIntro=?," +
 				"t_MaterialFree=?,t_MaterialIntro=?,passAgreement=?,phone=?,studyDays=?,classSize=?,cashback=?,popularity=?,startTime1=?," +
 				"finishTime1=?,startTime2=?,finishTime2=?,partnerDistinction=?,outline=?,goal=?,classTeacher=?,teachingAndExercise=?," +
-				"questionSession=?,trail=?,assignments=?,marking=?,bonusService=?,downloadMaterials=?,teacherNames=? where id=?";
+				"questionSession=?,trail=?,assignments=?,marking=?,bonusService=?,downloadMaterials=?,teacherNames=?,startUponArrival=?,cutoffDate=? where id=?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -294,6 +304,8 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getBonusService());
 			stmt.setString(stmtInt++, course.getDownloadMaterials());
 			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter));
+			stmt.setInt(stmtInt++, course.getStartUponArrival());
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCutoffDate()));
 			stmt.setInt(stmtInt++, course.getCourseId());
 			
 			int recordsAffected = stmt.executeUpdate();
@@ -406,7 +418,8 @@ public class CourseDao {
 				(ArrayList<String>)Parser.stringToList(rs.getString("classroomImgUrls"),ImgConfig.ImgSpliter,new String("")),
 				(ArrayList<String>)Parser.stringToList(rs.getString("t_Intros"),ServerConfig.normalSpliter,new String("")),
 				(ArrayList<String>)Parser.stringToList(rs.getString("t_ImgUrls"),ImgConfig.ImgSpliter,new String("")),
-				(ArrayList<String>)Parser.stringToList(rs.getString("teacherNames"),ServerConfig.normalSpliter, new String("")),logoUrl, instName, wholeName);					
+				(ArrayList<String>)Parser.stringToList(rs.getString("teacherNames"),ServerConfig.normalSpliter, new String("")),
+				logoUrl, instName, wholeName,rs.getInt("startUponArrival"),DateUtility.DateToCalendar(rs.getDate("cutoffDate")));					
 	}
 
 

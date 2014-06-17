@@ -128,7 +128,7 @@ public class Course implements PseudoModel, Serializable{
 			String teachingMaterialFree, ArrayList<Integer> studyDays,
 			ArrayList<String> classImgUrls, ArrayList<String> teacherIntros,
 			ArrayList<String> teacherImgUrls, ArrayList<String> teacherNames,
-			String logoUrl, String instName, String wholeName) {
+			String logoUrl, String instName, String wholeName,int startUponArrival,Calendar cutoffDate) {
 		super();
 		this.courseId = courseId;
 		this.partnerId = partnerId;
@@ -191,6 +191,8 @@ public class Course implements PseudoModel, Serializable{
 		this.logoUrl = logoUrl;
 		this.instName = instName;
 		this.wholeName = wholeName;
+		this.startUponArrival = startUponArrival;
+		this.cutoffDate = cutoffDate;
 	}
 
 
@@ -260,6 +262,8 @@ public class Course implements PseudoModel, Serializable{
 		this.logoUrl = "";
 		this.instName = "";
 		this.wholeName = "";
+		this.startUponArrival = 0;
+		this.cutoffDate = DateUtility.getCurTimeInstance();
 	}	
 	
 	
@@ -751,6 +755,30 @@ public class Course implements PseudoModel, Serializable{
 		this.wholeName = wholeName;
 	}
 
+	public Calendar getCutoffDate() {
+		return cutoffDate;
+	}
+
+
+
+	public void setCutoffDate(Calendar cutoffDate) {
+		this.cutoffDate = cutoffDate;
+	}
+
+
+
+	public int getStartUponArrival() {
+		return startUponArrival;
+	}
+
+
+
+	public void setStartUponArrival(int startUponArrival) {
+		this.startUponArrival = startUponArrival;
+	}
+
+
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -846,7 +874,8 @@ public class Course implements PseudoModel, Serializable{
 			jsonObj.put("logoUrl",EncodingService.encodeURI(this.logoUrl));
 			jsonObj.put("instName",EncodingService.encodeURI(this.instName));
 			jsonObj.put("wholeName",EncodingService.encodeURI(this.wholeName));
-			
+			jsonObj.put("startUponArrival",this.startUponArrival);
+			jsonObj.put("cutoffDate",EncodingService.encodeURI(DateUtility.toSQLDateTime(this.cutoffDate)));
 		} catch (JSONException | UnsupportedEncodingException e) {
 			DebugLog.d(e);
 			throw new ValidationException("信息数据格式转换失败");
@@ -881,7 +910,8 @@ public class Course implements PseudoModel, Serializable{
 					this.prerequest.equals(c.getPrerequest()) && 									
 					this.certification.equals(c.getCertification()) &&
 					this.courseName.equals(c.getCourseName()) &&
-					this.classTeacher.equals(c.getClassTeacher());		
+					this.classTeacher.equals(c.getClassTeacher()) && 
+					this.startUponArrival == c.getStartUponArrival();		
 				
 	}
 	

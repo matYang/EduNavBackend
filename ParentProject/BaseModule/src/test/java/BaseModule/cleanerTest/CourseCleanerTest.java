@@ -53,6 +53,7 @@ public class CourseCleanerTest {
 		course.setCity(city);
 		course.setDistrict(district);
 		course.setReference(reference2);
+		course.setCutoffDate(startTime);
 		CourseDao.addCourseToDatabases(course);
 		
 		
@@ -64,6 +65,7 @@ public class CourseCleanerTest {
 		course2.setDistrict(district);
 		course2.setReference(reference2+"sdf");
 		course2.setStatus(CourseStatus.consolidated);
+		course2.setCutoffDate(startTime2);
 		CourseDao.addCourseToDatabases(course2);
 		
 						
@@ -79,6 +81,7 @@ public class CourseCleanerTest {
 		course3.setDistrict(district2);
 		course3.setReference(reference3);
 		course3.setStatus(CourseStatus.openEnroll);
+		course3.setCutoffDate(startTime3);
 		CourseDao.addCourseToDatabases(course3);
 		
 		Calendar startTime4 = DateUtility.getCurTimeInstance();		
@@ -90,6 +93,7 @@ public class CourseCleanerTest {
 		course4.setDistrict(district2);
 		course4.setReference(reference4);
 		course4.setStatus(CourseStatus.deactivated);
+		course4.setCutoffDate(startTime4);
 		CourseDao.addCourseToDatabases(course4);	
 		
 		Calendar startTime5 = DateUtility.getCurTimeInstance();		
@@ -101,6 +105,7 @@ public class CourseCleanerTest {
 		course5.setDistrict(district2);
 		course5.setReference(reference5);
 		course5.setStatus(CourseStatus.consolidated);
+		course5.setCutoffDate(startTime5);
 		CourseDao.addCourseToDatabases(course5);
 		
 		Calendar startTime6 = DateUtility.getCurTimeInstance();		
@@ -112,6 +117,7 @@ public class CourseCleanerTest {
 		course6.setDistrict(district2);
 		course6.setReference(reference6);
 		course6.setStatus(CourseStatus.openEnroll);
+		course6.setCutoffDate(startTime6);
 		CourseDao.addCourseToDatabases(course6);
 	
 		CourseCleaner.cleanCourse();		

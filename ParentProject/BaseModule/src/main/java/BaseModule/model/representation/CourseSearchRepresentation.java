@@ -80,6 +80,9 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.partnerId = -1;
 		this.userId = -1;
 		this.useCache = -1;
+		this.startUponArrival = -1;
+		this.startCutoffDate = null;
+		this.finishCutoffDate = null;
 	}
 
 	@Override
@@ -307,6 +310,30 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.finishCreationTime = finishCreationTime;
 	}
 
+	public Calendar getStartCutoffDate() {
+		return startCutoffDate;
+	}
+
+	public void setStartCutoffDate(Calendar startCutoffDate) {
+		this.startCutoffDate = startCutoffDate;
+	}
+
+	public Calendar getFinishCutoffDate() {
+		return finishCutoffDate;
+	}
+
+	public void setFinishCutoffDate(Calendar finishCutoffDate) {
+		this.finishCutoffDate = finishCutoffDate;
+	}
+
+	public int getStartUponArrival() {
+		return startUponArrival;
+	}
+
+	public void setStartUponArrival(int startUponArrival) {
+		this.startUponArrival = startUponArrival;
+	}
+
 	@Override
 	public String toString() {
 		return "CourseSearchRepresentation [category=" + category
@@ -321,7 +348,9 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				+ startClassSize + ", finishClassSize=" + finishClassSize
 				+ ", startCashback=" + startCashback + ", finishCashback="
 				+ finishCashback + ", status=" + status + ", courseId="
-				+ courseId + ", partnerId=" + partnerId + ", userId=" + userId
+				+ courseId + ", partnerId=" + partnerId + ", userId=" + userId 
+				+ ", startUponArrival=" + startUponArrival + ", startCutoffDate=" + startCutoffDate
+				+ ", finishCutoffDate=" + finishCutoffDate
 				+ ", useCache=" + useCache + "]";
 	}
 
@@ -534,7 +563,33 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}
 			query += "CourseDao.cashback <= ? ";
 		}
-
+		if(this.getStartUponArrival() != -1){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.startUponArrival = ? ";
+		}
+		if(this.getStartCutoffDate() != null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.cutoffDate >= ? ";
+		}
+		if(this.getFinishCutoffDate() != null){
+			if(start){				
+				query += "and ";
+			}else {
+				query += "where ";
+				start = true;
+			}
+			query += "CourseDao.cutoffDate <= ? ";
+		}
 
 		return query;
 	}
