@@ -77,6 +77,9 @@ public class UserDao {
 			if(sr.getAppliedInvitationalCode() != null && sr.getAppliedInvitationalCode().length() > 0){
 				stmt.setString(stmtInt++, sr.getAppliedInvitationalCode());
 			}
+			if(sr.getAccountNumber() != null && sr.getAccountNumber().length() > 0){
+				stmt.setString(stmtInt++, sr.getAccountNumber());
+			}
 			if(sr.getStartBalance() != -1){
 				stmt.setInt(stmtInt++, sr.getStartBalance());
 			}
