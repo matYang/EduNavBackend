@@ -12,6 +12,7 @@ import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.exception.PseudoException;
+import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.CourseSearchRepresentation;
@@ -48,7 +49,7 @@ public class CourseDaoTest {
 		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
-		String reference = "dsf4r";
+		String reference = ReferenceFactory.generateCourseReference();
 		String password = "sdf234r";
 		String phone = "123545451";	
 		AccountStatus status = AccountStatus.activated;
@@ -101,7 +102,7 @@ public class CourseDaoTest {
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
-		course2.setReference(reference2);		
+		course2.setReference(ReferenceFactory.generateCourseReference());		
 		ImgUrls.add("www.hotmail.com");
 		course2.setClassImgUrls(ImgUrls);
 		course2.setTeacherImgUrls(ImgUrls);
@@ -153,7 +154,7 @@ public class CourseDaoTest {
 		String instName = "instName1";
 		String licence = "licence1";
 		String organizationNum = "organizationNum1";
-		String reference = "p-reference1";
+		String reference = ReferenceFactory.generatePartnerReference();
 		String password = "password1";
 		String phone = "phone1";	
 		AccountStatus status = AccountStatus.activated;
@@ -165,7 +166,7 @@ public class CourseDaoTest {
 		String instName2 = "instName2";
 		String licence2 = "licence2";
 		String organizationNum2 = "organizationNum2";
-		String reference2 = "p-reference2";
+		String reference2 = ReferenceFactory.generatePartnerReference();
 		String password2 = "password2";
 		String phone2 = "phone2";	
 		AccountStatus status2 = AccountStatus.activated;
@@ -177,7 +178,7 @@ public class CourseDaoTest {
 		String instName3 = "instName3";
 		String licence3 = "licence3";
 		String organizationNum3 = "organizationNum3";
-		String reference3 = "p-reference3";
+		String reference3 = ReferenceFactory.generatePartnerReference();
 		String password3 = "password3";
 		String phone3 = "phone3";	
 		AccountStatus status3 = AccountStatus.activated;
@@ -197,7 +198,7 @@ public class CourseDaoTest {
 		String location1 = "location1";
 		String city1 = "city1";
 		String district1 = "district1";
-		String coursereference1 = "course-reference1";	
+		String coursereference1 = ReferenceFactory.generateCourseReference();	
 		Course course = new Course(p_Id, startTime, finishTime,price1,classSize, popularity,category1,subCategory1,phone);
 		course.setLocation(location1);
 		course.setCity(city1);
@@ -218,7 +219,7 @@ public class CourseDaoTest {
 		String location2 = "location2";
 		String city2 = "city2";
 		String district2 = "district2";
-		String coursereference2 = "course-reference2";			
+		String coursereference2 = ReferenceFactory.generateCourseReference();			
 		Course course2 = new Course(p_Id2, startTime2, finishTime2,price2,classSize, popularity,category2,subCategory2,phone);
 		course2.setLocation(location2);
 		course2.setCity(city2);
@@ -239,7 +240,7 @@ public class CourseDaoTest {
 		String location21 = "location2";
 		String city21 = "city2";
 		String district21 = "district2";
-		String coursereference21 = "course-reference21";				
+		String coursereference21 = ReferenceFactory.generateCourseReference();				
 		Course course21 = new Course(p_Id2, startTime21, finishTime21,price21,classSize, popularity,category21,subCategory21,phone);
 		course21.setLocation(location21);
 		course21.setCity(city21);
@@ -259,7 +260,7 @@ public class CourseDaoTest {
 		String location3 = "location3";
 		String city3 = "city0";
 		String district3 = "district0";
-		String coursereference3 = "course-reference30";		
+		String coursereference3 = ReferenceFactory.generateCourseReference();		
 		Course course3 = new Course(p_Id3, startTime3, finishTime3,price3,classSize, popularity,category3,subCategory3,phone);
 		course3.setLocation(location3);
 		course3.setCity(city3);
@@ -279,7 +280,7 @@ public class CourseDaoTest {
 		String location31 = "location3";
 		String city31 = "city1";
 		String district31 = "district1";
-		String coursereference31 = "course-reference31";
+		String coursereference31 = ReferenceFactory.generateCourseReference();
 		Course course31 = new Course(p_Id3, startTime31, finishTime31,price31,classSize, popularity,category31,subCategory31,phone);
 		course31.setLocation(location31);
 		course31.setCity(city31);
@@ -299,7 +300,7 @@ public class CourseDaoTest {
 		String location32 = "location3";
 		String city32 = "city2";
 		String district32 = "district2";
-		String coursereference32 = "course-reference32";		
+		String coursereference32 = ReferenceFactory.generateCourseReference();		
 		Course course32 = new Course(p_Id3, startTime32, finishTime32,price32,classSize, popularity,category32,subCategory32,phone);
 		course32.setLocation(location32);
 		course32.setCity(city32);
@@ -375,7 +376,7 @@ public class CourseDaoTest {
 		CourseSearchRepresentation sr4 = new CourseSearchRepresentation();
 		sr4.setStartPrice(0);
 		sr4.setFinishPrice(40000);
-		sr4.setCourseReference("course-reference1");
+		sr4.setCourseReference(coursereference1);
 		clist = CourseDao.searchCourse(sr4);
 		if(clist.size()==1 && clist.get(0).equals(course)){
 			//Passed;
