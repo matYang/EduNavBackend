@@ -168,6 +168,9 @@ public class PseudoResource extends ServerResource{
 			else if (e.getMessage().contains("Deadlock") || e.getMessage().contains("Lock") || e.getMessage().contains("lock")){
 				return new StringRepresentation("系统繁忙，请稍后再试");
 			}
+			else if (e.getMessage().contains("too long")){
+				return new StringRepresentation("数据过长，请删减过长项");
+			}
 			else{
 				return new StringRepresentation("数据库遇到问题，请重试");
 			}
