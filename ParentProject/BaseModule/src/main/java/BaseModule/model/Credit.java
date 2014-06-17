@@ -108,7 +108,7 @@ public class Credit implements PseudoModel, Serializable{
 	public JSONObject toJSON() throws ValidationException{
 		JSONObject jsonObj = new JSONObject();
 		try{
-			jsonObj.put("credit", this.creditId);
+			jsonObj.put("creditId", this.creditId);
 			jsonObj.put("bookingId", this.bookingId);
 			jsonObj.put("userId", this.userId);			
 			jsonObj.put("amount", this.amount);

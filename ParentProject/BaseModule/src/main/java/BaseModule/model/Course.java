@@ -775,7 +775,7 @@ public class Course implements PseudoModel, Serializable{
 	public JSONObject toJSON() throws ValidationException{
 		JSONObject jsonObj = new JSONObject();
 		try{
-			jsonObj.put("id", this.courseId);
+			jsonObj.put("courseId", this.courseId);
 			jsonObj.put("partnerId", this.partnerId);
 			jsonObj.put("price", this.price);
 			jsonObj.put("courseHourNum", this.courseHourNum);
