@@ -21,6 +21,7 @@ import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
+import BaseModule.factory.ReferenceFactory;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.Booking;
 import BaseModule.model.Coupon;
@@ -41,7 +42,7 @@ public class ModelDataLoaderService {
 			loadUsers(conn);//20
 			loadPartners(conn);//10
 			loadAdmins(conn);//10		
-			loadCourses(conn);//20
+			loadCourses(conn);//100
 			loadBookings(conn);//20		
 			loadTransactions(conn);//20
 			loadCredits(conn);//20
@@ -59,7 +60,7 @@ public class ModelDataLoaderService {
 		finishTime.add(Calendar.HOUR_OF_DAY, 5);
 		finishTime.add(Calendar.DAY_OF_MONTH, 8);		
 		int price = 100;
-		int courseNum = 20;
+		int courseNum = 100;
 		for(int i=1;i<=courseNum;i++){			
 			int classSize = i;
 			int popularity = i;
@@ -77,7 +78,12 @@ public class ModelDataLoaderService {
 			course.setSubSubCategory(subSubCategory);
 			course.setProvince(province);
 			course.setLocation(location);
-			course.setCity(city);
+			course.setCity(city); 
+			try {
+				course.setReference(ReferenceFactory.generateCourseReference());
+			} catch (SQLException | PseudoException e1) {				
+				e1.printStackTrace();
+			}
 			try {
 				CourseDao.addCourseToDatabases(course, connections);
 			} catch (SQLException e) {	
@@ -99,7 +105,7 @@ public class ModelDataLoaderService {
 				Partner partner = PartnerDao.getPartnerById(partnerId, connections);
 				Booking booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(), 
 						user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
-						user.getEmail(),"bookingreference"+i,BookingStatus.fromInt(i%9),cashback+i);
+						user.getEmail(),ReferenceFactory.generateBookingReference(),BookingStatus.fromInt(i%9),cashback+i);
 				try {
 					BookingDao.addBookingToDatabases(booking, connections);
 				} catch (SQLException e) {				
@@ -118,7 +124,7 @@ public class ModelDataLoaderService {
 			int balance = 50;		
 			int i = 1;
 			
-			User matt = new User("18662241356", "111111", "Emma", "Aiyamaya", "1", AccountStatus.activated);
+			User matt = new User("1234567890" + i, "111111", "Emma", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
 			matt.setName("Matthew");
 			matt.setEmail("use@me");
 			matt.incBalance(100000000);
@@ -127,7 +133,7 @@ public class ModelDataLoaderService {
 			UserDao.addUserToDatabase(matt,connections);	
 			i++;
 			
-			User harry = new User("18502877744", "222222", "None", "None", "2", AccountStatus.activated);
+			User harry = new User("1234567890" + i, "222222", "None", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
 			harry.setName("Harry");
 			harry.setEmail("c2xiong@uwaterloo.ca");
 			harry.incBalance(200000000);
@@ -145,10 +151,9 @@ public class ModelDataLoaderService {
 				String password = "userPassword " + i;
 				AccountStatus status = AccountStatus.fromInt(i%3);
 				String email = "userEmail " + i;
-				String accountNum = "" + i;
-				String appliedInvitationalCode = "userAppliedInvitationalCode " + i;
-				String invitationalCode = "userInvitationalCode " + i;
-				User user = new User(phone, password, appliedInvitationalCode, invitationalCode, accountNum, status);
+				String accountNum = ReferenceFactory.generateUserAccountNumber();				
+				String invitationalCode = ReferenceFactory.generateUserInvitationalCode();
+				User user = new User(phone, password, "", invitationalCode, accountNum, status);
 				user.setName(name);
 				user.setEmail(email);
 				user.incBalance(balance);
@@ -193,7 +198,13 @@ public class ModelDataLoaderService {
 		for(int i=1;i<=adminNum;i++){
 			String name = "adminName " + i;
 			String phone = "1234567890" + i;
-			String reference = "adminReference " + i;
+			String reference = null;
+			try{
+				reference = ReferenceFactory.generateAdminReference();	
+			} catch (Exception e){
+				DebugLog.d(e);
+			}
+			
 			Privilege privilege = Privilege.fromInt(i%3);
 			AccountStatus status = AccountStatus.fromInt(i%3);
 			String password = "adminPassword " + i;
