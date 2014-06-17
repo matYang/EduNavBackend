@@ -64,7 +64,7 @@ public class ModelDataLoaderService {
 		for(int i=1;i<=courseNum;i++){			
 			int classSize = i;
 			int popularity = i;
-			int p_Id = (i/10)+i;
+			int p_Id = (i)%10+1;
 			price += 100 + i;
 			String province = "province" + i;
 			String location = "location" + i;
@@ -81,14 +81,10 @@ public class ModelDataLoaderService {
 			course.setCity(city); 
 			try {
 				course.setReference(ReferenceFactory.generateCourseReference());
-			} catch (SQLException | PseudoException e1) {				
-				e1.printStackTrace();
-			}
-			try {
 				CourseDao.addCourseToDatabases(course, connections);
-			} catch (SQLException e) {	
+			} catch (SQLException | PseudoException e) {				
 				e.printStackTrace();
-			}
+			}			
 		}
 
 	}
@@ -98,11 +94,10 @@ public class ModelDataLoaderService {
 		try{
 			int bookingNum = 20;			
 			int cashback = 50;
-			for(int i=1;i<=bookingNum;i++){
-				int partnerId = (i+1)/2;
+			for(int i=1;i<=bookingNum;i++){				
 				Course course = CourseDao.getCourseById(i, connections);
 				User user = UserDao.getUserById(i, connections);
-				Partner partner = PartnerDao.getPartnerById(partnerId, connections);
+				Partner partner = PartnerDao.getPartnerById(course.getPartnerId(), connections);
 				Booking booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(), 
 						user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 						user.getEmail(),ReferenceFactory.generateBookingReference(),BookingStatus.fromInt(i%9),cashback+i);
@@ -262,7 +257,6 @@ public class ModelDataLoaderService {
 
 	private static void loadTransactions(Connection...connections){		
 		try{
-
 			int transactionNum = 20;
 			for(int i=1;i<=transactionNum;i++){
 				User user = UserDao.getUserById(i,connections);						

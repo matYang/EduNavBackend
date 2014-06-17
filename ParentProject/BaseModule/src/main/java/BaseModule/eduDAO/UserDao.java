@@ -139,6 +139,30 @@ public class UserDao {
 		return user;
 	}
 
+	public static ArrayList<User> getAllUsers(Connection...connections) throws SQLException{
+		String query = "SELECT * FROM UserDao";
+		User user = null;
+		ArrayList<User> ulist = new ArrayList<User>();
+		PreparedStatement stmt = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		try{		
+			conn = EduDaoBasic.getConnection(connections);
+			stmt = conn.prepareStatement(query);
+			
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				user = createUserByResultSet(rs);
+				user.setCouponList(CouponDao.getCouponByUserId(user.getUserId(),conn));
+				user.setCreditList(CreditDao.getCreditByUserId(user.getUserId(),conn));
+				user.setTransactionList(TransactionDao.getTransactionByUserId(user.getUserId(),conn));
+				ulist.add(user);
+			}
+		}finally  {
+			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
+		}
+		return ulist;
+	}
 
 	public static User addUserToDatabase(User user,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;

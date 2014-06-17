@@ -12,7 +12,7 @@ public class DebugLog {
 
 	private static final Logger systemLogger = Logger.getLogger("system.logger");
 	private static final Logger behaviorsLogger = Logger.getLogger("behaviors.logger");
-	
+	private static final Logger cleanerLogger = Logger.getLogger("cleaner.logger");
 
 	public static void initializeLogger(){		
 		PropertyConfigurator.configure(ServerConfig.resourcePrefix + "log4j.properties");
@@ -54,5 +54,16 @@ public class DebugLog {
 		behaviorsLogger.info(message);
 	}
 	
+	public static void c_d(int userId,boolean validTransactionList,boolean validCreditList,boolean validCouponList){
+		String bstr = validTransactionList ? "Pass" : "Failed";
+		String crestr = validCreditList ? "Pass" : "Failed";
+		String coustr = validCouponList ? "Pass" : "Failed";
+		
+		c_log("user: " + userId + " balance account: " + bstr + " credit account: " + crestr + " coupon account: " + coustr);
+	}
+	
+	private static void c_log(String message){
+		cleanerLogger.info(message);
+	}
 	
 }

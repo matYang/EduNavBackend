@@ -7,6 +7,7 @@ import BaseModule.clean.cleanTasks.CouponCleaner;
 import BaseModule.clean.cleanTasks.CourseCleaner;
 import BaseModule.clean.cleanTasks.CreditCleaner;
 import BaseModule.clean.cleanTasks.SessionCleaner;
+import BaseModule.clean.cleanTasks.UserCleaner;
 import BaseModule.common.DateUtility;
 
 
@@ -23,6 +24,7 @@ public class Clean{
 		SessionCleaner.clean();
 		CreditCleaner.clean();
 		CouponCleaner.clean();
+		UserCleaner.clean();
 		CourseCleaner.cleanCourse();
 		CourseCleaner.cleanCourseRelatedBooking();
 	}
