@@ -297,7 +297,7 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 			}else{
 				query += "and ";
 			}
-			query += "accountNumber = ? ";
+			query += "accountNum = ? ";
 		}
 		if(this.startBalance != -1){
 			if(!start){

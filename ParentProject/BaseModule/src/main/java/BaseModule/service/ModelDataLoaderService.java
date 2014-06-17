@@ -71,7 +71,7 @@ public class ModelDataLoaderService {
 		for(int i=1;i<=courseNum;i++){			
 			int classSize = i;
 			int popularity = i;
-			int p_Id = (i+1)/2;
+			int p_Id = (i/10)+i;
 			price += 100 + i;
 			String province = "province" + i;
 			String location = "location" + i;
