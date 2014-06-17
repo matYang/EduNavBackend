@@ -31,10 +31,7 @@ public class CouponDao {
 
 			if(sr.getCouponId() > 0){
 				stmt.setLong(stmtInt++, sr.getCouponId());
-			}
-			if(sr.getBookingId() > 0){
-				stmt.setInt(stmtInt++, sr.getBookingId());
-			}
+			}			
 			if(sr.getStartAmount() >= 0){
 				stmt.setInt(stmtInt++, sr.getStartAmount());
 			}
@@ -44,8 +41,11 @@ public class CouponDao {
 			if(sr.getUserId() > 0){
 				stmt.setInt(stmtInt++, sr.getUserId());
 			}
-			if(sr.getCreationTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
+			if(sr.getStartCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartCreationTime()));
+			}
+			if(sr.getFinishCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishCreationTime()));
 			}
 			if(sr.getExpireTime() != null){
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getExpireTime()));
@@ -80,13 +80,12 @@ public class CouponDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO CouponDao (bookingId,userId,creationTime,expireTime,status,amount,couponOrigin,originalAmount)" +
-				" values (?,?,?,?,?,?,?,?);";		
+		String query = "INSERT INTO CouponDao (userId,creationTime,expireTime,status,amount,couponOrigin,originalAmount)" +
+				" values (?,?,?,?,?,?,?);";		
 		int stmtInt = 1;
 		try{
 			conn = EduDaoBasic.getConnection(connections);
-			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			stmt.setInt(stmtInt++, c.getBookingId());			
+			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);						
 			stmt.setInt(stmtInt++, c.getUserId());
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(c.getCreationTime()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(c.getExpireTime()));
@@ -177,7 +176,7 @@ public class CouponDao {
 
 
 	protected static Coupon createCouponByResultSet(ResultSet rs) throws SQLException {
-		return new Coupon(rs.getLong("couponId"), rs.getInt("bookingId"),rs.getInt("userId"),
+		return new Coupon(rs.getLong("couponId"), rs.getInt("userId"),
 				rs.getInt("amount"), DateUtility.DateToCalendar(rs.getTimestamp("creationTime")), 
 				DateUtility.DateToCalendar(rs.getTimestamp("expireTime")),CouponStatus.fromInt(rs.getInt("status")),
 				CouponOrigin.fromInt(rs.getInt("couponOrigin")),rs.getInt("originalAmount"));

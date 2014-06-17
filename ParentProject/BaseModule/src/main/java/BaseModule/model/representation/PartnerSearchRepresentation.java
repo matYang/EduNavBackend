@@ -24,6 +24,8 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 	private String phone;
 	private AccountStatus status;	
 	private String instName;
+	private Calendar startCreationTime;
+	private Calendar finishCreationTime;
 	
 	public PartnerSearchRepresentation(){
 		this.partnerId = -1;
@@ -31,7 +33,8 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.licence = null;
 		this.organizationNum = null;
 		this.reference = null;
-		this.creationTime = null;
+		this.startCreationTime = null;
+		this.finishCreationTime = null;
 		this.phone = null;
 		this.status = null;
 		this.instName = null;
@@ -100,15 +103,7 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 
 	public void setReference(String reference) {
 		this.reference = reference;
-	}
-
-	public Calendar getCreationTime() {
-		return creationTime;
-	}
-
-	public void setCreationTime(Calendar creationTime) {
-		this.creationTime = creationTime;
-	}
+	}	
 
 	public String getPhone() {
 		return phone;
@@ -134,12 +129,29 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.instName = instName;
 	}
 
+	public Calendar getStartCreationTime() {
+		return startCreationTime;
+	}
+
+	public void setStartCreationTime(Calendar startCreationTime) {
+		this.startCreationTime = startCreationTime;
+	}
+
+	public Calendar getFinishCreationTime() {
+		return finishCreationTime;
+	}
+
+	public void setFinishCreationTime(Calendar finishCreationTime) {
+		this.finishCreationTime = finishCreationTime;
+	}
+
 	@Override
 	public String toString() {
 		return "PartnerSearchRepresentation [partnerId=" + partnerId
 				+ ", wholeName=" + wholeName + ", licence=" + licence
 				+ ", organizationNum=" + organizationNum + ", reference="
-				+ reference + ", creationTime=" + creationTime + ", phone="
+				+ reference + ", startCreationTime" + startCreationTime + ", finishCreationTime=" 
+				+ finishCreationTime + ", phone="
 				+ phone + ", status=" + status + ", instName=" + instName + "]";
 	}
 	
@@ -155,14 +167,23 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 			
 			query += "id = ? ";
 		}
-		if(this.getCreationTime() != null){
+		if(this.getStartCreationTime() != null){
 			if(!start){
 				query += "where ";
 				start = true;
 			}else{
 				query += "and ";
 			}
-			query += "creationTime = ? ";
+			query += "creationTime >= ? ";
+		}
+		if(this.getFinishCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime <= ? ";
 		}
 		if(this.getWholeName() != null && this.getWholeName().length() > 0){
 			if(!start){

@@ -75,13 +75,11 @@ public class UserCleanerTest {
 			// 3,4,7,8,11,12,15,16,19,20 should be 50
 			int couponNum = 20;			
 			Calendar expireTime = DateUtility.getCurTimeInstance();
-			for(int i=1;i<=couponNum;i++){
-				int bookingId = i;
+			for(int i=1;i<=couponNum;i++){				
 				int userId = i;
 				int amount = 50;
 				expireTime.add(Calendar.MINUTE, i);
-				Coupon c = new Coupon(userId, amount);
-				c.setBookingId(bookingId);
+				Coupon c = new Coupon(userId, amount);				
 				c.setExpireTime(expireTime);
 				c.setStatus(CouponStatus.fromInt(i%4));
 				try {

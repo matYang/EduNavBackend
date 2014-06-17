@@ -31,8 +31,11 @@ public class PartnerDao {
 			if(sr.getPartnerId()>0){
 				stmt.setInt(stmtInt++, sr.getPartnerId());
 			}
-			if(sr.getCreationTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
+			if(sr.getStartCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartCreationTime()));
+			}
+			if(sr.getFinishCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishCreationTime()));
 			}
 			if(sr.getWholeName() != null && sr.getWholeName().length() > 0){
 				stmt.setString(stmtInt++, sr.getWholeName());

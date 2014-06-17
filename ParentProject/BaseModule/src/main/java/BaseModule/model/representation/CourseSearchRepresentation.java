@@ -64,7 +64,8 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.partnerReference = null;
 		this.startDate = null;
 		this.finishDate = null;
-		this.creationTime = null;
+		this.startCreationTime = null;
+		this.finishCreationTime = null;
 		this.startPrice = -1;
 		this.finishPrice = -1;
 		this.startClassSize = -1;
@@ -196,15 +197,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 
 	public void setFinishDate(Calendar finishDate) {
 		this.finishDate = finishDate;
-	}
-
-	public Calendar getCreationTime() {
-		return creationTime;
-	}
-
-	public void setCreationTime(Calendar creationTime) {
-		this.creationTime = creationTime;
-	}
+	}	
 
 	public int getStartPrice() {
 		return startPrice;
@@ -295,6 +288,22 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 	
 
+	public Calendar getStartCreationTime() {
+		return startCreationTime;
+	}
+
+	public void setStartCreationTime(Calendar startCreationTime) {
+		this.startCreationTime = startCreationTime;
+	}
+
+	public Calendar getFinishCreationTime() {
+		return finishCreationTime;
+	}
+
+	public void setFinishCreationTime(Calendar finishCreationTime) {
+		this.finishCreationTime = finishCreationTime;
+	}
+
 	@Override
 	public String toString() {
 		return "CourseSearchRepresentation [category=" + category
@@ -303,8 +312,8 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				+ ", district=" + district + ", institutionName="
 				+ institutionName + ", courseReference=" + courseReference
 				+ ", partnerReference=" + partnerReference + ", startDate="
-				+ startDate + ", finishDate=" + finishDate + ", creationTime="
-				+ creationTime + ", startPrice=" + startPrice
+				+ startDate + ", finishDate=" + finishDate + ", startCreationTime="
+				+ startCreationTime + ", finishCreationTime=" + finishCreationTime + ", startPrice=" + startPrice
 				+ ", finishPrice=" + finishPrice + ", startClassSize="
 				+ startClassSize + ", finishClassSize=" + finishClassSize
 				+ ", startCashback=" + startCashback + ", finishCashback="
@@ -350,15 +359,24 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				start = true;
 			}
 			query += "PartnerDao.reference = ? ";
-		}
-		if(this.getCreationTime() != null){			
-			if(start){				
-				query += "and ";
-			}else {
+		}		
+		if(this.getStartCreationTime() != null){
+			if(!start){
 				query += "where ";
 				start = true;
+			}else{
+				query += "and ";
 			}
-			query += "CourseDao.creationTime = ? ";
+			query += "creationTime >= ? ";
+		}
+		if(this.getFinishCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime <= ? ";
 		}
 		if(this.getStartDate() != null){
 			if(start){				

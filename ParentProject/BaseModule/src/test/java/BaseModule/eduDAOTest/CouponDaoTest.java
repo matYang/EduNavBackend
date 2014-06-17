@@ -24,13 +24,11 @@ public class CouponDaoTest {
 
 	@Test
 	public void testCreate(){
-		EduDaoBasic.clearAllDatabase();
-		int bookingId = 1;
+		EduDaoBasic.clearAllDatabase();		
 		int userId = 1;
 		int amount = 234;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
-		Coupon c = new Coupon(userId, amount); 
-		c.setBookingId(bookingId);
+		Coupon c = new Coupon(userId, amount); 		
 		c.setExpireTime(expireTime);
 		c.setStatus(CouponStatus.usable);
 		try{
@@ -43,13 +41,11 @@ public class CouponDaoTest {
 	
 	@Test
 	public void testGet() throws SQLException, PseudoException{
-		EduDaoBasic.clearAllDatabase();
-		int bookingId = 1;
+		EduDaoBasic.clearAllDatabase();		
 		int userId = 1;
 		int amount = 45665;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
-		Coupon c = new Coupon(userId, amount);
-		c.setBookingId(bookingId);
+		Coupon c = new Coupon(userId, amount);		
 		c.setExpireTime(expireTime);
 		c.setStatus(CouponStatus.usable);
 		c = CouponDao.addCouponToDatabases(c);
@@ -57,8 +53,7 @@ public class CouponDaoTest {
 		if(test.equals(c)){
 			//Passed;
 		}else fail();
-		Coupon c2 = new Coupon(userId, amount);
-		c2.setBookingId(bookingId+1);
+		Coupon c2 = new Coupon(userId, amount);		
 		c2.setExpireTime(expireTime);
 		c2.setStatus(CouponStatus.usable);
 		c2 = CouponDao.addCouponToDatabases(c2);
@@ -71,13 +66,11 @@ public class CouponDaoTest {
 	
 	@Test
 	public void testUpdate() throws SQLException, PseudoException{
-		EduDaoBasic.clearAllDatabase();
-		int bookingId = 1;
+		EduDaoBasic.clearAllDatabase();		
 		int userId = 1;
 		int amount = 1000034343;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
-		Coupon c = new Coupon(userId, amount);
-		c.setBookingId(bookingId);
+		Coupon c = new Coupon(userId, amount);		
 		c.setExpireTime(expireTime);
 		c.setStatus(CouponStatus.usable);
 		CouponDao.addCouponToDatabases(c);
@@ -91,60 +84,51 @@ public class CouponDaoTest {
 	
 	@Test
 	public void testSearch() throws SQLException{
-		EduDaoBasic.clearAllDatabase();
-		int bookingId = 1;
+		EduDaoBasic.clearAllDatabase();		
 		int userId = 1;
 		int amount = 234;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
-		Coupon c = new Coupon(userId, amount);
-		c.setBookingId(bookingId);
+		Coupon c = new Coupon(userId, amount);		
 		c.setExpireTime(expireTime);
 		c.setStatus(CouponStatus.usable);
-		CouponDao.addCouponToDatabases(c);
+		CouponDao.addCouponToDatabases(c);		
 		
-		
-		bookingId = 2;
 		userId = 1;
 		amount = 0;
 		expireTime = DateUtility.getCurTimeInstance();
 		Coupon c2 = new Coupon(userId, amount);
-		c2.setBookingId(bookingId);
+		
 		c2.setExpireTime(expireTime);
 		c2.setStatus(CouponStatus.expired);
 		CouponDao.addCouponToDatabases(c2);
 		
 		
-		bookingId = 2;
 		userId = 2;
 		amount = 67;
 		expireTime = DateUtility.getCurTimeInstance();
 		expireTime.add(Calendar.DAY_OF_YEAR, 1);
-		Coupon c3 = new Coupon(userId, amount);
-		c3.setBookingId(bookingId);
+		Coupon c3 = new Coupon(userId, amount);	
 		c3.setExpireTime(expireTime);
 		c3.setStatus(CouponStatus.used);
 		CouponDao.addCouponToDatabases(c3);
 		
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
-		CouponSearchRepresentation csr = new CouponSearchRepresentation();
-		csr.setBookingId(1);
+		CouponSearchRepresentation csr = new CouponSearchRepresentation();		
 		csr.setStartAmount(4);
 		csr.setFinishAmount(100);
 		clist = CouponDao.searchCoupon(csr);
 		
-		if(clist.size()==0){
+		if(clist.size()==1 && clist.get(0).equals(c3)){
 			//Passed;
-		}else fail();
+		}else fail();		
 		
-		
-		csr.setBookingId(2);
+	
 		clist = CouponDao.searchCoupon(csr);
 		
 		if(clist.size()==1 && clist.get(0).equals(c3)){
 			//Passed;
 		}else fail();
 		
-		csr.setBookingId(-1);
 		csr.setExpireTime(expireTime);
 		clist = CouponDao.searchCoupon(csr);
 		
@@ -174,42 +158,35 @@ public class CouponDaoTest {
 		User user = new User(phone, password, "", "",accountNum,status);
 		user.setName(name);
 		user.setEmail(email);
-		UserDao.addUserToDatabase(user);
+		UserDao.addUserToDatabase(user);		
 		
-		int bookingId = 1;
 		int userId = user.getUserId();
 		int amount = 10;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		expireTime.add(Calendar.SECOND, -1);
-		Coupon c = new Coupon(userId, amount);
-		c.setBookingId(bookingId);
+		Coupon c = new Coupon(userId, amount);		
 		c.setExpireTime(expireTime);
 		c.setStatus(CouponStatus.usable);
 		CouponDao.addCouponToDatabases(c);
-		UserDao.updateUserBCC(0, 0, c.getAmount(), userId);
-		
-		int bookingId2 = 2;			
+		UserDao.updateUserBCC(0, 0, c.getAmount(), userId);		
+				
 		expireTime.add(Calendar.HOUR_OF_DAY, 1);
 		Coupon c2 = new Coupon(userId, amount);
-		c2.setBookingId(bookingId2);
+		
 		c2.setExpireTime(expireTime);
 		c2.setStatus(CouponStatus.usable);
 		CouponDao.addCouponToDatabases(c2);
-		UserDao.updateUserBCC(0, 0, c2.getAmount(), userId);
-		
-		int bookingId3 = 3;			
+		UserDao.updateUserBCC(0, 0, c2.getAmount(), userId);		
+				
 		expireTime.add(Calendar.HOUR_OF_DAY, -1);
-		Coupon c3 = new Coupon(userId, amount);
-		c3.setBookingId(bookingId3);
+		Coupon c3 = new Coupon(userId, amount);		
 		c3.setExpireTime(expireTime);
 		c3.setStatus(CouponStatus.used);
 		CouponDao.addCouponToDatabases(c3);
-		UserDao.updateUserBCC(0, 0, c3.getAmount(), userId);
+		UserDao.updateUserBCC(0, 0, c3.getAmount(), userId);		
 		
-		int bookingId4 = 4;		
 		expireTime.add(Calendar.HOUR_OF_DAY, 2);
-		Coupon c4 = new Coupon(userId, amount);
-		c4.setBookingId(bookingId4);
+		Coupon c4 = new Coupon(userId, amount);		
 		c4.setExpireTime(expireTime);
 		c4.setStatus(CouponStatus.used);
 		CouponDao.addCouponToDatabases(c4);

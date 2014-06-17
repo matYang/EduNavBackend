@@ -34,7 +34,8 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.userId = -1;
 		this.startAmount = -1;
 		this.finishAmount = -1;
-		this.creationTime = null;
+		this.startCreationTime = null;
+		this.finishCreationTime = null;
 		this.expireTime = null;		
 		this.status = null;
 	}
@@ -102,15 +103,7 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 
 	public void setFinishAmount(int finishAmount) {
 		this.finishAmount = finishAmount;
-	}
-
-	public Calendar getCreationTime() {
-		return creationTime;
-	}
-
-	public void setCreationTime(Calendar creationTime) {
-		this.creationTime = creationTime;
-	}
+	}	
 
 	public Calendar getExpireTime() {
 		return expireTime;
@@ -129,12 +122,28 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 
 	
+	public Calendar getStartCreationTime() {
+		return startCreationTime;
+	}
+
+	public void setStartCreationTime(Calendar startCreationTime) {
+		this.startCreationTime = startCreationTime;
+	}
+
+	public Calendar getFinishCreationTime() {
+		return finishCreationTime;
+	}
+
+	public void setFinishCreationTime(Calendar finishCreationTime) {
+		this.finishCreationTime = finishCreationTime;
+	}
+
 	@Override
 	public String toString() {
 		return "CreditSearchRepresentation [creditId=" + creditId
 				+ ", bookingId=" + bookingId + ", userId=" + userId
 				+ ", startAmount=" + startAmount + ", finishAmount="
-				+ finishAmount + ", creationTime=" + creationTime
+				+ finishAmount + ", startCreationTime=" + startCreationTime + ", finishCreationTime=" + finishCreationTime 
 				+ ", expireTime=" + expireTime + ", status=" + status + "]";
 	}
 
@@ -185,15 +194,24 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "and ";
 			}	
 			query += "userId = ? ";
-		}
-		if(this.getCreationTime() != null){
+		}		
+		if(this.getStartCreationTime() != null){
 			if(!start){
 				query += "where ";
 				start = true;
 			}else{
 				query += "and ";
 			}
-			query += "creationTime = ? ";
+			query += "creationTime >= ? ";
+		}
+		if(this.getFinishCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime <= ? ";
 		}
 		if(this.getExpireTime() != null){
 			if(!start){

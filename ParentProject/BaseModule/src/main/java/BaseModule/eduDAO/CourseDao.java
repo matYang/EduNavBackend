@@ -52,8 +52,11 @@ public class CourseDao {
 					stmt.setString(stmtInt++, sr.getPartnerReference());
 				}				
 			}
-			if(sr.getCreationTime() != null){				
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
+			if(sr.getStartCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartCreationTime()));
+			}
+			if(sr.getFinishCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishCreationTime()));
 			}
 			if(sr.getStartDate() != null){
 				Calendar startTime = (Calendar) sr.getStartDate().clone();

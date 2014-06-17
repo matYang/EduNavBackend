@@ -23,8 +23,7 @@ public class Coupon implements PseudoModel, Serializable{
 
 	public static final long expireThreshould = 31536000l;
 	
-	private long couponId;
-	private int bookingId;
+	private long couponId;	
 	private int userId;
 	private int amount;
 	private int originalAmount;
@@ -34,12 +33,11 @@ public class Coupon implements PseudoModel, Serializable{
 	private CouponOrigin origin;
 	
 	//SQL Construction
-	public Coupon(long couponId, int bookingId, int userId,
+	public Coupon(long couponId, int userId,
 			int amount, Calendar creationTime, Calendar expireTime,
 			CouponStatus status,CouponOrigin origin,int originalAmount) {
 		super();
-		this.couponId = couponId;
-		this.bookingId = bookingId;
+		this.couponId = couponId;		
 		this.userId = userId;
 		this.amount = amount;
 		this.creationTime = creationTime;
@@ -52,8 +50,7 @@ public class Coupon implements PseudoModel, Serializable{
 	//normal construction
 	public Coupon(int userId, int amount){
 		super();
-		this.couponId = -1;
-		this.bookingId = -1;
+		this.couponId = -1;		
 		this.userId = userId;
 		this.amount = amount;
 		this.originalAmount = amount;
@@ -70,16 +67,7 @@ public class Coupon implements PseudoModel, Serializable{
 	public void setCouponId(long couponId) {
 		this.couponId = couponId;
 	}
-
-	public int getBookingId() {
-		return bookingId;
-	}
-
-	public void setBookingId(int bookingId) {
-		this.bookingId = bookingId;
-	}
-
-
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -147,8 +135,7 @@ public class Coupon implements PseudoModel, Serializable{
 	public JSONObject toJSON() throws ValidationException{
 		JSONObject jsonSearchRepresentation = new JSONObject();
 		try{
-			jsonSearchRepresentation.put("couponId", this.couponId);
-			jsonSearchRepresentation.put("bookingId", this.bookingId);
+			jsonSearchRepresentation.put("couponId", this.couponId);			
 			jsonSearchRepresentation.put("userId", this.userId);
 			jsonSearchRepresentation.put("amount", this.amount);
 			jsonSearchRepresentation.put("originalAmount", this.originalAmount);
@@ -168,8 +155,7 @@ public class Coupon implements PseudoModel, Serializable{
 		if (c == null){
 			return false;
 		}
-		return this.couponId == c.getCouponId() && 
-				this.bookingId == c.getBookingId() && 
+		return this.couponId == c.getCouponId() && 				
 				this.userId == c.getUserId() && 
 				this.status.code == c.getStatus().code &&
 				this.origin.code == c.getOrigin().code &&

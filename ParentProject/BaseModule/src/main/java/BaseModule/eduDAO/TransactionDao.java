@@ -41,8 +41,11 @@ public class TransactionDao {
 			if(sr.getFinishAmount() >= 0){
 				stmt.setInt(stmtInt++, sr.getFinishAmount());
 			}
-			if(sr.getCreationTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
+			if(sr.getStartCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartCreationTime()));
+			}
+			if(sr.getFinishCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishCreationTime()));
 			}
 			if(sr.getTransactionType() != null){
 				stmt.setInt(stmtInt++, sr.getTransactionType().code);

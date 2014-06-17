@@ -17,8 +17,7 @@ import BaseModule.service.RepresentationReflectiveService;
 
 public class CouponSearchRepresentation implements PseudoModel, PseudoRepresentation {
 
-	private long couponId;
-	private int bookingId;
+	private long couponId;	
 
 	private int userId;
 	private int startAmount;
@@ -28,17 +27,18 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	private Calendar expireTime;
 	private CouponStatus status;
 	private CouponOrigin origin;
-
+	private Calendar startCreationTime;
+	private Calendar finishCreationTime;
 
 	public CouponSearchRepresentation() {
-		this.couponId = -1l;
-		this.bookingId = -1;
+		this.couponId = -1l;		
 		this.userId = -1;
 		this.startAmount = -1;
 		this.finishAmount = -1;
 		this.startOriginalAmount = -1;
 		this.finishOriginalAmount = -1;
-		this.creationTime = null;
+		this.startCreationTime = null;
+		this.finishCreationTime = null;
 		this.expireTime = null;
 		this.status = null;
 		this.origin = null;
@@ -75,15 +75,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 
 	public void setCouponId(long couponId) {
 		this.couponId = couponId;
-	}
-
-	public int getBookingId() {
-		return bookingId;
-	}
-
-	public void setBookingId(int bookingId) {
-		this.bookingId = bookingId;
-	}
+	}	
 
 	public int getUserId() {
 		return userId;
@@ -125,14 +117,6 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.finishOriginalAmount = finishOriginalAmount;
 	}
 
-	public Calendar getCreationTime() {
-		return creationTime;
-	}
-
-	public void setCreationTime(Calendar creationTime) {
-		this.creationTime = creationTime;
-	}
-
 	public Calendar getExpireTime() {
 		return expireTime;
 	}
@@ -157,14 +141,30 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.origin = origin;
 	}
 	
+	public Calendar getStartCreationTime() {
+		return startCreationTime;
+	}
+
+	public void setStartCreationTime(Calendar startCreationTime) {
+		this.startCreationTime = startCreationTime;
+	}
+
+	public Calendar getFinishCreationTime() {
+		return finishCreationTime;
+	}
+
+	public void setFinishCreationTime(Calendar finishCreationTime) {
+		this.finishCreationTime = finishCreationTime;
+	}
+
 	@Override
 	public String toString() {
 		return "CouponSearchRepresentation [couponId=" + couponId
-				+ ", bookingId=" + bookingId + ", userId=" + userId
+				+ ", userId=" + userId
 				+ ", startAmount=" + startAmount + ", finishAmount="
 				+ finishAmount + ", startOriginalAmount=" + startOriginalAmount
 				+ ", finishOriginalAmount=" + finishOriginalAmount
-				+ ", creationTime=" + creationTime + ", expireTime="
+				+ ", startCreationTime=" + startCreationTime + ", finishCreationTime=" + finishCreationTime + ", expireTime="
 				+ expireTime + ", status=" + status + ", origin=" + origin
 				+ "]";
 	}
@@ -180,16 +180,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 			start = true;
 
 			query += "couponId = ? ";
-		}
-		if(this.getBookingId() > 0){
-			if(!start){
-				query += "where ";
-				start = true;
-			}else{
-				query += "and ";
-			}
-			query += "bookingId = ? ";
-		}
+		}		
 		if(this.getStartAmount() >= 0){
 			if(!start){
 				query += "where ";
@@ -217,14 +208,23 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}	
 			query += "userId = ? ";
 		}
-		if(this.getCreationTime() != null){
+		if(this.getStartCreationTime() != null){
 			if(!start){
 				query += "where ";
 				start = true;
 			}else{
 				query += "and ";
 			}
-			query += "creationTime = ? ";
+			query += "creationTime >= ? ";
+		}
+		if(this.getFinishCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime <= ? ";
 		}
 		if(this.getExpireTime() != null){
 			if(!start){

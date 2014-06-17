@@ -42,8 +42,11 @@ public class CreditDao {
 			if(sr.getUserId() > 0){
 				stmt.setInt(stmtInt++, sr.getUserId());
 			}
-			if(sr.getCreationTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getCreationTime()));
+			if(sr.getStartCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartCreationTime()));
+			}
+			if(sr.getFinishCreationTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishCreationTime()));
 			}
 			if(sr.getExpireTime() != null){
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getExpireTime()));

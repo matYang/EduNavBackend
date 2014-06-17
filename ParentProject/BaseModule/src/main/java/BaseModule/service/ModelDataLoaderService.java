@@ -135,12 +135,12 @@ public class ModelDataLoaderService {
 			String province = provinces.get(i%provinces.size());
 			String location = provinces.get((i+1)%provinces.size());
 			String city = provinces.get((i+2)%provinces.size());
-			String category = categories.get(i%categories.size());			
+			String category = categories.get(i%categories.size());				
 			String subCategory = categories.get((i+1)%categories.size());
 			String subSubCategory = categories.get((i+2)%categories.size());
 			String phone = "1234567890" + i;		
 			startTime.add(Calendar.MINUTE, i);
-			Course course = new Course(p_Id, startTime, finishTime,price,classSize,popularity,category,subCategory,phone);
+			Course course = new Course(p_Id, startTime, finishTime,price,classSize,popularity,category,subCategory,phone);		
 			course.setSubSubCategory(subSubCategory);
 			course.setProvince(province);
 			course.setLocation(location);
@@ -151,7 +151,7 @@ public class ModelDataLoaderService {
 			course.setTeacherImgUrls(teacherImgs);
 			try {
 				course.setReference(ReferenceFactory.generateCourseReference());
-				CourseDaoService.createCourse(course);
+				CourseDaoService.createCourse(course);				
 			} catch (SQLException | PseudoException e) {	
 				DebugLog.d(e);
 			} 
@@ -298,13 +298,11 @@ public class ModelDataLoaderService {
 	private static void loadCoupons(Connection...connections){
 		int couponNum = 20;
 		Calendar expireTime = DateUtility.getCurTimeInstance();
-		for(int i=1;i<=couponNum;i++){
-			int bookingId = i;
+		for(int i=1;i<=couponNum;i++){			
 			int userId = i;
 			int amount = 50;
 			expireTime.add(Calendar.MINUTE, i);
-			Coupon c = new Coupon(userId, amount);
-			c.setBookingId(bookingId);
+			Coupon c = new Coupon(userId, amount);			
 			c.setExpireTime(expireTime);
 			c.setStatus(CouponStatus.fromInt(i%4));
 			try {

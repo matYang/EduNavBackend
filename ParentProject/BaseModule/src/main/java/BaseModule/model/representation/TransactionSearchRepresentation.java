@@ -31,7 +31,8 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 		this.userId = -1;		
 		this.bookingId = -1;
 		this.transactionType = null;
-		this.creationTime = null;
+		this.startCreationTime = null;
+		this.finishCreationTime = null;
 		this.startAmount = -1;
 		this.finishAmount = -1;
 	}
@@ -91,15 +92,7 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 
 	public void setTransactionType(TransactionType transactionType) {
 		this.transactionType = transactionType;
-	}
-
-	public Calendar getCreationTime() {
-		return creationTime;
-	}
-
-	public void setCreationTime(Calendar creationTime) {
-		this.creationTime = creationTime;
-	}
+	}	
 
 	public int getStartAmount() {
 		return startAmount;
@@ -117,13 +110,30 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 		this.finishAmount = finishAmount;
 	}
 
+	public Calendar getStartCreationTime() {
+		return startCreationTime;
+	}
+
+	public void setStartCreationTime(Calendar startCreationTime) {
+		this.startCreationTime = startCreationTime;
+	}
+
+	public Calendar getFinishCreationTime() {
+		return finishCreationTime;
+	}
+
+	public void setFinishCreationTime(Calendar finishCreationTime) {
+		this.finishCreationTime = finishCreationTime;
+	}
+
 	@Override
 	public String toString() {
 		return "TransactionSearchRepresentation [transactionId="
 				+ transactionId + ", userId=" + userId + ", bookingId="
 				+ bookingId + ", transactionType=" + transactionType
-				+ ", creationTime=" + creationTime + ", startAmount="
-				+ startAmount + ", finishAmount=" + finishAmount + "]";
+				+ ", startAmount=" + startAmount + ", startCreationTime=" 
+				+ startCreationTime + ", finishCreationTime=" + finishCreationTime
+				+", finishAmount=" + finishAmount + "]";
 	}
 
 	public String getSearchQuery(){
@@ -174,14 +184,23 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 			}
 			query += "amount <= ? ";
 		}
-		if(this.getCreationTime() != null){
+		if(this.getStartCreationTime() != null){
 			if(!start){
 				query += "where ";
 				start = true;
 			}else{
 				query += "and ";
 			}
-			query += "creationTime = ? ";
+			query += "creationTime >= ? ";
+		}
+		if(this.getFinishCreationTime() != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "creationTime <= ? ";
 		}
 		if(this.getTransactionType() != null){
 			if(!start){

@@ -125,8 +125,7 @@ public class UserDaoTest {
 		
 		CreditCleaner.clean();
 		
-		Coupon coupon = new Coupon(userId, amount);
-		coupon.setBookingId(bookingId);
+		Coupon coupon = new Coupon(userId, amount);		
 		coupon.setExpireTime(expireTime);
 		coupon.setStatus(CouponStatus.usable);
 		CouponDao.addCouponToDatabases(coupon);
