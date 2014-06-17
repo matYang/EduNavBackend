@@ -115,13 +115,14 @@ public class ConcurrentStaticDataCacheTest {
 
 	@Test
 	public void test() throws InterruptedException {
+		SystemDataInit.init();
 		ArrayList<JSONObject> catDataS = new ArrayList<JSONObject>();
 		catDataS.add(StaticDataService.getCatDataJSON());
 
 		ArrayList<JSONObject> locationDataS = new ArrayList<JSONObject>();
 		locationDataS.add(StaticDataService.getLocationDataJSON());
 
-		SystemDataInit.init();
+		
 		int readThreadNum = 1000;
 		int setThreadNum = 100;
 		CountDownLatch readThreadSignal = new CountDownLatch(readThreadNum);
