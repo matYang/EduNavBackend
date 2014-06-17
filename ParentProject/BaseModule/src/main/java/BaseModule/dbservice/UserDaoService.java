@@ -90,8 +90,10 @@ public class UserDaoService {
 		} finally{
 			if (EduDaoBasic.handleCommitFinally(conn, ok, true)){
 				//only notify user when everything has absolutely gone right
-				SMSService.sendInviteeSMS(invitee.getPhone(), invitee.getPhone());
-				SMSService.sendInviterSMS(inviter.getPhone(), invitee.getPhone());
+				if (inviter != null){
+					SMSService.sendInviteeSMS(invitee.getPhone(), invitee.getPhone());
+					SMSService.sendInviterSMS(inviter.getPhone(), invitee.getPhone());
+				}
 			}
 		}
 		return user;

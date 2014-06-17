@@ -316,7 +316,7 @@ public class CourseDao {
 			stmt.setInt(1, courseId);
 			rs = stmt.executeQuery();
 			if(rs.next()){
-				course = createCourseByResultSet(rs,null,conn);				
+				course = createCourseByResultSet(rs,null,conn);
 			}else {
 				throw new CourseNotFoundException();
 			}

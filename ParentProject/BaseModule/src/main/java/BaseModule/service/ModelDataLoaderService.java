@@ -11,6 +11,13 @@ import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.TransactionType;
+import BaseModule.dbservice.AdminAccountDaoService;
+import BaseModule.dbservice.BookingDaoService;
+import BaseModule.dbservice.CouponDaoService;
+import BaseModule.dbservice.CourseDaoService;
+import BaseModule.dbservice.CreditDaoService;
+import BaseModule.dbservice.PartnerDaoService;
+import BaseModule.dbservice.UserDaoService;
 import BaseModule.eduDAO.AdminAccountDao;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.CouponDao;
@@ -64,7 +71,7 @@ public class ModelDataLoaderService {
 		for(int i=1;i<=courseNum;i++){			
 			int classSize = i;
 			int popularity = i;
-			int p_Id = (i)%10+1;
+			int p_Id = (i%10)+1;
 			price += 100 + i;
 			String province = "province" + i;
 			String location = "location" + i;
@@ -81,10 +88,10 @@ public class ModelDataLoaderService {
 			course.setCity(city); 
 			try {
 				course.setReference(ReferenceFactory.generateCourseReference());
-				CourseDao.addCourseToDatabases(course, connections);
-			} catch (SQLException | PseudoException e) {				
-				e.printStackTrace();
-			}			
+				CourseDaoService.createCourse(course);
+			} catch (SQLException | PseudoException e) {	
+				DebugLog.d(e);
+			} 
 		}
 
 	}
@@ -93,16 +100,17 @@ public class ModelDataLoaderService {
 
 		try{
 			int bookingNum = 20;			
-			int cashback = 50;
-			for(int i=1;i<=bookingNum;i++){				
+			int cashback = 40;
+			for(int i=1;i<=bookingNum;i++){
+				int partnerId = (i)%10 + 1;
 				Course course = CourseDao.getCourseById(i, connections);
 				User user = UserDao.getUserById(i, connections);
-				Partner partner = PartnerDao.getPartnerById(course.getPartnerId(), connections);
+				Partner partner = PartnerDao.getPartnerById(partnerId, connections);
 				Booking booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(), 
 						user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
 						user.getEmail(),ReferenceFactory.generateBookingReference(),BookingStatus.fromInt(i%9),cashback+i);
 				try {
-					BookingDao.addBookingToDatabases(booking, connections);
+					BookingDaoService.createBooking(booking);
 				} catch (SQLException e) {				
 					e.printStackTrace();
 				}
@@ -119,22 +127,16 @@ public class ModelDataLoaderService {
 			int balance = 50;		
 			int i = 1;
 			
-			User matt = new User("1234567890" + i, "111111", "Emma", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
+			User matt = new User("DONOTSEND18662241356" + i, "111111", "", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
 			matt.setName("Matthew");
 			matt.setEmail("use@me");
-			matt.incBalance(100000000);
-			matt.incCoupon(50);
-			matt.incCredit(50);
-			UserDao.addUserToDatabase(matt,connections);	
+			UserDaoService.createUser(matt);	
 			i++;
 			
-			User harry = new User("1234567890" + i, "222222", "None", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
+			User harry = new User("DONOTSEND1234567890" + i, "222222", "", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
 			harry.setName("Harry");
 			harry.setEmail("c2xiong@uwaterloo.ca");
-			harry.incBalance(200000000);
-			harry.incCoupon(50);
-			harry.incCredit(50);
-			UserDao.addUserToDatabase(harry,connections);	
+			UserDaoService.createUser(harry);	
 			i++;
 			
 			for(;i<=userNum;i++){
@@ -142,19 +144,16 @@ public class ModelDataLoaderService {
 				int credit = balance += i;
 				int coupon = credit += i;
 				String name = "userName " + i;
-				String phone = "1234567890" + i;
+				String phone = "DONOTSEND1234567890" + i;
 				String password = "userPassword " + i;
 				AccountStatus status = AccountStatus.fromInt(i%3);
 				String email = "userEmail " + i;
 				String accountNum = ReferenceFactory.generateUserAccountNumber();				
 				String invitationalCode = ReferenceFactory.generateUserInvitationalCode();
-				User user = new User(phone, password, "", invitationalCode, accountNum, status);
+				User user = new User(phone, password, matt.getInvitationalCode(), invitationalCode, accountNum, status);
 				user.setName(name);
 				user.setEmail(email);
-				user.incBalance(balance);
-				user.incCoupon(coupon);
-				user.incCredit(credit);
-				UserDao.addUserToDatabase(user,connections);			
+				UserDaoService.createUser(user);			
 			}
 
 		}catch(Exception e){
@@ -177,7 +176,7 @@ public class ModelDataLoaderService {
 				AccountStatus status = AccountStatus.activated;
 				Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
 				try {
-					PartnerDao.addPartnerToDatabases(partner, connections);
+					PartnerDaoService.createPartner(partner, connections);
 				} catch (SQLException e) {				
 					e.printStackTrace();
 				}
@@ -205,7 +204,7 @@ public class ModelDataLoaderService {
 			String password = "adminPassword " + i;
 			AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
 			try {
-				AdminAccountDao.addAdminAccountToDatabases(account,connections);
+				AdminAccountDaoService.createAdminAccount(account);
 			} catch (SQLException | PseudoException e) {		
 				e.printStackTrace();
 			} 
@@ -227,8 +226,9 @@ public class ModelDataLoaderService {
 			c.setStatus(CreditStatus.fromInt(i%3));
 
 			try {
-				CreditDao.addCreditToDatabases(c,connections);
-			} catch (SQLException e) {			
+				CreditDaoService.createCredit(c, connections);
+				UserDao.updateUserBCC(0, c.getAmount(), 0, c.getUserId(), connections);
+			} catch (SQLException | PseudoException e) {			
 				e.printStackTrace();
 			}
 		}		
@@ -247,8 +247,8 @@ public class ModelDataLoaderService {
 			c.setExpireTime(expireTime);
 			c.setStatus(CouponStatus.fromInt(i%4));
 			try {
-				CouponDao.addCouponToDatabases(c,connections);
-			} catch (SQLException e) {			
+				CouponDaoService.addCouponToUser(c, connections);
+			} catch (SQLException | PseudoException e) {			
 				e.printStackTrace();
 			}
 
@@ -257,13 +257,15 @@ public class ModelDataLoaderService {
 
 	private static void loadTransactions(Connection...connections){		
 		try{
+
 			int transactionNum = 20;
 			for(int i=1;i<=transactionNum;i++){
 				User user = UserDao.getUserById(i,connections);						
-				int amount = 2000;
-				Transaction transaction = new Transaction(user.getUserId(),i,amount,TransactionType.fromInt(i%4));
+				int amount = 20;
+				Transaction transaction = new Transaction(user.getUserId(),i,amount,TransactionType.deposit);
 				try {
 					TransactionDao.addTransactionToDatabases(transaction, connections);
+					UserDao.updateUserBCC(transaction.getTransactionAmount(), 0, 0, transaction.getUserId(), connections);
 				} catch (SQLException e) {				
 					e.printStackTrace();
 				}
