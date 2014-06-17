@@ -1,6 +1,9 @@
 package BaseModule.cleanerTest;
 
+import static org.junit.Assert.fail;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.junit.Test;
@@ -30,7 +33,7 @@ public class UserCleanerTest {
 		EduDaoBasic.clearAllDatabase();
 		try{
 			int userNum = 20;
-			for(int i=0;i<=userNum;i++){				
+			for(int i=0;i<userNum;i++){				
 				String name = "userName " + i;
 				String phone = "1234567890" + i;
 				String password = "userPassword " + i;
@@ -44,23 +47,32 @@ public class UserCleanerTest {
 				UserDao.addUserToDatabase(user);			
 			}
 			
-			// Transactions			
+			// Transactions		
+			// 1,3,4,5,7,8,9,11,12,13,15,16,17,19,20 should be 2000
+			// 2,6,10,14,18 should be -2000
 			int transactionNum = 20;
 			for(int i=1;i<=transactionNum;i++){
 				User user = UserDao.getUserById(i);						
 				int amount = 2000;
 				Transaction transaction = new Transaction(user.getUserId(),i,amount,TransactionType.fromInt(i%4));
 				try {
-					TransactionDao.addTransactionToDatabases(transaction);
-					if(transaction.getTransactionType().code == TransactionType.withdraw.code){
-						amount = -amount;
+					TransactionDao.addTransactionToDatabases(transaction);									
+					if(i==1){
+						UserDao.updateUserBCC(999999999, 0, 0, user.getUserId());
+					}else if(i==2){
+						UserDao.updateUserBCC(-999999999, 0, 0, user.getUserId());
+					}else if(i%2==0){
+						UserDao.updateUserBCC(amount, 0, 0, user.getUserId());
+					}else{
+						UserDao.updateUserBCC(-amount, 0, 0, user.getUserId());
 					}					
-					UserDao.updateUserBCC(amount, 0, 0, user.getUserId());
 				} catch (SQLException e) {				
 					e.printStackTrace();
 				}
 			}
-			//Coupon
+			//Coupons
+			// 1,2,5,6,9,10,13,14,17,18 should be 0
+			// 3,4,7,8,11,12,15,16,19,20 should be 50
 			int couponNum = 20;			
 			Calendar expireTime = DateUtility.getCurTimeInstance();
 			for(int i=1;i<=couponNum;i++){
@@ -74,9 +86,14 @@ public class UserCleanerTest {
 				c.setStatus(CouponStatus.fromInt(i%4));
 				try {
 					CouponDao.addCouponToDatabases(c);
-					if(c.getStatus().code == CouponStatus.inactive.code ||
-							c.getStatus().code == CouponStatus.usable.code){
+					if(i==1){
+						UserDao.updateUserBCC(0, 0, 999999999, userId);
+					}else if(i==2){
+						UserDao.updateUserBCC(0, 0, -999999999, userId);
+					}else if(i%2==0){
 						UserDao.updateUserBCC(0, 0, amount, userId);
+					}else{
+						UserDao.updateUserBCC(0, 0, -amount, userId);
 					}					
 										
 				} catch (SQLException e) {			
@@ -85,6 +102,8 @@ public class UserCleanerTest {
 
 			}
 			//Credit
+			//1,2,4,5,7,8,10,11,13,14,16,17,19,20 should be 0
+			//3,6,9,12,15,18 should be 50
 			int creditNum = 20;
 			int amount = 50;
 			expireTime = DateUtility.getCurTimeInstance();
@@ -99,9 +118,15 @@ public class UserCleanerTest {
 
 				try {
 					CreditDao.addCreditToDatabases(c);
-					if(c.getStatus().code == CreditStatus.usable.code){
+					if(i==1){
+						UserDao.updateUserBCC(0,999999999, 0, userId);
+					}else if(i==2){
+						UserDao.updateUserBCC(0,-999999999, 0, userId);
+					}else if(i%2==0){
 						UserDao.updateUserBCC(0, amount, 0, userId);
-					}
+					}else{
+						UserDao.updateUserBCC(0, -amount, 0, userId);
+					}	
 					
 				} catch (SQLException e) {			
 					e.printStackTrace();
@@ -112,5 +137,7 @@ public class UserCleanerTest {
 		}
 		
 		UserCleaner.clean();
+		
+		
 	}
 }

@@ -72,7 +72,7 @@ public class UserCleaner extends UserDao{
 //						String coustr = validCouponList ? "Pass" : "Failed";
 //						System.out.println("user: " + ulist.get(i).getUserId() + " balance account: " + bstr + " credit account: " + crestr + " coupon account: " + coustr);
 //						System.out.println("user: " + ulist.get(i).getUserId() + " balance account: " + ulist.get(i).getBalance() + " coupon account: " + ulist.get(i).getCoupon() + " credit account: " + ulist.get(i).getCredit());
-//						
+					
 						DebugLog.c_d(ulist.get(i).getUserId(), validTransactionList, validCreditList, validCouponList);
 					}	
 					
