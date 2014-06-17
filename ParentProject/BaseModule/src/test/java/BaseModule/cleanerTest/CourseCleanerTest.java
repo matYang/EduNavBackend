@@ -62,7 +62,7 @@ public class CourseCleanerTest {
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
-		course2.setReference(reference2);
+		course2.setReference(reference2+"sdf");
 		course2.setStatus(CourseStatus.consolidated);
 		CourseDao.addCourseToDatabases(course2);
 		
@@ -79,7 +79,40 @@ public class CourseCleanerTest {
 		course3.setDistrict(district2);
 		course3.setReference(reference3);
 		course3.setStatus(CourseStatus.openEnroll);
-		CourseDao.addCourseToDatabases(course3);		
+		CourseDao.addCourseToDatabases(course3);
+		
+		Calendar startTime4 = DateUtility.getCurTimeInstance();		
+		startTime4.add(Calendar.MINUTE, 1);
+		Course course4 = new Course(p_Id, startTime4, finishTime,price,classSize,popularity,category,subCategory,phone);	
+		String reference4 = "Tsesdf";
+		course4.setLocation(location2);
+		course4.setCity(city2);
+		course4.setDistrict(district2);
+		course4.setReference(reference4);
+		course4.setStatus(CourseStatus.deactivated);
+		CourseDao.addCourseToDatabases(course4);	
+		
+		Calendar startTime5 = DateUtility.getCurTimeInstance();		
+		startTime5.add(Calendar.MINUTE, -1);
+		Course course5 = new Course(p_Id, startTime5, finishTime,price,classSize,popularity,category,subCategory,phone);	
+		String reference5 = "Tsesdtyuf";
+		course5.setLocation(location2);
+		course5.setCity(city2);
+		course5.setDistrict(district2);
+		course5.setReference(reference5);
+		course5.setStatus(CourseStatus.consolidated);
+		CourseDao.addCourseToDatabases(course5);
+		
+		Calendar startTime6 = DateUtility.getCurTimeInstance();		
+		startTime6.add(Calendar.MINUTE, -1);
+		Course course6 = new Course(p_Id, startTime6, finishTime,price,classSize,popularity,category,subCategory,phone);	
+		String reference6 = "Tsesdty58uf";
+		course6.setLocation(location2);
+		course6.setCity(city2);
+		course6.setDistrict(district2);
+		course6.setReference(reference6);
+		course6.setStatus(CourseStatus.openEnroll);
+		CourseDao.addCourseToDatabases(course6);
 	
 		CourseCleaner.cleanCourse();		
 		
@@ -87,9 +120,12 @@ public class CourseCleanerTest {
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		c_sr.setPartnerId(p_Id);
 		clist = CourseDao.searchCourse(c_sr);
-		if(clist.size()==3&&clist.get(0).getStatus().code==CourseStatus.deactivated.code &&
+		if(clist.size()==6&&clist.get(0).getStatus().code==CourseStatus.deactivated.code &&
 				clist.get(1).getStatus().code==CourseStatus.consolidated.code &&
-				clist.get(2).getStatus().code==CourseStatus.openEnroll.code){
+				clist.get(2).getStatus().code==CourseStatus.openEnroll.code &&
+				clist.get(3).getStatus().code==CourseStatus.deactivated.code &&
+				clist.get(4).getStatus().code==CourseStatus.consolidated.code &&
+				clist.get(5).getStatus().code==CourseStatus.deactivated.code){
 			//Passed;
 		}else fail();
 				
