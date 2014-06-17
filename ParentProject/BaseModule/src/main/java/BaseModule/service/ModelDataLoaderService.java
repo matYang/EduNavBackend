@@ -47,13 +47,13 @@ public class ModelDataLoaderService {
 		Connection conn = EduDaoBasic.getConnection();
 		try{
 			loadUsers(conn);//20
-			//loadPartners(conn);//10
-			//loadAdmins(conn);//10		
-			//loadCourses(conn);//100
-			//loadBookings(conn);//20		
-			//loadTransactions(conn);//20
-			//loadCredits(conn);//20
-			//loadCoupons(conn);//20
+			loadPartners(conn);//10
+			loadAdmins(conn);//10		
+			loadCourses(conn);//100
+			loadBookings(conn);//20		
+			loadTransactions(conn);//20
+			loadCredits(conn);//20
+			loadCoupons(conn);//20
 		} finally{
 			EduDaoBasic.closeResources(conn, null, null, true);
 		}
@@ -71,7 +71,7 @@ public class ModelDataLoaderService {
 		for(int i=1;i<=courseNum;i++){			
 			int classSize = i;
 			int popularity = i;
-			int p_Id = (i/10)+i;
+			int p_Id = (i%10)+1;
 			price += 100 + i;
 			String province = "province" + i;
 			String location = "location" + i;
@@ -102,7 +102,7 @@ public class ModelDataLoaderService {
 			int bookingNum = 20;			
 			int cashback = 40;
 			for(int i=1;i<=bookingNum;i++){
-				int partnerId = (i+1)/2;
+				int partnerId = (i)%10 + 1;
 				Course course = CourseDao.getCourseById(i, connections);
 				User user = UserDao.getUserById(i, connections);
 				Partner partner = PartnerDao.getPartnerById(partnerId, connections);
@@ -127,21 +127,15 @@ public class ModelDataLoaderService {
 			int balance = 50;		
 			int i = 1;
 			
-			User matt = new User("1234567890" + i, "111111", "Emma", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
+			User matt = new User("DONOTSEND18662241356" + i, "111111", "", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
 			matt.setName("Matthew");
 			matt.setEmail("use@me");
-			matt.incBalance(100000000);
-			matt.incCoupon(50);
-			matt.incCredit(50);
 			UserDaoService.createUser(matt);	
 			i++;
 			
-			User harry = new User("1234567890" + i, "222222", "None", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
+			User harry = new User("DONOTSEND1234567890" + i, "222222", "", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
 			harry.setName("Harry");
 			harry.setEmail("c2xiong@uwaterloo.ca");
-			harry.incBalance(200000000);
-			harry.incCoupon(50);
-			harry.incCredit(50);
 			UserDaoService.createUser(harry);	
 			i++;
 			
@@ -150,18 +144,15 @@ public class ModelDataLoaderService {
 				int credit = balance += i;
 				int coupon = credit += i;
 				String name = "userName " + i;
-				String phone = "1234567890" + i;
+				String phone = "DONOTSEND1234567890" + i;
 				String password = "userPassword " + i;
 				AccountStatus status = AccountStatus.fromInt(i%3);
 				String email = "userEmail " + i;
 				String accountNum = ReferenceFactory.generateUserAccountNumber();				
 				String invitationalCode = ReferenceFactory.generateUserInvitationalCode();
-				User user = new User(phone, password, "", invitationalCode, accountNum, status);
+				User user = new User(phone, password, matt.getInvitationalCode(), invitationalCode, accountNum, status);
 				user.setName(name);
 				user.setEmail(email);
-				user.incBalance(balance);
-				user.incCoupon(coupon);
-				user.incCredit(credit);
 				UserDaoService.createUser(user);			
 			}
 

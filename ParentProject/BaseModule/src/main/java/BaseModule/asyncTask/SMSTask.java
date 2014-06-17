@@ -64,6 +64,10 @@ public class SMSTask implements PseudoAsyncTask{
 	}
 	
 	private boolean send(){
+		if (this.cellNum.contains("DONOTSEND")){
+			return true;
+		}
+		
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost("http://gbk.sms.webchinese.cn"); 
 		
