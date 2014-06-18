@@ -69,7 +69,7 @@ public class CocurrentCreatingTest {
 					e.printStackTrace();
 				}
 				while(i < clist.size()){					
-					if(clist.get(i).getStatus().code == CouponStatus.usable.code && DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance()).compareTo(DateUtility.toSQLDateTime(clist.get(i).getExpireTime()))<0){
+					if((clist.get(i).getStatus().code == CouponStatus.usable.code || clist.get(i).getStatus().code == CouponStatus.inactive.code) && DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance()).compareTo(DateUtility.toSQLDateTime(clist.get(i).getExpireTime()))<0){
 						try {
 							CouponDaoService.addCouponToUser(clist.get(i).deepCopy());
 						} catch (SQLException | PseudoException | ClassNotFoundException | IOException e) {							

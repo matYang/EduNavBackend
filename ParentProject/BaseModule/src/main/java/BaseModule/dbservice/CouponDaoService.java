@@ -92,7 +92,9 @@ public class CouponDaoService {
 				String expireTime = DateUtility.toSQLDateTime(c.getExpireTime());
 
 				//Check if usable
-				if(c.getStatus().code == CouponStatus.usable.code && ct.compareTo(expireTime) < 0){	
+				if((c.getStatus().code == CouponStatus.usable.code || 
+						c.getStatus().code == CouponStatus.inactive.code) 
+						&& ct.compareTo(expireTime) < 0){	
 					amount += c.getAmount();
 					vlist.add(c);
 				}				
