@@ -44,57 +44,35 @@ public class UserPseudoResource extends PseudoResource{
 				cookieSetting.setMaxAge(cookie_maxAge);
 				cookieSetting.setPath("/");
 				cookieSetting.setDomain("www.ishangke.cn");
-				cookieSetting.setValue(encryptedString);
+				cookieSetting.setValue("waha");
 				found = true;
 			}
 		}
 		
 		if (!found){
-			CookieSetting newCookie = new CookieSetting(0, cookie_userSession, encryptedString);
+			CookieSetting newCookie = new CookieSetting(0, cookie_userSession, "lala");
 			newCookie.setMaxAge(cookie_maxAge);
 			newCookie.setPath("/");
 			newCookie.setDomain("www.ishangke.cn");
 			cookieSettings.add(newCookie);
 		}
-		
-		Series<Cookie> cookies = this.getRequest().getCookies();
-		for (Cookie cookie : cookies){
-			if (cookie.getName().equals(cookie_userSession)){
-				cookie.setValue(encryptedString);
-			}
-		}
-		this.getRequest().setCookies(cookies);
-		
 		this.setCookieSettings(cookieSettings);
 		this.getResponse().setCookieSettings(cookieSettings);
-	}
-	
-	public void closeAuthentication() throws PseudoException{
-		UserAuthenticationService.closeSession(this.getSessionString());
+		
 
 		Series<Cookie> cookies = this.getRequest().getCookies();
 		for (Cookie cookie : cookies){
 			if (cookie.getName().equals(cookie_userSession)){
-				cookie.setValue("IGNORED");
+				cookie.setValue("kaka");
 			}
 		}
 		this.getRequest().setCookies(cookies);
+	}
+	
+	public void closeAuthentication() throws PseudoException{
+		UserAuthenticationService.closeSession(this.getSessionString());
 		
-		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings();
-		for (CookieSetting cookieSetting : cookieSettings){
-			if (cookieSetting.getName().equals(cookie_userSession)){
-				cookieSetting.setValue("IGNORE");
-			}
-		}
-		
-//		CookieSetting newCookie = new CookieSetting(0, cookie_userSession, "");
-//		newCookie.setMaxAge(0);
-//		newCookie.setPath("/");
-//		newCookie.setDomain("www.ishangke.cn");
-//		cookieSettings.add(newCookie);
-		//cookieSettings.removeAll(cookie_userSession);
-		this.setCookieSettings(cookieSettings);
-		this.getResponse().setCookieSettings(cookieSettings);
+		//hard to do anything to cookies here
 	}
     
     
@@ -118,7 +96,7 @@ public class UserPseudoResource extends PseudoResource{
 		if (sessionString.size() == 0){
 			Series<Cookie> cookies = this.getRequest().getCookies();
 			for( Cookie cookie : cookies){ 
-				if (cookie.getName().equals(cookie_userSession) && !cookie.getValue().equals("IGNORE")){
+				if (cookie.getName().equals(cookie_userSession)){
 					sessionString.add(cookie.getValue()); 
 				}
 			} 
