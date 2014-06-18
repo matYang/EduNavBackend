@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import BaseModule.configurations.EnumConfig.CouponOrigin;
+import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
@@ -70,6 +71,7 @@ public class UserDaoService {
 
 				Coupon coupon_invitee = new Coupon(invitee.getUserId(), invitationCouponAmount);
 				coupon_invitee.setOrigin(CouponOrigin.invitation);
+				coupon_invitee.setStatus(CouponStatus.inactive);
 				invitee.incCoupon(invitationCouponAmount);
 				UserDao.updateUserBCC(0, 0, invitationCouponAmount, invitee.getUserId(), conn);
 				coupon_invitee = CouponDaoService.createCoupon(coupon_invitee,conn);
@@ -80,6 +82,7 @@ public class UserDaoService {
 				
 				Coupon coupon_inviter = new Coupon(inviter.getUserId(), invitationCouponAmount);
 				coupon_inviter.setOrigin(CouponOrigin.invitation);
+				coupon_inviter.setStatus(CouponStatus.inactive);
 				inviter.incCoupon(invitationCouponAmount);
 				UserDao.updateUserBCC(0, 0, invitationCouponAmount, inviter.getUserId(), conn);
 				coupon_inviter = CouponDaoService.createCoupon(coupon_inviter,conn);
