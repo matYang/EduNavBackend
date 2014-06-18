@@ -18,7 +18,7 @@ public class UserPseudoResource extends PseudoResource{
 	
 	protected final boolean cookieEnabled = true;
 	protected final String cookie_userSession = "userSessionCookie";
-	protected final int cookie_maxAge = 172800; //2 days
+	protected final int cookie_maxAge = 5184000; //2 days
 	
 	
 	/******************
@@ -62,6 +62,10 @@ public class UserPseudoResource extends PseudoResource{
 				cookieSetting.setMaxAge(0);
 			}
 		}
+		
+		CookieSetting newCookie = new CookieSetting(0, cookie_userSession, "");
+		newCookie.setMaxAge(0);
+		cookieSettings.add(newCookie);
 		//cookieSettings.removeAll(cookie_userSession);
 		this.setCookieSettings(cookieSettings);
 	}
