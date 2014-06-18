@@ -9,6 +9,7 @@ import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.AdminAccount;
@@ -29,6 +30,13 @@ public class AdminAccountLogin extends AdminPseudoResource{
 
 		try {
 			this.checkEntity(entity);
+			
+			try{
+				this.validateAuthentication();
+				throw new ValidationException("请刷新页面或先登出之前的账户");
+			} catch (AuthenticationException e){
+				//not logged in, proceed
+			}
 
 			jsonString = this.getJSONObj(entity);
 			reference = EncodingService.decodeURI(jsonString.getString("reference"));

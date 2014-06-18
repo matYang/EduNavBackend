@@ -9,6 +9,7 @@ import org.restlet.resource.Post;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.model.Partner;
@@ -30,6 +31,13 @@ public class PartnerLogin extends PartnerPseudoResource{
 
 		try {
 			this.checkEntity(entity);
+			try{
+				this.validateAuthentication();
+				throw new ValidationException("请刷新页面或先登出之前的账户");
+			} catch (AuthenticationException e){
+				//not logged in, proceed
+			}
+			
 			jsonString = this.getJSONObj(entity);
 			
 			phone = EncodingService.decodeURI(jsonString.getString("phone"));
