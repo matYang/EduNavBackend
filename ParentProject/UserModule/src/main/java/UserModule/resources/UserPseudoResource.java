@@ -41,11 +41,15 @@ public class UserPseudoResource extends PseudoResource{
 		for (CookieSetting cookieSetting : cookieSettings){
 			if (cookieSetting.getName().equals(cookie_userSession)){
 				cookieSetting.setMaxAge(0);
+				cookieSetting.setPath("/");
+				cookieSetting.setDomain("www.ishangke.cn");
 			}
 		}
 		
 		CookieSetting newCookie = new CookieSetting(0, cookie_userSession, encryptedString);
 		newCookie.setMaxAge(cookie_maxAge);
+		newCookie.setPath("/");
+		newCookie.setDomain("www.ishangke.cn");
 		
 		//cookieSettings.removeAll(cookie_userSession);
 		cookieSettings.add(newCookie);
@@ -60,11 +64,15 @@ public class UserPseudoResource extends PseudoResource{
 		for (CookieSetting cookieSetting : cookieSettings){
 			if (cookieSetting.getName().equals(cookie_userSession)){
 				cookieSetting.setMaxAge(0);
+				cookieSetting.setPath("/");
+				cookieSetting.setDomain("www.ishangke.cn");
 			}
 		}
 		
 		CookieSetting newCookie = new CookieSetting(0, cookie_userSession, "");
 		newCookie.setMaxAge(0);
+		newCookie.setPath("/");
+		newCookie.setDomain("www.ishangke.cn");
 		cookieSettings.add(newCookie);
 		//cookieSettings.removeAll(cookie_userSession);
 		this.setCookieSettings(cookieSettings);
