@@ -44,13 +44,13 @@ public class UserPseudoResource extends PseudoResource{
 				cookieSetting.setMaxAge(cookie_maxAge);
 				cookieSetting.setPath("/");
 				cookieSetting.setDomain("www.ishangke.cn");
-				cookieSetting.setValue("waha");
+				cookieSetting.setValue(encryptedString);
 				found = true;
 			}
 		}
 		
 		if (!found){
-			CookieSetting newCookie = new CookieSetting(0, cookie_userSession, "lala");
+			CookieSetting newCookie = new CookieSetting(0, cookie_userSession, encryptedString);
 			newCookie.setMaxAge(cookie_maxAge);
 			newCookie.setPath("/");
 			newCookie.setDomain("www.ishangke.cn");
@@ -63,7 +63,7 @@ public class UserPseudoResource extends PseudoResource{
 		Series<Cookie> cookies = this.getRequest().getCookies();
 		for (Cookie cookie : cookies){
 			if (cookie.getName().equals(cookie_userSession)){
-				cookie.setValue("kaka");
+				cookie.setValue(encryptedString);
 			}
 		}
 		this.getRequest().setCookies(cookies);
