@@ -57,12 +57,28 @@ public class UserPseudoResource extends PseudoResource{
 			cookieSettings.add(newCookie);
 		}
 		
+		Series<Cookie> cookies = this.getRequest().getCookies();
+		for (Cookie cookie : cookies){
+			if (cookie.getName().equals(cookie_userSession)){
+				cookie.setValue(encryptedString);
+			}
+		}
+		this.getRequest().setCookies(cookies);
+		
 		this.setCookieSettings(cookieSettings);
+		this.getResponse().setCookieSettings(cookieSettings);
 	}
 	
 	public void closeAuthentication() throws PseudoException{
 		UserAuthenticationService.closeSession(this.getSessionString());
 
+		Series<Cookie> cookies = this.getRequest().getCookies();
+		for (Cookie cookie : cookies){
+			if (cookie.getName().equals(cookie_userSession)){
+				cookie.setValue("IGNORED");
+			}
+		}
+		this.getRequest().setCookies(cookies);
 		
 		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings();
 		for (CookieSetting cookieSetting : cookieSettings){
@@ -78,6 +94,7 @@ public class UserPseudoResource extends PseudoResource{
 //		cookieSettings.add(newCookie);
 		//cookieSettings.removeAll(cookie_userSession);
 		this.setCookieSettings(cookieSettings);
+		this.getResponse().setCookieSettings(cookieSettings);
 	}
     
     
