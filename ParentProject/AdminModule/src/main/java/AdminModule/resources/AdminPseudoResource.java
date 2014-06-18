@@ -6,6 +6,7 @@ import org.restlet.data.Cookie;
 import org.restlet.data.CookieSetting;
 import org.restlet.engine.header.Header;
 import org.restlet.util.Series;
+
 import AdminModule.service.AdminAuthenticationService;
 import BaseModule.encryption.SessionCrypto;
 import BaseModule.exception.PseudoException;
@@ -33,20 +34,41 @@ public class AdminPseudoResource extends PseudoResource{
 		String encryptedString = SessionCrypto.encrypt(AdminAuthenticationService.openSession(adminId));
 		
 		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings();
-		CookieSetting newCookie = new CookieSetting(0, cookie_adminSession, encryptedString);
-		newCookie.setMaxAge(cookie_maxAge);
+		boolean found = false;
 		
-		cookieSettings.removeAll(cookie_adminSession);
-		cookieSettings.add(newCookie);
+		//discard all previous cookies
+		for (CookieSetting cookieSetting : cookieSettings){
+			if (cookieSetting.getName().equals(cookie_adminSession)){
+				cookieSetting.setMaxAge(cookie_maxAge);
+				cookieSetting.setPath("/");
+				cookieSetting.setDomain("admin.ishangke.cn");
+				cookieSetting.setValue(encryptedString);
+				found = true;
+			}
+		}
+		
+		if (!found){
+			CookieSetting newCookie = new CookieSetting(0, cookie_adminSession, encryptedString);
+			newCookie.setMaxAge(cookie_maxAge);
+			newCookie.setPath("/");
+			newCookie.setDomain("admin.ishangke.cn");
+			cookieSettings.add(newCookie);
+		}
 		this.setCookieSettings(cookieSettings);
+		this.getResponse().setCookieSettings(cookieSettings);
+		
+
+		Series<Cookie> cookies = this.getRequest().getCookies();
+		for (Cookie cookie : cookies){
+			if (cookie.getName().equals(cookie_adminSession)){
+				cookie.setValue(encryptedString);
+			}
+		}
+		this.getRequest().setCookies(cookies);
 	}
 	
 	public void closeAuthentication() throws PseudoException{
 		AdminAuthenticationService.closeSession(this.getSessionString());
-		
-		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings(); 
-		cookieSettings.removeAll(cookie_adminSession);
-		this.setCookieSettings(cookieSettings);
 	}
 	
 	/******************

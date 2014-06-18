@@ -36,22 +36,43 @@ public class PartnerPseudoResource extends PseudoResource{
 	
 	public void openAuthentication(int userId) throws Exception{
 		String encryptedString = SessionCrypto.encrypt(PartnerAuthenticationService.openSession(userId));
-		
+	
 		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings();
-		CookieSetting newCookie = new CookieSetting(0, cookie_partnerSession, encryptedString);
-		newCookie.setMaxAge(cookie_maxAge);
+		boolean found = false;
 		
-		cookieSettings.removeAll(cookie_partnerSession);
-		cookieSettings.add(newCookie);
+		//discard all previous cookies
+		for (CookieSetting cookieSetting : cookieSettings){
+			if (cookieSetting.getName().equals(cookie_partnerSession)){
+				cookieSetting.setMaxAge(cookie_maxAge);
+				cookieSetting.setPath("/");
+				cookieSetting.setDomain("partner.ishangke.cn");
+				cookieSetting.setValue(encryptedString);
+				found = true;
+			}
+		}
+		
+		if (!found){
+			CookieSetting newCookie = new CookieSetting(0, cookie_partnerSession, encryptedString);
+			newCookie.setMaxAge(cookie_maxAge);
+			newCookie.setPath("/");
+			newCookie.setDomain("partner.ishangke.cn");
+			cookieSettings.add(newCookie);
+		}
 		this.setCookieSettings(cookieSettings);
+		this.getResponse().setCookieSettings(cookieSettings);
+		
+
+		Series<Cookie> cookies = this.getRequest().getCookies();
+		for (Cookie cookie : cookies){
+			if (cookie.getName().equals(cookie_partnerSession)){
+				cookie.setValue(encryptedString);
+			}
+		}
+		this.getRequest().setCookies(cookies);
 	}
 	
 	public void closeAuthentication() throws PseudoException{
 		PartnerAuthenticationService.closeSession(this.getSessionString());
-		
-		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings(); 
-		cookieSettings.removeAll(cookie_partnerSession);
-		this.setCookieSettings(cookieSettings);
 	}
     
     
