@@ -45,7 +45,7 @@ public class Course implements PseudoModel, Serializable{
 	private Calendar finishDate;
 	private Calendar cutoffDate;
 	
-	private int startUponArrival;	//one means true, two or larger means false
+	private int startUponArrival;	//1 means true, 0 means false
 	private int startTime1;
 	private int finishTime1;
 	private int startTime2;
