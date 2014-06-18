@@ -56,7 +56,10 @@ public class UserPseudoResource extends PseudoResource{
 			newCookie.setDomain("www.ishangke.cn");
 			cookieSettings.add(newCookie);
 		}
+		this.setCookieSettings(cookieSettings);
+		this.getResponse().setCookieSettings(cookieSettings);
 		
+
 		Series<Cookie> cookies = this.getRequest().getCookies();
 		for (Cookie cookie : cookies){
 			if (cookie.getName().equals(cookie_userSession)){
@@ -64,37 +67,12 @@ public class UserPseudoResource extends PseudoResource{
 			}
 		}
 		this.getRequest().setCookies(cookies);
-		
-		this.setCookieSettings(cookieSettings);
-		this.getResponse().setCookieSettings(cookieSettings);
 	}
 	
 	public void closeAuthentication() throws PseudoException{
 		UserAuthenticationService.closeSession(this.getSessionString());
-
-		Series<Cookie> cookies = this.getRequest().getCookies();
-		for (Cookie cookie : cookies){
-			if (cookie.getName().equals(cookie_userSession)){
-				cookie.setValue("IGNORED");
-			}
-		}
-		this.getRequest().setCookies(cookies);
 		
-		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings();
-		for (CookieSetting cookieSetting : cookieSettings){
-			if (cookieSetting.getName().equals(cookie_userSession)){
-				cookieSetting.setValue("IGNORE");
-			}
-		}
-		
-//		CookieSetting newCookie = new CookieSetting(0, cookie_userSession, "");
-//		newCookie.setMaxAge(0);
-//		newCookie.setPath("/");
-//		newCookie.setDomain("www.ishangke.cn");
-//		cookieSettings.add(newCookie);
-		//cookieSettings.removeAll(cookie_userSession);
-		this.setCookieSettings(cookieSettings);
-		this.getResponse().setCookieSettings(cookieSettings);
+		//hard to do anything to cookies here
 	}
     
     
@@ -118,7 +96,7 @@ public class UserPseudoResource extends PseudoResource{
 		if (sessionString.size() == 0){
 			Series<Cookie> cookies = this.getRequest().getCookies();
 			for( Cookie cookie : cookies){ 
-				if (cookie.getName().equals(cookie_userSession) && !cookie.getValue().equals("IGNORE")){
+				if (cookie.getName().equals(cookie_userSession)){
 					sessionString.add(cookie.getValue()); 
 				}
 			} 
