@@ -18,7 +18,7 @@ public class UserPseudoResource extends PseudoResource{
 	
 	protected final boolean cookieEnabled = true;
 	protected final String cookie_userSession = "userSessionCookie";
-	protected final int cookie_maxAge = 5184000; //2 month
+	protected final int cookie_maxAge = 172800; //2 days
 	
 	
 	/******************
@@ -36,19 +36,33 @@ public class UserPseudoResource extends PseudoResource{
 		String encryptedString = SessionCrypto.encrypt(UserAuthenticationService.openSession(userId));
 		
 		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings();
+		
+		//discard all previous cookies
+		for (CookieSetting cookieSetting : cookieSettings){
+			if (cookieSetting.getName().equals(cookie_userSession)){
+				cookieSetting.setMaxAge(0);
+			}
+		}
+		
 		CookieSetting newCookie = new CookieSetting(0, cookie_userSession, encryptedString);
 		newCookie.setMaxAge(cookie_maxAge);
 		
-		cookieSettings.removeAll(cookie_userSession);
+		//cookieSettings.removeAll(cookie_userSession);
 		cookieSettings.add(newCookie);
 		this.setCookieSettings(cookieSettings);
 	}
 	
 	public void closeAuthentication() throws PseudoException{
 		UserAuthenticationService.closeSession(this.getSessionString());
+
 		
-		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings(); 
-		cookieSettings.removeAll(cookie_userSession);
+		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings();
+		for (CookieSetting cookieSetting : cookieSettings){
+			if (cookieSetting.getName().equals(cookie_userSession)){
+				cookieSetting.setMaxAge(0);
+			}
+		}
+		//cookieSettings.removeAll(cookie_userSession);
 		this.setCookieSettings(cookieSettings);
 	}
     
