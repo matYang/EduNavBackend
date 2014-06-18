@@ -36,23 +36,27 @@ public class UserPseudoResource extends PseudoResource{
 		String encryptedString = SessionCrypto.encrypt(UserAuthenticationService.openSession(userId));
 		
 		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings();
+		boolean found = false;
 		
 		//discard all previous cookies
 		for (CookieSetting cookieSetting : cookieSettings){
 			if (cookieSetting.getName().equals(cookie_userSession)){
-				cookieSetting.setMaxAge(0);
+				cookieSetting.setMaxAge(cookie_maxAge);
 				cookieSetting.setPath("/");
 				cookieSetting.setDomain("www.ishangke.cn");
+				cookieSetting.setValue(encryptedString);
+				found = true;
 			}
 		}
 		
-		CookieSetting newCookie = new CookieSetting(0, cookie_userSession, encryptedString);
-		newCookie.setMaxAge(cookie_maxAge);
-		newCookie.setPath("/");
-		newCookie.setDomain("www.ishangke.cn");
+		if (!found){
+			CookieSetting newCookie = new CookieSetting(0, cookie_userSession, encryptedString);
+			newCookie.setMaxAge(cookie_maxAge);
+			newCookie.setPath("/");
+			newCookie.setDomain("www.ishangke.cn");
+			cookieSettings.add(newCookie);
+		}
 		
-		//cookieSettings.removeAll(cookie_userSession);
-		cookieSettings.add(newCookie);
 		this.setCookieSettings(cookieSettings);
 	}
 	
@@ -63,17 +67,15 @@ public class UserPseudoResource extends PseudoResource{
 		Series<CookieSetting> cookieSettings = this.getResponse().getCookieSettings();
 		for (CookieSetting cookieSetting : cookieSettings){
 			if (cookieSetting.getName().equals(cookie_userSession)){
-				cookieSetting.setMaxAge(0);
-				cookieSetting.setPath("/");
-				cookieSetting.setDomain("www.ishangke.cn");
+				cookieSetting.setValue("IGNORE");
 			}
 		}
 		
-		CookieSetting newCookie = new CookieSetting(0, cookie_userSession, "");
-		newCookie.setMaxAge(0);
-		newCookie.setPath("/");
-		newCookie.setDomain("www.ishangke.cn");
-		cookieSettings.add(newCookie);
+//		CookieSetting newCookie = new CookieSetting(0, cookie_userSession, "");
+//		newCookie.setMaxAge(0);
+//		newCookie.setPath("/");
+//		newCookie.setDomain("www.ishangke.cn");
+//		cookieSettings.add(newCookie);
 		//cookieSettings.removeAll(cookie_userSession);
 		this.setCookieSettings(cookieSettings);
 	}
@@ -99,7 +101,7 @@ public class UserPseudoResource extends PseudoResource{
 		if (sessionString.size() == 0){
 			Series<Cookie> cookies = this.getRequest().getCookies();
 			for( Cookie cookie : cookies){ 
-				if (cookie.getName().equals(cookie_userSession)){
+				if (cookie.getName().equals(cookie_userSession) && !cookie.getValue().equals("IGNORE")){
 					sessionString.add(cookie.getValue()); 
 				}
 			} 
