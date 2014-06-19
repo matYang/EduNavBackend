@@ -157,7 +157,7 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 			query += "where ";
 			start = true;
 
-			query += "couponId = ? ";
+			query += "creditId = ? ";
 		}
 		if(this.getBookingId() > 0){
 			if(!start){
