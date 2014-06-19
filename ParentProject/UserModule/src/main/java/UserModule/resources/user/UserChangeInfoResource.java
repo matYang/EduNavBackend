@@ -23,25 +23,27 @@ public class UserChangeInfoResource extends UserPseudoResource{
 	private final String apiId = UserChangeInfoResource.class.getSimpleName();
 
 	
-	protected JSONObject parseJSON(JSONObject jsonContact) throws ValidationException{
+	protected User parseJSON(JSONObject jsonContact, User user) throws ValidationException{
 
 		try {
-			jsonContact.put("name", EncodingService.decodeURI(jsonContact.getString("name")));
-			jsonContact.put("email", EncodingService.decodeURI(jsonContact.getString("email")));
+			String name = EncodingService.decodeURI(jsonContact.getString("name"));
+			String email = EncodingService.decodeURI(jsonContact.getString("email"));
 			
-			if (!ValidationService.validateName(jsonContact.getString("name"))){
+			if (name != null && name.length() != 0 && !ValidationService.validateName(jsonContact.getString("name"))){
 				throw new ValidationException("姓名格式不正确");
 			}
-			if (!ValidationService.validateEmail(jsonContact.getString("email"))){
+			if (email != null && email.length() != 0 & !ValidationService.validateEmail(jsonContact.getString("email"))){
 				throw new ValidationException("邮箱格式不正确");
 			}
+			user.setName(name);
+			user.setEmail(email);
 			
 		} catch (NullPointerException | JSONException | IOException e) {
 			DebugLog.d(e);
 			throw new ValidationException("数据格式不正确");
 		}
 		
-		return jsonContact;
+		return user;
 	}
 	
 
@@ -52,7 +54,6 @@ public class UserChangeInfoResource extends UserPseudoResource{
 	public Representation changeContactInfo(Representation entity) {
 		int userId = -1;
 		JSONObject response = new JSONObject();
-		JSONObject contact = new JSONObject();
 		
 		try {
 			this.checkEntity(entity);
@@ -60,11 +61,9 @@ public class UserChangeInfoResource extends UserPseudoResource{
 			JSONObject jsonContact = this.getJSONObj(entity);
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, userId, this.getUserAgent(), jsonContact.toString());
 			
-			contact = parseJSON(jsonContact);
-				
+			
 			User user = UserDaoService.getAndLock(userId);
-			user.setName(contact.getString("name"));
-			user.setEmail(contact.getString("email"));
+			user = parseJSON(jsonContact, user);
 			UserDaoService.updateUser(user);
 			
 			response = JSONFactory.toJSON(user);

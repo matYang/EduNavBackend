@@ -99,7 +99,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 			
 			
 			//can not changhe an admin to a privilege level higher than self
-			if (admin.getPrivilege().code >= targetAccount.getPrivilege().code){
+			if (admin.getPrivilege() == Privilege.root || admin.getPrivilege().code >= targetAccount.getPrivilege().code){
 				throw new ValidationException("无权操作");
 			}
 			AdminAccountDaoService.updateAdminAccount(targetAccount);
