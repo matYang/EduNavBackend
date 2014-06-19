@@ -34,11 +34,9 @@ public class AdminAccountResource extends AdminPseudoResource{
 	private static final String superAdminKey_2 = "3a700b28c85920c179ff1a2f1401fe663bf875bddb5bd5760367e1673129a3b44dff311280e5e1925bdc516350ffe26d2a7579ae7c55f70030e7ce95cda1cf51:ca71821f46aec63fe2ea0e51402d29373a11ad5f7cabc873f82dc55e7ef57e6191caf2bccbf0f42b365169c63fc09fa025669e53f9f5b922b4cf72fb74750a67";
 	private static final String superAdminKey_3 = "9a35138d0b2acb5378884909e45f0cd7d8767262acb3fa743e7b4049e40ccd2ad991a8e74fd1bf52d0116c2d6d3add7afa987f171206059aef7e9d7cc183c9d5:0610f9d9a44e572e05addae3969d45ad812bea9e723fcdecbc3e1789168913372fa72e98f2efed55562ca01586e7b63c937290ce1428a80f4849ea6b592ff6a7";
 	
-	/**
-	 * Retrieve all admins from server. This API is intended solely for testing
-	 */
+
 	@Get
-	public Representation getAllAdminAccounts(){
+	public Representation SearchAccounts(){
 		JSONArray jsonArray = null;
 			
 		try{
@@ -95,7 +93,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 				
 				AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 				if (admin.getPrivilege() == Privilege.root){
-					account.setPrivilege(Privilege.mamagement);
+					//do nothing
 				}
 				else if (admin.getPrivilege() == Privilege.mamagement){
 					account.setPrivilege(Privilege.routine);
@@ -112,7 +110,6 @@ public class AdminAccountResource extends AdminPseudoResource{
 				}
 				else{
 					DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, -1, this.getUserAgent(), "<Password Classified> " + account.getReference());
-					account.setPrivilege(Privilege.root);
 				}
 			}
 				
@@ -150,7 +147,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			String reference = ReferenceFactory.generateAdminReference();
 			String password = EncodingService.decodeURI(jsonAdmin.getString("password"));
 			String confirmPassword = EncodingService.decodeURI(jsonAdmin.getString("confirmPassword"));			
-			Privilege privilege = Privilege.routine;
+			Privilege privilege = Privilege.fromInt(jsonAdmin.getInt("privilege"));
 			AccountStatus status = AccountStatus.fromInt(jsonAdmin.getInt("status"));
 			
 			account = new  AdminAccount(name, phone,reference,privilege,status,password);

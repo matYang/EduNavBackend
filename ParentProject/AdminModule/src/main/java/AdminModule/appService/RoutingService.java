@@ -62,7 +62,7 @@ public class RoutingService extends Application{
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + logoutPrefix + "/{id}", AdminAccountLogout.class);
 		String changePassword = "/changePassword";
 		//  API for AdminAccount logout : /a-api/v1.0/admin/changePassword
-		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + changePassword, AdminChangePassword.class);
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + adminServicePrefix + changePassword + "/{id}", AdminChangePassword.class);
 		
 		
 		/** -------------------- APIs for partner module ------------------ **/

@@ -54,18 +54,20 @@ public class AdminAccountIdResource extends AdminPseudoResource{
         return result;
     }	
 	
-	protected JSONObject parseJSON(JSONObject jsonContact) throws ValidationException{
+	protected AdminAccount parseJSON(JSONObject contact, AdminAccount account) throws ValidationException{
 
 		try {
 
-			jsonContact.put("name", EncodingService.decodeURI(jsonContact.getString("name")));
-			jsonContact.put("phone", EncodingService.decodeURI(jsonContact.getString("phone")));
+			account.setName(EncodingService.decodeURI(contact.getString("name")));
+			account.setPhone(EncodingService.decodeURI(contact.getString("phone")));
+			account.setPrivilege(Privilege.fromInt(contact.getInt("privilege")));
+			account.setStatus(AccountStatus.fromInt(contact.getInt("status")));
 		} catch (JSONException | IOException e) {
 			DebugLog.d(e);
 			throw new ValidationException("姓名格式不正确");
 		}	
 		
-		return jsonContact;
+		return account;
 		
 	}
 	
@@ -75,7 +77,6 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 	 */
 	public Representation changeContactInfo(Representation entity) {
 		JSONObject response = new JSONObject();
-		JSONObject contact = new JSONObject();
 		
 		try {
 			this.checkEntity(entity);
@@ -94,12 +95,8 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 				throw new ValidationException("无权操作");
 			}
 			
-			contact = parseJSON(jsonContact);
+			targetAccount = parseJSON(jsonContact, targetAccount);
 			
-			targetAccount.setName(EncodingService.decodeURI(contact.getString("name")));
-			targetAccount.setPhone(EncodingService.decodeURI(contact.getString("phone")));
-			targetAccount.setPrivilege(Privilege.routine);
-			targetAccount.setStatus(AccountStatus.fromInt(contact.getInt("status")));
 			
 			//can not changhe an admin to a privilege level higher than self
 			if (admin.getPrivilege().code >= targetAccount.getPrivilege().code){

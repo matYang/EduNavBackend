@@ -263,7 +263,7 @@ public class ModelDataLoaderService {
 
 			Privilege privilege = Privilege.fromInt(i%3);
 			AccountStatus status = AccountStatus.fromInt(i%3);
-			String password = "adminPassword " + i;
+			String password = "adminPassword" + i;
 			AdminAccount account = new AdminAccount(name,phone,reference,privilege,status,password);
 			try {
 				AdminAccountDaoService.createAdminAccount(account);
