@@ -10,7 +10,6 @@ import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.notFound.UserNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Coupon;
 import BaseModule.model.User;
@@ -57,94 +56,77 @@ public class CouponDaoService {
 	public static String getCouponRecord(int userId,int cashback,Connection...connections) throws ValidationException,SQLException, PseudoException{
 		Connection conn = null;		
 		Boolean ok = false;		
-		ArrayList<Coupon> clist = new ArrayList<Coupon>();
-		ArrayList<Coupon> vlist = new ArrayList<Coupon>();
-		ArrayList<Coupon> usedlist = new ArrayList<Coupon>();	
-		Coupon c = null;		
-		User user = null;			
-		int amount = 0;
-		int i = 0;
-		int totalCoupon = 0;
 		String couponRecord = "";		
 
 		try{
 			conn = EduDaoBasic.getConnection(connections);			
 			conn.setAutoCommit(false);
 
-			user = UserDaoService.getAndLock(userId, conn);
+			User user = UserDaoService.getAndLock(userId, conn);
 			
-			if(user == null){				
-				throw new UserNotFoundException("订单用户不存在");
-			}
-			totalCoupon = user.getCoupon();
-			
-			clist = CouponDaoService.getCouponByUserId(userId, conn);
-			
-			if(clist.size()==0){
+			ArrayList<Coupon> couponList = CouponDaoService.getCouponByUserId(userId, conn);
+			if(couponList.size()==0){
 				return couponRecord;			
 			}
-			//Sort
-			Collections.sort(clist, DateUtility.couponExpireComparator);
+			//Sort by expire time
+			Collections.sort(couponList, DateUtility.couponExpireComparator);
 			
-			while(i < clist.size()){
-				c = clist.get(i);
+			int amount = 0;
+			ArrayList<Coupon> validationList = new ArrayList<Coupon>();
+			for (Coupon c : couponList){
 				String ct = DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance());
 				String expireTime = DateUtility.toSQLDateTime(c.getExpireTime());
 
-				//Check if usable
-				if((c.getStatus().code == CouponStatus.usable.code || 
-						c.getStatus().code == CouponStatus.inactive.code) 
-						&& ct.compareTo(expireTime) < 0){	
+				//Check if usable and inactive amounts sum up to equal user's coupon balance
+				if((c.getStatus() == CouponStatus.usable || c.getStatus() == CouponStatus.inactive) && ct.compareTo(expireTime) < 0){	
 					amount += c.getAmount();
-					vlist.add(c);
-				}				
-				i++;
+					//but can only use usable coupons
+					if (c.getStatus() == CouponStatus.usable){
+						validationList.add(c);
+					}
+				}	
 			}
 			
-			if(amount != totalCoupon){				
-				throw new ValidationException("账户出错！ 需要管理员处理");
+			if(amount != user.getCoupon()){				
+				throw new ValidationException("账户信息合计出错！ 需要管理员处理");
 			}			
 			
 			amount = 0;
-			i = 0;
-			
-			while(i < vlist.size() && amount < cashback){
-				amount += vlist.get(i).getAmount();
-				usedlist.add(vlist.get(i));
-				i++;
+			ArrayList<Coupon> usedlist = new ArrayList<Coupon>();
+			for (int i = 0; i < validationList.size() && amount < cashback; i++){
+				amount += validationList.get(i).getAmount();
+				usedlist.add(validationList.get(i));
 			}
+
 			
-			if(vlist.size()==0 || usedlist.size()==0){				
+			if(validationList.size()==0 || usedlist.size()==0){				
 				return couponRecord;
 			}
 			
 			//update coupons
-			for(int k=0;k<usedlist.size()-1;k++){		
-				couponRecord += usedlist.get(k).getCouponId() + "_" + usedlist.get(k).getAmount() + "-";
-				usedlist.get(k).setStatus(CouponStatus.used);				
+			for(int i = 0; i < usedlist.size()-1; i++){		
+				couponRecord += usedlist.get(i).getCouponId() + "_" + usedlist.get(i).getAmount() + "-";
+				usedlist.get(i).setAmount(0);	
+				usedlist.get(i).setStatus(CouponStatus.used);				
 			}
-
+			
 			if(amount > cashback){				
 				int newAmount = amount-cashback;
-				couponRecord += usedlist.get(usedlist.size()-1).getCouponId() + "_" + (usedlist.get(usedlist.size()-1).getAmount()-newAmount) + "-";				
+				couponRecord += usedlist.get(usedlist.size()-1).getCouponId() + "_" + (usedlist.get(usedlist.size()-1).getAmount()-newAmount);				
 				usedlist.get(usedlist.size()-1).setAmount(newAmount);
 			}else{
 				if (usedlist.size() > 0){
-					couponRecord += usedlist.get(usedlist.size()-1).getCouponId() + "_" + usedlist.get(usedlist.size()-1).getAmount() + "-";
+					couponRecord += usedlist.get(usedlist.size()-1).getCouponId() + "_" + usedlist.get(usedlist.size()-1).getAmount();
+					usedlist.get(usedlist.size()-1).setAmount(0);
 					usedlist.get(usedlist.size()-1).setStatus(CouponStatus.used);		
 				}
 			}
 
-			//update coupons in database
-			for(i =0 ; i < usedlist.size() ; i++){
+			//update coupons and user account
+			for(int i =0 ; i < usedlist.size() ; i++){
 				updateCoupon(usedlist.get(i),conn);
 			}
-			
-			if(amount >= cashback){			
-				UserDaoService.updateUserBCC(0, 0, -cashback, userId, conn);				
-			}else{				
-				UserDaoService.updateUserBCC(0, 0, -amount, userId, conn);				
-			}
+			UserDaoService.updateUserBCC(0, 0, amount >= cashback ? -cashback : -amount, userId, conn);
 
 			ok = true;
 		}finally{
