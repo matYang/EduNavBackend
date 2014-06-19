@@ -117,8 +117,9 @@ public class AdminAccountResource extends AdminPseudoResource{
 			creationFeedBack = AdminAccountDaoService.createAdminAccount(account);			
 			
 			//first close authentication as it is registration, then open brand new authentication
-			this.closeAuthentication();
-			this.openAuthentication(creationFeedBack.getAdminId());
+			//not really logging in here as it is created by another admin
+			//this.closeAuthentication();
+			//this.openAuthentication(creationFeedBack.getAdminId());
 
 			newJsonAdmin = JSONFactory.toJSON(creationFeedBack);
 

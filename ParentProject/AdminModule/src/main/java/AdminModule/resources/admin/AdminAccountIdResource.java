@@ -36,7 +36,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 	    	AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 	    	AdminAccount targetAccount = AdminAccountDaoService.getAdminAccountById(targetAdminId);
 	    	//smaller the code higher the privilege
-			if (admin.getPrivilege().code >= targetAccount.getPrivilege().code){
+			if (admin.getPrivilege().code > targetAccount.getPrivilege().code){
 				throw new ValidationException("无权操作");
 			}
 	    	
