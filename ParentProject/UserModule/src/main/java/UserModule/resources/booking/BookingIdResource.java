@@ -90,7 +90,7 @@ public class BookingIdResource extends UserPseudoResource{
 
 	private Booking parseJSON(JSONObject jsonBooking, Booking booking) throws ValidationException{
 		Calendar timeStamp = DateUtility.getCurTimeInstance();
-		BookingStatus status = BookingStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));		
+		BookingStatus status = BookingStatus.fromInt(jsonBooking.getInt("status"));		
 
 		if (status != BookingStatus.cancelled){
 			throw new ValidationException("无权执行该操作");
