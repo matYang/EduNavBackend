@@ -29,10 +29,10 @@ public class UserChangeInfoResource extends UserPseudoResource{
 			String name = EncodingService.decodeURI(jsonContact.getString("name"));
 			String email = EncodingService.decodeURI(jsonContact.getString("email"));
 			
-			if (name != null && name.length() != 0 && !ValidationService.validateName(jsonContact.getString("name"))){
+			if (name != null && name.length() != 0 && !ValidationService.validateName(name)){
 				throw new ValidationException("姓名格式不正确");
 			}
-			if (email != null && email.length() != 0 & !ValidationService.validateEmail(jsonContact.getString("email"))){
+			if (email != null && email.length() != 0 & !ValidationService.validateEmail(email)){
 				throw new ValidationException("邮箱格式不正确");
 			}
 			user.setName(name);

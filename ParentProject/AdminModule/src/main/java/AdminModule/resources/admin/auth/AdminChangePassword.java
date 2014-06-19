@@ -8,6 +8,7 @@ import org.restlet.resource.Put;
 
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -38,7 +39,7 @@ public class AdminChangePassword extends AdminPseudoResource{
 			AdminAccount targetAccount = AdminAccountDaoService.getAdminAccountById(targetAdminId);
 			
 			//smaller the code higher the privilege
-			if (admin.getPrivilege().code >= targetAccount.getPrivilege().code){
+			if (admin.getPrivilege() == Privilege.root || admin.getPrivilege().code >= targetAccount.getPrivilege().code){
 				throw new ValidationException("无权操作");
 			}
 			
