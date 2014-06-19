@@ -42,7 +42,7 @@ public class CouponDaoService {
 		try{
 			conn =  EduDaoBasic.getConnection(connections);				
 			conn.setAutoCommit(false);			
-			UserDaoService.selectUserForUpdate(c.getUserId(), conn);
+			UserDaoService.getAndLock(c.getUserId(), conn);
 			
 			c = createCoupon(c, conn);			
 			UserDaoService.updateUserBCC(0, 0, c.getAmount(), c.getUserId(), conn);	
@@ -71,7 +71,7 @@ public class CouponDaoService {
 			conn = EduDaoBasic.getConnection(connections);			
 			conn.setAutoCommit(false);
 
-			user = UserDaoService.selectUserForUpdate(userId, conn);
+			user = UserDaoService.getAndLock(userId, conn);
 			
 			if(user == null){				
 				throw new UserNotFoundException("订单用户不存在");
@@ -159,7 +159,7 @@ public class CouponDaoService {
 		try{
 			conn =  EduDaoBasic.getConnection(connections);
 			conn.setAutoCommit(false);
-			UserDao.selectUserForUpdate(c.getUserId(), conn);
+			UserDao.getAndLock(c.getUserId(), conn);
 			
 			if (previousStatus == CouponStatus.usable || c.getStatus() == CouponStatus.inactive){
 				if (c.getStatus() == CouponStatus.usable || c.getStatus() == CouponStatus.inactive){

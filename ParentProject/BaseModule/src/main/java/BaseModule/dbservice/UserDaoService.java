@@ -38,8 +38,8 @@ public class UserDaoService {
 		return users.get(0);
 	}
 	
-	public static User selectUserForUpdate(int userId,Connection...connections) throws UserNotFoundException, SQLException{
-		return UserDao.selectUserForUpdate(userId, connections);
+	public static User getAndLock(int userId,Connection...connections) throws UserNotFoundException, SQLException{
+		return UserDao.getAndLock(userId, connections);
 	}
 	
 	public static User createUser(User user) throws PseudoException,SQLException{
@@ -58,7 +58,7 @@ public class UserDaoService {
 			user = UserDao.addUserToDatabase(user,conn);
 			
 			//lock user
-			UserDao.selectUserForUpdate(user.getUserId(), conn);
+			UserDao.getAndLock(user.getUserId(), conn);
 			
 			Coupon coupon = new Coupon(user.getUserId(), registrationCouponAmount);
 			coupon.setOrigin(CouponOrigin.registration);
@@ -78,7 +78,7 @@ public class UserDaoService {
 				coupons.add(coupon_invitee);
 				
 				//lock inviter
-				inviter = UserDao.selectUserForUpdate(inviter.getUserId(), conn);
+				inviter = UserDao.getAndLock(inviter.getUserId(), conn);
 				
 				Coupon coupon_inviter = new Coupon(inviter.getUserId(), invitationCouponAmount);
 				coupon_inviter.setOrigin(CouponOrigin.invitation);
@@ -153,7 +153,7 @@ public class UserDaoService {
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
-			User user = UserDao.selectUserForUpdate(userId, conn);
+			User user = UserDao.getAndLock(userId, conn);
 			user.setPhone(phone);
 			UserDao.updateUserInDatabases(user);
 			ok = true;

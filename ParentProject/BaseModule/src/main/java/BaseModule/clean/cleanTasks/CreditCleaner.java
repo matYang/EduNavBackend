@@ -40,7 +40,7 @@ public class CreditCleaner extends CreditDao{
 					credit = createCreditByResultSet(rs);
 					
 					//lock the user, once user is locked, any related booking, coupon and credit operations are guaranteed to be atomic
-					UserDao.selectUserForUpdate(credit.getUserId(), transientConnection);
+					UserDao.getAndLock(credit.getUserId(), transientConnection);
 					
 					//fetch a fresh new copy of the credit, since user is now locked, operations can be considered atomic
 					credit = CreditDao.getCreditByCreditId(credit.getCreditId(), transientConnection);

@@ -115,7 +115,7 @@ public class CourseCleaner extends CourseDao{
 					for (Booking booking : unconsolidatedBookings){
 						try{
 							//lock user; now user, booking, coupon, credit, transaction are all safe to proceed
-							User user = UserDao.selectUserForUpdate(booking.getUserId(), transientConnection);
+							User user = UserDao.getAndLock(booking.getUserId(), transientConnection);
 							User inviter = null;
 							
 							//create credit
@@ -145,7 +145,7 @@ public class CourseCleaner extends CourseDao{
 									if (inviters.size() == 1){
 										inviter = inviters.get(0);
 										//lock inviter
-										UserDao.selectUserForUpdate(inviter.getUserId(), transientConnection);
+										UserDao.getAndLock(inviter.getUserId(), transientConnection);
 										//create a transaction, indicating a ￥5 invitational deposit
 										Transaction transaction = new Transaction(inviter.getUserId(), booking.getBookingId(), 5, TransactionType.invitation);
 										TransactionDao.addTransactionToDatabases(transaction, transientConnection);

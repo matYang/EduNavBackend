@@ -149,6 +149,7 @@ public class ModelDataLoaderService {
 			course.setOutline(outline + i);
 			course.setTeacherIntros(teacherIntros);
 			course.setTeacherImgUrls(teacherImgs);
+			course.setCashback(i);
 			try {
 				course.setReference(ReferenceFactory.generateCourseReference());
 				CourseDaoService.createCourse(course);				

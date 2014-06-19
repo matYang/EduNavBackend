@@ -62,7 +62,7 @@ public class UserChangeInfoResource extends UserPseudoResource{
 			
 			contact = parseJSON(jsonContact);
 				
-			User user = UserDaoService.getUserById(userId);
+			User user = UserDaoService.getAndLock(userId);
 			user.setName(contact.getString("name"));
 			user.setEmail(contact.getString("email"));
 			UserDaoService.updateUser(user);

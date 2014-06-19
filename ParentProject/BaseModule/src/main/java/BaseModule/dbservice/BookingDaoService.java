@@ -177,7 +177,7 @@ public class BookingDaoService {
 			conn = EduDaoBasic.getConnection(connections);				
 			conn.setAutoCommit(false);		
 			
-			UserDaoService.selectUserForUpdate(booking.getUserId(), conn);
+			UserDaoService.getAndLock(booking.getUserId(), conn);
 			
 			if(booking.getCashbackAmount() > 0){
 				couponRecord = CouponDaoService.getCouponRecord(booking.getUserId(), booking.getCashbackAmount(),conn);

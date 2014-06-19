@@ -40,7 +40,7 @@ public class CouponCleaner extends CouponDao{
 					coupon = createCouponByResultSet(rs);
 					
 					//lock user; now user, booking, coupon or credit can begin
-					UserDao.selectUserForUpdate(coupon.getUserId(), transientConnection);
+					UserDao.getAndLock(coupon.getUserId(), transientConnection);
 					
 					//fetch a fresh copy of coupon, guard during concurrency, though protection against high concurrency is limited
 					coupon = CouponDao.getCouponByCouponId(coupon.getCouponId(), transientConnection);

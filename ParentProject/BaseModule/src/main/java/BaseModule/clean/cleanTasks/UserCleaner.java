@@ -60,7 +60,7 @@ public class UserCleaner extends UserDao{
 			for(int i=0;i<ulist.size();i++){
 				try{
 					conn.setAutoCommit(false);
-					UserDao.selectUserForUpdate(ulist.get(i).getUserId(), conn);
+					UserDao.getAndLock(ulist.get(i).getUserId(), conn);
 					
 					boolean validTransactionList = validTransactionList(ulist.get(i).getBalance(),ulist.get(i).getTransactionList());
 					boolean validCreditList = validCouponList(ulist.get(i).getCoupon(),ulist.get(i).getCouponList());

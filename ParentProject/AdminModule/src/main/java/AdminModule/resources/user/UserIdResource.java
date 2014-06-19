@@ -60,7 +60,7 @@ public class UserIdResource extends AdminPseudoResource{
 			jsonContact.put("userId", userId);
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, adminId, this.getUserAgent(), jsonContact.toString());
 			
-			User user = UserDaoService.getUserById(userId);
+			User user = UserDaoService.getAndLock(userId);
 			user = parseJSON(jsonContact, user);
 			UserDaoService.updateUser(user);
 			

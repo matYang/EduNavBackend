@@ -17,7 +17,7 @@ import BaseModule.model.representation.UserSearchRepresentation;
 
 public class UserDao {
 
-	public static User selectUserForUpdate(int userId,Connection...connections) throws SQLException, UserNotFoundException{
+	public static User getAndLock(int userId,Connection...connections) throws SQLException, UserNotFoundException{
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
