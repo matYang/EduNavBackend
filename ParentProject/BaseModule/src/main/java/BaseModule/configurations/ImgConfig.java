@@ -1,6 +1,6 @@
 package BaseModule.configurations;
 
-public class ImgConfig {
+public final class ImgConfig {
 
 	//image
 	public static final String teacherImgPrefix = "teacher-";

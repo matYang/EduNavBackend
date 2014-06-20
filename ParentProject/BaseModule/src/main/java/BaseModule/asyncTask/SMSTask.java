@@ -17,11 +17,11 @@ import BaseModule.interfaces.PseudoAsyncTask;
 
 public class SMSTask implements PseudoAsyncTask{
 	
-	private SMSEvent event;
-	private String content;
-	private String cellNum;
+	private final SMSEvent event;
+	private final String content;
+	private final String cellNum;
 	
-	public SMSTask(SMSEvent event, String cellNum, String payload, String... opts){
+	public SMSTask(final SMSEvent event, final String cellNum, final String payload, final String... opts){
 		this.cellNum = cellNum;
 		this.event = event;
 		if (event == SMSEvent.user_cellVerification){

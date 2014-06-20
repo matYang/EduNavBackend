@@ -11,7 +11,7 @@ public class ExecutorProvider {
 	private static final int threadPool_max_sms = 50;
 	private static final ExecutorService smsExecutor = Executors.newFixedThreadPool(threadPool_max_sms);
 	
-	public static void executeRelay (PseudoAsyncTask task){
+	public static void executeRelay (final PseudoAsyncTask task){
 		RelayTaskExecutableWrapper executableTask = new RelayTaskExecutableWrapper(task);
 		if (task instanceof SMSTask){
 			smsExecutor.submit(executableTask);

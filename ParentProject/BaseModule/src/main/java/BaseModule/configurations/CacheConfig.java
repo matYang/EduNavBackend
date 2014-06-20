@@ -2,7 +2,7 @@ package BaseModule.configurations;
 
 import java.util.ArrayList;
 
-public class CacheConfig {
+public final class CacheConfig {
 	
 	public static final int course_expireTime = 1800;		//30 minutes, in seconds
 	public static final String course_keyPrefix = "course_";
@@ -10,7 +10,7 @@ public class CacheConfig {
 	public static final int courseSearch_expireTime = 900;	//15 minutes, in seconds
 	
 	
-	public static String castIdListToValue(ArrayList<Integer> idList){
+	public static String castIdListToValue(final ArrayList<Integer> idList){
 		if (idList == null || idList.size() == 0){
 			return "";
 		}
@@ -24,7 +24,7 @@ public class CacheConfig {
 	}
 	
 	
-	public static ArrayList<Integer> castIdListFromValue(String value){
+	public static ArrayList<Integer> castIdListFromValue(final String value){
 		if (value == null || value.length() == 0){
 			return new ArrayList<Integer>();
 		}

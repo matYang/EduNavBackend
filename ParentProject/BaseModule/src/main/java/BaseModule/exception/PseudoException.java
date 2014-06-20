@@ -4,7 +4,7 @@ public class PseudoException extends Exception{
 
 
 	private static final long serialVersionUID = 2620232305997865752L;
-	private String exceptionText;
+	protected String exceptionText;
 	
 
 	public PseudoException(){

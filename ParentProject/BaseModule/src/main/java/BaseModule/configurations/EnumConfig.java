@@ -1,6 +1,6 @@
 package BaseModule.configurations;
 
-public class EnumConfig {
+public final class EnumConfig {
 
 	public static enum AccountStatus{
         activated(0),deactivated(1),deleted(2);

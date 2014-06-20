@@ -5,9 +5,9 @@ import BaseModule.interfaces.PseudoAsyncTask;
 
 public class RelayTaskExecutableWrapper implements Runnable{
 	
-	private PseudoAsyncTask task;
+	private final PseudoAsyncTask task;
 	
-	public RelayTaskExecutableWrapper(PseudoAsyncTask task){
+	public RelayTaskExecutableWrapper(final PseudoAsyncTask task){
 		this.task = task;
 	}
 		 

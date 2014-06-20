@@ -1,11 +1,6 @@
 package BaseModule.staticDataService;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import BaseModule.cache.StaticDataRamCache;
@@ -13,15 +8,17 @@ import BaseModule.eduDAO.EduDaoBasic;
 
 import redis.clients.jedis.Jedis;
 
-public class StaticDataService {
+public final class StaticDataService {
 	
 	private static String catDataRedisKey = "list_catData";
 	private static String locationDataRedisKey = "list_locationData";
 	
 	public static void storeCatData(ArrayList<String> catData){
-		Jedis jedis = EduDaoBasic.getJedis();
+		Jedis jedis = null;
 		
 		try{
+			jedis = EduDaoBasic.getJedis();
+			
 			String[] catDataArray = new String[catData.size()];
 			catDataArray = catData.toArray(catDataArray);
 			String catDataString = "";
@@ -38,9 +35,11 @@ public class StaticDataService {
 	}
 	
 	public static void storeLocationData(ArrayList<String> locationData){
-		Jedis jedis = EduDaoBasic.getJedis();
+		Jedis jedis = null;
 		
 		try{
+			jedis = EduDaoBasic.getJedis();
+			
 			String[] locationDataArray = new String[locationData.size()];
 			locationDataArray = locationData.toArray(locationDataArray);
 			String locationDataString = "";
@@ -63,9 +62,11 @@ public class StaticDataService {
 			return catData;
 		}
 		
-		Jedis jedis = EduDaoBasic.getJedis();
+		Jedis jedis = null;
 		String catDataString;
 		try{
+			jedis = EduDaoBasic.getJedis();
+			
 			catDataString = jedis.get(catDataRedisKey);
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
@@ -85,9 +86,11 @@ public class StaticDataService {
 			return locationData;
 		}
 		
-		Jedis jedis = EduDaoBasic.getJedis();
+		Jedis jedis = null;
 		String locationDataString;
 		try{
+			jedis = EduDaoBasic.getJedis();
+			
 			locationDataString = jedis.get(locationDataRedisKey);
 		} finally{
 			EduDaoBasic.returnJedis(jedis);

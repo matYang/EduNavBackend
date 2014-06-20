@@ -1,6 +1,6 @@
 package BaseModule.configurations;
 
-public class ValidationConfig {
+public final class ValidationConfig {
 
 	public static final String RegexPwPattern = "[A-Za-z0-9!@#$%^&*?-_+=]*";
 	public static final String RegexNameWhiteSpacePattern = "\\S*\\s\\S*";

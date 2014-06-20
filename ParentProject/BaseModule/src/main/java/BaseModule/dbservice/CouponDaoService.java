@@ -25,11 +25,11 @@ public class CouponDaoService {
 		CouponDao.updateCouponInDatabases(c,connections);
 	}
 	
-	public static Coupon getCouponByCouponId(int couponId,Connection...connections) throws SQLException, PseudoException{
+	public static Coupon getCouponByCouponId(final int couponId, Connection...connections) throws SQLException, PseudoException{
 		return CouponDao.getCouponByCouponId(couponId,connections);
 	}
 
-	public static ArrayList<Coupon> getCouponByUserId(int userId,Connection...connections) throws SQLException{
+	public static ArrayList<Coupon> getCouponByUserId(final int userId, Connection...connections) throws SQLException{
 		CouponSearchRepresentation coup_sr = new CouponSearchRepresentation();
 		coup_sr.setUserId(userId);
 		return searchCoupon(coup_sr,connections);
@@ -53,7 +53,7 @@ public class CouponDaoService {
 		return c;
 	}
 
-	public static String getCouponRecord(int userId,int cashback,Connection...connections) throws ValidationException,SQLException, PseudoException{
+	public static String getCouponRecord(final int userId, final int cashback,Connection...connections) throws ValidationException,SQLException, PseudoException{
 		Connection conn = null;		
 		Boolean ok = false;		
 		String couponRecord = "";		
@@ -135,7 +135,7 @@ public class CouponDaoService {
 		return couponRecord;
 	}
 
-	public static void updateCouponToUser(Coupon c, int previousAmount, CouponStatus previousStatus,Connection...connections) throws SQLException, PseudoException{
+	public static void updateCouponToUser(Coupon c, final int previousAmount, final CouponStatus previousStatus,Connection...connections) throws SQLException, PseudoException{
 		boolean ok = false;
 		Connection conn = null;
 		try{

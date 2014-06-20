@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Parser {
 
-	public static String listToString(ArrayList<?> list,String spliter){
+	public static String listToString(final ArrayList<?> list,String spliter){
 		String serializedList = null;
 		for(int i=0; i <list.size(); i++){
 			if (serializedList == null){
@@ -15,7 +15,7 @@ public class Parser {
 		return serializedList;
 	}
 
-	public static ArrayList<?> stringToList(String listString, String spliter,Object optionFlag){	
+	public static ArrayList<?> stringToList(final String listString, final String spliter, final Object optionFlag){	
 		
 		String[] strArray = (listString == null || listString.length() == 0) ? null : listString.split(spliter);
 		
@@ -38,7 +38,7 @@ public class Parser {
 		return null;
 	}
 
-	public static int getCashBackFromCouponRecord(String crd){
+	public static int getCashBackFromCouponRecord(final String crd){
 		int cashback = 0;
 		if(crd==null || crd.equals("")){
 			return cashback;

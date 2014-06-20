@@ -18,11 +18,11 @@ import BaseModule.service.SMSService;
 
 public class BookingDaoService {
 
-	public static Booking getBookingById(int id) throws PseudoException, SQLException{
+	public static Booking getBookingById(final int id) throws PseudoException, SQLException{
 		return BookingDao.getBookingById(id);
 	}
 
-	public static void updateBooking(Booking updatedBooking, BookingStatus previousStatus, int adminId) throws PseudoException, SQLException{
+	public static void updateBooking(Booking updatedBooking, final  BookingStatus previousStatus, final int adminId) throws PseudoException, SQLException{
 		Connection conn = null;
 		boolean ok = false;
 		boolean sendConfirmedSMS = false;

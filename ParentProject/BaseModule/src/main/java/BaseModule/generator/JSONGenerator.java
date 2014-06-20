@@ -12,7 +12,7 @@ import BaseModule.model.representation.*;
 
 public class JSONGenerator {
 	
-	public static JSONObject toJSON(PseudoModel obj) throws ValidationException{
+	public static JSONObject toJSON(final PseudoModel obj) throws ValidationException{
 		if (obj == null){
 			return new JSONObject();
 		}
@@ -69,7 +69,7 @@ public class JSONGenerator {
 		}
 	}
 	
-	public static JSONArray toJSON(ArrayList<? extends PseudoModel> objs) throws ValidationException{
+	public static JSONArray toJSON(final ArrayList<? extends PseudoModel> objs) throws ValidationException{
 		ArrayList<JSONObject> temps = new ArrayList<JSONObject>();
 		if (objs == null){
 			return new JSONArray();

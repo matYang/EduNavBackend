@@ -6,7 +6,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.encryption.AccessControlCrypto;
 
 
-public class ServerConfig {
+public final class ServerConfig {
 	
 		private static final String ENV_VAR_KEY = "RA_MAINSERVER_ENV";
 		private static final String ENV_TEST = "RA_TEST";
@@ -32,7 +32,7 @@ public class ServerConfig {
 		
 		static{
 			try{
-				String value = System.getenv(ENV_VAR_KEY);
+				final String value = System.getenv(ENV_VAR_KEY);
 				
 
 				System.out.println("Server starting under " + value + " envrionment");
@@ -73,7 +73,7 @@ public class ServerConfig {
 					configurationMap.put("memcachedUser", "fdbc1391e96411e3");
 					configurationMap.put("memcachedPass", "4RKOZAlh48z1");
 				}
-			} catch (Exception e){
+			} catch (final Exception e){
 				DebugLog.d(e);
 				e.printStackTrace();
 				DebugLog.d("Server init failed, system exit...");

@@ -26,7 +26,7 @@ public class AdminAccountDaoService {
 		AdminAccountDao.updateAdminAccountInDatabases(account);
 	}
 	
-	public static void changePassword(int adminId, String oldPassword, String newPassword) throws PseudoException, SQLException{
+	public static void changePassword(final int adminId, String oldPassword, String newPassword) throws PseudoException, SQLException{
 		Connection conn = null;
 		boolean ok = false;
 		try{
@@ -40,7 +40,7 @@ public class AdminAccountDaoService {
 		}
 	}
 	
-	public static void changeAdminPassword(int adminId, String password) throws PseudoException, SQLException{
+	public static void changeAdminPassword(final int adminId, String password) throws PseudoException, SQLException{
 		AdminAccountDao.changeAdminAccountPassword(adminId, password);
 	}
 	

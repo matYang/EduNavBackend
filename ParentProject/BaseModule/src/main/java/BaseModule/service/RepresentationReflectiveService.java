@@ -31,9 +31,9 @@ import BaseModule.model.representation.PartnerSearchRepresentation;
 import BaseModule.model.representation.TransactionSearchRepresentation;
 import BaseModule.model.representation.UserSearchRepresentation;
 
-public class RepresentationReflectiveService {
+public final class RepresentationReflectiveService {
 	
-	public static ArrayList<String> getKeySet(PseudoRepresentation representation) {
+	public static ArrayList<String> getKeySet(final PseudoRepresentation representation) {
 		Field[] fields = getFields(representation);
 
 		ArrayList<String> keyArr = new ArrayList<String>();
@@ -44,7 +44,7 @@ public class RepresentationReflectiveService {
 		return keyArr;
 	}
 
-	public static void storeKvps(PseudoRepresentation representation, Map<String, String> kvps) throws PseudoException, IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
+	public static void storeKvps(final PseudoRepresentation representation, final Map<String, String> kvps) throws PseudoException, IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException {
 		Field[] fields = getFields(representation);
 		
 		try{
@@ -105,7 +105,7 @@ public class RepresentationReflectiveService {
 	
 
 	
-	public static String serialize(PseudoRepresentation representation) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
+	public static String serialize(final PseudoRepresentation representation) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
 		Field[] fields = getFields(representation);
 		
 		ArrayList<String> serializedMembers = new ArrayList<String>();
@@ -200,7 +200,7 @@ public class RepresentationReflectiveService {
 	}
 
 
-	public static JSONObject toJSON(PseudoRepresentation representation) throws ValidationException {
+	public static JSONObject toJSON(final PseudoRepresentation representation) throws ValidationException {
 		Field[] fields = getFields(representation);
 		JSONObject jsonRepresentation = new JSONObject();
 		
@@ -291,7 +291,7 @@ public class RepresentationReflectiveService {
 		return jsonRepresentation;
 	}
 	
-	public static boolean isEmpty(PseudoRepresentation representation) {
+	public static boolean isEmpty(final PseudoRepresentation representation) {
 		Field[] fields = getFields(representation);
 		
 		try{
@@ -328,7 +328,7 @@ public class RepresentationReflectiveService {
 	}
 	
 	
-	private static Field[] getFields(PseudoRepresentation representation){
+	private static Field[] getFields(final PseudoRepresentation representation){
 		Field[] fields;
 		if (representation instanceof CourseSearchRepresentation){
 			fields = CourseSearchRepresentation.class.getDeclaredFields();

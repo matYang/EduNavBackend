@@ -1,8 +1,8 @@
 package BaseModule.model.configObj;
 
-public class RedisSubConfig {
+public class RedisAuthenticationObj {
 	
-	public RedisSubConfig(){
+	public RedisAuthenticationObj(){
 		super();
 	}
 	

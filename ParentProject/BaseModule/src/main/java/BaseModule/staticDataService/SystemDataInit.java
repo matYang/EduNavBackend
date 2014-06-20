@@ -1,6 +1,6 @@
 package BaseModule.staticDataService;
 
-public class SystemDataInit {
+public final class SystemDataInit {
 	
 	public static void init(){
 		CatDataLoader.load();

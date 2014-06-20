@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import BaseModule.common.DebugLog;
 
 
-public class LocationDataLoader {
+public final class LocationDataLoader {
 	
 	private static final String pathToFile = "src/main/resources/LocationData";
 

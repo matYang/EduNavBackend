@@ -8,16 +8,16 @@ import BaseModule.configurations.ValidationConfig;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.*;
 
-public class ValidationService {
+public final class ValidationService {
 		
-	public static boolean validateName(String userName){
+	public static boolean validateName(final String userName){
 		Pattern NamePattern = Pattern.compile(ValidationConfig.RegexNamePattern);
 		Pattern WhiteSpacePattern = Pattern.compile(ValidationConfig.RegexNameWhiteSpacePattern);
 		if (userName == null || userName.length() == 0 || userName.length() > ValidationConfig.maxUserNameLength){
 			return false;
 		}	
 		if(WhiteSpacePattern.matcher(userName).matches()){
-			userName = userName.replaceAll("\\s+", "");
+			userName.replaceAll("\\s+", "");
 		}
 		if (NamePattern.matcher(userName).matches()){
 			return true;
@@ -25,7 +25,7 @@ public class ValidationService {
 		return false;
 	}
 	
-	public static boolean validatePhone(String phone){
+	public static boolean validatePhone(final String phone){
 		if (phone == null){
 			return false;
 		}
@@ -38,7 +38,7 @@ public class ValidationService {
 		return true;
 	}
 	
-	public static boolean validateEmail(String email){
+	public static boolean validateEmail(final String email){
 
 		Pattern emailPattern = Pattern.compile(ValidationConfig.RegexEmailPattern);
 		try{
@@ -53,7 +53,7 @@ public class ValidationService {
 		}
 	}
 	
-	public static boolean validatePassword(String password){
+	public static boolean validatePassword(final String password){
 		if (password == null || password.length() < ValidationConfig.minPasswordLength || password.length() > ValidationConfig.maxPasswordLength){
 			return false;
 		}
@@ -65,7 +65,7 @@ public class ValidationService {
 		return false;
 	}
 	
-	public static boolean validateUser(User user) throws ValidationException{
+	public static boolean validateUser(final User user) throws ValidationException{
 		if (!(user.getName() == null || user.getName().length() == 0 || validateName(user.getName())) || !validatePhone(user.getPhone()) ||
 				!validatePassword(user.getPassword()) || user.getBalance() < 0||
 				user.getCoupon() < 0 || user.getCredit() < 0 || !(user.getEmail() == null || user.getEmail().length() == 0 || validateEmail(user.getEmail()))){
@@ -74,7 +74,7 @@ public class ValidationService {
 		return true;
 	}
 	
-	public static boolean validatePartner(Partner partner) throws ValidationException{
+	public static boolean validatePartner(final Partner partner) throws ValidationException{
 		if(!validateName(partner.getInstName()) || !validatePassword(partner.getPassword()) ||
 				!validatePhone(partner.getPhone())){
 			throw new ValidationException("合作伙伴输入信息不符合规范");
@@ -94,7 +94,7 @@ public class ValidationService {
 		return true;
 	}
 	
-	public static boolean validateCourse(Course course) throws ValidationException{
+	public static boolean validateCourse(final Course course) throws ValidationException{
 		if(course.getPartnerId() <= 0 || course.getClassSize() < 0 || 
 				course.getCourseHourNum() < 0 || course.getPrice() < 0 ||
 				course.getCourseHourLength() < 0 ||
@@ -128,7 +128,7 @@ public class ValidationService {
 		return true;
 	}
 	
-	public static boolean validateBooking(Booking booking) throws ValidationException{
+	public static boolean validateBooking(final Booking booking) throws ValidationException{
 		if(booking.getUserId() <= 0 || booking.getCourseId() <= 0 ||
 				booking.getPartnerId() <= 0){
 			throw new ValidationException("预定信息不完整");

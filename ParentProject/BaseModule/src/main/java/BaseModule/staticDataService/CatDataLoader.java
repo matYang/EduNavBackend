@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import BaseModule.common.DebugLog;
 
 
-public class CatDataLoader {
+public final class CatDataLoader {
 	
 	private static final String pathToFile = "src/main/resources/CatData";
 	

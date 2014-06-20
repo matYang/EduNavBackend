@@ -37,7 +37,7 @@ import BaseModule.model.Transaction;
 import BaseModule.model.User;
 import BaseModule.staticDataService.SystemDataInit;
 
-public class ModelDataLoaderService {	
+public final class ModelDataLoaderService {	
 
 	public static void load(){		
 		EduDaoBasic.clearAllDatabase();

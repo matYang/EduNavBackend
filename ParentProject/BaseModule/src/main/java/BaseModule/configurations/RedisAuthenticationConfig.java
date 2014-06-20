@@ -1,12 +1,12 @@
 package BaseModule.configurations;
 
-import BaseModule.model.configObj.RedisSubConfig;
+import BaseModule.model.configObj.RedisAuthenticationObj;
 
-public class RedisAuthenticationConfig {
+public final class RedisAuthenticationConfig {
 
 	/* RedisSperator*/
-	public static final String redisSeperator = "+";
-	public static final String redisSeperatorRegex = "\\+";
+	public static final String redisAuthenticationSeperator = "+";
+	public static final String redisAuthenticationSeperatorRegex = "\\+";
 	
 	
 	/* UserModule */
@@ -63,8 +63,8 @@ public class RedisAuthenticationConfig {
 	
 	
 	
-	public static RedisSubConfig getConfig(int serviceIdentifier){
-		RedisSubConfig config = new RedisSubConfig();
+	public static RedisAuthenticationObj getConfig(final int serviceIdentifier){
+		final RedisAuthenticationObj config = new RedisAuthenticationObj();
 		switch (serviceIdentifier){
 			case 1:
 				config.keyPrefix = userSession_web_keyPrefix;

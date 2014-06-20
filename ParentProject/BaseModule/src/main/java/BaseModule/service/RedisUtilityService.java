@@ -1,8 +1,8 @@
 package BaseModule.service;
 
-public class RedisUtilityService {
+public final class RedisUtilityService {
 	
-	public static boolean isValuedStored(String previousRecord){
-		return (previousRecord != null && previousRecord.length() != 0 && previousRecord != "nil");
+	public static boolean isValuedStored(final String previousRecord){
+		return (previousRecord != null && previousRecord.length() != 0 && !previousRecord.equals("nil"));
 	}
 }

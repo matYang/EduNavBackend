@@ -22,13 +22,13 @@ public class AliyunMain {
 	static Logger logger = Logger.getLogger(AliyunMain.class);
 
 	
-	public static String uploadImg(int id, File file, String imgName, String Bucket){
+	public static String uploadImg(final int id, final File file, final String imgName, final String Bucket){
 		return uploadImg(id, file, imgName, Bucket,true);
 	}
 
 
 	//the boolean shouldDelete is used for testing so that the sample is not deleted every time
-	public static String uploadImg(int id, File file, String imgName, String Bucket,boolean shouldDelete){
+	public static String uploadImg(final int id, final File file, final String imgName, final String Bucket, final boolean shouldDelete){
 
 		OSSClient client = new OSSClient(myAccessKeyID, mySecretKey);		
 		String imgAddress = "";	
@@ -56,11 +56,11 @@ public class AliyunMain {
 
 	}		
 
-	public static String uploadFile(int id, File file, String fileName, String Bucket){
+	public static String uploadFile(final int id, final File file, final String fileName, final String Bucket){
 		return uploadFile(id, file, fileName, Bucket,true);
 	}
 	
-	public static String uploadFile(int id, File file, String fileName, String Bucket,boolean shouldDelete){
+	public static String uploadFile(final int id, final File file, final String fileName, final String Bucket, final boolean shouldDelete){
 
 		OSSClient client = new OSSClient(myAccessKeyID, mySecretKey);	
 		String imgAddress = "";		
@@ -88,16 +88,16 @@ public class AliyunMain {
 
 	}
 	
-	private static String getFileKey(int id, String fileName) {
+	private static String getFileKey(final int id, final String fileName) {
 		return id + "/" + fileName + ".txt";
 	}
 
 
-	private static String getImageKey(int id, String imageName){
+	private static String getImageKey(final int id, final String imageName){
 		return id + "/" + imageName + ".png";
 	}	
 
-	private static String getOSSUrlPrefix(String Bucket){
+	private static String getOSSUrlPrefix(final String Bucket){
 		if (ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_LOCAL)){
 			return "http://" + Bucket + ".oss-cn-hangzhou.aliyuncs.com/";
 		}
