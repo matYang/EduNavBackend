@@ -21,7 +21,7 @@ public class Coupon implements PseudoModel, Serializable{
 	
 	private static final long serialVersionUID = 7L;
 
-	public static final long expireThreshould = 31536000l;
+	public static final long expireThreshould = 15811200000l;
 	
 	private long couponId;	
 	private int userId;

@@ -15,8 +15,8 @@ public class Credit implements PseudoModel, Serializable{
 	
 	private static final long serialVersionUID = 8L;
 	
-	public static final long usableThreshould = 31536000l;
-	public static final long expireThreshould = 31536000l;	//1 year
+	public static final long usableThreshould = 31536000000l;
+	public static final long expireThreshould = 31536000000l;	//1 year
 
 	private long creditId;
 	private int bookingId;

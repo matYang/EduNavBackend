@@ -60,7 +60,6 @@ public class CouponIdResource extends AdminPseudoResource{
 	}
 	
 	protected Coupon parseJSON(JSONObject jsonCoupon, Coupon coupon) throws ParseException,  PseudoException, UnsupportedEncodingException {
-		Coupon Coupon = null;
 		try{
 
 			int amount = jsonCoupon.getInt("amount");
@@ -74,7 +73,7 @@ public class CouponIdResource extends AdminPseudoResource{
 			throw new ValidationException("无效数据格式");
 		}
 		
-		return Coupon;
+		return coupon;
 	}
 
 }
