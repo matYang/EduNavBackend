@@ -33,7 +33,13 @@ public class UserIdResource extends AdminPseudoResource{
 			user.setName(name);
 			user.setEmail(email);
 			user.setStatus(status);
-			ValidationService.validateUser(user);
+			
+			if (!ValidationService.validateName(name)){
+				throw new ValidationException("姓名格式不正确");
+			}
+			if (!ValidationService.validateEmail(email)){
+				throw new ValidationException("邮箱格式不正确");
+			}
 			
 		} catch (NullPointerException | JSONException | IOException e) {
 			DebugLog.d(e);
