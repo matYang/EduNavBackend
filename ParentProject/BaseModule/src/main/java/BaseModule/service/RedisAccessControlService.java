@@ -1,43 +1,42 @@
 package BaseModule.service;
 
-import java.util.Calendar;
-
 import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.RedisAccessControlConfig;
-import BaseModule.configurations.RedisAuthenticationConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.model.configObj.RedisAccessControlObj;
 
 public class RedisAccessControlService {
 	
 	
-	public static boolean isAbleToLogin(final int serviceIdentifier, final int id){
+	public static boolean isAbleToLogin(final String moduleId, final String phone){
 		Jedis jedis = null;
-		RedisAccessControlObj config = RedisAccessControlConfig.getConfig(serviceIdentifier);
+		RedisAccessControlObj config = RedisAccessControlConfig.getConfig(moduleId);
 		try{
 			jedis = EduDaoBasic.getJedis();
-			String record = jedis.get(config.keyPrefix + id);
+			String record = jedis.get(config.keyPrefix + phone);
 			if (RedisUtilityService.isValuedStored(record)){
 				String[] values = record.split(RedisAccessControlConfig.redisAccessControlRegex);
 				int count = Integer.parseInt(values[0]);
 				long timeStamp = DateUtility.getLongFromTimeStamp(values[1]);
 				
 				if (DateUtility.getCurTime() - timeStamp > config.releaseThreshould){
-					//1 minute expired
+					//release threshold has passed since the first failed attempt
 					return true;
 				}
 				else{
-					if (count < 5){
+					//still within release threshold, but failed attempts fewer than lock count
+					if (count < config.lockCount){
 						return true;
 					}
+					//still within release threshold, and failed more than lock count
 					else{
 						return false;
 					}
 				}
 			}
 			else{
-				//no fail
+				//no fail record
 				return true;
 			}
 		} finally{
@@ -47,44 +46,48 @@ public class RedisAccessControlService {
 	
 	
 	//a login fail starts a new access control session or increments failed login count
-	public static void fail(final int serviceIdentifier, final int id){
+	public static void fail(final String moduleId, final String phone){
 		Jedis jedis = null;
-		RedisAccessControlObj config = RedisAccessControlConfig.getConfig(serviceIdentifier);
+		RedisAccessControlObj config = RedisAccessControlConfig.getConfig(moduleId);
 		try{
 			jedis = EduDaoBasic.getJedis();
-			String record = jedis.get(config.keyPrefix + id);
+			String record = jedis.get(config.keyPrefix + phone);
 			if (RedisUtilityService.isValuedStored(record)){
 				String[] values = record.split(RedisAccessControlConfig.redisAccessControlRegex);
 				int count = Integer.parseInt(values[0]);
 				long timeStamp = DateUtility.getLongFromTimeStamp(values[1]);
 				
+				//more than 1 minute passed since the first failed attempt, restart session
 				if (DateUtility.getCurTime() - timeStamp > config.lockThreshold){
 					record = 1 + RedisAccessControlConfig.redisAccessControlSeperator + DateUtility.getTimeStamp();
-					jedis.set(config.keyPrefix + id, record);
+					jedis.set(config.keyPrefix + phone, record);
 				}
+				//less than 1 minute has passed, stick with the same session
 				else{
 					count++;
 					record = count + RedisAccessControlConfig.redisAccessControlSeperator + values[1];
-					jedis.set(config.keyPrefix + id, record);
+					jedis.set(config.keyPrefix + phone, record);
 				}
 			}
 			else{
+				//first start the failed attemp session
 				record = 1 + RedisAccessControlConfig.redisAccessControlSeperator + DateUtility.getTimeStamp();
-				jedis.set(config.keyPrefix + id, record);
+				jedis.set(config.keyPrefix + phone, record);
 			}
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
 		}
 	}
 	
-	//a successful login releases previous counts
-	public static boolean success(final int serviceIdentifier, final int id){
+	
+	public static boolean success(final String moduleId, final String phone){
 		Jedis jedis = null;
 		boolean result;
-		RedisAccessControlObj config = RedisAccessControlConfig.getConfig(serviceIdentifier);
+		RedisAccessControlObj config = RedisAccessControlConfig.getConfig(moduleId);
 		try{
+			//a successful login releases previous counts
 			jedis = EduDaoBasic.getJedis();
-			result = jedis.del(config.keyPrefix + id) == 1;
+			result = jedis.del(config.keyPrefix + phone) == 1;
 		} finally{
 			EduDaoBasic.returnJedis(jedis);
 		}

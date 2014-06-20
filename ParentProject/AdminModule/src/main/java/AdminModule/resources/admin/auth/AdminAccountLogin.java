@@ -14,6 +14,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.generator.JSONGenerator;
 import BaseModule.model.AdminAccount;
 import BaseModule.service.EncodingService;
+import BaseModule.service.RedisAccessControlService;
 import BaseModule.service.ValidationService;
 
 public final class AdminAccountLogin extends AdminPseudoResource{
@@ -41,12 +42,21 @@ public final class AdminAccountLogin extends AdminPseudoResource{
 			jsonString = this.getJSONObj(entity);
 			reference = EncodingService.decodeURI(jsonString.getString("reference"));
 			password = EncodingService.decodeURI(jsonString.getString("password"));
-
+			if (!RedisAccessControlService.isAbleToLogin(this.moduleId, reference)){
+				throw new ValidationException("您一分钟内已经多次登录失败，请等待一分钟");
+			}
 			if (!ValidationService.validatePassword(password)){
 				throw new ValidationException("密码格式不正确");
 			}
-
-			account = AdminAccountDaoService.authenticateAdminAccount(reference, password);
+			
+			try{
+				account = AdminAccountDaoService.authenticateAdminAccount(reference, password);
+			} catch (AuthenticationException e){
+				RedisAccessControlService.fail(this.moduleId, reference);
+				throw e;
+			}
+			
+			RedisAccessControlService.success(this.moduleId, reference);
 			this.openAuthentication(account.getAdminId());
 
 			jsonObject = JSONGenerator.toJSON(account);

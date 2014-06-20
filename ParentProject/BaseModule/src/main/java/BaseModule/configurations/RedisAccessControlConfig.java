@@ -28,32 +28,28 @@ public final class RedisAccessControlConfig {
 	public static final long adminAccessControl_lockThreshold = 60000l;		//1 min
 	public static final long adminAccessControl_releaseThreshold = 180000l;	//3 min
 	
-	public static RedisAccessControlObj getConfig(final int acServiceIdentifier){
+	public static RedisAccessControlObj getConfig(final String moduleId){
 		final RedisAccessControlObj config = new RedisAccessControlObj();
-		switch (acServiceIdentifier){
-			case 1:
-				config.keyPrefix = userAccessControl_keyPrefix;
-				config.lockCount = userAccessControl_lockCount;
-				config.lockThreshold = userAccessControl_lockThreshold;
-				config.releaseThreshould = userAccessControl_releaseThreshold;
-				break;
-				
-			case 2:
-				config.keyPrefix = partnerAccessControl_keyPrefix;
-				config.lockCount = partnerAccessControl_lockCount;
-				config.lockThreshold = partnerAccessControl_lockThreshold;
-				config.releaseThreshould = partnerAccessControl_releaseThreshold;
-				break;
-				
-			case 3:
-				config.keyPrefix = adminAccessControl_keyPrefix;
-				config.lockCount = adminAccessControl_lockCount;
-				config.lockThreshold = adminAccessControl_lockThreshold;
-				config.releaseThreshould = adminAccessControl_releaseThreshold;
-				break;
-				
-			default:
-				throw new RuntimeException("RedisPrefixConfig unable to determine server identifer type");
+		if (moduleId.equals("userModule")){
+			config.keyPrefix = userAccessControl_keyPrefix;
+			config.lockCount = userAccessControl_lockCount;
+			config.lockThreshold = userAccessControl_lockThreshold;
+			config.releaseThreshould = userAccessControl_releaseThreshold;
+		}
+		else if (moduleId.equals("partnerModule")){
+			config.keyPrefix = partnerAccessControl_keyPrefix;
+			config.lockCount = partnerAccessControl_lockCount;
+			config.lockThreshold = partnerAccessControl_lockThreshold;
+			config.releaseThreshould = partnerAccessControl_releaseThreshold;
+		}
+		else if (moduleId.equals("adminModule")){
+			config.keyPrefix = adminAccessControl_keyPrefix;
+			config.lockCount = adminAccessControl_lockCount;
+			config.lockThreshold = adminAccessControl_lockThreshold;
+			config.releaseThreshould = adminAccessControl_releaseThreshold;
+		}
+		else{
+			throw new RuntimeException("RedisPrefixConfig unable to determine server identifer type");
 		}
 		return config;
 	}

@@ -14,6 +14,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.generator.JSONGenerator;
 import BaseModule.model.User;
 import BaseModule.service.EncodingService;
+import BaseModule.service.RedisAccessControlService;
 import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
@@ -41,6 +42,9 @@ public final class UserLogin extends UserPseudoResource {
 			jsonString = this.getJSONObj(entity);
 			phone = EncodingService.decodeURI(jsonString.getString("phone"));
 			password = EncodingService.decodeURI(jsonString.getString("password"));
+			if (!RedisAccessControlService.isAbleToLogin(this.moduleId, phone)){
+				throw new ValidationException("您一分钟内已经多次登录失败，请等待一分钟");
+			}
 			if (!ValidationService.validatePhone(phone)){
 				throw new ValidationException("手机号码格式不正确");
 			}
@@ -49,11 +53,16 @@ public final class UserLogin extends UserPseudoResource {
 			}
 			
 			DebugLog.d("Log in, receving paramters: " + phone + " " + password);
-			user = UserDaoService.authenticateUser(phone, password);
+			try{
+				user = UserDaoService.authenticateUser(phone, password);
+			} catch (AuthenticationException e){
+				RedisAccessControlService.fail(this.moduleId, phone);
+				throw e;
+			}
 			
-
+			RedisAccessControlService.success(this.moduleId, phone);
 			this.openAuthentication(user.getUserId());
-
+			
 			jsonObject = JSONGenerator.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
 			

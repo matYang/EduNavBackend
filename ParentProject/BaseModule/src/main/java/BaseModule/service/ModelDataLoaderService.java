@@ -188,7 +188,6 @@ public final class ModelDataLoaderService {
 	private static void loadUsers(Connection...connections){
 		try{
 			int userNum = 20;
-			int balance = 50;		
 			int i = 1;
 
 			User matt = new User("DONOTSEND18662241356" + i, "111111", "", ReferenceGenerator.generateUserInvitationalCode(), ReferenceGenerator.generateUserAccountNumber(), AccountStatus.activated);
@@ -204,7 +203,6 @@ public final class ModelDataLoaderService {
 			i++;
 
 			for(;i<=userNum;i++){
-				balance += 1;							
 				String name = "userName " + i;
 				String phone = "DONOTSEND1234567890" + i;
 				String password = "userPassword " + i;

@@ -14,6 +14,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Partner;
 import BaseModule.service.EncodingService;
+import BaseModule.service.RedisAccessControlService;
 import BaseModule.service.ValidationService;
 import PartnerModule.resources.PartnerPseudoResource;
 
@@ -37,11 +38,14 @@ public final class PartnerLogin extends PartnerPseudoResource{
 			} catch (AuthenticationException e){
 				//not logged in, proceed
 			}
-			
+
 			jsonString = this.getJSONObj(entity);
 			
 			phone = EncodingService.decodeURI(jsonString.getString("phone"));
 			password = EncodingService.decodeURI(jsonString.getString("password"));
+			if (!RedisAccessControlService.isAbleToLogin(this.moduleId, phone)){
+				throw new ValidationException("您一分钟内已经多次登录失败，请等待一分钟");
+			}
 			if (!ValidationService.validatePhone(phone)){
 				throw new ValidationException("手机号码格式不正确");
 			}
@@ -50,9 +54,15 @@ public final class PartnerLogin extends PartnerPseudoResource{
 			}
 			
 			DebugLog.d("Log in, receving paramters: " + phone + " " + password);
-			partner = PartnerDaoService.authenticatePartner(phone, password);
+			try{
+				partner = PartnerDaoService.authenticatePartner(phone, password);
+			} catch (AuthenticationException e){
+				RedisAccessControlService.fail(this.moduleId, phone);
+				throw e;
+			}
 			
-
+			
+			RedisAccessControlService.success(this.moduleId, phone);
 			this.openAuthentication(partner.getPartnerId());
 
 			jsonObject = JSONGenerator.toJSON(partner);
