@@ -96,7 +96,7 @@ public class BookingIdResource extends AdminPseudoResource{
 			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));
 			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
-			BookingStatus status = BookingStatus.fromInt(Integer.parseInt(jsonBooking.getString("status")));
+			BookingStatus status = BookingStatus.fromInt(jsonBooking.getInt("status"));
 			String email = EncodingService.decodeURI(jsonBooking.getString("email"));
 			String note = EncodingService.decodeURI(jsonBooking.getString("note"));
 			

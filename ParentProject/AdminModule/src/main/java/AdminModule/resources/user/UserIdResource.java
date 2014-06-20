@@ -28,7 +28,7 @@ public class UserIdResource extends AdminPseudoResource{
 		try {
 			String name = EncodingService.decodeURI(jsonContact.getString("name"));
 			String email = EncodingService.decodeURI(jsonContact.getString("email"));
-			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(jsonContact.getString("status")));
+			AccountStatus status = AccountStatus.fromInt(jsonContact.getInt("status"));
 			
 			user.setName(name);
 			user.setEmail(email);
@@ -37,7 +37,7 @@ public class UserIdResource extends AdminPseudoResource{
 			
 		} catch (NullPointerException | JSONException | IOException e) {
 			DebugLog.d(e);
-			throw new ValidationException("姓名格式不正确");
+			throw new ValidationException("数据格式不正确");
 		}	
 		
 		return user;

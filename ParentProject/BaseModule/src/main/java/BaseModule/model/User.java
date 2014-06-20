@@ -224,7 +224,7 @@ public class User implements PseudoModel, Serializable{
 			jsonObj.put("appliedInvitationalCode", EncodingService.encodeURI(this.appliedInvitationalCode));
 			jsonObj.put("accountNumber", EncodingService.encodeURI(this.accountNumber));
 			jsonObj.put("status", this.status.code);
-			jsonObj.put("amount", this.balance);
+			jsonObj.put("balance", this.balance);
 			jsonObj.put("coupon", this.coupon);
 			jsonObj.put("credit", this.credit);
 			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
