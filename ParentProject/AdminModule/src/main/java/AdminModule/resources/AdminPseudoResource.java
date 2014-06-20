@@ -18,7 +18,7 @@ public class AdminPseudoResource extends PseudoResource{
 	protected final String moduleId = "adminModule";
 	protected final boolean cookieEnabled = true;
 	protected final String cookie_adminSession = "adminSessionCookie";
-	protected final int cookie_maxAge = 5184000; //2 month
+	protected final int cookie_maxAge = -1; //session based
 	
 	/******************
 	 * 

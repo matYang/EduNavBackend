@@ -20,7 +20,7 @@ public class PartnerPseudoResource extends PseudoResource{
 
 	protected final boolean cookieEnabled = true;
 	protected final String cookie_partnerSession = "partnerSessionCookie";
-	protected final int cookie_maxAge = 5184000; //2 month
+	protected final int cookie_maxAge = -1; //session
 	
 
 	/******************

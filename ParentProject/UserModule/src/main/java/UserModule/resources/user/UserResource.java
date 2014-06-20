@@ -14,6 +14,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.factory.JSONFactory;
 import BaseModule.factory.ReferenceFactory;
@@ -75,6 +76,13 @@ public class UserResource extends UserPseudoResource{
 
 		try{
 			this.checkEntity(entity);
+			try{
+				this.validateAuthentication();
+				throw new ValidationException("您处于已登录状态，请刷新页面或先登出之前的账户");
+			} catch (AuthenticationException e){
+				//not logged in, proceed
+			}
+
 			JSONObject jsonUser = this.getJSONObj(entity);
 			User newUser = validateUserJSON(jsonUser);
 			

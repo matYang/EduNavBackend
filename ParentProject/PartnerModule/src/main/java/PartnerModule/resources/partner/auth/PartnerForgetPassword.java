@@ -13,6 +13,7 @@ import org.restlet.resource.Post;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
 import BaseModule.service.EncodingService;
@@ -29,6 +30,13 @@ public class PartnerForgetPassword extends PartnerPseudoResource{
 	public Representation forgetPassword(){
         
 		try{
+			try{
+				this.validateAuthentication();
+				throw new ValidationException("请刷新页面或先登出之前的账户");
+			} catch (AuthenticationException e){
+				//not logged in, proceed
+			}
+			
 			String cellNum = this.getQueryVal("phone");
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), cellNum);
 			

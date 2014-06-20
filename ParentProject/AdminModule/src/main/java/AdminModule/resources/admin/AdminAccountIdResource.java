@@ -35,7 +35,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 			
 	    	AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 	    	AdminAccount targetAccount = AdminAccountDaoService.getAdminAccountById(targetAdminId);
-	    	//smaller the code higher the privilege
+	    	//smaller the code higher the privilege, can view same level accounts
 			if (admin.getPrivilege().code > targetAccount.getPrivilege().code){
 				throw new ValidationException("无权操作");
 			}
@@ -90,15 +90,14 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 			AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 			AdminAccount targetAccount = AdminAccountDaoService.getAdminAccountById(targetAdminId);
 			
-			//smaller the code higher the privilege
-			if (admin.getPrivilege().code >= targetAccount.getPrivilege().code){
+			//can not change an admin with a privilege level that is not lower than self, unless it is root
+			if (admin.getPrivilege() == Privilege.root || admin.getPrivilege().code >= targetAccount.getPrivilege().code){
 				throw new ValidationException("无权操作");
 			}
 			
 			targetAccount = parseJSON(jsonContact, targetAccount);
 			
-			
-			//can not changhe an admin to a privilege level higher than self
+			//after the change, preconditions must still hold, and admin can not change its info by itself unless root
 			if (admin.getPrivilege() == Privilege.root || admin.getPrivilege().code >= targetAccount.getPrivilege().code){
 				throw new ValidationException("无权操作");
 			}

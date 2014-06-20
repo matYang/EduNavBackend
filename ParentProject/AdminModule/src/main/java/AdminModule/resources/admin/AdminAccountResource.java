@@ -93,12 +93,16 @@ public class AdminAccountResource extends AdminPseudoResource{
 				
 				AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 				if (admin.getPrivilege() == Privilege.root){
-					//do nothing
+					//do nothing, root can manage everyone
 				}
 				else if (admin.getPrivilege() == Privilege.mamagement){
-					account.setPrivilege(Privilege.routine);
+					//management can only modify routine
+					if (account.getPrivilege() != Privilege.routine){
+						throw new ValidationException("无权创建该类型账号");
+					}
 				}
 				else{
+					//
 					throw new ValidationException("无权操作");
 				}
 			} catch (AuthenticationException e){

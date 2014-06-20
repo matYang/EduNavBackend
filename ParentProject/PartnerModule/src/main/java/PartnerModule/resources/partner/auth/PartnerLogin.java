@@ -33,7 +33,7 @@ public class PartnerLogin extends PartnerPseudoResource{
 			this.checkEntity(entity);
 			try{
 				this.validateAuthentication();
-				throw new ValidationException("请刷新页面或先登出之前的账户");
+				throw new ValidationException("您处于已登录状态，请刷新页面或先登出之前的账户");
 			} catch (AuthenticationException e){
 				//not logged in, proceed
 			}

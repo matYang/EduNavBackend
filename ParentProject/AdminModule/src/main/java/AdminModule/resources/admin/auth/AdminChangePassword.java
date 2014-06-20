@@ -38,7 +38,7 @@ public class AdminChangePassword extends AdminPseudoResource{
 			AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 			AdminAccount targetAccount = AdminAccountDaoService.getAdminAccountById(targetAdminId);
 			
-			//smaller the code higher the privilege
+			//only root or higher admin can change password, aka root changes everything and management changes routine
 			if (admin.getPrivilege() == Privilege.root || admin.getPrivilege().code >= targetAccount.getPrivilege().code){
 				throw new ValidationException("无权操作");
 			}
