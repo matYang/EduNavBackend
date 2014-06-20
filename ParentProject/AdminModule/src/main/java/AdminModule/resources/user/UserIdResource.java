@@ -15,7 +15,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.User;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
@@ -70,7 +70,7 @@ public class UserIdResource extends AdminPseudoResource{
 			user = parseJSON(jsonContact, user);
 			UserDaoService.updateUser(user);
 			
-			response = JSONFactory.toJSON(user);
+			response = JSONGenerator.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){

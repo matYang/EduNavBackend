@@ -11,7 +11,7 @@ import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.PartnerNotFoundException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Partner;
 import PartnerModule.resources.PartnerPseudoResource;
 
@@ -30,7 +30,7 @@ public class PartnerSessionRedirect extends PartnerPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, partnerId, this.getUserAgent(), "");
 			
 			partner = PartnerDaoService.getPartnerById(partnerId);
-			jsonObject = JSONFactory.toJSON(partner);
+			jsonObject = JSONGenerator.toJSON(partner);
 			
 		} catch (AuthenticationException | PartnerNotFoundException e){
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
@@ -40,7 +40,7 @@ public class PartnerSessionRedirect extends PartnerPseudoResource{
 					"default", "default", "default",AccountStatus.activated);
 			partner.setPartnerId(-1);
 			try {
-				jsonObject = JSONFactory.toJSON(partner);
+				jsonObject = JSONGenerator.toJSON(partner);
 			} catch (PseudoException e1) {
 				this.addCORSHeader();
 				return this.doPseudoException(e1);

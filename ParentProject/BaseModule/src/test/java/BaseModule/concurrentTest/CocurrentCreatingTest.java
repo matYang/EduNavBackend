@@ -20,7 +20,7 @@ import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.factory.ReferenceFactory;
+import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.Booking;
 import BaseModule.model.Coupon;
 import BaseModule.model.User;
@@ -63,7 +63,7 @@ public class CocurrentCreatingTest {
 				int i = 0;			
 				try {
 					Booking booking = blist.get(0).deepCopy();			
-					booking.setReference(ReferenceFactory.generateBookingReference());
+					booking.setReference(ReferenceGenerator.generateBookingReference());
 					BookingDaoService.createBooking(booking);	
 				} catch (SQLException | PseudoException | ClassNotFoundException | IOException e) {												
 					e.printStackTrace();

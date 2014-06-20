@@ -17,7 +17,7 @@ import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.dbservice.CouponDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Coupon;
 import BaseModule.model.representation.CouponSearchRepresentation;
 
@@ -36,7 +36,7 @@ public class CouponResource extends AdminPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), coup_sr.serialize());
 
 			ArrayList<Coupon> searchResult = CouponDaoService.searchCoupon(coup_sr);
-			response = JSONFactory.toJSON(searchResult);
+			response = JSONGenerator.toJSON(searchResult);
 			
 		} catch (PseudoException e){
 			this.addCORSHeader();
@@ -65,7 +65,7 @@ public class CouponResource extends AdminPseudoResource{
 			coupon = parseJSON(jsonCoupon);
 
 			coupon = CouponDaoService.addCouponToUser(coupon);
-			couponObject = JSONFactory.toJSON(coupon);
+			couponObject = JSONGenerator.toJSON(coupon);
 			
 		} catch(PseudoException e){
 			this.addCORSHeader();

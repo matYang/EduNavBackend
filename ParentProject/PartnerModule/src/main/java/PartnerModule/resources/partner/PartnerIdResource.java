@@ -17,7 +17,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Partner;
 import BaseModule.service.EncodingService;
 
@@ -35,7 +35,7 @@ public class PartnerIdResource extends PartnerPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, partnerId, this.getUserAgent(), String.valueOf(partnerId));
 			
 	    	Partner partner = PartnerDaoService.getPartnerById(partnerId);
-	        jsonObject = JSONFactory.toJSON(partner);
+	        jsonObject = JSONGenerator.toJSON(partner);
 	        
 		} catch (PseudoException e){
 			this.addCORSHeader();

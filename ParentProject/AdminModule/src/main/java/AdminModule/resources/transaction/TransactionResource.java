@@ -11,7 +11,7 @@ import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.TransactionDaoService;
 import BaseModule.exception.PseudoException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Transaction;
 import BaseModule.model.representation.TransactionSearchRepresentation;
 
@@ -30,7 +30,7 @@ public class TransactionResource extends AdminPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), t_sr.serialize());
 
 			ArrayList<Transaction> searchResult = TransactionDaoService.searchTransaction(t_sr);
-			response = JSONFactory.toJSON(searchResult);
+			response = JSONGenerator.toJSON(searchResult);
 			
 		} catch (PseudoException e){
 			this.addCORSHeader();

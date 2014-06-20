@@ -16,7 +16,7 @@ import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.AdminAccount;
 import BaseModule.service.EncodingService;
 
@@ -40,7 +40,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 				throw new ValidationException("无权操作");
 			}
 	    	
-	        jsonObject = JSONFactory.toJSON(targetAccount);
+	        jsonObject = JSONGenerator.toJSON(targetAccount);
 	        
 		} catch (PseudoException e){
 			this.addCORSHeader();
@@ -103,7 +103,7 @@ public class AdminAccountIdResource extends AdminPseudoResource{
 			}
 			AdminAccountDaoService.updateAdminAccount(targetAccount);
 			
-			response = JSONFactory.toJSON(targetAccount);
+			response = JSONGenerator.toJSON(targetAccount);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){

@@ -11,7 +11,7 @@ import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.User;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
@@ -54,7 +54,7 @@ public class UserLogin extends UserPseudoResource {
 
 			this.openAuthentication(user.getUserId());
 
-			jsonObject = JSONFactory.toJSON(user);
+			jsonObject = JSONGenerator.toJSON(user);
 			setStatus(Status.SUCCESS_OK);
 			
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, user.getUserId(), this.getUserAgent(), phone);

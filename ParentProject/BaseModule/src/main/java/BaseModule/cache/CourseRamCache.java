@@ -11,8 +11,8 @@ import BaseModule.model.Course;
 public class CourseRamCache {
 	
 	private static final ConcurrentHashMap<Integer, CourseCachePair> courseRamCache = new ConcurrentHashMap<Integer, CourseCachePair>();
-	private static final long courseRamCacheExpireTime = 600000l;   //expire in 10 min
-	private static final int courseRamCacheMax = 1000;		//maximum 10000 cached course
+	private static final long courseRamCacheExpireTime = 600000l;   //expire in 10 min, in mili seconds
+	private static final int courseRamCacheMax = 1000;		//maximum 1000 cached course
 	private static final int courseRamCacheLimit = 1500;	//dangerous level indicating something has clearly been done wrong and strong action needs to be taken to protect ram
 	
 	private class CourseCachePair{

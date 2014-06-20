@@ -13,7 +13,7 @@ import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.AdminAccountNotFoundException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.AdminAccount;
 
 
@@ -32,7 +32,7 @@ public class AdminSessionRedirect extends AdminPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, accountId, this.getUserAgent(), "");
 			
 			account = AdminAccountDaoService.getAdminAccountById(accountId);
-			jsonObject = JSONFactory.toJSON(account);
+			jsonObject = JSONGenerator.toJSON(account);
 		} catch (AuthenticationException | AdminAccountNotFoundException e){
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
 			
@@ -40,7 +40,7 @@ public class AdminSessionRedirect extends AdminPseudoResource{
 			account = new AdminAccount("default", "default","default", Privilege.routine, AccountStatus.activated,"default");
 			account.setAdminId(-1);
 			try {
-				jsonObject = JSONFactory.toJSON(account);
+				jsonObject = JSONGenerator.toJSON(account);
 			} catch (PseudoException e1){
 				this.addCORSHeader();
 				return this.doPseudoException(e1);

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class CacheConfig {
 	
-	public static final int course_expireTime = 7200;
+	public static final int course_expireTime = 1800;		//30 minutes, in seconds
 	public static final String course_keyPrefix = "course_";
 	
-	public static final int courseSearch_expireTime = 900;
+	public static final int courseSearch_expireTime = 900;	//15 minutes, in seconds
 	
 	
 	public static String castIdListToValue(ArrayList<Integer> idList){

@@ -18,7 +18,7 @@ import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.dbservice.CouponDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Coupon;
 
 public class CouponIdResource extends AdminPseudoResource{
@@ -44,7 +44,7 @@ public class CouponIdResource extends AdminPseudoResource{
 			coupon = parseJSON(jsonCoupon, coupon);
 			CouponDaoService.updateCouponToUser(coupon, previousAmount, previousStatus);
 			
-			couponObject = JSONFactory.toJSON(coupon);
+			couponObject = JSONGenerator.toJSON(coupon);
 			setStatus(Status.SUCCESS_OK);
 			
 		} catch(PseudoException e){

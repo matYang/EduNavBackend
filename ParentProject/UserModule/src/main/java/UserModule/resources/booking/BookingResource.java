@@ -19,8 +19,8 @@ import BaseModule.dbservice.BookingDaoService;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
-import BaseModule.factory.ReferenceFactory;
+import BaseModule.generator.JSONGenerator;
+import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.Booking;
 import BaseModule.model.Course;
 import BaseModule.model.representation.BookingSearchRepresentation;
@@ -41,7 +41,7 @@ public class BookingResource extends UserPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), b_sr.serialize());
 			
 			ArrayList<Booking> result = BookingDaoService.searchBooking(b_sr);
-			jsonArray = JSONFactory.toJSON(result);
+			jsonArray = JSONGenerator.toJSON(result);
 			
 			
 		} catch (PseudoException e){
@@ -81,7 +81,7 @@ public class BookingResource extends UserPseudoResource{
 			}
 			
 			booking = BookingDaoService.createBooking(booking);
-			bookingObject = JSONFactory.toJSON(booking);
+			bookingObject = JSONGenerator.toJSON(booking);
 			
 		} catch(PseudoException e){
 			this.addCORSHeader();
@@ -112,7 +112,7 @@ public class BookingResource extends UserPseudoResource{
 			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
 			String email = EncodingService.decodeURI(jsonBooking.getString("email"));
-			String reference = ReferenceFactory.generateBookingReference();		
+			String reference = ReferenceGenerator.generateBookingReference();		
 			
 			BookingStatus status = BookingStatus.awaiting;		
 			

@@ -10,7 +10,7 @@ import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Booking;
 import BaseModule.model.representation.BookingSearchRepresentation;
 
@@ -30,7 +30,7 @@ public class BookingResource extends AdminPseudoResource{
 
 			ArrayList<Booking> searchResult = new ArrayList<Booking>();
 			searchResult = BookingDaoService.searchBooking(b_sr);
-			response = JSONFactory.toJSON(searchResult);
+			response = JSONGenerator.toJSON(searchResult);
 			
 		} catch (PseudoException e){
 			this.addCORSHeader();

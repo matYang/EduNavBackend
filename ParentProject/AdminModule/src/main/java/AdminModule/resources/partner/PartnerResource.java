@@ -17,8 +17,8 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
-import BaseModule.factory.ReferenceFactory;
+import BaseModule.generator.JSONGenerator;
+import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 import BaseModule.service.EncodingService;
@@ -39,7 +39,7 @@ public class PartnerResource extends AdminPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), p_sr.serialize());
 
 			ArrayList<Partner> searchResult = PartnerDaoService.searchPartner(p_sr);
-			response = JSONFactory.toJSON(searchResult);
+			response = JSONGenerator.toJSON(searchResult);
 			
 		} catch (PseudoException e){
 			this.addCORSHeader();
@@ -76,7 +76,7 @@ public class PartnerResource extends AdminPseudoResource{
 			String wholeName = EncodingService.decodeURI(props.get("wholeName"));
 			String licence = EncodingService.decodeURI(props.get("licence"));
 			String organizationNum = EncodingService.decodeURI(props.get("organizationNum"));
-			String reference = ReferenceFactory.generatePartnerReference();
+			String reference = ReferenceGenerator.generatePartnerReference();
 			String password = EncodingService.decodeURI(props.get("password"));
 			String phone = EncodingService.decodeURI(props.get("phone"));
 			AccountStatus status = AccountStatus.activated;

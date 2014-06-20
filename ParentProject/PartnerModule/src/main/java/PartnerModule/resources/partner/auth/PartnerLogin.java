@@ -11,7 +11,7 @@ import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Partner;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
@@ -55,7 +55,7 @@ public class PartnerLogin extends PartnerPseudoResource{
 
 			this.openAuthentication(partner.getPartnerId());
 
-			jsonObject = JSONFactory.toJSON(partner);
+			jsonObject = JSONGenerator.toJSON(partner);
 			setStatus(Status.SUCCESS_OK);
 			
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partner.getPartnerId(), this.getUserAgent(), phone);

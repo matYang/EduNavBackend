@@ -15,7 +15,7 @@ import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Booking;
 import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
@@ -37,7 +37,7 @@ public class BookingIdResource extends UserPseudoResource{
 			if (booking.getUserId() != userId){
 				throw new AuthenticationException("对不起，您不是该预定的主人");
 			}
-			bookingObject = JSONFactory.toJSON(booking);
+			bookingObject = JSONGenerator.toJSON(booking);
 			
 		} catch (PseudoException e){
 			this.addCORSHeader();
@@ -72,7 +72,7 @@ public class BookingIdResource extends UserPseudoResource{
 			booking = parseJSON(jsonBooking, booking);
 			BookingDaoService.updateBooking(booking, previousStatus, -1);
 
-			newBooking = JSONFactory.toJSON(booking);
+			newBooking = JSONGenerator.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);
 			
 		}catch (PseudoException e){

@@ -8,7 +8,7 @@ import org.restlet.resource.Get;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.representation.CourseSearchRepresentation;
 import UserModule.resources.UserPseudoResource;
 
@@ -25,7 +25,7 @@ public class GetCourses extends UserPseudoResource{
 			this.loadRepresentation(c_sr);
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), c_sr.serialize());
 			
-			response = JSONFactory.toJSON(CourseDaoService.searchCourse(c_sr));
+			response = JSONGenerator.toJSON(CourseDaoService.searchCourse(c_sr));
 			
 		} catch (PseudoException e){
 			this.addCORSHeader();

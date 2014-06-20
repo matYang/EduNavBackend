@@ -10,7 +10,7 @@ import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.User;
 import BaseModule.model.representation.UserSearchRepresentation;
 
@@ -29,7 +29,7 @@ public class UserResource extends AdminPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), u_sr.serialize());
 
 			ArrayList<User> searchResult = UserDaoService.searchUser(u_sr);
-			response = JSONFactory.toJSON(searchResult);
+			response = JSONGenerator.toJSON(searchResult);
 			
 		} catch (PseudoException e){
 			this.addCORSHeader();

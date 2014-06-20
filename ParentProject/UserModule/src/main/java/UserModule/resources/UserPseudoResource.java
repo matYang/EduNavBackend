@@ -18,7 +18,7 @@ public class UserPseudoResource extends PseudoResource{
 	
 	protected final boolean cookieEnabled = true;
 	protected final String cookie_userSession = "userSessionCookie";
-	protected final int cookie_maxAge = 5184000; //2 days
+	protected final int cookie_maxAge = 15552000; //180 days, in seconds
 	
 	
 	/******************

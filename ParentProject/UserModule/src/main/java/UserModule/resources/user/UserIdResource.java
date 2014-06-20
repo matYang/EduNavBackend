@@ -8,7 +8,7 @@ import UserModule.resources.UserPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.User;
 
 
@@ -24,7 +24,7 @@ public class UserIdResource extends UserPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), String.valueOf(userId));
 			
 	    	User user = UserDaoService.getUserById(userId);
-	        jsonObject = JSONFactory.toJSON(user);
+	        jsonObject = JSONGenerator.toJSON(user);
 	        
 		} catch (PseudoException e){
 			this.addCORSHeader();

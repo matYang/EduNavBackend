@@ -14,7 +14,7 @@ import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.ReferenceFactory;
+import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.Course;
 
 public class CourseResource extends AdminPseudoResource{
@@ -38,7 +38,7 @@ public class CourseResource extends AdminPseudoResource{
 
 			props = this.handleMultiForm(entity, course.getCourseId(), props);
 			props.put("status", String.valueOf(AccountStatus.activated.code));
-			props.put("reference", ReferenceFactory.generateCourseReference());
+			props.put("reference", ReferenceGenerator.generateCourseReference());
 			course.loadFromMap(props);
 			
 			CourseDaoService.updateCourse(course);

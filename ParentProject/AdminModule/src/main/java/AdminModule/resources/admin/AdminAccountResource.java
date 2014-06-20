@@ -20,8 +20,8 @@ import BaseModule.encryption.AdminSecretCrypto;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
-import BaseModule.factory.ReferenceFactory;
+import BaseModule.generator.JSONGenerator;
+import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.representation.AdminSearchRepresentation;
 import BaseModule.service.EncodingService;
@@ -61,7 +61,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			
 			
 			ArrayList<AdminAccount> admins = AdminAccountDaoService.searchAdminAccount(a_sr);
-			jsonArray = JSONFactory.toJSON(admins);
+			jsonArray = JSONGenerator.toJSON(admins);
 		} catch(PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -125,7 +125,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			//this.closeAuthentication();
 			//this.openAuthentication(creationFeedBack.getAdminId());
 
-			newJsonAdmin = JSONFactory.toJSON(creationFeedBack);
+			newJsonAdmin = JSONGenerator.toJSON(creationFeedBack);
 
 		} catch(PseudoException e){
 			this.addCORSHeader();
@@ -149,7 +149,7 @@ public class AdminAccountResource extends AdminPseudoResource{
 			
 			String phone = EncodingService.decodeURI(jsonAdmin.getString("phone"));
 			String name = EncodingService.decodeURI(jsonAdmin.getString("name"));
-			String reference = ReferenceFactory.generateAdminReference();
+			String reference = ReferenceGenerator.generateAdminReference();
 			String password = EncodingService.decodeURI(jsonAdmin.getString("password"));
 			String confirmPassword = EncodingService.decodeURI(jsonAdmin.getString("confirmPassword"));			
 			Privilege privilege = Privilege.fromInt(jsonAdmin.getInt("privilege"));

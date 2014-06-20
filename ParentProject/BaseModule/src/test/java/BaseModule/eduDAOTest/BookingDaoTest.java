@@ -20,7 +20,7 @@ import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.factory.ReferenceFactory;
+import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.Booking;
 import BaseModule.model.Coupon;
 import BaseModule.model.Course;
@@ -281,7 +281,7 @@ public class BookingDaoTest {
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
-		course2.setReference(ReferenceFactory.generateCourseReference());		
+		course2.setReference(ReferenceGenerator.generateCourseReference());		
 		ImgUrls.add("www.hotmail.com");
 		course2.setClassImgUrls(ImgUrls);
 		course2.setTeacherImgUrls(ImgUrls);
@@ -471,7 +471,7 @@ public class BookingDaoTest {
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
-		course2.setReference(ReferenceFactory.generateCourseReference());		
+		course2.setReference(ReferenceGenerator.generateCourseReference());		
 		ImgUrls.add("www.hotmail.com");
 		course2.setClassImgUrls(ImgUrls);
 		course2.setTeacherImgUrls(ImgUrls);
@@ -490,7 +490,7 @@ public class BookingDaoTest {
 		course3.setLocation(location);
 		course3.setCity(city);
 		course3.setDistrict(district);
-		course3.setReference(ReferenceFactory.generateCourseReference());		
+		course3.setReference(ReferenceGenerator.generateCourseReference());		
 		ImgUrls.add("www.hotmail.com");
 		course3.setClassImgUrls(ImgUrls);
 		course3.setTeacherImgUrls(ImgUrls);
@@ -509,7 +509,7 @@ public class BookingDaoTest {
 		course4.setLocation(location);
 		course4.setCity(city);
 		course4.setDistrict(district);
-		course4.setReference(ReferenceFactory.generateCourseReference());		
+		course4.setReference(ReferenceGenerator.generateCourseReference());		
 		ImgUrls.add("www.hotmail.com");
 		course4.setClassImgUrls(ImgUrls);
 		course4.setTeacherImgUrls(ImgUrls);

@@ -16,8 +16,8 @@ import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
-import BaseModule.factory.ReferenceFactory;
+import BaseModule.generator.JSONGenerator;
+import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.User;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
@@ -39,8 +39,8 @@ public class UserResource extends UserPseudoResource{
 			if (appliedInvitationalCode == null || appliedInvitationalCode.length() == 0){
 				appliedInvitationalCode = "";
 			}
-			String invitationalCode = ReferenceFactory.generateUserInvitationalCode();
-			String accountNumber = ReferenceFactory.generateUserAccountNumber();
+			String invitationalCode = ReferenceGenerator.generateUserInvitationalCode();
+			String accountNumber = ReferenceGenerator.generateUserAccountNumber();
 			user = new User(phone, password,appliedInvitationalCode, invitationalCode, accountNumber, AccountStatus.activated);
 			user.setName("爱会员");
 			
@@ -97,7 +97,7 @@ public class UserResource extends UserPseudoResource{
 			this.openAuthentication(creationFeedBack.getUserId());
 
 			DebugLog.d("@Post::resources::createUser: available: " + creationFeedBack.getPhone() + " id: " +  creationFeedBack.getUserId());
-			newJsonUser = JSONFactory.toJSON(creationFeedBack);
+			newJsonUser = JSONGenerator.toJSON(creationFeedBack);
 			
 			
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, creationFeedBack.getUserId(), this.getUserAgent(), creationFeedBack.getPhone());

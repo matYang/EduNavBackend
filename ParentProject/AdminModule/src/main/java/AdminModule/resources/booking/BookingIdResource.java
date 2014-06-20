@@ -18,7 +18,7 @@ import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Booking;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
@@ -39,7 +39,7 @@ public class BookingIdResource extends AdminPseudoResource{
 			
 			Booking booking = BookingDaoService.getBookingById(bookingId);
 
-			bookingObject = JSONFactory.toJSON(booking);			
+			bookingObject = JSONGenerator.toJSON(booking);			
 		}catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
@@ -72,7 +72,7 @@ public class BookingIdResource extends AdminPseudoResource{
 			booking = parseJSON(jsonBooking, booking);
 			BookingDaoService.updateBooking(booking, previousStatus, adminId);
 
-			newBooking = JSONFactory.toJSON(booking);
+			newBooking = JSONGenerator.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);
 
 		} catch (PseudoException e){

@@ -26,7 +26,7 @@ import BaseModule.eduDAO.PartnerDao;
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
-import BaseModule.factory.ReferenceFactory;
+import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.Booking;
 import BaseModule.model.Coupon;
@@ -151,7 +151,7 @@ public class ModelDataLoaderService {
 			course.setTeacherImgUrls(teacherImgs);
 			course.setCashback(i);
 			try {
-				course.setReference(ReferenceFactory.generateCourseReference());
+				course.setReference(ReferenceGenerator.generateCourseReference());
 				CourseDaoService.createCourse(course);				
 			} catch (SQLException | PseudoException e) {	
 				DebugLog.d(e);
@@ -172,7 +172,7 @@ public class ModelDataLoaderService {
 				Partner partner = PartnerDao.getPartnerById(partnerId, connections);
 				Booking booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(), 
 						user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
-						user.getEmail(),ReferenceFactory.generateBookingReference(),BookingStatus.fromInt(i%9),cashback+i);
+						user.getEmail(),ReferenceGenerator.generateBookingReference(),BookingStatus.fromInt(i%9),cashback+i);
 				try {
 					BookingDaoService.createBooking(booking);
 				} catch (SQLException e) {				
@@ -191,13 +191,13 @@ public class ModelDataLoaderService {
 			int balance = 50;		
 			int i = 1;
 
-			User matt = new User("DONOTSEND18662241356" + i, "111111", "", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
+			User matt = new User("DONOTSEND18662241356" + i, "111111", "", ReferenceGenerator.generateUserInvitationalCode(), ReferenceGenerator.generateUserAccountNumber(), AccountStatus.activated);
 			matt.setName("Matthew");
 			matt.setEmail("use@me");
 			UserDaoService.createUser(matt);	
 			i++;
 
-			User harry = new User("DONOTSEND1234567890" + i, "222222", "", ReferenceFactory.generateUserInvitationalCode(), ReferenceFactory.generateUserAccountNumber(), AccountStatus.activated);
+			User harry = new User("DONOTSEND1234567890" + i, "222222", "", ReferenceGenerator.generateUserInvitationalCode(), ReferenceGenerator.generateUserAccountNumber(), AccountStatus.activated);
 			harry.setName("Harry");
 			harry.setEmail("c2xiong@uwaterloo.ca");
 			UserDaoService.createUser(harry);	
@@ -210,8 +210,8 @@ public class ModelDataLoaderService {
 				String password = "userPassword " + i;
 				AccountStatus status = AccountStatus.fromInt(i%3);
 				String email = "userEmail " + i;
-				String accountNum = ReferenceFactory.generateUserAccountNumber();				
-				String invitationalCode = ReferenceFactory.generateUserInvitationalCode();
+				String accountNum = ReferenceGenerator.generateUserAccountNumber();				
+				String invitationalCode = ReferenceGenerator.generateUserInvitationalCode();
 				User user = new User(phone, password, matt.getInvitationalCode(), invitationalCode, accountNum, status);
 				user.setName(name);
 				user.setEmail(email);
@@ -256,7 +256,7 @@ public class ModelDataLoaderService {
 			String phone = "1234567890" + i;
 			String reference = null;
 			try{
-				reference = ReferenceFactory.generateAdminReference();	
+				reference = ReferenceGenerator.generateAdminReference();	
 			} catch (Exception e){
 				DebugLog.d(e);
 			}

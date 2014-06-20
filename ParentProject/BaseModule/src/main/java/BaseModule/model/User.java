@@ -12,7 +12,7 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
 
@@ -229,9 +229,9 @@ public class User implements PseudoModel, Serializable{
 			jsonObj.put("credit", this.credit);
 			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
 			jsonObj.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
-			jsonObj.put("couponList",JSONFactory.toJSON(this.couponList));
-			jsonObj.put("creditList",JSONFactory.toJSON(this.creditList));
-			jsonObj.put("transactionList",JSONFactory.toJSON(this.transactionList));
+			jsonObj.put("couponList",JSONGenerator.toJSON(this.couponList));
+			jsonObj.put("creditList",JSONGenerator.toJSON(this.creditList));
+			jsonObj.put("transactionList",JSONGenerator.toJSON(this.transactionList));
 		} catch (JSONException | UnsupportedEncodingException e) {
 			DebugLog.d(e);
 			throw new ValidationException("信息数据格式转换失败");

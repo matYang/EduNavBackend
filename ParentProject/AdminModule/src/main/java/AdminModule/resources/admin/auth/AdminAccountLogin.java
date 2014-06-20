@@ -11,7 +11,7 @@ import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.AdminAccount;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
@@ -49,7 +49,7 @@ public class AdminAccountLogin extends AdminPseudoResource{
 			account = AdminAccountDaoService.authenticateAdminAccount(reference, password);
 			this.openAuthentication(account.getAdminId());
 
-			jsonObject = JSONFactory.toJSON(account);
+			jsonObject = JSONGenerator.toJSON(account);
 			setStatus(Status.SUCCESS_OK);
 			
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, account.getAdminId(), this.getUserAgent(), "<Password Classified> " + account.getReference());

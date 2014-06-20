@@ -11,7 +11,7 @@ import BaseModule.dbservice.UserDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.UserNotFoundException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.User;
 
 
@@ -30,7 +30,7 @@ public class UserSessionRedirect extends UserPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), "");
 			
 			user = UserDaoService.getUserById(userId);
-			jsonObject = JSONFactory.toJSON(user);
+			jsonObject = JSONGenerator.toJSON(user);
 			
 		} catch (AuthenticationException | UserNotFoundException e){
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
@@ -39,7 +39,7 @@ public class UserSessionRedirect extends UserPseudoResource{
 			user = new User("default","default", "", "", "",AccountStatus.activated);
 			user.setUserId(-1);
 			try {
-				jsonObject = JSONFactory.toJSON(user);
+				jsonObject = JSONGenerator.toJSON(user);
 			} catch (PseudoException e1){
 				this.addCORSHeader();
 				return this.doPseudoException(e1);

@@ -15,7 +15,7 @@ import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.ReferenceFactory;
+import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.Course;
 import PartnerModule.resources.PartnerPseudoResource;
 
@@ -39,7 +39,7 @@ public class CourseResource extends PartnerPseudoResource{
 			course = CourseDaoService.createCourse(course);
 			
 			props = this.handleMultiForm(entity, course.getCourseId(), props);
-			props.put("reference", ReferenceFactory.generateCourseReference());
+			props.put("reference", ReferenceGenerator.generateCourseReference());
 			props.put("partnerId", String.valueOf(partnerId));
 			props.put("status", String.valueOf(AccountStatus.activated.code));
 			

@@ -13,7 +13,7 @@ import BaseModule.dbservice.CouponDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.factory.JSONFactory;
+import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Coupon;
 import UserModule.resources.UserPseudoResource;
 
@@ -49,7 +49,7 @@ public class CouponIdResource extends UserPseudoResource{
 			CouponStatus previousStatus = coupon.getStatus();
 			CouponDaoService.updateCouponToUser(coupon, previousAmount, previousStatus);
 			
-			couponObject = JSONFactory.toJSON(coupon);
+			couponObject = JSONGenerator.toJSON(coupon);
 			setStatus(Status.SUCCESS_OK);
 			
 		} catch(PseudoException e){
