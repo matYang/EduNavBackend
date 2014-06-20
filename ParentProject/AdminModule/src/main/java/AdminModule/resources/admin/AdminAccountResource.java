@@ -27,7 +27,7 @@ import BaseModule.model.representation.AdminSearchRepresentation;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
-public class AdminAccountResource extends AdminPseudoResource{
+public final class AdminAccountResource extends AdminPseudoResource{
 	private final String apiId = AdminAccountResource.class.getSimpleName();
 	
 	private static final String superAdminKey_1 = "09b15bc3a4654b33bdb01211c933e53fd9c8544503d3f42ebac4e8d1f7f80517924e319250db4a8555fcdb10f04fbc97420ae368ba853d07715524f52315004e:28e88722e173c317c6304f7fd416f5e412c55e037bfe8de5d9d227c4f248c28a8f27c5641010a59f9541004bc24be99a25a2a499a5540a619e5471acb59882a5";

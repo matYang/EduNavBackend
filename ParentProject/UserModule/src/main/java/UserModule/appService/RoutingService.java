@@ -22,7 +22,7 @@ import UserModule.resources.user.auth.UserSessionRedirect;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
 
-public class RoutingService extends Application {
+public final class RoutingService extends Application {
 	
 	public RoutingService(){
 		super();

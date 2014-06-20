@@ -23,7 +23,7 @@ import BaseModule.service.EncodingService;
 
 import PartnerModule.resources.PartnerPseudoResource;
 
-public class PartnerIdResource extends PartnerPseudoResource{
+public final class PartnerIdResource extends PartnerPseudoResource{
 	private final String apiId = PartnerIdResource.class.getSimpleName();
 
 	@Get 	    

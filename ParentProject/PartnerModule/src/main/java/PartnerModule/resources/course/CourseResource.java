@@ -19,7 +19,7 @@ import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.Course;
 import PartnerModule.resources.PartnerPseudoResource;
 
-public class CourseResource extends PartnerPseudoResource{
+public final class CourseResource extends PartnerPseudoResource{
 	private final String apiId = CourseResource.class.getSimpleName();
 
 	@Post

@@ -17,7 +17,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.AdminAccount;
 
 
-public class AdminSessionRedirect extends AdminPseudoResource{
+public final class AdminSessionRedirect extends AdminPseudoResource{
 	private final String apiId = AdminSessionRedirect.class.getSimpleName();
 
 	@Get

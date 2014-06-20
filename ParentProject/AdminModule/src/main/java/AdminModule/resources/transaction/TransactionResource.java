@@ -15,7 +15,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Transaction;
 import BaseModule.model.representation.TransactionSearchRepresentation;
 
-public class TransactionResource extends AdminPseudoResource{
+public final class TransactionResource extends AdminPseudoResource{
 	private final String apiId = TransactionResource.class.getSimpleName();
 
 	@Get

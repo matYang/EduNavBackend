@@ -15,7 +15,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.User;
 
 
-public class UserSessionRedirect extends UserPseudoResource{
+public final class UserSessionRedirect extends UserPseudoResource{
 	private final String apiId = UserSessionRedirect.class.getSimpleName();
 		
 	@Get

@@ -17,7 +17,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.Course;
 
-public class CourseResource extends AdminPseudoResource{
+public final class CourseResource extends AdminPseudoResource{
 	private final String apiId = CourseResource.class.getSimpleName();
 
 	@Post

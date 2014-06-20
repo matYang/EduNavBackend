@@ -21,7 +21,7 @@ import BaseModule.service.ValidationService;
 import PartnerModule.resources.PartnerPseudoResource;
 import PartnerModule.service.PartnerChangePasswordVerificationDaoService;
 
-public class PartnerChangePassword extends PartnerPseudoResource {
+public final class PartnerChangePassword extends PartnerPseudoResource {
 	private final String apiId = PartnerChangePassword.class.getSimpleName();
 	
 	@Get

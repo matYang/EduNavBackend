@@ -16,7 +16,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.AdminAccount;
 import BaseModule.service.EncodingService;
 
-public class AdminChangePassword extends AdminPseudoResource{
+public final class AdminChangePassword extends AdminPseudoResource{
 	private final String apiId = AdminChangePassword.class.getSimpleName();
 
 	

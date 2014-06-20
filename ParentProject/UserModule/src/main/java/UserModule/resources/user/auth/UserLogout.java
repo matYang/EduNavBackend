@@ -11,7 +11,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import UserModule.resources.UserPseudoResource;
 
-public class UserLogout extends UserPseudoResource {
+public final class UserLogout extends UserPseudoResource {
 	private final String apiId = UserLogout.class.getSimpleName();
 	
 	

@@ -21,7 +21,7 @@ import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 import UserModule.service.UserChangePasswordVerificationDaoService;
 
-public class UserChangePassword extends UserPseudoResource{
+public final class UserChangePassword extends UserPseudoResource{
 	private final String apiId = UserChangePassword.class.getSimpleName();
 
 	@Get

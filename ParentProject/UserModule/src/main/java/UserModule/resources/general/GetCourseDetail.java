@@ -12,7 +12,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Course;
 import UserModule.resources.UserPseudoResource;
 
-public class GetCourseDetail extends UserPseudoResource {
+public final class GetCourseDetail extends UserPseudoResource {
 	private final String apiId = GetCourseDetail.class.getSimpleName();
 
 	@Get

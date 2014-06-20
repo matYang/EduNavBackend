@@ -14,7 +14,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Booking;
 import BaseModule.model.representation.BookingSearchRepresentation;
 
-public class BookingResource extends AdminPseudoResource{
+public final class BookingResource extends AdminPseudoResource{
 	private final String apiId = BookingResource.class.getSimpleName();
 
 	@Get

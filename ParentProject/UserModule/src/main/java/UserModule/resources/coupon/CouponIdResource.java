@@ -17,7 +17,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Coupon;
 import UserModule.resources.UserPseudoResource;
 
-public class CouponIdResource extends UserPseudoResource{
+public final class CouponIdResource extends UserPseudoResource{
 	private final String apiId = CouponIdResource.class.getSimpleName();
 	
 	@Put

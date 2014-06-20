@@ -17,7 +17,7 @@ import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 import PartnerModule.resources.PartnerPseudoResource;
 
-public class PartnerLogin extends PartnerPseudoResource{
+public final class PartnerLogin extends PartnerPseudoResource{
 	private final String apiId = PartnerLogin.class.getSimpleName();
 
 	@Post

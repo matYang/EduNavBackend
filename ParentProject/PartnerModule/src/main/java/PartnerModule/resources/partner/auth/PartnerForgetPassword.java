@@ -22,7 +22,7 @@ import BaseModule.service.ValidationService;
 import PartnerModule.resources.PartnerPseudoResource;
 import PartnerModule.service.PartnerForgotPasswordDaoService;
 
-public class PartnerForgetPassword extends PartnerPseudoResource{
+public final class PartnerForgetPassword extends PartnerPseudoResource{
 	private final String apiId = PartnerForgetPassword.class.getSimpleName();
 	
 	

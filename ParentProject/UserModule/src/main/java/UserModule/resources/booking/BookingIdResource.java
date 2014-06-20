@@ -21,7 +21,7 @@ import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
 
-public class BookingIdResource extends UserPseudoResource{
+public final class BookingIdResource extends UserPseudoResource{
 	private final String apiId = BookingIdResource.class.getSimpleName();
 	
 	@Get

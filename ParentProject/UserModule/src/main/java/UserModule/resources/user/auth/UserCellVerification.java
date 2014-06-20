@@ -17,7 +17,7 @@ import BaseModule.service.EncodingService;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 
-public class UserCellVerification extends UserPseudoResource{
+public final class UserCellVerification extends UserPseudoResource{
 	private final String apiId = UserCellVerification.class.getSimpleName();
 	
 	@Get

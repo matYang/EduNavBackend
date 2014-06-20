@@ -22,7 +22,7 @@ import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 import UserModule.service.UserCellVerificationDaoService;
 
-public class UserChangeCellPhone extends UserPseudoResource{
+public final class UserChangeCellPhone extends UserPseudoResource{
 	private final String apiId = UserChangeCellPhone.class.getSimpleName();
 	
 	@Get

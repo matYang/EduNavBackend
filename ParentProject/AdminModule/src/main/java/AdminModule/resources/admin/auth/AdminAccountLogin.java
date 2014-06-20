@@ -16,7 +16,7 @@ import BaseModule.model.AdminAccount;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
-public class AdminAccountLogin extends AdminPseudoResource{
+public final class AdminAccountLogin extends AdminPseudoResource{
 	private final String apiId = AdminAccountLogin.class.getSimpleName();
 
 	@Post

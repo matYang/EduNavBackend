@@ -9,7 +9,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.staticDataService.StaticDataService;
 import UserModule.resources.UserPseudoResource;
 
-public class GetCategories extends UserPseudoResource{
+public final class GetCategories extends UserPseudoResource{
 	private final String apiId = GetCategories.class.getSimpleName();
 	
 	@Get

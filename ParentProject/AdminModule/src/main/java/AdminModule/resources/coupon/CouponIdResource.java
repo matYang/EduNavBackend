@@ -21,7 +21,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Coupon;
 
-public class CouponIdResource extends AdminPseudoResource{
+public final class CouponIdResource extends AdminPseudoResource{
 	private final String apiId = CouponIdResource.class.getSimpleName();
 	
 	@Put

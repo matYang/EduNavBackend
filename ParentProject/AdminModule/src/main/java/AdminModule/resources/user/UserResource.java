@@ -14,7 +14,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.User;
 import BaseModule.model.representation.UserSearchRepresentation;
 
-public class UserResource extends AdminPseudoResource{
+public final class UserResource extends AdminPseudoResource{
 	private final String apiId = UserResource.class.getSimpleName();
 
 	@Get

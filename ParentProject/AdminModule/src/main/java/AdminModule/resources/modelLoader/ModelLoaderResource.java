@@ -8,7 +8,7 @@ import org.restlet.resource.Get;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.service.ModelDataLoaderService;
 
-public class ModelLoaderResource extends AdminPseudoResource{
+public final class ModelLoaderResource extends AdminPseudoResource{
 
 	@Get
 	public Representation load(){

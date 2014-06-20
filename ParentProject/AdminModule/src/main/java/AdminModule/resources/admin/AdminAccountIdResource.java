@@ -21,7 +21,7 @@ import BaseModule.model.AdminAccount;
 import BaseModule.service.EncodingService;
 
 
-public class AdminAccountIdResource extends AdminPseudoResource{
+public final class AdminAccountIdResource extends AdminPseudoResource{
 	private final String apiId = AdminAccountIdResource.class.getSimpleName();
 
 	@Get 	    

@@ -15,7 +15,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Partner;
 import PartnerModule.resources.PartnerPseudoResource;
 
-public class PartnerSessionRedirect extends PartnerPseudoResource{
+public final class PartnerSessionRedirect extends PartnerPseudoResource{
 	private final String apiId = PartnerSessionRedirect.class.getSimpleName();
 
 	@Get

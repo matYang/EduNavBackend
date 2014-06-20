@@ -11,7 +11,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import PartnerModule.resources.PartnerPseudoResource;
 
-public class PartnerLogout extends PartnerPseudoResource{
+public final class PartnerLogout extends PartnerPseudoResource{
 	private final String apiId = PartnerLogout.class.getSimpleName();
 	
 	@Put

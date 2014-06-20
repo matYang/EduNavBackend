@@ -23,7 +23,7 @@ import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 import BaseModule.service.EncodingService;
 
-public class PartnerResource extends AdminPseudoResource{
+public final class PartnerResource extends AdminPseudoResource{
 	private final String apiId = PartnerResource.class.getSimpleName();
 	
 	

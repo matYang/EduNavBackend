@@ -22,7 +22,7 @@ import BaseModule.model.User;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
-public class UserResource extends UserPseudoResource{
+public final class UserResource extends UserPseudoResource{
 	private final String apiId = UserResource.class.getSimpleName();
 	
 

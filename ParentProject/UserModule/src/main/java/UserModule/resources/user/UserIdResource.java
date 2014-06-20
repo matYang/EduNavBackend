@@ -11,8 +11,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.generator.JSONGenerator;
 import BaseModule.model.User;
 
-
-public class UserIdResource extends UserPseudoResource{
+public final class UserIdResource extends UserPseudoResource{
 	private final String apiId = UserIdResource.class.getSimpleName(); 
 
 	@Get 	    

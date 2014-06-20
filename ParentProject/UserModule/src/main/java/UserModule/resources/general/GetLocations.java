@@ -10,7 +10,7 @@ import BaseModule.staticDataService.StaticDataService;
 import UserModule.resources.UserPseudoResource;
 
 
-public class GetLocations extends UserPseudoResource {
+public final class GetLocations extends UserPseudoResource {
 	private final String apiId = GetLocations.class.getSimpleName();
 	
 	@Get

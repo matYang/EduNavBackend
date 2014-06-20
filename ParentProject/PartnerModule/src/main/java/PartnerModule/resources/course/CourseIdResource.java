@@ -17,7 +17,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import PartnerModule.resources.PartnerPseudoResource;
 
-public class CourseIdResource extends PartnerPseudoResource{
+public final class CourseIdResource extends PartnerPseudoResource{
 	private final String apiId = CourseIdResource.class.getSimpleName();
 
 	@Put

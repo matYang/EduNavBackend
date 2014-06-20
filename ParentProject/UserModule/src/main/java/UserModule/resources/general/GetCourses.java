@@ -13,7 +13,7 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 import UserModule.resources.UserPseudoResource;
 
 
-public class GetCourses extends UserPseudoResource{
+public final class GetCourses extends UserPseudoResource{
 	private final String apiId = GetCourses.class.getSimpleName();
 	
 	@Get

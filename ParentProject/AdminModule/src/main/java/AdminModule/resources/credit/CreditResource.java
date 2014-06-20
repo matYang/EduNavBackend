@@ -15,7 +15,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Credit;
 import BaseModule.model.representation.CreditSearchRepresentation;
 
-public class CreditResource extends AdminPseudoResource{
+public final class CreditResource extends AdminPseudoResource{
 	private final String apiId = CreditResource.class.getSimpleName();
 
 	@Get

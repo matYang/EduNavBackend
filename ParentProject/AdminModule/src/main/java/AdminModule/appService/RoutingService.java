@@ -28,7 +28,7 @@ import AdminModule.resources.user.UserIdResource;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
 
-public class RoutingService extends Application{
+public final class RoutingService extends Application{
 	
 	public RoutingService(){
 		super();

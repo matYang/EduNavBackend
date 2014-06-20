@@ -15,8 +15,7 @@ import PartnerModule.resources.partner.auth.PartnerLogin;
 import PartnerModule.resources.partner.auth.PartnerLogout;
 import PartnerModule.resources.partner.auth.PartnerSessionRedirect;
 
-
-public class RoutingService extends Application {
+public final class RoutingService extends Application {
 	
 	public RoutingService(){
 		super();

@@ -21,7 +21,7 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Coupon;
 import BaseModule.model.representation.CouponSearchRepresentation;
 
-public class CouponResource extends AdminPseudoResource{
+public final class CouponResource extends AdminPseudoResource{
 	private final String apiId = CouponResource.class.getSimpleName();
 
 	@Get

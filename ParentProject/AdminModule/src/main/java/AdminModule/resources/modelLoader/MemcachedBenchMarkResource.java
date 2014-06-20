@@ -28,7 +28,7 @@ import BaseModule.model.Course;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.CourseSearchRepresentation;
 
-public class MemcachedBenchMarkResource extends AdminPseudoResource {
+public final class MemcachedBenchMarkResource extends AdminPseudoResource {
 	
 	
 	public class TestThread extends Thread {  

@@ -19,7 +19,7 @@ import BaseModule.model.User;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
-public class UserChangeInfoResource extends UserPseudoResource{
+public final class UserChangeInfoResource extends UserPseudoResource{
 	private final String apiId = UserChangeInfoResource.class.getSimpleName();
 
 	

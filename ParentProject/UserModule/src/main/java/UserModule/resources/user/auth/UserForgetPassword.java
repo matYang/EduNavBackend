@@ -20,7 +20,7 @@ import BaseModule.service.EncodingService;
 import BaseModule.service.SMSService;
 import BaseModule.service.ValidationService;
 
-public class UserForgetPassword extends UserPseudoResource{
+public final class UserForgetPassword extends UserPseudoResource{
 	private final String apiId = UserForgetPassword.class.getSimpleName();
 	
 	@Get

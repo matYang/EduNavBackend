@@ -20,7 +20,7 @@ import BaseModule.model.User;
 import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 
-public class UserIdResource extends AdminPseudoResource{
+public final class UserIdResource extends AdminPseudoResource{
 	private final String apiId = UserIdResource.class.getSimpleName();
 
 	protected User parseJSON(JSONObject jsonContact, User user) throws ValidationException{

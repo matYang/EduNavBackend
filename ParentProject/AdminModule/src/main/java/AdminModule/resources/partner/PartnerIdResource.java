@@ -18,7 +18,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Partner;
 import BaseModule.service.EncodingService;
 
-public class PartnerIdResource extends AdminPseudoResource{
+public final class PartnerIdResource extends AdminPseudoResource{
 	private final String apiId = PartnerIdResource.class.getSimpleName();
 
 	@Put

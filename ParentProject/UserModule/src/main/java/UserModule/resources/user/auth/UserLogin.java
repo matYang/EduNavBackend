@@ -17,7 +17,7 @@ import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
-public class UserLogin extends UserPseudoResource {
+public final class UserLogin extends UserPseudoResource {
 	private final String apiId = UserLogin.class.getSimpleName();
 	
 	@Post
