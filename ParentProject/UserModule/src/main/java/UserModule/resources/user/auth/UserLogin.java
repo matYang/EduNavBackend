@@ -55,7 +55,7 @@ public final class UserLogin extends UserPseudoResource {
 			DebugLog.d("Log in, receving paramters: " + phone + " " + password);
 			try{
 				user = UserDaoService.authenticateUser(phone, password);
-			} catch (AuthenticationException e){
+			} catch (PseudoException e){
 				RedisAccessControlService.fail(this.moduleId, phone);
 				throw e;
 			}

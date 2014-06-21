@@ -771,25 +771,17 @@ public class Course implements PseudoModel, Serializable{
 		return cutoffDate;
 	}
 
-
-
 	public void setCutoffDate(Calendar cutoffDate) {
 		this.cutoffDate = cutoffDate;
 	}
-
-
 
 	public int getStartUponArrival() {
 		return startUponArrival;
 	}
 
-
-
 	public void setStartUponArrival(int startUponArrival) {
 		this.startUponArrival = startUponArrival;
 	}
-
-
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -798,8 +790,6 @@ public class Course implements PseudoModel, Serializable{
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
-
-
 
 	public Course deepCopy() throws IOException, ClassNotFoundException{
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
