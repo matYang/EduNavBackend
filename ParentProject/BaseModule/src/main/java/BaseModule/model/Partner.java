@@ -75,6 +75,8 @@ public class Partner implements PseudoModel, Serializable{
 	public Partner(){
 		super();
 		this.creationTime = DateUtility.getCurTimeInstance();
+		this.lastLogin = DateUtility.getCurTimeInstance();
+		this.status = AccountStatus.fromInt(0);
 	}
 
 	public int getPartnerId() {
