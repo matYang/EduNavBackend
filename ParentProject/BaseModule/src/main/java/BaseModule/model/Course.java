@@ -272,6 +272,18 @@ public class Course implements PseudoModel, Serializable{
 	public Course(){
 		super();
 		this.creationTime = DateUtility.getCurTimeInstance();
+		this.startDate = DateUtility.getCurTimeInstance();
+		this.finishDate = DateUtility.getCurTimeInstance();
+		this.cutoffDate = DateUtility.getCurTimeInstance();
+		
+		this.status = CourseStatus.fromInt(0);
+		this.partnerQualification = PartnerQualification.fromInt(0);
+		
+		this.studyDays = new ArrayList<Integer>();
+		this.classImgUrls = new ArrayList<String>();
+		this.teacherIntros = new ArrayList<String>();
+		this.teacherImgUrls = new ArrayList<String>();
+		this.teacherNames = new ArrayList<String>();
 	}
 	
 
