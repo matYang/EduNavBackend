@@ -20,8 +20,8 @@ public class RedisAccessControlService {
 				int count = Integer.parseInt(values[0]);
 				long timeStamp = DateUtility.getLongFromTimeStamp(values[1]);
 				
-				if (DateUtility.getCurTime() - timeStamp > config.releaseThreshould){
-					//release threshold has passed since the first failed attempt
+				if (DateUtility.getCurTime() - timeStamp > config.lockThreshold){
+					//lock threshold has passed since the first failed attempt
 					return true;
 				}
 				else{
@@ -57,17 +57,18 @@ public class RedisAccessControlService {
 				int count = Integer.parseInt(values[0]);
 				long timeStamp = DateUtility.getLongFromTimeStamp(values[1]);
 				
-				//more than 1 minute passed since the first failed attempt, restart session
+				//more than 1 minute passed since the first failed attempt, restart session, keep lock
 				if (DateUtility.getCurTime() - timeStamp > config.lockThreshold){
 					record = 1 + RedisAccessControlConfig.redisAccessControlSeperator + DateUtility.getTimeStamp();
 					jedis.set(config.keyPrefix + sufix, record);
 				}
-				//less than 1 minute has passed, stick with the same session
+				//still within same session
 				else{
 					count++;
 					record = count + RedisAccessControlConfig.redisAccessControlSeperator + values[1];
 					jedis.set(config.keyPrefix + sufix, record);
 				}
+				
 			}
 			else{
 				//first start the failed attemp session

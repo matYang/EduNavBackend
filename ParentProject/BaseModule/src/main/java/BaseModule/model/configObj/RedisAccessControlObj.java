@@ -8,6 +8,5 @@ public class RedisAccessControlObj {
 	public String keyPrefix;
 	public int lockCount;
 	public long lockThreshold;
-	public long releaseThreshould;
 
 }
