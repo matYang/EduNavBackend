@@ -935,7 +935,7 @@ public class Course implements PseudoModel, Serializable{
 			for (Field field : fields){
 				field.setAccessible(true);
 				String value = EncodingService.decodeURI(kvps.get(field.getName()));
-				if (value != null){
+				if (value != null && value.length() != 0){
 					Class<?> fieldClass = field.getType();
 					
 					if (fieldClass.isAssignableFrom(int.class)){
@@ -1019,7 +1019,7 @@ public class Course implements PseudoModel, Serializable{
 					field.set(this, teacherNameList);
 				}
 				else{
-					//null value from kvps, do nothing
+					//empty value from kvps, do nothing
 				}
 			}
 		} catch (NumberFormatException e){
