@@ -34,13 +34,13 @@ public final class CourseResource extends AdminPseudoResource{
 			
 			Course course = new Course();
 			course.setStatus(CourseStatus.deactivated);
+			//initialize the reference at this earlier step
+			course.setReference(ReferenceGenerator.generateCourseReference());
 			course = CourseDaoService.createCourse(course);
 
 			props = this.handleMultiForm(entity, course.getCourseId(), props);
 			props.put("status", String.valueOf(AccountStatus.activated.code));
-			props.put("reference", ReferenceGenerator.generateCourseReference());
 			course.loadFromMap(props);
-			
 			CourseDaoService.updateCourse(course);
 			
 		}catch (PseudoException e){

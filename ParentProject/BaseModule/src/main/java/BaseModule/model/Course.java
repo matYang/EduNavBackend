@@ -941,7 +941,8 @@ public class Course implements PseudoModel, Serializable{
 					if (fieldClass.isAssignableFrom(int.class)){
 						field.setInt(this, Integer.parseInt(value, 10));
 					}
-					else if (fieldClass.isAssignableFrom(String.class)){
+					//do not update reference whatsoever, it is managed by the system
+					else if (fieldClass.isAssignableFrom(String.class) && !fieldClass.getName().equals("reference")){
 						field.set(this, value);
 					}
 					else if (fieldClass.isAssignableFrom(Calendar.class)){

@@ -69,6 +69,8 @@ public final class PartnerResource extends AdminPseudoResource{
 			
 			Partner partner = new Partner();
 			partner.setStatus(AccountStatus.deleted);
+			//initialize the reference at this earlier step
+			partner.setReference(ReferenceGenerator.generatePartnerReference());
 			partner = PartnerDaoService.createPartner(partner);
 
 			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
@@ -76,7 +78,6 @@ public final class PartnerResource extends AdminPseudoResource{
 			String wholeName = EncodingService.decodeURI(props.get("wholeName"));
 			String licence = EncodingService.decodeURI(props.get("licence"));
 			String organizationNum = EncodingService.decodeURI(props.get("organizationNum"));
-			String reference = ReferenceGenerator.generatePartnerReference();
 			String password = EncodingService.decodeURI(props.get("password"));
 			String phone = EncodingService.decodeURI(props.get("phone"));
 			AccountStatus status = AccountStatus.activated;
@@ -86,7 +87,6 @@ public final class PartnerResource extends AdminPseudoResource{
 			partner.setWholeName(wholeName);
 			partner.setLicence(licence);
 			partner.setOrganizationNum(organizationNum);
-			partner.setReference(reference);
 			partner.setPassword(password);
 			partner.setPhone(phone);
 			partner.setStatus(status);

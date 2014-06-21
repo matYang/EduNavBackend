@@ -36,10 +36,11 @@ public final class CourseResource extends PartnerPseudoResource{
 			
 			Course course = new Course();
 			course.setStatus(CourseStatus.deactivated);
+			//initialize the reference at this earlier step
+			course.setReference(ReferenceGenerator.generateCourseReference());
 			course = CourseDaoService.createCourse(course);
 			
 			props = this.handleMultiForm(entity, course.getCourseId(), props);
-			props.put("reference", ReferenceGenerator.generateCourseReference());
 			props.put("partnerId", String.valueOf(partnerId));
 			props.put("status", String.valueOf(AccountStatus.activated.code));
 			
