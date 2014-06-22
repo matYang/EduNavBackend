@@ -6,10 +6,12 @@ public class Parser {
 
 	public static String listToString(final ArrayList<?> list,String spliter){
 		String serializedList = "";
-		for(int i=0; i < list.size(); i++){
+		for(int i = 0; i < list.size(); i++){
+			if (i == list.size() - 1){
+				spliter = "";
+			}
 			serializedList += list.get(i).toString() + spliter;
 		}
-		serializedList = serializedList.substring(0, serializedList.length()-1);
 		return serializedList;
 	}
 
