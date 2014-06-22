@@ -168,8 +168,8 @@ public class CourseDao {
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getStartDate()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getFinishDate()));
 			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherIntros(),ServerConfig.normalSpliter));
-			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls(),ImgConfig.ImgSpliter));
-			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls(),ImgConfig.ImgSpliter));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls(),ImgConfig.imgSpliter));
+			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls(),ImgConfig.imgSpliter));
 			stmt.setInt(stmtInt++, course.getPrice());			
 			stmt.setInt(stmtInt++, course.getStatus().code);			
 			stmt.setString(stmtInt++, course.getCategory());
@@ -252,8 +252,8 @@ public class CourseDao {
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getStartDate()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getFinishDate()));
 			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherIntros(),ServerConfig.normalSpliter));
-			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls(),ImgConfig.ImgSpliter));
-			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls(),ImgConfig.ImgSpliter));
+			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls(),ImgConfig.imgSpliter));
+			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls(),ImgConfig.imgSpliter));
 			stmt.setInt(stmtInt++, course.getPrice());			
 			stmt.setInt(stmtInt++, course.getStatus().code);			
 			stmt.setString(stmtInt++, course.getCategory());
@@ -415,9 +415,9 @@ public class CourseDao {
 				rs.getString("assignments"),rs.getString("marking"), rs.getString("bonusService"),rs.getString("downloadMaterials"),
 				CourseStatus.fromInt(rs.getInt("status")),PartnerQualification.fromInt(rs.getInt("partnerQualification")),
 				rs.getString("t_MaterialFree"),	(ArrayList<Integer>)Parser.stringToList(rs.getString("studyDays"),ServerConfig.normalSpliter, new Integer(0)),
-				(ArrayList<String>)Parser.stringToList(rs.getString("classroomImgUrls"),ImgConfig.ImgSpliter,new String("")),
+				(ArrayList<String>)Parser.stringToList(rs.getString("classroomImgUrls"),ImgConfig.imgSpliterRegex,new String("")),
 				(ArrayList<String>)Parser.stringToList(rs.getString("t_Intros"),ServerConfig.normalSpliter,new String("")),
-				(ArrayList<String>)Parser.stringToList(rs.getString("t_ImgUrls"),ImgConfig.ImgSpliter,new String("")),
+				(ArrayList<String>)Parser.stringToList(rs.getString("t_ImgUrls"),ImgConfig.imgSpliterRegex,new String("")),
 				(ArrayList<String>)Parser.stringToList(rs.getString("teacherNames"),ServerConfig.normalSpliter, new String("")),
 				logoUrl, instName, wholeName,rs.getInt("startUponArrival"),DateUtility.DateToCalendar(rs.getDate("cutoffDate")));					
 	}

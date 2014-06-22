@@ -5,37 +5,41 @@ import java.util.ArrayList;
 public class Parser {
 
 	public static String listToString(final ArrayList<?> list,String spliter){
-		String serializedList = null;
-		for(int i=0; i <list.size(); i++){
-			if (serializedList == null){
-				serializedList = "";
-			}
+		String serializedList = "";
+		for(int i=0; i < list.size(); i++){
 			serializedList += list.get(i).toString() + spliter;
 		}
+		serializedList = serializedList.substring(0, serializedList.length()-1);
 		return serializedList;
 	}
 
 	public static ArrayList<?> stringToList(final String listString, final String spliter, final Object optionFlag){	
 		
-		String[] strArray = (listString == null || listString.length() == 0) ? null : listString.split(spliter);
-		
 		if (optionFlag instanceof Integer){
 			ArrayList<Integer> intList = new ArrayList<Integer>();
-
-			for (int i = 0; strArray != null && i < strArray.length; i++){
-				intList.add(new Integer(strArray[i]));
+			if (listString == null || listString.length() == 0){
+				return intList;
+			}
+			String[] strArray = listString.split(spliter);
+			for (String str : strArray){
+				intList.add(Integer.parseInt(str));
 			}
 			return intList;
 		}
 		else if (optionFlag instanceof String){
 			ArrayList<String> strList = new ArrayList<String>();
-			for (int i = 0; strArray != null && i < strArray.length; i++){
-				strList.add(strArray[i]);
+			if (listString == null || listString.length() == 0){
+				return strList;
+			}
+			String[] strArray = listString.split(spliter);
+			for (String str : strArray){
+				strList.add(str);
 			}
 			return strList;
 		}
-
-		return null;
+		else{
+			throw new RuntimeException("[ERR] Parser:: StringToList non-identifierable option flag");
+		}
 	}
 
 	public static int getCashBackFromCouponRecord(final String crd){
