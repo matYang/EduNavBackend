@@ -79,8 +79,8 @@ public final class ServerConfig {
 					
 				}
 			} catch (final Exception e){
-				DebugLog.d(e);
 				e.printStackTrace();
+				DebugLog.d(e);
 				DebugLog.d("Server init failed, system exit...");
 				System.exit(0);
 			}
