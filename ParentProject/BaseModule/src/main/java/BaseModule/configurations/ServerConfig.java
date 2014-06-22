@@ -1,6 +1,7 @@
 package BaseModule.configurations;
 
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import BaseModule.common.DebugLog;
 import BaseModule.encryption.AccessControlCrypto;
@@ -12,8 +13,6 @@ public final class ServerConfig {
 		private static final String ENV_TEST = "RA_TEST";
 		private static final String ENV_PROD = "RA_PROD";
 		
-		public static final String ac_key = "du#*(kDJ8jS5-n@d";
-		public static final String ac_ivy = "2Hl_39Hk3&l]F3j*";
 		
 		public static final String MAP_ENV_KEY = "env";
 		public static final String MAP_ENV_LOCAL = "local";
@@ -62,16 +61,22 @@ public final class ServerConfig {
 					configurationMap.put("memcachedPass", "");
 				}
 				else{
+					Scanner sc = new Scanner(System.in);
+					System.out.println("Please enter ac key");
+					String ac_key = sc.next(); 
+					System.out.println("Please enter ac ivy");
+					String ac_ivy = sc.next();  
 					//prod env
 					configurationMap.put("env", "prod");
 					configurationMap.put("jdbcUri", "as4359fdgk.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
-					configurationMap.put("redisUri", AccessControlCrypto.decrypt("0E0C572F1FE597594C85ED71A04D006F", ac_key, ac_ivy));
+					configurationMap.put("redisUri", "localhost");
 					configurationMap.put("memcachedUri", "fdbc1391e96411e3.m.cnhzalicm10pub001.ocs.aliyuncs.com:11211");
 					configurationMap.put("sqlPass", AccessControlCrypto.decrypt("A1E4DDE152B755ECC46248A9D629FDD9", ac_key, ac_ivy));
 					configurationMap.put("sqlUser", AccessControlCrypto.decrypt("7260820C1FAFD1F699249AF73A9D181D7BD6CE549202AD9FE095E1CE635843DB", ac_key, ac_ivy));
 					configurationMap.put("sqlMaxConnection","50");
-					configurationMap.put("memcachedUser", "fdbc1391e96411e3");
-					configurationMap.put("memcachedPass", "4RKOZAlh48z1");
+					configurationMap.put("memcachedUser", AccessControlCrypto.decrypt("91315C17D13585EC7F7A61E3262B203621C258BC16897C8DC1C7C22BEE7E5E5A", ac_key, ac_ivy));
+					configurationMap.put("memcachedPass", AccessControlCrypto.decrypt("BC6BAEC5B287331067E9F864DD9B981B", ac_key, ac_ivy));
+					
 				}
 			} catch (final Exception e){
 				DebugLog.d(e);

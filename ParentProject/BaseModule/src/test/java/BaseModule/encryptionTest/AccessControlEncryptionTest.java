@@ -21,9 +21,9 @@ public class AccessControlEncryptionTest {
 
 	@Test
 	public void test() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
-		String key = ServerConfig.ac_key;
-		String ivy = ServerConfig.ac_ivy;
-		String plainText = "123456789";
+		String key = "";
+		String ivy = "";
+		String plainText = "";
 		
 		String encrypted = AccessControlCrypto.encrypt(plainText, key, ivy);
 		String decrypted = AccessControlCrypto.decrypt(encrypted, key, ivy);
