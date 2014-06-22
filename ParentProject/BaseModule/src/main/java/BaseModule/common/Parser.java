@@ -15,7 +15,7 @@ public class Parser {
 		return serializedList;
 	}
 
-	public static ArrayList<?> stringToList(final String listString, final String spliter, final Object optionFlag){	
+	public static ArrayList<?> stringToList(final String listString, final String spliter, final Object optionFlag){
 		
 		if (optionFlag instanceof Integer){
 			ArrayList<Integer> intList = new ArrayList<Integer>();
