@@ -61,11 +61,17 @@ public final class ServerConfig {
 					configurationMap.put("memcachedPass", "");
 				}
 				else{
+					String ac_key = null;
+					String ac_ivy = null;
 					Scanner sc = new Scanner(System.in);
 					System.out.println("Please enter ac key");
-					String ac_key = sc.next(); 
+					if (sc.hasNext()){
+						ac_key = sc.next(); 
+					}
 					System.out.println("Please enter ac ivy");
-					String ac_ivy = sc.next();  
+					if (sc.hasNext()){
+						ac_ivy = sc.next();  
+					}
 					//prod env
 					configurationMap.put("env", "prod");
 					configurationMap.put("jdbcUri", "as4359fdgk.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
