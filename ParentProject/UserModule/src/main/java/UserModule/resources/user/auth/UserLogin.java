@@ -20,7 +20,7 @@ import UserModule.resources.UserPseudoResource;
 
 public final class UserLogin extends UserPseudoResource {
 	private final String apiId = UserLogin.class.getSimpleName();
-	
+
 	@Post
 	public Representation loginAuthentication(Representation entity){
 		JSONObject jsonString = null;
