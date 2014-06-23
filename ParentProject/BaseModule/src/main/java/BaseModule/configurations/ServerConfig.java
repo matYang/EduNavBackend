@@ -76,11 +76,11 @@ public final class ServerConfig {
 					configurationMap.put("jdbcUri", "as4359fdgk.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", "localhost");
 					configurationMap.put("memcachedUri", "fdbc1391e96411e3.m.cnhzalicm10pub001.ocs.aliyuncs.com:11211");
-					configurationMap.put("sqlPass", "A1E4DDE152B755ECC46248A9D629FDD9");
-					configurationMap.put("sqlUser", "7260820C1FAFD1F699249AF73A9D181D7BD6CE549202AD9FE095E1CE635843DB");
+					configurationMap.put("sqlUser", "082E4185DBC158A01DC2DE32E241AA4C7167BFF2EAD2493A1E95D63496F69CA7");
+					configurationMap.put("sqlPass", "9211A28B9094893E29F00C1072940646");
 					configurationMap.put("sqlMaxConnection","50");
-					configurationMap.put("memcachedUser", "91315C17D13585EC7F7A61E3262B203621C258BC16897C8DC1C7C22BEE7E5E5A");
-					configurationMap.put("memcachedPass", "BC6BAEC5B287331067E9F864DD9B981B");
+					configurationMap.put("memcachedUser", "595859005EA745D60DE860E460DBD057B0D26BEAA841B0DCBD0D4CE4A8F032E0");
+					configurationMap.put("memcachedPass", "7FBA36F169E8667523ECCD8EAF79BCFB");
 					
 				}
 			} catch (final Exception e){
