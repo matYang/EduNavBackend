@@ -62,18 +62,25 @@ public class ServerMain {
 		
 		return me;
 	}
-	
-	static{
-		Map<String, String> configureMap = ServerConfig.configurationMap;
-		configureMap.put(ServerConfig.MAP_MODULE_KEY, ServerConfig.MAP_MODULE_USER);
-		configureMap.put("sqlMaxConnection","50");
-
-		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection"));
-	}
 
 
 	public static void main(String... args) throws Exception {
 		DebugLog.initializeLogger();
+		String ac_key = null;
+		String ac_ivy = null;
+		for (String arg : args){
+			if (arg.indexOf("acKey-") == 0)
+				ac_key =  arg.split("-")[1];
+			if (arg.indexOf("acIvy-") == 0)
+				ac_ivy =  arg.split("-")[1];
+		}
+		
+		Map<String, String> configureMap = ServerConfig.configurationMap;
+		configureMap.put(ServerConfig.MAP_MODULE_KEY, ServerConfig.MAP_MODULE_USER);
+		configureMap.put("sqlMaxConnection","50");
+		ServerConfig.acDecode(ac_key, ac_ivy);
+		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection"));
+		
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();

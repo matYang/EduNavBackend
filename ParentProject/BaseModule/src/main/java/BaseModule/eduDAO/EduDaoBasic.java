@@ -56,6 +56,7 @@ public class EduDaoBasic {
 		sqlConfig.addDataSourceProperty("characterEncoding", "utf8");
 		ds = new HikariDataSource(sqlConfig);
 		
+		System.out.println("EduDaoBasic acknowledged config");
 		
 	   	try {
 	   		if (!ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){

@@ -1,8 +1,18 @@
 package BaseModule.configurations;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.ShortBufferException;
+
 import BaseModule.common.DebugLog;
 import BaseModule.encryption.AccessControlCrypto;
 
@@ -61,34 +71,34 @@ public final class ServerConfig {
 					configurationMap.put("memcachedPass", "");
 				}
 				else{
-					String ac_key = null;
-					String ac_ivy = null;
-					Scanner sc = new Scanner(System.in);
-					System.out.println("Please enter ac key");
-					if (sc.hasNext()){
-						ac_key = sc.next(); 
-					}
-					System.out.println("Please enter ac ivy");
-					if (sc.hasNext()){
-						ac_ivy = sc.next();  
-					}
 					//prod env
 					configurationMap.put("env", "prod");
 					configurationMap.put("jdbcUri", "as4359fdgk.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", "localhost");
 					configurationMap.put("memcachedUri", "fdbc1391e96411e3.m.cnhzalicm10pub001.ocs.aliyuncs.com:11211");
-					configurationMap.put("sqlPass", AccessControlCrypto.decrypt("A1E4DDE152B755ECC46248A9D629FDD9", ac_key, ac_ivy));
-					configurationMap.put("sqlUser", AccessControlCrypto.decrypt("7260820C1FAFD1F699249AF73A9D181D7BD6CE549202AD9FE095E1CE635843DB", ac_key, ac_ivy));
+					configurationMap.put("sqlPass", "A1E4DDE152B755ECC46248A9D629FDD9");
+					configurationMap.put("sqlUser", "7260820C1FAFD1F699249AF73A9D181D7BD6CE549202AD9FE095E1CE635843DB");
 					configurationMap.put("sqlMaxConnection","50");
-					configurationMap.put("memcachedUser", AccessControlCrypto.decrypt("91315C17D13585EC7F7A61E3262B203621C258BC16897C8DC1C7C22BEE7E5E5A", ac_key, ac_ivy));
-					configurationMap.put("memcachedPass", AccessControlCrypto.decrypt("BC6BAEC5B287331067E9F864DD9B981B", ac_key, ac_ivy));
+					configurationMap.put("memcachedUser", "91315C17D13585EC7F7A61E3262B203621C258BC16897C8DC1C7C22BEE7E5E5A");
+					configurationMap.put("memcachedPass", "BC6BAEC5B287331067E9F864DD9B981B");
 					
 				}
 			} catch (final Exception e){
 				e.printStackTrace();
-				DebugLog.d(e);
-				DebugLog.d("Server init failed, system exit...");
-				System.exit(0);
+				System.exit(1);
+			}
+		}
+		
+		public static void acDecode(String ac_key, String ac_ivy){
+			
+			try {
+				configurationMap.put("sqlPass", AccessControlCrypto.decrypt(configurationMap.get("sqlPass"), ac_key, ac_ivy));
+				configurationMap.put("sqlUser", AccessControlCrypto.decrypt(configurationMap.get("sqlUser"), ac_key, ac_ivy));
+				configurationMap.put("memcachedUser", AccessControlCrypto.decrypt(configurationMap.get("memcachedUser"), ac_key, ac_ivy));
+				configurationMap.put("memcachedPass", AccessControlCrypto.decrypt(configurationMap.get("memcachedPass"), ac_key, ac_ivy));
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.exit(1);
 			}
 		}
 		
