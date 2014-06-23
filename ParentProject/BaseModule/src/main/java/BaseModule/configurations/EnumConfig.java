@@ -64,7 +64,7 @@ public final class EnumConfig {
     }
 	
 	public static enum BookingStatus{
-        awaiting(0),confirmed(1),cancelled(2),enter(3),finished(4),failed(5),quit(6),delivered(7), consolidated(8);
+        awaiting(0),confirmed(1),cancelled(2),failed(3),delivered(4), noShow(5),late(6), registered(7), paid(8), noPay(9), started(10), refunded(11), succeeded(12), consolidated(13);
         public int code;
         BookingStatus(int code){
             this.code = code;
@@ -74,6 +74,42 @@ public final class EnumConfig {
             return map[n];
         }
     }
+	
+	public static enum BookingType{
+		offline(0),online(1);
+        public int code;
+        BookingType(int code){
+            this.code = code;
+        }
+        private final static BookingType[] map = BookingType.values();
+        public static BookingType fromInt(int n){
+            return map[n];
+        }
+	}
+		
+	public static enum ServiceFeeStatus{
+		shouldCharge(0),hasCharged(1),refundCharge(2), noCharge(3), consolidated(4);
+        public int code;
+        ServiceFeeStatus(int code){
+            this.code = code;
+        }
+        private final static ServiceFeeStatus[] map = ServiceFeeStatus.values();
+        public static ServiceFeeStatus fromInt(int n){
+            return map[n];
+        }
+	}
+
+	public static enum CommissionStatus{
+		shouldCharge(0),hasCharged(1),refundCharge(2), noCharge(3), consolidated(4);
+        public int code;
+        CommissionStatus(int code){
+            this.code = code;
+        }
+        private final static CommissionStatus[] map = CommissionStatus.values();
+        public static CommissionStatus fromInt(int n){
+            return map[n];
+        }
+	}
 	
 	public static enum Privilege{
         root(0),mamagement(1),routine(2);

@@ -15,6 +15,9 @@ import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.configurations.EnumConfig.BookingType;
+import BaseModule.configurations.EnumConfig.CommissionStatus;
+import BaseModule.configurations.EnumConfig.ServiceFeeStatus;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
@@ -40,6 +43,13 @@ public class Booking implements PseudoModel, Serializable{
 	private Calendar scheduledTime;
 	private Calendar creationTime;
 	private Calendar adjustTime;
+	
+	//TODO
+	private Calendar noRefundDate;
+	private Calendar cashbackDate;
+	private BookingType bookingType;
+	private ServiceFeeStatus serviceFeeStatus;
+	private CommissionStatus commissionStatus;
 	
 	private String note;
 	private int cashbackAmount;

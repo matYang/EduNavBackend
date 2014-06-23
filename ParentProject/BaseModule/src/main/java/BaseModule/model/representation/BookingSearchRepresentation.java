@@ -8,6 +8,9 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.configurations.EnumConfig.BookingType;
+import BaseModule.configurations.EnumConfig.CommissionStatus;
+import BaseModule.configurations.EnumConfig.ServiceFeeStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
@@ -35,6 +38,15 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private Calendar finishAdjustTime;
 	private Calendar startCreationTime;
 	private Calendar finishCreationTime;
+	
+	//TODO
+	private Calendar startNoRefundDate;
+	private Calendar finishNoRefundDate;
+	private Calendar startCashbackDate;
+	private Calendar finishCashbackDate;
+	private BookingType bookingType;
+	private ServiceFeeStatus serviceFeeStatus;
+	private CommissionStatus commissionStatus;
 
 	public BookingSearchRepresentation(){
 		this.bookingId = -1;

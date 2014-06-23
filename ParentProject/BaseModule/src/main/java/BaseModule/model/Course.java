@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.BookingType;
 import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
 import BaseModule.exception.PseudoException;
@@ -44,6 +45,10 @@ public class Course implements PseudoModel, Serializable{
 	private Calendar startDate;
 	private Calendar finishDate;
 	private Calendar cutoffDate;
+	//TODO
+	private Calendar noRefundDate;
+	private Calendar cashbackDate;
+	private BookingType bookingType;
 	
 	private int startUponArrival;	//1 means true, 0 means false
 	private int startTime1;
@@ -949,6 +954,9 @@ public class Course implements PseudoModel, Serializable{
 					}
 					else if (fieldClass.isAssignableFrom(PartnerQualification.class)){
 						field.set(this, PartnerQualification.fromInt(Integer.parseInt(value, 10)));
+					}
+					else if (fieldClass.isAssignableFrom(BookingType.class)){
+						field.set(this, BookingType.fromInt(Integer.parseInt(value, 10)));
 					}
 					else if (fieldClass.isAssignableFrom(ArrayList.class)){
 						if (field.getName().equals("studyDays")){
