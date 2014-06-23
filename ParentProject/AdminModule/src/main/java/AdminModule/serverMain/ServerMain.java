@@ -80,7 +80,6 @@ public class ServerMain {
 		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection"));
 		
 		SystemDataInit.init();	
-		DebugLog.initializeLogger();
 		OperationFuture<Boolean> result = EduDaoBasic.setCache("test", 60, "testing connection");
 		System.out.println("Result: " + result.get());
 		

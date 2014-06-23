@@ -2,11 +2,14 @@ package PartnerModule.serverMain;
 
 import java.util.Map;
 
+import net.spy.memcached.internal.OperationFuture;
+
 import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ServerConfig;
+import BaseModule.eduDAO.EduDaoBasic;
 import PartnerModule.appService.RoutingService;
 
 
@@ -72,6 +75,9 @@ public class ServerMain {
 		configureMap.put("sqlMaxConnection","5");
 		ServerConfig.acDecode(ac_key, ac_ivy);
 		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection"));
+		
+		OperationFuture<Boolean> result = EduDaoBasic.setCache("test", 60, "testing connection");
+		System.out.println("Result: " + result.get());
 		
 		try {
 			ServerMain.getInstance().init(args);
