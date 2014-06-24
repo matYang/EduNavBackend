@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import BaseModule.common.DateUtility;
 import BaseModule.common.Parser;
+import BaseModule.configurations.EnumConfig.BookingType;
 import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
 import BaseModule.configurations.ImgConfig;
@@ -419,7 +420,8 @@ public class CourseDao {
 				(ArrayList<String>)Parser.stringToList(rs.getString("t_Intros"),ServerConfig.normalSpliter,new String("")),
 				(ArrayList<String>)Parser.stringToList(rs.getString("t_ImgUrls"),ImgConfig.imgSpliterRegex,new String("")),
 				(ArrayList<String>)Parser.stringToList(rs.getString("teacherNames"),ServerConfig.normalSpliter, new String("")),
-				logoUrl, instName, wholeName,rs.getInt("startUponArrival"),DateUtility.DateToCalendar(rs.getDate("cutoffDate")));					
+				logoUrl, instName, wholeName,rs.getInt("startUponArrival"),DateUtility.DateToCalendar(rs.getDate("cutoffDate")),DateUtility.DateToCalendar(rs.getTimestamp("noRefundDate")),
+				DateUtility.DateToCalendar(rs.getTimestamp("cashbackDate")),BookingType.fromInt(rs.getInt("bookingType")));					
 	}
 
 

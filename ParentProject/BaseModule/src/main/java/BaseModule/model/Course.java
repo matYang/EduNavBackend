@@ -45,7 +45,7 @@ public class Course implements PseudoModel, Serializable{
 	private Calendar startDate;
 	private Calendar finishDate;
 	private Calendar cutoffDate;
-	//TODO
+	
 	private Calendar noRefundDate;
 	private Calendar cashbackDate;
 	private BookingType bookingType;
@@ -133,7 +133,8 @@ public class Course implements PseudoModel, Serializable{
 			String teachingMaterialFree, ArrayList<Integer> studyDays,
 			ArrayList<String> classImgUrls, ArrayList<String> teacherIntros,
 			ArrayList<String> teacherImgUrls, ArrayList<String> teacherNames,
-			String logoUrl, String instName, String wholeName,int startUponArrival,Calendar cutoffDate) {
+			String logoUrl, String instName, String wholeName,int startUponArrival,Calendar cutoffDate,
+			 Calendar noRefundDate,	Calendar cashbackDate,BookingType bookingType) {
 		super();
 		this.courseId = courseId;
 		this.partnerId = partnerId;
@@ -198,6 +199,9 @@ public class Course implements PseudoModel, Serializable{
 		this.wholeName = wholeName;
 		this.startUponArrival = startUponArrival;
 		this.cutoffDate = cutoffDate;
+		this.noRefundDate = noRefundDate;
+		this.cashbackDate = cashbackDate;
+		this.bookingType = bookingType;
 	}
 
 
@@ -269,6 +273,9 @@ public class Course implements PseudoModel, Serializable{
 		this.wholeName = "";
 		this.startUponArrival = 0;
 		this.cutoffDate = DateUtility.getCurTimeInstance();
+		this.noRefundDate = DateUtility.getCurTimeInstance();
+		this.cashbackDate = DateUtility.getCurTimeInstance();
+		this.bookingType = BookingType.online;
 	}	
 	
 	
@@ -280,7 +287,9 @@ public class Course implements PseudoModel, Serializable{
 		this.startDate = DateUtility.getCurTimeInstance();
 		this.finishDate = DateUtility.getCurTimeInstance();
 		this.cutoffDate = DateUtility.getCurTimeInstance();
-		
+		this.noRefundDate = DateUtility.getCurTimeInstance();
+		this.cashbackDate = DateUtility.getCurTimeInstance();
+		this.bookingType = BookingType.online;
 		this.status = CourseStatus.fromInt(0);
 		this.partnerQualification = PartnerQualification.fromInt(0);
 		
@@ -780,6 +789,42 @@ public class Course implements PseudoModel, Serializable{
 		this.cutoffDate = cutoffDate;
 	}
 
+	public Calendar getNoRefundDate() {
+		return noRefundDate;
+	}
+
+
+
+	public void setNoRefundDate(Calendar noRefundDate) {
+		this.noRefundDate = noRefundDate;
+	}
+
+
+
+	public Calendar getCashbackDate() {
+		return cashbackDate;
+	}
+
+
+
+	public void setCashbackDate(Calendar cashbackDate) {
+		this.cashbackDate = cashbackDate;
+	}
+
+
+
+	public BookingType getBookingType() {
+		return bookingType;
+	}
+
+
+
+	public void setBookingType(BookingType bookingType) {
+		this.bookingType = bookingType;
+	}
+
+
+
 	public int getStartUponArrival() {
 		return startUponArrival;
 	}
@@ -868,6 +913,9 @@ public class Course implements PseudoModel, Serializable{
 			jsonObj.put("studyDays", new JSONArray(this.studyDays));
 			jsonObj.put("classImgUrls", new JSONArray(this.classImgUrls));
 			jsonObj.put("teacherImgUrls", new JSONArray(this.teacherImgUrls));
+			jsonObj.put("noRefundDate",DateUtility.castToAPIFormat(this.noRefundDate));
+			jsonObj.put("cashbackDate",DateUtility.castToAPIFormat(this.cashbackDate));
+			jsonObj.put("bookingType", this.bookingType.code);
 			ArrayList<String> tempEncodedIntros = new ArrayList<String>();
 			for (String intro : this.teacherIntros){
 				tempEncodedIntros.add(EncodingService.encodeURI(intro));
@@ -918,6 +966,7 @@ public class Course implements PseudoModel, Serializable{
 					this.certification.equals(c.getCertification()) &&
 					this.courseName.equals(c.getCourseName()) &&
 					this.classTeacher.equals(c.getClassTeacher()) && 
+					this.bookingType.code == c.getBookingType().code &&
 					this.startUponArrival == c.getStartUponArrival();		
 				
 	}

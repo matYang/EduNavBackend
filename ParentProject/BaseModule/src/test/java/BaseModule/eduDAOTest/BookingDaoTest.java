@@ -182,16 +182,16 @@ public class BookingDaoTest {
 		user = UserDao.getUserById(userId);
 		booking = BookingDao.getBookingById(booking.getBookingId());
 		if(clist.size()==10&&
-				clist.get(0).getOriginalAmount()==cashbackAmount&&clist.get(0).getAmount()==cashbackAmount&&clist.get(0).getStatus().code==CouponStatus.used.code&&
+				clist.get(0).getOriginalAmount()==cashbackAmount&&clist.get(0).getAmount()==0&&clist.get(0).getStatus().code==CouponStatus.used.code&&
 				clist.get(1).getOriginalAmount()==cashbackAmount+20&&clist.get(1).getAmount()==1&&clist.get(1).getStatus().code==CouponStatus.usable.code&&
 				clist.get(2).getOriginalAmount()==cashbackAmount+50&&clist.get(2).getAmount()==cashbackAmount+50&&clist.get(2).getStatus().code==CouponStatus.usable.code&&
 				clist.get(3).getOriginalAmount()==cashbackAmount+11&&clist.get(3).getAmount()==cashbackAmount+11&&clist.get(3).getStatus().code==CouponStatus.usable.code&&
-				clist.get(4).getOriginalAmount()==cashbackAmount+39&&clist.get(4).getAmount()==cashbackAmount+39&&clist.get(4).getStatus().code==CouponStatus.used.code&&
-				clist.get(5).getOriginalAmount()==1&&clist.get(5).getAmount()==1&&clist.get(5).getStatus().code==CouponStatus.used.code&&
+				clist.get(4).getOriginalAmount()==cashbackAmount+39&&clist.get(4).getAmount()==0&&clist.get(4).getStatus().code==CouponStatus.used.code&&
+				clist.get(5).getOriginalAmount()==1&&clist.get(5).getAmount()==0&&clist.get(5).getStatus().code==CouponStatus.used.code&&
 				clist.get(6).getOriginalAmount()==cashbackAmount+50&&clist.get(6).getAmount()==cashbackAmount+50&&clist.get(6).getStatus().code==CouponStatus.expired.code&&
 				clist.get(7).getOriginalAmount()==cashbackAmount+11&&clist.get(7).getAmount()==cashbackAmount+11&&clist.get(7).getStatus().code==CouponStatus.used.code&&
 				clist.get(8).getOriginalAmount()==cashbackAmount+39&&clist.get(8).getAmount()==cashbackAmount+39&&clist.get(8).getStatus().code==CouponStatus.expired.code&&
-				clist.get(9).getOriginalAmount()==2&&clist.get(9).getAmount()==2&&clist.get(9).getStatus().code==CouponStatus.used.code&&
+				clist.get(9).getOriginalAmount()==2&&clist.get(9).getAmount()==0&&clist.get(9).getStatus().code==CouponStatus.used.code&&
 				user.getCoupon()==1&&booking.getCashbackAmount()==backcash){
 			//Passed;
 		}else fail();
