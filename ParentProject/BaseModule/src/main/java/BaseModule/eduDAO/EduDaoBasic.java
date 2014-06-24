@@ -133,12 +133,12 @@ public class EduDaoBasic {
 			if (conn != null && !conn.getAutoCommit()){				
 				if (!ok){
 					conn.rollback();
+					conn.setAutoCommit(true);
 				}
 				else if(ok){
 					conn.commit();
 					return true;
-				}
-				conn.setAutoCommit(true);
+				}				
 			}
 			return false;
 		} catch (SQLException e){
