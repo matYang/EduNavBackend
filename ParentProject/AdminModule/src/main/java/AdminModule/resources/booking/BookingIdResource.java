@@ -70,7 +70,8 @@ public final class BookingIdResource extends AdminPseudoResource{
 			BookingStatus previousStatus = booking.getStatus();
 
 			booking = parseJSON(jsonBooking, booking);
-			BookingDaoService.updateBooking(booking, previousStatus, adminId);
+			booking.setPreStatus(previousStatus);
+			BookingDaoService.updateBooking(booking, adminId);
 
 			newBooking = JSONGenerator.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);

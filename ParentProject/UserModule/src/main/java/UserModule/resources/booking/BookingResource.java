@@ -73,12 +73,13 @@ public final class BookingResource extends UserPseudoResource{
 				throw new ValidationException("不允许替其他用户预约");
 			}
 			Course course = CourseDaoService.getCourseById(booking.getCourseId());
-			if (course.getPrice() != booking.getPrice()){
-				throw new ValidationException("预约与课程价格不一致");
-			}
-			if (course.getCashback() != booking.getCashbackAmount()){
-				throw new ValidationException("返现不一致");
-			}
+			
+			//add fields from course
+			booking.setPrice(course.getPrice());
+			booking.setCashbackAmount(course.getCashback());
+			booking.setBookingType(course.getBookingType());
+			booking.setNoRefundDate(course.getNoRefundDate());
+			booking.setCashbackDate(course.getCashbackDate());
 			
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONGenerator.toJSON(booking);
@@ -103,11 +104,9 @@ public final class BookingResource extends UserPseudoResource{
 			Calendar adjustTime = DateUtility.getCurTimeInstance();
 			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));			
 			
-			int price = jsonBooking.getInt("price");
 			int userId = jsonBooking.getInt("userId");
 			int partnerId = jsonBooking.getInt("partnerId");
 			int courseId = jsonBooking.getInt("courseId");
-			int cashbackAmount = jsonBooking.getInt("cashbackAmount");
 			
 			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
@@ -117,8 +116,8 @@ public final class BookingResource extends UserPseudoResource{
 			BookingStatus status = BookingStatus.awaiting;		
 			
 		    booking = new Booking(scheduledTime,adjustTime, 
-					price,userId, partnerId, courseId, name,
-					phone,email,reference,status,cashbackAmount);
+					0,userId, partnerId, courseId, name,
+					phone,email,reference,status,0);
 			
 			ValidationService.validateBooking(booking);
 			

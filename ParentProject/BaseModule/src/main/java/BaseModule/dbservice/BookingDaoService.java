@@ -4,17 +4,27 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
+import BaseModule.common.DebugLog;
 import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.BookingDao;
+import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.eduDAO.TransactionDao;
+import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.notFound.BookingNotFoundException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Booking;
+import BaseModule.model.Credit;
+import BaseModule.model.Transaction;
+import BaseModule.model.User;
 import BaseModule.model.representation.BookingSearchRepresentation;
+import BaseModule.model.representation.UserSearchRepresentation;
 import BaseModule.service.SMSService;
+import BaseModule.service.ValidStateTransferService;
 
 public class BookingDaoService {
 
@@ -22,152 +32,137 @@ public class BookingDaoService {
 		return BookingDao.getBookingById(id);
 	}
 
-	public static void updateBooking(Booking updatedBooking, final  BookingStatus previousStatus, final int adminId) throws PseudoException, SQLException{
-//		Connection conn = null;
-//		boolean ok = false;
-//		boolean sendConfirmedSMS = false;
-//		boolean sendFailedSMS = false;
-//		Booking bookingToSend = null;
-//		try{
-//			conn = EduDaoBasic.getConnection();
-//			conn.setAutoCommit(false);
-//
-//			if (updatedBooking.getStatus() == previousStatus){
-//				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//				BookingDao.updateBookingInDatabases(updatedBooking, conn);
-//				ok = true;
-//				return;
-//			}
-//			//user can only change state to cancelled, cannot do anything else, adminId <= 0 implies this is a user
-//			if (updatedBooking.getStatus() != BookingStatus.cancelled && adminId <= 0){
-//				throw new AuthenticationException("当前用户无权进行此操作");
-//			}
-//			if (previousStatus == BookingStatus.awaiting){
-//				if (updatedBooking.getStatus() == BookingStatus.cancelled){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn); 
-//				}
-//				else if (updatedBooking.getStatus() == BookingStatus.failed){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//					sendFailedSMS = true;
-//					bookingToSend = updatedBooking;
-//				}
-//				else if (updatedBooking.getStatus() == BookingStatus.confirmed){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//					sendConfirmedSMS = true;
-//					bookingToSend = updatedBooking;
-//				}				
-//
-//			}
-//			else if (previousStatus == BookingStatus.confirmed){
-//				if (updatedBooking.getStatus() == BookingStatus.delivered){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//				}
-//				else if (updatedBooking.getStatus() == BookingStatus.cancelled){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//				}
-//				else if (updatedBooking.getStatus() == BookingStatus.failed){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//					sendFailedSMS = true;
-//					bookingToSend = updatedBooking;
-//				}				
-//			}
-//			else if (previousStatus == BookingStatus.delivered){
-//				if (updatedBooking.getStatus() == BookingStatus.cancelled){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//				}
-//				else if (updatedBooking.getStatus() == BookingStatus.enter){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//				}				
-//			}
-//			else if (previousStatus == BookingStatus.enter){
-//				if (updatedBooking.getStatus() == BookingStatus.finished){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//				}
-//				else if (updatedBooking.getStatus() == BookingStatus.quit){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//				}				
-//			}
-//			else if (previousStatus == BookingStatus.failed){
-//				if (updatedBooking.getStatus() == BookingStatus.cancelled){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//				}				
-//			}
-//			else if (previousStatus == BookingStatus.cancelled){
-//				if (updatedBooking.getStatus() == BookingStatus.failed){
-//					//not in error state, and do nothing, stay cancelled
-//				}
-//				else if (updatedBooking.getStatus() == BookingStatus.confirmed){
-//					updatedBooking.setStatus(BookingStatus.cancelled);
-//					updatedBooking.setPreStatus(BookingStatus.confirmed);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//				}
-//				else if (updatedBooking.getStatus() == BookingStatus.delivered){
-//					updatedBooking.setStatus(BookingStatus.cancelled);
-//					updatedBooking.setPreStatus(BookingStatus.delivered);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//				}
-//				else if (updatedBooking.getStatus() == BookingStatus.enter){
-//					updatedBooking.setPreStatus(previousStatus);
-//					updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-//					updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
-//					BookingDao.updateBookingInDatabases(updatedBooking,conn);
-//				}			
-//			}
-//			else{				
-//				throw new ValidationException("预订状态操作错误，请刷新页面");
-//			}
-//			ok = true;
-//		} finally{
-//			if (EduDaoBasic.handleCommitFinally(conn, ok, true)){
-//				if (bookingToSend != null && sendConfirmedSMS){
-//					SMSService.sendBookingConfirmedSMS(bookingToSend);
-//				}
-//				else if (bookingToSend != null && sendFailedSMS){
-//					SMSService.sendBookingFailedSMS(bookingToSend);
-//				}
-//			}
-//		}
+	public static void updateBooking(Booking updatedBooking,  final int adminId) throws PseudoException, SQLException{
+		Connection conn = null;
+		boolean ok = false;
+		boolean sendConfirmedSMS = false;
+		boolean sendFailedSMS = false;
+		try{
+			conn = EduDaoBasic.getConnection();
+			conn.setAutoCommit(false);
+
+			if (updatedBooking.getStatus() == updatedBooking.getPreStatus()){
+				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
+				BookingDao.updateBookingInDatabases(updatedBooking, conn);
+				ok = true;
+				return;
+			}
+			//user can only change state to cancelled, cannot do anything else, adminId <= 0 implies this is a user
+			if (updatedBooking.getStatus() != BookingStatus.cancelled && adminId <= 0){
+				throw new AuthenticationException("当前用户无权进行此操作");
+			}
+			if (!ValidStateTransferService.validateBookingStatusTransfer(updatedBooking.getPreStatus(), updatedBooking.getStatus())){
+				throw new ValidationException("预订状态操作错误，请刷新页面");
+			}
+
+			updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
+			updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
+			
+			if (updatedBooking.getStatus() != BookingStatus.consolidated){
+				BookingDao.updateBookingInDatabases(updatedBooking,conn); 
+			}
+			else{
+				consolidateBooking(updatedBooking, conn);
+			}
+
+			if (updatedBooking.getStatus() == BookingStatus.confirmed){
+				sendConfirmedSMS = true;
+			}
+			if (updatedBooking.getStatus() == BookingStatus.failed){
+				sendFailedSMS = true;
+			}
+			
+
+			ok = true;
+		} finally{
+			if (EduDaoBasic.handleCommitFinally(conn, ok, true)){
+				if (updatedBooking != null && sendConfirmedSMS){
+					SMSService.sendBookingConfirmedSMS(updatedBooking);
+				}
+				else if (updatedBooking != null && sendFailedSMS){
+					SMSService.sendBookingFailedSMS(updatedBooking);
+				}
+			}
+		}
+	}
+	
+	public static void consolidateBooking(Booking booking, Connection...connections) throws PseudoException, SQLException{
+		Connection transientConnection = null;
+		boolean ok = false;
+		User targetSMSUser = null;
+		try{
+			transientConnection = EduDaoBasic.getConnection(connections);
+			transientConnection.setAutoCommit(false);
+			
+			//lock user; now user, booking, coupon, credit, transaction are all safe to proceed
+			User user = UserDao.getAndLock(booking.getUserId(), transientConnection);
+			User inviter = null;
+			
+			//create credit
+			Credit credit = new Credit(booking.getBookingId(), booking.getPrice(), booking.getUserId());
+			CreditDao.addCreditToDatabases(credit, transientConnection);
+			
+			//create transaction if cash back
+			if (booking.getCashbackAmount() > 0){
+				Transaction transaction = new Transaction(booking.getUserId(), booking.getBookingId(), booking.getCashbackAmount(), TransactionType.cashback);
+				TransactionDao.addTransactionToDatabases(transaction, transientConnection);
+			}
+			
+			//check if the current user is invited by another user
+			String appliedInvitationalCode = user.getAppliedInvitationalCode();
+			if (appliedInvitationalCode != null && appliedInvitationalCode.length() != 0){
+				//check if this is the current user's first consolidated booking 
+				BookingSearchRepresentation invitee_sr = new BookingSearchRepresentation();
+				invitee_sr.setUserId(booking.getUserId());
+				invitee_sr.setStatus(BookingStatus.consolidated);
+				ArrayList<Booking> consolidatedBookings = BookingDao.searchBooking(invitee_sr, transientConnection);
+				//if this is the current user's first consolidated booking
+				if (consolidatedBookings.size() == 0){
+					UserSearchRepresentation u_sr = new UserSearchRepresentation();
+					u_sr.setAppliedInvitationalCode(appliedInvitationalCode);
+					ArrayList<User> inviters = UserDao.searchUser(u_sr, transientConnection);
+					//find inviter (ignore error, if error too bad..)
+					if (inviters.size() == 1){
+						inviter = inviters.get(0);
+						//lock inviter
+						UserDao.getAndLock(inviter.getUserId(), transientConnection);
+						//create a transaction, indicating a ￥5 invitational deposit
+						Transaction transaction = new Transaction(inviter.getUserId(), booking.getBookingId(), 5, TransactionType.invitation);
+						TransactionDao.addTransactionToDatabases(transaction, transientConnection);
+						//incr inviter's account balance by ￥5
+						UserDao.updateUserBCC(5, 0, 0, inviter.getUserId(), transientConnection);
+						
+					}
+				}
+			}
+			
+			
+			//update user's money and credit balance
+			UserDao.updateUserBCC(booking.getCashbackAmount(), booking.getPrice(), 0, booking.getUserId(), transientConnection);
+			
+			//change booking status to consolidated
+			booking.setStatus(BookingStatus.consolidated);
+			booking.setAdjustTime(DateUtility.getCurTimeInstance());
+			booking.appendActionRecord(BookingStatus.consolidated, -2);
+			BookingDao.updateBookingInDatabases(booking, transientConnection);
+			
+			//commit after each run to decrease side effect of an error
+			transientConnection.commit();
+			
+			//send notification sms to inviter, if inviter exists and should get the ￥5, left to last as do not notify in case any error occurs
+			targetSMSUser = inviter;
+			ok = true;
+		} finally{
+			if (EduDaoBasic.handleCommitFinally(transientConnection, ok, EduDaoBasic.shouldConnectionClose(transientConnection))){
+				if (targetSMSUser != null){
+					SMSService.sendInviterConsolidationSMS(targetSMSUser.getPhone(), targetSMSUser.getPhone());
+				}
+			}
+		}
 	}
 
 
-	public static Booking createBooking(Booking booking,Connection...connections) throws ValidationException,PseudoException, SQLException{
+	public static Booking createBooking(Booking booking, Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;		
 		String couponRecord = "";		
 		int cashbackAmount = 0;		

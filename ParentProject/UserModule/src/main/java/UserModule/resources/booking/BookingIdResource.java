@@ -70,7 +70,8 @@ public final class BookingIdResource extends UserPseudoResource{
 				throw new AuthenticationException("对不起，您不是该预定的主人");
 			}
 			booking = parseJSON(jsonBooking, booking);
-			BookingDaoService.updateBooking(booking, previousStatus, -1);
+			booking.setPreStatus(previousStatus);
+			BookingDaoService.updateBooking(booking, -1);
 
 			newBooking = JSONGenerator.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);
