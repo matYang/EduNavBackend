@@ -104,7 +104,7 @@ public class CourseCleaner extends CourseDao{
 					//from unconsolidated courses, get finished but unconsolidated bookings
 					BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
 					b_sr.setCourseId(course.getCourseId());
-					b_sr.setStatus(BookingStatus.finished);
+					b_sr.setStatus(BookingStatus.succeeded);
 					ArrayList<Booking> unconsolidatedBookings = BookingDao.searchBooking(b_sr, transientConnection);
 					
 					//clear the buffer before entering a more complicated locking phase
