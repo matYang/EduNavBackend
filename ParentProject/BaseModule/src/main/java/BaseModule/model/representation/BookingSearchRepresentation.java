@@ -37,9 +37,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private Calendar startAdjustTime;
 	private Calendar finishAdjustTime;
 	private Calendar startCreationTime;
-	private Calendar finishCreationTime;
-	
-	//TODO
+	private Calendar finishCreationTime;	
+
 	private Calendar startNoRefundDate;
 	private Calendar finishNoRefundDate;
 	private Calendar startCashbackDate;
@@ -68,6 +67,15 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.finishAdjustTime = null;
 		this.startCreationTime = null;
 		this.finishCreationTime = null;
+		
+		this.startNoRefundDate = null;
+		this.finishNoRefundDate = null;
+		this.startCashbackDate = null;
+		this.finishCashbackDate = null;
+		this.bookingType = null;
+		this.serviceFeeStatus = null;
+		this.commissionStatus = null;
+		
 	}
 
 	@Override
@@ -242,6 +250,62 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	}
 	
 
+	public Calendar getStartNoRefundDate() {
+		return startNoRefundDate;
+	}
+
+	public void setStartNoRefundDate(Calendar startNoRefundDate) {
+		this.startNoRefundDate = startNoRefundDate;
+	}
+
+	public Calendar getFinishNoRefundDate() {
+		return finishNoRefundDate;
+	}
+
+	public void setFinishNoRefundDate(Calendar finishNoRefundDate) {
+		this.finishNoRefundDate = finishNoRefundDate;
+	}
+
+	public Calendar getStartCashbackDate() {
+		return startCashbackDate;
+	}
+
+	public void setStartCashbackDate(Calendar startCashbackDate) {
+		this.startCashbackDate = startCashbackDate;
+	}
+
+	public Calendar getFinishCashbackDate() {
+		return finishCashbackDate;
+	}
+
+	public void setFinishCashbackDate(Calendar finishCashbackDate) {
+		this.finishCashbackDate = finishCashbackDate;
+	}
+
+	public BookingType getBookingType() {
+		return bookingType;
+	}
+
+	public void setBookingType(BookingType bookingType) {
+		this.bookingType = bookingType;
+	}
+
+	public ServiceFeeStatus getServiceFeeStatus() {
+		return serviceFeeStatus;
+	}
+
+	public void setServiceFeeStatus(ServiceFeeStatus serviceFeeStatus) {
+		this.serviceFeeStatus = serviceFeeStatus;
+	}
+
+	public CommissionStatus getCommissionStatus() {
+		return commissionStatus;
+	}
+
+	public void setCommissionStatus(CommissionStatus commissionStatus) {
+		this.commissionStatus = commissionStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "BookingSearchRepresentation [bookingId=" + bookingId
@@ -255,7 +319,14 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				+ ", startAdjustTime=" + startAdjustTime
 				+ ", finishAdjustTime=" + finishAdjustTime
 				+ ", startCreationTime=" + startCreationTime
-				+ ", finishCreationTime=" + finishCreationTime + "]";
+				+ ", finishCreationTime=" + finishCreationTime 
+				+ ", startNoRefundDate=" + startNoRefundDate 
+				+ ", finishNoRefundDate=" + finishNoRefundDate
+				+ ", startCashbackDate=" + startCashbackDate 
+				+ ", finishCashbackDate=" + finishCashbackDate	
+				+ ", bookingType=" + bookingType 
+				+ ", serviceFeeStatus=" + serviceFeeStatus
+				+ ", commissionStatus=" + commissionStatus + "]";
 	}
 	
 
@@ -424,6 +495,70 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 			}
 			query += "scheduledTime <= ? ";
 		}
+		if(this.startNoRefundDate != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "startNoRefundDate >= ? ";
+		}
+		if(this.finishNoRefundDate != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "finishNoRefundDate <= ? ";
+		}
+		if(this.startCashbackDate != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "startCashbackDate >= ? ";
+		}
+		if(this.finishCashbackDate != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "finishCashbackDate <= ? ";
+		}
+		if(this.bookingType != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "bookingType = ? ";
+		}
+		if(this.serviceFeeStatus != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "serviceFeeStatus = ? ";
+		}
+		if(this.commissionStatus != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "commissionStatus = ? ";
+		}
+		
 		return query;
 	}
 	

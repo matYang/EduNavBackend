@@ -43,8 +43,7 @@ public class Booking implements PseudoModel, Serializable{
 	private Calendar scheduledTime;
 	private Calendar creationTime;
 	private Calendar adjustTime;
-	
-	//TODO
+		
 	private Calendar noRefundDate;
 	private Calendar cashbackDate;
 	private BookingType bookingType;
@@ -64,7 +63,9 @@ public class Booking implements PseudoModel, Serializable{
 			int price, int userId,int partnerId, int courseId, String name, String phone,
 			BookingStatus status, String reference, long transactionId, String email,Calendar scheduledTime,
 			String note, int cashbackAmount, String couponRecord,
-			String actionRecord, Course course,BookingStatus preStatus) {
+			String actionRecord, Course course,BookingStatus preStatus, Calendar noRefundDate,
+			Calendar cashbackDate,BookingType bookingType,ServiceFeeStatus serviceFeeStatus,
+			CommissionStatus commissionStatus) {
 		super();
 		this.bookingId = bookingId;
 		this.creationTime = creationTime;
@@ -86,6 +87,11 @@ public class Booking implements PseudoModel, Serializable{
 		this.actionRecord = actionRecord;
 		this.course = course;
 		this.preStatus = preStatus;
+		this.noRefundDate = noRefundDate;
+		this.cashbackDate = cashbackDate;
+		this.bookingType = bookingType;
+		this.serviceFeeStatus = serviceFeeStatus;
+		this.commissionStatus = commissionStatus;
 	}
 
 	//normal construction
@@ -114,6 +120,11 @@ public class Booking implements PseudoModel, Serializable{
 		this.couponRecord = "";
 		this.actionRecord = "";
 		this.course = null;
+		this.noRefundDate = DateUtility.getCurTimeInstance();
+		this.cashbackDate = DateUtility.getCurTimeInstance();
+		this.bookingType = BookingType.online;
+		this.serviceFeeStatus = ServiceFeeStatus.refundCharge;
+		this.commissionStatus = CommissionStatus.refundCharge;
 	}
 
 	public int getBookingId() {
@@ -283,6 +294,46 @@ public class Booking implements PseudoModel, Serializable{
 		return this.actionRecord;
 	}
 
+	public Calendar getNoRefundDate() {
+		return noRefundDate;
+	}
+
+	public void setNoRefundDate(Calendar noRefundDate) {
+		this.noRefundDate = noRefundDate;
+	}
+
+	public Calendar getCashbackDate() {
+		return cashbackDate;
+	}
+
+	public void setCashbackDate(Calendar cashbackDate) {
+		this.cashbackDate = cashbackDate;
+	}
+
+	public BookingType getBookingType() {
+		return bookingType;
+	}
+
+	public void setBookingType(BookingType bookingType) {
+		this.bookingType = bookingType;
+	}
+
+	public ServiceFeeStatus getServiceFeeStatus() {
+		return serviceFeeStatus;
+	}
+
+	public void setServiceFeeStatus(ServiceFeeStatus serviceFeeStatus) {
+		this.serviceFeeStatus = serviceFeeStatus;
+	}
+
+	public CommissionStatus getCommissionStatus() {
+		return commissionStatus;
+	}
+
+	public void setCommissionStatus(CommissionStatus commissionStatus) {
+		this.commissionStatus = commissionStatus;
+	}
+
 	public Booking deepCopy() throws IOException, ClassNotFoundException{
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
         final ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -319,6 +370,12 @@ public class Booking implements PseudoModel, Serializable{
 			jsonObj.put("couponRecord", EncodingService.encodeURI(this.couponRecord));
 			jsonObj.put("actionRecord", EncodingService.encodeURI(this.actionRecord));
 			jsonObj.put("course", this.course == null ? new JSONObject() : this.course.toJSON());
+			jsonObj.put("noRefundDate",DateUtility.castToAPIFormat(this.noRefundDate));
+			jsonObj.put("cashbackDate",DateUtility.castToAPIFormat(this.cashbackDate));
+			jsonObj.put("bookingType", this.bookingType.code);
+			jsonObj.put("serviceFeeStatus", this.serviceFeeStatus.code);
+			jsonObj.put("commissionStatus", this.commissionStatus.code);
+			
 		} catch (JSONException | UnsupportedEncodingException e) {
 			DebugLog.d(e);
 			throw new ValidationException("信息数据格式转换失败");
@@ -351,6 +408,9 @@ public class Booking implements PseudoModel, Serializable{
 				this.userId == booking.getUserId() &&				
 				this.couponRecord.equals(booking.getCouponRecord()) && 
 				this.actionRecord.equals(booking.actionRecord) &&
+				this.bookingType.code == booking.getBookingType().code &&
+				this.serviceFeeStatus.code == booking.getServiceFeeStatus().code &&
+				this.commissionStatus.code == booking.getCommissionStatus().code &&
 				courseEqualResult;
 
 	}
