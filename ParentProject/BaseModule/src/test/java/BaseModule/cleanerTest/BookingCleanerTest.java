@@ -92,7 +92,7 @@ public class BookingCleanerTest {
 		
 		Booking booking = new Booking(timeStamp,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference(),BookingStatus.finished,cashbackAmount);
+				email,partner.getReference(),BookingStatus.succeeded,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking);
 		
 		Calendar finishTime2 = Calendar.getInstance();
@@ -106,14 +106,14 @@ public class BookingCleanerTest {
 		finishTime3.add(Calendar.HOUR_OF_DAY, 1);
 		Booking booking3 = new Booking(finishTime3,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference()+"3",BookingStatus.finished,cashbackAmount);
+				email,partner.getReference()+"3",BookingStatus.succeeded,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking3);
 		
 		Calendar finishTime4 = Calendar.getInstance();
 		finishTime4.add(Calendar.HOUR_OF_DAY, 1);
 		Booking booking4 = new Booking(finishTime4,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
-				email,partner.getReference()+"4",BookingStatus.quit,cashbackAmount);
+				email,partner.getReference()+"4",BookingStatus.refunded,cashbackAmount);
 
 		BookingDao.addBookingToDatabases(booking4);
 		

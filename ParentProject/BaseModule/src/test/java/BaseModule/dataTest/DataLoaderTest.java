@@ -1,4 +1,4 @@
-package BaseModule.dataLoaderTest;
+package BaseModule.dataTest;
 
 import static org.junit.Assert.fail;
 
