@@ -139,8 +139,9 @@ public class BookingDao {
 				"status,u_Id,p_Id,course_Id,reference,transaction_Id,cashbackAmount,note,couponRecord," +
 				"scheduledTime,email,actionRecord,preStatus,noRefundDate,cashbackDate,bookingType,"+ 
 				"serviceFeeStatus,commissionStatus,serviceFeeAdjustTime,commissionStatusAdjustTime,"+
-				"serviceFeeActionRecord,commissionActionRecord,preServiceFeeStatus,preCommissionStatus)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";		
+				"serviceFeeActionRecord,commissionActionRecord,preServiceFeeStatus,preCommissionStatus,"+ 
+				"bookingStatusAdjustTime)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";		
 		try{				
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -174,6 +175,7 @@ public class BookingDao {
 			stmt.setString(27, booking.getCommissionActionRecord());
 			stmt.setInt(28, booking.getPreServiceFeeStatus().code);
 			stmt.setInt(29, booking.getPreCommissionStatus().code);
+			stmt.setString(30, DateUtility.toSQLDateTime(booking.getBookingStatusAdjustTime()));
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -195,7 +197,8 @@ public class BookingDao {
 				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,cashbackAmount=?,note=?,couponRecord=?," +
 				"scheduledTime=?,email=?,actionRecord=?,preStatus=?,noRefundDate=?,cashbackDate=?,bookingType=?," +
 				"serviceFeeStatus=?,commissionStatus=?,serviceFeeAdjustTime=?,commissionStatusAdjustTime=?,"+ 
-				"serviceFeeActionRecord=?,commissionActionRecord=?,preServiceFeeStatus=?,preCommissionStatus=? where id=?";		
+				"serviceFeeActionRecord=?,commissionActionRecord=?,preServiceFeeStatus=?,preCommissionStatus=?,"+
+				"bookingStatusAdjustTime=? where id=?";		
 		try{		
 			conn = EduDaoBasic.getConnection(connections);
 					
@@ -229,6 +232,7 @@ public class BookingDao {
 			stmt.setString(stmtInt++, booking.getCommissionActionRecord());	
 			stmt.setInt(stmtInt++, booking.getPreServiceFeeStatus().code);
 			stmt.setInt(stmtInt++, booking.getPreCommissionStatus().code);
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getBookingStatusAdjustTime()));	
 			stmt.setInt(stmtInt++, booking.getBookingId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
@@ -275,6 +279,6 @@ public class BookingDao {
 				rs.getString("actionRecord"),course,BookingStatus.fromInt(rs.getInt("preStatus")),DateUtility.DateToCalendar(rs.getTimestamp("noRefundDate")),
 				DateUtility.DateToCalendar(rs.getTimestamp("cashbackDate")),BookingType.fromInt(rs.getInt("bookingType")),ServiceFeeStatus.fromInt(rs.getInt("serviceFeeStatus")),CommissionStatus.fromInt(rs.getInt("commissionStatus")),
 		        DateUtility.DateToCalendar(rs.getTimestamp("serviceFeeAdjustTime")),DateUtility.DateToCalendar(rs.getTimestamp("commissionStatusAdjustTime")),rs.getString("serviceFeeActionRecord"),rs.getString("commissionActionRecord"),
-		        ServiceFeeStatus.fromInt(rs.getInt("preServiceFeeStatus")),CommissionStatus.fromInt(rs.getInt("preCommissionStatus")));
+		        ServiceFeeStatus.fromInt(rs.getInt("preServiceFeeStatus")),CommissionStatus.fromInt(rs.getInt("preCommissionStatus")),DateUtility.DateToCalendar(rs.getTimestamp("bookingStatusAdjustTime")));
 	}
 }

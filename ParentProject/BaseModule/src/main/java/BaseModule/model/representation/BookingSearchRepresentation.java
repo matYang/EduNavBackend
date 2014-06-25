@@ -356,7 +356,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	public void setFinishCommissionStatusAdjustTime(
 			Calendar finishCommissionStatusAdjustTime) {
 		this.finishCommissionStatusAdjustTime = finishCommissionStatusAdjustTime;
-	}
+	}	
+	
 
 	@Override
 	public String toString() {
@@ -371,21 +372,26 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				+ ", startAdjustTime=" + startAdjustTime
 				+ ", finishAdjustTime=" + finishAdjustTime
 				+ ", startCreationTime=" + startCreationTime
-				+ ", finishCreationTime=" + finishCreationTime 
-				+ ", startNoRefundDate=" + startNoRefundDate 
-				+ ", finishNoRefundDate=" + finishNoRefundDate
-				+ ", startCashbackDate=" + startCashbackDate 
-				+ ", finishCashbackDate=" + finishCashbackDate	
-				+ ", bookingType=" + bookingType 
-				+ ", serviceFeeStatus=" + serviceFeeStatus
-				+ ", commissionStatus=" + commissionStatus 
-				+ ", startServiceFeeAdjustTime=" + startServiceFeeAdjustTime 
+				+ ", finishCreationTime=" + finishCreationTime
+				+ ", startBookingStatusAdjustTime="
+				+ startBookingStatusAdjustTime
+				+ ", finishBookingStatusAdjustTime="
+				+ finishBookingStatusAdjustTime
+				+ ", startServiceFeeAdjustTime=" + startServiceFeeAdjustTime
 				+ ", finishServiceFeeAdjustTime=" + finishServiceFeeAdjustTime
-				+ ", startCommissionStatusAdjustTime=" + startCommissionStatusAdjustTime 
-				+ ", finishCommissionStatusAdjustTime=" + finishCommissionStatusAdjustTime +"]";		
-		
+				+ ", startCommissionStatusAdjustTime="
+				+ startCommissionStatusAdjustTime
+				+ ", finishCommissionStatusAdjustTime="
+				+ finishCommissionStatusAdjustTime + ", startNoRefundDate="
+				+ startNoRefundDate + ", finishNoRefundDate="
+				+ finishNoRefundDate + ", startCashbackDate="
+				+ startCashbackDate + ", finishCashbackDate="
+				+ finishCashbackDate + ", bookingType=" + bookingType
+				+ ", serviceFeeStatus=" + serviceFeeStatus
+				+ ", commissionStatus=" + commissionStatus
+				+ ", preServiceFeeStatus=" + preServiceFeeStatus
+				+ ", preCommissionStatus=" + preCommissionStatus + "]";
 	}
-	
 
 	public String getSearchQuery() {
 		String query = "SELECT * from BookingDao ";

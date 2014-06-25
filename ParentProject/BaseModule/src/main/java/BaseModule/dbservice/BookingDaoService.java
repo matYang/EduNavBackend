@@ -67,7 +67,7 @@ public class BookingDaoService {
 			if (updatedBooking.getStatus() == BookingStatus.registered && updatedBooking.getServiceFeeStatus() == ServiceFeeStatus.naive){
 				updatedBooking.setServiceFeeStatus(ServiceFeeStatus.shouldCharge);
 				//TODO set time and adjust record
-				updatedBooking.appendActionRecord(updatedBooking.getServiceFeeStatus(), adminId)
+				//updatedBooking.appendActionRecord(updatedBooking.getServiceFeeStatus(), adminId)
 			}
 			else if (updatedBooking.getStatus() == BookingStatus.paid && updatedBooking.getCommissionStatus() == CommissionStatus.naive){
 				updatedBooking.setCommissionStatus(CommissionStatus.shouldCharge);
