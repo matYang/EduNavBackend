@@ -33,13 +33,18 @@ public class BookingDaoService {
 	public static Booking getBookingById(final int id) throws PseudoException, SQLException{
 		return BookingDao.getBookingById(id);
 	}
+	
+	public static void updateBookingInfo(Booking updatedBooking, Connection...connections)throws PseudoException, SQLException{
+		updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
+		BookingDao.updateBookingInDatabases(updatedBooking, connections);
+	}
 
-	public static void updateBooking(Booking updatedBooking,  final int adminId) throws PseudoException, SQLException{
+	public static void updateBooking(Booking updatedBooking,  final int adminId, Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;
 		boolean ok = false;
 
 		try{
-			conn = EduDaoBasic.getConnection();
+			conn = EduDaoBasic.getConnection(connections);
 			conn.setAutoCommit(false);
 
 			if (updatedBooking.getStatus() == updatedBooking.getPreStatus()){
@@ -62,6 +67,7 @@ public class BookingDaoService {
 			if (updatedBooking.getStatus() == BookingStatus.registered && updatedBooking.getServiceFeeStatus() == ServiceFeeStatus.naive){
 				updatedBooking.setServiceFeeStatus(ServiceFeeStatus.shouldCharge);
 				//TODO set time and adjust record
+				updatedBooking.appendActionRecord(updatedBooking.getServiceFeeStatus(), adminId)
 			}
 			else if (updatedBooking.getStatus() == BookingStatus.paid && updatedBooking.getCommissionStatus() == CommissionStatus.naive){
 				updatedBooking.setCommissionStatus(CommissionStatus.shouldCharge);
@@ -78,7 +84,7 @@ public class BookingDaoService {
 
 			ok = true;
 		} finally{
-			if (EduDaoBasic.handleCommitFinally(conn, ok, true)){
+			if (EduDaoBasic.handleCommitFinally(conn, ok, EduDaoBasic.shouldConnectionClose(connections))){
 				if (updatedBooking != null && updatedBooking.getStatus() != updatedBooking.getPreStatus() && updatedBooking.getStatus() == BookingStatus.confirmed){
 					SMSService.sendBookingConfirmedSMS(updatedBooking);
 				}
@@ -156,7 +162,7 @@ public class BookingDaoService {
 			targetSMSUser = inviter;
 			ok = true;
 		} finally{
-			if (EduDaoBasic.handleCommitFinally(transientConnection, ok, EduDaoBasic.shouldConnectionClose(transientConnection))){
+			if (EduDaoBasic.handleCommitFinally(transientConnection, ok, EduDaoBasic.shouldConnectionClose(connections))){
 				if (targetSMSUser != null){
 					SMSService.sendInviterConsolidationSMS(targetSMSUser.getPhone(), targetSMSUser.getPhone());
 				}
