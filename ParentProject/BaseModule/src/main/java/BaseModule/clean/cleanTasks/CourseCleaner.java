@@ -98,6 +98,9 @@ public class CourseCleaner extends CourseDao{
 			transientConnection.setAutoCommit(false);
 			while(rs.next()){
 				try{
+					//must do it here, as a guard
+					transientConnection.setAutoCommit(false);
+					
 					//get unconsolidated courses
 					Course course = CourseDao.createCourseByResultSet(rs,partner ,transientConnection);
 		
@@ -113,74 +116,7 @@ public class CourseCleaner extends CourseDao{
 					//for each unconsolidated booking
 					boolean allOk = true;
 					for (Booking booking : unconsolidatedBookings){
-						try{
-							//lock user; now user, booking, coupon, credit, transaction are all safe to proceed
-							User user = UserDao.getAndLock(booking.getUserId(), transientConnection);
-							User inviter = null;
-							
-							//create credit
-							Credit credit = new Credit(booking.getBookingId(), booking.getPrice(), booking.getUserId());
-							CreditDao.addCreditToDatabases(credit, transientConnection);
-							
-							//create transaction if cash back
-							if (booking.getCashbackAmount() > 0){
-								Transaction transaction = new Transaction(booking.getUserId(), booking.getBookingId(), booking.getCashbackAmount(), TransactionType.cashback);
-								TransactionDao.addTransactionToDatabases(transaction, transientConnection);
-							}
-							
-							//check if the current user is invited by another user
-							String appliedInvitationalCode = user.getAppliedInvitationalCode();
-							if (appliedInvitationalCode != null && appliedInvitationalCode.length() != 0){
-								//check if this is the current user's first consolidated booking 
-								BookingSearchRepresentation invitee_sr = new BookingSearchRepresentation();
-								invitee_sr.setUserId(booking.getUserId());
-								invitee_sr.setStatus(BookingStatus.consolidated);
-								ArrayList<Booking> consolidatedBookings = BookingDao.searchBooking(invitee_sr, transientConnection);
-								//if this is the current user's first consolidated booking
-								if (consolidatedBookings.size() == 0){
-									UserSearchRepresentation u_sr = new UserSearchRepresentation();
-									u_sr.setAppliedInvitationalCode(appliedInvitationalCode);
-									ArrayList<User> inviters = UserDao.searchUser(u_sr, transientConnection);
-									//find inviter (ignore error, if error too bad..)
-									if (inviters.size() == 1){
-										inviter = inviters.get(0);
-										//lock inviter
-										UserDao.getAndLock(inviter.getUserId(), transientConnection);
-										//create a transaction, indicating a ￥5 invitational deposit
-										Transaction transaction = new Transaction(inviter.getUserId(), booking.getBookingId(), 5, TransactionType.invitation);
-										TransactionDao.addTransactionToDatabases(transaction, transientConnection);
-										//incr inviter's account balance by ￥5
-										UserDao.updateUserBCC(5, 0, 0, inviter.getUserId(), transientConnection);
-										
-									}
-								}
-							}
-							
-							
-							//update user's money and credit balance
-							UserDao.updateUserBCC(booking.getCashbackAmount(), booking.getPrice(), 0, booking.getUserId(), transientConnection);
-							
-							//change booking status to consolidated
-							booking.setStatus(BookingStatus.consolidated);
-							booking.setAdjustTime(DateUtility.getCurTimeInstance());
-							booking.appendActionRecord(BookingStatus.consolidated, -2);
-							BookingDao.updateBookingInDatabases(booking, transientConnection);
-							
-							//commit after each run to decrease side effect of an error
-							transientConnection.commit();
-							
-							//send notification sms to inviter, if inviter exists and should get the ￥5, left to last as do not notify in case any error occurs
-							if (inviter != null){
-								SMSService.sendInviterConsolidationSMS(inviter.getPhone(), user.getPhone());
-							}
-							
-							System.out.println("cleaned booking: " + booking.getBookingId());
-						} catch (Exception e){
-							transientConnection.rollback();
-							DebugLog.d(e);
-							//if a single booking failed to update, do not update course to be consolidated, cleaner will retry in the next clean run
-							allOk = false;
-						}
+						BookingDaoService.consolidateBooking(booking, transientConnection);
 					}
 
 					//only commit the course to be consolidated after all bookings are committed to be consolidated
