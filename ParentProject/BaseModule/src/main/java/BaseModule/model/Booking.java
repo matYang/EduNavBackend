@@ -49,11 +49,15 @@ public class Booking implements PseudoModel, Serializable{
 	private BookingType bookingType;
 	private ServiceFeeStatus serviceFeeStatus;
 	private CommissionStatus commissionStatus;
+	//TODO
+	private ServiceFeeStatus preServiceFeeStatus;
+	private CommissionStatus preCommissionStatus;
 
 	private Calendar serviceFeeAdjustTime;
 	private Calendar commissionStatusAdjustTime;
 	private String serviceFeeActionRecord;
 	private String commissionActionRecord;
+
 	
 	private String note;
 	private int cashbackAmount;

@@ -51,6 +51,10 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private BookingType bookingType;
 	private ServiceFeeStatus serviceFeeStatus;
 	private CommissionStatus commissionStatus;
+	
+	//TODO
+	private ServiceFeeStatus preServiceFeeStatus;
+	private CommissionStatus preCommissionStatus;
 
 	public BookingSearchRepresentation(){
 		this.bookingId = -1;
