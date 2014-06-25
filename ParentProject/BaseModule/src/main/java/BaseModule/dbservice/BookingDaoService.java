@@ -23,6 +23,7 @@ import BaseModule.model.Booking;
 import BaseModule.model.Credit;
 import BaseModule.model.Transaction;
 import BaseModule.model.User;
+import BaseModule.model.dataObj.BookingStatusObj;
 import BaseModule.model.representation.BookingSearchRepresentation;
 import BaseModule.model.representation.UserSearchRepresentation;
 import BaseModule.service.SMSService;
@@ -39,7 +40,7 @@ public class BookingDaoService {
 		BookingDao.updateBookingInDatabases(updatedBooking, connections);
 	}
 
-	public static void updateBooking(Booking updatedBooking,  final int adminId, Connection...connections) throws PseudoException, SQLException{
+	public static void updateBookingStatuses(Booking updatedBooking, BookingStatusObj statusObj, final int adminId, Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;
 		boolean ok = false;
 
@@ -47,12 +48,7 @@ public class BookingDaoService {
 			conn = EduDaoBasic.getConnection(connections);
 			conn.setAutoCommit(false);
 
-			if (updatedBooking.getStatus() == updatedBooking.getPreStatus()){
-				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-				BookingDao.updateBookingInDatabases(updatedBooking, conn);
-				ok = true;
-				return;
-			}
+
 			//user can only change state to cancelled, cannot do anything else, adminId <= 0 implies this is a user
 			if (updatedBooking.getStatus() != BookingStatus.cancelled && adminId <= 0){
 				throw new AuthenticationException("当前用户无权进行此操作");
@@ -67,7 +63,7 @@ public class BookingDaoService {
 			if (updatedBooking.getStatus() == BookingStatus.registered && updatedBooking.getServiceFeeStatus() == ServiceFeeStatus.naive){
 				updatedBooking.setServiceFeeStatus(ServiceFeeStatus.shouldCharge);
 				//TODO set time and adjust record
-				updatedBooking.appendActionRecord(updatedBooking.getServiceFeeStatus(), adminId)
+				//updatedBooking.appendActionRecord(updatedBooking.getServiceFeeStatus(), adminId)
 			}
 			else if (updatedBooking.getStatus() == BookingStatus.paid && updatedBooking.getCommissionStatus() == CommissionStatus.naive){
 				updatedBooking.setCommissionStatus(CommissionStatus.shouldCharge);

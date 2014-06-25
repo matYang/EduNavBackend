@@ -4,7 +4,7 @@ import org.restlet.Application;
 import org.restlet.Context;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;
-import UserModule.resources.booking.BookingIdResource;
+import UserModule.resources.booking.BookingChangeStatusResource;
 import UserModule.resources.booking.BookingResource;
 import UserModule.resources.coupon.CouponIdResource;
 import UserModule.resources.general.*;
@@ -96,7 +96,10 @@ public final class RoutingService extends Application {
 		//	API for booking get/post : /api/v1.0/booking/booking
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + BookingPrefix, BookingResource.class);
 		//	API for booking get/put : /api/v1.0/booking/booking/:id
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + BookingPrefix + "/{id}", BookingIdResource.class);
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + BookingPrefix + "/{id}", BookingChangeStatusResource.class);
+		String ChangeStatusPrefix = "/changeStatus";
+		//  API for booking change status: /api/v1.0/booking/changeStatus/:id
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + ChangeStatusPrefix + "{id}", BookingChangeStatusResource.class);
 		
 		
 		/** -------------------- APIs for coupon module ------------------ **/

@@ -69,7 +69,7 @@ public final class BookingIdResource extends AdminPseudoResource{
 			
 			Booking booking = BookingDaoService.getBookingById(bookingId);
 			booking = parseJSON(jsonBooking, booking);
-			BookingDaoService.updateBooking(booking, adminId);
+			BookingDaoService.updateBookingInfo(booking);
 
 			newBooking = JSONGenerator.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);
