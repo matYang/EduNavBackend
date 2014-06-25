@@ -4,7 +4,7 @@ import redis.clients.jedis.Jedis;
 import BaseModule.common.DateUtility;
 import BaseModule.configurations.RedisAccessControlConfig;
 import BaseModule.eduDAO.EduDaoBasic;
-import BaseModule.model.configObj.RedisAccessControlObj;
+import BaseModule.model.dataObj.RedisAccessControlObj;
 
 public class RedisAccessControlService {
 	
