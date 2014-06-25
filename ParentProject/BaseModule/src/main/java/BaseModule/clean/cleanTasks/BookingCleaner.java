@@ -9,6 +9,7 @@ import java.util.Calendar;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.dbservice.BookingDaoService;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.model.Booking;
@@ -37,7 +38,8 @@ public class BookingCleaner extends BookingDao{
 				Booking booking = BookingDao.createBookingByResultSet(rs, conn);
 				if(booking.getStatus().code == BookingStatus.started.code){
 					booking.setStatus(BookingStatus.succeeded);
-				}else{					
+				}else{		
+					BookingDaoService.consolidateBooking(booking, conn);
 					booking.setStatus(BookingStatus.consolidated);
 				}
 				BookingDao.updateBookingInDatabases(booking, conn);
