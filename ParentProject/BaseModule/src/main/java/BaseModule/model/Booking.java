@@ -434,7 +434,10 @@ public class Booking implements PseudoModel, Serializable{
 			jsonObj.put("serviceFeeAdjustTime", DateUtility.castToAPIFormat(this.serviceFeeAdjustTime));
 			jsonObj.put("commissionStatusAdjustTime", DateUtility.castToAPIFormat(this.commissionStatusAdjustTime));
 			jsonObj.put("serviceFeeActionRecord",EncodingService.encodeURI(this.serviceFeeActionRecord));
-			jsonObj.put("commissionActionRecord",EncodingService.encodeURI(this.commissionActionRecord));			
+			jsonObj.put("commissionActionRecord",EncodingService.encodeURI(this.commissionActionRecord));	
+			jsonObj.put("preServiceFeeStatus", this.preServiceFeeStatus.code);
+			jsonObj.put("preCommissionStatus", this.preCommissionStatus.code);
+			jsonObj.put("bookingStatusAdjustTime", DateUtility.castToAPIFormat(this.bookingStatusAdjustTime));			
 			
 		} catch (JSONException | UnsupportedEncodingException e) {
 			DebugLog.d(e);
@@ -470,7 +473,7 @@ public class Booking implements PseudoModel, Serializable{
 				this.actionRecord.equals(booking.actionRecord) &&
 				this.bookingType.code == booking.getBookingType().code &&
 				this.serviceFeeStatus.code == booking.getServiceFeeStatus().code &&
-				this.commissionStatus.code == booking.getCommissionStatus().code &&
+				this.commissionStatus.code == booking.getCommissionStatus().code &&				
 				courseEqualResult;
 
 	}
