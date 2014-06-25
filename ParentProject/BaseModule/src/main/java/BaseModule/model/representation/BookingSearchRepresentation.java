@@ -666,7 +666,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 			}else{
 				query += "and ";
 			}
-			query += "startServiceFeeAdjustTime = ? ";
+			query += "serviceFeeAdjustTime >= ? ";
 		}
 		if(this.finishServiceFeeStatusAdjustTime != null){
 			if(!start){
@@ -675,7 +675,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 			}else{
 				query += "and ";
 			}
-			query += "finishServiceFeeAdjustTime = ? ";
+			query += "serviceFeeAdjustTime <= ? ";
 		}
 		if(this.startCommissionStatusAdjustTime != null){
 			if(!start){
@@ -684,7 +684,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 			}else{
 				query += "and ";
 			}
-			query += "startCommissionStatusAdjustTime = ? ";
+			query += "commissionStatusAdjustTime >= ? ";
 		}
 		if(this.finishCommissionStatusAdjustTime != null){
 			if(!start){
@@ -693,7 +693,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 			}else{
 				query += "and ";
 			}
-			query += "finishCommissionStatusAdjustTime = ? ";
+			query += "commissionStatusAdjustTime <= ? ";
 		}
 		if(this.preServiceFeeStatus != null){
 			if(!start){

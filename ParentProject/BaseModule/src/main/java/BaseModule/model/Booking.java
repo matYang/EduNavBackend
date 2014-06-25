@@ -461,11 +461,14 @@ public class Booking implements PseudoModel, Serializable{
 			jsonObj.put("cashbackDate",DateUtility.castToAPIFormat(this.cashbackDate));
 			jsonObj.put("bookingType", this.bookingType.code);
 			jsonObj.put("serviceFeeStatus", this.serviceFeeStatus.code);
+			jsonObj.put("preServiceFeeStatus", this.preServiceFeeStatus);
 			jsonObj.put("commissionStatus", this.commissionStatus.code);
+			jsonObj.put("preCommissionStatus", this.preCommissionStatus);
+			jsonObj.put("bookingStatusAdjustTime", DateUtility.castToAPIFormat(this.bookingStatusAdjustTime));
 			jsonObj.put("serviceFeeStatusAdjustTime", DateUtility.castToAPIFormat(this.serviceFeeStatusAdjustTime));
 			jsonObj.put("commissionStatusAdjustTime", DateUtility.castToAPIFormat(this.commissionStatusAdjustTime));
 			jsonObj.put("serviceFeeActionRecord",EncodingService.encodeURI(this.serviceFeeActionRecord));
-			jsonObj.put("commissionActionRecord",EncodingService.encodeURI(this.commissionActionRecord));			
+			jsonObj.put("commissionActionRecord",EncodingService.encodeURI(this.commissionActionRecord));		
 			
 		} catch (JSONException | UnsupportedEncodingException e) {
 			DebugLog.d(e);
@@ -502,6 +505,8 @@ public class Booking implements PseudoModel, Serializable{
 				this.bookingType.code == booking.getBookingType().code &&
 				this.serviceFeeStatus.code == booking.getServiceFeeStatus().code &&
 				this.commissionStatus.code == booking.getCommissionStatus().code &&
+				this.preServiceFeeStatus.code == booking.getPreServiceFeeStatus().code &&
+				this.preCommissionStatus.code == booking.getPreCommissionStatus().code &&
 				courseEqualResult;
 
 	}
