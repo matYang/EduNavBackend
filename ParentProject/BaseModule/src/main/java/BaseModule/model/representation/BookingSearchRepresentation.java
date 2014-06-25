@@ -54,9 +54,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private Calendar finishCashbackDate;
 	private BookingType bookingType;
 	private ServiceFeeStatus serviceFeeStatus;
-	private CommissionStatus commissionStatus;
+	private CommissionStatus commissionStatus;	
 	
-	//TODO
 	private ServiceFeeStatus preServiceFeeStatus;
 	private CommissionStatus preCommissionStatus;
 
@@ -93,6 +92,8 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.finishServiceFeeAdjustTime = null;
 		this.startCommissionStatusAdjustTime = null;
 		this.finishCommissionStatusAdjustTime = null;
+		this.preServiceFeeStatus = null;
+		this.preCommissionStatus = null;
 		
 	}
 
@@ -358,6 +359,22 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.finishCommissionStatusAdjustTime = finishCommissionStatusAdjustTime;
 	}	
 	
+
+	public ServiceFeeStatus getPreServiceFeeStatus() {
+		return preServiceFeeStatus;
+	}
+
+	public void setPreServiceFeeStatus(ServiceFeeStatus preServiceFeeStatus) {
+		this.preServiceFeeStatus = preServiceFeeStatus;
+	}
+
+	public CommissionStatus getPreCommissionStatus() {
+		return preCommissionStatus;
+	}
+
+	public void setPreCommissionStatus(CommissionStatus preCommissionStatus) {
+		this.preCommissionStatus = preCommissionStatus;
+	}
 
 	@Override
 	public String toString() {
@@ -656,6 +673,24 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				query += "and ";
 			}
 			query += "finishCommissionStatusAdjustTime = ? ";
+		}
+		if(this.preServiceFeeStatus != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "preServiceFeeStatus = ? ";
+		}
+		if(this.preCommissionStatus != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "preCommissionStatus = ? ";
 		}
 		return query;
 	}
