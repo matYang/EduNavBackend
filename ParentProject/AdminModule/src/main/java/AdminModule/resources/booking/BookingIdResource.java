@@ -14,7 +14,6 @@ import org.restlet.resource.Put;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -69,7 +68,7 @@ public final class BookingIdResource extends AdminPseudoResource{
 			
 			Booking booking = BookingDaoService.getBookingById(bookingId);
 			booking = parseJSON(jsonBooking, booking);
-			BookingDaoService.updateBooking(booking, adminId);
+			BookingDaoService.updateBookingInfo(booking);
 
 			newBooking = JSONGenerator.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);

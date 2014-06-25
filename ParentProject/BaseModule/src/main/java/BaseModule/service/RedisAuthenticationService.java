@@ -9,7 +9,7 @@ import BaseModule.configurations.RedisAuthenticationConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.model.configObj.RedisAuthenticationObj;
+import BaseModule.model.dataObj.RedisAuthenticationObj;
 
 public final class RedisAuthenticationService {
 	

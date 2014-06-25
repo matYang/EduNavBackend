@@ -1,6 +1,6 @@
 package BaseModule.configurations;
 
-import BaseModule.model.configObj.RedisAccessControlObj;
+import BaseModule.model.dataObj.RedisAccessControlObj;
 
 public final class RedisAccessControlConfig {
 	

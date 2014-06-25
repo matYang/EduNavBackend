@@ -1,4 +1,4 @@
-package BaseModule.model.configObj;
+package BaseModule.model.dataObj;
 
 public class RedisAuthenticationObj {
 	

@@ -1,6 +1,6 @@
 package BaseModule.configurations;
 
-import BaseModule.model.configObj.RedisAuthenticationObj;
+import BaseModule.model.dataObj.RedisAuthenticationObj;
 
 public final class RedisAuthenticationConfig {
 

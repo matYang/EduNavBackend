@@ -11,6 +11,7 @@ import AdminModule.resources.admin.auth.AdminAccountLogin;
 import AdminModule.resources.admin.auth.AdminAccountLogout;
 import AdminModule.resources.admin.auth.AdminChangePassword;
 import AdminModule.resources.admin.auth.AdminSessionRedirect;
+import AdminModule.resources.booking.BookingChangeStatusResource;
 import AdminModule.resources.booking.BookingIdResource;
 import AdminModule.resources.booking.BookingResource;
 import AdminModule.resources.coupon.CouponIdResource;
@@ -95,7 +96,12 @@ public final class RoutingService extends Application{
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + BookingPrefix, BookingResource.class);
 		//  API for admin to get/update booking : /a-api/v1.0/booking/booking/:id
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + BookingPrefix + "/{id}", BookingIdResource.class); 
-		
+		String ChangeStatusPrefix = "/changeStatus";
+		//  API for booking change status: /a-api/v1.0/booking/changeStatus/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + ChangeStatusPrefix + "{id}", BookingChangeStatusResource.class);
+		String ChangeStatusSupervisorCallPrefix = "/changeStatusSuper";
+		//  API for booking change status with supervisor rights: /a-api/v1.0/booking/changeStatusSuper/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + ChangeStatusSupervisorCallPrefix  + "{id}", BookingChangeStatusResource.class);
 		
 		
 		/** -------------------- APIs for course module ------------------ **/
@@ -146,8 +152,6 @@ public final class RoutingService extends Application{
 		String MemcachedBenchMarkPrefix = "/memcached";
 		//	API for making a memcached bench mark: /a-api/v1.0/test/memcached
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + testServicePrefix + MemcachedBenchMarkPrefix, MemcachedBenchMarkResource.class);
-		
-		
 		
 		
 		

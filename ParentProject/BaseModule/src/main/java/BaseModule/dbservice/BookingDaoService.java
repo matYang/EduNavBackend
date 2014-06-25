@@ -23,6 +23,7 @@ import BaseModule.model.Booking;
 import BaseModule.model.Credit;
 import BaseModule.model.Transaction;
 import BaseModule.model.User;
+import BaseModule.model.dataObj.BookingStatusObj;
 import BaseModule.model.representation.BookingSearchRepresentation;
 import BaseModule.model.representation.UserSearchRepresentation;
 import BaseModule.service.SMSService;
@@ -39,57 +40,80 @@ public class BookingDaoService {
 		BookingDao.updateBookingInDatabases(updatedBooking, connections);
 	}
 
-	public static void updateBooking(Booking updatedBooking,  final int adminId, Connection...connections) throws PseudoException, SQLException{
+	public static void updateBookingStatuses(Booking curBooking, BookingStatusObj statusObj, final int adminId, boolean supervisor, Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;
 		boolean ok = false;
 
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			conn.setAutoCommit(false);
-
-			if (updatedBooking.getStatus() == updatedBooking.getPreStatus()){
-				updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-				BookingDao.updateBookingInDatabases(updatedBooking, conn);
-				ok = true;
-				return;
-			}
-			//user can only change state to cancelled, cannot do anything else, adminId <= 0 implies this is a user
-			if (updatedBooking.getStatus() != BookingStatus.cancelled && adminId <= 0){
-				throw new AuthenticationException("当前用户无权进行此操作");
-			}
-			if (!ValidStateTransferService.validateBookingStatusTransfer(updatedBooking.getPreStatus(), updatedBooking.getStatus())){
-				throw new ValidationException("预订状态操作错误，请刷新页面");
-			}
-
-			updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
-			updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 			
-			if (updatedBooking.getStatus() == BookingStatus.registered && updatedBooking.getServiceFeeStatus() == ServiceFeeStatus.naive){
-				updatedBooking.setServiceFeeStatus(ServiceFeeStatus.shouldCharge);
-				//TODO set time and adjust record
-				//updatedBooking.appendActionRecord(updatedBooking.getServiceFeeStatus(), adminId)
+			
+			
+			if (statusObj.bookingStatus != null && statusObj.bookingStatus != curBooking.getStatus()){
+				//user can only change state to cancelled, cannot do anything else, adminId <= 0 implies this is a user
+				if (statusObj.bookingStatus != BookingStatus.cancelled && adminId <= 0){
+					throw new AuthenticationException("当前用户无权进行此操作");
+				}
+				if (!supervisor && !ValidStateTransferService.validateBookingStatusTransfer(curBooking.getStatus(), statusObj.bookingStatus)){
+					throw new ValidationException("预订状态操作错误，请联系管理员或者尝试刷新页面");
+				}
+				
+				curBooking.setPreStatus(curBooking.getStatus());
+				curBooking.setStatus(statusObj.bookingStatus);
+				curBooking.setBookingStatusAdjustTime(DateUtility.getCurTimeInstance());
+				curBooking.appendActionRecord(statusObj.bookingStatus, adminId);
+				
+				if (curBooking.getStatus() == BookingStatus.registered && curBooking.getServiceFeeStatus() == ServiceFeeStatus.naive){
+					curBooking.setPreServiceFeeStatus(curBooking.getServiceFeeStatus());
+					curBooking.setServiceFeeStatus(ServiceFeeStatus.shouldCharge);
+					curBooking.setServiceFeeStatusAdjustTime(DateUtility.getCurTimeInstance());
+					curBooking.appendServiceFeeActionRecord(ServiceFeeStatus.shouldCharge, adminId);
+				}
+				else if (curBooking.getStatus() == BookingStatus.paid && curBooking.getCommissionStatus() == CommissionStatus.naive){
+					curBooking.setPreCommissionStatus(curBooking.getCommissionStatus());
+					curBooking.setCommissionStatus(CommissionStatus.shouldCharge);
+					curBooking.setCommissionStatusAdjustTime(DateUtility.getCurTimeInstance());
+					curBooking.appendCommissionActionRecord(CommissionStatus.shouldCharge, adminId);
+				}
 			}
-			else if (updatedBooking.getStatus() == BookingStatus.paid && updatedBooking.getCommissionStatus() == CommissionStatus.naive){
-				updatedBooking.setCommissionStatus(CommissionStatus.shouldCharge);
-				//TODO set time and adjust record
+			if (statusObj.serviceFeeStatus != null && statusObj.serviceFeeStatus != curBooking.getServiceFeeStatus()){
+				if (!supervisor && !ValidStateTransferService.validateServiceFeeStatusTransfer(curBooking.getServiceFeeStatus(), statusObj.serviceFeeStatus)){
+					throw new ValidationException("预订服务费状态操作错误，请联系管理员或者尝试刷新页面");
+				}
+				curBooking.setPreServiceFeeStatus(curBooking.getServiceFeeStatus());
+				curBooking.setServiceFeeStatus(statusObj.serviceFeeStatus);
+				curBooking.setServiceFeeStatusAdjustTime(DateUtility.getCurTimeInstance());
+				curBooking.appendServiceFeeActionRecord(statusObj.serviceFeeStatus, adminId);
+			}
+			if (statusObj.commissionStatus != null && statusObj.commissionStatus != curBooking.getCommissionStatus()){
+				if (!supervisor && !ValidStateTransferService.validateCommissionStatusTransfer(curBooking.getCommissionStatus(), statusObj.commissionStatus)){
+					throw new ValidationException("预订佣金状态操作错误，请联系管理员或者尝试刷新页面");
+				}
+				curBooking.setPreCommissionStatus(curBooking.getCommissionStatus());
+				curBooking.setCommissionStatus(statusObj.commissionStatus);
+				curBooking.setCommissionStatusAdjustTime(DateUtility.getCurTimeInstance());
+				curBooking.appendCommissionActionRecord(statusObj.commissionStatus, adminId);
 			}
 			
-			if (updatedBooking.getStatus() != BookingStatus.consolidated){
-				BookingDao.updateBookingInDatabases(updatedBooking,conn); 
+			
+			//new to be consolidated
+			if (curBooking.getStatus() == BookingStatus.consolidated && curBooking.getPreStatus() != BookingStatus.consolidated){
+				consolidateBooking(curBooking, conn);
 			}
 			else{
-				consolidateBooking(updatedBooking, conn);
+				BookingDao.updateBookingInDatabases(curBooking,conn); 
 			}
 
 
 			ok = true;
 		} finally{
 			if (EduDaoBasic.handleCommitFinally(conn, ok, EduDaoBasic.shouldConnectionClose(connections))){
-				if (updatedBooking != null && updatedBooking.getStatus() != updatedBooking.getPreStatus() && updatedBooking.getStatus() == BookingStatus.confirmed){
-					SMSService.sendBookingConfirmedSMS(updatedBooking);
+				if (curBooking != null && curBooking.getStatus() != curBooking.getPreStatus() && curBooking.getStatus() == BookingStatus.confirmed){
+					SMSService.sendBookingConfirmedSMS(curBooking);
 				}
-				else if (updatedBooking != null && updatedBooking.getStatus() != updatedBooking.getPreStatus() && updatedBooking.getStatus() == BookingStatus.failed){
-					SMSService.sendBookingFailedSMS(updatedBooking);
+				else if (curBooking != null && curBooking.getStatus() != curBooking.getPreStatus() && curBooking.getStatus() == BookingStatus.failed){
+					SMSService.sendBookingFailedSMS(curBooking);
 				}
 			}
 		}
@@ -145,14 +169,16 @@ public class BookingDaoService {
 				}
 			}
 			
-			
 			//update user's money and credit balance
 			UserDao.updateUserBCC(booking.getCashbackAmount(), booking.getPrice(), 0, booking.getUserId(), transientConnection);
 			
-			//change booking status to consolidated
-			booking.setStatus(BookingStatus.consolidated);
-			booking.setAdjustTime(DateUtility.getCurTimeInstance());
-			booking.appendActionRecord(BookingStatus.consolidated, -2);
+			//change booking status to consolidated, if not been done already
+			if (booking.getStatus() != BookingStatus.consolidated){
+				booking.setPreStatus(booking.getStatus());
+				booking.setStatus(BookingStatus.consolidated);
+				booking.setAdjustTime(DateUtility.getCurTimeInstance());
+				booking.appendActionRecord(BookingStatus.consolidated, -2);
+			}
 			BookingDao.updateBookingInDatabases(booking, transientConnection);
 			
 			//commit after each run to decrease side effect of an error
