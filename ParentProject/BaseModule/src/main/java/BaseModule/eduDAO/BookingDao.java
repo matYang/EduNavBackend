@@ -107,11 +107,11 @@ public class BookingDao {
 			if(sr.getCommissionStatus() != null){
 				stmt.setInt(stmtInt++, sr.getCommissionStatus().code);
 			}
-			if(sr.getStartServiceFeeAdjustTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartServiceFeeAdjustTime()));
+			if(sr.getStartServiceFeeStatusAdjustTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartServiceFeeStatusAdjustTime()));
 			}
-			if(sr.getFinishServiceFeeAdjustTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishServiceFeeAdjustTime()));
+			if(sr.getFinishServiceFeeStatusAdjustTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishServiceFeeStatusAdjustTime()));
 			}
 			if(sr.getStartCommissionStatusAdjustTime() != null){
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartCommissionStatusAdjustTime()));
@@ -175,7 +175,7 @@ public class BookingDao {
 			stmt.setInt(21, booking.getBookingType().code);
 			stmt.setInt(22, booking.getServiceFeeStatus().code);
 			stmt.setInt(23, booking.getCommissionStatus().code);
-			stmt.setString(24, DateUtility.toSQLDateTime(booking.getServiceFeeAdjustTime()));
+			stmt.setString(24, DateUtility.toSQLDateTime(booking.getServiceFeeStatusAdjustTime()));
 			stmt.setString(25, DateUtility.toSQLDateTime(booking.getCommissionStatusAdjustTime()));
 			stmt.setString(26, booking.getServiceFeeActionRecord());
 			stmt.setString(27, booking.getCommissionActionRecord());
@@ -232,7 +232,7 @@ public class BookingDao {
 			stmt.setInt(stmtInt++, booking.getBookingType().code);
 			stmt.setInt(stmtInt++, booking.getServiceFeeStatus().code);
 			stmt.setInt(stmtInt++, booking.getCommissionStatus().code);
-			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getServiceFeeAdjustTime()));	
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getServiceFeeStatusAdjustTime()));	
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getCommissionStatusAdjustTime()));
 			stmt.setString(stmtInt++, booking.getServiceFeeActionRecord());	
 			stmt.setString(stmtInt++, booking.getCommissionActionRecord());	
