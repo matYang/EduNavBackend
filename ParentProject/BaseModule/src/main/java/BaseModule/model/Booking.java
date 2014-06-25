@@ -54,6 +54,8 @@ public class Booking implements PseudoModel, Serializable{
 	private Calendar commissionStatusAdjustTime;
 	private String serviceFeeActionRecord;
 	private String commissionActionRecord;
+	private String preServiceFeeStatus;
+	private String preCommissionStatus;
 	
 	private String note;
 	private int cashbackAmount;
@@ -128,8 +130,8 @@ public class Booking implements PseudoModel, Serializable{
 		this.noRefundDate = DateUtility.getCurTimeInstance();
 		this.cashbackDate = DateUtility.getCurTimeInstance();
 		this.bookingType = BookingType.online;
-		this.serviceFeeStatus = ServiceFeeStatus.refundCharge;
-		this.commissionStatus = CommissionStatus.refundCharge;
+		this.serviceFeeStatus = ServiceFeeStatus.naive;
+		this.commissionStatus = CommissionStatus.naive;
 	}
 
 	public int getBookingId() {

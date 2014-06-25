@@ -88,7 +88,7 @@ public final class EnumConfig {
 	}
 		
 	public static enum ServiceFeeStatus{
-		shouldCharge(0),hasCharged(1),refundCharge(2), noCharge(3), consolidated(4);
+		shouldCharge(0),hasCharged(1),refundCharge(2), noCharge(3), consolidated(4), naive(5);
         public int code;
         ServiceFeeStatus(int code){
             this.code = code;
@@ -100,7 +100,7 @@ public final class EnumConfig {
 	}
 
 	public static enum CommissionStatus{
-		shouldCharge(0),hasCharged(1),refundCharge(2), noCharge(3), consolidated(4);
+		shouldCharge(0),hasCharged(1),refundCharge(2), noCharge(3), consolidated(4), naive(5);
         public int code;
         CommissionStatus(int code){
             this.code = code;

@@ -7,6 +7,8 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.common.Parser;
 import BaseModule.configurations.EnumConfig.BookingStatus;
+import BaseModule.configurations.EnumConfig.CommissionStatus;
+import BaseModule.configurations.EnumConfig.ServiceFeeStatus;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.BookingDao;
 import BaseModule.eduDAO.CreditDao;
@@ -35,8 +37,7 @@ public class BookingDaoService {
 	public static void updateBooking(Booking updatedBooking,  final int adminId) throws PseudoException, SQLException{
 		Connection conn = null;
 		boolean ok = false;
-		boolean sendConfirmedSMS = false;
-		boolean sendFailedSMS = false;
+
 		try{
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
@@ -58,6 +59,15 @@ public class BookingDaoService {
 			updatedBooking.setAdjustTime(DateUtility.getCurTimeInstance());
 			updatedBooking.appendActionRecord(updatedBooking.getStatus(), adminId);
 			
+			if (updatedBooking.getStatus() == BookingStatus.registered && updatedBooking.getServiceFeeStatus() == ServiceFeeStatus.naive){
+				updatedBooking.setServiceFeeStatus(ServiceFeeStatus.shouldCharge);
+				//TODO set time and adjust record
+			}
+			else if (updatedBooking.getStatus() == BookingStatus.paid && updatedBooking.getCommissionStatus() == CommissionStatus.naive){
+				updatedBooking.setCommissionStatus(CommissionStatus.shouldCharge);
+				//TODO set time and adjust record
+			}
+			
 			if (updatedBooking.getStatus() != BookingStatus.consolidated){
 				BookingDao.updateBookingInDatabases(updatedBooking,conn); 
 			}
@@ -65,21 +75,14 @@ public class BookingDaoService {
 				consolidateBooking(updatedBooking, conn);
 			}
 
-			if (updatedBooking.getStatus() == BookingStatus.confirmed){
-				sendConfirmedSMS = true;
-			}
-			if (updatedBooking.getStatus() == BookingStatus.failed){
-				sendFailedSMS = true;
-			}
-			
 
 			ok = true;
 		} finally{
 			if (EduDaoBasic.handleCommitFinally(conn, ok, true)){
-				if (updatedBooking != null && sendConfirmedSMS){
+				if (updatedBooking != null && updatedBooking.getStatus() != updatedBooking.getPreStatus() && updatedBooking.getStatus() == BookingStatus.confirmed){
 					SMSService.sendBookingConfirmedSMS(updatedBooking);
 				}
-				else if (updatedBooking != null && sendFailedSMS){
+				else if (updatedBooking != null && updatedBooking.getStatus() != updatedBooking.getPreStatus() && updatedBooking.getStatus() == BookingStatus.failed){
 					SMSService.sendBookingFailedSMS(updatedBooking);
 				}
 			}
