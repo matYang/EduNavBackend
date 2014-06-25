@@ -380,6 +380,10 @@ public class Booking implements PseudoModel, Serializable{
 			jsonObj.put("bookingType", this.bookingType.code);
 			jsonObj.put("serviceFeeStatus", this.serviceFeeStatus.code);
 			jsonObj.put("commissionStatus", this.commissionStatus.code);
+			jsonObj.put("serviceFeeAdjustTime", DateUtility.castToAPIFormat(this.serviceFeeAdjustTime));
+			jsonObj.put("commissionStatusAdjustTime", DateUtility.castToAPIFormat(this.commissionStatusAdjustTime));
+			jsonObj.put("serviceFeeActionRecord",EncodingService.encodeURI(this.serviceFeeActionRecord));
+			jsonObj.put("commissionActionRecord",EncodingService.encodeURI(this.commissionActionRecord));			
 			
 		} catch (JSONException | UnsupportedEncodingException e) {
 			DebugLog.d(e);

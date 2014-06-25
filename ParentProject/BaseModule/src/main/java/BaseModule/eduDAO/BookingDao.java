@@ -107,6 +107,18 @@ public class BookingDao {
 			if(sr.getCommissionStatus() != null){
 				stmt.setInt(stmtInt++, sr.getCommissionStatus().code);
 			}
+			if(sr.getStartServiceFeeAdjustTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartServiceFeeAdjustTime()));
+			}
+			if(sr.getFinishServiceFeeAdjustTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishServiceFeeAdjustTime()));
+			}
+			if(sr.getStartCommissionStatusAdjustTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartCommissionStatusAdjustTime()));
+			}
+			if(sr.getFinishCommissionStatusAdjustTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishCommissionStatusAdjustTime()));
+			}
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				blist.add(createBookingByResultSet(rs,conn));
