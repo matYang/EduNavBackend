@@ -137,8 +137,10 @@ public class BookingDao {
 		ResultSet rs = null;			
 		String query = "INSERT INTO BookingDao (name,phone,creationTime,adjustTime,price," +
 				"status,u_Id,p_Id,course_Id,reference,transaction_Id,cashbackAmount,note,couponRecord," +
-				"scheduledTime,email,actionRecord,preStatus,noRefundDate,cashbackDate,bookingType,serviceFeeStatus,commissionStatus)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";		
+				"scheduledTime,email,actionRecord,preStatus,noRefundDate,cashbackDate,bookingType,"+ 
+				"serviceFeeStatus,commissionStatus,serviceFeeAdjustTime,commissionStatusAdjustTime,"+
+				"serviceFeeActionRecord,commissionActionRecord,preServiceFeeStatus,preCommissionStatus)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";		
 		try{				
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -166,7 +168,12 @@ public class BookingDao {
 			stmt.setInt(21, booking.getBookingType().code);
 			stmt.setInt(22, booking.getServiceFeeStatus().code);
 			stmt.setInt(23, booking.getCommissionStatus().code);
-			
+			stmt.setString(24, DateUtility.toSQLDateTime(booking.getServiceFeeAdjustTime()));
+			stmt.setString(25, DateUtility.toSQLDateTime(booking.getCommissionStatusAdjustTime()));
+			stmt.setString(26, booking.getServiceFeeActionRecord());
+			stmt.setString(27, booking.getCommissionActionRecord());
+			stmt.setInt(28, booking.getPreServiceFeeStatus().code);
+			stmt.setInt(29, booking.getPreCommissionStatus().code);
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -187,7 +194,8 @@ public class BookingDao {
 		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,price=?," +
 				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,cashbackAmount=?,note=?,couponRecord=?," +
 				"scheduledTime=?,email=?,actionRecord=?,preStatus=?,noRefundDate=?,cashbackDate=?,bookingType=?," +
-				"serviceFeeStatus=?,commissionStatus=? where id=?";		
+				"serviceFeeStatus=?,commissionStatus=?,serviceFeeAdjustTime=?,commissionStatusAdjustTime=?,"+ 
+				"serviceFeeActionRecord=?,commissionActionRecord=?,preServiceFeeStatus=?,preCommissionStatus=? where id=?";		
 		try{		
 			conn = EduDaoBasic.getConnection(connections);
 					
@@ -215,6 +223,12 @@ public class BookingDao {
 			stmt.setInt(stmtInt++, booking.getBookingType().code);
 			stmt.setInt(stmtInt++, booking.getServiceFeeStatus().code);
 			stmt.setInt(stmtInt++, booking.getCommissionStatus().code);
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getServiceFeeAdjustTime()));	
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getCommissionStatusAdjustTime()));
+			stmt.setString(stmtInt++, booking.getServiceFeeActionRecord());	
+			stmt.setString(stmtInt++, booking.getCommissionActionRecord());	
+			stmt.setInt(stmtInt++, booking.getPreServiceFeeStatus().code);
+			stmt.setInt(stmtInt++, booking.getPreCommissionStatus().code);
 			stmt.setInt(stmtInt++, booking.getBookingId());
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
@@ -260,7 +274,7 @@ public class BookingDao {
 				rs.getLong("transaction_Id"),rs.getString("email"),DateUtility.DateToCalendar(rs.getTimestamp("scheduledTime")),rs.getString("note"),rs.getInt("cashbackAmount"),rs.getString("couponRecord"),
 				rs.getString("actionRecord"),course,BookingStatus.fromInt(rs.getInt("preStatus")),DateUtility.DateToCalendar(rs.getTimestamp("noRefundDate")),
 				DateUtility.DateToCalendar(rs.getTimestamp("cashbackDate")),BookingType.fromInt(rs.getInt("bookingType")),ServiceFeeStatus.fromInt(rs.getInt("serviceFeeStatus")),CommissionStatus.fromInt(rs.getInt("commissionStatus")),
-		        DateUtility.DateToCalendar(rs.getTimestamp("serviceFeeAdjustTime")),DateUtility.DateToCalendar(rs.getTimestamp("commissionStatusAdjustTime")),rs.getString("serviceFeeActionRecord"),rs.getString("commissionActionRecord")		
-				);
+		        DateUtility.DateToCalendar(rs.getTimestamp("serviceFeeAdjustTime")),DateUtility.DateToCalendar(rs.getTimestamp("commissionStatusAdjustTime")),rs.getString("serviceFeeActionRecord"),rs.getString("commissionActionRecord"),
+		        ServiceFeeStatus.fromInt(rs.getInt("preServiceFeeStatus")),CommissionStatus.fromInt(rs.getInt("preCommissionStatus")));
 	}
 }
