@@ -49,7 +49,7 @@ public class Booking implements PseudoModel, Serializable{
 	private BookingType bookingType;
 	private ServiceFeeStatus serviceFeeStatus;
 	private CommissionStatus commissionStatus;
-	//TODO
+	
 	private ServiceFeeStatus preServiceFeeStatus;
 	private CommissionStatus preCommissionStatus;
 	private Calendar bookingStatusAdjustTime;
@@ -76,7 +76,8 @@ public class Booking implements PseudoModel, Serializable{
 			String actionRecord, Course course,BookingStatus preStatus, Calendar noRefundDate,
 			Calendar cashbackDate,BookingType bookingType,ServiceFeeStatus serviceFeeStatus,
 			CommissionStatus commissionStatus,Calendar serviceFeeAdjustTime,Calendar commissionStatusAdjustTime,
-			String serviceFeeActionRecord,String commissionActionRecord) {
+			String serviceFeeActionRecord,String commissionActionRecord,ServiceFeeStatus preServiceFeeStatus,
+			CommissionStatus preCommissionStatus,Calendar bookingStatusAdjustTime) {
 		super();
 		this.bookingId = bookingId;
 		this.creationTime = creationTime;
@@ -107,8 +108,9 @@ public class Booking implements PseudoModel, Serializable{
 		this.commissionStatusAdjustTime = commissionStatusAdjustTime;
 		this.serviceFeeActionRecord = serviceFeeActionRecord;
 		this.commissionActionRecord = commissionActionRecord;
-		
-		
+		this.preServiceFeeStatus = preServiceFeeStatus;
+		this.preCommissionStatus = preCommissionStatus;
+		this.bookingStatusAdjustTime = bookingStatusAdjustTime;
 		
 	}
 
@@ -147,7 +149,9 @@ public class Booking implements PseudoModel, Serializable{
 		this.commissionStatusAdjustTime = DateUtility.getCurTimeInstance();
 		this.serviceFeeActionRecord = "";
 		this.commissionActionRecord = "";
-		
+		this.preServiceFeeStatus = ServiceFeeStatus.refundCharge;
+		this.preCommissionStatus = CommissionStatus.refundCharge;
+		this.bookingStatusAdjustTime = DateUtility.getCurTimeInstance();
 	}
 
 	public int getBookingId() {
@@ -357,8 +361,7 @@ public class Booking implements PseudoModel, Serializable{
 		this.commissionStatus = commissionStatus;
 	}	
 	
-
-	public Calendar getServiceFeeAdjustTime() {
+    public Calendar getServiceFeeAdjustTime() {
 		return serviceFeeAdjustTime;
 	}
 
@@ -388,6 +391,30 @@ public class Booking implements PseudoModel, Serializable{
 
 	public void setCommissionActionRecord(String commissionActionRecord) {
 		this.commissionActionRecord = commissionActionRecord;
+	}
+
+	public ServiceFeeStatus getPreServiceFeeStatus() {
+		return preServiceFeeStatus;
+	}
+
+	public void setPreServiceFeeStatus(ServiceFeeStatus preServiceFeeStatus) {
+		this.preServiceFeeStatus = preServiceFeeStatus;
+	}
+
+	public CommissionStatus getPreCommissionStatus() {
+		return preCommissionStatus;
+	}
+
+	public void setPreCommissionStatus(CommissionStatus preCommissionStatus) {
+		this.preCommissionStatus = preCommissionStatus;
+	}
+
+	public Calendar getBookingStatusAdjustTime() {
+		return bookingStatusAdjustTime;
+	}
+
+	public void setBookingStatusAdjustTime(Calendar bookingStatusAdjustTime) {
+		this.bookingStatusAdjustTime = bookingStatusAdjustTime;
 	}
 
 	public Booking deepCopy() throws IOException, ClassNotFoundException{
