@@ -99,6 +99,9 @@ public final class RoutingService extends Application{
 		String ChangeStatusPrefix = "/changeStatus";
 		//  API for booking change status: /a-api/v1.0/booking/changeStatus/:id
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + ChangeStatusPrefix + "{id}", BookingChangeStatusResource.class);
+		String ChangeStatusSupervisorCallPrefix = "/changeStatusSuper";
+		//  API for booking change status with supervisor rights: /a-api/v1.0/booking/changeStatusSuper/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + bookingServicePrefix + ChangeStatusSupervisorCallPrefix  + "{id}", BookingChangeStatusResource.class);
 		
 		
 		/** -------------------- APIs for course module ------------------ **/

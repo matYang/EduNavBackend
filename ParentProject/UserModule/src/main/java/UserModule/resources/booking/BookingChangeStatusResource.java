@@ -42,7 +42,7 @@ public final class BookingChangeStatusResource extends UserPseudoResource{
 			}
 			
 			BookingStatusObj statusObj = parseJSON(jsonStatusObj);
-			BookingDaoService.updateBookingStatuses(booking, statusObj, -1);
+			BookingDaoService.updateBookingStatuses(booking, statusObj, -1, false);
 
 			newBooking = JSONGenerator.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);

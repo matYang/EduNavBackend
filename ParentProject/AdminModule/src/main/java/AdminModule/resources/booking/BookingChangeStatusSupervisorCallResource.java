@@ -10,16 +10,20 @@ import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CommissionStatus;
+import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.ServiceFeeStatus;
+import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.generator.JSONGenerator;
+import BaseModule.model.AdminAccount;
 import BaseModule.model.Booking;
 import BaseModule.model.dataObj.BookingStatusObj;
 
 
-public final class BookingChangeStatusResource extends AdminPseudoResource{
-	private final String apiId = BookingChangeStatusResource.class.getSimpleName();
+public final class BookingChangeStatusSupervisorCallResource extends AdminPseudoResource{
+	private final String apiId = BookingChangeStatusSupervisorCallResource.class.getSimpleName();
 	
 
 	@Put
@@ -30,6 +34,11 @@ public final class BookingChangeStatusResource extends AdminPseudoResource{
 		try{
 			this.checkEntity(entity);
 			int adminId = this.validateAuthentication();
+			AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
+			if (admin.getPrivilege() != Privilege.root){
+				throw new AuthenticationException("您无权进行该操作");
+			}
+			
 			bookingId = Integer.parseInt(this.getReqAttr("id"));
 			JSONObject jsonStatusObj = this.getJSONObj(entity);
 
@@ -37,7 +46,7 @@ public final class BookingChangeStatusResource extends AdminPseudoResource{
 			
 			Booking booking = BookingDaoService.getBookingById(bookingId);			
 			BookingStatusObj statusObj = parseJSON(jsonStatusObj);
-			BookingDaoService.updateBookingStatuses(booking, statusObj, adminId, false);
+			BookingDaoService.updateBookingStatuses(booking, statusObj, adminId, true);
 
 			newBooking = JSONGenerator.toJSON(booking);
 			setStatus(Status.SUCCESS_OK);
