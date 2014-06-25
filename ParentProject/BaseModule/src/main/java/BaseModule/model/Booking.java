@@ -49,13 +49,11 @@ public class Booking implements PseudoModel, Serializable{
 	private BookingType bookingType;
 	private ServiceFeeStatus serviceFeeStatus;
 	private CommissionStatus commissionStatus;
-	//TODO
+
 	private Calendar serviceFeeAdjustTime;
 	private Calendar commissionStatusAdjustTime;
 	private String serviceFeeActionRecord;
 	private String commissionActionRecord;
-	private String preServiceFeeStatus;
-	private String preCommissionStatus;
 	
 	private String note;
 	private int cashbackAmount;
@@ -72,7 +70,8 @@ public class Booking implements PseudoModel, Serializable{
 			String note, int cashbackAmount, String couponRecord,
 			String actionRecord, Course course,BookingStatus preStatus, Calendar noRefundDate,
 			Calendar cashbackDate,BookingType bookingType,ServiceFeeStatus serviceFeeStatus,
-			CommissionStatus commissionStatus) {
+			CommissionStatus commissionStatus,Calendar serviceFeeAdjustTime,Calendar commissionStatusAdjustTime,
+			String serviceFeeActionRecord,String commissionActionRecord) {
 		super();
 		this.bookingId = bookingId;
 		this.creationTime = creationTime;
@@ -99,6 +98,13 @@ public class Booking implements PseudoModel, Serializable{
 		this.bookingType = bookingType;
 		this.serviceFeeStatus = serviceFeeStatus;
 		this.commissionStatus = commissionStatus;
+		this.serviceFeeAdjustTime = serviceFeeAdjustTime;
+		this.commissionStatusAdjustTime = commissionStatusAdjustTime;
+		this.serviceFeeActionRecord = serviceFeeActionRecord;
+		this.commissionActionRecord = commissionActionRecord;
+		
+		
+		
 	}
 
 	//normal construction
@@ -130,8 +136,13 @@ public class Booking implements PseudoModel, Serializable{
 		this.noRefundDate = DateUtility.getCurTimeInstance();
 		this.cashbackDate = DateUtility.getCurTimeInstance();
 		this.bookingType = BookingType.online;
-		this.serviceFeeStatus = ServiceFeeStatus.naive;
-		this.commissionStatus = CommissionStatus.naive;
+		this.serviceFeeStatus = ServiceFeeStatus.refundCharge;
+		this.commissionStatus = CommissionStatus.refundCharge;
+		this.serviceFeeAdjustTime = DateUtility.getCurTimeInstance();
+		this.commissionStatusAdjustTime = DateUtility.getCurTimeInstance();
+		this.serviceFeeActionRecord = "";
+		this.commissionActionRecord = "";
+		
 	}
 
 	public int getBookingId() {
@@ -339,6 +350,39 @@ public class Booking implements PseudoModel, Serializable{
 
 	public void setCommissionStatus(CommissionStatus commissionStatus) {
 		this.commissionStatus = commissionStatus;
+	}	
+	
+
+	public Calendar getServiceFeeAdjustTime() {
+		return serviceFeeAdjustTime;
+	}
+
+	public void setServiceFeeAdjustTime(Calendar serviceFeeAdjustTime) {
+		this.serviceFeeAdjustTime = serviceFeeAdjustTime;
+	}
+
+	public Calendar getCommissionStatusAdjustTime() {
+		return commissionStatusAdjustTime;
+	}
+
+	public void setCommissionStatusAdjustTime(Calendar commissionStatusAdjustTime) {
+		this.commissionStatusAdjustTime = commissionStatusAdjustTime;
+	}
+
+	public String getServiceFeeActionRecord() {
+		return serviceFeeActionRecord;
+	}
+
+	public void setServiceFeeActionRecord(String serviceFeeActionRecord) {
+		this.serviceFeeActionRecord = serviceFeeActionRecord;
+	}
+
+	public String getCommissionActionRecord() {
+		return commissionActionRecord;
+	}
+
+	public void setCommissionActionRecord(String commissionActionRecord) {
+		this.commissionActionRecord = commissionActionRecord;
 	}
 
 	public Booking deepCopy() throws IOException, ClassNotFoundException{
@@ -382,6 +426,10 @@ public class Booking implements PseudoModel, Serializable{
 			jsonObj.put("bookingType", this.bookingType.code);
 			jsonObj.put("serviceFeeStatus", this.serviceFeeStatus.code);
 			jsonObj.put("commissionStatus", this.commissionStatus.code);
+			jsonObj.put("serviceFeeAdjustTime", DateUtility.castToAPIFormat(this.serviceFeeAdjustTime));
+			jsonObj.put("commissionStatusAdjustTime", DateUtility.castToAPIFormat(this.commissionStatusAdjustTime));
+			jsonObj.put("serviceFeeActionRecord",EncodingService.encodeURI(this.serviceFeeActionRecord));
+			jsonObj.put("commissionActionRecord",EncodingService.encodeURI(this.commissionActionRecord));			
 			
 		} catch (JSONException | UnsupportedEncodingException e) {
 			DebugLog.d(e);
