@@ -55,6 +55,7 @@ public final class BookingIdResource extends AdminPseudoResource{
 	
 
 	@Put
+	//this method does not change the state of the booking
 	public Representation changeBookingInfo(Representation entity){
 		int bookingId = -1;
 		JSONObject newBooking = new JSONObject();
@@ -67,10 +68,7 @@ public final class BookingIdResource extends AdminPseudoResource{
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, adminId, this.getUserAgent(), jsonBooking.toString());
 			
 			Booking booking = BookingDaoService.getBookingById(bookingId);
-			BookingStatus previousStatus = booking.getStatus();
-
 			booking = parseJSON(jsonBooking, booking);
-			booking.setPreStatus(previousStatus);
 			BookingDaoService.updateBooking(booking, adminId);
 
 			newBooking = JSONGenerator.toJSON(booking);
@@ -97,7 +95,6 @@ public final class BookingIdResource extends AdminPseudoResource{
 			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));
 			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
 			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
-			BookingStatus status = BookingStatus.fromInt(jsonBooking.getInt("status"));
 			String email = EncodingService.decodeURI(jsonBooking.getString("email"));
 			String note = EncodingService.decodeURI(jsonBooking.getString("note"));
 			
@@ -105,7 +102,6 @@ public final class BookingIdResource extends AdminPseudoResource{
 			booking.setScheduledTime(scheduledTime);
 			booking.setName(name);
 			booking.setPhone(phone);
-			booking.setStatus(status);
 			booking.setEmail(email);
 			booking.setNote(note);
 			

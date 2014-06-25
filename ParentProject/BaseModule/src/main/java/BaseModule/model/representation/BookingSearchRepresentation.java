@@ -39,6 +39,10 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private Calendar startCreationTime;
 	private Calendar finishCreationTime;
 	
+	private Calendar startBookingStatusAdjustTime;
+	private Calendar finishBookingStatusAdjustTime;
+	
+	
 	private Calendar startServiceFeeAdjustTime;
 	private Calendar finishServiceFeeAdjustTime;
 	private Calendar startCommissionStatusAdjustTime;
