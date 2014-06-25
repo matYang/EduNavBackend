@@ -172,10 +172,13 @@ public class BookingDaoService {
 			//update user's money and credit balance
 			UserDao.updateUserBCC(booking.getCashbackAmount(), booking.getPrice(), 0, booking.getUserId(), transientConnection);
 			
-			//change booking status to consolidated
-			booking.setStatus(BookingStatus.consolidated);
-			booking.setAdjustTime(DateUtility.getCurTimeInstance());
-			booking.appendActionRecord(BookingStatus.consolidated, -2);
+			//change booking status to consolidated, if not been done already
+			if (booking.getStatus() != BookingStatus.consolidated){
+				booking.setPreStatus(booking.getStatus());
+				booking.setStatus(BookingStatus.consolidated);
+				booking.setAdjustTime(DateUtility.getCurTimeInstance());
+				booking.appendActionRecord(BookingStatus.consolidated, -2);
+			}
 			BookingDao.updateBookingInDatabases(booking, transientConnection);
 			
 			//commit after each run to decrease side effect of an error
