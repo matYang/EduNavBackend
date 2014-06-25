@@ -39,7 +39,6 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private Calendar startCreationTime;
 	private Calendar finishCreationTime;
 	
-	//TODO
 	private Calendar startServiceFeeAdjustTime;
 	private Calendar finishServiceFeeAdjustTime;
 	private Calendar startCommissionStatusAdjustTime;
@@ -81,6 +80,11 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.bookingType = null;
 		this.serviceFeeStatus = null;
 		this.commissionStatus = null;
+		
+		this.startServiceFeeAdjustTime = null;
+		this.finishServiceFeeAdjustTime = null;
+		this.startCommissionStatusAdjustTime = null;
+		this.finishCommissionStatusAdjustTime = null;
 		
 	}
 
@@ -312,6 +316,40 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.commissionStatus = commissionStatus;
 	}
 
+	public Calendar getStartServiceFeeAdjustTime() {
+		return startServiceFeeAdjustTime;
+	}
+
+	public void setStartServiceFeeAdjustTime(Calendar startServiceFeeAdjustTime) {
+		this.startServiceFeeAdjustTime = startServiceFeeAdjustTime;
+	}
+
+	public Calendar getFinishServiceFeeAdjustTime() {
+		return finishServiceFeeAdjustTime;
+	}
+
+	public void setFinishServiceFeeAdjustTime(Calendar finishServiceFeeAdjustTime) {
+		this.finishServiceFeeAdjustTime = finishServiceFeeAdjustTime;
+	}
+
+	public Calendar getStartCommissionStatusAdjustTime() {
+		return startCommissionStatusAdjustTime;
+	}
+
+	public void setStartCommissionStatusAdjustTime(
+			Calendar startCommissionStatusAdjustTime) {
+		this.startCommissionStatusAdjustTime = startCommissionStatusAdjustTime;
+	}
+
+	public Calendar getFinishCommissionStatusAdjustTime() {
+		return finishCommissionStatusAdjustTime;
+	}
+
+	public void setFinishCommissionStatusAdjustTime(
+			Calendar finishCommissionStatusAdjustTime) {
+		this.finishCommissionStatusAdjustTime = finishCommissionStatusAdjustTime;
+	}
+
 	@Override
 	public String toString() {
 		return "BookingSearchRepresentation [bookingId=" + bookingId
@@ -332,7 +370,12 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				+ ", finishCashbackDate=" + finishCashbackDate	
 				+ ", bookingType=" + bookingType 
 				+ ", serviceFeeStatus=" + serviceFeeStatus
-				+ ", commissionStatus=" + commissionStatus + "]";
+				+ ", commissionStatus=" + commissionStatus 
+				+ ", startServiceFeeAdjustTime=" + startServiceFeeAdjustTime 
+				+ ", finishServiceFeeAdjustTime=" + finishServiceFeeAdjustTime
+				+ ", startCommissionStatusAdjustTime=" + startCommissionStatusAdjustTime 
+				+ ", finishCommissionStatusAdjustTime=" + finishCommissionStatusAdjustTime +"]";		
+		
 	}
 	
 
@@ -564,7 +607,42 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 			}
 			query += "commissionStatus = ? ";
 		}
-		
+		if(this.startServiceFeeAdjustTime != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "startServiceFeeAdjustTime = ? ";
+		}
+		if(this.finishServiceFeeAdjustTime != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "finishServiceFeeAdjustTime = ? ";
+		}
+		if(this.startCommissionStatusAdjustTime != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "startCommissionStatusAdjustTime = ? ";
+		}
+		if(this.finishCommissionStatusAdjustTime != null){
+			if(!start){
+				query += "where ";
+				start = true;
+			}else{
+				query += "and ";
+			}
+			query += "finishCommissionStatusAdjustTime = ? ";
+		}
 		return query;
 	}
 	
