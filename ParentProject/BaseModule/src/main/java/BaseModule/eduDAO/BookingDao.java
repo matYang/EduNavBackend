@@ -107,10 +107,10 @@ public class BookingDao {
 			if(sr.getCommissionStatus() != null){
 				stmt.setInt(stmtInt++, sr.getCommissionStatus().code);
 			}
-			if(sr.getStartServiceFeeAdjustTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartServiceFeeAdjustTime()));
+			if(sr.getStartServiceFeeStatusAdjustTime() != null){
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartServiceFeeStatusAdjustTime()));
 			}
-			if(sr.getFinishServiceFeeAdjustTime() != null){
+			if(sr.getStartServiceFeeStatusAdjustTime() != null){
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishServiceFeeAdjustTime()));
 			}
 			if(sr.getStartCommissionStatusAdjustTime() != null){
@@ -175,7 +175,7 @@ public class BookingDao {
 			stmt.setInt(21, booking.getBookingType().code);
 			stmt.setInt(22, booking.getServiceFeeStatus().code);
 			stmt.setInt(23, booking.getCommissionStatus().code);
-			stmt.setString(24, DateUtility.toSQLDateTime(booking.getServiceFeeAdjustTime()));
+			stmt.setString(24, DateUtility.toSQLDateTime(booking.getServiceFeeStatusAdjustTime()));
 			stmt.setString(25, DateUtility.toSQLDateTime(booking.getCommissionStatusAdjustTime()));
 			stmt.setString(26, booking.getServiceFeeActionRecord());
 			stmt.setString(27, booking.getCommissionActionRecord());
@@ -232,7 +232,7 @@ public class BookingDao {
 			stmt.setInt(stmtInt++, booking.getBookingType().code);
 			stmt.setInt(stmtInt++, booking.getServiceFeeStatus().code);
 			stmt.setInt(stmtInt++, booking.getCommissionStatus().code);
-			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getServiceFeeAdjustTime()));	
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getServiceFeeStatusAdjustTime()));	
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(booking.getCommissionStatusAdjustTime()));
 			stmt.setString(stmtInt++, booking.getServiceFeeActionRecord());	
 			stmt.setString(stmtInt++, booking.getCommissionActionRecord());	
@@ -284,7 +284,7 @@ public class BookingDao {
 				rs.getLong("transaction_Id"),rs.getString("email"),DateUtility.DateToCalendar(rs.getTimestamp("scheduledTime")),rs.getString("note"),rs.getInt("cashbackAmount"),rs.getString("couponRecord"),
 				rs.getString("actionRecord"),course,BookingStatus.fromInt(rs.getInt("preStatus")),DateUtility.DateToCalendar(rs.getTimestamp("noRefundDate")),
 				DateUtility.DateToCalendar(rs.getTimestamp("cashbackDate")),BookingType.fromInt(rs.getInt("bookingType")),ServiceFeeStatus.fromInt(rs.getInt("serviceFeeStatus")),CommissionStatus.fromInt(rs.getInt("commissionStatus")),
-		        DateUtility.DateToCalendar(rs.getTimestamp("serviceFeeAdjustTime")),DateUtility.DateToCalendar(rs.getTimestamp("commissionStatusAdjustTime")),rs.getString("serviceFeeActionRecord"),rs.getString("commissionActionRecord"),
+		        DateUtility.DateToCalendar(rs.getTimestamp("serviceFeeAdjustTime")),DateUtility.DateToCalendar(rs.getTimestamp("commissionStatusAdjustTime")),rs.getString("serviceFeeStatusActionRecord"),rs.getString("commissionActionRecord"),
 		        ServiceFeeStatus.fromInt(rs.getInt("preServiceFeeStatus")),CommissionStatus.fromInt(rs.getInt("preCommissionStatus")),DateUtility.DateToCalendar(rs.getTimestamp("bookingStatusAdjustTime")));
 	}
 }

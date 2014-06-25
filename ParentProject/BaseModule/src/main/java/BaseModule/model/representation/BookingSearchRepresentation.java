@@ -43,7 +43,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	private Calendar finishBookingStatusAdjustTime;
 	
 	
-	private Calendar startServiceFeeAdjustTime;
+	private Calendar startServiceFeeStatusAdjustTime;
 	private Calendar finishServiceFeeAdjustTime;
 	private Calendar startCommissionStatusAdjustTime;
 	private Calendar finishCommissionStatusAdjustTime;
@@ -88,7 +88,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.serviceFeeStatus = null;
 		this.commissionStatus = null;
 		
-		this.startServiceFeeAdjustTime = null;
+		this.startServiceFeeStatusAdjustTime = null;
 		this.finishServiceFeeAdjustTime = null;
 		this.startCommissionStatusAdjustTime = null;
 		this.finishCommissionStatusAdjustTime = null;
@@ -325,12 +325,14 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.commissionStatus = commissionStatus;
 	}
 
-	public Calendar getStartServiceFeeAdjustTime() {
-		return startServiceFeeAdjustTime;
+
+	public Calendar getStartServiceFeeStatusAdjustTime() {
+		return startServiceFeeStatusAdjustTime;
 	}
 
-	public void setStartServiceFeeAdjustTime(Calendar startServiceFeeAdjustTime) {
-		this.startServiceFeeAdjustTime = startServiceFeeAdjustTime;
+	public void setStartServiceFeeStatusAdjustTime(
+			Calendar startServiceFeeStatusAdjustTime) {
+		this.startServiceFeeStatusAdjustTime = startServiceFeeStatusAdjustTime;
 	}
 
 	public Calendar getFinishServiceFeeAdjustTime() {
@@ -394,7 +396,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 				+ startBookingStatusAdjustTime
 				+ ", finishBookingStatusAdjustTime="
 				+ finishBookingStatusAdjustTime
-				+ ", startServiceFeeAdjustTime=" + startServiceFeeAdjustTime
+				+ ", startServiceFeeAdjustTime=" + startServiceFeeStatusAdjustTime
 				+ ", finishServiceFeeAdjustTime=" + finishServiceFeeAdjustTime
 				+ ", startCommissionStatusAdjustTime="
 				+ startCommissionStatusAdjustTime
@@ -638,7 +640,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 			}
 			query += "commissionStatus = ? ";
 		}
-		if(this.startServiceFeeAdjustTime != null){
+		if(this.startServiceFeeStatusAdjustTime != null){
 			if(!start){
 				query += "where ";
 				start = true;

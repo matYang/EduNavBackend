@@ -54,7 +54,7 @@ public class Booking implements PseudoModel, Serializable{
 	private CommissionStatus preCommissionStatus;
 	private Calendar bookingStatusAdjustTime;
 	
-	private Calendar serviceFeeAdjustTime;
+	private Calendar serviceFeeStatusAdjustTime;
 	private Calendar commissionStatusAdjustTime;
 	private String serviceFeeActionRecord;
 	private String commissionActionRecord;
@@ -75,7 +75,7 @@ public class Booking implements PseudoModel, Serializable{
 			String note, int cashbackAmount, String couponRecord,
 			String actionRecord, Course course,BookingStatus preStatus, Calendar noRefundDate,
 			Calendar cashbackDate,BookingType bookingType,ServiceFeeStatus serviceFeeStatus,
-			CommissionStatus commissionStatus,Calendar serviceFeeAdjustTime,Calendar commissionStatusAdjustTime,
+			CommissionStatus commissionStatus,Calendar serviceFeeStatusAdjustTime,Calendar commissionStatusAdjustTime,
 			String serviceFeeActionRecord,String commissionActionRecord,ServiceFeeStatus preServiceFeeStatus,
 			CommissionStatus preCommissionStatus,Calendar bookingStatusAdjustTime) {
 		super();
@@ -104,7 +104,7 @@ public class Booking implements PseudoModel, Serializable{
 		this.bookingType = bookingType;
 		this.serviceFeeStatus = serviceFeeStatus;
 		this.commissionStatus = commissionStatus;
-		this.serviceFeeAdjustTime = serviceFeeAdjustTime;
+		this.serviceFeeStatusAdjustTime = serviceFeeStatusAdjustTime;
 		this.commissionStatusAdjustTime = commissionStatusAdjustTime;
 		this.serviceFeeActionRecord = serviceFeeActionRecord;
 		this.commissionActionRecord = commissionActionRecord;
@@ -145,7 +145,7 @@ public class Booking implements PseudoModel, Serializable{
 		this.bookingType = BookingType.online;
 		this.serviceFeeStatus = ServiceFeeStatus.refundCharge;
 		this.commissionStatus = CommissionStatus.refundCharge;
-		this.serviceFeeAdjustTime = DateUtility.getCurTimeInstance();
+		this.serviceFeeStatusAdjustTime = DateUtility.getCurTimeInstance();
 		this.commissionStatusAdjustTime = DateUtility.getCurTimeInstance();
 		this.serviceFeeActionRecord = "";
 		this.commissionActionRecord = "";
@@ -361,12 +361,12 @@ public class Booking implements PseudoModel, Serializable{
 		this.commissionStatus = commissionStatus;
 	}	
 	
-    public Calendar getServiceFeeAdjustTime() {
-		return serviceFeeAdjustTime;
+  	public Calendar getServiceFeeStatusAdjustTime() {
+		return serviceFeeStatusAdjustTime;
 	}
 
-	public void setServiceFeeAdjustTime(Calendar serviceFeeAdjustTime) {
-		this.serviceFeeAdjustTime = serviceFeeAdjustTime;
+	public void setServiceFeeStatusAdjustTime(Calendar serviceFeeStatusAdjustTime) {
+		this.serviceFeeStatusAdjustTime = serviceFeeStatusAdjustTime;
 	}
 
 	public Calendar getCommissionStatusAdjustTime() {
@@ -458,7 +458,7 @@ public class Booking implements PseudoModel, Serializable{
 			jsonObj.put("bookingType", this.bookingType.code);
 			jsonObj.put("serviceFeeStatus", this.serviceFeeStatus.code);
 			jsonObj.put("commissionStatus", this.commissionStatus.code);
-			jsonObj.put("serviceFeeAdjustTime", DateUtility.castToAPIFormat(this.serviceFeeAdjustTime));
+			jsonObj.put("serviceFeeAdjustTime", DateUtility.castToAPIFormat(this.serviceFeeStatusAdjustTime));
 			jsonObj.put("commissionStatusAdjustTime", DateUtility.castToAPIFormat(this.commissionStatusAdjustTime));
 			jsonObj.put("serviceFeeActionRecord",EncodingService.encodeURI(this.serviceFeeActionRecord));
 			jsonObj.put("commissionActionRecord",EncodingService.encodeURI(this.commissionActionRecord));			
