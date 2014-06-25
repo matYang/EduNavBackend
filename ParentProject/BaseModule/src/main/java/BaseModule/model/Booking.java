@@ -381,16 +381,20 @@ public class Booking implements PseudoModel, Serializable{
 		return serviceFeeActionRecord;
 	}
 
-	public void setServiceFeeActionRecord(String serviceFeeActionRecord) {
-		this.serviceFeeActionRecord = serviceFeeActionRecord;
+	public void appendServiceFeeActionRecord(ServiceFeeStatus newStatus, int adminId) {
+		String actionRecordPiece = newStatus.code + "_" + adminId + "_" + DateUtility.getCurTime();
+		this.serviceFeeActionRecord = this.serviceFeeActionRecord.length() == 0 ? actionRecordPiece : this.serviceFeeActionRecord + "-" + actionRecordPiece;
 	}
+
 
 	public String getCommissionActionRecord() {
-		return commissionActionRecord;
+		return this.commissionActionRecord;
 	}
 
-	public void setCommissionActionRecord(String commissionActionRecord) {
-		this.commissionActionRecord = commissionActionRecord;
+
+	public void appendCommissionActionRecord(CommissionStatus newStatus, int adminId) {
+		String actionRecordPiece = newStatus.code + "_" + adminId + "_" + DateUtility.getCurTime();
+		this.commissionActionRecord = this.commissionActionRecord.length() == 0 ? actionRecordPiece : this.commissionActionRecord + "-" + actionRecordPiece;
 	}
 
 	public ServiceFeeStatus getPreServiceFeeStatus() {
@@ -458,7 +462,7 @@ public class Booking implements PseudoModel, Serializable{
 			jsonObj.put("bookingType", this.bookingType.code);
 			jsonObj.put("serviceFeeStatus", this.serviceFeeStatus.code);
 			jsonObj.put("commissionStatus", this.commissionStatus.code);
-			jsonObj.put("serviceFeeAdjustTime", DateUtility.castToAPIFormat(this.serviceFeeStatusAdjustTime));
+			jsonObj.put("serviceFeeStatusAdjustTime", DateUtility.castToAPIFormat(this.serviceFeeStatusAdjustTime));
 			jsonObj.put("commissionStatusAdjustTime", DateUtility.castToAPIFormat(this.commissionStatusAdjustTime));
 			jsonObj.put("serviceFeeActionRecord",EncodingService.encodeURI(this.serviceFeeActionRecord));
 			jsonObj.put("commissionActionRecord",EncodingService.encodeURI(this.commissionActionRecord));			
