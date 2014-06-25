@@ -19,8 +19,9 @@ public class BookingCleaner extends BookingDao{
 	public static void clean(){
 		Calendar currentDate = DateUtility.getCurTimeInstance();
 		String ct = DateUtility.toSQLDateTime(currentDate);
-		String query = "SELECT * from BookingDao where (status = ? and noRefundDate < ?) or (status = ? and cashbackDate < ?) for update";
+		String query = "SELECT * from BookingDao where (status = ? and noRefundDate < ?) or (status = ? and cashbackDate < ?)";
 		Connection conn = null;
+		Connection transientConnection = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try{
@@ -33,7 +34,9 @@ public class BookingCleaner extends BookingDao{
 			stmt.setInt(3,BookingStatus.succeeded.code);
 			stmt.setString(4, ct);
 			rs = stmt.executeQuery();
-
+			
+			transientConnection = EduDaoBasic.getConnection();
+			transientConnection.setAutoCommit(false);
 			while(rs.next()){
 				Booking booking = BookingDao.createBookingByResultSet(rs, conn);
 				if(booking.getStatus().code == BookingStatus.started.code){
@@ -58,6 +61,7 @@ public class BookingCleaner extends BookingDao{
 			}
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(transientConnection, null, null, true);
 		}
 	}
 }
