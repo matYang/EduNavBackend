@@ -1,10 +1,17 @@
 package BaseModule.configurations;
 
-public final class EnumConfig {
+import BaseModule.interfaces.PseudoEnum;
 
-	public static enum AccountStatus{
+public final class EnumConfig {
+	
+
+	public static enum AccountStatus implements PseudoEnum{
         activated(0),deactivated(1),deleted(2);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         AccountStatus(int code){
             this.code = code;
         }
@@ -14,9 +21,13 @@ public final class EnumConfig {
         }
     }
 	
-	public static enum CreditStatus{
+	public static enum CreditStatus implements PseudoEnum{
         usable(0),expired(1),used(2);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         CreditStatus(int code){
             this.code = code;
         }
@@ -26,9 +37,13 @@ public final class EnumConfig {
         }
     }
 	
-	public static enum CouponStatus{
+	public static enum CouponStatus implements PseudoEnum{
         usable(0),expired(1),used(2), inactive(3);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         CouponStatus(int code){
             this.code = code;
         }
@@ -39,9 +54,13 @@ public final class EnumConfig {
     }
 	
 	
-	public static enum CouponOrigin{
+	public static enum CouponOrigin implements PseudoEnum{
         registration(0), invitation(1), admin(2);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         CouponOrigin(int code){
             this.code = code;
         }
@@ -51,9 +70,13 @@ public final class EnumConfig {
         }
     }
 	
-	public static enum TransactionType{
+	public static enum TransactionType implements PseudoEnum{
         cashback(0),deposit(1),withdraw(2),invitation(3);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         TransactionType(int code){
             this.code = code;
         }
@@ -63,9 +86,13 @@ public final class EnumConfig {
         }
     }
 	
-	public static enum BookingStatus{
+	public static enum BookingStatus implements PseudoEnum{
         awaiting(0),confirmed(1),cancelled(2),failed(3),delivered(4), noShow(5),late(6), registered(7), paid(8), noPay(9), started(10), refunded(11), succeeded(12), consolidated(13);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         BookingStatus(int code){
             this.code = code;
         }
@@ -75,9 +102,13 @@ public final class EnumConfig {
         }
     }
 	
-	public static enum BookingType{
+	public static enum BookingType implements PseudoEnum{
 		offline(0),online(1);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         BookingType(int code){
             this.code = code;
         }
@@ -87,9 +118,13 @@ public final class EnumConfig {
         }
 	}
 		
-	public static enum ServiceFeeStatus{
+	public static enum ServiceFeeStatus implements PseudoEnum{
 		shouldCharge(0),hasCharged(1),refundCharge(2), noCharge(3), consolidated(4), naive(5);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         ServiceFeeStatus(int code){
             this.code = code;
         }
@@ -99,9 +134,13 @@ public final class EnumConfig {
         }
 	}
 
-	public static enum CommissionStatus{
+	public static enum CommissionStatus implements PseudoEnum{
 		shouldCharge(0),hasCharged(1),refundCharge(2), noCharge(3), consolidated(4), naive(5);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         CommissionStatus(int code){
             this.code = code;
         }
@@ -111,9 +150,13 @@ public final class EnumConfig {
         }
 	}
 	
-	public static enum Privilege{
+	public static enum Privilege implements PseudoEnum{
         root(0),mamagement(1),routine(2);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         Privilege(int code){
             this.code = code;
         }
@@ -123,9 +166,13 @@ public final class EnumConfig {
         }
     }
 	
-	public static enum SMSEvent{
+	public static enum SMSEvent implements PseudoEnum{
 		user_cellVerification(0), user_changePassword(1), user_forgetPassword(2), partner_forgetPassword(3), partner_changePassword(4), user_bookingConfirmed(5), user_bookingFailed(6), user_invitee(7), user_inviter(8), user_inviterConsolidation(9);
 		public int code;
+		@Override
+	    public int getCode() {
+	        return code;
+	    }
 		SMSEvent(int code){
 			this.code = code;
 		}
@@ -135,9 +182,13 @@ public final class EnumConfig {
 		}
 	}
 	
-	public static enum CourseStatus{
+	public static enum CourseStatus implements PseudoEnum{
 		openEnroll(0),deactivated(1),consolidated(2);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         CourseStatus(int code){
             this.code = code;
         }
@@ -147,9 +198,13 @@ public final class EnumConfig {
         }
     }	
 	
-	public static enum PartnerQualification{
+	public static enum PartnerQualification implements PseudoEnum{
 		verified(0),unverified(1);
         public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
         PartnerQualification(int code){
             this.code = code;
         }

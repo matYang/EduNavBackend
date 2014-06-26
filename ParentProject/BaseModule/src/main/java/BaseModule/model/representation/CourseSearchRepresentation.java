@@ -13,7 +13,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoMemCacheKey;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.interfaces.PseudoRepresentation;
-import BaseModule.service.RepresentationReflectiveService;
+import BaseModule.service.ModelReflectiveService;
 
 public class CourseSearchRepresentation implements PseudoModel, PseudoRepresentation, PseudoMemCacheKey{
 
@@ -87,28 +87,28 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 
 	@Override
 	public ArrayList<String> getKeySet() {
-		return RepresentationReflectiveService.getKeySet(this);
+		return ModelReflectiveService.getKeySet(this);
 	}
 
 	@Override
 	public void storeKvps(Map<String, String> kvps) throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
-		RepresentationReflectiveService.storeKvps(this, kvps);
+		ModelReflectiveService.storeKvps(this, kvps);
 
 	}
 
 	@Override
 	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
-		return RepresentationReflectiveService.serialize(this);
+		return ModelReflectiveService.serialize(this);
 	}
 
 	@Override
 	public boolean isEmpty() throws Exception {
-		return RepresentationReflectiveService.isEmpty(this);
+		return ModelReflectiveService.isEmpty(this);
 	}
 
 	@Override
 	public JSONObject toJSON() throws ValidationException {
-		return RepresentationReflectiveService.toJSON(this);
+		return ModelReflectiveService.toJSON(this);
 	}
 
 
@@ -334,6 +334,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 		this.startUponArrival = startUponArrival;
 	}
 
+
 	@Override
 	public String toString() {
 		return "CourseSearchRepresentation [category=" + category
@@ -342,15 +343,17 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				+ ", district=" + district + ", institutionName="
 				+ institutionName + ", courseReference=" + courseReference
 				+ ", partnerReference=" + partnerReference + ", startDate="
-				+ startDate + ", finishDate=" + finishDate + ", startCreationTime="
-				+ startCreationTime + ", finishCreationTime=" + finishCreationTime + ", startPrice=" + startPrice
-				+ ", finishPrice=" + finishPrice + ", startClassSize="
-				+ startClassSize + ", finishClassSize=" + finishClassSize
-				+ ", startCashback=" + startCashback + ", finishCashback="
-				+ finishCashback + ", status=" + status + ", courseId="
-				+ courseId + ", partnerId=" + partnerId + ", userId=" + userId 
-				+ ", startUponArrival=" + startUponArrival + ", startCutoffDate=" + startCutoffDate
+				+ startDate + ", finishDate=" + finishDate + ", startPrice="
+				+ startPrice + ", finishPrice=" + finishPrice
+				+ ", startClassSize=" + startClassSize + ", finishClassSize="
+				+ finishClassSize + ", startCashback=" + startCashback
+				+ ", finishCashback=" + finishCashback + ", status=" + status
+				+ ", startCreationTime=" + startCreationTime
+				+ ", finishCreationTime=" + finishCreationTime
+				+ ", startCutoffDate=" + startCutoffDate
 				+ ", finishCutoffDate=" + finishCutoffDate
+				+ ", startUponArrival=" + startUponArrival + ", courseId="
+				+ courseId + ", partnerId=" + partnerId + ", userId=" + userId
 				+ ", useCache=" + useCache + "]";
 	}
 
