@@ -144,7 +144,7 @@ public class BookingDao {
 		String query = "INSERT INTO BookingDao (name,phone,creationTime,adjustTime,price," +
 				"status,u_Id,p_Id,course_Id,reference,transaction_Id,cashbackAmount,note,couponRecord," +
 				"scheduledTime,email,actionRecord,preStatus,noRefundDate,cashbackDate,bookingType,"+ 
-				"serviceFeeStatus,commissionStatus,serviceFeeAdjustTime,commissionStatusAdjustTime,"+
+				"serviceFeeStatus,commissionStatus,serviceFeeStatusAdjustTime,commissionStatusAdjustTime,"+
 				"serviceFeeActionRecord,commissionActionRecord,preServiceFeeStatus,preCommissionStatus,"+ 
 				"bookingStatusAdjustTime)" +
 				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";		
@@ -202,7 +202,7 @@ public class BookingDao {
 		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,price=?," +
 				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,cashbackAmount=?,note=?,couponRecord=?," +
 				"scheduledTime=?,email=?,actionRecord=?,preStatus=?,noRefundDate=?,cashbackDate=?,bookingType=?," +
-				"serviceFeeStatus=?,commissionStatus=?,serviceFeeAdjustTime=?,commissionStatusAdjustTime=?,"+ 
+				"serviceFeeStatus=?,commissionStatus=?,serviceFeeStatusAdjustTime=?,commissionStatusAdjustTime=?,"+ 
 				"serviceFeeActionRecord=?,commissionActionRecord=?,preServiceFeeStatus=?,preCommissionStatus=?,"+
 				"bookingStatusAdjustTime=? where id=?";		
 		try{		
@@ -284,7 +284,7 @@ public class BookingDao {
 				rs.getLong("transaction_Id"),rs.getString("email"),DateUtility.DateToCalendar(rs.getTimestamp("scheduledTime")),rs.getString("note"),rs.getInt("cashbackAmount"),rs.getString("couponRecord"),
 				rs.getString("actionRecord"),course,BookingStatus.fromInt(rs.getInt("preStatus")),DateUtility.DateToCalendar(rs.getTimestamp("noRefundDate")),
 				DateUtility.DateToCalendar(rs.getTimestamp("cashbackDate")),BookingType.fromInt(rs.getInt("bookingType")),ServiceFeeStatus.fromInt(rs.getInt("serviceFeeStatus")),CommissionStatus.fromInt(rs.getInt("commissionStatus")),
-		        DateUtility.DateToCalendar(rs.getTimestamp("serviceFeeAdjustTime")),DateUtility.DateToCalendar(rs.getTimestamp("commissionStatusAdjustTime")),rs.getString("serviceFeeStatusActionRecord"),rs.getString("commissionActionRecord"),
+		        DateUtility.DateToCalendar(rs.getTimestamp("serviceFeeStatusAdjustTime")),DateUtility.DateToCalendar(rs.getTimestamp("commissionStatusAdjustTime")),rs.getString("serviceFeeActionRecord"),rs.getString("commissionActionRecord"),
 		        ServiceFeeStatus.fromInt(rs.getInt("preServiceFeeStatus")),CommissionStatus.fromInt(rs.getInt("preCommissionStatus")),DateUtility.DateToCalendar(rs.getTimestamp("bookingStatusAdjustTime")));
 	}
 }
