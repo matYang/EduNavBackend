@@ -27,7 +27,7 @@ public final class CreditResource extends AdminPseudoResource{
 			int adminId = this.validateAuthentication();
 			CreditSearchRepresentation cr_sr = new CreditSearchRepresentation();
 			this.loadRepresentation(cr_sr);
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), cr_sr.serialize());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), cr_sr.toJSON().toString());
 
 			ArrayList<Credit> searchResult = CreditDaoService.searchCredit(cr_sr);
 			response = JSONGenerator.toJSON(searchResult);

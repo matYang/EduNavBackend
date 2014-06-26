@@ -38,7 +38,7 @@ public final class BookingResource extends UserPseudoResource{
 			int userId = this.validateAuthentication();
 			BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
 			b_sr.setUserId(userId);
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), b_sr.serialize());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), b_sr.toJSON().toString());
 			
 			ArrayList<Booking> result = BookingDaoService.searchBooking(b_sr);
 			jsonArray = JSONGenerator.toJSON(result);

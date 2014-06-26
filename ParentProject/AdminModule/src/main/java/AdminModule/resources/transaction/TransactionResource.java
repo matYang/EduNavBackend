@@ -27,7 +27,7 @@ public final class TransactionResource extends AdminPseudoResource{
 			int adminId = this.validateAuthentication();
 			TransactionSearchRepresentation t_sr = new TransactionSearchRepresentation();
 			this.loadRepresentation(t_sr);
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), t_sr.serialize());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), t_sr.toJSON().toString());
 
 			ArrayList<Transaction> searchResult = TransactionDaoService.searchTransaction(t_sr);
 			response = JSONGenerator.toJSON(searchResult);

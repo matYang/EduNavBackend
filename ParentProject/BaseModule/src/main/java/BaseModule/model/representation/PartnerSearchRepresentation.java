@@ -54,11 +54,6 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 	public boolean isEmpty() throws Exception {
 		return ModelReflectiveService.isEmpty(this);
 	}
-	
-	@Override
-	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
-		return ModelReflectiveService.serialize(this);
-	}
 
 	@Override
 	public JSONObject toJSON() throws ValidationException {

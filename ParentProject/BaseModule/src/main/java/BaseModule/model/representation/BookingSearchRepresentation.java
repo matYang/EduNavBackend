@@ -106,12 +106,6 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	public void storeKvps(Map<String, String> kvps) throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
 		ModelReflectiveService.storeKvps(this, kvps);
 	}
-	
-	@Override
-	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
-		return ModelReflectiveService.serialize(this);
-	}
-	
 
 	@Override
 	public boolean isEmpty() throws Exception {

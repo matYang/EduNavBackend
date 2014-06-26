@@ -97,11 +97,6 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 
 	@Override
-	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
-		return ModelReflectiveService.serialize(this);
-	}
-
-	@Override
 	public boolean isEmpty() throws Exception {
 		return ModelReflectiveService.isEmpty(this);
 	}
@@ -114,7 +109,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 
 	@Override
 	public String toCacheKey() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
-		return this.serialize();
+		return this.toJSON().toString();
 	}
 
 	public String getCategory() {

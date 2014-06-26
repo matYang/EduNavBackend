@@ -33,7 +33,7 @@ public final class CouponResource extends AdminPseudoResource{
 			int adminId = this.validateAuthentication();
 			CouponSearchRepresentation coup_sr = new CouponSearchRepresentation();
 			this.loadRepresentation(coup_sr);
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), coup_sr.serialize());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), coup_sr.toJSON().toString());
 
 			ArrayList<Coupon> searchResult = CouponDaoService.searchCoupon(coup_sr);
 			response = JSONGenerator.toJSON(searchResult);

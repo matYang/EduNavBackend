@@ -34,7 +34,6 @@ public class CourseSearchRepresentationTest {
 			c_sr.storeKvps(kvps);
 			c_sr.getKeySet();
 			c_sr.toJSON();
-			c_sr.serialize();
 		}
 		System.out.println("300000 refelction finished at: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 	}
@@ -62,8 +61,6 @@ public class CourseSearchRepresentationTest {
 		System.out.println(c_sr.toString());
 		System.out.println(c_sr.getKeySet());
 		System.out.println(c_sr.toJSON());
-		System.out.println(c_sr.serialize());
-		System.out.println(c_sr.serialize().length());
 	}
 	
 

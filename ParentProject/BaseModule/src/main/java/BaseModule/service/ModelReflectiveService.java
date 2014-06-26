@@ -10,32 +10,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
-import BaseModule.configurations.EnumConfig;
-import BaseModule.configurations.EnumConfig.BookingStatus;
-import BaseModule.configurations.EnumConfig.BookingType;
-import BaseModule.configurations.EnumConfig.CommissionStatus;
-import BaseModule.configurations.EnumConfig.CouponOrigin;
-import BaseModule.configurations.EnumConfig.CouponStatus;
-import BaseModule.configurations.EnumConfig.CourseStatus;
-import BaseModule.configurations.EnumConfig.CreditStatus;
-import BaseModule.configurations.EnumConfig.Privilege;
-import BaseModule.configurations.EnumConfig.ServiceFeeStatus;
-import BaseModule.configurations.EnumConfig.TransactionType;
-import BaseModule.configurations.ServerConfig;
-import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoEnum;
 import BaseModule.interfaces.PseudoModel;
-import BaseModule.interfaces.PseudoRepresentation;
-import BaseModule.model.representation.AdminSearchRepresentation;
-import BaseModule.model.representation.BookingSearchRepresentation;
-import BaseModule.model.representation.CouponSearchRepresentation;
-import BaseModule.model.representation.CourseSearchRepresentation;
-import BaseModule.model.representation.CreditSearchRepresentation;
-import BaseModule.model.representation.PartnerSearchRepresentation;
-import BaseModule.model.representation.TransactionSearchRepresentation;
-import BaseModule.model.representation.UserSearchRepresentation;
 
 public final class ModelReflectiveService {
 	
@@ -86,60 +64,6 @@ public final class ModelReflectiveService {
 			throw new ValidationException("搜索条件中数字格式错误");
 		}
 		
-	}
-	
-
-	
-	public static String serialize(final PseudoModel representation) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
-		Field[] fields = getFields(representation);
-		
-		ArrayList<String> serializedMembers = new ArrayList<String>();
-		for (Field field : fields){
-			field.setAccessible(true);
-			Class<?> fieldClass = field.getType();
-			if (int.class.isAssignableFrom(fieldClass)){
-				int number = field.getInt(representation);
-				if (number >= 0){
-					serializedMembers.add(field.getName() + "_" + String.valueOf(number));
-				}
-			}
-			else if (long.class.isAssignableFrom(fieldClass)){
-				long number = field.getLong(representation);
-				if (number >= 0){
-					serializedMembers.add(field.getName() + "_" + String.valueOf(number));
-				}
-			}
-			else if (String.class.isAssignableFrom(fieldClass)){
-				Object value = field.get(representation);
-				if (value != null){
-					serializedMembers.add(field.getName() + "_" + EncodingService.encodeURI((String) value));
-				}
-			}
-			else if (Calendar.class.isAssignableFrom(fieldClass)){
-				Object value = field.get(representation);
-				if (value != null){
-					serializedMembers.add(field.getName() + "_" +  DateUtility.castToAPIFormat((Calendar) value)  );
-				}
-			}
-			else if (PseudoEnum.class.isAssignableFrom(fieldClass)){
-				Object value = field.get(representation);
-				if (value != null){
-					serializedMembers.add(field.getName() + "_" +  String.valueOf(  ((PseudoEnum) value).getCode()  )  );
-				}
-			}
-			else{
-				throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService suffered fatal reflection error, field type not matched");
-			}
-		}
-		
-		String serializedString = "";
-		for (int i = 0; i < serializedMembers.size() - 1; i++){
-			serializedString += serializedMembers.get(i) + ServerConfig.urlSeperator;
-		}
-		if (serializedMembers.size() > 0){
-			serializedString += serializedMembers.get(serializedMembers.size() - 1);
-		}
-		return serializedString;
 	}
 
 

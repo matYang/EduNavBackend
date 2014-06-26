@@ -26,7 +26,7 @@ public final class BookingResource extends AdminPseudoResource{
 			int adminId = this.validateAuthentication();
 			BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
 			this.loadRepresentation(b_sr);
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), b_sr.serialize());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), b_sr.toJSON().toString());
 
 			ArrayList<Booking> searchResult = new ArrayList<Booking>();
 			searchResult = BookingDaoService.searchBooking(b_sr);
