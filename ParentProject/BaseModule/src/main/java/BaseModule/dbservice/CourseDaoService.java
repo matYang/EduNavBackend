@@ -55,7 +55,7 @@ public class CourseDaoService {
 		return storedCourse;
 	}	
 	
-	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, PseudoException, SQLException{
+	public static ArrayList<Course> searchCourse(CourseSearchRepresentation sr) throws Exception{
 		ArrayList<Course> result = new ArrayList<Course>();
 		boolean useCache = sr.getUseCache() == 1;
 		if (!useCache){

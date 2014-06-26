@@ -13,6 +13,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
+import BaseModule.service.ModelReflectiveService;
 
 public class Partner implements PseudoModel, Serializable{
 	
@@ -153,26 +154,8 @@ public class Partner implements PseudoModel, Serializable{
 		return creationTime;
 	}
 
-	public JSONObject toJSON() throws ValidationException{
-		JSONObject jsonObj = new JSONObject();
-		try{
-			jsonObj.put("partnerId", this.partnerId);
-			jsonObj.put("wholeName", EncodingService.encodeURI(this.wholeName));
-			jsonObj.put("phone", EncodingService.encodeURI(this.phone));			
-			jsonObj.put("licence", EncodingService.encodeURI(this.licence));
-			jsonObj.put("organizationNum", EncodingService.encodeURI(this.organizationNum));
-			jsonObj.put("reference", EncodingService.encodeURI(this.reference));
-			jsonObj.put("status", this.status.code);
-			jsonObj.put("instName", EncodingService.encodeURI(this.instName));
-			jsonObj.put("logoUrl", EncodingService.encodeURI(this.logoUrl));
-			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));		
-			jsonObj.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
-
-		} catch (JSONException | UnsupportedEncodingException e) {
-			DebugLog.d(e);
-			throw new ValidationException("信息数据格式转换失败");
-		}
-		return jsonObj;
+	public JSONObject toJSON() throws Exception{
+		return ModelReflectiveService.toJSON(this);
 	}
 
 	public boolean equals(Partner p){

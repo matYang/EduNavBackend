@@ -1,6 +1,7 @@
 package BaseModule.generator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,12 +9,10 @@ import org.json.JSONObject;
 import BaseModule.common.DebugLog;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
-import BaseModule.model.*;
-import BaseModule.model.representation.*;
 
 public class JSONGenerator {
 	
-	public static JSONObject toJSON(final PseudoModel obj) throws ValidationException{
+	public static JSONObject toJSON(final PseudoModel obj) throws Exception{
 		if (obj == null){
 			return new JSONObject();
 		}
@@ -25,7 +24,7 @@ public class JSONGenerator {
 		}
 	}
 	
-	public static JSONArray toJSON(final ArrayList<? extends PseudoModel> objs) throws ValidationException{
+	public static JSONArray toJSON(final List<? extends PseudoModel> objs) throws Exception{
 		ArrayList<JSONObject> temps = new ArrayList<JSONObject>();
 		if (objs == null){
 			return new JSONArray();

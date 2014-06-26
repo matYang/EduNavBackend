@@ -44,7 +44,10 @@ public final class AdminSessionRedirect extends AdminPseudoResource{
 			} catch (PseudoException e1){
 				this.addCORSHeader();
 				return this.doPseudoException(e1);
-			} 
+			} catch (Exception e1) {
+				return this.doException(e);
+			}
+			
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

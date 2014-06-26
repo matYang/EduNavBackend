@@ -1,6 +1,5 @@
 package BaseModule.model.representation;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
@@ -8,8 +7,6 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import BaseModule.configurations.EnumConfig.CourseStatus;
-import BaseModule.exception.PseudoException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoMemCacheKey;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.interfaces.PseudoRepresentation;
@@ -91,7 +88,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 
 	@Override
-	public void storeKvps(Map<String, String> kvps) throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
+	public void storeKvps(Map<String, String> kvps)  throws Exception {
 		ModelReflectiveService.storeKvps(this, kvps);
 
 	}
@@ -102,13 +99,13 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 
 	@Override
-	public JSONObject toJSON() throws ValidationException {
+	public JSONObject toJSON() throws Exception {
 		return ModelReflectiveService.toJSON(this);
 	}
 
 
 	@Override
-	public String toCacheKey() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
+	public String toCacheKey() throws Exception {
 		return this.toJSON().toString();
 	}
 

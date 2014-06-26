@@ -13,7 +13,7 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 public class CourseSearchRepresentationTest {
 
 	//@Test
-	public void test() throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
+	public void test() throws Exception {
 		Map<String, String> kvps= new HashMap<String, String>();
 		
 		kvps.put("courseId", "9");
@@ -39,7 +39,7 @@ public class CourseSearchRepresentationTest {
 	}
 	
 	@Test
-	public void testConcurrent_a() throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
+	public void testConcurrent_a() throws Exception {
 		Map<String, String> kvps= new HashMap<String, String>();
 		
 		kvps.put("courseId", "9");

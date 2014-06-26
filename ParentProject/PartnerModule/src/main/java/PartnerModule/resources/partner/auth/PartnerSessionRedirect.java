@@ -44,6 +44,8 @@ public final class PartnerSessionRedirect extends PartnerPseudoResource{
 			} catch (PseudoException e1) {
 				this.addCORSHeader();
 				return this.doPseudoException(e1);
+			} catch (Exception e1) {
+				return this.doException(e);
 			}
 			
 		} catch (PseudoException e){

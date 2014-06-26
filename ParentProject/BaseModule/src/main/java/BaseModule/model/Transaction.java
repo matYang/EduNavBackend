@@ -9,6 +9,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
+import BaseModule.service.ModelReflectiveService;
 
 public class Transaction implements PseudoModel, Serializable{
 
@@ -88,21 +89,8 @@ public class Transaction implements PseudoModel, Serializable{
 		return creationTime;
 	}
 	
-	public JSONObject toJSON() throws ValidationException{
-		JSONObject jsonObj = new JSONObject();
-		try{
-			jsonObj.put("transactionId", this.transactionId);
-			jsonObj.put("bookingId", this.bookingId);
-			jsonObj.put("userId", this.userId);			
-			jsonObj.put("transactionType", this.transactionType.code);
-			jsonObj.put("transactionAmount", this.transactionAmount);		
-			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
-		} catch (JSONException e) {
-			DebugLog.d(e);
-			throw new ValidationException("信息数据格式转换失败");
-		}
-		return jsonObj;
-
+	public JSONObject toJSON() throws Exception{
+		return ModelReflectiveService.toJSON(this);
 	}
 	
 	public boolean equals(Transaction transaction){

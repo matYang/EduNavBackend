@@ -15,6 +15,7 @@ import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
+import BaseModule.service.ModelReflectiveService;
 
 
 public class Coupon implements PseudoModel, Serializable{
@@ -132,23 +133,8 @@ public class Coupon implements PseudoModel, Serializable{
         return clone;
 	}
 	
-	public JSONObject toJSON() throws ValidationException{
-		JSONObject jsonSearchRepresentation = new JSONObject();
-		try{
-			jsonSearchRepresentation.put("couponId", this.couponId);			
-			jsonSearchRepresentation.put("userId", this.userId);
-			jsonSearchRepresentation.put("amount", this.amount);
-			jsonSearchRepresentation.put("originalAmount", this.originalAmount);
-			jsonSearchRepresentation.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
-			jsonSearchRepresentation.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
-			jsonSearchRepresentation.put("status", this.status.code);
-			jsonSearchRepresentation.put("couponOrigin", this.origin.code);
-			
-		} catch (JSONException e) {
-			DebugLog.d(e);
-			throw new ValidationException("信息数据格式转换失败");
-		}
-		return jsonSearchRepresentation;
+	public JSONObject toJSON() throws Exception{
+		return ModelReflectiveService.toJSON(this);
 	}
 	
 	public boolean equals(Coupon c){

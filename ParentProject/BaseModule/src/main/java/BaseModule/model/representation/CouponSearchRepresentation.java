@@ -1,6 +1,5 @@
 package BaseModule.model.representation;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
@@ -9,8 +8,6 @@ import org.json.JSONObject;
 
 import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;
-import BaseModule.exception.PseudoException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.interfaces.PseudoRepresentation;
 import BaseModule.service.ModelReflectiveService;
@@ -50,7 +47,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 
 	@Override
-	public void storeKvps(Map<String, String> kvps) throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
+	public void storeKvps(Map<String, String> kvps)  throws Exception {
 		ModelReflectiveService.storeKvps(this, kvps);
 	}
 
@@ -60,7 +57,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 
 	@Override
-	public JSONObject toJSON() throws ValidationException {
+	public JSONObject toJSON() throws Exception {
 		return ModelReflectiveService.toJSON(this);
 	}
 
