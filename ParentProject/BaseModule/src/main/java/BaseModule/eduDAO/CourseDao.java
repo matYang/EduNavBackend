@@ -158,8 +158,8 @@ public class CourseDao {
 				"extracurricular,courseName,studyDaysNote,courseHourNum,courseHourLength,partnerCourseReference,partnerQualification,partnerIntro," +
 				"t_MaterialFree,t_MaterialIntro,passAgreement,phone,studyDays,classSize,cashback,popularity,startTime1,finishTime1,startTime2,finishTime2," +
 				"partnerDistinction,outline,goal,classTeacher,teachingAndExercise,questionSession,trail,assignments,marking,bonusService," +
-				"downloadMaterials,teacherNames,startUponArrival,cutoffDate)" +
-				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				"downloadMaterials,teacherNames,startUponArrival,cutoffDate,noRefundDate,cashbackDate,bookingType)" +
+				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	
@@ -223,6 +223,9 @@ public class CourseDao {
 			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter));		
 			stmt.setInt(stmtInt++, course.getStartUponArrival());
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCutoffDate()));
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getNoRefundDate()));
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCashbackDate()));
+			stmt.setInt(stmtInt++, course.getBookingType().code);
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -244,7 +247,7 @@ public class CourseDao {
 				"extracurricular=?,courseName=?,studyDaysNote=?,courseHourNum=?,courseHourLength=?,partnerCourseReference=?,partnerQualification=?,partnerIntro=?," +
 				"t_MaterialFree=?,t_MaterialIntro=?,passAgreement=?,phone=?,studyDays=?,classSize=?,cashback=?,popularity=?,startTime1=?," +
 				"finishTime1=?,startTime2=?,finishTime2=?,partnerDistinction=?,outline=?,goal=?,classTeacher=?,teachingAndExercise=?," +
-				"questionSession=?,trail=?,assignments=?,marking=?,bonusService=?,downloadMaterials=?,teacherNames=?,startUponArrival=?,cutoffDate=? where id=?";
+				"questionSession=?,trail=?,assignments=?,marking=?,bonusService=?,downloadMaterials=?,teacherNames=?,startUponArrival=?,cutoffDate=?,noRefundDate=?,cashbackDate=?,bookingType=? where id=?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -307,6 +310,9 @@ public class CourseDao {
 			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter));
 			stmt.setInt(stmtInt++, course.getStartUponArrival());
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCutoffDate()));
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getNoRefundDate()));
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCashbackDate()));
+			stmt.setInt(stmtInt++, course.getBookingType().code);
 			stmt.setInt(stmtInt++, course.getCourseId());
 			
 			int recordsAffected = stmt.executeUpdate();
