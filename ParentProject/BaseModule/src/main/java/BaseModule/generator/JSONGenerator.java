@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import BaseModule.common.DebugLog;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.model.*;
@@ -16,56 +17,11 @@ public class JSONGenerator {
 		if (obj == null){
 			return new JSONObject();
 		}
-		else if (obj instanceof User){
-			return ((User)obj).toJSON();
-		}
-		else if (obj instanceof Partner){
-			return ((Partner)obj).toJSON();
-		}
-		else if (obj instanceof Course){
-			return ((Course)obj).toJSON();
-		}
-		else if (obj instanceof Booking){
-			return ((Booking)obj).toJSON();
-		}
-		else if (obj instanceof AdminAccount){
-			return ((AdminAccount)obj).toJSON();
-		}
-		else if (obj instanceof Credit){
-			return ((Credit)obj).toJSON();
-		}
-		else if (obj instanceof Coupon){
-			return ((Coupon)obj).toJSON();
-		}
-		else if (obj instanceof Transaction){
-			return ((Transaction)obj).toJSON();
-		}
-		else if (obj instanceof CourseSearchRepresentation){
-			return ((CourseSearchRepresentation)obj).toJSON();
-		}
-		else if (obj instanceof UserSearchRepresentation){
-			return ((UserSearchRepresentation)obj).toJSON();
-		}
-		else if (obj instanceof PartnerSearchRepresentation){
-			return ((PartnerSearchRepresentation)obj).toJSON();
-		}
-		else if (obj instanceof BookingSearchRepresentation){
-			return ((BookingSearchRepresentation)obj).toJSON();
-		}
-		else if (obj instanceof AdminSearchRepresentation){
-			return ((AdminSearchRepresentation)obj).toJSON();
-		}
-		else if (obj instanceof CouponSearchRepresentation){
-			return ((CouponSearchRepresentation)obj).toJSON();
-		}
-		else if (obj instanceof CreditSearchRepresentation){
-			return ((CreditSearchRepresentation)obj).toJSON();
-		}
-		else if (obj instanceof TransactionSearchRepresentation){
-			return ((TransactionSearchRepresentation)obj).toJSON();
-		}
-		else{
-			return new JSONObject();
+		try{
+			return obj.toJSON();
+		} catch (Exception e){
+			DebugLog.d(e);
+			throw new ValidationException("数据格式错误");
 		}
 	}
 	
