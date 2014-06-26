@@ -111,7 +111,7 @@ public class BookingDao {
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartServiceFeeStatusAdjustTime()));
 			}
 			if(sr.getStartServiceFeeStatusAdjustTime() != null){
-				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishServiceFeeAdjustTime()));
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getFinishServiceFeeStatusAdjustTime()));
 			}
 			if(sr.getStartCommissionStatusAdjustTime() != null){
 				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(sr.getStartCommissionStatusAdjustTime()));
