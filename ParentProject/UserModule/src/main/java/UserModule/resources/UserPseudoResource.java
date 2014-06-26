@@ -43,7 +43,7 @@ public class UserPseudoResource extends PseudoResource{
 			if (cookieSetting.getName().equals(cookie_userSession)){
 				cookieSetting.setMaxAge(cookie_maxAge);
 				cookieSetting.setPath("/");
-				cookieSetting.setDomain("www.ishangke.cn");
+				//cookieSetting.setDomain("www.ishangke.cn");
 				cookieSetting.setValue(encryptedString);
 				found = true;
 			}
@@ -53,7 +53,7 @@ public class UserPseudoResource extends PseudoResource{
 			CookieSetting newCookie = new CookieSetting(0, cookie_userSession, encryptedString);
 			newCookie.setMaxAge(cookie_maxAge);
 			newCookie.setPath("/");
-			newCookie.setDomain("www.ishangke.cn");
+			//newCookie.setDomain("www.ishangke.cn");
 			cookieSettings.add(newCookie);
 		}
 		this.setCookieSettings(cookieSettings);

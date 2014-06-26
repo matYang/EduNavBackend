@@ -9,7 +9,7 @@ public final class ValidationConfig {
 	public static final int maxEmailLength = 50;
 	
 	public static final int maxUserNameLength = 18;
-	public static final int minPasswordLength = 6;
+	public static final int minPasswordLength = 8;
 	public static final int maxPasswordLength = 30;
 	
 	public static final long max_PostLength = 819200l;
