@@ -40,7 +40,7 @@ public final class ServerConfig {
 					configurationMap.put("jdbcUri", "localhost:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", "localhost");
 					configurationMap.put("memcachedUri", "localhost:11211");
-					configurationMap.put("sqlPass", "badstudent");
+					configurationMap.put("sqlPass", "");
 					configurationMap.put("sqlUser", "root");
 					configurationMap.put("sqlMaxConnection","150");
 					configurationMap.put("memcachedUser", "");
