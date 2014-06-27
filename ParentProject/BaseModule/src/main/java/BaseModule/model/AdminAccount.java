@@ -1,20 +1,15 @@
 package BaseModule.model;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-
 import java.util.Calendar;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
-import BaseModule.service.EncodingService;
+import BaseModule.service.ModelReflectiveService;
 
 public class AdminAccount implements PseudoModel, Serializable{
 	
@@ -130,23 +125,8 @@ public class AdminAccount implements PseudoModel, Serializable{
 		return creationTime;
 	}
 
-	public JSONObject toJSON() throws ValidationException{
-		JSONObject jsonObj = new JSONObject();
-		try{
-			jsonObj.put("adminId", this.adminId);
-			jsonObj.put("name", EncodingService.encodeURI(this.name));
-			jsonObj.put("phone", EncodingService.encodeURI(this.phone));			
-			jsonObj.put("reference", EncodingService.encodeURI(this.reference));
-			jsonObj.put("status", this.status.code);
-			jsonObj.put("privilege", this.privilege.code);
-			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
-			jsonObj.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
-		} catch (JSONException | UnsupportedEncodingException e) {
-			DebugLog.d(e);
-			throw new ValidationException("信息数据格式转换失败");
-		}
-		return jsonObj;
-
+	public JSONObject toJSON() throws Exception{
+		return ModelReflectiveService.toJSON(this);
 	}
 
 	public boolean equals(AdminAccount a){

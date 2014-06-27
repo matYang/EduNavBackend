@@ -15,6 +15,7 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.generator.JSONGenerator;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
+import BaseModule.service.ModelReflectiveService;
 
 public class User implements PseudoModel, Serializable{
 	
@@ -213,31 +214,8 @@ public class User implements PseudoModel, Serializable{
 		return accountNumber;
 	}
 
-	public JSONObject toJSON() throws ValidationException{
-		JSONObject jsonObj = new JSONObject();
-		try{
-			jsonObj.put("userId", this.userId);
-			jsonObj.put("name", EncodingService.encodeURI(this.name));
-			jsonObj.put("phone", EncodingService.encodeURI(this.phone));	
-			jsonObj.put("email", EncodingService.encodeURI(this.email));
-			jsonObj.put("invitationalCode", EncodingService.encodeURI(this.invitationalCode));
-			jsonObj.put("appliedInvitationalCode", EncodingService.encodeURI(this.appliedInvitationalCode));
-			jsonObj.put("accountNumber", EncodingService.encodeURI(this.accountNumber));
-			jsonObj.put("status", this.status.code);
-			jsonObj.put("balance", this.balance);
-			jsonObj.put("coupon", this.coupon);
-			jsonObj.put("credit", this.credit);
-			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
-			jsonObj.put("lastLogin", DateUtility.castToAPIFormat(this.lastLogin));
-			jsonObj.put("couponList",JSONGenerator.toJSON(this.couponList));
-			jsonObj.put("creditList",JSONGenerator.toJSON(this.creditList));
-			jsonObj.put("transactionList",JSONGenerator.toJSON(this.transactionList));
-		} catch (JSONException | UnsupportedEncodingException e) {
-			DebugLog.d(e);
-			throw new ValidationException("信息数据格式转换失败");
-		}
-		return jsonObj;
-
+	public JSONObject toJSON() throws Exception{
+		return ModelReflectiveService.toJSON(this);
 	}
 
 	public boolean equals(User another){	

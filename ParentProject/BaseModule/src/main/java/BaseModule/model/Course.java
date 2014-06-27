@@ -26,6 +26,7 @@ import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.EncodingService;
+import BaseModule.service.ModelReflectiveService;
 
 public class Course implements PseudoModel, Serializable{
 	
@@ -793,37 +794,25 @@ public class Course implements PseudoModel, Serializable{
 		return noRefundDate;
 	}
 
-
-
 	public void setNoRefundDate(Calendar noRefundDate) {
 		this.noRefundDate = noRefundDate;
 	}
-
-
 
 	public Calendar getCashbackDate() {
 		return cashbackDate;
 	}
 
-
-
 	public void setCashbackDate(Calendar cashbackDate) {
 		this.cashbackDate = cashbackDate;
 	}
-
-
 
 	public BookingType getBookingType() {
 		return bookingType;
 	}
 
-
-
 	public void setBookingType(BookingType bookingType) {
 		this.bookingType = bookingType;
 	}
-
-
 
 	public int getStartUponArrival() {
 		return startUponArrival;
@@ -854,88 +843,8 @@ public class Course implements PseudoModel, Serializable{
         return clone;
 	}
 
-	public JSONObject toJSON() throws ValidationException{
-		JSONObject jsonObj = new JSONObject();
-		try{
-			jsonObj.put("courseId", this.courseId);
-			jsonObj.put("partnerId", this.partnerId);
-			jsonObj.put("price", this.price);
-			jsonObj.put("courseHourNum", this.courseHourNum);
-			jsonObj.put("courseHourLength", this.courseHourLength);
-			jsonObj.put("classSize", this.classSize);
-			jsonObj.put("cashback", this.cashback);
-			jsonObj.put("popularity", this.popularity);
-			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));		
-			jsonObj.put("startDate", DateUtility.castToAPIFormat(this.startDate));
-			jsonObj.put("finishDate", DateUtility.castToAPIFormat(this.finishDate));
-			jsonObj.put("startTime1", this.startTime1);
-			jsonObj.put("finishTime1", this.finishTime1);
-			jsonObj.put("startTime2", this.startTime2);
-			jsonObj.put("finishTime2", this.finishTime2);
-			jsonObj.put("category", EncodingService.encodeURI(this.category));
-			jsonObj.put("subCategory", EncodingService.encodeURI(this.subCategory));
-			jsonObj.put("subSubCategory", EncodingService.encodeURI(this.subSubCategory));
-			jsonObj.put("location", EncodingService.encodeURI(this.location));
-			jsonObj.put("province", EncodingService.encodeURI(this.province));
-			jsonObj.put("city", EncodingService.encodeURI(this.city));
-			jsonObj.put("district", EncodingService.encodeURI(this.district));
-			jsonObj.put("reference", EncodingService.encodeURI(this.reference));
-			jsonObj.put("courseIntro",EncodingService.encodeURI(this.courseIntro));
-			jsonObj.put("quiz", EncodingService.encodeURI(this.quiz));
-			jsonObj.put("certification", EncodingService.encodeURI(this.certification));
-			jsonObj.put("openCourseRequirement",EncodingService.encodeURI(this.openCourseRequirement));
-			jsonObj.put("suitableStudent",EncodingService.encodeURI(this.suitableStudent));
-			jsonObj.put("prerequest",EncodingService.encodeURI(this.prerequest));	
-			jsonObj.put("highScoreReward",EncodingService.encodeURI(this.highScoreReward));
-			jsonObj.put("courseName", EncodingService.encodeURI(this.courseName));
-			jsonObj.put("studyDaysNote", this.studyDaysNote);
-			jsonObj.put("partnerCourseReference", EncodingService.encodeURI(this.partnerCourseReference));			
-			jsonObj.put("partnerIntro", EncodingService.encodeURI(this.partnerIntro));
-			jsonObj.put("teachingMaterialIntro", EncodingService.encodeURI(this.teachingMaterialIntro));
-			jsonObj.put("questionBank", EncodingService.encodeURI(this.questionBank));
-			jsonObj.put("passAgreement", EncodingService.encodeURI(this.passAgreement));
-			jsonObj.put("extracurricular", EncodingService.encodeURI(this.extracurricular));
-			jsonObj.put("phone",EncodingService.encodeURI(this.phone));
-			jsonObj.put("partnerDistinction",EncodingService.encodeURI(this.partnerDistinction));
-			jsonObj.put("outline",EncodingService.encodeURI(this.outline));			
-			jsonObj.put("goal",EncodingService.encodeURI(this.goal));
-			jsonObj.put("classTeacher",EncodingService.encodeURI(this.classTeacher));
-			jsonObj.put("teachingAndExercise",EncodingService.encodeURI(this.teachingAndExercise));
-			jsonObj.put("questionSession",EncodingService.encodeURI(this.questionSession));
-			jsonObj.put("trail",EncodingService.encodeURI(this.trail));
-			jsonObj.put("assignments",EncodingService.encodeURI(this.assignments));
-			jsonObj.put("marking",EncodingService.encodeURI(this.marking));
-			jsonObj.put("bonusService",EncodingService.encodeURI(this.bonusService));
-			jsonObj.put("downloadMaterials", this.downloadMaterials);
-			jsonObj.put("status", this.status.code);
-			jsonObj.put("partnerQualification", this.partnerQualification.code);
-			jsonObj.put("teachingMaterialFee",this.teachingMaterialFee);
-			jsonObj.put("studyDays", new JSONArray(this.studyDays));
-			jsonObj.put("classImgUrls", new JSONArray(this.classImgUrls));
-			jsonObj.put("teacherImgUrls", new JSONArray(this.teacherImgUrls));
-			jsonObj.put("noRefundDate",DateUtility.castToAPIFormat(this.noRefundDate));
-			jsonObj.put("cashbackDate",DateUtility.castToAPIFormat(this.cashbackDate));
-			jsonObj.put("bookingType", this.bookingType.code);
-			ArrayList<String> tempEncodedIntros = new ArrayList<String>();
-			for (String intro : this.teacherIntros){
-				tempEncodedIntros.add(EncodingService.encodeURI(intro));
-			}
-			jsonObj.put("teacherIntros", new JSONArray(tempEncodedIntros));
-			ArrayList<String> tempEncodedNames = new ArrayList<String>();
-			for (String name : this.teacherNames){
-				tempEncodedNames.add(EncodingService.encodeURI(name));
-			}
-			jsonObj.put("teacherNames", new JSONArray(tempEncodedNames));			
-			jsonObj.put("logoUrl",EncodingService.encodeURI(this.logoUrl));
-			jsonObj.put("instName",EncodingService.encodeURI(this.instName));
-			jsonObj.put("wholeName",EncodingService.encodeURI(this.wholeName));
-			jsonObj.put("startUponArrival",this.startUponArrival);
-			jsonObj.put("cutoffDate",EncodingService.encodeURI(DateUtility.toSQLDateTime(this.cutoffDate)));
-		} catch (JSONException | UnsupportedEncodingException e) {
-			DebugLog.d(e);
-			throw new ValidationException("信息数据格式转换失败");
-		}
-		return jsonObj;
+	public JSONObject toJSON() throws Exception{
+		return ModelReflectiveService.toJSON(this);
 	}
 
 	public boolean equals(Course c){

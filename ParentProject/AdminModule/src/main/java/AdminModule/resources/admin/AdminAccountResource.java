@@ -48,7 +48,7 @@ public final class AdminAccountResource extends AdminPseudoResource{
 			String secret_3 = this.getQueryVal("secret3");
 			if (!AdminSecretCrypto.validatePassword(secret_1, superAdminKey_1) || !AdminSecretCrypto.validatePassword(secret_2, superAdminKey_2) || !AdminSecretCrypto.validatePassword(secret_3, superAdminKey_3) ){
 				int adminId = this.validateAuthentication();
-				DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), a_sr.serialize());
+				DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), a_sr.toJSON().toString());
 				
 				AdminAccount admin = AdminAccountDaoService.getAdminAccountById(adminId);
 				if (admin.getPrivilege() != Privilege.root){
@@ -56,7 +56,7 @@ public final class AdminAccountResource extends AdminPseudoResource{
 				}
 			}
 			else{
-				DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), a_sr.serialize());
+				DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), a_sr.toJSON().toString());
 			}
 			
 			

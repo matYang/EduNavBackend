@@ -1,14 +1,17 @@
 package BaseModule.staticDataService;
 
 import java.util.ArrayList;
+import java.util.Set;
+
 import org.json.JSONObject;
 
 import BaseModule.cache.StaticDataRamCache;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.model.generic.SDTree;
 
 import redis.clients.jedis.Jedis;
 
-public final class StaticDataService {
+public final class SDService {
 	
 	private static String catDataRedisKey = "list_catData";
 	private static String locationDataRedisKey = "list_locationData";
@@ -104,5 +107,35 @@ public final class StaticDataService {
 		return locationDataObj;
 	}
 	
+	private static void populateSDTree(JSONObject curObj, SDTree<String> parent){
+		//counting in the "index" key in every which object
+		if (curObj.keySet().size() <= 1){
+			return;
+		}
+		Set<String> keyset = curObj.keySet();
+		for (String key : keyset){
+			if (!key.equals("index")){
+				SDTree<String> node = parent.addLeaf(key);
+				populateSDTree(curObj.getJSONObject(key), node);
+			}
+		}
+	}
+	
+	
+	private static SDTree<String> generateSDTree(JSONObject jsonObj){
+		SDTree<String> root = new SDTree<String>("root");
+		populateSDTree(jsonObj, root);
+		return root;
+	}
+	
+	public static SDTree<String> getCatTree(){
+		JSONObject catObj = getCatDataJSON();
+		return generateSDTree(catObj);
+	}
+	
+	public static SDTree<String> getLocationTree(){
+		JSONObject locationObj = getLocationDataJSON();
+		return generateSDTree(locationObj);
+	}
 
 }

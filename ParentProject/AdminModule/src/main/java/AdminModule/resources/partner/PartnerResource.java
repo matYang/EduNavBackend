@@ -36,7 +36,7 @@ public final class PartnerResource extends AdminPseudoResource{
 			int adminId = this.validateAuthentication();
 			PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
 			this.loadRepresentation(p_sr);
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), p_sr.serialize());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), p_sr.toJSON().toString());
 
 			ArrayList<Partner> searchResult = PartnerDaoService.searchPartner(p_sr);
 			response = JSONGenerator.toJSON(searchResult);

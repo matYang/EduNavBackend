@@ -9,7 +9,7 @@ import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.service.ModelDataLoaderService;
 import BaseModule.staticDataService.CatDataLoader;
 import BaseModule.staticDataService.LocationDataLoader;
-import BaseModule.staticDataService.StaticDataService;
+import BaseModule.staticDataService.SDService;
 import BaseModule.staticDataService.SystemDataInit;
 
 public class DataLoaderTest {
@@ -18,14 +18,14 @@ public class DataLoaderTest {
 	@Test
 	public void catJsonTest() {
 		CatDataLoader.load();
-		JSONObject catDataArr = StaticDataService.getCatDataJSON();
+		JSONObject catDataArr = SDService.getCatDataJSON();
 		System.out.println(catDataArr);
 	}
 	
 	@Test
 	public void locationJsonTest() {
 		LocationDataLoader.load();
-		JSONObject locationDataArr = StaticDataService.getLocationDataJSON();
+		JSONObject locationDataArr = SDService.getLocationDataJSON();
 		System.out.println(locationDataArr);
 	}
 	
@@ -39,6 +39,16 @@ public class DataLoaderTest {
 			e.printStackTrace();
 			fail();
 		}
+	}
+	
+	@Test
+	public void catSDTreeTest(){
+		System.out.println(SDService.getCatTree().toString());
+	}
+	
+	@Test
+	public void locationSDTreeTest(){
+		System.out.println(SDService.getLocationTree().toString());
 	}
 
 }

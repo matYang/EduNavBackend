@@ -5,8 +5,6 @@ import java.util.Map;
 
 public interface PseudoRepresentation {
 	
-	public String serialize() throws Exception;
-	
 	public ArrayList<String> getKeySet() throws Exception;
 	
 	public void storeKvps(Map<String, String> kvps) throws Exception;

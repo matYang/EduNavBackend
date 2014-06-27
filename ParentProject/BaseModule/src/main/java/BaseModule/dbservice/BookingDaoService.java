@@ -27,7 +27,7 @@ import BaseModule.model.dataObj.BookingStatusObj;
 import BaseModule.model.representation.BookingSearchRepresentation;
 import BaseModule.model.representation.UserSearchRepresentation;
 import BaseModule.service.SMSService;
-import BaseModule.service.ValidStateTransferService;
+import BaseModule.service.StateTransferService;
 
 public class BookingDaoService {
 
@@ -55,7 +55,7 @@ public class BookingDaoService {
 				if (statusObj.bookingStatus != BookingStatus.cancelled && adminId <= 0){
 					throw new AuthenticationException("当前用户无权进行此操作");
 				}
-				if (!supervisor && !ValidStateTransferService.validateBookingStatusTransfer(curBooking.getStatus(), statusObj.bookingStatus)){
+				if (!supervisor && !StateTransferService.validateBookingStatusTransfer(curBooking.getStatus(), statusObj.bookingStatus)){
 					throw new ValidationException("预订状态操作错误，请联系管理员或者尝试刷新页面");
 				}
 				
@@ -78,7 +78,7 @@ public class BookingDaoService {
 				}
 			}
 			if (statusObj.serviceFeeStatus != null && statusObj.serviceFeeStatus != curBooking.getServiceFeeStatus()){
-				if (!supervisor && !ValidStateTransferService.validateServiceFeeStatusTransfer(curBooking.getServiceFeeStatus(), statusObj.serviceFeeStatus)){
+				if (!supervisor && !StateTransferService.validateServiceFeeStatusTransfer(curBooking.getServiceFeeStatus(), statusObj.serviceFeeStatus)){
 					throw new ValidationException("预订服务费状态操作错误，请联系管理员或者尝试刷新页面");
 				}
 				curBooking.setPreServiceFeeStatus(curBooking.getServiceFeeStatus());
@@ -87,7 +87,7 @@ public class BookingDaoService {
 				curBooking.appendServiceFeeActionRecord(statusObj.serviceFeeStatus, adminId);
 			}
 			if (statusObj.commissionStatus != null && statusObj.commissionStatus != curBooking.getCommissionStatus()){
-				if (!supervisor && !ValidStateTransferService.validateCommissionStatusTransfer(curBooking.getCommissionStatus(), statusObj.commissionStatus)){
+				if (!supervisor && !StateTransferService.validateCommissionStatusTransfer(curBooking.getCommissionStatus(), statusObj.commissionStatus)){
 					throw new ValidationException("预订佣金状态操作错误，请联系管理员或者尝试刷新页面");
 				}
 				curBooking.setPreCommissionStatus(curBooking.getCommissionStatus());

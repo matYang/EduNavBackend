@@ -34,7 +34,7 @@ public final class CatDataLoader {
 			}
 		}
 
-		StaticDataService.storeCatData(catData);
+		SDService.storeCatData(catData);
 		DebugLog.d("catData loaded succesfully");
 	}	
 }

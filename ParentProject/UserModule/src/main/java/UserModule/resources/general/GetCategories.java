@@ -6,7 +6,7 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 
 import BaseModule.common.DebugLog;
-import BaseModule.staticDataService.StaticDataService;
+import BaseModule.staticDataService.SDService;
 import UserModule.resources.UserPseudoResource;
 
 public final class GetCategories extends UserPseudoResource{
@@ -16,7 +16,7 @@ public final class GetCategories extends UserPseudoResource{
 	public Representation getDefaultLocation() {
 		DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), "");
 		
-		JSONObject jsonObject = StaticDataService.getCatDataJSON();
+		JSONObject jsonObject = SDService.getCatDataJSON();
 		Representation result = new JsonRepresentation(jsonObject);
 		this.addCORSHeader(); 
 		return result;

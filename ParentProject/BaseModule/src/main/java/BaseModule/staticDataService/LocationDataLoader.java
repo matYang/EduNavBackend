@@ -34,7 +34,7 @@ public final class LocationDataLoader {
 			}
 		}
 
-		StaticDataService.storeLocationData(locationData);
+		SDService.storeLocationData(locationData);
 		DebugLog.d("locationData loaded succesfully");
 	}	
 }

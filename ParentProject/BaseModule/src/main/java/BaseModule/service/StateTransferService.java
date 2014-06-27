@@ -13,7 +13,7 @@ import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CommissionStatus;
 import BaseModule.configurations.EnumConfig.ServiceFeeStatus;
 
-public final class ValidStateTransferService {
+public final class StateTransferService {
 	
 	private static final String bookingStatusTransferPath = "src/main/resources/BookingStatusTransfer";
 	private static final String ServiceFeeStatusTransferPath = "src/main/resources/ServiceFeeStatusTransfer";

@@ -1,20 +1,17 @@
 package BaseModule.reflectiveTest;
 
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
 
 import BaseModule.common.DateUtility;
-import BaseModule.exception.PseudoException;
 import BaseModule.model.Course;
 
 public class CourseTest {
 
 	@Test
-	public void test() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, PseudoException, ParseException {
+	public void test() throws Exception {
 		Map<String, String> kvps= new HashMap<String, String>();
 		
 		kvps.put("courseId", "1");
@@ -59,7 +56,7 @@ public class CourseTest {
 			course.loadFromMap(kvps);
 		}
 		System.out.println("100000 refelction finished at: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
-		//System.out.println(course.toJSON());
+		System.out.println(course.toJSON().toString());
 		
 
 	}

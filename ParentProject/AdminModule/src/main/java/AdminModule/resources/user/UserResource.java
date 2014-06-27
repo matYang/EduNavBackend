@@ -26,7 +26,7 @@ public final class UserResource extends AdminPseudoResource{
 			int adminId = this.validateAuthentication();
 			UserSearchRepresentation u_sr = new UserSearchRepresentation();
 			this.loadRepresentation(u_sr);
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), u_sr.serialize());
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), u_sr.toJSON().toString());
 
 			ArrayList<User> searchResult = UserDaoService.searchUser(u_sr);
 			response = JSONGenerator.toJSON(searchResult);

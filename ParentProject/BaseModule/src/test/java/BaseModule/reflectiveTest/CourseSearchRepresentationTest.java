@@ -12,8 +12,8 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class CourseSearchRepresentationTest {
 
-	@Test
-	public void test() throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
+	//@Test
+	public void test() throws Exception {
 		Map<String, String> kvps= new HashMap<String, String>();
 		
 		kvps.put("courseId", "9");
@@ -34,13 +34,12 @@ public class CourseSearchRepresentationTest {
 			c_sr.storeKvps(kvps);
 			c_sr.getKeySet();
 			c_sr.toJSON();
-			c_sr.serialize();
 		}
 		System.out.println("300000 refelction finished at: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 	}
 	
 	@Test
-	public void testConcurrent_a() throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
+	public void testConcurrent_a() throws Exception {
 		Map<String, String> kvps= new HashMap<String, String>();
 		
 		kvps.put("courseId", "9");
@@ -54,6 +53,7 @@ public class CourseSearchRepresentationTest {
 		kvps.put("finishPrice", "1000");
 		kvps.put("creationTime", "2014-05-11 00:00:00");
 		kvps.put("finishTime", "2018-09-01 00:00:00");
+		kvps.put("status", "0");
 		
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();
 		c_sr.storeKvps(kvps);
@@ -61,8 +61,6 @@ public class CourseSearchRepresentationTest {
 		System.out.println(c_sr.toString());
 		System.out.println(c_sr.getKeySet());
 		System.out.println(c_sr.toJSON());
-		System.out.println(c_sr.serialize());
-		System.out.println(c_sr.serialize().length());
 	}
 	
 

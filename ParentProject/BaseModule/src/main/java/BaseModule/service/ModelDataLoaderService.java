@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import org.json.JSONObject;
+
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
@@ -35,6 +38,8 @@ import BaseModule.model.Credit;
 import BaseModule.model.Partner;
 import BaseModule.model.Transaction;
 import BaseModule.model.User;
+import BaseModule.model.generic.SDTree;
+import BaseModule.staticDataService.SDService;
 import BaseModule.staticDataService.SystemDataInit;
 
 public final class ModelDataLoaderService {	
@@ -65,28 +70,8 @@ public final class ModelDataLoaderService {
 		finishTime.add(Calendar.HOUR_OF_DAY, 5);
 		finishTime.add(Calendar.DAY_OF_MONTH, 8);		
 		int price = 100;
-		int courseNum = 100;
-		ArrayList<String> categories= new ArrayList<String>();
-		categories.add("语文");		
-		categories.add("数学");
-		categories.add("英语");
-		categories.add("化学");
-		categories.add("物理");
-		categories.add("考研");
-		categories.add("会计");
-		categories.add("雅思");
-		categories.add("托福");
-
-		ArrayList<String> provinces = new ArrayList<String>();
-		provinces.add("重庆");
-		provinces.add("成都");
-		provinces.add("北京");
-		provinces.add("香港");
-		provinces.add("台湾");
-		provinces.add("南京");
-		provinces.add("苏州");
-		provinces.add("丹阳");
-		provinces.add("常州");		
+		final int courseNum = 100;
+		
 
 		String outline = "选择出发夏天的太阳像个大火炉，把大地烤得发烫，就连空气也是热的，人一动就浑身冒汗。我躲在山下的遮阳伞下，考虑着是否要出发。“出发了吗？儿子。”老爸洪亮的声音传来。抬头，愕然，老爸竟然已快半山腰了。看着他手中挥动的" +
 				"红色太阳帽，我颤抖着提起脚。是的，我的心中滋生出登上山顶的冲动，但面对这炙热的阳光，我又收回了脚。老爸离山顶越来越近了，我似乎已经听到了他登上顶峰的欢呼声。我再也按捺不住了，“不，我要出发！”终于踏出了第一步，凭着一股子劲，" +
@@ -122,30 +107,43 @@ public final class ModelDataLoaderService {
 		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUy");
 		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUy");
 		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUyNTJGcG9ydGFsQnVja2V0JTI1MkZ2aWV3Lmh0bWwlMjUzRnNwbSUyNTNEMC4wLjAuMC5VOUNOSGklMjUyNmJ1Y2tldE5hbWUlMjUzRGNs");
+		String location = "汇智大厦写字楼出租信息，上海徐汇万体馆漕溪北路398号，汇智大厦写字楼出租，找更多上海汇智大厦写字楼信息就到上海写字楼-搜房网。";
 		
-		for(int i=1;i<=courseNum;i++){			
+		for(int i=1; i <= courseNum; i++){			
 			int classSize = i;
 			int popularity = i;
 			int p_Id = (i%10)+1;
 			price += 100 + i;
-			String province = provinces.get(i%provinces.size());
-			String location = provinces.get((i+1)%provinces.size());
-			String city = provinces.get((i+2)%provinces.size());
-			String category = categories.get(i%categories.size());				
-			String subCategory = categories.get((i+1)%categories.size());
-			String subSubCategory = categories.get((i+2)%categories.size());
+
+			SDTree<String> randomProvinceNode = SDService.getLocationTree().getRandomLeaf();
+			SDTree<String> randomCityNode = randomProvinceNode.getRandomLeaf();
+			SDTree<String> randomDistrictNode = randomCityNode.getRandomLeaf();
+			String province = randomProvinceNode.getHead();
+			String city = randomCityNode.getHead();
+			String district = randomDistrictNode.getHead();
+			
+			SDTree<String> randomCatNode = SDService.getCatTree().getRandomLeaf();
+			SDTree<String> randomSubCatNode = randomCatNode.getRandomLeaf();
+			SDTree<String> randomSubSubCatNode = randomSubCatNode.getRandomLeaf();
+			String category = randomCatNode.getHead();
+			String subCategory = randomSubCatNode.getHead();
+			String subSubCategory = randomSubSubCatNode.getHead();
+			
 			String phone = "1234567890" + i;		
 			startTime.add(Calendar.MINUTE, i);
 			Course course = new Course(p_Id, startTime, finishTime,price,classSize,popularity,category,subCategory,phone);		
 			course.setSubSubCategory(subSubCategory);
 			course.setProvince(province);
+			course.setCity(city);
+			course.setDistrict(district);
 			course.setLocation(location);
-			course.setCity(city); 
 			course.setGoal(goal + i);
 			course.setOutline(outline + i);
 			course.setTeacherIntros(teacherIntros);
 			course.setTeacherImgUrls(teacherImgs);
 			course.setCashback(i);
+			
+			
 			try {
 				course.setReference(ReferenceGenerator.generateCourseReference());
 				CourseDaoService.createCourse(course);				

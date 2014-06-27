@@ -6,21 +6,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.BookingType;
 import BaseModule.configurations.EnumConfig.CommissionStatus;
 import BaseModule.configurations.EnumConfig.ServiceFeeStatus;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
-import BaseModule.service.EncodingService;
+import BaseModule.service.ModelReflectiveService;
 
 public class Booking implements PseudoModel, Serializable{
 	
@@ -434,48 +430,8 @@ public class Booking implements PseudoModel, Serializable{
         return clone;
 	}
 
-	public JSONObject toJSON() throws ValidationException{
-		JSONObject jsonObj = new JSONObject();
-		try{
-			jsonObj.put("bookingId", this.bookingId);
-			jsonObj.put("transactionId", this.transactionId);
-			jsonObj.put("email", EncodingService.encodeURI(this.email));
-			jsonObj.put("name", EncodingService.encodeURI(this.name));
-			jsonObj.put("phone", EncodingService.encodeURI(this.phone));
-			jsonObj.put("price", this.price);
-			jsonObj.put("status", this.status.code);
-			jsonObj.put("preStaus", this.preStatus.code);
-			jsonObj.put("reference", EncodingService.encodeURI(this.reference));
-			jsonObj.put("userId", this.userId);
-			jsonObj.put("partnerId", this.partnerId);
-			jsonObj.put("courseId", this.courseId);
-			jsonObj.put("adjustTime", DateUtility.castToAPIFormat(this.adjustTime));
-			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));			
-			jsonObj.put("scheduledTime", DateUtility.castToAPIFormat(this.scheduledTime));			
-			jsonObj.put("note", EncodingService.encodeURI(this.note));
-			jsonObj.put("cashbackAmount", this.cashbackAmount);
-			jsonObj.put("couponRecord", EncodingService.encodeURI(this.couponRecord));
-			jsonObj.put("actionRecord", EncodingService.encodeURI(this.actionRecord));
-			jsonObj.put("course", this.course == null ? new JSONObject() : this.course.toJSON());
-			jsonObj.put("noRefundDate",DateUtility.castToAPIFormat(this.noRefundDate));
-			jsonObj.put("cashbackDate",DateUtility.castToAPIFormat(this.cashbackDate));
-			jsonObj.put("bookingType", this.bookingType.code);
-			jsonObj.put("serviceFeeStatus", this.serviceFeeStatus.code);
-			jsonObj.put("preServiceFeeStatus", this.preServiceFeeStatus);
-			jsonObj.put("commissionStatus", this.commissionStatus.code);
-			jsonObj.put("preCommissionStatus", this.preCommissionStatus);
-			jsonObj.put("bookingStatusAdjustTime", DateUtility.castToAPIFormat(this.bookingStatusAdjustTime));
-			jsonObj.put("serviceFeeStatusAdjustTime", DateUtility.castToAPIFormat(this.serviceFeeStatusAdjustTime));
-			jsonObj.put("commissionStatusAdjustTime", DateUtility.castToAPIFormat(this.commissionStatusAdjustTime));
-			jsonObj.put("serviceFeeActionRecord",EncodingService.encodeURI(this.serviceFeeActionRecord));
-			jsonObj.put("commissionActionRecord",EncodingService.encodeURI(this.commissionActionRecord));		
-			
-		} catch (JSONException | UnsupportedEncodingException e) {
-			DebugLog.d(e);
-			throw new ValidationException("信息数据格式转换失败");
-		}
-		return jsonObj;
-
+	public JSONObject toJSON() throws Exception{
+		return ModelReflectiveService.toJSON(this);
 	}
 
 	public boolean equals(Booking booking){

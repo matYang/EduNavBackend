@@ -9,6 +9,7 @@ import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CreditStatus;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
+import BaseModule.service.ModelReflectiveService;
 
 
 public class Credit implements PseudoModel, Serializable{
@@ -105,22 +106,8 @@ public class Credit implements PseudoModel, Serializable{
 		return creationTime;
 	}
 	
-	public JSONObject toJSON() throws ValidationException{
-		JSONObject jsonObj = new JSONObject();
-		try{
-			jsonObj.put("creditId", this.creditId);
-			jsonObj.put("bookingId", this.bookingId);
-			jsonObj.put("userId", this.userId);			
-			jsonObj.put("amount", this.amount);
-			jsonObj.put("creationTime", DateUtility.castToAPIFormat(this.creationTime));	
-			jsonObj.put("expireTime", DateUtility.castToAPIFormat(this.expireTime));
-			jsonObj.put("status", this.status.code);
-			
-		} catch (JSONException e) {
-			DebugLog.d(e);
-			throw new ValidationException("信息数据格式转换失败");
-		}
-		return jsonObj;
+	public JSONObject toJSON() throws Exception{
+		return ModelReflectiveService.toJSON(this);
 	}
 	
 	public boolean equals(Credit c){

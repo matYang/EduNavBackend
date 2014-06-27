@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import BaseModule.cache.StaticDataRamCache;
 import BaseModule.common.DateUtility;
-import BaseModule.staticDataService.StaticDataService;
+import BaseModule.staticDataService.SDService;
 import BaseModule.staticDataService.SystemDataInit;
 
 public class ConcurrentStaticDataCacheTest {
@@ -33,10 +33,10 @@ public class ConcurrentStaticDataCacheTest {
 				for (int i = 0; i < 1000; i++){
 					JSONObject newData;
 					if (id.equals("loc")){
-						newData = StaticDataService.getLocationDataJSON();
+						newData = SDService.getLocationDataJSON();
 					}
 					else if (id.equals("cat")){
-						newData = StaticDataService.getCatDataJSON();
+						newData = SDService.getCatDataJSON();
 					}
 					else{
 						new RuntimeException().printStackTrace();
@@ -117,10 +117,10 @@ public class ConcurrentStaticDataCacheTest {
 	public void test() throws InterruptedException {
 		SystemDataInit.init();
 		ArrayList<JSONObject> catDataS = new ArrayList<JSONObject>();
-		catDataS.add(StaticDataService.getCatDataJSON());
+		catDataS.add(SDService.getCatDataJSON());
 
 		ArrayList<JSONObject> locationDataS = new ArrayList<JSONObject>();
-		locationDataS.add(StaticDataService.getLocationDataJSON());
+		locationDataS.add(SDService.getLocationDataJSON());
 
 		
 		int readThreadNum = 1000;

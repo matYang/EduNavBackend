@@ -69,8 +69,7 @@ public final class MemcachedBenchMarkResource extends AdminPseudoResource {
 					previousResult = newResult;
 				}
 				//System.out.println("Thread: " + this.index + " finishes");
-			} catch (IllegalArgumentException | IllegalAccessException
-					| UnsupportedEncodingException | PseudoException | SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			} finally{
 				threadsSignal.countDown();

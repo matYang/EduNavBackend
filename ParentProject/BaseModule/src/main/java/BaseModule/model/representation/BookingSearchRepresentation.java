@@ -1,6 +1,5 @@
 package BaseModule.model.representation;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
@@ -11,11 +10,9 @@ import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.BookingType;
 import BaseModule.configurations.EnumConfig.CommissionStatus;
 import BaseModule.configurations.EnumConfig.ServiceFeeStatus;
-import BaseModule.exception.PseudoException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.interfaces.PseudoRepresentation;
-import BaseModule.service.RepresentationReflectiveService;
+import BaseModule.service.ModelReflectiveService;
 
 public class BookingSearchRepresentation implements PseudoModel, PseudoRepresentation {
 	
@@ -99,28 +96,22 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 
 	@Override
 	public ArrayList<String> getKeySet() {
-		return RepresentationReflectiveService.getKeySet(this);
+		return ModelReflectiveService.getKeySet(this);
 	}
 
 	@Override
-	public void storeKvps(Map<String, String> kvps) throws IllegalArgumentException, IllegalAccessException, PseudoException, UnsupportedEncodingException {
-		RepresentationReflectiveService.storeKvps(this, kvps);
+	public void storeKvps(Map<String, String> kvps)  throws Exception {
+		ModelReflectiveService.storeKvps(this, kvps);
 	}
-	
-	@Override
-	public String serialize() throws IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ValidationException {
-		return RepresentationReflectiveService.serialize(this);
-	}
-	
 
 	@Override
 	public boolean isEmpty() throws Exception {
-		return RepresentationReflectiveService.isEmpty(this);
+		return ModelReflectiveService.isEmpty(this);
 	}
 
 	@Override
-	public JSONObject toJSON() throws ValidationException {
-		return RepresentationReflectiveService.toJSON(this);
+	public JSONObject toJSON() throws Exception {
+		return ModelReflectiveService.toJSON(this);
 	}
 
 	
