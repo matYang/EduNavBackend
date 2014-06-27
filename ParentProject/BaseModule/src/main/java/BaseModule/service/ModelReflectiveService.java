@@ -78,6 +78,7 @@ public final class ModelReflectiveService {
 						jsonRepresentation.put(field.getName(),  new JSONArray() );
 					}
 					else{
+						//assuming no arraylist of enums or calendars
 						Object firstEle = list.get(0);
 						if (Integer.class.isAssignableFrom(firstEle.getClass()) || Long.class.isAssignableFrom(firstEle.getClass())){
 							jsonRepresentation.put(field.getName(),  new JSONArray(list) );
@@ -85,13 +86,16 @@ public final class ModelReflectiveService {
 						else if (String.class.isAssignableFrom(firstEle.getClass())){
 							ArrayList<String> valArr = new ArrayList<String>();
 							for (Object o : list){
-								//TODO
+								//TODO maybe not encode here
 								valArr.add(EncodingService.encodeURI((String)o));
 							}
 							jsonRepresentation.put(field.getName(),  new JSONArray(valArr) );
 						}
 						else if (PseudoModel.class.isAssignableFrom(firstEle.getClass())){
 							jsonRepresentation.put(field.getName(),  JSONGenerator.toJSON((List<PseudoModel>)list) );
+						}
+						else{
+							throw new RuntimeException("[ERROR][Reflection] RepresentationReflectiveService suffered fatal reflection error, field type not matched: " +  fieldClass.getSimpleName());
 						}
 					}
 				}

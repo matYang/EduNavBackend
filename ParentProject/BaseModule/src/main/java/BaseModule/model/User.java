@@ -217,21 +217,75 @@ public class User implements PseudoModel, Serializable{
 	public JSONObject toJSON() throws Exception{
 		return ModelReflectiveService.toJSON(this);
 	}
+	
+	
 
-	public boolean equals(User another){	
-		if (another == null){
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		return this.name.equals(another.getName()) &&
-				this.phone.equals(another.getPhone()) && 
-				this.status.code == another.getStatus().code &&
-				this.userId == another.getUserId() && 
-				this.balance == another.getBalance() && 
-				this.credit == another.getCredit() &&
-				this.coupon == another.getCoupon() && 
-				this.email.equals(another.getEmail()) &&
-				this.accountNumber.equals(another.accountNumber) &&
-				this.invitationalCode.equals(another.getInvitationalCode()) &&
-				this.appliedInvitationalCode.equals(another.getAppliedInvitationalCode());
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (accountNumber == null) {
+			if (other.accountNumber != null)
+				return false;
+		} else if (!accountNumber.equals(other.accountNumber))
+			return false;
+		if (appliedInvitationalCode == null) {
+			if (other.appliedInvitationalCode != null)
+				return false;
+		} else if (!appliedInvitationalCode
+				.equals(other.appliedInvitationalCode))
+			return false;
+		if (balance != other.balance)
+			return false;
+		if (coupon != other.coupon)
+			return false;
+		if (creationTime == null) {
+			if (other.creationTime != null)
+				return false;
+		} else if (!creationTime.equals(other.creationTime))
+			return false;
+		if (credit != other.credit)
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (invitationalCode == null) {
+			if (other.invitationalCode != null)
+				return false;
+		} else if (!invitationalCode.equals(other.invitationalCode))
+			return false;
+		if (lastLogin == null) {
+			if (other.lastLogin != null)
+				return false;
+		} else if (!lastLogin.equals(other.lastLogin))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
+			return false;
+		if (status != other.status)
+			return false;
+		if (userId != other.userId)
+			return false;
+		return true;
 	}
+
 }
