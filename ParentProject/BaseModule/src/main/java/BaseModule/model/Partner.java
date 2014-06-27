@@ -1,5 +1,10 @@
 package BaseModule.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
@@ -153,19 +158,80 @@ public class Partner implements PseudoModel, Serializable{
 	public Calendar getCreationTime() {
 		return creationTime;
 	}
+	
+	public Partner deepCopy() throws IOException, ClassNotFoundException{
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
+        final ObjectOutputStream oos = new ObjectOutputStream(baos);
+        
+        oos.writeObject(this);
+        oos.close();
+        
+        final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray()));
+        final Partner clone = (Partner) ois.readObject();
+        
+        return clone;
+	}
 
 	public JSONObject toJSON() throws Exception{
 		return ModelReflectiveService.toJSON(this);
 	}
 
-	public boolean equals(Partner p){
-		if (p == null){
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		return this.partnerId==p.getPartnerId() && this.wholeName.equals(p.getWholeName()) &&
-				this.organizationNum.equals(p.getOrganizationNum()) && this.reference.equals(p.getReference()) &&
-				this.phone.equals(p.getPhone()) && this.licence.equals(p.getLicence()) && this.status.code == p.getStatus().code &&
-				this.instName.equals(p.getInstName()) && this.logoUrl.equals(p.getLogoUrl());				
+		if (getClass() != obj.getClass())
+			return false;
+		Partner other = (Partner) obj;
+		if (instName == null) {
+			if (other.instName != null)
+				return false;
+		} else if (!instName.equals(other.instName))
+			return false;
+		if (licence == null) {
+			if (other.licence != null)
+				return false;
+		} else if (!licence.equals(other.licence))
+			return false;
+		if (logoUrl == null) {
+			if (other.logoUrl != null)
+				return false;
+		} else if (!logoUrl.equals(other.logoUrl))
+			return false;
+		if (organizationNum == null) {
+			if (other.organizationNum != null)
+				return false;
+		} else if (!organizationNum.equals(other.organizationNum))
+			return false;
+		if (partnerId != other.partnerId)
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
+			return false;
+		if (reference == null) {
+			if (other.reference != null)
+				return false;
+		} else if (!reference.equals(other.reference))
+			return false;
+		if (status != other.status)
+			return false;
+		if (wholeName == null) {
+			if (other.wholeName != null)
+				return false;
+		} else if (!wholeName.equals(other.wholeName))
+			return false;
+		return true;
 	}
+
 	
 }

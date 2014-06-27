@@ -831,7 +831,7 @@ public class Course implements PseudoModel, Serializable{
 	}
 
 	public Course deepCopy() throws IOException, ClassNotFoundException{
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final ObjectOutputStream oos = new ObjectOutputStream(baos);
         
         oos.writeObject(this);
@@ -847,39 +847,252 @@ public class Course implements PseudoModel, Serializable{
 		return ModelReflectiveService.toJSON(this);
 	}
 
-	public boolean equals(Course c){
-		if (c == null){
-			return false;
-		}
-			return  this.category.equals(c.getCategory()) &&
-					this.subCategory.equals(c.getSubCategory()) && 
-					this.courseId == c.getCourseId() && 
-					this.partnerId == c.getPartnerId() &&					
-					this.price == c.getPrice() && 
-					this.classSize == c.getClassSize() && 
-					this.status.code == c.getStatus().code  &&
-					this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) && 
-					this.startDate.getTime().toString().equals(c.getStartDate().getTime().toString()) &&
-					this.finishDate.getTime().toString().equals(c.getFinishDate().getTime().toString()) &&
-					this.startTime1 == c.getStartTime1() && this.finishTime1 == c.getFinishTime1() && this.startTime2 == c.getStartTime2() && this.finishTime2 == c.getFinishTime2() &&
-					this.location.equals(c.getLocation()) && 
-					this.province.equals(c.getProvince()) &&
-					this.city.equals(c.getCity()) && 
-					this.district.equals(c.getDistrict()) &&
-					this.reference.equals(c.getReference()) && 
-					this.courseIntro.equals(c.getCourseIntro())&& 					
-				    this.downloadMaterials.equals(c.getDownloadMaterials()) &&				 
-					this.openCourseRequirement.equals(c.getOpenCourseRequirement()) &&
-					this.suitableStudent.equals(c.getSuitableStudent()) &&
-					this.prerequest.equals(c.getPrerequest()) && 									
-					this.certification.equals(c.getCertification()) &&
-					this.courseName.equals(c.getCourseName()) &&
-					this.classTeacher.equals(c.getClassTeacher()) && 
-					this.bookingType.code == c.getBookingType().code &&
-					this.startUponArrival == c.getStartUponArrival();		
-				
-	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Course other = (Course) obj;
+		if (assignments == null) {
+			if (other.assignments != null)
+				return false;
+		} else if (!assignments.equals(other.assignments))
+			return false;
+		if (bonusService == null) {
+			if (other.bonusService != null)
+				return false;
+		} else if (!bonusService.equals(other.bonusService))
+			return false;
+		if (bookingType != other.bookingType)
+			return false;
+		if (cashback != other.cashback)
+			return false;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (certification == null) {
+			if (other.certification != null)
+				return false;
+		} else if (!certification.equals(other.certification))
+			return false;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (classSize != other.classSize)
+			return false;
+		if (classTeacher == null) {
+			if (other.classTeacher != null)
+				return false;
+		} else if (!classTeacher.equals(other.classTeacher))
+			return false;
+		if (courseHourLength != other.courseHourLength)
+			return false;
+		if (courseHourNum != other.courseHourNum)
+			return false;
+		if (courseId != other.courseId)
+			return false;
+		if (courseIntro == null) {
+			if (other.courseIntro != null)
+				return false;
+		} else if (!courseIntro.equals(other.courseIntro))
+			return false;
+		if (courseName == null) {
+			if (other.courseName != null)
+				return false;
+		} else if (!courseName.equals(other.courseName))
+			return false;
+		if (district == null) {
+			if (other.district != null)
+				return false;
+		} else if (!district.equals(other.district))
+			return false;
+		if (downloadMaterials == null) {
+			if (other.downloadMaterials != null)
+				return false;
+		} else if (!downloadMaterials.equals(other.downloadMaterials))
+			return false;
+		if (extracurricular == null) {
+			if (other.extracurricular != null)
+				return false;
+		} else if (!extracurricular.equals(other.extracurricular))
+			return false;
+		if (finishTime1 != other.finishTime1)
+			return false;
+		if (finishTime2 != other.finishTime2)
+			return false;
+		if (goal == null) {
+			if (other.goal != null)
+				return false;
+		} else if (!goal.equals(other.goal))
+			return false;
+		if (highScoreReward == null) {
+			if (other.highScoreReward != null)
+				return false;
+		} else if (!highScoreReward.equals(other.highScoreReward))
+			return false;
+		if (instName == null) {
+			if (other.instName != null)
+				return false;
+		} else if (!instName.equals(other.instName))
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		if (logoUrl == null) {
+			if (other.logoUrl != null)
+				return false;
+		} else if (!logoUrl.equals(other.logoUrl))
+			return false;
+		if (marking == null) {
+			if (other.marking != null)
+				return false;
+		} else if (!marking.equals(other.marking))
+			return false;
+		if (openCourseRequirement == null) {
+			if (other.openCourseRequirement != null)
+				return false;
+		} else if (!openCourseRequirement.equals(other.openCourseRequirement))
+			return false;
+		if (outline == null) {
+			if (other.outline != null)
+				return false;
+		} else if (!outline.equals(other.outline))
+			return false;
+		if (partnerCourseReference == null) {
+			if (other.partnerCourseReference != null)
+				return false;
+		} else if (!partnerCourseReference.equals(other.partnerCourseReference))
+			return false;
+		if (partnerDistinction == null) {
+			if (other.partnerDistinction != null)
+				return false;
+		} else if (!partnerDistinction.equals(other.partnerDistinction))
+			return false;
+		if (partnerId != other.partnerId)
+			return false;
+		if (partnerIntro == null) {
+			if (other.partnerIntro != null)
+				return false;
+		} else if (!partnerIntro.equals(other.partnerIntro))
+			return false;
+		if (partnerQualification != other.partnerQualification)
+			return false;
+		if (passAgreement == null) {
+			if (other.passAgreement != null)
+				return false;
+		} else if (!passAgreement.equals(other.passAgreement))
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
+			return false;
+		if (popularity != other.popularity)
+			return false;
+		if (prerequest == null) {
+			if (other.prerequest != null)
+				return false;
+		} else if (!prerequest.equals(other.prerequest))
+			return false;
+		if (price != other.price)
+			return false;
+		if (province == null) {
+			if (other.province != null)
+				return false;
+		} else if (!province.equals(other.province))
+			return false;
+		if (questionBank == null) {
+			if (other.questionBank != null)
+				return false;
+		} else if (!questionBank.equals(other.questionBank))
+			return false;
+		if (questionSession == null) {
+			if (other.questionSession != null)
+				return false;
+		} else if (!questionSession.equals(other.questionSession))
+			return false;
+		if (quiz == null) {
+			if (other.quiz != null)
+				return false;
+		} else if (!quiz.equals(other.quiz))
+			return false;
+		if (reference == null) {
+			if (other.reference != null)
+				return false;
+		} else if (!reference.equals(other.reference))
+			return false;
+		if (startTime1 != other.startTime1)
+			return false;
+		if (startTime2 != other.startTime2)
+			return false;
+		if (startUponArrival != other.startUponArrival)
+			return false;
+		if (status != other.status)
+			return false;
+		if (studyDays == null) {
+			if (other.studyDays != null)
+				return false;
+		} else if (!studyDays.equals(other.studyDays))
+			return false;
+		if (studyDaysNote == null) {
+			if (other.studyDaysNote != null)
+				return false;
+		} else if (!studyDaysNote.equals(other.studyDaysNote))
+			return false;
+		if (subCategory == null) {
+			if (other.subCategory != null)
+				return false;
+		} else if (!subCategory.equals(other.subCategory))
+			return false;
+		if (subSubCategory == null) {
+			if (other.subSubCategory != null)
+				return false;
+		} else if (!subSubCategory.equals(other.subSubCategory))
+			return false;
+		if (suitableStudent == null) {
+			if (other.suitableStudent != null)
+				return false;
+		} else if (!suitableStudent.equals(other.suitableStudent))
+			return false;
+		if (teachingAndExercise == null) {
+			if (other.teachingAndExercise != null)
+				return false;
+		} else if (!teachingAndExercise.equals(other.teachingAndExercise))
+			return false;
+		if (teachingMaterialFee == null) {
+			if (other.teachingMaterialFee != null)
+				return false;
+		} else if (!teachingMaterialFee.equals(other.teachingMaterialFee))
+			return false;
+		if (teachingMaterialIntro == null) {
+			if (other.teachingMaterialIntro != null)
+				return false;
+		} else if (!teachingMaterialIntro.equals(other.teachingMaterialIntro))
+			return false;
+		if (trail == null) {
+			if (other.trail != null)
+				return false;
+		} else if (!trail.equals(other.trail))
+			return false;
+		if (wholeName == null) {
+			if (other.wholeName != null)
+				return false;
+		} else if (!wholeName.equals(other.wholeName))
+			return false;
+		return true;
+	}
+
+
 
 	public void loadFromMap(Map<String, String> kvps) throws PseudoException, IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ParseException{
 		Field[] fields = this.getClass().getDeclaredFields();

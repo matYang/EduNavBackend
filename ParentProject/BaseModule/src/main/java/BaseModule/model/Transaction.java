@@ -1,5 +1,10 @@
 package BaseModule.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Calendar;
 import org.json.JSONException;
@@ -89,18 +94,44 @@ public class Transaction implements PseudoModel, Serializable{
 		return creationTime;
 	}
 	
+	public Transaction deepCopy() throws IOException, ClassNotFoundException{
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
+        final ObjectOutputStream oos = new ObjectOutputStream(baos);
+        
+        oos.writeObject(this);
+        oos.close();
+        
+        final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray()));
+        final Transaction clone = (Transaction) ois.readObject();
+        
+        return clone;
+	}
+	
 	public JSONObject toJSON() throws Exception{
 		return ModelReflectiveService.toJSON(this);
 	}
-	
-	public boolean equals(Transaction transaction){
-		if (transaction == null){
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		return this.bookingId == transaction.getBookingId() && this.transactionId == transaction.getTransactionId() &&
-				this.userId == transaction.getUserId() && this.transactionAmount == transaction.getTransactionAmount() &&
-				this.creationTime.getTime().toString().equals(transaction.getCreationTime().getTime().toString()) &&
-				this.transactionType.code == transaction.getTransactionType().code;
+		if (getClass() != obj.getClass())
+			return false;
+		Transaction other = (Transaction) obj;
+		if (bookingId != other.bookingId)
+			return false;
+		if (transactionAmount != other.transactionAmount)
+			return false;
+		if (transactionId != other.transactionId)
+			return false;
+		if (transactionType != other.transactionType)
+			return false;
+		if (userId != other.userId)
+			return false;
+		return true;
 	}
 	
 	

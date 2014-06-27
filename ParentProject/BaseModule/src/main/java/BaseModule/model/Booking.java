@@ -418,7 +418,7 @@ public class Booking implements PseudoModel, Serializable{
 	}
 
 	public Booking deepCopy() throws IOException, ClassNotFoundException{
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final ObjectOutputStream oos = new ObjectOutputStream(baos);
         
         oos.writeObject(this);

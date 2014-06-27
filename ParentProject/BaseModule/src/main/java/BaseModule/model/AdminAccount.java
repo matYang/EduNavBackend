@@ -1,5 +1,10 @@
 package BaseModule.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Calendar;
 
@@ -123,6 +128,19 @@ public class AdminAccount implements PseudoModel, Serializable{
 
 	public Calendar getCreationTime() {
 		return creationTime;
+	}
+	
+	public AdminAccount deepCopy() throws IOException, ClassNotFoundException{
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
+        final ObjectOutputStream oos = new ObjectOutputStream(baos);
+        
+        oos.writeObject(this);
+        oos.close();
+        
+        final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray()));
+        final AdminAccount clone = (AdminAccount) ois.readObject();
+        
+        return clone;
 	}
 
 	public JSONObject toJSON() throws Exception{

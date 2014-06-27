@@ -1,5 +1,10 @@
 package BaseModule.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Calendar;
 import org.json.JSONException;
@@ -106,22 +111,44 @@ public class Credit implements PseudoModel, Serializable{
 		return creationTime;
 	}
 	
+	public Credit deepCopy() throws IOException, ClassNotFoundException{
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
+        final ObjectOutputStream oos = new ObjectOutputStream(baos);
+        
+        oos.writeObject(this);
+        oos.close();
+        
+        final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray()));
+        final Credit clone = (Credit) ois.readObject();
+        
+        return clone;
+	}
+	
 	public JSONObject toJSON() throws Exception{
 		return ModelReflectiveService.toJSON(this);
 	}
-	
-	public boolean equals(Credit c){
-		if (c == null){
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		return this.creditId == c.getCreditId() && 
-				this.bookingId == c.getBookingId() && 				
-				this.userId == c.getUserId() && 
-				this.status.code == c.getStatus().code &&
-				this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) &&
-				this.expireTime.getTime().toString().equals(c.getExpireTime().getTime().toString()) && 
-				this.amount == c.getAmount();
+		if (getClass() != obj.getClass())
+			return false;
+		Credit other = (Credit) obj;
+		if (amount != other.amount)
+			return false;
+		if (bookingId != other.bookingId)
+			return false;
+		if (creditId != other.creditId)
+			return false;
+		if (status != other.status)
+			return false;
+		if (userId != other.userId)
+			return false;
+		return true;
 	}
-	
 	
 }

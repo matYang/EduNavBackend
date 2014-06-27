@@ -1,5 +1,10 @@
 package BaseModule.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -213,79 +218,104 @@ public class User implements PseudoModel, Serializable{
 	public String getAccountNumber() {
 		return accountNumber;
 	}
+	
+	public User deepCopy() throws IOException, ClassNotFoundException{
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ObjectOutputStream oos = new ObjectOutputStream(baos);
+        
+        oos.writeObject(this);
+        oos.close();
+        
+        final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray()));
+        final User clone = (User) ois.readObject();
+        
+        return clone;
+	}
 
 	public JSONObject toJSON() throws Exception{
 		return ModelReflectiveService.toJSON(this);
 	}
-	
-	
+
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		User other = (User) obj;
 		if (accountNumber == null) {
-			if (other.accountNumber != null)
+			if (other.accountNumber != null) {
 				return false;
-		} else if (!accountNumber.equals(other.accountNumber))
+			}
+		} else if (!accountNumber.equals(other.accountNumber)) {
 			return false;
+		}
 		if (appliedInvitationalCode == null) {
-			if (other.appliedInvitationalCode != null)
+			if (other.appliedInvitationalCode != null) {
 				return false;
+			}
 		} else if (!appliedInvitationalCode
-				.equals(other.appliedInvitationalCode))
+				.equals(other.appliedInvitationalCode)) {
 			return false;
-		if (balance != other.balance)
+		}
+		if (balance != other.balance) {
 			return false;
-		if (coupon != other.coupon)
+		}
+		if (coupon != other.coupon) {
 			return false;
-		if (creationTime == null) {
-			if (other.creationTime != null)
-				return false;
-		} else if (!creationTime.equals(other.creationTime))
+		}
+		if (credit != other.credit) {
 			return false;
-		if (credit != other.credit)
-			return false;
+		}
 		if (email == null) {
-			if (other.email != null)
+			if (other.email != null) {
 				return false;
-		} else if (!email.equals(other.email))
+			}
+		} else if (!email.equals(other.email)) {
 			return false;
+		}
 		if (invitationalCode == null) {
-			if (other.invitationalCode != null)
+			if (other.invitationalCode != null) {
 				return false;
-		} else if (!invitationalCode.equals(other.invitationalCode))
+			}
+		} else if (!invitationalCode.equals(other.invitationalCode)) {
 			return false;
-		if (lastLogin == null) {
-			if (other.lastLogin != null)
-				return false;
-		} else if (!lastLogin.equals(other.lastLogin))
-			return false;
+		}
 		if (name == null) {
-			if (other.name != null)
+			if (other.name != null) {
 				return false;
-		} else if (!name.equals(other.name))
+			}
+		} else if (!name.equals(other.name)) {
 			return false;
+		}
 		if (password == null) {
-			if (other.password != null)
+			if (other.password != null) {
 				return false;
-		} else if (!password.equals(other.password))
+			}
+		} else if (!password.equals(other.password)) {
 			return false;
+		}
 		if (phone == null) {
-			if (other.phone != null)
+			if (other.phone != null) {
 				return false;
-		} else if (!phone.equals(other.phone))
+			}
+		} else if (!phone.equals(other.phone)) {
 			return false;
-		if (status != other.status)
+		}
+		if (status != other.status) {
 			return false;
-		if (userId != other.userId)
+		}
+		if (userId != other.userId) {
 			return false;
+		}
 		return true;
 	}
+	
 
 }
