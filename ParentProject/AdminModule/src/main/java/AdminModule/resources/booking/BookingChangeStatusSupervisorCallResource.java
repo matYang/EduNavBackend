@@ -27,7 +27,7 @@ public final class BookingChangeStatusSupervisorCallResource extends AdminPseudo
 	
 
 	@Put
-	//this method does not change the state of the booking
+	//this method does not change the status of the booking
 	public Representation changeBookingInfo(Representation entity){
 		int bookingId = -1;
 		JSONObject newBooking = new JSONObject();

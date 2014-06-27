@@ -6,26 +6,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingType;
 import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.configurations.EnumConfig.PartnerQualification;
-import BaseModule.exception.PseudoException;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
-import BaseModule.service.EncodingService;
 import BaseModule.service.ModelReflectiveService;
 
 public class Course implements PseudoModel, Serializable{
@@ -846,7 +836,6 @@ public class Course implements PseudoModel, Serializable{
 	public JSONObject toJSON() throws Exception{
 		return ModelReflectiveService.toJSON(this);
 	}
-
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -1094,105 +1083,7 @@ public class Course implements PseudoModel, Serializable{
 
 
 
-	public void loadFromMap(Map<String, String> kvps) throws PseudoException, IllegalArgumentException, IllegalAccessException, UnsupportedEncodingException, ParseException{
-		Field[] fields = this.getClass().getDeclaredFields();
-		
-		try{
-			for (Field field : fields){
-				field.setAccessible(true);
-				String value = EncodingService.decodeURI(kvps.get(field.getName()));
-				if (value != null && value.length() != 0){
-					Class<?> fieldClass = field.getType();
-					
-					if (fieldClass.isAssignableFrom(int.class)){
-						field.setInt(this, Integer.parseInt(value, 10));
-					}
-					//do not update reference whatsoever, it is managed by the system
-					else if (fieldClass.isAssignableFrom(String.class) && !fieldClass.getName().equals("reference")){
-						field.set(this, value);
-					}
-					else if (fieldClass.isAssignableFrom(Calendar.class)){
-						field.set(this, DateUtility.castFromAPIFormat(value));
-					}
-					else if (fieldClass.isAssignableFrom(boolean.class)){
-						field.set(this, Boolean.parseBoolean(value));
-					}
-					else if (fieldClass.isAssignableFrom(AccountStatus.class)){
-						field.set(this, AccountStatus.fromInt(Integer.parseInt(value, 10)));
-					}
-					else if (fieldClass.isAssignableFrom(CourseStatus.class)){
-						field.set(this, CourseStatus.fromInt(Integer.parseInt(value, 10)));
-					}
-					else if (fieldClass.isAssignableFrom(PartnerQualification.class)){
-						field.set(this, PartnerQualification.fromInt(Integer.parseInt(value, 10)));
-					}
-					else if (fieldClass.isAssignableFrom(BookingType.class)){
-						field.set(this, BookingType.fromInt(Integer.parseInt(value, 10)));
-					}
-					else if (fieldClass.isAssignableFrom(ArrayList.class)){
-						if (field.getName().equals("studyDays")){
-							String[] vals = value.split("-");
-							ArrayList<Integer> intList = new ArrayList<Integer>();
-							for (String val : vals){
-								intList.add(Integer.parseInt(val, 10));
-							}
-							field.set(this, intList);
-						}
-					}
-					else{
-						throw new RuntimeException("[ERROR][Reflection] Course loadFromMap suffered fatal reflection error, field type not matched");
-					}
-				}
-				else if (field.getName().equals("classImgUrls")){
-					ArrayList<String> classImgUrlList = new ArrayList<String>();
-					for (int i = 1; i <= 5; i++){
-						String val = kvps.get("url-classImg" + i);
-						if (val == null){
-							throw new ValidationException("教室图片 " + i + " 不能为null");
-						}
-						classImgUrlList.add(val);
-					}
-					field.set(this, classImgUrlList);
-				}
-				else if (field.getName().equals("teacherIntros")){
-					ArrayList<String> teacherIntroList = new ArrayList<String>();
-					for (int i = 1; i <= 4; i++){
-						String val = EncodingService.decodeURI(kvps.get("teacherIntro" + i));
-						if (val == null){
-							break;
-						}
-						teacherIntroList.add(val);
-					}
-					field.set(this, teacherIntroList);
-				}
-				else if (field.getName().equals("teacherImgUrls")){
-					ArrayList<String> teacherImgUrlList = new ArrayList<String>();
-					for (int i = 1; i <= 4; i++){
-						String val = kvps.get("url-teacherImg" + i);
-						if (val == null){
-							break;
-						}
-						teacherImgUrlList.add(val);
-					}
-					field.set(this, teacherImgUrlList);
-				}
-				else if (field.getName().equals("teacherNames")){
-					ArrayList<String> teacherNameList = new ArrayList<String>();
-					for (int i = 1; i <= 4; i++){
-						String val = EncodingService.decodeURI(kvps.get("teacherName" + i));
-						if (val == null){
-							break;
-						}
-						teacherNameList.add(val);
-					}
-					field.set(this, teacherNameList);
-				}
-				else{
-					//empty value from kvps, do nothing
-				}
-			}
-		} catch (NumberFormatException e){
-			throw new ValidationException("课程数据中数字格式错误");
-		}
+	public void loadFromMap(Map<String, String> kvps) throws Exception{
+		ModelReflectiveService.storeKvps(this, kvps);
 	}
 }

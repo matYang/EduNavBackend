@@ -37,22 +37,7 @@ public final class PartnerIdResource extends AdminPseudoResource{
 			Partner partner = PartnerDaoService.getPartnerById(partnerId);
 
 			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
-			
-			String wholeName = EncodingService.decodeURI(props.get("wholeName"));
-			String licence = EncodingService.decodeURI(props.get("licence"));
-			String organizationNum = EncodingService.decodeURI(props.get("organizationNum"));
-			String phone = EncodingService.decodeURI(props.get("phone"));
-			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(props.get("status")));
-			String instName = EncodingService.decodeURI(props.get("instName"));
-			String logoUrl = EncodingService.decodeURI(props.get("logoUrl"));
-			
-			partner.setWholeName(wholeName);
-			partner.setLicence(licence);
-			partner.setOrganizationNum(organizationNum);
-			partner.setPhone(phone);
-			partner.setStatus(status);
-			partner.setInstName(instName);
-			partner.setLogoUrl(logoUrl);
+			partner.loadFromMap(props);
 			
 			PartnerDaoService.updatePartner(partner);
 			

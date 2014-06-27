@@ -45,6 +45,7 @@ public class AdminAccount implements PseudoModel, Serializable{
 		this.status = status;
 		this.name = name;
 		this.phone = phone;
+		this.password = "";
 	}
 
 	//Normal Construction
@@ -147,16 +148,38 @@ public class AdminAccount implements PseudoModel, Serializable{
 		return ModelReflectiveService.toJSON(this);
 	}
 
-	public boolean equals(AdminAccount a){
-		if (a == null){
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		return this.adminId == a.getAdminId() && this.name.equals(a.getName()) && this.phone.equals(a.getPhone()) &&
-				this.privilege.code == a.getPrivilege().code && this.status.code == a.getStatus().code &&
-				this.reference.equals(a.getReference()) && this.creationTime.getTime().toString().equals(a.getCreationTime().getTime().toString()) &&
-				this.lastLogin.getTime().toString().equals(a.getLastLogin().getTime().toString());
+		if (getClass() != obj.getClass())
+			return false;
+		AdminAccount other = (AdminAccount) obj;
+		if (adminId != other.adminId)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
+			return false;
+		if (privilege != other.privilege)
+			return false;
+		if (reference == null) {
+			if (other.reference != null)
+				return false;
+		} else if (!reference.equals(other.reference))
+			return false;
+		if (status != other.status)
+			return false;
+		return true;
 	}
-
-
 
 }

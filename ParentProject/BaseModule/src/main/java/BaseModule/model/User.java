@@ -6,20 +6,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.exception.validation.ValidationException;
-import BaseModule.generator.JSONGenerator;
 import BaseModule.interfaces.PseudoModel;
-import BaseModule.service.EncodingService;
 import BaseModule.service.ModelReflectiveService;
 
 public class User implements PseudoModel, Serializable{
@@ -292,13 +286,6 @@ public class User implements PseudoModel, Serializable{
 				return false;
 			}
 		} else if (!name.equals(other.name)) {
-			return false;
-		}
-		if (password == null) {
-			if (other.password != null) {
-				return false;
-			}
-		} else if (!password.equals(other.password)) {
 			return false;
 		}
 		if (phone == null) {

@@ -6,18 +6,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
+import java.util.Map;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
-import BaseModule.service.EncodingService;
 import BaseModule.service.ModelReflectiveService;
 
 public class Partner implements PseudoModel, Serializable{
@@ -82,7 +78,16 @@ public class Partner implements PseudoModel, Serializable{
 		super();
 		this.creationTime = DateUtility.getCurTimeInstance();
 		this.lastLogin = DateUtility.getCurTimeInstance();
-		this.status = AccountStatus.fromInt(0);
+		this.status = AccountStatus.deactivated;
+		this.partnerId = -1;
+		this.wholeName = "";
+		this.licence = "";
+		this.organizationNum = "";
+		this.reference = "";
+		this.password = "";
+		this.phone = "";
+		this.instName = "";
+		this.logoUrl = "";
 	}
 
 	public int getPartnerId() {
@@ -208,11 +213,6 @@ public class Partner implements PseudoModel, Serializable{
 			return false;
 		if (partnerId != other.partnerId)
 			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
 		if (phone == null) {
 			if (other.phone != null)
 				return false;
@@ -231,6 +231,10 @@ public class Partner implements PseudoModel, Serializable{
 		} else if (!wholeName.equals(other.wholeName))
 			return false;
 		return true;
+	}
+	
+	public void loadFromMap(Map<String, String> kvps) throws Exception{
+		ModelReflectiveService.storeKvps(this, kvps);
 	}
 
 	

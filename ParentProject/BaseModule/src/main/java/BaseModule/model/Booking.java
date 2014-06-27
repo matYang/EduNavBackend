@@ -7,7 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Calendar;
-
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
@@ -54,7 +53,6 @@ public class Booking implements PseudoModel, Serializable{
 	private Calendar commissionStatusAdjustTime;
 	private String serviceFeeActionRecord;
 	private String commissionActionRecord;
-
 	
 	private String note;
 	private int cashbackAmount;
@@ -149,6 +147,7 @@ public class Booking implements PseudoModel, Serializable{
 		this.preCommissionStatus = CommissionStatus.refundCharge;
 		this.bookingStatusAdjustTime = DateUtility.getCurTimeInstance();
 	}
+
 
 	public int getBookingId() {
 		return bookingId;
@@ -434,38 +433,91 @@ public class Booking implements PseudoModel, Serializable{
 		return ModelReflectiveService.toJSON(this);
 	}
 
-	public boolean equals(Booking booking){
-		boolean courseEqualResult = true;
-		if (booking == null){
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		if (this.course != null && booking.course != null){
-			courseEqualResult = this.course.equals(booking.getCourse());
-		}
-		return this.bookingId==booking.getBookingId() && 
-				this.transactionId == booking.getTransactionId() &&
-				this.email.equals(booking.getEmail()) &&
-				this.name.equals(booking.getName()) && 
-				this.courseId == booking.getCourseId() &&
-				this.partnerId == booking.getPartnerId() && 
-				this.phone.equals(booking.getPhone()) && 
-				this.price == booking.getPrice() &&
-				this.creationTime.getTime().toString().equals(booking.getCreationTime().getTime().toString()) && 					
-				this.adjustTime.getTime().toString().equals(booking.getAdjustTime().getTime().toString()) &&
-				this.scheduledTime.getTime().toString().equals(booking.getScheduledTime().getTime().toString()) &&
-				this.reference.equals(booking.getReference()) && this.status.code == booking.getStatus().code && 
-				this.preStatus.code == booking.getPreStatus().code &&
-				this.userId == booking.getUserId() &&				
-				this.couponRecord.equals(booking.getCouponRecord()) && 
-				this.actionRecord.equals(booking.actionRecord) &&
-				this.bookingType.code == booking.getBookingType().code &&
-				this.serviceFeeStatus.code == booking.getServiceFeeStatus().code &&
-				this.commissionStatus.code == booking.getCommissionStatus().code &&
-				this.preServiceFeeStatus.code == booking.getPreServiceFeeStatus().code &&
-				this.preCommissionStatus.code == booking.getPreCommissionStatus().code &&
-				courseEqualResult;
-
+		if (getClass() != obj.getClass())
+			return false;
+		Booking other = (Booking) obj;
+		if (actionRecord == null) {
+			if (other.actionRecord != null)
+				return false;
+		} else if (!actionRecord.equals(other.actionRecord))
+			return false;
+		if (bookingId != other.bookingId)
+			return false;
+		if (bookingType != other.bookingType)
+			return false;
+		if (cashbackAmount != other.cashbackAmount)
+			return false;
+		if (commissionActionRecord == null) {
+			if (other.commissionActionRecord != null)
+				return false;
+		} else if (!commissionActionRecord.equals(other.commissionActionRecord))
+			return false;
+		if (commissionStatus != other.commissionStatus)
+			return false;
+		if (couponRecord == null) {
+			if (other.couponRecord != null)
+				return false;
+		} else if (!couponRecord.equals(other.couponRecord))
+			return false;
+		if (courseId != other.courseId)
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (note == null) {
+			if (other.note != null)
+				return false;
+		} else if (!note.equals(other.note))
+			return false;
+		if (partnerId != other.partnerId)
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
+			return false;
+		if (preCommissionStatus != other.preCommissionStatus)
+			return false;
+		if (preServiceFeeStatus != other.preServiceFeeStatus)
+			return false;
+		if (preStatus != other.preStatus)
+			return false;
+		if (price != other.price)
+			return false;
+		if (reference == null) {
+			if (other.reference != null)
+				return false;
+		} else if (!reference.equals(other.reference))
+			return false;
+		if (serviceFeeActionRecord == null) {
+			if (other.serviceFeeActionRecord != null)
+				return false;
+		} else if (!serviceFeeActionRecord.equals(other.serviceFeeActionRecord))
+			return false;
+		if (serviceFeeStatus != other.serviceFeeStatus)
+			return false;
+		if (status != other.status)
+			return false;
+		if (transactionId != other.transactionId)
+			return false;
+		if (userId != other.userId)
+			return false;
+		return true;
 	}
 
 
+	
 }

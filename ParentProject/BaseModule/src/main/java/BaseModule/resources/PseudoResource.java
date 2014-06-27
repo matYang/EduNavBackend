@@ -221,54 +221,77 @@ public class PseudoResource extends ServerResource{
 
 			String name = fi.getName();
 			if (name == null) {
-				props.put(fi.getFieldName(), new String(fi.get(), "UTF-8"));
+				String fieldName = fi.getFieldName();
+				props.put(fieldName, new String(fi.get(), "UTF-8"));
+				if (fieldName.equals("studyDays")){
+					String[] studyDayValues = props.get(fieldName).split("-");
+					int tempIndex = 1;
+					for (String studyDayValue : studyDayValues){
+						props.put("studyDays"+tempIndex, studyDayValue);
+					}
+					props.remove(fieldName);
+				}
+				else if (fieldName.contains("teacherIntro")){
+					props.put("teacherIntros"+fieldName.charAt(fieldName.length()-1), props.get(fieldName));
+					props.remove(fieldName);
+				}
+				else if (fieldName.contains("teacherName")){
+					props.put("teacherNames"+fieldName.charAt(fieldName.length()-1), props.get(fieldName));
+					props.remove(fieldName);
+				}
 			} else {
 				String imgName;
 				String path;
 				String fieldName = fi.getFieldName();
-				if (fieldName.equals("teacherImg1") || fieldName.equals("teacherImg2") || fieldName.equals("teacherImg3") || fieldName.equals("teacherImg4")){
+				if (fieldName.contains("teacherImg")){
 					try{
 						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
 						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_HEIGHT, 120, 120, Scalr.OP_ANTIALIAS);
 						
-						imgName = ImgConfig.teacherImgPrefix + fi.getFieldName() + "-" + id;
+						imgName = ImgConfig.teacherImgPrefix + fieldName + "-" + id;
 						imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.imgFolder+ imgName + ".jpg");
 						ImageIO.write(bufferedImage, "jpg", imgFile);
 						//warning: can only call this upload once, as it will delete the image file before it exits
 						path = FileService.uploadTeacherImg(id, imgFile, imgName);
-						props.put("url-" + fieldName, path);
+						props.put("teacherImgUrls" + fieldName.charAt(fieldName.length()-1), path);
 					}
 					catch (NullPointerException e){
 						DebugLog.d(e);
 						//do nothing
 					}
 				}
-				else if (fieldName.equals("classImg1") || fieldName.equals("classImg2") || fieldName.equals("classImg3")|| fieldName.equals("classImg4")|| fieldName.equals("classImg5")){
+				else if (fieldName.contains("classImg") ){
 					try{
 						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
 						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_HEIGHT, 216, 160, Scalr.OP_ANTIALIAS);
-						imgName = ImgConfig.classImgPrefix + fi.getFieldName() + "-" + id;
+						imgName = ImgConfig.classImgPrefix + fieldName + "-" + id;
 						imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.imgFolder + imgName + ".jpg");
 						ImageIO.write(bufferedImage, "jpg", imgFile);
 						//warning: can only call this upload once, as it will delete the image file before it exits
 						path = FileService.uploadBackgroundImg(id, imgFile, imgName);
-						props.put("url-" + fieldName, path);
+						props.put("classImgUrls" + fieldName.charAt(fieldName.length()-1), path);
 					} 
 					catch (NullPointerException e){
 						DebugLog.d(e);
 						//do nothing
 					}
 				}
-				else if (fi.getFieldName().equals("logo")){
-					BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
-					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 100, 100, Scalr.OP_ANTIALIAS);
+				else if (fieldName.equals("logo")){
+					try{
+						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
+						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 100, 100, Scalr.OP_ANTIALIAS);
 
-					imgName = ImgConfig.logoPrefix + id;
-					imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.imgFolder+ imgName + ".jpg");
-					ImageIO.write(bufferedImage, "jpg", imgFile);
-					//warning: can only call this upload once, as it will delete the image file before it exits
-					path = FileService.uploadLogoImg(id, imgFile, imgName);
-					props.put("logoUrl", path);
+						imgName = ImgConfig.logoPrefix + id;
+						imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.imgFolder+ imgName + ".jpg");
+						ImageIO.write(bufferedImage, "jpg", imgFile);
+						//warning: can only call this upload once, as it will delete the image file before it exits
+						path = FileService.uploadLogoImg(id, imgFile, imgName);
+						props.put("logoUrl", path);
+					} 
+					catch (NullPointerException e){
+						DebugLog.d(e);
+						//do nothing
+					}
 				}
 				else{
 					throw new ValidationException("检测到无效照片");

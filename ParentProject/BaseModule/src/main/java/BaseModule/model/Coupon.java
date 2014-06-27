@@ -7,13 +7,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Calendar;
-import org.json.JSONException;
 import org.json.JSONObject;
 import BaseModule.common.DateUtility;
-import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.CouponOrigin;
 import BaseModule.configurations.EnumConfig.CouponStatus;
-import BaseModule.exception.validation.ValidationException;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.ModelReflectiveService;
 
@@ -136,18 +133,29 @@ public class Coupon implements PseudoModel, Serializable{
 	public JSONObject toJSON() throws Exception{
 		return ModelReflectiveService.toJSON(this);
 	}
-	
-	public boolean equals(Coupon c){
-		if (c == null){
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		return this.couponId == c.getCouponId() && 				
-				this.userId == c.getUserId() && 
-				this.status.code == c.getStatus().code &&
-				this.origin.code == c.getOrigin().code &&
-				this.creationTime.getTime().toString().equals(c.getCreationTime().getTime().toString()) &&
-				this.expireTime.getTime().toString().equals(c.getExpireTime().getTime().toString()) && 
-				this.amount == c.getAmount() && this.originalAmount == c.getOriginalAmount();
+		if (getClass() != obj.getClass())
+			return false;
+		Coupon other = (Coupon) obj;
+		if (amount != other.amount)
+			return false;
+		if (couponId != other.couponId)
+			return false;
+		if (origin != other.origin)
+			return false;
+		if (originalAmount != other.originalAmount)
+			return false;
+		if (status != other.status)
+			return false;
+		if (userId != other.userId)
+			return false;
+		return true;
 	}
 	
 }

@@ -120,7 +120,7 @@ public class CourseCleanerTest {
 		course6.setCutoffDate(startTime6);
 		CourseDao.addCourseToDatabases(course6);
 	
-		CourseCleaner.cleanCourse();		
+		CourseCleaner.clean();		
 		
 		ArrayList<Course> clist = new ArrayList<Course>();
 		CourseSearchRepresentation c_sr = new CourseSearchRepresentation();

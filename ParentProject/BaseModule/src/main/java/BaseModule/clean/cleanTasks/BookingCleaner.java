@@ -20,50 +20,6 @@ public class BookingCleaner extends BookingDao{
 		cleanStarted();
 		cleanSucceed();
 	}
-	private static void cleanSucceed(){
-		Calendar currentDate = DateUtility.getCurTimeInstance();
-		String ct = DateUtility.toSQLDateTime(currentDate);
-		String query = "SELECT * from BookingDao where status = ? and cashbackDate < ?";
-		Connection conn = null;
-		Connection transientConnection = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try{
-			conn = EduDaoBasic.getConnection();
-			stmt = conn.prepareStatement(query);			
-			stmt.setInt(1,BookingStatus.succeeded.code);
-			stmt.setString(2, ct);
-			rs = stmt.executeQuery();
-
-			transientConnection = EduDaoBasic.getConnection();
-			transientConnection.setAutoCommit(false);
-			while(rs.next()){
-				try{
-					Booking booking = BookingDao.createBookingByResultSet(rs, transientConnection);						
-					BookingDaoService.consolidateBooking(booking, transientConnection);
-					booking.setStatus(BookingStatus.consolidated);				
-					BookingDao.updateBookingInDatabases(booking, transientConnection);
-					transientConnection.commit();
-				}catch (Exception e){
-					transientConnection.rollback();
-					DebugLog.d(e);
-				}				
-			}
-			transientConnection.setAutoCommit(true);			
-		}catch (Exception e) {
-			DebugLog.d(e);
-			if (transientConnection != null){
-				try {
-					transientConnection.rollback();
-				} catch (SQLException sql) {
-					DebugLog.d(sql);
-				}
-			}
-		}finally{
-			EduDaoBasic.closeResources(conn, stmt, rs, true);
-			EduDaoBasic.closeResources(transientConnection, null, null, true);
-		}
-	}
 	
 	private static void cleanStarted(){
 		Calendar currentDate = DateUtility.getCurTimeInstance();
@@ -102,4 +58,48 @@ public class BookingCleaner extends BookingDao{
 			EduDaoBasic.closeResources(conn, stmt, rs, true);
 		}
 	}
+	
+	private static void cleanSucceed(){
+		Calendar currentDate = DateUtility.getCurTimeInstance();
+		String ct = DateUtility.toSQLDateTime(currentDate);
+		String query = "SELECT * from BookingDao where status = ? and cashbackDate < ?";
+		Connection conn = null;
+		Connection transientConnection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try{
+			conn = EduDaoBasic.getConnection();
+			stmt = conn.prepareStatement(query);			
+			stmt.setInt(1,BookingStatus.succeeded.code);
+			stmt.setString(2, ct);
+			rs = stmt.executeQuery();
+
+			transientConnection = EduDaoBasic.getConnection();
+			transientConnection.setAutoCommit(false);
+			while(rs.next()){
+				try{
+					Booking booking = BookingDao.createBookingByResultSet(rs, transientConnection);
+					BookingDaoService.consolidateBooking(booking, transientConnection);
+					transientConnection.commit();
+				}catch (Exception e){
+					transientConnection.rollback();
+					DebugLog.d(e);
+				}				
+			}
+			transientConnection.setAutoCommit(true);			
+		}catch (Exception e) {
+			DebugLog.d(e);
+			if (transientConnection != null){
+				try {
+					transientConnection.rollback();
+				} catch (SQLException sql) {
+					DebugLog.d(sql);
+				}
+			}
+		}finally{
+			EduDaoBasic.closeResources(conn, stmt, rs, true);
+			EduDaoBasic.closeResources(transientConnection, null, null, true);
+		}
+	}
+
 }

@@ -13,13 +13,11 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Partner;
-import BaseModule.service.EncodingService;
 
 import PartnerModule.resources.PartnerPseudoResource;
 
@@ -69,23 +67,7 @@ public final class PartnerIdResource extends PartnerPseudoResource{
 			//handle the multi-form, upload images if necessary
 			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
 			
-			
-			String wholeName = EncodingService.decodeURI(props.get("wholeName"));
-			String licence = EncodingService.decodeURI(props.get("licence"));
-			String organizationNum = EncodingService.decodeURI(props.get("organizationNum"));
-			String phone = EncodingService.decodeURI(props.get("phone"));
-			AccountStatus status = AccountStatus.fromInt(Integer.parseInt(props.get("status")));
-			String instName = EncodingService.decodeURI(props.get("instName"));
-			String logoUrl = EncodingService.decodeURI(props.get("logoUrl"));
-			
-			partner.setWholeName(wholeName);
-			partner.setLicence(licence);
-			partner.setOrganizationNum(organizationNum);
-			partner.setPhone(phone);
-			partner.setStatus(status);
-			partner.setInstName(instName);
-			partner.setLogoUrl(logoUrl);
-			
+			partner.loadFromMap(props);
 			PartnerDaoService.updatePartner(partner);
 			
 		}catch (PseudoException e){

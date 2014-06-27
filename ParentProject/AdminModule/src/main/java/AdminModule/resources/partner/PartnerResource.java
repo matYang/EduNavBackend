@@ -74,25 +74,8 @@ public final class PartnerResource extends AdminPseudoResource{
 			partner = PartnerDaoService.createPartner(partner);
 
 			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
-			
-			String wholeName = EncodingService.decodeURI(props.get("wholeName"));
-			String licence = EncodingService.decodeURI(props.get("licence"));
-			String organizationNum = EncodingService.decodeURI(props.get("organizationNum"));
-			String password = EncodingService.decodeURI(props.get("password"));
-			String phone = EncodingService.decodeURI(props.get("phone"));
-			AccountStatus status = AccountStatus.activated;
-			String instName = EncodingService.decodeURI(props.get("instName"));
-			String logoUrl = EncodingService.decodeURI(props.get("logoUrl"));
-			
-			partner.setWholeName(wholeName);
-			partner.setLicence(licence);
-			partner.setOrganizationNum(organizationNum);
-			partner.setPassword(password);
-			partner.setPhone(phone);
-			partner.setStatus(status);
-			partner.setInstName(instName);
-			partner.setLogoUrl(logoUrl);
-			
+			partner.loadFromMap(props);
+			partner.setStatus(AccountStatus.activated);
 			PartnerDaoService.updatePartner(partner);
 			
 		}catch (PseudoException e){

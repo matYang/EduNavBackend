@@ -39,7 +39,6 @@ public final class CourseIdResource extends PartnerPseudoResource{
 				throw new AuthenticationException("只能修改您发布的课程");
 			}
 			props = this.handleMultiForm(entity, course.getCourseId(), props);
-			props.put("partnerId", String.valueOf(partnerId));
 			
 			course.loadFromMap(props);
 			CourseDaoService.updateCourse(course);
