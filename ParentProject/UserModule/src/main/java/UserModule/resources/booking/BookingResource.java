@@ -80,6 +80,7 @@ public final class BookingResource extends UserPseudoResource{
 			booking.setBookingType(course.getBookingType());
 			booking.setNoRefundDate(course.getNoRefundDate());
 			booking.setCashbackDate(course.getCashbackDate());
+			booking.setCourse(course);
 			
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONGenerator.toJSON(booking);
