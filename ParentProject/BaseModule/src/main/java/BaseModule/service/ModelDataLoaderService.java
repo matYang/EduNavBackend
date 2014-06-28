@@ -103,11 +103,15 @@ public final class ModelDataLoaderService {
 				"育亟待改革》获2006年全国财经职业教育语文研究会论文评比一等奖。6．论文《培养学生人文素养  深化高" +
 				"职语文教学改革》获2007年全国财经院校语文研究会第24届学术年会论文评比二等奖。7．论文《改革职业教育语文教学评价方式——构建发展性学生评价体系》获2008年全国财经职业教育语文研究会论文评比一等奖。");
 		
+		String filler = "李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》";
+
+		
+		
 		ArrayList<String> teacherImgs = new ArrayList<String>();
 		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUy");
 		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUy");
 		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUyNTJGcG9ydGFsQnVja2V0JTI1MkZ2aWV3Lmh0bWwlMjUzRnNwbSUyNTNEMC4wLjAuMC5VOUNOSGklMjUyNmJ1Y2tldE5hbWUlMjUzRGNs");
-		String location = "汇智大厦写字楼出租信息，上海徐汇万体馆漕溪北路398号，汇智大厦写字楼出租，找更多上海汇智大厦写字楼信息就到上海写字楼-搜房网。";
+		String location = "汇智大厦写字楼 出租信息，上海徐汇万体馆漕溪北路398号，汇智大厦写字楼出租，找更多上海汇智大厦写字楼信息就到上海写字楼-搜房网。";
 		
 		for(int i=1; i <= courseNum; i++){			
 			int classSize = i;
@@ -143,6 +147,33 @@ public final class ModelDataLoaderService {
 			course.setTeacherImgUrls(teacherImgs);
 			course.setCashback(i);
 			
+			course.setClassImgUrls(teacherImgs);
+			course.setClassTeacher(filler);
+			course.setQuestionSession(filler);
+			course.setPartnerCourseReference("342RY65348FRTYH89RU353FW43");
+			course.setTeachingAndExercise(filler);
+			course.setTrail(filler);
+			course.setLogoUrl("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUyNTJGcG9ydGFsQnVja2V0JTI1MkZ2aWV3Lmh0bWwlMjUzRnNwbSUyNTNEMC4wLjAuMC5VOUNOSGklMjUyNmJ1Y2tldE5hbWUlMjUzRGNs");
+			course.setBonusService(filler);
+			course.setPrerequest(filler);
+			course.setAssignments(filler);
+			course.setDownloadMaterials(filler);
+			course.setQuestionBank(filler);
+			course.setHighScoreReward(filler);
+			course.setCourseName("雅思精品冲8保7.5 - 30人超级小班 原价 8999元 现只要 4999元 便宜3000哦亲快来抢");
+			course.setPartnerIntro(filler);
+			course.setPartnerDistinction(filler);
+			course.setSuitableStudent(filler);
+			course.setExtracurricular(filler);
+			course.setMarking(filler);
+			course.setQuiz(filler);
+			course.setOpenCourseRequirement(filler);
+			course.setTeachingMaterialIntro(filler);
+			course.setCourseIntro(filler);
+			course.setStudyDaysNote(filler);
+			course.setTeachingMaterialFee(filler);
+			course.setCertification(filler);
+			course.setPassAgreement(filler);
 			
 			try {
 				course.setReference(ReferenceGenerator.generateCourseReference());
