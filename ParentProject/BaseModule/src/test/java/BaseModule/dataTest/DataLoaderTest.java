@@ -29,7 +29,7 @@ public class DataLoaderTest {
 		System.out.println(locationDataArr);
 	}
 	
-	//@Test
+	@Test
 	public void modelLoaderTest(){
 		EduDaoBasic.clearAllDatabase();
 		try{
@@ -43,11 +43,13 @@ public class DataLoaderTest {
 	
 	@Test
 	public void catSDTreeTest(){
+		CatDataLoader.load();
 		System.out.println(SDService.getCatTree().toString());
 	}
 	
 	@Test
 	public void locationSDTreeTest(){
+		LocationDataLoader.load();
 		System.out.println(SDService.getLocationTree().toString());
 	}
 

@@ -152,7 +152,7 @@ public final class ModelDataLoaderService {
 			course.setQuestionSession(filler);
 			course.setPartnerCourseReference("342RY65348FRTYH89RU353FW43");
 			course.setTeachingAndExercise(filler);
-			course.setTrail(filler);
+			course.setTrail("李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱，男");
 			course.setLogoUrl("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUyNTJGcG9ydGFsQnVja2V0JTI1MkZ2aWV3Lmh0bWwlMjUzRnNwbSUyNTNEMC4wLjAuMC5VOUNOSGklMjUyNmJ1Y2tldE5hbWUlMjUzRGNs");
 			course.setBonusService(filler);
 			course.setPrerequest(filler);
