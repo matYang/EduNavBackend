@@ -95,7 +95,7 @@ public final class RedisAuthenticationConfig {
 				config.authCodeLength = userForgotPassword_authCodeLength;
 				config.activeThreshold = userForgotPassword_resendThreshold;
 				config.expireThreshold = userForgotPassword_expireThreshold;
-				config.authCodeUpper = false;
+				config.authCodeUpper = true;
 				break;
 				
 			case 5:
