@@ -126,7 +126,7 @@ public class Course implements PseudoModel, Serializable{
 			ArrayList<String> classImgUrls, ArrayList<String> teacherIntros,
 			ArrayList<String> teacherImgUrls, ArrayList<String> teacherNames,
 			String logoUrl, String instName, String wholeName,int startUponArrival,Calendar cutoffDate,
-			 Calendar noRefundDate,	Calendar cashbackDate,BookingType bookingType) {
+			 Calendar noRefundDate,	Calendar cashbackDate,BookingType bookingType,int originalPrice) {
 		super();
 		this.courseId = courseId;
 		this.partnerId = partnerId;
@@ -194,6 +194,7 @@ public class Course implements PseudoModel, Serializable{
 		this.noRefundDate = noRefundDate;
 		this.cashbackDate = cashbackDate;
 		this.bookingType = bookingType;
+		this.originalPrice = originalPrice;
 	}
 
 
@@ -268,6 +269,7 @@ public class Course implements PseudoModel, Serializable{
 		this.noRefundDate = DateUtility.getCurTimeInstance();
 		this.cashbackDate = DateUtility.getCurTimeInstance();
 		this.bookingType = BookingType.online;
+		this.originalPrice = 0;
 	}	
 	
 	
@@ -290,6 +292,7 @@ public class Course implements PseudoModel, Serializable{
 		this.teacherIntros = new ArrayList<String>();
 		this.teacherImgUrls = new ArrayList<String>();
 		this.teacherNames = new ArrayList<String>();
+		this.originalPrice = 0;
 	}
 	
 
@@ -348,6 +351,18 @@ public class Course implements PseudoModel, Serializable{
 	public void setCashback(int cashback) {
 		this.cashback = cashback;
 	}
+
+	public int getOriginalPrice() {
+		return originalPrice;
+	}
+
+
+
+	public void setOriginalPrice(int originalPrice) {
+		this.originalPrice = originalPrice;
+	}
+
+
 
 	public int getPopularity() {
 		return popularity;
