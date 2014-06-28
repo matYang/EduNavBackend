@@ -876,6 +876,11 @@ public class Course implements PseudoModel, Serializable{
 			return false;
 		if (cashback != other.cashback)
 			return false;
+		if (cashbackDate == null) {
+			if (other.cashbackDate != null)
+				return false;
+		} else if (!cashbackDate.equals(other.cashbackDate))
+			return false;
 		if (category == null) {
 			if (other.category != null)
 				return false;
@@ -890,6 +895,11 @@ public class Course implements PseudoModel, Serializable{
 			if (other.city != null)
 				return false;
 		} else if (!city.equals(other.city))
+			return false;
+		if (classImgUrls == null) {
+			if (other.classImgUrls != null)
+				return false;
+		} else if (!classImgUrls.equals(other.classImgUrls))
 			return false;
 		if (classSize != other.classSize)
 			return false;
@@ -914,6 +924,16 @@ public class Course implements PseudoModel, Serializable{
 				return false;
 		} else if (!courseName.equals(other.courseName))
 			return false;
+		if (creationTime == null) {
+			if (other.creationTime != null)
+				return false;
+		} else if (!creationTime.equals(other.creationTime))
+			return false;
+		if (cutoffDate == null) {
+			if (other.cutoffDate != null)
+				return false;
+		} else if (!cutoffDate.equals(other.cutoffDate))
+			return false;
 		if (district == null) {
 			if (other.district != null)
 				return false;
@@ -928,6 +948,11 @@ public class Course implements PseudoModel, Serializable{
 			if (other.extracurricular != null)
 				return false;
 		} else if (!extracurricular.equals(other.extracurricular))
+			return false;
+		if (finishDate == null) {
+			if (other.finishDate != null)
+				return false;
+		} else if (!finishDate.equals(other.finishDate))
 			return false;
 		if (finishTime1 != other.finishTime1)
 			return false;
@@ -963,10 +988,17 @@ public class Course implements PseudoModel, Serializable{
 				return false;
 		} else if (!marking.equals(other.marking))
 			return false;
+		if (noRefundDate == null) {
+			if (other.noRefundDate != null)
+				return false;
+		} else if (!noRefundDate.equals(other.noRefundDate))
+			return false;
 		if (openCourseRequirement == null) {
 			if (other.openCourseRequirement != null)
 				return false;
 		} else if (!openCourseRequirement.equals(other.openCourseRequirement))
+			return false;
+		if (originalPrice != other.originalPrice)
 			return false;
 		if (outline == null) {
 			if (other.outline != null)
@@ -1036,6 +1068,11 @@ public class Course implements PseudoModel, Serializable{
 				return false;
 		} else if (!reference.equals(other.reference))
 			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
 		if (startTime1 != other.startTime1)
 			return false;
 		if (startTime2 != other.startTime2)
@@ -1068,6 +1105,21 @@ public class Course implements PseudoModel, Serializable{
 			if (other.suitableStudent != null)
 				return false;
 		} else if (!suitableStudent.equals(other.suitableStudent))
+			return false;
+		if (teacherImgUrls == null) {
+			if (other.teacherImgUrls != null)
+				return false;
+		} else if (!teacherImgUrls.equals(other.teacherImgUrls))
+			return false;
+		if (teacherIntros == null) {
+			if (other.teacherIntros != null)
+				return false;
+		} else if (!teacherIntros.equals(other.teacherIntros))
+			return false;
+		if (teacherNames == null) {
+			if (other.teacherNames != null)
+				return false;
+		} else if (!teacherNames.equals(other.teacherNames))
 			return false;
 		if (teachingAndExercise == null) {
 			if (other.teachingAndExercise != null)
