@@ -191,7 +191,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getHighScoreReward());
 			stmt.setString(stmtInt++, course.getExtracurricular());
 			stmt.setString(stmtInt++, course.getCourseName());
-			stmt.setString(stmtInt++,Parser.listToString(course.getStudyDays(),ServerConfig.normalSpliter));
+			stmt.setString(stmtInt++, course.getStudyDaysNote());
 			stmt.setInt(stmtInt++, course.getCourseHourNum());
 			stmt.setInt(stmtInt++, course.getCourseHourLength());
 			stmt.setString(stmtInt++, course.getPartnerCourseReference());
@@ -201,7 +201,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getTeachingMaterialIntro());
 			stmt.setString(stmtInt++, course.getPassAgreement());
 			stmt.setString(stmtInt++, course.getPhone());
-			stmt.setString(stmtInt++, course.getStudyDaysNote());
+			stmt.setString(stmtInt++, Parser.listToString(course.getStudyDays(),ServerConfig.normalSpliter));
 			stmt.setInt(stmtInt++, course.getClassSize());
 			stmt.setInt(stmtInt++, course.getCashback());			
 			stmt.setInt(stmtInt++, course.getPopularity());
@@ -280,7 +280,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getHighScoreReward());
 			stmt.setString(stmtInt++, course.getExtracurricular());
 			stmt.setString(stmtInt++, course.getCourseName());
-			stmt.setString(stmtInt++,Parser.listToString(course.getStudyDays(),ServerConfig.normalSpliter));
+			stmt.setString(stmtInt++, course.getStudyDaysNote());
 			stmt.setInt(stmtInt++, course.getCourseHourNum());
 			stmt.setInt(stmtInt++, course.getCourseHourLength());
 			stmt.setString(stmtInt++, course.getPartnerCourseReference());
@@ -290,7 +290,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getTeachingMaterialIntro());
 			stmt.setString(stmtInt++, course.getPassAgreement());
 			stmt.setString(stmtInt++, course.getPhone());
-			stmt.setString(stmtInt++, course.getStudyDaysNote());
+			stmt.setString(stmtInt++, Parser.listToString(course.getStudyDays(),ServerConfig.normalSpliter));
 			stmt.setInt(stmtInt++, course.getClassSize());
 			stmt.setInt(stmtInt++, course.getCashback());			
 			stmt.setInt(stmtInt++, course.getPopularity());
