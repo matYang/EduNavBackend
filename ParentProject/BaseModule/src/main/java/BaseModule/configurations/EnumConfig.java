@@ -167,7 +167,7 @@ public final class EnumConfig {
     }
 	
 	public static enum SMSEvent implements PseudoEnum{
-		user_cellVerification(0), user_changePassword(1), user_forgetPassword(2), partner_forgetPassword(3), partner_changePassword(4), user_bookingConfirmed(5), user_bookingFailed(6), user_invitee(7), user_inviter(8), user_inviterConsolidation(9);
+		user_cellVerification(0), user_changePassword(1), user_forgetPassword(2), partner_forgetPassword(3), partner_changePassword(4), user_bookingAwaiting(5), user_bookingConfirmed(6), user_bookingFailed(7), user_register(8), user_invitee(9), user_inviter(10), user_inviterConsolidation(11);
 		public int code;
 		@Override
 	    public int getCode() {

@@ -18,45 +18,13 @@ import BaseModule.interfaces.PseudoAsyncTask;
 public class SMSTask implements PseudoAsyncTask{
 	
 	private final SMSEvent event;
-	private final String content;
 	private final String cellNum;
+	private final String payload;
 	
-	public SMSTask(final SMSEvent event, final String cellNum, final String payload, final String... opts){
+	public SMSTask(final SMSEvent event, final String cellNum, final String payload){
 		this.cellNum = cellNum;
 		this.event = event;
-		if (event == SMSEvent.user_cellVerification){
-			this.content = "您的验证码是：" + payload;
-		}
-		else if (event == SMSEvent.user_changePassword){
-			this.content = "您的修改密码确认码是：" + payload;
-		}
-		else if (event == SMSEvent.user_forgetPassword){
-			this.content = "您的找回密码验证码是：" + payload + ", 请尽快更改密码";
-		}
-		else if (event == SMSEvent.user_bookingConfirmed){
-			this.content = "尊敬的爱上课用户，您报名的 " + payload + " 课程预约成功，请于 " + opts[0] + " 或之前抵达上课地点付款";
-		}
-		else if (event == SMSEvent.user_bookingFailed){
-			this.content = "尊敬的爱上课用户，您报名的 " + payload + " 课程预约失败，我们在此向您道歉，欢迎您重新搜索";
-		}
-		else if (event == SMSEvent.user_invitee){
-			this.content = "尊敬的爱上课用户，感谢您使用邀请码注册，请您领取额外消费券";
-		}
-		else if (event == SMSEvent.user_inviter){
-			this.content = "尊敬的爱上课用户，手机尾号为： " + payload.substring(payload.length() - 4, payload.length()) + " 的用户使用了您的邀请码注册为您带来了额外消费券，请您登录ishangke.cn领取";
-		}
-		else if (event == SMSEvent.user_inviterConsolidation){
-			this.content = "尊敬的爱上课用户，您邀请的手机尾号为： " + payload.substring(payload.length() - 4, payload.length()) + " 的用户完成了第一笔预定，奖励5元";
-		}
-		else if (event == SMSEvent.partner_forgetPassword){
-			this.content = "您的找回密码验证码是：" + payload + ", 请尽快更改密码";
-		}
-		else if (event == SMSEvent.partner_changePassword){
-			this.content = "您的修改密码确认码是：" + payload;
-		}
-		else{
-			throw new RuntimeException("Unrecognizable SMS event");
-		}
+		this.payload = payload;
 	}
 
 	public boolean execute() {
@@ -75,7 +43,7 @@ public class SMSTask implements PseudoAsyncTask{
 		nvps.add(new BasicNameValuePair("Uid", "routea"));
 		nvps.add(new BasicNameValuePair("Key", "a221a629eacbddc0720c"));
 		nvps.add(new BasicNameValuePair("smsMob", this.cellNum));
-		nvps.add(new BasicNameValuePair("smsText", this.content));
+		nvps.add(new BasicNameValuePair("smsText", this.payload));
 		
 		try{
 			post.setEntity(new UrlEncodedFormEntity(nvps, "gbk"));

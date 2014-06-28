@@ -30,6 +30,7 @@ import BaseModule.service.SMSService;
 import BaseModule.service.StateTransferService;
 
 public class BookingDaoService {
+	public static final int consolidationAmount = 5;
 
 	public static Booking getBookingById(final int id) throws PseudoException, SQLException{
 		return BookingDao.getBookingById(id);
@@ -159,11 +160,11 @@ public class BookingDaoService {
 						inviter = inviters.get(0);
 						//lock inviter
 						UserDao.getAndLock(inviter.getUserId(), transientConnection);
-						//create a transaction, indicating a ￥5 invitational deposit
-						Transaction transaction = new Transaction(inviter.getUserId(), booking.getBookingId(), 5, TransactionType.invitation);
+						//create a transaction, indicating a ￥consolidationAmount invitational deposit
+						Transaction transaction = new Transaction(inviter.getUserId(), booking.getBookingId(), consolidationAmount, TransactionType.invitation);
 						TransactionDao.addTransactionToDatabases(transaction, transientConnection);
-						//incr inviter's account balance by ￥5
-						UserDao.updateUserBCC(5, 0, 0, inviter.getUserId(), transientConnection);
+						//incr inviter's account balance by ￥consolidationAmount
+						UserDao.updateUserBCC(consolidationAmount, 0, 0, inviter.getUserId(), transientConnection);
 						
 					}
 				}
@@ -184,13 +185,13 @@ public class BookingDaoService {
 			//commit after each run to decrease side effect of an error
 			transientConnection.commit();
 			
-			//send notification sms to inviter, if inviter exists and should get the ￥5, left to last as do not notify in case any error occurs
+			//send notification sms to inviter, if inviter exists and should get the ￥consolidationAmount, left to last as do not notify in case any error occurs
 			targetSMSUser = inviter;
 			ok = true;
 		} finally{
 			if (EduDaoBasic.handleCommitFinally(transientConnection, ok, EduDaoBasic.shouldConnectionClose(connections))){
 				if (targetSMSUser != null){
-					SMSService.sendInviterConsolidationSMS(targetSMSUser.getPhone(), targetSMSUser.getPhone());
+					SMSService.sendInviterConsolidationSMS(targetSMSUser.getPhone(), consolidationAmount);
 				}
 			}
 		}
@@ -202,6 +203,7 @@ public class BookingDaoService {
 		String couponRecord = "";		
 		int cashbackAmount = 0;		
 		boolean ok = false;
+		Booking targetSMSBooking = booking;
 		
 		try{
 			conn = EduDaoBasic.getConnection(connections);				
@@ -219,7 +221,11 @@ public class BookingDaoService {
 			
 			ok = true;
 		}finally{			
-			EduDaoBasic.handleCommitFinally(conn, ok, EduDaoBasic.shouldConnectionClose(connections));
+			if (EduDaoBasic.handleCommitFinally(conn, ok, EduDaoBasic.shouldConnectionClose(connections))){
+				if (targetSMSBooking != null){
+					SMSService.sendBookingAwaitingSMS(targetSMSBooking);
+				}
+			}
 		}
 		return booking;
 	}

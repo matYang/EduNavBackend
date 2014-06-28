@@ -25,6 +25,7 @@ public class Course implements PseudoModel, Serializable{
 	private int courseId;
 	private int partnerId;	
 	private int price;
+	private int originalPrice;
 	private int courseHourNum;
 	private int courseHourLength;	
 	

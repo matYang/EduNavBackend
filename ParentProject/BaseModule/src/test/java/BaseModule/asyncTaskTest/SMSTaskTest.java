@@ -1,7 +1,11 @@
 package BaseModule.asyncTaskTest;
 
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -16,11 +20,25 @@ import org.junit.Test;
 
 import BaseModule.asyncRelayExecutor.ExecutorProvider;
 import BaseModule.asyncTask.SMSTask;
+import BaseModule.common.DateUtility;
+import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.SMSEvent;
+import BaseModule.eduDAO.BookingDao;
+import BaseModule.eduDAO.CourseDao;
+import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.eduDAO.PartnerDao;
+import BaseModule.eduDAO.UserDao;
+import BaseModule.exception.PseudoException;
+import BaseModule.model.Booking;
+import BaseModule.model.Course;
+import BaseModule.model.Partner;
+import BaseModule.model.User;
+import BaseModule.service.SMSService;
 
 public class SMSTaskTest {
 
-	@Test
+	//@Test
 	public void testConnection() throws ClientProtocolException, IOException {
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost("http://gbk.sms.webchinese.cn"); 
@@ -50,25 +68,99 @@ public class SMSTaskTest {
 		post.releaseConnection();
 	}
 	
-	@Test
+	//@Test
 	public void testSMSTask(){
 		SMSTask smsTask = new SMSTask(SMSEvent.user_cellVerification, "18662241356", "testSMSTask");
 		smsTask.execute();
 	}
 	
-	@Test
+	//@Test
 	public void testSMSRelay() throws InterruptedException{
 		SMSTask smsTask = new SMSTask(SMSEvent.user_changePassword, "18662241356", "testSMSRelay");
 		ExecutorProvider.executeRelay(smsTask);
 		Thread.sleep(5000);
 	}
 	
-	@Test
+	//@Test
 	public void testSMSForgetPassword() throws InterruptedException{
 		SMSTask smsTaska = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "testSMSForgetPassword");
 		ExecutorProvider.executeRelay(smsTaska);
 		SMSTask smsTaskb = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "ku79DS3drR");
 		ExecutorProvider.executeRelay(smsTaskb);
+		Thread.sleep(5000);
+	}
+	
+	@Test
+	public void testBookingConfirmed() throws PseudoException, SQLException, InterruptedException{
+		EduDaoBasic.clearAllDatabase();
+		String name = "Harry";
+		String userphone = "18013955974";
+		String password = "36krfinal";
+		AccountStatus status = AccountStatus.activated;
+		User user = new User(userphone, password, "", "","1",status);
+		user.setName(name);
+		user.setEmail("xiongchuhan@uwaterloo.ca");
+		UserDao.addUserToDatabase(user);
+		
+		String pname = "XDF";
+		String instName = "Tsetingfeng";
+		String licence = "234fdsfsdgergf-dsv,.!@";
+		String organizationNum = "1235454361234";
+		String reference = "dsf4r";
+		String ppassword = "sdf234r";
+		String phone = "123545451";		
+		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);
+		PartnerDao.addPartnerToDatabases(partner);
+		
+		int p_Id = partner.getPartnerId();
+		Calendar startTime = DateUtility.getCurTimeInstance();
+		Calendar finishTime = DateUtility.getCurTimeInstance();
+		finishTime.add(Calendar.DAY_OF_YEAR, 1);		
+		int seatsTotal = 50;
+		int seatsLeft = 5;
+		int price = 12000;
+		String category = "Physics";
+		String subCategory = "sub-Phy";	
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		CourseDao.addCourseToDatabases(course);
+		course = CourseDao.getCourseById(course.getCourseId());
+		String location = "China";
+		String city = "NanJing";
+		String district = "JiangNing";
+		String reference2 = "testr";
+		course.setLocation(location);
+		course.setCity(city);
+		course.setDistrict(district);
+		course.setReference(reference2);
+		ArrayList<String> ImgUrls = new ArrayList<String>();
+		ImgUrls.add("www.hotmail.com");
+		course.setClassImgUrls(ImgUrls);
+		course.setTeacherImgUrls(ImgUrls);
+		course.setTeachingMaterialIntro("Hand and Ass");		
+		course.setPrice(price);
+		CourseDao.updateCourseInDatabases(course);
+		course = CourseDao.getCourseById(course.getCourseId());	
+		
+		
+		int userId = user.getUserId();
+		int partnerId = partner.getPartnerId();
+		int courseId = course.getCourseId();		
+		Calendar timeStamp = DateUtility.getCurTimeInstance();
+		String email = "xiongchuhanplace@hotmail.com";
+		int cashbackAmount = 50;		
+		Booking booking = new Booking(timeStamp,timeStamp, 
+				course.getPrice(), userId, partnerId, courseId,
+				user.getName(), "18013955974",
+				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
+		try{
+			BookingDao.addBookingToDatabases(booking);			
+		}catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+		booking = BookingDao.getBookingById(booking.getBookingId());
+		
+		SMSService.sendBookingConfirmedSMS(booking);
 		Thread.sleep(5000);
 	}
 

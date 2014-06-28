@@ -84,7 +84,11 @@ public class DateUtility {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(c.getTime());
 	}
-
+	
+	public static String castToSMSFormat(Calendar c){
+		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日HH:mm");
+		return sdf.format(c.getTime());
+	}
 
 	public static String getTimeStamp(){
 		return getCurTime() +"";

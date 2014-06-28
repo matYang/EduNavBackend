@@ -17,8 +17,8 @@ import BaseModule.service.SMSService;
 
 public class UserDaoService {
 	
-	private static final int registrationCouponAmount = 50;
-	private static final int invitationCouponAmount = 50;
+	private static final int registrationCouponAmount = 100;
+	private static final int invitationCouponAmount = 20;
 
 	public static User getUserById(int id,Connection...connections) throws PseudoException, SQLException{
 		return UserDao.getUserById(id,connections);
@@ -92,10 +92,13 @@ public class UserDaoService {
 			ok = true;			
 		} finally{
 			if (EduDaoBasic.handleCommitFinally(conn, ok, true)){
-				//only notify user when everything has absolutely gone right
-				if (inviter != null){
-					SMSService.sendInviteeSMS(invitee.getPhone(), invitee.getPhone());
-					SMSService.sendInviterSMS(inviter.getPhone(), invitee.getPhone());
+				if (invitee != null){
+					SMSService.sendUserRegistraterSMS(invitee.getPhone(), registrationCouponAmount);
+					//only notify user when everything has absolutely gone right
+					if (inviter != null){
+						SMSService.sendInviteeSMS(invitee.getPhone(), invitationCouponAmount);
+						SMSService.sendInviterSMS(inviter.getPhone(), invitationCouponAmount);
+					}
 				}
 			}
 		}

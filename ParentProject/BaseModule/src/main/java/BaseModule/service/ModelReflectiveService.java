@@ -86,7 +86,6 @@ public final class ModelReflectiveService {
 					else{
 						ParameterizedType listType = (ParameterizedType) field.getGenericType();
 						Class<?> listClass = (Class<?>) listType.getActualTypeArguments()[0];
-						//assuming no arraylist of enums or calendars, which would really be a pain in the ass
 						if (Integer.class.isAssignableFrom(listClass) || int.class.isAssignableFrom(listClass) || Long.class.isAssignableFrom(listClass) || long.class.isAssignableFrom(listClass)){
 							jsonRepresentation.put(field.getName(),  new JSONArray(list) );
 						}
