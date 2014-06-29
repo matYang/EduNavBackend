@@ -74,10 +74,10 @@ public final class ModelDataLoaderService {
 		
 
 		String outline = "选择出发夏天的太阳像个大火炉，把大地烤得发烫，就连空气也是热的，人一动就浑身冒汗。我躲在山下的遮阳伞下，考虑着是否要出发。“出发了吗？儿子。”老爸洪亮的声音传来。抬头，愕然，老爸竟然已快半山腰了。看着他手中挥动的" +
-				"红色太阳帽，我颤抖着提起脚。是的，我的心中滋生出登上山顶的冲动，但面对这炙热的阳光，我又收回了脚。老李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副爸离山顶越来越近了，我似乎已经听到了他登上顶峰的欢呼声。我再也按捺不住了，“不，我要出发！”终于踏出了第一步，凭着一股子劲，" +
+				"红色太阳帽，我颤抖着提起脚。是的，我的心中滋生出登上山顶热的阳光，我又收回了脚。老李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副爸离山顶越来越近了，我似乎已经听到了他登上顶峰的欢呼声。我再也按捺不住了，“不，我要出发！”终于踏出了第一步，凭着一股子劲，" +
 				"我冲上了半山腰。天气闷热得要命，一丝风也没有，稠乎乎的空气好像凝住了。汗像断了线的我擦氪风格好大啊珠子，顺着脸颊往下直流，我喉咙发痒，口渴难耐，拼命地灌下了半瓶水。李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱";
 		String goal = "当上总经理，迎娶白富美，走上人生巅峰，想想还有点小激动呢？（哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈）有，稠乎乎的空气好像凝住了。汗像断了线的珠子，顺着脸颊往下直流，我喉咙发痒，口渴难耐，拼命地灌下了半瓶水。" +
-				"脚步渐渐慢了下来，脚像灌了铅似的，怎么也迈不开步，我没有我乐隔阂求啊力气了。休息，休息，我要休息。一屁股坐在了石阶上，我呼呼地李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副喘着大气，豆大的汗珠浸湿了衣衫，" +
+				"脚步渐渐慢了下来，脚像灌了铅似的，怎么也迈不开步，我没有我乐隔休息。一屁股坐在了石阶上，我呼呼地李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副喘着大气，豆大的汗珠浸湿了衣衫，" +
 				"一束束滚烫如开水的阳光刺过我的皮肤，疼痛不已，我感觉自己要虚脱了。路边的杂草抵不住太阳的爆晒，叶子都卷成个细条了。抬头看着密密匝匝的台阶，一股恐惧的暗流在逐渐侵蚀着我的心。“停止吧！”我的心在呐喊，心里紧绷的弦在慢慢松下来。李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱";
 		ArrayList<String> teacherIntros = new ArrayList<String>();
 		teacherIntros.add("尊敬的各位考官、各位评委老师： 通过考试，今天，我以本岗位笔试第一的成大神大神绩进入DSA了面试。对我来说，这次机会显得尤为珍贵。我叫陈日安，今年21岁。浙江工业职业技术");
@@ -85,14 +85,17 @@ public final class ModelDataLoaderService {
 		teacherIntros.add("李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础的撒打算部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》、《财经");
 		teacherIntros.add("李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副大神大神教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱");
 		
-		String filler = "李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教地方授,基础DSA部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱";
+		String filler = "李开柱，男，1967年1月出生，中共党员，毕业于我乐哥去！川师范大学外语系，英语副教地方授,基础DSA部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》";
 
-		
+		ArrayList<String> teacherNames = new ArrayList<String>();
+		teacherNames.add("苍老师");
+		teacherNames.add("陈老师");
+		teacherNames.add("谢老师");
 		
 		ArrayList<String> teacherImgs = new ArrayList<String>();
 		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUy");
 		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUy");
-		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUyNTJGcG9ydGFsQnVja2V0JTI1MkZ2aWV3Lmh0bWwlMjUzRnNwbSUyNTNEMC4wLjAuMC5VOUNOSGklMjUyNmJ1Y2tldE5hbWUlMjUzRGNs");
+		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUyNT");
 		String location = "汇智大厦写字楼 出租信息，上海徐汇万体馆漕溪北路398号，汇智大厦写字楼出租";
 		
 		for(int i=1; i <= courseNum; i++){			
@@ -123,11 +126,12 @@ public final class ModelDataLoaderService {
 			course.setCity(city);
 			course.setDistrict(district);
 			course.setLocation(location);
-			course.setGoal("" + i);
-			course.setOutline("" + i);
+			course.setGoal(goal + i);
+			course.setOutline(outline + i);
 			course.setTeacherIntros(teacherIntros);
 			course.setTeacherImgUrls(teacherImgs);
 			course.setCashback(i);
+			course.setTeacherNames(teacherNames);
 			
 			course.setClassImgUrls(teacherImgs);
 			course.setClassTeacher(filler);
