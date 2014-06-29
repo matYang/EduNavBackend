@@ -143,7 +143,7 @@ public final class ModelDataLoaderService {
 			course.setOutline(outline + i);
 			course.setTeacherIntros(teacherIntros);
 			course.setTeacherImgUrls(teacherImgs);
-			course.setCashback(i);
+			course.setCashback(course.getPrice()/10);
 			course.setTeacherNames(teacherNames);
 			course.setStudyDays(studyDays);
 			
@@ -174,6 +174,8 @@ public final class ModelDataLoaderService {
 			course.setTeachingMaterialFee(filler);
 			course.setCertification(filler);
 			course.setPassAgreement(filler);
+			course.setCourseHourNum(20);
+			course.setCourseHourLength(60);
 			
 			try {
 				course.setReference(ReferenceGenerator.generateCourseReference());
