@@ -58,4 +58,14 @@ public class Parser {
 		
 		return cashback;
 	}
+	
+	public static ArrayList<String> chopList(final String listStr, final String spliter){
+		String[] lists = listStr.split(spliter);
+		ArrayList<String> listOfListStr = new ArrayList<String>();
+		
+		for (String list : lists){
+			listOfListStr.add(list);
+		}
+		return listOfListStr;
+	}
 }
