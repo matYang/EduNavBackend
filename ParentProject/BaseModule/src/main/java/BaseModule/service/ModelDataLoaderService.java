@@ -160,7 +160,7 @@ public final class ModelDataLoaderService {
 			course.setDownloadMaterials(filler);
 			course.setQuestionBank(filler);
 			course.setHighScoreReward(filler);
-			course.setCourseName("雅思精品冲8保7.5 - 30人超级小班");
+			course.setCourseName("雅思精品冲7保6精品小班");
 			course.setPartnerIntro(filler);
 			course.setPartnerDistinction(filler);
 			course.setSuitableStudent("--此处为填充字符，在这里的目的是为了展示一下正式内容");
