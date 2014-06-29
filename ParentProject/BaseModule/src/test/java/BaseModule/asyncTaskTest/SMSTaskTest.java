@@ -138,8 +138,12 @@ public class SMSTaskTest {
 		course.setTeacherImgUrls(ImgUrls);
 		course.setTeachingMaterialIntro("Hand and Ass");		
 		course.setPrice(price);
+		course.setOriginalPrice(price+99);
+		course.setCourseName("精品Gay速成班");
+		course.setLocation("南京市雨花台区宁双路28号汇智大厦，908室，邮编xoxo");
+		course.setPhone("40082097155");
 		CourseDao.updateCourseInDatabases(course);
-		course = CourseDao.getCourseById(course.getCourseId());	
+		course = CourseDao.getCourseById(course.getCourseId());
 		
 		
 		int userId = user.getUserId();
@@ -150,7 +154,7 @@ public class SMSTaskTest {
 		int cashbackAmount = 50;		
 		Booking booking = new Booking(timeStamp,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId,
-				user.getName(), "18013955974",
+				user.getName(), "18662241356",
 				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
 		try{
 			BookingDao.addBookingToDatabases(booking);			

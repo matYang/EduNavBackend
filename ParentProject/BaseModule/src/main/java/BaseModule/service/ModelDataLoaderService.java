@@ -243,7 +243,7 @@ public final class ModelDataLoaderService {
 				String organizationNum = "organizationNum " + i;
 				String reference = "partnerReference " + i;
 				String password = "partnerPassword " + i;
-				String phone = "1234567890" + i;
+				String phone = "DONOTSEND1234567890" + i;
 				AccountStatus status = AccountStatus.activated;
 				Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
 				try {

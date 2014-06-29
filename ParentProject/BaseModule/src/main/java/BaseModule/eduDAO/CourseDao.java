@@ -235,7 +235,7 @@ public class CourseDao {
 			list[3] = course.getOutline();
 			list[4] = course.getGoal();
 			list[5] = Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter);
-			String awesomeTest = list[0] + "@" + list[1] + "@" + list[2] + "@" + list[3] + "@" + list[4] + "@" + list[5];
+			String awesomeTest = list[0] + "@@@" + list[1] + "@@@" + list[2] + "@@@" + list[3] + "@@@" + list[4] + "@@@" + list[5];
 			stmt.setString(stmtInt++, awesomeTest);
 			
 			
@@ -335,7 +335,7 @@ public class CourseDao {
 			list[3] = course.getOutline();
 			list[4] = course.getGoal();
 			list[5] = Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter);
-			String awesomeTest = list[0] + "@" + list[1] + "@" + list[2] + "@" + list[3] + "@" + list[4] + "@" + list[5];
+			String awesomeTest = list[0] + "@@@" + list[1] + "@@@" + list[2] + "@@@" + list[3] + "@@@" + list[4] + "@@@" + list[5];
 			stmt.setString(stmtInt++, awesomeTest);
 
 			stmt.setInt(stmtInt++, course.getCourseId());
@@ -426,8 +426,10 @@ public class CourseDao {
 		wholeName = partner.getWholeName();
 		
 		String awesomeText = rs.getString("textStore");
-		String[] listStr = awesomeText.split("@");
-		
+		ArrayList<String> awesomeList = Parser.stringToList(awesomeText, "@@@", String.class);
+		for (;awesomeList.size() < 6;){
+			awesomeList.add("");
+		}
 		
 		return new Course(rs.getInt("id"),p_Id,rs.getInt("price"),rs.getInt("courseHourNum"), 
 				rs.getInt("courseHourLength"),rs.getInt("classSize"),rs.getInt("cashback"),rs.getInt("popularity"),
@@ -446,15 +448,15 @@ public class CourseDao {
 				rs.getString("partnerIntro"),rs.getString("t_MaterialIntro"),
 				rs.getString("questionBank"),rs.getString("passAgreement"),
 				rs.getString("extracurricular"),rs.getString("phone"),
-				rs.getString("partnerDistinction"),listStr[3],listStr[4],rs.getString("classTeacher"),
+				rs.getString("partnerDistinction"),awesomeList.get(3),awesomeList.get(4),rs.getString("classTeacher"),
 				rs.getString("teachingAndExercise"),rs.getString("questionSession"),rs.getString("trail"),
 				rs.getString("assignments"),rs.getString("marking"), rs.getString("bonusService"),rs.getString("downloadMaterials"),
 				CourseStatus.fromInt(rs.getInt("status")),PartnerQualification.fromInt(rs.getInt("partnerQualification")),
-				rs.getString("t_MaterialFree"),	(ArrayList<Integer>)Parser.stringToList(rs.getString("studyDays"),ServerConfig.normalSpliter, new Integer(0)),
-				(ArrayList<String>)Parser.stringToList(listStr[2],ImgConfig.imgSpliterRegex,new String("")),
-				(ArrayList<String>)Parser.stringToList(listStr[0],ServerConfig.normalSpliter,new String("")),
-				(ArrayList<String>)Parser.stringToList(listStr[1],ImgConfig.imgSpliterRegex,new String("")),
-				(ArrayList<String>)Parser.stringToList(listStr[5],ServerConfig.normalSpliter, new String("")),
+				rs.getString("t_MaterialFree"),	Parser.stringToList(rs.getString("studyDays"),ServerConfig.normalSpliter, Integer.class),
+				Parser.stringToList(awesomeList.get(2),ImgConfig.imgSpliterRegex, String.class),
+				Parser.stringToList(awesomeList.get(0),ServerConfig.normalSpliter,String.class),
+				Parser.stringToList(awesomeList.get(1),ImgConfig.imgSpliterRegex, String.class),
+				Parser.stringToList(awesomeList.get(5),ServerConfig.normalSpliter, String.class),
 				logoUrl, instName, wholeName,rs.getInt("startUponArrival"),DateUtility.DateToCalendar(rs.getDate("cutoffDate")),DateUtility.DateToCalendar(rs.getTimestamp("noRefundDate")),
 				DateUtility.DateToCalendar(rs.getTimestamp("cashbackDate")),BookingType.fromInt(rs.getInt("bookingType")),rs.getInt("originalPrice"));					
 	}
