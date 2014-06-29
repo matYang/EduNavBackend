@@ -11,6 +11,7 @@ import BaseModule.configurations.EnumConfig.CommissionStatus;
 import BaseModule.configurations.EnumConfig.ServiceFeeStatus;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.eduDAO.BookingDao;
+import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.CreditDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.TransactionDao;
@@ -217,6 +218,9 @@ public class BookingDaoService {
 				cashbackAmount = Parser.getCashBackFromCouponRecord(couponRecord);
 				booking.setCashbackAmount(cashbackAmount);
 				booking = BookingDao.addBookingToDatabases(booking,conn);
+			}
+			if (booking.getCourse() == null){
+				booking.setCourse(CourseDao.getCourseById(booking.getCourseId(), conn));
 			}
 			
 			ok = true;
