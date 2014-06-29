@@ -87,7 +87,11 @@ public class DateUtility {
 	
 	public static String castToSMSFormat(Calendar c){
 		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日HH:mm");
-		return sdf.format(c.getTime());
+		String dateStr = sdf.format(c.getTime());
+		if (dateStr.indexOf("0") == 0){
+			dateStr = dateStr.substring(1, dateStr.length());
+		}
+		return dateStr;
 	}
 
 	public static String getTimeStamp(){
