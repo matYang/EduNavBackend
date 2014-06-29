@@ -70,7 +70,7 @@ public final class ModelDataLoaderService {
 		finishTime.add(Calendar.HOUR_OF_DAY, 5);
 		finishTime.add(Calendar.DAY_OF_MONTH, 8);		
 		int price = 100;
-		final int courseNum = 30;
+		final int courseNum = 20;
 		
 
 		String outline = "提纲提纲提纲提纲提纲： \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n  提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n";
@@ -163,7 +163,7 @@ public final class ModelDataLoaderService {
 			course.setCourseName("雅思精品冲8保7.5 - 30人超级小班");
 			course.setPartnerIntro(filler);
 			course.setPartnerDistinction(filler);
-			course.setSuitableStudent(filler);
+			course.setSuitableStudent("--此处为填充字符，在这里的目的是为了展示一下正式内容填充之后的效果。该处字符数为80个字，");
 			course.setExtracurricular(filler);
 			course.setMarking(filler);
 			course.setQuiz(filler);
