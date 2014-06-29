@@ -261,6 +261,7 @@ public final class ModelDataLoaderService {
 				String phone = "DONOTSEND1234567890" + i;
 				AccountStatus status = AccountStatus.activated;
 				Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
+				partner.setLogoUrl("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/1-3-logo.jpg");
 				try {
 					PartnerDaoService.createPartner(partner, connections);
 				} catch (SQLException e) {				
