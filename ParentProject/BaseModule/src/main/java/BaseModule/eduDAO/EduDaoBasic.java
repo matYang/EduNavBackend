@@ -39,7 +39,7 @@ public class EduDaoBasic {
 		jedisConfig.setTestOnBorrow(false);
 		jedisConfig.setMinIdle(5);
 		jedisConfig.setMaxWait(4000l);
-		jedisPool = new JedisPool(jedisConfig, ServerConfig.configurationMap.get("redisUri"), 6379);
+		jedisPool = new JedisPool(jedisConfig, ServerConfig.configurationMap.get("redisUri"), Integer.parseInt(ServerConfig.configurationMap.get("redisPort")));
 		
 		
 		HikariConfig sqlConfig = new HikariConfig();
