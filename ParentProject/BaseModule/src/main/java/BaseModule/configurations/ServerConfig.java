@@ -50,9 +50,8 @@ public final class ServerConfig {
 				} 
 				else if (value.equals(ENV_TEST)){
 					//test env
-					//TODO
 					configurationMap.put("env", "test");
-					configurationMap.put("jdbcUri", "badstudent.cunzg2tyzsud.us-west-2.rds.amazonaws.com:3306/test?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
+					configurationMap.put("jdbcUri", "rdszjquajzjquaj.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", "localhost");
 					configurationMap.put("redisPort", "6380");
 					configurationMap.put("memcachedUri", "fdbc1391e96411e3.m.cnhzalicm10pub001.ocs.aliyuncs.com:11211");
