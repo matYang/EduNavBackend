@@ -39,6 +39,7 @@ public final class ServerConfig {
 					configurationMap.put("env", "local");			
 					configurationMap.put("jdbcUri", "localhost:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", "localhost");
+					configurationMap.put("redisPort", "6379");
 					configurationMap.put("memcachedUri", "localhost:11211");
 					configurationMap.put("sqlPass", "");
 					configurationMap.put("sqlUser", "root");
@@ -48,29 +49,32 @@ public final class ServerConfig {
 				} 
 				else if (value.equals(ENV_TEST)){
 					//test env
+					//TODO
 					configurationMap.put("env", "test");
 					configurationMap.put("jdbcUri", "badstudent.cunzg2tyzsud.us-west-2.rds.amazonaws.com:3306/test?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
-					configurationMap.put("redisUri", "redisserver.ppomgu.0001.usw2.cache.amazonaws.com");
-					configurationMap.put("memcachedUri", "localhost:11211");
+					configurationMap.put("redisUri", "localhost");
+					configurationMap.put("redisPort", "6380");
+					configurationMap.put("memcachedUri", "fdbc1391e96411e3.m.cnhzalicm10pub001.ocs.aliyuncs.com:11211");
 					configurationMap.put("sqlPass", "badstudent");
 					configurationMap.put("sqlUser", "test");
 					configurationMap.put("sqlMaxConnection","50");
-					configurationMap.put("memcachedUser", "");
-					configurationMap.put("memcachedPass", "");
+					configurationMap.put("memcachedUser", "45D65B9EDB590224697482D7525A1612A31A7A0AFE88AE5236E8DA8A85B0145C");
+					configurationMap.put("memcachedPass", "B2E36A9EB801CBD8A55A20B70269755F03E3097CCBECC9BE6CEFC26BFBBB3F12");
 				}
 				else{
 					//prod env
 					configurationMap.put("env", "prod");
 					configurationMap.put("jdbcUri", "as4359fdgk.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", "localhost");
+					configurationMap.put("redisPort", "6379");
 					configurationMap.put("memcachedUri", "fdbc1391e96411e3.m.cnhzalicm10pub001.ocs.aliyuncs.com:11211");
 					configurationMap.put("sqlUser", "082E4185DBC158A01DC2DE32E241AA4C7167BFF2EAD2493A1E95D63496F69CA7");
 					configurationMap.put("sqlPass", "9211A28B9094893E29F00C1072940646");
 					configurationMap.put("sqlMaxConnection","50");
 					configurationMap.put("memcachedUser", "595859005EA745D60DE860E460DBD057B0D26BEAA841B0DCBD0D4CE4A8F032E0");
-					configurationMap.put("memcachedPass", "7FBA36F169E8667523ECCD8EAF79BCFB");
-					
+					configurationMap.put("memcachedPass", "5B7636EF7D897EDEEF3B1481C6D94017160531FC2020B6E8299E49B218752739");
 				}
+			
 			} catch (final Exception e){
 				e.printStackTrace();
 				System.exit(1);
@@ -78,9 +82,8 @@ public final class ServerConfig {
 		}
 		
 		public static void acDecode(String ac_key, String ac_ivy){
-			
 			try {
-				if (configurationMap.get("env").equals("prod")){
+				if (!configurationMap.get("env").equals("local")){
 					configurationMap.put("sqlPass", AccessControlCrypto.decrypt(configurationMap.get("sqlPass"), ac_key, ac_ivy));
 					configurationMap.put("sqlUser", AccessControlCrypto.decrypt(configurationMap.get("sqlUser"), ac_key, ac_ivy));
 					configurationMap.put("memcachedUser", AccessControlCrypto.decrypt(configurationMap.get("memcachedUser"), ac_key, ac_ivy));

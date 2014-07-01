@@ -15,6 +15,8 @@ import UserModule.appService.RoutingService;
 public class ServerMain {
 
 	//private static Log log = LogFactory.getLog(ServiceMain.class);
+	
+	private int portNumber = 8015;
 
 	private static ServerMain me;
 
@@ -36,7 +38,7 @@ public class ServerMain {
 
 		// Add a new HTTP server listening on port
 
-		Server server = component.getServers().add(Protocol.HTTP, 8015);
+		Server server = component.getServers().add(Protocol.HTTP, portNumber);
 		server.getContext().getParameters().add("maxThreads", "512");
 
 		// Attach the sample application
@@ -71,6 +73,7 @@ public class ServerMain {
 		DebugLog.initializeLogger();
 		String ac_key = null;
 		String ac_ivy = null;
+
 		for (String arg : args){
 			if (arg.indexOf("acKey-") == 0)
 				ac_key =  arg.split("-")[1];
