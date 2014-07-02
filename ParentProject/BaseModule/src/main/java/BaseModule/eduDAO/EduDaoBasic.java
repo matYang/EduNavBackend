@@ -60,7 +60,7 @@ public class EduDaoBasic {
 		System.out.println("EduDaoBasic acknowledged config");
 		
 	   	try {
-	   		if (!ServerConfig.configurationMap.get(ParamConfig.MAP_ENV_KEY).equals(ParamConfig.MAP_ENV_PROD)){
+	   		if (ServerConfig.configurationMap.get(ParamConfig.MAP_ENV_KEY).equals(ParamConfig.MAP_ENV_LOCAL)){
 	   			DefaultConnectionFactory connectionFactory = new DefaultConnectionFactory(DefaultConnectionFactory.DEFAULT_OP_QUEUE_LEN, DefaultConnectionFactory.DEFAULT_READ_BUFFER_SIZE, DefaultHashAlgorithm.KETAMA_HASH);
 	   			memcached = new MemcachedClient(connectionFactory, AddrUtil.getAddresses(ServerConfig.configurationMap.get("memcachedUri")));
 	   		}
