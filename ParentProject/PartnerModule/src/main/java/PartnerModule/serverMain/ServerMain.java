@@ -8,6 +8,7 @@ import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.ParamConfig;
 import BaseModule.configurations.ServerConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import PartnerModule.appService.RoutingService;
@@ -16,6 +17,8 @@ import PartnerModule.appService.RoutingService;
 public class ServerMain {
 
 	//private static Log log = LogFactory.getLog(ServiceMain.class);
+	
+	private static int portNumber = 8016;
 
 	private static ServerMain me;
 
@@ -37,7 +40,7 @@ public class ServerMain {
 
 		// Add a new HTTP server listening on port
 
-		Server server = component.getServers().add(Protocol.HTTP, 8016);
+		Server server = component.getServers().add(Protocol.HTTP, portNumber);
 		server.getContext().getParameters().add("maxThreads", "64");
 
 		// Attach the sample application
@@ -63,18 +66,26 @@ public class ServerMain {
 		DebugLog.initializeLogger();
 		String ac_key = null;
 		String ac_ivy = null;
+		String env = null;
 		for (String arg : args){
 			if (arg.indexOf("acKey-") == 0)
 				ac_key =  arg.split("-")[1];
 			if (arg.indexOf("acIvy-") == 0)
 				ac_ivy =  arg.split("-")[1];
+			if (arg.indexOf("env-") == 0)
+				env =  arg.split("-")[1];
 		}
 		
-		Map<String, String> configureMap = ServerConfig.configurationMap;
-		configureMap.put(ServerConfig.MAP_MODULE_KEY, ServerConfig.MAP_MODULE_PARTNER);
-		configureMap.put("sqlMaxConnection","5");
-		ServerConfig.acDecode(ac_key, ac_ivy);
-		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection"));
+		ParamConfig.MODULE = ParamConfig.MAP_MODULE_PARTNER;
+		ParamConfig.SQLMAX = "5";
+		ParamConfig.ACKEY = ac_key;
+		ParamConfig.ACIVY = ac_ivy;
+		ParamConfig.ENV = env;
+		
+		if (env != null && env.equals(ParamConfig.ENV_TEST)){
+			portNumber = 8025;
+		}
+		System.out.println("System started under module: " + ServerConfig.configurationMap.get(ParamConfig.MAP_MODULE_KEY) + " with max sql connection: " + ServerConfig.configurationMap.get("sqlMaxConnection") + " on port: " + portNumber);
 		
 		OperationFuture<Boolean> result = EduDaoBasic.setCache("test", 60, "testing connection");
 		System.out.println("Result: " + result.get());

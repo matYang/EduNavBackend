@@ -1,13 +1,10 @@
 package UserModule.resources.booking;
 
-import java.util.Calendar;
-
 import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
-import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
@@ -17,7 +14,6 @@ import BaseModule.exception.validation.ValidationException;
 import BaseModule.generator.JSONGenerator;
 import BaseModule.model.Booking;
 import BaseModule.model.dataObj.BookingStatusObj;
-import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
 

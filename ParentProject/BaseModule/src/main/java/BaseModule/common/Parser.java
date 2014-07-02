@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Parser {
 
-	public static String listToString(final ArrayList<?> list,String spliter){
+	public static <T> String listToString(final ArrayList<T> list,String spliter){
 		String serializedList = "";
 		for(int i = 0; i < list.size(); i++){
 			if (i == list.size() - 1){
@@ -15,29 +15,24 @@ public class Parser {
 		return serializedList;
 	}
 
-	public static ArrayList<?> stringToList(final String listString, final String spliter, final Object optionFlag){
-		
-		if (optionFlag instanceof Integer){
-			ArrayList<Integer> intList = new ArrayList<Integer>();
-			if (listString == null || listString.length() == 0){
-				return intList;
-			}
-			String[] strArray = listString.split(spliter);
-			for (String str : strArray){
-				intList.add(Integer.parseInt(str));
-			}
-			return intList;
+	public static <T> ArrayList<T> stringToList(final String listString, final String spliter, final Class<T> clazz){
+		ArrayList<T> list = new ArrayList<T>();
+		if (listString == null || listString.length() == 0){
+			return list;
 		}
-		else if (optionFlag instanceof String){
-			ArrayList<String> strList = new ArrayList<String>();
-			if (listString == null || listString.length() == 0){
-				return strList;
-			}
-			String[] strArray = listString.split(spliter);
+		String[] strArray = listString.split(spliter);
+		
+		if (Integer.class.isAssignableFrom(clazz)){
 			for (String str : strArray){
-				strList.add(str);
+				list.add(clazz.cast(Integer.parseInt(str)));
 			}
-			return strList;
+			return list;
+		}
+		else if (String.class.isAssignableFrom(clazz)){
+			for (String str : strArray){
+				list.add(clazz.cast(str));
+			}
+			return list;
 		}
 		else{
 			throw new RuntimeException("[ERR] Parser:: StringToList non-identifierable option flag");
@@ -58,14 +53,5 @@ public class Parser {
 		
 		return cashback;
 	}
-	
-	public static ArrayList<String> chopList(final String listStr, final String spliter){
-		String[] lists = listStr.split(spliter);
-		ArrayList<String> listOfListStr = new ArrayList<String>();
-		
-		for (String list : lists){
-			listOfListStr.add(list);
-		}
-		return listOfListStr;
-	}
+
 }

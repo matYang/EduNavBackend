@@ -21,6 +21,7 @@ import net.spy.memcached.auth.PlainCallbackHandler;
 import net.spy.memcached.internal.OperationFuture;
 import BaseModule.cache.CourseRamCache;
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.ParamConfig;
 import BaseModule.configurations.ServerConfig;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -39,7 +40,7 @@ public class EduDaoBasic {
 		jedisConfig.setTestOnBorrow(false);
 		jedisConfig.setMinIdle(5);
 		jedisConfig.setMaxWait(4000l);
-		jedisPool = new JedisPool(jedisConfig, ServerConfig.configurationMap.get("redisUri"), 6379);
+		jedisPool = new JedisPool(jedisConfig, ServerConfig.configurationMap.get("redisUri"), Integer.parseInt(ServerConfig.configurationMap.get("redisPort")));
 		
 		
 		HikariConfig sqlConfig = new HikariConfig();
@@ -59,7 +60,7 @@ public class EduDaoBasic {
 		System.out.println("EduDaoBasic acknowledged config");
 		
 	   	try {
-	   		if (!ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){
+	   		if (ServerConfig.configurationMap.get(ParamConfig.MAP_ENV_KEY).equals(ParamConfig.MAP_ENV_LOCAL)){
 	   			DefaultConnectionFactory connectionFactory = new DefaultConnectionFactory(DefaultConnectionFactory.DEFAULT_OP_QUEUE_LEN, DefaultConnectionFactory.DEFAULT_READ_BUFFER_SIZE, DefaultHashAlgorithm.KETAMA_HASH);
 	   			memcached = new MemcachedClient(connectionFactory, AddrUtil.getAddresses(ServerConfig.configurationMap.get("memcachedUri")));
 	   		}

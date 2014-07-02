@@ -24,7 +24,7 @@ public class ReferenceGenerator {
 	private static final long userAccountNumberEpoch = 1402835376803l;
 	
 	
-	public static String generatePartnerReference() throws SQLException{
+	public synchronized static String generatePartnerReference() throws SQLException{
 		String ref = RandomStringUtils.randomAlphanumeric(partnerReferenceLength).toUpperCase();
 		while (!PartnerDaoService.isReferenceAvailable(ref)){
 			ref = RandomStringUtils.randomAlphanumeric(partnerReferenceLength).toUpperCase();
@@ -32,7 +32,7 @@ public class ReferenceGenerator {
 		return ref;
 	}
 	
-	public static String generateCourseReference() throws SQLException, PseudoException{
+	public synchronized static String generateCourseReference() throws SQLException, PseudoException{
 		String ref = RandomStringUtils.randomAlphanumeric(courseReferenceLength).toUpperCase();
 		while (!CourseDaoService.isReferenceAvailable(ref)){
 			ref = RandomStringUtils.randomAlphanumeric(courseReferenceLength).toUpperCase();
@@ -40,7 +40,7 @@ public class ReferenceGenerator {
 		return ref;
 	}
 	
-	public static String generateBookingReference() throws SQLException, PseudoException{
+	public synchronized static String generateBookingReference() throws SQLException, PseudoException{
 		String ref = RandomStringUtils.randomAlphanumeric(bookingReferenceLength);
 		while (!BookingDaoService.isReferenceAvailable(ref)){
 			ref = RandomStringUtils.randomAlphanumeric(bookingReferenceLength);
@@ -48,7 +48,7 @@ public class ReferenceGenerator {
 		return ref;
 	}
 	
-	public static String generateAdminReference() throws SQLException{
+	public synchronized static String generateAdminReference() throws SQLException{
 		String ref = RandomStringUtils.randomAlphanumeric(adminReferenceLength).toUpperCase();
 		while (!AdminAccountDaoService.isReferenceAvailable(ref)){
 			ref = RandomStringUtils.randomAlphanumeric(adminReferenceLength).toUpperCase();
@@ -57,7 +57,7 @@ public class ReferenceGenerator {
 	}
 	
 	
-	public static String generateUserInvitationalCode() throws SQLException{
+	public synchronized static String generateUserInvitationalCode() throws SQLException{
 		String code = RandomStringUtils.randomAlphanumeric(userInvitionalCodeLength).toUpperCase();
 		while (!UserDaoService.isInvitationalCodeAvaialble(code)){
 			code = RandomStringUtils.randomAlphanumeric(userInvitionalCodeLength).toUpperCase();
@@ -65,7 +65,7 @@ public class ReferenceGenerator {
 		return code;
 	}
 	
-	private static String generateAccountNumber() throws SQLException{
+	private synchronized static String generateAccountNumber() throws SQLException{
 		String prefix = "6";
 		Random random = new Random();
 		int randomCount = random.nextInt(100);
@@ -76,7 +76,7 @@ public class ReferenceGenerator {
 		return prefix + sufix;
 	}
 	
-	public static String generateUserAccountNumber() throws SQLException{
+	public synchronized static String generateUserAccountNumber() throws SQLException{
 		String accountNumber = generateAccountNumber();
 		while (!UserDaoService.isAccountnumberAvailable(accountNumber)){
 			accountNumber = generateAccountNumber();

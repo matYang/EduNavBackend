@@ -18,8 +18,5 @@ public final class FileService {
 	public static String uploadLogoImg(final int partnerId, final File file, final String imgName){
 		return AliyunMain.uploadImg(partnerId, file, imgName, ServerConfig.AliyunLogoBucket);
 	}
-	
-	public static String uploadUserFile(final int userId,final File file, final String fileName){
-		return AliyunMain.uploadFile(userId, file, fileName, ServerConfig.AliyunProfileBucket);
-	}
+
 }

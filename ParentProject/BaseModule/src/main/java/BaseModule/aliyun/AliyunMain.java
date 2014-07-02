@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import org.apache.log4j.Logger;
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.ParamConfig;
 import BaseModule.configurations.ServerConfig;
 import com.aliyun.openservices.ClientException;
 import com.aliyun.openservices.oss.OSSClient;
@@ -98,13 +99,13 @@ public class AliyunMain {
 	}	
 
 	private static String getOSSUrlPrefix(final String Bucket){
-		if (ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_LOCAL)){
+		if (ServerConfig.configurationMap.get(ParamConfig.MAP_ENV_KEY).equals(ParamConfig.MAP_ENV_LOCAL)){
 			return "http://" + Bucket + ".oss-cn-hangzhou.aliyuncs.com/";
 		}
-		else if (ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_TEST)){
+		else if (ServerConfig.configurationMap.get(ParamConfig.MAP_ENV_KEY).equals(ParamConfig.MAP_ENV_TEST)){
 			return "http://" + Bucket + ".oss-cn-hangzhou.aliyuncs.com/";
 		}
-		else if (ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_PROD)){
+		else if (ServerConfig.configurationMap.get(ParamConfig.MAP_ENV_KEY).equals(ParamConfig.MAP_ENV_PROD)){
 			return "http://" + Bucket + ".oss-internal.aliyuncs.com/";
 		}
 		else{

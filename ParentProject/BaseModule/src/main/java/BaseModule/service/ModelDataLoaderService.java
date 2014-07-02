@@ -52,7 +52,7 @@ public final class ModelDataLoaderService {
 			loadUsers(conn);//20
 			loadPartners(conn);//10
 			loadAdmins(conn);//10		
-			loadCourses(conn);//100
+			loadCourses(conn);//30
 			loadBookings(conn);//20		
 			loadTransactions(conn);//20
 			loadCredits(conn);//20
@@ -70,33 +70,46 @@ public final class ModelDataLoaderService {
 		finishTime.add(Calendar.HOUR_OF_DAY, 5);
 		finishTime.add(Calendar.DAY_OF_MONTH, 8);		
 		int price = 100;
-		final int courseNum = 100;
+		final int courseNum = 20;
 		
 
-		String outline = "选择出发夏天的太阳像个大火炉，把大地烤得发烫，就连空气也是热的，人一动就浑身冒汗。我躲在山下的遮阳伞下，考虑着是否要出发。“出发了吗？儿子。”老爸洪亮的声音传来。抬头，愕然，老爸竟然已快半山腰了。看着他手中挥动的" +
-				"红色太阳帽，我颤抖着提起脚。是的，我的心中滋生出登上山顶热的阳光，我又收回了脚。老李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副爸离山顶越来越近了，我似乎已经听到了他登上顶峰的欢呼声。我再也按捺不住了，“不，我要出发！”终于踏出了第一步，凭着一股子劲，" +
-				"我冲上了半山腰。天气闷热得要命，一丝风也没有，稠乎乎的空气好像凝住了。汗像断了线的我擦氪风格好大啊珠子，顺着脸颊往下直流，我喉咙发痒，口渴难耐，拼命地灌下了半瓶水。李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱";
-		String goal = "当上总经理，迎娶白富美，走上人生巅峰，想想还有点小激动呢？（哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈）有，稠乎乎的空气好像凝住了。汗像断了线的珠子，顺着脸颊往下直流，我喉咙发痒，口渴难耐，拼命地灌下了半瓶水。" +
-				"脚步渐渐慢了下来，脚像灌了铅似的，怎么也迈不开步，我没有我乐隔休息。一屁股坐在了石阶上，我呼呼地李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副喘着大气，豆大的汗珠浸湿了衣衫，" +
-				"一束束滚烫如开水的阳光刺过我的皮肤，疼痛不已，我感觉自己要虚脱了。路边的杂草抵不住太阳的爆晒，叶子都卷成个细条了。抬头看着密密匝匝的台阶，一股恐惧的暗流在逐渐侵蚀着我的心。“停止吧！”我的心在呐喊，心里紧绷的弦在慢慢松下来。李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱";
+		String outline = "提纲提纲提纲提纲提纲： \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n  提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n";
+		String goal = "提纲提纲提纲提纲提纲： \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n  提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n";
 		ArrayList<String> teacherIntros = new ArrayList<String>();
-		teacherIntros.add("尊敬的各位考官、各位评委老师： 通过考试，今天，我以本岗位笔试第一的成大神大神绩进入DSA了面试。对我来说，这次机会显得尤为珍贵。我叫陈日安，今年21岁。浙江工业职业技术");
-		teacherIntros.add("XXX，女，1980年7月出生。1999年7月参加教育工作。小学一级教师。1999年至20大神01盛大 年6月在仓埠街丛林小学任教。在两年任教期间，本人吃苦耐劳，勇于挑重担。先后在");
-		teacherIntros.add("李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础的撒打算部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》、《财经");
-		teacherIntros.add("李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副大神大神教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱");
+		teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍。介绍介绍介绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
+		teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
+		teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍。介绍介绍介介绍介绍介绍介绍。介绍介绍介绍介绍介绍。介绍介绍介绍介绍介绍。介绍绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
+		teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍。介绍介绍介绍介绍介绍介绍。介绍介绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
 		
-		String filler = "李开柱，男，1967年1月出生，中共党员，毕业于我乐哥去！川师范大学外语系，英语副教地方授,基础DSA部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》";
+		String filler = "--此处为填充字符，在这里的目的是为了展示一下正式内容填充之后的效果。该处字符数为80个字，保持属于同一个段落，内容一致统一，谢谢您的阅读- 填充填充填充填充填充填充填充填充填充填充填充填充填充填充填充填充填充填充-";
 
 		ArrayList<String> teacherNames = new ArrayList<String>();
-		teacherNames.add("苍老师");
-		teacherNames.add("陈老师");
+		teacherNames.add("张老师");
+		teacherNames.add("李老师");
 		teacherNames.add("谢老师");
+		teacherNames.add("陈老师");
 		
 		ArrayList<String> teacherImgs = new ArrayList<String>();
-		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUy");
-		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUy");
-		teacherImgs.add("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUyNT");
-		String location = "汇智大厦写字楼 出租信息，上海徐汇万体馆漕溪北路398号，汇智大厦写字楼出租";
+		teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+		teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+		teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+		teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+		
+		ArrayList<String> classrommImgs = new ArrayList<String>();
+		classrommImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+		classrommImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+		classrommImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+		classrommImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+		
+		ArrayList<Integer> studyDays = new ArrayList<Integer>();
+		studyDays.add(1);
+		studyDays.add(3);
+		studyDays.add(5);
+		studyDays.add(6);
+		studyDays.add(7);
+		
+		
+		String location = "上海徐汇万体馆漕溪北路398号";
 		
 		for(int i=1; i <= courseNum; i++){			
 			int classSize = i;
@@ -130,26 +143,27 @@ public final class ModelDataLoaderService {
 			course.setOutline(outline + i);
 			course.setTeacherIntros(teacherIntros);
 			course.setTeacherImgUrls(teacherImgs);
-			course.setCashback(i);
+			course.setCashback(course.getPrice()/10);
 			course.setTeacherNames(teacherNames);
+			course.setStudyDays(studyDays);
 			
-			course.setClassImgUrls(teacherImgs);
+			course.setClassImgUrls(classrommImgs);
 			course.setClassTeacher(filler);
 			course.setQuestionSession(filler);
 			course.setPartnerCourseReference("342RY65348FRTYH89RU353FW43");
 			course.setTeachingAndExercise(filler);
-			course.setTrail("李开柱，男，1967年1月出生，中共党员，毕业于四川师范大学外语系，英语副教授,基础部副主任，公共英语教研室主任。长期从事英语教学，先后承担了《大学英语》李开柱，男");
-			course.setLogoUrl("http://oss.console.aliyun.com/console/index#bW9kdWxlVXJsPWh0dHAlMjUzQSUyNTJGJTI1MkYlMjU3QndlYl9zZXJ2ZXIlMjU3RCUyNTJGcG9ydGFsQnVja2V0JTI1MkZ2aWV3Lmh0bWwlMjUzRnNwbSUyNTNEMC4wLjAuMC5VOUNOSGklMjUyNmJ1Y2tldE5hbWUlMjUzRGNs");
+			course.setTrail("提供试听课一节，40分钟，课后选择是否报名付款");
+			course.setLogoUrl("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/1-3-logo.jpg");
 			course.setBonusService(filler);
 			course.setPrerequest(filler);
 			course.setAssignments(filler);
 			course.setDownloadMaterials(filler);
 			course.setQuestionBank(filler);
 			course.setHighScoreReward(filler);
-			course.setCourseName("雅思精品冲8保7.5 - 30人超级小班 原价 8999元 现只要 4999元 便宜3000哦亲快来抢");
+			course.setCourseName("雅思精品冲7保6精品小班");
 			course.setPartnerIntro(filler);
 			course.setPartnerDistinction(filler);
-			course.setSuitableStudent(filler);
+			course.setSuitableStudent("--此处为填充字符，在这里的目的是为了展示一下正式内容");
 			course.setExtracurricular(filler);
 			course.setMarking(filler);
 			course.setQuiz(filler);
@@ -160,6 +174,8 @@ public final class ModelDataLoaderService {
 			course.setTeachingMaterialFee(filler);
 			course.setCertification(filler);
 			course.setPassAgreement(filler);
+			course.setCourseHourNum(20);
+			course.setCourseHourLength(60);
 			
 			try {
 				course.setReference(ReferenceGenerator.generateCourseReference());
@@ -177,6 +193,7 @@ public final class ModelDataLoaderService {
 			int bookingNum = 20;			
 			int cashback = 40;
 			for(int i=1;i<=bookingNum;i++){
+				cashback += i;
 				int partnerId = (i)%10 + 1;
 				Course course = CourseDao.getCourseById(i, connections);
 				User user = UserDao.getUserById(i, connections);
@@ -214,11 +231,11 @@ public final class ModelDataLoaderService {
 			i++;
 
 			for(;i<=userNum;i++){
-				String name = "userName " + i;
+				String name = "用户" + i;
 				String phone = "DONOTSEND1234567890" + i;
-				String password = "userPassword " + i;
+				String password = "userPassword" + i;
 				AccountStatus status = AccountStatus.fromInt(i%3);
-				String email = "userEmail " + i;
+				String email = "userEmail" + i + "@example.com";
 				String accountNum = ReferenceGenerator.generateUserAccountNumber();				
 				String invitationalCode = ReferenceGenerator.generateUserInvitationalCode();
 				User user = new User(phone, password, matt.getInvitationalCode(), invitationalCode, accountNum, status);
@@ -237,15 +254,16 @@ public final class ModelDataLoaderService {
 		try{
 			int partnerNum = 10;
 			for(int i=1;i<=partnerNum;i++){
-				String name = "partnerName " + i;
-				String instName = "instName " + i;
-				String licence = "licence " + i;
-				String organizationNum = "organizationNum " + i;
-				String reference = "partnerReference " + i;
-				String password = "partnerPassword " + i;
-				String phone = "1234567890" + i;
+				String name = "合作商" + i;
+				String instName = "教育机构" + i;
+				String licence = "证件号" + i;
+				String organizationNum = "机构号" + i;
+				String reference = "partnerReference" + i;
+				String password = "partnerPassword" + i;
+				String phone = "DONOTSEND1234567890" + i;
 				AccountStatus status = AccountStatus.activated;
 				Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
+				partner.setLogoUrl("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/1-3-logo.jpg");
 				try {
 					PartnerDaoService.createPartner(partner, connections);
 				} catch (SQLException e) {				
@@ -261,8 +279,8 @@ public final class ModelDataLoaderService {
 	private static void loadAdmins(Connection...connections){
 		int adminNum = 10;
 		for(int i=1;i<=adminNum;i++){
-			String name = "adminName " + i;
-			String phone = "1234567890" + i;
+			String name = "管理员" + i;
+			String phone = "DONOTSEND1234567890" + i;
 			String reference = null;
 			try{
 				reference = ReferenceGenerator.generateAdminReference();	
@@ -280,7 +298,6 @@ public final class ModelDataLoaderService {
 				e.printStackTrace();
 			} 
 		}		
-
 	}
 
 	private static void loadCredits(Connection...connections){
@@ -310,7 +327,7 @@ public final class ModelDataLoaderService {
 		Calendar expireTime = DateUtility.getCurTimeInstance();
 		for(int i=1;i<=couponNum;i++){			
 			int userId = i;
-			int amount = 50;
+			int amount = 50+i;
 			expireTime.add(Calendar.MINUTE, i);
 			Coupon c = new Coupon(userId, amount);			
 			c.setExpireTime(expireTime);

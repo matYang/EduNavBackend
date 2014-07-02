@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import BaseModule.configurations.ParamConfig;
 import BaseModule.configurations.ServerConfig;
 import BaseModule.service.EncodingService;
 
@@ -23,7 +24,7 @@ public class DebugLog {
 		//if not accessible, do:  right click on project -> configure build path -> remove JRE system library -> add Library -> JRE System Library (Default) -> OK, clean & recompile
 		String caller = sun.reflect.Reflection.getCallerClass(2).getName();
 		systemLogger.info(caller + " got Exception! ",e);
-		if (ServerConfig.configurationMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_LOCAL)){
+		if (ServerConfig.configurationMap.get(ParamConfig.MAP_ENV_KEY).equals(ParamConfig.MAP_ENV_LOCAL)){
 			e.printStackTrace();
 		}
 	}
