@@ -7,21 +7,6 @@ import BaseModule.encryption.AccessControlCrypto;
 
 public final class ServerConfig {
 	
-		public static final String ENV_VAR_KEY = "MAINSERVER_ENV";
-		public static final String ENV_TEST = "TEST";
-		public static final String ENV_PROD = "PROD";
-		
-		
-		public static final String MAP_ENV_KEY = "env";
-		public static final String MAP_ENV_LOCAL = "local";
-		public static final String MAP_ENV_TEST = "test";
-		public static final String MAP_ENV_PROD = "prod";
-		
-		public static final String MAP_MODULE_KEY = "module";
-		public static final String MAP_MODULE_USER = "user";
-		public static final String MAP_MODULE_PARTNER = "partner";
-		public static final String MAP_MODULE_ADMIN = "admin";
-		
 		public static final String normalSpliter = "-";
 		 
 		//use concurrent hashmap to guarantee thread safety
@@ -35,7 +20,7 @@ public final class ServerConfig {
 				String envVal = ParamConfig.ENV;
 				
 				System.out.println("Server starting under " + envVal + " envrionment");
-				if (envVal == null || (!envVal.equals(ENV_TEST) && !envVal.equals(ENV_PROD))){
+				if (envVal == null || (!envVal.equals(ParamConfig.ENV_TEST) && !envVal.equals(ParamConfig.ENV_PROD))){
 
 					//local env
 					configurationMap.put("env", "local");			
@@ -48,7 +33,7 @@ public final class ServerConfig {
 					configurationMap.put("memcachedUser", "");
 					configurationMap.put("memcachedPass", "");
 				} 
-				else if (envVal.equals(ENV_TEST)){
+				else if (envVal.equals(ParamConfig.ENV_TEST)){
 					//test env
 					configurationMap.put("env", "test");
 					configurationMap.put("jdbcUri", "rdszjquajzjquaj.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
@@ -76,7 +61,7 @@ public final class ServerConfig {
 				}
 				
 				configurationMap.put("sqlMaxConnection",ParamConfig.SQLMAX);
-				configurationMap.put(MAP_MODULE_KEY, ParamConfig.MODULE);
+				configurationMap.put(ParamConfig.MAP_MODULE_KEY, ParamConfig.MODULE);
 				
 				acDecode(ParamConfig.ACKEY, ParamConfig.ACIVY);
 			

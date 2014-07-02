@@ -79,16 +79,16 @@ public class ServerMain {
 				env =  arg.split("-")[1];
 		}
 		
-		ParamConfig.MODULE = ServerConfig.MAP_MODULE_ADMIN;
+		ParamConfig.MODULE = ParamConfig.MAP_MODULE_ADMIN;
 		ParamConfig.SQLMAX = "4";
 		ParamConfig.ACKEY = ac_key;
 		ParamConfig.ACIVY = ac_ivy;
 		ParamConfig.ENV = env;
 		
-		if (env.equals(ServerConfig.ENV_TEST)){
+		if (env.equals(ParamConfig.ENV_TEST)){
 			portNumber = 8026;
 		}
-		System.out.println("System started under module: " + ServerConfig.configurationMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + ServerConfig.configurationMap.get("sqlMaxConnection") + " on port: " + portNumber);
+		System.out.println("System started under module: " + ServerConfig.configurationMap.get(ParamConfig.MAP_MODULE_KEY) + " with max sql connection: " + ServerConfig.configurationMap.get("sqlMaxConnection") + " on port: " + portNumber);
 		
 		SystemDataInit.init();	
 		OperationFuture<Boolean> result = EduDaoBasic.setCache("test", 60, "testing connection");
