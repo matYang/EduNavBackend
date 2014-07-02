@@ -10,6 +10,7 @@ import org.restlet.data.Protocol;
 import AdminModule.appService.CleanService;
 import AdminModule.appService.RoutingService;
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.ParamConfig;
 import BaseModule.configurations.ServerConfig;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.staticDataService.SystemDataInit;
@@ -68,27 +69,26 @@ public class ServerMain {
 		DebugLog.initializeLogger();
 		String ac_key = null;
 		String ac_ivy = null;
+		String env = null;
 		for (String arg : args){
 			if (arg.indexOf("acKey-") == 0)
 				ac_key =  arg.split("-")[1];
 			if (arg.indexOf("acIvy-") == 0)
 				ac_ivy =  arg.split("-")[1];
+			if (arg.indexOf("env-") == 0)
+				env =  arg.split("-")[1];
 		}
 		
-		Map<String, String> configureMap = ServerConfig.configurationMap;
-		configureMap.put(ServerConfig.MAP_MODULE_KEY, ServerConfig.MAP_MODULE_ADMIN);
-		configureMap.put("sqlMaxConnection","4");
-		ServerConfig.acDecode(ac_key, ac_ivy);
+		ParamConfig.MODULE = ServerConfig.MAP_MODULE_ADMIN;
+		ParamConfig.SQLMAX = "4";
+		ParamConfig.ACKEY = ac_key;
+		ParamConfig.ACIVY = ac_ivy;
+		ParamConfig.ENV = env;
 		
-		System.out.println(System.getenv(ServerConfig.ENV_VAR_KEY));
-		System.out.println(ServerConfig.MAP_ENV_KEY);
-		System.out.println(configureMap.get(ServerConfig.MAP_ENV_KEY));
-		System.out.println(ServerConfig.MAP_ENV_TEST);
-		
-		if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_TEST)){
+		if (env.equals(ServerConfig.ENV_TEST)){
 			portNumber = 8026;
 		}
-		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection") + " on port: " + portNumber);
+		System.out.println("System started under module: " + ServerConfig.configurationMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + ServerConfig.configurationMap.get("sqlMaxConnection") + " on port: " + portNumber);
 		
 		SystemDataInit.init();	
 		OperationFuture<Boolean> result = EduDaoBasic.setCache("test", 60, "testing connection");
