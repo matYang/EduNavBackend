@@ -40,7 +40,7 @@ public class ReferenceGenerator {
 		return ref;
 	}
 	
-	public synchronized static String generateBookingReference() throws SQLException, PseudoException{
+	public synchronized static String generateBookingReference() throws SQLException, PseudoException{	
 		String ref = RandomStringUtils.randomAlphanumeric(bookingReferenceLength);
 		while (!BookingDaoService.isReferenceAvailable(ref)){
 			ref = RandomStringUtils.randomAlphanumeric(bookingReferenceLength);

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -32,26 +33,39 @@ public class Partner implements PseudoModel, Serializable{
 	private String instName;
 	private String logoUrl;
 	
+	private ArrayList<Integer> classPhotoIdList;
+	private ArrayList<ClassPhoto> classPhotoList;
+	private ArrayList<Integer> teacherIdList;
+	private ArrayList<Teacher> teacherList;
+	
 	private Calendar creationTime;
 	private Calendar lastLogin;
 
-	//SQL Retrieving	
-	public Partner(int id, String wholeName, String licence, String organizationNum,
-			String reference, String password, Calendar creationTime,
-			Calendar lastLogin, String phone, AccountStatus status, String instName,String logoUrl) {
+
+	public Partner(int partnerId, String wholeName, String licence,
+			String organizationNum, String reference, String password,
+			String phone, AccountStatus status, String instName,
+			String logoUrl, ArrayList<Integer> classPhotoIdList,
+			ArrayList<ClassPhoto> classPhotoList,
+			ArrayList<Integer> teacherIdList, ArrayList<Teacher> teacherList,
+			Calendar creationTime, Calendar lastLogin) {
 		super();
-		this.partnerId = id;
+		this.partnerId = partnerId;
 		this.wholeName = wholeName;
 		this.licence = licence;
 		this.organizationNum = organizationNum;
 		this.reference = reference;
 		this.password = password;
-		this.creationTime = creationTime;
-		this.lastLogin = lastLogin;
 		this.phone = phone;
 		this.status = status;
 		this.instName = instName;
 		this.logoUrl = logoUrl;
+		this.classPhotoIdList = classPhotoIdList;
+		this.classPhotoList = classPhotoList;
+		this.teacherIdList = teacherIdList;
+		this.teacherList = teacherList;
+		this.creationTime = creationTime;
+		this.lastLogin = lastLogin;
 	}
 
 	//Normal Construction
@@ -88,6 +102,11 @@ public class Partner implements PseudoModel, Serializable{
 		this.phone = "";
 		this.instName = "";
 		this.logoUrl = "";
+		
+		this.classPhotoIdList = new ArrayList<Integer>();
+		this.classPhotoList = new ArrayList<ClassPhoto>();
+		this.teacherIdList = new ArrayList<Integer>();
+		this.teacherList = new ArrayList<Teacher>();
 	}
 
 	public int getPartnerId() {
@@ -164,6 +183,38 @@ public class Partner implements PseudoModel, Serializable{
 		return creationTime;
 	}
 	
+	public ArrayList<Integer> getClassPhotoIdList() {
+		return classPhotoIdList;
+	}
+
+	public void setClassPhotoIdList(ArrayList<Integer> classPhotoIdList) {
+		this.classPhotoIdList = classPhotoIdList;
+	}
+
+	public ArrayList<ClassPhoto> getClassPhotoList() {
+		return classPhotoList;
+	}
+
+	public void setClassPhotoList(ArrayList<ClassPhoto> classPhotoList) {
+		this.classPhotoList = classPhotoList;
+	}
+
+	public ArrayList<Integer> getTeacherIdList() {
+		return teacherIdList;
+	}
+
+	public void setTeacherIdList(ArrayList<Integer> teacherIdList) {
+		this.teacherIdList = teacherIdList;
+	}
+
+	public ArrayList<Teacher> getTeacherList() {
+		return teacherList;
+	}
+
+	public void setTeacherList(ArrayList<Teacher> teacherList) {
+		this.teacherList = teacherList;
+	}
+
 	public Partner deepCopy() throws IOException, ClassNotFoundException{
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(256);
         final ObjectOutputStream oos = new ObjectOutputStream(baos);

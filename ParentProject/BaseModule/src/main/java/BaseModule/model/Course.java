@@ -92,10 +92,11 @@ public class Course implements PseudoModel, Serializable{
 	private PartnerQualification partnerQualification;
 	
 	private ArrayList<Integer> studyDays = new ArrayList<Integer>();
-	private ArrayList<String> classImgUrls = new ArrayList<String>();
-	private ArrayList<String> teacherIntros = new ArrayList<String>();
-	private ArrayList<String> teacherImgUrls = new ArrayList<String>();
-	private ArrayList<String> teacherNames = new ArrayList<String>();
+	
+	private ArrayList<Integer> classPhotoIdList;
+	private ArrayList<ClassPhoto> classPhotoList;
+	private ArrayList<Integer> teacherIdList;
+	private ArrayList<Teacher> teacherList;
 	
 	// Partner
 	private String logoUrl;
@@ -123,8 +124,8 @@ public class Course implements PseudoModel, Serializable{
 			String marking, String bonusService, String downloadMaterials,
 			CourseStatus status, PartnerQualification partnerQualification,
 			String teachingMaterialFree, ArrayList<Integer> studyDays,
-			ArrayList<String> classImgUrls, ArrayList<String> teacherIntros,
-			ArrayList<String> teacherImgUrls, ArrayList<String> teacherNames,
+			ArrayList<Integer> classPhotoIdList, ArrayList<ClassPhoto> classPhotoList,
+			ArrayList<Integer> teacherIdList, ArrayList<Teacher> teacherList,
 			String logoUrl, String instName, String wholeName,int startUponArrival,Calendar cutoffDate,
 			 Calendar noRefundDate,	Calendar cashbackDate,BookingType bookingType,int originalPrice) {
 		super();
@@ -182,10 +183,10 @@ public class Course implements PseudoModel, Serializable{
 		this.partnerQualification = partnerQualification;
 		this.teachingMaterialFee = teachingMaterialFree;
 		this.studyDays = studyDays;
-		this.classImgUrls = classImgUrls;
-		this.teacherIntros = teacherIntros;
-		this.teacherImgUrls = teacherImgUrls;
-		this.teacherNames = teacherNames;
+		this.classPhotoIdList = classPhotoIdList;
+		this.classPhotoList = classPhotoList;
+		this.teacherIdList = teacherIdList;
+		this.teacherList = teacherList;
 		this.logoUrl = logoUrl;
 		this.instName = instName;
 		this.wholeName = wholeName;
@@ -257,10 +258,10 @@ public class Course implements PseudoModel, Serializable{
 		this.partnerQualification = PartnerQualification.verified;
 		this.teachingMaterialFee = "";
 		this.studyDays = new ArrayList<Integer>();
-		this.classImgUrls = new ArrayList<String>();
-		this.teacherIntros = new ArrayList<String>();;
-		this.teacherImgUrls = new ArrayList<String>();;
-		this.teacherNames = new ArrayList<String>();;
+		this.classPhotoIdList = new ArrayList<Integer>();
+		this.classPhotoList = new ArrayList<ClassPhoto>();
+		this.teacherIdList = new ArrayList<Integer>();
+		this.teacherList = new ArrayList<Teacher>();
 		this.logoUrl = "";
 		this.instName = "";
 		this.wholeName = "";
@@ -288,10 +289,12 @@ public class Course implements PseudoModel, Serializable{
 		this.partnerQualification = PartnerQualification.fromInt(0);
 		
 		this.studyDays = new ArrayList<Integer>();
-		this.classImgUrls = new ArrayList<String>();
-		this.teacherIntros = new ArrayList<String>();
-		this.teacherImgUrls = new ArrayList<String>();
-		this.teacherNames = new ArrayList<String>();
+
+		this.classPhotoIdList = new ArrayList<Integer>();
+		this.classPhotoList = new ArrayList<ClassPhoto>();
+		this.teacherIdList = new ArrayList<Integer>();
+		this.teacherList = new ArrayList<Teacher>();
+		
 		this.originalPrice = 0;
 	}
 	
@@ -732,36 +735,37 @@ public class Course implements PseudoModel, Serializable{
 		this.studyDays = studyDays;
 	}
 
-	public ArrayList<String> getClassImgUrls() {
-		return classImgUrls;
+
+	public ArrayList<Integer> getClassPhotoIdList() {
+		return classPhotoIdList;
 	}
 
-	public void setClassImgUrls(ArrayList<String> classImgUrls) {
-		this.classImgUrls = classImgUrls;
+	public void setClassPhotoIdList(ArrayList<Integer> classPhotoIdList) {
+		this.classPhotoIdList = classPhotoIdList;
 	}
 
-	public ArrayList<String> getTeacherIntros() {
-		return teacherIntros;
+	public ArrayList<ClassPhoto> getClassPhotoList() {
+		return classPhotoList;
 	}
 
-	public void setTeacherIntros(ArrayList<String> teacherIntros) {
-		this.teacherIntros = teacherIntros;
+	public void setClassPhotoList(ArrayList<ClassPhoto> classPhotoList) {
+		this.classPhotoList = classPhotoList;
 	}
 
-	public ArrayList<String> getTeacherImgUrls() {
-		return teacherImgUrls;
+	public ArrayList<Integer> getTeacherIdList() {
+		return teacherIdList;
 	}
 
-	public void setTeacherImgUrls(ArrayList<String> teacherImgUrls) {
-		this.teacherImgUrls = teacherImgUrls;
+	public void setTeacherIdList(ArrayList<Integer> teacherIdList) {
+		this.teacherIdList = teacherIdList;
 	}
 
-	public ArrayList<String> getTeacherNames() {
-		return teacherNames;
+	public ArrayList<Teacher> getTeacherList() {
+		return teacherList;
 	}
 
-	public void setTeacherNames(ArrayList<String> teacherNames) {
-		this.teacherNames = teacherNames;
+	public void setTeacherList(ArrayList<Teacher> teacherList) {
+		this.teacherList = teacherList;
 	}
 
 	public String getLogoUrl() {
@@ -853,6 +857,121 @@ public class Course implements PseudoModel, Serializable{
 		return ModelReflectiveService.toJSON(this);
 	}
 	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((assignments == null) ? 0 : assignments.hashCode());
+		result = prime * result
+				+ ((bonusService == null) ? 0 : bonusService.hashCode());
+		result = prime * result
+				+ ((bookingType == null) ? 0 : bookingType.hashCode());
+		result = prime * result + cashback;
+		result = prime * result
+				+ ((category == null) ? 0 : category.hashCode());
+		result = prime * result
+				+ ((certification == null) ? 0 : certification.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + classSize;
+		result = prime * result
+				+ ((classTeacher == null) ? 0 : classTeacher.hashCode());
+		result = prime * result + courseHourLength;
+		result = prime * result + courseHourNum;
+		result = prime * result + courseId;
+		result = prime * result
+				+ ((courseIntro == null) ? 0 : courseIntro.hashCode());
+		result = prime * result
+				+ ((courseName == null) ? 0 : courseName.hashCode());
+		result = prime * result
+				+ ((district == null) ? 0 : district.hashCode());
+		result = prime
+				* result
+				+ ((downloadMaterials == null) ? 0 : downloadMaterials
+						.hashCode());
+		result = prime * result
+				+ ((extracurricular == null) ? 0 : extracurricular.hashCode());
+		result = prime * result + finishTime1;
+		result = prime * result + finishTime2;
+		result = prime * result + ((goal == null) ? 0 : goal.hashCode());
+		result = prime * result
+				+ ((highScoreReward == null) ? 0 : highScoreReward.hashCode());
+		result = prime * result
+				+ ((instName == null) ? 0 : instName.hashCode());
+		result = prime * result
+				+ ((location == null) ? 0 : location.hashCode());
+		result = prime * result + ((logoUrl == null) ? 0 : logoUrl.hashCode());
+		result = prime * result + ((marking == null) ? 0 : marking.hashCode());
+		result = prime
+				* result
+				+ ((openCourseRequirement == null) ? 0 : openCourseRequirement
+						.hashCode());
+		result = prime * result + originalPrice;
+		result = prime * result + ((outline == null) ? 0 : outline.hashCode());
+		result = prime
+				* result
+				+ ((partnerCourseReference == null) ? 0
+						: partnerCourseReference.hashCode());
+		result = prime
+				* result
+				+ ((partnerDistinction == null) ? 0 : partnerDistinction
+						.hashCode());
+		result = prime * result + partnerId;
+		result = prime * result
+				+ ((partnerIntro == null) ? 0 : partnerIntro.hashCode());
+		result = prime
+				* result
+				+ ((partnerQualification == null) ? 0 : partnerQualification
+						.hashCode());
+		result = prime * result
+				+ ((passAgreement == null) ? 0 : passAgreement.hashCode());
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+		result = prime * result + popularity;
+		result = prime * result
+				+ ((prerequest == null) ? 0 : prerequest.hashCode());
+		result = prime * result + price;
+		result = prime * result
+				+ ((province == null) ? 0 : province.hashCode());
+		result = prime * result
+				+ ((questionBank == null) ? 0 : questionBank.hashCode());
+		result = prime * result
+				+ ((questionSession == null) ? 0 : questionSession.hashCode());
+		result = prime * result + ((quiz == null) ? 0 : quiz.hashCode());
+		result = prime * result
+				+ ((reference == null) ? 0 : reference.hashCode());
+		result = prime * result + startTime1;
+		result = prime * result + startTime2;
+		result = prime * result + startUponArrival;
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result
+				+ ((studyDaysNote == null) ? 0 : studyDaysNote.hashCode());
+		result = prime * result
+				+ ((subCategory == null) ? 0 : subCategory.hashCode());
+		result = prime * result
+				+ ((subSubCategory == null) ? 0 : subSubCategory.hashCode());
+		result = prime * result
+				+ ((suitableStudent == null) ? 0 : suitableStudent.hashCode());
+		result = prime
+				* result
+				+ ((teachingAndExercise == null) ? 0 : teachingAndExercise
+						.hashCode());
+		result = prime
+				* result
+				+ ((teachingMaterialFee == null) ? 0 : teachingMaterialFee
+						.hashCode());
+		result = prime
+				* result
+				+ ((teachingMaterialIntro == null) ? 0 : teachingMaterialIntro
+						.hashCode());
+		result = prime * result + ((trail == null) ? 0 : trail.hashCode());
+		result = prime * result
+				+ ((wholeName == null) ? 0 : wholeName.hashCode());
+		return result;
+	}
+
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -876,11 +995,6 @@ public class Course implements PseudoModel, Serializable{
 			return false;
 		if (cashback != other.cashback)
 			return false;
-		if (cashbackDate == null) {
-			if (other.cashbackDate != null)
-				return false;
-		} else if (!cashbackDate.equals(other.cashbackDate))
-			return false;
 		if (category == null) {
 			if (other.category != null)
 				return false;
@@ -895,11 +1009,6 @@ public class Course implements PseudoModel, Serializable{
 			if (other.city != null)
 				return false;
 		} else if (!city.equals(other.city))
-			return false;
-		if (classImgUrls == null) {
-			if (other.classImgUrls != null)
-				return false;
-		} else if (!classImgUrls.equals(other.classImgUrls))
 			return false;
 		if (classSize != other.classSize)
 			return false;
@@ -924,16 +1033,6 @@ public class Course implements PseudoModel, Serializable{
 				return false;
 		} else if (!courseName.equals(other.courseName))
 			return false;
-		if (creationTime == null) {
-			if (other.creationTime != null)
-				return false;
-		} else if (!creationTime.equals(other.creationTime))
-			return false;
-		if (cutoffDate == null) {
-			if (other.cutoffDate != null)
-				return false;
-		} else if (!cutoffDate.equals(other.cutoffDate))
-			return false;
 		if (district == null) {
 			if (other.district != null)
 				return false;
@@ -948,11 +1047,6 @@ public class Course implements PseudoModel, Serializable{
 			if (other.extracurricular != null)
 				return false;
 		} else if (!extracurricular.equals(other.extracurricular))
-			return false;
-		if (finishDate == null) {
-			if (other.finishDate != null)
-				return false;
-		} else if (!finishDate.equals(other.finishDate))
 			return false;
 		if (finishTime1 != other.finishTime1)
 			return false;
@@ -987,11 +1081,6 @@ public class Course implements PseudoModel, Serializable{
 			if (other.marking != null)
 				return false;
 		} else if (!marking.equals(other.marking))
-			return false;
-		if (noRefundDate == null) {
-			if (other.noRefundDate != null)
-				return false;
-		} else if (!noRefundDate.equals(other.noRefundDate))
 			return false;
 		if (openCourseRequirement == null) {
 			if (other.openCourseRequirement != null)
@@ -1068,11 +1157,6 @@ public class Course implements PseudoModel, Serializable{
 				return false;
 		} else if (!reference.equals(other.reference))
 			return false;
-		if (startDate == null) {
-			if (other.startDate != null)
-				return false;
-		} else if (!startDate.equals(other.startDate))
-			return false;
 		if (startTime1 != other.startTime1)
 			return false;
 		if (startTime2 != other.startTime2)
@@ -1080,11 +1164,6 @@ public class Course implements PseudoModel, Serializable{
 		if (startUponArrival != other.startUponArrival)
 			return false;
 		if (status != other.status)
-			return false;
-		if (studyDays == null) {
-			if (other.studyDays != null)
-				return false;
-		} else if (!studyDays.equals(other.studyDays))
 			return false;
 		if (studyDaysNote == null) {
 			if (other.studyDaysNote != null)
@@ -1105,21 +1184,6 @@ public class Course implements PseudoModel, Serializable{
 			if (other.suitableStudent != null)
 				return false;
 		} else if (!suitableStudent.equals(other.suitableStudent))
-			return false;
-		if (teacherImgUrls == null) {
-			if (other.teacherImgUrls != null)
-				return false;
-		} else if (!teacherImgUrls.equals(other.teacherImgUrls))
-			return false;
-		if (teacherIntros == null) {
-			if (other.teacherIntros != null)
-				return false;
-		} else if (!teacherIntros.equals(other.teacherIntros))
-			return false;
-		if (teacherNames == null) {
-			if (other.teacherNames != null)
-				return false;
-		} else if (!teacherNames.equals(other.teacherNames))
 			return false;
 		if (teachingAndExercise == null) {
 			if (other.teachingAndExercise != null)
