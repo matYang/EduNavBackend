@@ -19,6 +19,8 @@ public class ServerMain {
 
 	//private static Log log = LogFactory.getLog(ServiceMain.class);
 
+	private static int portNumber = 8017;
+
 	private static ServerMain me;
 
 	private Component component;
@@ -39,7 +41,7 @@ public class ServerMain {
 
 		// Add a new HTTP server listening on port
 
-		Server server = component.getServers().add(Protocol.HTTP, 8017);
+		Server server = component.getServers().add(Protocol.HTTP, portNumber);
 		server.getContext().getParameters().add("maxThreads", "64");
 
 		// Attach the sample application
@@ -77,7 +79,10 @@ public class ServerMain {
 		configureMap.put(ServerConfig.MAP_MODULE_KEY, ServerConfig.MAP_MODULE_ADMIN);
 		configureMap.put("sqlMaxConnection","4");
 		ServerConfig.acDecode(ac_key, ac_ivy);
-		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection"));
+		if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_TEST)){
+			portNumber = 8026;
+		}
+		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection") + " on port: " + portNumber);
 		
 		SystemDataInit.init();	
 		OperationFuture<Boolean> result = EduDaoBasic.setCache("test", 60, "testing connection");

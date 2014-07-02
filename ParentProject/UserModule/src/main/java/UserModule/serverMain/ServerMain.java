@@ -16,7 +16,7 @@ public class ServerMain {
 
 	//private static Log log = LogFactory.getLog(ServiceMain.class);
 	
-	private int portNumber = 8015;
+	private static int portNumber = 8015;
 
 	private static ServerMain me;
 
@@ -56,9 +56,9 @@ public class ServerMain {
 	/**
 	 * Stops RESTlet application
 	 */
-//	public void stop() {
-//		component.getDefaultHost().detach(component.getApplication());
-//	}
+	public void stop() {
+		component.getDefaultHost().detach(component.getApplication());
+	}
 
 	public static ServerMain getInstance() {
 		if (me == null) {
@@ -85,7 +85,10 @@ public class ServerMain {
 		configureMap.put(ServerConfig.MAP_MODULE_KEY, ServerConfig.MAP_MODULE_USER);
 		configureMap.put("sqlMaxConnection","50");
 		ServerConfig.acDecode(ac_key, ac_ivy);
-		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection"));
+		if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_TEST)){
+			portNumber = 8024;
+		}
+		System.out.println("System started under module: " + configureMap.get(ServerConfig.MAP_MODULE_KEY) + " with max sql connection: " + configureMap.get("sqlMaxConnection") + " on port: " + portNumber);
 		
 		OperationFuture<Boolean> result = EduDaoBasic.setCache("test", 60, "testing connection");
 		System.out.println("Result: " + result.get());
