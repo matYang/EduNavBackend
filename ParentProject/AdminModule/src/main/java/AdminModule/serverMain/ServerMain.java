@@ -79,6 +79,12 @@ public class ServerMain {
 		configureMap.put(ServerConfig.MAP_MODULE_KEY, ServerConfig.MAP_MODULE_ADMIN);
 		configureMap.put("sqlMaxConnection","4");
 		ServerConfig.acDecode(ac_key, ac_ivy);
+		
+		System.out.println(System.getenv(ServerConfig.ENV_VAR_KEY));
+		System.out.println(ServerConfig.MAP_ENV_KEY);
+		System.out.println(configureMap.get(ServerConfig.MAP_ENV_KEY));
+		System.out.println(ServerConfig.MAP_ENV_TEST);
+		
 		if (configureMap.get(ServerConfig.MAP_ENV_KEY).equals(ServerConfig.MAP_ENV_TEST)){
 			portNumber = 8026;
 		}
