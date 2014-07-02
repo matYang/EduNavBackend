@@ -57,7 +57,7 @@ public class RedisAccessControlService {
 				int count = Integer.parseInt(values[0]);
 				long timeStamp = DateUtility.getLongFromTimeStamp(values[1]);
 				
-				//more than 1 minute passed since the first failed attempt, restart session, keep lock
+				//more than 1 minute passed since the first failed attempt, restart session
 				if (DateUtility.getCurTime() - timeStamp > config.lockThreshold){
 					record = 1 + RedisAccessControlConfig.redisAccessControlSeperator + DateUtility.getTimeStamp();
 					jedis.set(config.keyPrefix + sufix, record);
