@@ -207,7 +207,7 @@ public final class ModelDataLoaderService {
 			UserDaoService.createUser(matt);	
 			i++;
 
-			User harry = new User("DONOTSEND1234567890" + i, "222222", "", ReferenceGenerator.generateUserInvitationalCode(), ReferenceGenerator.generateUserAccountNumber(), AccountStatus.activated);
+			User harry = new User("DONOTSEND18502877744" + i, "93dd", "", ReferenceGenerator.generateUserInvitationalCode(), ReferenceGenerator.generateUserAccountNumber(), AccountStatus.activated);
 			harry.setName("Harry");
 			harry.setEmail("c2xiong@uwaterloo.ca");
 			UserDaoService.createUser(harry);	
