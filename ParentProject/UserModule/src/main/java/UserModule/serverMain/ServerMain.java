@@ -90,7 +90,7 @@ public class ServerMain {
 		ParamConfig.ACIVY = ac_ivy;
 		ParamConfig.ENV = env;
 		
-		if (env.equals(ParamConfig.ENV_TEST)){
+		if (env != null && env.equals(ParamConfig.ENV_TEST)){
 			portNumber = 8024;
 		}
 		System.out.println("System started under module: " + ServerConfig.configurationMap.get(ParamConfig.MAP_MODULE_KEY) + " with max sql connection: " + ServerConfig.configurationMap.get("sqlMaxConnection") + " on port: " + portNumber);

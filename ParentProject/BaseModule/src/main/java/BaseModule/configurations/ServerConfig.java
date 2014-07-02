@@ -39,7 +39,7 @@ public final class ServerConfig {
 					configurationMap.put("jdbcUri", "rdszjquajzjquaj.mysql.rds.aliyuncs.com:3306/db19r3708gdzx5d1?allowMultiQueries=true&&characterSetResults=UTF-8&characterEncoding=UTF-8&useUnicode=yes");
 					configurationMap.put("redisUri", "localhost");
 					configurationMap.put("redisPort", "6380");
-					configurationMap.put("memcachedUri", "fdbc1391e96411e3.m.cnhzalicm10pub001.ocs.aliyuncs.com:11211");
+					configurationMap.put("memcachedUri", "c258548f011211e4.m.cnhzalicm10pub001.ocs.aliyuncs.com:11211");
 					configurationMap.put("sqlUser", "082E4185DBC158A01DC2DE32E241AA4C7167BFF2EAD2493A1E95D63496F69CA7");
 					configurationMap.put("sqlPass", "9211A28B9094893E29F00C1072940646");
 					configurationMap.put("memcachedUser", "45D65B9EDB590224697482D7525A1612A31A7A0AFE88AE5236E8DA8A85B0145C");
