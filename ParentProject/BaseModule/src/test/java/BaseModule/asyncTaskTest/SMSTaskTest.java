@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -68,29 +70,29 @@ public class SMSTaskTest {
 		post.releaseConnection();
 	}
 	
-	//@Test
+	@Test
 	public void testSMSTask(){
 		SMSTask smsTask = new SMSTask(SMSEvent.user_cellVerification, "18662241356", "testSMSTask");
 		smsTask.execute();
 	}
 	
-	//@Test
-	public void testSMSRelay() throws InterruptedException{
+	@Test
+	public void testSMSRelay() throws InterruptedException, ExecutionException{
 		SMSTask smsTask = new SMSTask(SMSEvent.user_changePassword, "18662241356", "testSMSRelay");
-		ExecutorProvider.executeRelay(smsTask);
-		Thread.sleep(5000);
-	}
-	
-	//@Test
-	public void testSMSForgetPassword() throws InterruptedException{
-		SMSTask smsTaska = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "testSMSForgetPassword");
-		ExecutorProvider.executeRelay(smsTaska);
-		SMSTask smsTaskb = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "ku79DS3drR");
-		ExecutorProvider.executeRelay(smsTaskb);
-		Thread.sleep(5000);
+		Future<Boolean> future = ExecutorProvider.executeRelay(smsTask);
+		future.get();
 	}
 	
 	@Test
+	public void testSMSForgetPassword() throws InterruptedException, ExecutionException{
+		SMSTask smsTaska = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "testSMSForgetPassword");
+		ExecutorProvider.executeRelay(smsTaska);
+		SMSTask smsTaskb = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "ku79DS3drR");
+		Future<Boolean> future = ExecutorProvider.executeRelay(smsTaskb);
+		future.get();
+	}
+	
+	//@Test
 	public void testBookingConfirmed() throws PseudoException, SQLException, InterruptedException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
@@ -134,8 +136,6 @@ public class SMSTaskTest {
 		course.setReference(reference2);
 		ArrayList<String> ImgUrls = new ArrayList<String>();
 		ImgUrls.add("www.hotmail.com");
-		course.setClassImgUrls(ImgUrls);
-		course.setTeacherImgUrls(ImgUrls);
 		course.setTeachingMaterialIntro("Hand and Ass");		
 		course.setPrice(price);
 		course.setOriginalPrice(price+99);

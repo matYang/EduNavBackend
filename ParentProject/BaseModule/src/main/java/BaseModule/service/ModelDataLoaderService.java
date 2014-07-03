@@ -133,7 +133,7 @@ public final class ModelDataLoaderService {
 			
 			String phone = "DONOTSEND1234567890" + i;		
 			startTime.add(Calendar.MINUTE, i);
-			Course course = new Course(p_Id, startTime, finishTime,price,classSize,popularity,category,subCategory,phone);		
+			Course course = new Course(p_Id, startTime, finishTime,price,classSize,popularity,category,subCategory,phone);
 			course.setSubSubCategory(subSubCategory);
 			course.setProvince(province);
 			course.setCity(city);
