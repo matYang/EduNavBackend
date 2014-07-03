@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.json.JSONObject;
+
 
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
@@ -24,18 +24,22 @@ import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.dbservice.UserDaoService;
 import BaseModule.eduDAO.CourseDao;
 
+import BaseModule.eduDAO.ClassPhotoDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.eduDAO.TeacherDao;
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.Booking;
+import BaseModule.model.ClassPhoto;
 import BaseModule.model.Coupon;
 import BaseModule.model.Course;
 import BaseModule.model.Credit;
 import BaseModule.model.Partner;
+import BaseModule.model.Teacher;
 import BaseModule.model.Transaction;
 import BaseModule.model.User;
 import BaseModule.model.generic.SDTree;
@@ -51,7 +55,7 @@ public final class ModelDataLoaderService {
 		try{
 			loadUsers(conn);//20
 			loadPartners(conn);//10
-			loadAdmins(conn);//10		
+			loadAdmins(conn);//10				
 			loadCourses(conn);//30
 			loadBookings(conn);//20		
 			loadTransactions(conn);//20
@@ -62,7 +66,7 @@ public final class ModelDataLoaderService {
 		}
 
 		DebugLog.d("Models loaded successfully");
-	}
+	}	
 
 	private static void loadCourses(Connection...connections){		
 		Calendar startTime = DateUtility.getCurTimeInstance();
@@ -95,11 +99,41 @@ public final class ModelDataLoaderService {
 		teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
 		teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
 		
-		ArrayList<String> classrommImgs = new ArrayList<String>();
-		classrommImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
-		classrommImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
-		classrommImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
-		classrommImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+		// upload Teachers
+		ArrayList<Long> teacherIdList = new ArrayList<Long>();
+		ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
+		for(int i = 0; i < teacherIntros.size(); i++){			
+			Teacher teacher = new Teacher(i+1, teacherImgs.get(i), teacherNames.get(i), teacherIntros.get(i));			
+			try {
+				teacher = TeacherDao.addTeacherToDataBases(teacher, connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+				DebugLog.d(e);
+			}
+			teacherList.add(teacher);
+			teacherIdList.add(teacher.getTeacherId());
+		}
+		
+		ArrayList<String> classroomImgs = new ArrayList<String>();
+		classroomImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+		classroomImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+		classroomImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+		classroomImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+		
+		ArrayList<Long> classIdList = new ArrayList<Long>();
+		ArrayList<ClassPhoto> classPhotos = new ArrayList<ClassPhoto>();
+		// upload ClassImgs
+		for(int i = 0; i < classroomImgs.size(); i++){
+			ClassPhoto classPhoto = new ClassPhoto(i+1, classroomImgs.get(i), "classPhoto"+i,"classDescription"+i);
+			try {
+				classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto, connections);
+			} catch (SQLException e) {				
+				e.printStackTrace();
+				DebugLog.d(e);
+			}
+			classIdList.add(classPhoto.getClassPhotoId());
+			classPhotos.add(classPhoto);
+		}
 		
 		ArrayList<Integer> studyDays = new ArrayList<Integer>();
 		studyDays.add(1);
@@ -141,13 +175,12 @@ public final class ModelDataLoaderService {
 			course.setLocation(location);
 			course.setGoal(goal + i);
 			course.setOutline(outline + i);
-			course.setTeacherIntros(teacherIntros);
-			course.setTeacherImgUrls(teacherImgs);
-			course.setCashback(course.getPrice()/10);
-			course.setTeacherNames(teacherNames);
-			course.setStudyDays(studyDays);
-			
-			course.setClassImgUrls(classrommImgs);
+			course.setTeacherList(teacherList);
+			course.setTeacherIdList(teacherIdList);
+			course.setClassPhotoIdList(classIdList);
+			course.setClassPhotoList(classPhotos);
+			course.setCashback(course.getPrice()/10);			
+			course.setStudyDays(studyDays);			
 			course.setClassTeacher(filler);
 			course.setQuestionSession(filler);
 			course.setPartnerCourseReference("342RY65348FRTYH89RU353FW43");
@@ -252,6 +285,15 @@ public final class ModelDataLoaderService {
 
 	private static void loadPartners(Connection...connections){
 		try{
+			ArrayList<Long> tlist = new ArrayList<Long>();
+			ArrayList<Long> cplist = new ArrayList<Long>();
+			Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
+			teacher = TeacherDao.addTeacherToDataBases(teacher);
+			tlist.add(teacher.getTeacherId());
+			ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
+			classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+			cplist.add(classPhoto.getClassPhotoId());
+			
 			int partnerNum = 10;
 			for(int i=1;i<=partnerNum;i++){
 				String name = "合作商" + i;
@@ -264,6 +306,8 @@ public final class ModelDataLoaderService {
 				AccountStatus status = AccountStatus.activated;
 				Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
 				partner.setLogoUrl("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/1-3-logo.jpg");
+				partner.setClassPhotoIdList(cplist);
+				partner.setTeacherIdList(tlist);
 				try {
 					PartnerDaoService.createPartner(partner, connections);
 				} catch (SQLException e) {				

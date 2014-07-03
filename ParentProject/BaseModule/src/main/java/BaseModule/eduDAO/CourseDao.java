@@ -16,8 +16,10 @@ import BaseModule.configurations.ImgConfig;
 import BaseModule.configurations.ServerConfig;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.notFound.CourseNotFoundException;
+import BaseModule.model.ClassPhoto;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
+import BaseModule.model.Teacher;
 import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class CourseDao {
@@ -158,7 +160,7 @@ public class CourseDao {
 				"extracurricular,courseName,studyDaysNote,courseHourNum,courseHourLength,partnerCourseReference,partnerQualification,partnerIntro," +
 				"t_MaterialFree,t_MaterialIntro,passAgreement,phone,studyDays,classSize,cashback,popularity,startTime1,finishTime1,startTime2,finishTime2," +
 				"partnerDistinction,classTeacher,teachingAndExercise,questionSession,trail,assignments,marking,bonusService," +
-				"downloadMaterials,startUponArrival,cutoffDate,noRefundDate,cashbackDate,bookingType,originalPrice, textStore)" +
+				"downloadMaterials,startUponArrival,cutoffDate,noRefundDate,cashbackDate,bookingType,originalPrice,textStore)" +
 				" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
@@ -168,9 +170,6 @@ public class CourseDao {
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCreationTime()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getStartDate()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getFinishDate()));
-//			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherIntros(),ServerConfig.normalSpliter));
-//			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls(),ImgConfig.imgSpliter));
-//			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls(),ImgConfig.imgSpliter));
 			stmt.setInt(stmtInt++, course.getPrice());			
 			stmt.setInt(stmtInt++, course.getStatus().code);			
 			stmt.setString(stmtInt++, course.getCategory());
@@ -210,8 +209,6 @@ public class CourseDao {
 			stmt.setInt(stmtInt++, course.getStartTime2());
 			stmt.setInt(stmtInt++, course.getFinishTime2());
 			stmt.setString(stmtInt++, course.getPartnerDistinction());
-//			stmt.setString(stmtInt++, course.getOutline());
-//			stmt.setString(stmtInt++, course.getGoal());
 			stmt.setString(stmtInt++, course.getClassTeacher());
 			stmt.setString(stmtInt++, course.getTeachingAndExercise());
 			stmt.setString(stmtInt++, course.getQuestionSession());
@@ -219,8 +216,7 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getAssignments());
 			stmt.setString(stmtInt++, course.getMarking());
 			stmt.setString(stmtInt++, course.getBonusService());
-			stmt.setString(stmtInt++, course.getDownloadMaterials());
-//			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter));		
+			stmt.setString(stmtInt++, course.getDownloadMaterials());	
 			stmt.setInt(stmtInt++, course.getStartUponArrival());
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCutoffDate()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getNoRefundDate()));
@@ -228,15 +224,13 @@ public class CourseDao {
 			stmt.setInt(stmtInt++, course.getBookingType().code);
 			stmt.setInt(stmtInt++, course.getOriginalPrice());
 			
-			String[] list = new String[6];
-			list[0] = Parser.listToString(course.getTeacherIntros(),ServerConfig.normalSpliter);
-			list[1] = Parser.listToString(course.getTeacherImgUrls(),ImgConfig.imgSpliter);
-			list[2] = Parser.listToString(course.getClassImgUrls(),ImgConfig.imgSpliter);
-			list[3] = course.getOutline();
-			list[4] = course.getGoal();
-			list[5] = Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter);
-			String awesomeTest = list[0] + "@@@" + list[1] + "@@@" + list[2] + "@@@" + list[3] + "@@@" + list[4] + "@@@" + list[5];
-			stmt.setString(stmtInt++, awesomeTest);
+			String[] list = new String[4];
+			list[0] = Parser.listToString(course.getTeacherIdList(),ServerConfig.normalSpliter);
+			list[1] = Parser.listToString(course.getClassPhotoIdList(),ImgConfig.imgSpliter);			
+			list[2] = course.getOutline();
+			list[3] = course.getGoal();			
+			String textStore = list[0] + "@@@" + list[1] + "@@@" + list[2] + "@@@" + list[3];
+			stmt.setString(stmtInt++, textStore);
 			
 			
 			stmt.executeUpdate();
@@ -268,9 +262,6 @@ public class CourseDao {
 			stmt.setInt(stmtInt++, course.getPartnerId());			
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getStartDate()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getFinishDate()));
-//			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherIntros(),ServerConfig.normalSpliter));
-//			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherImgUrls(),ImgConfig.imgSpliter));
-//			stmt.setString(stmtInt++, Parser.listToString(course.getClassImgUrls(),ImgConfig.imgSpliter));
 			stmt.setInt(stmtInt++, course.getPrice());			
 			stmt.setInt(stmtInt++, course.getStatus().code);			
 			stmt.setString(stmtInt++, course.getCategory());
@@ -310,8 +301,6 @@ public class CourseDao {
 			stmt.setInt(stmtInt++, course.getStartTime2());
 			stmt.setInt(stmtInt++, course.getFinishTime2());
 			stmt.setString(stmtInt++, course.getPartnerDistinction());
-//			stmt.setString(stmtInt++, course.getOutline());
-//			stmt.setString(stmtInt++, course.getGoal());
 			stmt.setString(stmtInt++, course.getClassTeacher());
 			stmt.setString(stmtInt++, course.getTeachingAndExercise());
 			stmt.setString(stmtInt++, course.getQuestionSession());
@@ -320,7 +309,6 @@ public class CourseDao {
 			stmt.setString(stmtInt++, course.getMarking());
 			stmt.setString(stmtInt++, course.getBonusService());
 			stmt.setString(stmtInt++, course.getDownloadMaterials());
-//			stmt.setString(stmtInt++, Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter));
 			stmt.setInt(stmtInt++, course.getStartUponArrival());
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getCutoffDate()));
 			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(course.getNoRefundDate()));
@@ -328,15 +316,13 @@ public class CourseDao {
 			stmt.setInt(stmtInt++, course.getBookingType().code);
 			stmt.setInt(stmtInt++, course.getOriginalPrice());
 			
-			String[] list = new String[6];
-			list[0] = Parser.listToString(course.getTeacherIntros(),ServerConfig.normalSpliter);
-			list[1] = Parser.listToString(course.getTeacherImgUrls(),ImgConfig.imgSpliter);
-			list[2] = Parser.listToString(course.getClassImgUrls(),ImgConfig.imgSpliter);
-			list[3] = course.getOutline();
-			list[4] = course.getGoal();
-			list[5] = Parser.listToString(course.getTeacherNames(),ServerConfig.normalSpliter);
-			String awesomeTest = list[0] + "@@@" + list[1] + "@@@" + list[2] + "@@@" + list[3] + "@@@" + list[4] + "@@@" + list[5];
-			stmt.setString(stmtInt++, awesomeTest);
+			String[] list = new String[4];
+			list[0] = Parser.listToString(course.getTeacherIdList(),ServerConfig.normalSpliter);
+			list[1] = Parser.listToString(course.getClassPhotoIdList(),ImgConfig.imgSpliter);			
+			list[2] = course.getOutline();
+			list[3] = course.getGoal();			
+			String textStore = list[0] + "@@@" + list[1] + "@@@" + list[2] + "@@@" + list[3];
+			stmt.setString(stmtInt++, textStore);
 
 			stmt.setInt(stmtInt++, course.getCourseId());
 			
@@ -425,11 +411,14 @@ public class CourseDao {
 		instName = partner.getInstName();
 		wholeName = partner.getWholeName();
 		
-		String awesomeText = rs.getString("textStore");
-		ArrayList<String> awesomeList = Parser.stringToList(awesomeText, "@@@", String.class);
-		for (;awesomeList.size() < 6;){
-			awesomeList.add("");
-		}
+		String textStore = rs.getString("textStore");
+		ArrayList<String> textStoreList = Parser.stringToList(textStore, "@@@", String.class);
+		
+		ArrayList<Long> teacherIdList = Parser.stringToList(textStoreList.get(0), ServerConfig.normalSpliter, Long.class);
+		ArrayList<Teacher> teacherList = TeacherDao.getTeachers(teacherIdList,connections);
+		
+		ArrayList<Long> imgIdList = Parser.stringToList(textStoreList.get(1), ImgConfig.imgSpliterRegex, Long.class);
+		ArrayList<ClassPhoto> imgList = ClassPhotoDao.getClassPhotos(imgIdList,connections);
 		
 		return new Course(rs.getInt("id"),p_Id,rs.getInt("price"),rs.getInt("courseHourNum"), 
 				rs.getInt("courseHourLength"),rs.getInt("classSize"),rs.getInt("cashback"),rs.getInt("popularity"),
@@ -448,15 +437,14 @@ public class CourseDao {
 				rs.getString("partnerIntro"),rs.getString("t_MaterialIntro"),
 				rs.getString("questionBank"),rs.getString("passAgreement"),
 				rs.getString("extracurricular"),rs.getString("phone"),
-				rs.getString("partnerDistinction"),awesomeList.get(3),awesomeList.get(4),rs.getString("classTeacher"),
+				rs.getString("partnerDistinction"),
+				textStoreList.get(2),textStoreList.get(3),				
+				rs.getString("classTeacher"),
 				rs.getString("teachingAndExercise"),rs.getString("questionSession"),rs.getString("trail"),
 				rs.getString("assignments"),rs.getString("marking"), rs.getString("bonusService"),rs.getString("downloadMaterials"),
 				CourseStatus.fromInt(rs.getInt("status")),PartnerQualification.fromInt(rs.getInt("partnerQualification")),
-				rs.getString("t_MaterialFree"),	Parser.stringToList(rs.getString("studyDays"),ServerConfig.normalSpliter, Integer.class),
-				Parser.stringToList(awesomeList.get(2),ImgConfig.imgSpliterRegex, String.class),
-				Parser.stringToList(awesomeList.get(0),ServerConfig.normalSpliter,String.class),
-				Parser.stringToList(awesomeList.get(1),ImgConfig.imgSpliterRegex, String.class),
-				Parser.stringToList(awesomeList.get(5),ServerConfig.normalSpliter, String.class),
+				rs.getString("t_MaterialFree"),	Parser.stringToList(rs.getString("studyDays"),ServerConfig.normalSpliter, Integer.class),				
+				imgIdList,imgList,teacherIdList,teacherList,
 				logoUrl, instName, wholeName,rs.getInt("startUponArrival"),DateUtility.DateToCalendar(rs.getDate("cutoffDate")),DateUtility.DateToCalendar(rs.getTimestamp("noRefundDate")),
 				DateUtility.DateToCalendar(rs.getTimestamp("cashbackDate")),BookingType.fromInt(rs.getInt("bookingType")),rs.getInt("originalPrice"));					
 	}

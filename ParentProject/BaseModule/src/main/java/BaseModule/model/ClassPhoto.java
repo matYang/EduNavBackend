@@ -80,6 +80,10 @@ public class ClassPhoto implements PseudoModel, Serializable{
 		return classPhotoId;
 	}
 
+	public void setClassPhotoId(long classPhotoId) {
+		this.classPhotoId = classPhotoId;
+	}
+	
 	public Calendar getCreationTime() {
 		return creationTime;
 	}

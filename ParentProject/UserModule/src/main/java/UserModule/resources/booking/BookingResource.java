@@ -12,6 +12,9 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
+
+import BaseModule.alipay.AlipayConfig;
+import BaseModule.alipay.AlipayService;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
@@ -84,6 +87,12 @@ public final class BookingResource extends UserPseudoResource{
 			
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONGenerator.toJSON(booking);
+			
+			bookingObject.append("alipayForm", AlipayService.BuildForm(AlipayConfig.partner,
+					AlipayConfig.seller_email, AlipayConfig.return_url, AlipayConfig.notify_url,
+					"", booking.getReference(),course.getWholeName(), 
+					"", booking.getPrice()+"", AlipayConfig.paymethod, "", "",	"", "", "", "","", "", 
+					AlipayConfig.key, AlipayConfig.sign_type, AlipayConfig.it_b_pay));
 			
 		} catch(PseudoException e){
 			this.addCORSHeader();

@@ -4,6 +4,9 @@ import org.restlet.Application;
 import org.restlet.Context;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;
+
+import UserModule.resources.alipay.AlipayIdResource;
+import UserModule.resources.alipay.AlipayResource;
 import UserModule.resources.booking.BookingChangeStatusResource;
 import UserModule.resources.booking.BookingResource;
 import UserModule.resources.coupon.CouponIdResource;
@@ -108,6 +111,15 @@ public final class RoutingService extends Application {
 		//	API for coupon activation : /api/v1.0/coupon/coupon/:id
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + couponServicePrefix + CouponPrefix + "/{id}", CouponIdResource.class);
 				
+		/** -------------------- APIs for alipay module -------------------**/
+		String alipayServicePrefix = "/alipay";
+		String alipayNotifyUrlPrefix = "/alipay_notifyUrl";
+		String alipayReturnUrlPrefix = "/alipay_returnUrl";
+		//  API for ZFB post processing : /api/v1.0/alipay/alipay_notifyUrl
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + alipayServicePrefix + alipayNotifyUrlPrefix, AlipayResource.class);
+		//  API for ZFB get processing: /api/v1.0/ailpay/alipay_returnUrl
+		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + alipayServicePrefix + alipayReturnUrlPrefix, AlipayIdResource.class);
+		
 		return router;
 	}
 

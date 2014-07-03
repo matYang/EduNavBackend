@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,13 +19,17 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.CourseDaoService;
+import BaseModule.eduDAO.ClassPhotoDao;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.eduDAO.TeacherDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
+import BaseModule.model.ClassPhoto;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
+import BaseModule.model.Teacher;
 import BaseModule.model.User;
 import BaseModule.model.representation.CourseSearchRepresentation;
 
@@ -97,8 +102,29 @@ public class CacheTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
 		String phone = "12344565654";
-		AccountStatus status = AccountStatus.activated;		
+		AccountStatus status = AccountStatus.activated;	
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
+		try {
+			teacher = TeacherDao.addTeacherToDataBases(teacher);
+		} catch (SQLException e) {		
+			e.printStackTrace();
+		}
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
+		try {
+			classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		cplist.add(classPhoto.getClassPhotoId());
+		
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		course.setClassPhotoIdList(cplist);
+		course.setTeacherIdList(tlist);
+		course.setOutline("sdf");
+		course.setGoal("sdfdsf");
 		try {
 			CourseDao.addCourseToDatabases(course, connections);
 		} catch (SQLException e) {	
@@ -113,6 +139,10 @@ public class CacheTest {
 		subCategory = "sub-Chin";		
 		status = AccountStatus.deactivated;		
 		Course course2 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		course2.setClassPhotoIdList(cplist);
+		course2.setTeacherIdList(tlist);
+		course2.setOutline("sdf");
+		course2.setGoal("sdfdsf");
 		try {
 			CourseDao.addCourseToDatabases(course2, connections);
 		} catch (SQLException e) {			
@@ -128,6 +158,10 @@ public class CacheTest {
 		subCategory = "sub-French";		
 		status = AccountStatus.deleted;		
 		Course course3 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		course3.setClassPhotoIdList(cplist);
+		course3.setTeacherIdList(tlist);
+		course3.setOutline("sdf");
+		course3.setGoal("sdfdsf");
 		try {
 			CourseDao.addCourseToDatabases(course3, connections);
 		} catch (SQLException e) {		
@@ -146,8 +180,29 @@ public class CacheTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
 		String phone = "12344565654";
-		AccountStatus status = AccountStatus.activated;		
+		AccountStatus status = AccountStatus.activated;
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
+		try {
+			teacher = TeacherDao.addTeacherToDataBases(teacher);
+		} catch (SQLException e) {		
+			e.printStackTrace();
+		}
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
+		try {
+			classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		cplist.add(classPhoto.getClassPhotoId());
+		
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		course.setClassPhotoIdList(cplist);
+		course.setTeacherIdList(tlist);
+		course.setOutline("sdf");
+		course.setGoal("sdfdsf");
 		try {
 			CourseDao.addCourseToDatabases(course, connections);
 		} catch (SQLException e) {	
@@ -167,7 +222,26 @@ public class CacheTest {
 			String password = "sdf234r";
 			String phone = "123545451";
 			AccountStatus status = AccountStatus.activated;
+			ArrayList<Long> tlist = new ArrayList<Long>();
+			ArrayList<Long> cplist = new ArrayList<Long>();
+			Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
+			try {
+				teacher = TeacherDao.addTeacherToDataBases(teacher);
+			} catch (SQLException e) {		
+				e.printStackTrace();
+			}
+			tlist.add(teacher.getTeacherId());
+			ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
+			try {
+				classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+			} catch (SQLException e) {			
+				e.printStackTrace();
+			}
+			cplist.add(classPhoto.getClassPhotoId());
 			Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
+			partner.setClassPhotoIdList(cplist);
+			partner.setTeacherIdList(tlist);
+			
 			try {
 				PartnerDao.addPartnerToDatabases(partner, connections);
 			} catch (SQLException e) {				
@@ -183,6 +257,8 @@ public class CacheTest {
 			String phone2 = "12335451";
 			AccountStatus status2 = AccountStatus.deactivated;
 			Partner partner2 = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2, phone2,status2);
+			partner2.setClassPhotoIdList(cplist);
+			partner2.setTeacherIdList(tlist);
 			try {
 				PartnerDao.addPartnerToDatabases(partner2,connections);
 			} catch (SQLException e) {				
@@ -198,6 +274,8 @@ public class CacheTest {
 			String phone3 = "12354";
 			AccountStatus status3 = AccountStatus.deleted;
 			Partner partner3 = new Partner(name3, instName3,licence3, organizationNum3,reference3, password3, phone3,status3);
+			partner3.setClassPhotoIdList(cplist);
+			partner3.setTeacherIdList(tlist);
 			try {
 				PartnerDao.addPartnerToDatabases(partner3, connections);
 			} catch (SQLException e) {				
