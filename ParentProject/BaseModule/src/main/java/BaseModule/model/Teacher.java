@@ -21,7 +21,7 @@ public class Teacher implements PseudoModel, Serializable{
 	
 	private Calendar creationTime;
 
-	/* for sql*/
+	/* for sql */
 	public Teacher(long teacherId, int partnerId, String imgUrl, String name, String intro, Calendar creationTime) {
 		super();
 		this.teacherId = teacherId;
@@ -135,7 +135,5 @@ public class Teacher implements PseudoModel, Serializable{
 			return false;
 		return true;
 	}
-
-	
 
 }

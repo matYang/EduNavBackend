@@ -23,6 +23,8 @@ public final class ModelReflectiveService {
 	private static Field[] getFields(final PseudoModel model){
 		return model.getClass().getDeclaredFields();
 	}
+
+	
 	
 	/*******************
 	 * 
@@ -80,43 +82,40 @@ public final class ModelReflectiveService {
 				else if (List.class.isAssignableFrom(fieldClass)){
 					Object value = field.get(model);
 					List<?> list = (List<?>)value;
-					if (list.size() == 0){
-						jsonRepresentation.put(field.getName(),  new JSONArray() );
+
+					ParameterizedType listType = (ParameterizedType) field.getGenericType();
+					Class<?> listClass = (Class<?>) listType.getActualTypeArguments()[0];
+					if (Integer.class.isAssignableFrom(listClass) || int.class.isAssignableFrom(listClass) || Long.class.isAssignableFrom(listClass) || long.class.isAssignableFrom(listClass)){
+						jsonRepresentation.put(field.getName(),  new JSONArray(list) );
+					}
+					else if (String.class.isAssignableFrom(listClass)){
+						ArrayList<String> valArr = new ArrayList<String>();
+						for (Object o : list){
+							valArr.add(EncodingService.encodeURI((String)o));
+						}
+						jsonRepresentation.put(field.getName(),  new JSONArray(valArr) );
+					}
+					else if (PseudoModel.class.isAssignableFrom(listClass)){
+						jsonRepresentation.put(field.getName(),  JSONGenerator.toJSON((List<PseudoModel>)list) );
+					}
+					else if (Calendar.class.isAssignableFrom(fieldClass)){
+						ArrayList<String> valArr = new ArrayList<String>();
+						for (Object o : list){
+							valArr.add(EncodingService.encodeURI( DateUtility.castToAPIFormat((Calendar)o) ));
+						}
+						jsonRepresentation.put(field.getName(),  new JSONArray(valArr) );
+					}
+					else if (PseudoEnum.class.isAssignableFrom(fieldClass)){
+						ArrayList<Integer> valArr = new ArrayList<Integer>();
+						for (Object o : list){
+							valArr.add(((PseudoEnum)o).getCode());
+						}
+						jsonRepresentation.put(field.getName(),  new JSONArray(valArr) );
 					}
 					else{
-						ParameterizedType listType = (ParameterizedType) field.getGenericType();
-						Class<?> listClass = (Class<?>) listType.getActualTypeArguments()[0];
-						if (Integer.class.isAssignableFrom(listClass) || int.class.isAssignableFrom(listClass) || Long.class.isAssignableFrom(listClass) || long.class.isAssignableFrom(listClass)){
-							jsonRepresentation.put(field.getName(),  new JSONArray(list) );
-						}
-						else if (String.class.isAssignableFrom(listClass)){
-							ArrayList<String> valArr = new ArrayList<String>();
-							for (Object o : list){
-								valArr.add(EncodingService.encodeURI((String)o));
-							}
-							jsonRepresentation.put(field.getName(),  new JSONArray(valArr) );
-						}
-						else if (PseudoModel.class.isAssignableFrom(listClass)){
-							jsonRepresentation.put(field.getName(),  JSONGenerator.toJSON((List<PseudoModel>)list) );
-						}
-						else if (Calendar.class.isAssignableFrom(fieldClass)){
-							ArrayList<String> valArr = new ArrayList<String>();
-							for (Object o : list){
-								valArr.add(EncodingService.encodeURI( DateUtility.castToAPIFormat((Calendar)o) ));
-							}
-							jsonRepresentation.put(field.getName(),  new JSONArray(valArr) );
-						}
-						else if (PseudoEnum.class.isAssignableFrom(fieldClass)){
-							ArrayList<Integer> valArr = new ArrayList<Integer>();
-							for (Object o : list){
-								valArr.add(((PseudoEnum)o).getCode());
-							}
-							jsonRepresentation.put(field.getName(),  new JSONArray(valArr) );
-						}
-						else{
-							throw new RuntimeException("[ERROR][Reflection] ReflectiveService suffered fatal reflection error, field type not matched: " +  fieldClass.getSimpleName());
-						}
+						throw new RuntimeException("[ERROR][Reflection] ReflectiveService suffered fatal reflection error, field type not matched: " +  fieldClass.getSimpleName());
 					}
+
 				}
 				else{
 					throw new RuntimeException("[ERROR][Reflection] ReflectiveService suffered fatal reflection error, field type not matched: " +  fieldClass.getSimpleName());
@@ -287,17 +286,17 @@ public final class ModelReflectiveService {
 					}
 				}
 				else if (List.class.isAssignableFrom(fieldClass)){
-					String keyBase = field.getName();
-					
-					//if the field is a list, generating all the strings associated with that list, assuming all keys have format: key[i]
-					ArrayList<String> valueList = new ArrayList<String>();
-					for (int i = 1; kvps.get(keyBase + i) != null; i++){
-						valueList.add(EncodingService.decodeURI(kvps.get(keyBase + i)));
-					}
-
 					ParameterizedType listType = (ParameterizedType) field.getGenericType();
 					Class<?> listClass = (Class<?>) listType.getActualTypeArguments()[0];
 					if (Integer.class.isAssignableFrom(listClass) || int.class.isAssignableFrom(listClass)){
+						String keyBase = field.getName();
+						
+						//if the field is a list, generating all the strings associated with that list, assuming all keys have format: key[i]
+						ArrayList<String> valueList = new ArrayList<String>();
+						for (int i = 1; kvps.get(keyBase + i) != null; i++){
+							valueList.add(EncodingService.decodeURI(kvps.get(keyBase + i)));
+						}
+						
 						ArrayList<Integer> realList = new ArrayList<Integer>();
 						for (String singleValue : valueList){
 							realList.add(Integer.parseInt(singleValue, 10));
@@ -305,6 +304,14 @@ public final class ModelReflectiveService {
 						field.set(model, realList);
 					}
 					else if (Long.class.isAssignableFrom(listClass) || long.class.isAssignableFrom(listClass)){
+						String keyBase = field.getName();
+						
+						//if the field is a list, generating all the strings associated with that list, assuming all keys have format: key[i]
+						ArrayList<String> valueList = new ArrayList<String>();
+						for (int i = 1; kvps.get(keyBase + i) != null; i++){
+							valueList.add(EncodingService.decodeURI(kvps.get(keyBase + i)));
+						}
+						
 						ArrayList<Long> realList = new ArrayList<Long>();
 						for (String singleValue : valueList){
 							realList.add(Long.parseLong(singleValue, 10));
@@ -312,9 +319,25 @@ public final class ModelReflectiveService {
 						field.set(model, realList);
 					}
 					else if (String.class.isAssignableFrom(listClass)){
+						String keyBase = field.getName();
+						
+						//if the field is a list, generating all the strings associated with that list, assuming all keys have format: key[i]
+						ArrayList<String> valueList = new ArrayList<String>();
+						for (int i = 1; kvps.get(keyBase + i) != null; i++){
+							valueList.add(EncodingService.decodeURI(kvps.get(keyBase + i)));
+						}
+						
 						field.set(model, valueList);
 					}
 					else if (Calendar.class.isAssignableFrom(fieldClass)){
+						String keyBase = field.getName();
+						
+						//if the field is a list, generating all the strings associated with that list, assuming all keys have format: key[i]
+						ArrayList<String> valueList = new ArrayList<String>();
+						for (int i = 1; kvps.get(keyBase + i) != null; i++){
+							valueList.add(EncodingService.decodeURI(kvps.get(keyBase + i)));
+						}
+						
 						ArrayList<Calendar> realList = new ArrayList<Calendar>();
 						for (String singleValue : valueList){
 							realList.add(DateUtility.castFromAPIFormat(singleValue));
@@ -322,6 +345,14 @@ public final class ModelReflectiveService {
 						field.set(model, realList);
 					}
 					else if (PseudoEnum.class.isAssignableFrom(fieldClass)){
+						String keyBase = field.getName();
+						
+						//if the field is a list, generating all the strings associated with that list, assuming all keys have format: key[i]
+						ArrayList<String> valueList = new ArrayList<String>();
+						for (int i = 1; kvps.get(keyBase + i) != null; i++){
+							valueList.add(EncodingService.decodeURI(kvps.get(keyBase + i)));
+						}
+						
 						ArrayList<PseudoEnum> realList = new ArrayList<PseudoEnum>();
 						for (String singleValue : valueList){
 							realList.add((PseudoEnum)fieldClass.getEnumConstants()[Integer.parseInt(singleValue, 10)]);
