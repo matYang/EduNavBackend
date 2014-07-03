@@ -33,6 +33,12 @@ public class Parser {
 				list.add(clazz.cast(str));
 			}
 			return list;
+			
+		}else if(Long.class.isAssignableFrom(clazz)){
+			for (String str : strArray){
+				list.add(clazz.cast(Long.parseLong(str)));
+			}
+			return list;
 		}
 		else{
 			throw new RuntimeException("[ERR] Parser:: StringToList non-identifierable option flag");

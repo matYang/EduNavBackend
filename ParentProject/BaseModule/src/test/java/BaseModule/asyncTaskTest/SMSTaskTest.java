@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -27,14 +25,18 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.SMSEvent;
 import BaseModule.eduDAO.BookingDao;
+import BaseModule.eduDAO.ClassPhotoDao;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.eduDAO.TeacherDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.model.Booking;
+import BaseModule.model.ClassPhoto;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
+import BaseModule.model.Teacher;
 import BaseModule.model.User;
 import BaseModule.service.SMSService;
 
@@ -70,29 +72,29 @@ public class SMSTaskTest {
 		post.releaseConnection();
 	}
 	
-	@Test
+	//@Test
 	public void testSMSTask(){
 		SMSTask smsTask = new SMSTask(SMSEvent.user_cellVerification, "18662241356", "testSMSTask");
 		smsTask.execute();
 	}
 	
-	@Test
-	public void testSMSRelay() throws InterruptedException, ExecutionException{
+	//@Test
+	public void testSMSRelay() throws InterruptedException{
 		SMSTask smsTask = new SMSTask(SMSEvent.user_changePassword, "18662241356", "testSMSRelay");
-		Future<Boolean> future = ExecutorProvider.executeRelay(smsTask);
-		future.get();
-	}
-	
-	@Test
-	public void testSMSForgetPassword() throws InterruptedException, ExecutionException{
-		SMSTask smsTaska = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "testSMSForgetPassword");
-		ExecutorProvider.executeRelay(smsTaska);
-		SMSTask smsTaskb = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "ku79DS3drR");
-		Future<Boolean> future = ExecutorProvider.executeRelay(smsTaskb);
-		future.get();
+		ExecutorProvider.executeRelay(smsTask);
+		Thread.sleep(5000);
 	}
 	
 	//@Test
+	public void testSMSForgetPassword() throws InterruptedException{
+		SMSTask smsTaska = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "testSMSForgetPassword");
+		ExecutorProvider.executeRelay(smsTaska);
+		SMSTask smsTaskb = new SMSTask(SMSEvent.user_forgetPassword, "18662241356", "ku79DS3drR");
+		ExecutorProvider.executeRelay(smsTaskb);
+		Thread.sleep(5000);
+	}
+	
+	@Test
 	public void testBookingConfirmed() throws PseudoException, SQLException, InterruptedException{
 		EduDaoBasic.clearAllDatabase();
 		String name = "Harry";
@@ -134,8 +136,16 @@ public class SMSTaskTest {
 		course.setCity(city);
 		course.setDistrict(district);
 		course.setReference(reference2);
-		ArrayList<String> ImgUrls = new ArrayList<String>();
-		ImgUrls.add("www.hotmail.com");
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> clist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		clist.add(classPhoto.getClassPhotoId());
+		course.setClassPhotoIdList(clist);
+		course.setTeacherIdList(tlist);
 		course.setTeachingMaterialIntro("Hand and Ass");		
 		course.setPrice(price);
 		course.setOriginalPrice(price+99);

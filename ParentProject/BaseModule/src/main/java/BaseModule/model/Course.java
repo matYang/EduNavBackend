@@ -93,9 +93,9 @@ public class Course implements PseudoModel, Serializable{
 	
 	private ArrayList<Integer> studyDays = new ArrayList<Integer>();
 	
-	private ArrayList<Integer> classPhotoIdList;
+	private ArrayList<Long> classPhotoIdList;
 	private ArrayList<ClassPhoto> classPhotoList;
-	private ArrayList<Integer> teacherIdList;
+	private ArrayList<Long> teacherIdList;
 	private ArrayList<Teacher> teacherList;
 	
 	// Partner
@@ -124,8 +124,8 @@ public class Course implements PseudoModel, Serializable{
 			String marking, String bonusService, String downloadMaterials,
 			CourseStatus status, PartnerQualification partnerQualification,
 			String teachingMaterialFree, ArrayList<Integer> studyDays,
-			ArrayList<Integer> classPhotoIdList, ArrayList<ClassPhoto> classPhotoList,
-			ArrayList<Integer> teacherIdList, ArrayList<Teacher> teacherList,
+			ArrayList<Long> classPhotoIdList, ArrayList<ClassPhoto> classPhotoList,
+			ArrayList<Long> teacherIdList, ArrayList<Teacher> teacherList,
 			String logoUrl, String instName, String wholeName,int startUponArrival,Calendar cutoffDate,
 			 Calendar noRefundDate,	Calendar cashbackDate,BookingType bookingType,int originalPrice) {
 		super();
@@ -258,9 +258,9 @@ public class Course implements PseudoModel, Serializable{
 		this.partnerQualification = PartnerQualification.verified;
 		this.teachingMaterialFee = "";
 		this.studyDays = new ArrayList<Integer>();
-		this.classPhotoIdList = new ArrayList<Integer>();
+		this.classPhotoIdList = new ArrayList<Long>();
 		this.classPhotoList = new ArrayList<ClassPhoto>();
-		this.teacherIdList = new ArrayList<Integer>();
+		this.teacherIdList = new ArrayList<Long>();
 		this.teacherList = new ArrayList<Teacher>();
 		this.logoUrl = "";
 		this.instName = "";
@@ -290,9 +290,9 @@ public class Course implements PseudoModel, Serializable{
 		
 		this.studyDays = new ArrayList<Integer>();
 
-		this.classPhotoIdList = new ArrayList<Integer>();
+		this.classPhotoIdList = new ArrayList<Long>();
 		this.classPhotoList = new ArrayList<ClassPhoto>();
-		this.teacherIdList = new ArrayList<Integer>();
+		this.teacherIdList = new ArrayList<Long>();
 		this.teacherList = new ArrayList<Teacher>();
 		
 		this.originalPrice = 0;
@@ -736,11 +736,11 @@ public class Course implements PseudoModel, Serializable{
 	}
 
 
-	public ArrayList<Integer> getClassPhotoIdList() {
+	public ArrayList<Long> getClassPhotoIdList() {
 		return classPhotoIdList;
 	}
 
-	public void setClassPhotoIdList(ArrayList<Integer> classPhotoIdList) {
+	public void setClassPhotoIdList(ArrayList<Long> classPhotoIdList) {
 		this.classPhotoIdList = classPhotoIdList;
 	}
 
@@ -752,11 +752,11 @@ public class Course implements PseudoModel, Serializable{
 		this.classPhotoList = classPhotoList;
 	}
 
-	public ArrayList<Integer> getTeacherIdList() {
+	public ArrayList<Long> getTeacherIdList() {
 		return teacherIdList;
 	}
 
-	public void setTeacherIdList(ArrayList<Integer> teacherIdList) {
+	public void setTeacherIdList(ArrayList<Long> teacherIdList) {
 		this.teacherIdList = teacherIdList;
 	}
 

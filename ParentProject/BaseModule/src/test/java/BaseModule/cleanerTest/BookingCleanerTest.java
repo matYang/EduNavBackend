@@ -71,10 +71,10 @@ public class BookingCleanerTest {
 		course.setCity(city);
 		course.setDistrict(district);
 		course.setReference(reference2);
-		ArrayList<String> ImgUrls = new ArrayList<String>();
-		ImgUrls.add("www.hotmail.com");
-		course.setClassImgUrls(ImgUrls);
-		course.setTeacherImgUrls(ImgUrls);
+		ArrayList<Long> list = new ArrayList<Long>();
+		list.add(1L);
+		course.setClassPhotoIdList(list);
+		course.setTeacherIdList(list);
 		course.setTeachingMaterialIntro("Hand and Ass");
 		course.setCourseName("bababa");				
 		course.setPrice(price);

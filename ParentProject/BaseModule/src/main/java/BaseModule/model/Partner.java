@@ -33,9 +33,9 @@ public class Partner implements PseudoModel, Serializable{
 	private String instName;
 	private String logoUrl;
 	
-	private ArrayList<Integer> classPhotoIdList;
+	private ArrayList<Long> classPhotoIdList;
 	private ArrayList<ClassPhoto> classPhotoList;
-	private ArrayList<Integer> teacherIdList;
+	private ArrayList<Long> teacherIdList;
 	private ArrayList<Teacher> teacherList;
 	
 	private Calendar creationTime;
@@ -45,9 +45,9 @@ public class Partner implements PseudoModel, Serializable{
 	public Partner(int partnerId, String wholeName, String licence,
 			String organizationNum, String reference, String password,
 			String phone, AccountStatus status, String instName,
-			String logoUrl, ArrayList<Integer> classPhotoIdList,
+			String logoUrl, ArrayList<Long> classPhotoIdList,
 			ArrayList<ClassPhoto> classPhotoList,
-			ArrayList<Integer> teacherIdList, ArrayList<Teacher> teacherList,
+			ArrayList<Long> teacherIdList, ArrayList<Teacher> teacherList,
 			Calendar creationTime, Calendar lastLogin) {
 		super();
 		this.partnerId = partnerId;
@@ -103,9 +103,9 @@ public class Partner implements PseudoModel, Serializable{
 		this.instName = "";
 		this.logoUrl = "";
 		
-		this.classPhotoIdList = new ArrayList<Integer>();
+		this.classPhotoIdList = new ArrayList<Long>();
 		this.classPhotoList = new ArrayList<ClassPhoto>();
-		this.teacherIdList = new ArrayList<Integer>();
+		this.teacherIdList = new ArrayList<Long>();
 		this.teacherList = new ArrayList<Teacher>();
 	}
 
@@ -183,11 +183,11 @@ public class Partner implements PseudoModel, Serializable{
 		return creationTime;
 	}
 	
-	public ArrayList<Integer> getClassPhotoIdList() {
+	public ArrayList<Long> getClassPhotoIdList() {
 		return classPhotoIdList;
 	}
 
-	public void setClassPhotoIdList(ArrayList<Integer> classPhotoIdList) {
+	public void setClassPhotoIdList(ArrayList<Long> classPhotoIdList) {
 		this.classPhotoIdList = classPhotoIdList;
 	}
 
@@ -199,11 +199,11 @@ public class Partner implements PseudoModel, Serializable{
 		this.classPhotoList = classPhotoList;
 	}
 
-	public ArrayList<Integer> getTeacherIdList() {
+	public ArrayList<Long> getTeacherIdList() {
 		return teacherIdList;
 	}
 
-	public void setTeacherIdList(ArrayList<Integer> teacherIdList) {
+	public void setTeacherIdList(ArrayList<Long> teacherIdList) {
 		this.teacherIdList = teacherIdList;
 	}
 

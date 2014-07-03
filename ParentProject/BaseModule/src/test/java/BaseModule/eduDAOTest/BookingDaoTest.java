@@ -14,17 +14,21 @@ import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.eduDAO.BookingDao;
+import BaseModule.eduDAO.ClassPhotoDao;
 import BaseModule.eduDAO.CouponDao;
 import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
+import BaseModule.eduDAO.TeacherDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.Booking;
+import BaseModule.model.ClassPhoto;
 import BaseModule.model.Coupon;
 import BaseModule.model.Course;
 import BaseModule.model.Partner;
+import BaseModule.model.Teacher;
 import BaseModule.model.User;
 import BaseModule.model.representation.BookingSearchRepresentation;
 
@@ -43,6 +47,15 @@ public class BookingDaoTest {
 		user.setEmail(email);		
 		UserDao.addUserToDatabase(user);
 		
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
+		
 		String pname = "XDF";
 		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -51,6 +64,8 @@ public class BookingDaoTest {
 		String ppassword = "sdf234r";
 		String phone = "123545451";		
 		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);
+		partner.setClassPhotoIdList(cplist);
+		partner.setTeacherIdList(tlist);
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		int p_Id = partner.getPartnerId();
@@ -63,6 +78,10 @@ public class BookingDaoTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		course.setClassPhotoIdList(cplist);
+		course.setTeacherIdList(tlist);
+		course.setOutline("sdf");
+		course.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
 		String location = "China";
@@ -72,11 +91,7 @@ public class BookingDaoTest {
 		course.setLocation(location);
 		course.setCity(city);
 		course.setDistrict(district);
-		course.setReference(reference2);
-		ArrayList<String> ImgUrls = new ArrayList<String>();
-		ImgUrls.add("www.hotmail.com");
-		course.setClassImgUrls(ImgUrls);
-		course.setTeacherImgUrls(ImgUrls);
+		course.setReference(reference2);	
 		course.setTeachingMaterialIntro("Hand and Ass");	
 		course.setPrice(price);
 		CourseDao.updateCourseInDatabases(course);
@@ -211,6 +226,15 @@ public class BookingDaoTest {
 		user.setEmail("xiongchuhanplace@hotmail.com");
 		UserDao.addUserToDatabase(user);
 		
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
+		
 		String pname = "XDF";
 		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -219,6 +243,8 @@ public class BookingDaoTest {
 		String ppassword = "sdf234r";
 		String phone = "123545451";		
 		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);
+		partner.setTeacherIdList(tlist);
+		partner.setClassPhotoIdList(cplist);
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		String pname2 = "XD";
@@ -228,6 +254,8 @@ public class BookingDaoTest {
 		String ppassword2 = "sdf4r";
 		String phone2 = "12351";		
 		Partner partner2 = new Partner(pname2, instName+"2",licence2, organizationNum2,reference2, ppassword2, phone2,status);
+		partner2.setTeacherIdList(tlist);
+		partner2.setClassPhotoIdList(cplist);
 		PartnerDao.addPartnerToDatabases(partner2);
 		
 		int p_Id = partner.getPartnerId();
@@ -240,6 +268,10 @@ public class BookingDaoTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		course.setClassPhotoIdList(cplist);
+		course.setTeacherIdList(tlist);
+		course.setOutline("sdfds");
+		course.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
 		String location = "China";
@@ -248,11 +280,7 @@ public class BookingDaoTest {
 		course.setLocation(location);
 		course.setCity(city);
 		course.setDistrict(district);
-		course.setReference(reference2);
-		ArrayList<String> ImgUrls = new ArrayList<String>();
-		ImgUrls.add("www.hotmail.com");
-		course.setClassImgUrls(ImgUrls);
-		course.setTeacherImgUrls(ImgUrls);
+		course.setReference(reference2);		
 		course.setTeachingMaterialIntro("Hand and Ass");		
 		course.setPrice(price);
 		CourseDao.updateCourseInDatabases(course);
@@ -276,15 +304,16 @@ public class BookingDaoTest {
 		String subCategory2 = "sub-En";	
 		int price2 = 20000;				
 		Course course2 = new Course(p_Id, startTime, finishTime,price2,seatsTotal, seatsLeft,category2,subCategory2,phone);
+		course2.setClassPhotoIdList(cplist);
+		course2.setTeacherIdList(tlist);
+		course2.setOutline("sdfds");
+		course2.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course2);
 		course2 = CourseDao.getCourseById(course2.getCourseId());				
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
 		course2.setReference(ReferenceGenerator.generateCourseReference());		
-		ImgUrls.add("www.hotmail.com");
-		course2.setClassImgUrls(ImgUrls);
-		course2.setTeacherImgUrls(ImgUrls);
 		course2.setTeachingMaterialIntro("Hand and Ass");
 		course2.setPrice(price2);
 		CourseDao.updateCourseInDatabases(course2);
@@ -321,6 +350,15 @@ public class BookingDaoTest {
 		user.setEmail("xiongchuhan@uwaterloo.ca");
 		UserDao.addUserToDatabase(user);
 		
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
+		
 		String pname = "XDF";
 		String instName = "Tsetingfeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -329,6 +367,8 @@ public class BookingDaoTest {
 		String ppassword = "sdf234r";
 		String phone = "123545451";		
 		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);
+		partner.setClassPhotoIdList(cplist);
+		partner.setTeacherIdList(tlist);
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		int p_Id = partner.getPartnerId();
@@ -341,6 +381,10 @@ public class BookingDaoTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";	
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		course.setClassPhotoIdList(cplist);
+		course.setTeacherIdList(tlist);
+		course.setOutline("ghgfh");
+		course.setGoal("hjhtyj");
 		CourseDao.addCourseToDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
 		String location = "China";
@@ -350,11 +394,7 @@ public class BookingDaoTest {
 		course.setLocation(location);
 		course.setCity(city);
 		course.setDistrict(district);
-		course.setReference(reference2);
-		ArrayList<String> ImgUrls = new ArrayList<String>();
-		ImgUrls.add("www.hotmail.com");
-		course.setClassImgUrls(ImgUrls);
-		course.setTeacherImgUrls(ImgUrls);
+		course.setReference(reference2);		
 		course.setTeachingMaterialIntro("Hand and Ass");		
 		course.setPrice(price);
 		CourseDao.updateCourseInDatabases(course);
@@ -410,6 +450,15 @@ public class BookingDaoTest {
 		user2.setInvitationalCode("sdfdsfdsgfg");
 		UserDao.addUserToDatabase(user2);
 		
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
+		
 		//Partner
 		String pname = "XDF";
 		String instName = "xiaofeng";
@@ -419,6 +468,8 @@ public class BookingDaoTest {
 		String ppassword = "sdf234r";
 		String phone = "123545451";		
 		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);
+		partner.setClassPhotoIdList(cplist);
+		partner.setTeacherIdList(tlist);
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		
 		String pname2 = "XD";
@@ -428,6 +479,8 @@ public class BookingDaoTest {
 		String ppassword2 = "sdf4r";
 		String phone2 = "12351";		
 		Partner partner2 = new Partner(pname2, instName+"dsf",licence2, organizationNum2,reference2, ppassword2, phone2,status);
+		partner2.setClassPhotoIdList(cplist);
+		partner2.setTeacherIdList(tlist);
 		partner2 = PartnerDao.addPartnerToDatabases(partner2);
 		
 		//Course
@@ -441,6 +494,10 @@ public class BookingDaoTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		course.setClassPhotoIdList(cplist);
+		course.setTeacherIdList(tlist);
+		course.setOutline("dfgdg");
+		course.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
 		String location = "China";
@@ -449,11 +506,7 @@ public class BookingDaoTest {
 		course.setLocation(location);
 		course.setCity(city);
 		course.setDistrict(district);
-		course.setReference(reference2);
-		ArrayList<String> ImgUrls = new ArrayList<String>();
-		ImgUrls.add("www.hotmail.com");
-		course.setClassImgUrls(ImgUrls);
-		course.setTeacherImgUrls(ImgUrls);
+		course.setReference(reference2);		
 		course.setTeachingMaterialIntro("Hand and Ass");			
 		CourseDao.updateCourseInDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());			
@@ -466,15 +519,18 @@ public class BookingDaoTest {
 		String subCategory2 = "sub-En";			
 		int price2 = 20000;				
 		Course course2 = new Course(p_Id, startTime2, finishTime2,price2,seatsTotal,seatsLeft,category2,subCategory2,phone);
+		course2.setClassPhotoIdList(cplist);
+		course2.setTeacherIdList(tlist);
+		course2.setOutline("dfgdg");
+		course2.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course2);
 		course2 = CourseDao.getCourseById(course2.getCourseId());				
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
 		course2.setReference(ReferenceGenerator.generateCourseReference());		
-		ImgUrls.add("www.hotmail.com");
-		course2.setClassImgUrls(ImgUrls);
-		course2.setTeacherImgUrls(ImgUrls);
+		course2.setClassPhotoIdList(cplist);
+		course2.setTeacherIdList(tlist);
 		course2.setTeachingMaterialIntro("Hand and Ass");		
 		CourseDao.updateCourseInDatabases(course2);
 		course2 = CourseDao.getCourseById(course2.getCourseId());
@@ -485,15 +541,18 @@ public class BookingDaoTest {
 		finishTime.add(Calendar.DAY_OF_YEAR, 15);				
 		int price3 = 2000;	
 		Course course3 = new Course(p_Id2, startTime3, finishTime3,price3,seatsTotal, seatsLeft,category,subCategory,phone);
+		course3.setClassPhotoIdList(cplist);
+		course3.setTeacherIdList(tlist);
+		course3.setOutline("dfgdg");
+		course3.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course3);
 		course3 = CourseDao.getCourseById(course3.getCourseId());			
 		course3.setLocation(location);
 		course3.setCity(city);
 		course3.setDistrict(district);
 		course3.setReference(ReferenceGenerator.generateCourseReference());		
-		ImgUrls.add("www.hotmail.com");
-		course3.setClassImgUrls(ImgUrls);
-		course3.setTeacherImgUrls(ImgUrls);
+		course3.setClassPhotoIdList(cplist);
+		course3.setTeacherIdList(tlist);
 		course3.setTeachingMaterialIntro("Hand and Ass");
 		CourseDao.updateCourseInDatabases(course3);
 		course3 = CourseDao.getCourseById(course3.getCourseId());			
@@ -504,15 +563,18 @@ public class BookingDaoTest {
 		finishTime2.add(Calendar.DAY_OF_YEAR, 5);			
 		int price4 = 10000;		
 		Course course4 = new Course(p_Id2, startTime4, finishTime4,price4,seatsTotal,seatsLeft,category2,subCategory2,phone);
+		course4.setClassPhotoIdList(cplist);
+		course4.setTeacherIdList(tlist);
+		course4.setOutline("dfgdg");
+		course4.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course4);
 		course4 = CourseDao.getCourseById(course4.getCourseId());				
 		course4.setLocation(location);
 		course4.setCity(city);
 		course4.setDistrict(district);
 		course4.setReference(ReferenceGenerator.generateCourseReference());		
-		ImgUrls.add("www.hotmail.com");
-		course4.setClassImgUrls(ImgUrls);
-		course4.setTeacherImgUrls(ImgUrls);
+		course4.setClassPhotoIdList(cplist);
+		course4.setTeacherIdList(tlist);
 		course4.setTeachingMaterialIntro("Hand and Ass");
 		CourseDao.updateCourseInDatabases(course4);
 		course4 = CourseDao.getCourseById(course4.getCourseId());
