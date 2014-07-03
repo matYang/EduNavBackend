@@ -199,11 +199,11 @@ public class PseudoResource extends ServerResource{
         return new JsonRepresentation(new JSONObject());
     }
     
-	/******************
-	 * 
-	 * Multi-form handling
-	 * 
-	 ******************/
+	
+    
+    
+    
+    
     public Map<String, String> handleMultiForm(Representation entity, int id, Map<String, String> props) throws FileUploadException, IOException, ValidationException {
     	File imgFile = null;
     	// 1/ Create a factory for disk-based file items
@@ -217,6 +217,7 @@ public class PseudoResource extends ServerResource{
 		// 3/ Request is parsed by the handler which generates a list of FileItems
 		items = upload.parseRepresentation(entity); 
 		for (final Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
+			
 			FileItem fi = it.next();
 
 			String name = fi.getName();
@@ -276,7 +277,7 @@ public class PseudoResource extends ServerResource{
 						//do nothing
 					}
 				}
-				else if (fieldName.equals("logo")){
+				else if (fieldName.equals("logoUrl")){
 					try{
 						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
 						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 100, 100, Scalr.OP_ANTIALIAS);
@@ -286,7 +287,7 @@ public class PseudoResource extends ServerResource{
 						ImageIO.write(bufferedImage, "jpg", imgFile);
 						//warning: can only call this upload once, as it will delete the image file before it exits
 						path = FileService.uploadLogoImg(id, imgFile, imgName);
-						props.put("logoUrl", path);
+						props.put(fieldName, path);
 					} 
 					catch (NullPointerException e){
 						DebugLog.d(e);

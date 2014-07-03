@@ -33,14 +33,23 @@ public class ClassPhoto implements PseudoModel, Serializable{
 	}
 	
 
-	public ClassPhoto(int partnerId, String imgUrl, String title,
-			String description) {
+	public ClassPhoto(int partnerId, String imgUrl, String title, String description) {
 		super();
 		this.classPhotoId = -1;
 		this.partnerId = partnerId;
 		this.imgUrl = imgUrl;
 		this.title = title;
 		this.description = description;
+		this.creationTime = DateUtility.getCurTimeInstance();
+	}
+	
+	public ClassPhoto() {
+		super();
+		this.classPhotoId = -1;
+		this.partnerId = -1;
+		this.imgUrl = "";
+		this.title = "";
+		this.description = "";
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 

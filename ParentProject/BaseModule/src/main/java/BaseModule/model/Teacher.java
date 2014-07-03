@@ -21,7 +21,7 @@ public class Teacher implements PseudoModel, Serializable{
 	
 	private Calendar creationTime;
 
-	
+	/* for sql*/
 	public Teacher(long teacherId, int partnerId, String imgUrl, String name, String intro, Calendar creationTime) {
 		super();
 		this.teacherId = teacherId;
@@ -31,7 +31,7 @@ public class Teacher implements PseudoModel, Serializable{
 		this.intro = intro;
 		this.creationTime = creationTime;
 	}
-
+	
 	public Teacher(int partnerId, String imgUrl, String name, String intro) {
 		super();
 		this.teacherId = -1;
@@ -39,6 +39,16 @@ public class Teacher implements PseudoModel, Serializable{
 		this.imgUrl = imgUrl;
 		this.name = name;
 		this.intro = intro;
+		this.creationTime = DateUtility.getCurTimeInstance();
+	}
+	
+	public Teacher() {
+		super();
+		this.teacherId = -1;
+		this.partnerId = -1;
+		this.imgUrl = "";
+		this.name = "";
+		this.intro = "";
 		this.creationTime = DateUtility.getCurTimeInstance();
 	}
 	
