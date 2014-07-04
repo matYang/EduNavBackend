@@ -285,8 +285,8 @@ public class Course implements PseudoModel, Serializable{
 		this.noRefundDate = DateUtility.getCurTimeInstance();
 		this.cashbackDate = DateUtility.getCurTimeInstance();
 		this.bookingType = BookingType.online;
-		this.status = CourseStatus.fromInt(0);
-		this.partnerQualification = PartnerQualification.fromInt(0);
+		this.status = CourseStatus.openEnroll;
+		this.partnerQualification = PartnerQualification.unverified;
 		
 		this.studyDays = new ArrayList<Integer>();
 
@@ -857,120 +857,9 @@ public class Course implements PseudoModel, Serializable{
 		return ModelReflectiveService.toJSON(this);
 	}
 	
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((assignments == null) ? 0 : assignments.hashCode());
-		result = prime * result
-				+ ((bonusService == null) ? 0 : bonusService.hashCode());
-		result = prime * result
-				+ ((bookingType == null) ? 0 : bookingType.hashCode());
-		result = prime * result + cashback;
-		result = prime * result
-				+ ((category == null) ? 0 : category.hashCode());
-		result = prime * result
-				+ ((certification == null) ? 0 : certification.hashCode());
-		result = prime * result + ((city == null) ? 0 : city.hashCode());
-		result = prime * result + classSize;
-		result = prime * result
-				+ ((classTeacher == null) ? 0 : classTeacher.hashCode());
-		result = prime * result + courseHourLength;
-		result = prime * result + courseHourNum;
-		result = prime * result + courseId;
-		result = prime * result
-				+ ((courseIntro == null) ? 0 : courseIntro.hashCode());
-		result = prime * result
-				+ ((courseName == null) ? 0 : courseName.hashCode());
-		result = prime * result
-				+ ((district == null) ? 0 : district.hashCode());
-		result = prime
-				* result
-				+ ((downloadMaterials == null) ? 0 : downloadMaterials
-						.hashCode());
-		result = prime * result
-				+ ((extracurricular == null) ? 0 : extracurricular.hashCode());
-		result = prime * result + finishTime1;
-		result = prime * result + finishTime2;
-		result = prime * result + ((goal == null) ? 0 : goal.hashCode());
-		result = prime * result
-				+ ((highScoreReward == null) ? 0 : highScoreReward.hashCode());
-		result = prime * result
-				+ ((instName == null) ? 0 : instName.hashCode());
-		result = prime * result
-				+ ((location == null) ? 0 : location.hashCode());
-		result = prime * result + ((logoUrl == null) ? 0 : logoUrl.hashCode());
-		result = prime * result + ((marking == null) ? 0 : marking.hashCode());
-		result = prime
-				* result
-				+ ((openCourseRequirement == null) ? 0 : openCourseRequirement
-						.hashCode());
-		result = prime * result + originalPrice;
-		result = prime * result + ((outline == null) ? 0 : outline.hashCode());
-		result = prime
-				* result
-				+ ((partnerCourseReference == null) ? 0
-						: partnerCourseReference.hashCode());
-		result = prime
-				* result
-				+ ((partnerDistinction == null) ? 0 : partnerDistinction
-						.hashCode());
-		result = prime * result + partnerId;
-		result = prime * result
-				+ ((partnerIntro == null) ? 0 : partnerIntro.hashCode());
-		result = prime
-				* result
-				+ ((partnerQualification == null) ? 0 : partnerQualification
-						.hashCode());
-		result = prime * result
-				+ ((passAgreement == null) ? 0 : passAgreement.hashCode());
-		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
-		result = prime * result + popularity;
-		result = prime * result
-				+ ((prerequest == null) ? 0 : prerequest.hashCode());
-		result = prime * result + price;
-		result = prime * result
-				+ ((province == null) ? 0 : province.hashCode());
-		result = prime * result
-				+ ((questionBank == null) ? 0 : questionBank.hashCode());
-		result = prime * result
-				+ ((questionSession == null) ? 0 : questionSession.hashCode());
-		result = prime * result + ((quiz == null) ? 0 : quiz.hashCode());
-		result = prime * result
-				+ ((reference == null) ? 0 : reference.hashCode());
-		result = prime * result + startTime1;
-		result = prime * result + startTime2;
-		result = prime * result + startUponArrival;
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result
-				+ ((studyDaysNote == null) ? 0 : studyDaysNote.hashCode());
-		result = prime * result
-				+ ((subCategory == null) ? 0 : subCategory.hashCode());
-		result = prime * result
-				+ ((subSubCategory == null) ? 0 : subSubCategory.hashCode());
-		result = prime * result
-				+ ((suitableStudent == null) ? 0 : suitableStudent.hashCode());
-		result = prime
-				* result
-				+ ((teachingAndExercise == null) ? 0 : teachingAndExercise
-						.hashCode());
-		result = prime
-				* result
-				+ ((teachingMaterialFee == null) ? 0 : teachingMaterialFee
-						.hashCode());
-		result = prime
-				* result
-				+ ((teachingMaterialIntro == null) ? 0 : teachingMaterialIntro
-						.hashCode());
-		result = prime * result + ((trail == null) ? 0 : trail.hashCode());
-		result = prime * result
-				+ ((wholeName == null) ? 0 : wholeName.hashCode());
-		return result;
+	public void storeJSON(JSONObject jsonModel) throws Exception{
+		ModelReflectiveService.storeJSON(this, jsonModel);
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -1213,9 +1102,4 @@ public class Course implements PseudoModel, Serializable{
 		return true;
 	}
 
-
-
-	public void loadFromMap(Map<String, String> kvps) throws Exception{
-		ModelReflectiveService.storeKvps(this, kvps);
-	}
 }

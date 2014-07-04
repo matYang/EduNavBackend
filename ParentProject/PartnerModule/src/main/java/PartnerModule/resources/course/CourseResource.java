@@ -1,8 +1,6 @@
 package PartnerModule.resources.course;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.json.JSONObject;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
@@ -10,8 +8,6 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.configurations.EnumConfig.CourseStatus;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -24,28 +20,20 @@ public final class CourseResource extends PartnerPseudoResource{
 
 	@Post
 	public Representation createCourse(Representation entity){
-		Map<String, String> props = new HashMap<String, String>();
 		try{
-			this.checkFileEntity(entity);
 			int partnerId = this.validateAuthentication();
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partnerId, this.getUserAgent(), "<Form>");
-
-			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
-				throw new ValidationException("上传数据类型错误");
+			JSONObject jsonCourse = this.getJSONObj(entity);
+			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partnerId, this.getUserAgent(), jsonCourse.toString());
+			
+			if (jsonCourse.has("partnerId") && jsonCourse.getInt("partnerId") != partnerId){
+				throw new ValidationException("只能发布属于自己的课程");
 			}
 			
 			Course course = new Course();
-			course.setStatus(CourseStatus.deactivated);
-			//initialize the reference at this earlier step
+			course.storeJSON(jsonCourse);
 			course.setReference(ReferenceGenerator.generateCourseReference());
-			course = CourseDaoService.createCourse(course);
-			
-			props = this.handleMultiForm(entity, course.getCourseId(), props);
-			props.put("partnerId", String.valueOf(partnerId));
-			props.put("status", String.valueOf(AccountStatus.activated.code));
-			
-			course.loadFromMap(props);
-			CourseDaoService.updateCourse(course);
+			CourseDaoService.createCourse(course);
 			
 		}catch (PseudoException e){
 			DebugLog.d(e);

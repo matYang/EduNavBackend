@@ -1,8 +1,6 @@
 package PartnerModule.resources.course;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.json.JSONObject;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
@@ -12,7 +10,6 @@ import org.restlet.resource.Put;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.exception.PseudoException;
-import BaseModule.exception.authentication.AuthenticationException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.Course;
 import PartnerModule.resources.PartnerPseudoResource;
@@ -22,25 +19,21 @@ public final class CourseIdResource extends PartnerPseudoResource{
 
 	@Put
 	public Representation createCourse(Representation entity){
-		Map<String, String> props = new HashMap<String, String>();
 		try{
-			this.checkFileEntity(entity);
 			int partnerId = this.validateAuthentication();
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, partnerId, this.getUserAgent(), "<Form>");
-			
 			int courseId = Integer.parseInt(this.getReqAttr("id"));
-
-			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
-				throw new ValidationException("上传数据类型错误");
-			}
+			JSONObject jsonCourse = this.getJSONObj(entity);
 			
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_put, partnerId, this.getUserAgent(), jsonCourse.toString());
+		
 			Course course = CourseDaoService.getCourseById(courseId);
 			if (course.getPartnerId() != partnerId){
-				throw new AuthenticationException("只能修改您发布的课程");
+				throw new ValidationException("只可以修改自己的课程");
 			}
-			props = this.handleMultiForm(entity, course.getCourseId(), props);
-			
-			course.loadFromMap(props);
+			if (jsonCourse.has("partnerId") && jsonCourse.getInt("partnerId") != course.getPartnerId()){
+				throw new ValidationException("不可以更改课程所属机构");
+			}
+			course.storeJSON(jsonCourse);
 			CourseDaoService.updateCourse(course);
 			
 		}catch (PseudoException e){

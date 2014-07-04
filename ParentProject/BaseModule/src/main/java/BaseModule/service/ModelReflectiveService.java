@@ -99,6 +99,7 @@ public final class ModelReflectiveService {
 				strategy.apply(field, command, isList);
 			}
 		} catch (Exception e){
+			e.printStackTrace();
 			throw new ValidationException("信息数据格式转换失败");
 		}
 	}
