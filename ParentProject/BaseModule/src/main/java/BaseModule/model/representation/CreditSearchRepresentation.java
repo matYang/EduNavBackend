@@ -140,7 +140,7 @@ public class CreditSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 
 	public String getSearchQuery(){
-		String query = "SELECT * from CreditDao ";
+		String query = "SELECT * from Credit ";
 		boolean start = false;
 
 		/* Note:Make sure the order following is the same as that in Dao */

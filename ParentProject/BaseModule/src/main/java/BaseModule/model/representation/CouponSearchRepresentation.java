@@ -162,7 +162,7 @@ public class CouponSearchRepresentation implements PseudoModel, PseudoRepresenta
 	}
 
 	public String getSearchQuery(){
-		String query = "SELECT * from CouponDao ";
+		String query = "SELECT * from Coupon ";
 		boolean start = false;
 
 		/* Note:Make sure the order following is the same as that in Dao */

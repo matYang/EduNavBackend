@@ -129,7 +129,7 @@ public class TransactionSearchRepresentation implements PseudoModel, PseudoRepre
 	}
 
 	public String getSearchQuery(){
-		String query = "SELECT * from TransactionDao ";
+		String query = "SELECT * from Transaction ";
 		boolean start = false;
 		
 		/* Note:Make sure the order following is the same as that in Dao */

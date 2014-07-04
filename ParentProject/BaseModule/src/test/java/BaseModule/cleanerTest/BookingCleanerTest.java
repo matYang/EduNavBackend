@@ -60,6 +60,12 @@ public class BookingCleanerTest {
 		String subCategory = "sub-Phy";		
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
 		course.setReference("courseFGgf");
+		ArrayList<Long> list = new ArrayList<Long>();	
+		list.add(1L);
+		course.setOutline("sdfdsf");
+		course.setGoal("sdfdsf");
+		course.setClassPhotoIdList(list);
+		course.setTeacherIdList(list);
 		CourseDao.addCourseToDatabases(course);		
 		
 		course = CourseDao.getCourseById(course.getCourseId());	
@@ -70,11 +76,7 @@ public class BookingCleanerTest {
 		course.setLocation(location);
 		course.setCity(city);
 		course.setDistrict(district);
-		course.setReference(reference2);
-		ArrayList<Long> list = new ArrayList<Long>();
-		list.add(1L);
-		course.setClassPhotoIdList(list);
-		course.setTeacherIdList(list);
+		course.setReference(reference2);		
 		course.setTeachingMaterialIntro("Hand and Ass");
 		course.setCourseName("bababa");				
 		course.setPrice(price);
@@ -117,7 +119,7 @@ public class BookingCleanerTest {
 		booking3.setCashbackDate(finishTime3);
 		BookingDao.addBookingToDatabases(booking3);
 		
-		//started ---> succeeded
+		//started ---> consolidated
 		Calendar finishTime4 = Calendar.getInstance();
 		finishTime4.add(Calendar.HOUR_OF_DAY, -1);
 		Booking booking4 = new Booking(finishTime4,timeStamp, 
@@ -155,7 +157,7 @@ public class BookingCleanerTest {
 		if(blist.get(0).getStatus().code == BookingStatus.awaiting.code &&
 				blist.get(1).getStatus().code == BookingStatus.cancelled.code &&
 				blist.get(2).getStatus().code == BookingStatus.consolidated.code &&
-				blist.get(3).getStatus().code == BookingStatus.succeeded.code &&
+				blist.get(3).getStatus().code == BookingStatus.consolidated.code &&
 				blist.get(4).getStatus().code == BookingStatus.started.code &&
 				blist.get(5).getStatus().code == BookingStatus.succeeded.code){
 			//Passed;

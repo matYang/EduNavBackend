@@ -148,7 +148,7 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 	}
 	
 	public String getSearchQuery() {
-		String query = "SELECT * from PartnerDao ";		
+		String query = "SELECT * from Partner ";		
 		boolean start = false;		
 		
 		/* Note:Make sure the order following is the same as that in Dao */

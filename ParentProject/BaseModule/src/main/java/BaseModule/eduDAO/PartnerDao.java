@@ -7,9 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
-import BaseModule.common.Parser;
-import BaseModule.configurations.ImgConfig;
-import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.PseudoException;
@@ -79,8 +76,8 @@ public class PartnerDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO PartnerDao (name,licence,organizationNum,reference,password,phone,creationTime,lastLogin," +
-				"status,instName,logoUrl,classPhotoIdList,teacherIdList) values (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+		String query = "INSERT INTO Partner (name,licence,organizationNum,reference,password,phone,creationTime,lastLogin," +
+				"status,instName,logoUrl) values (?,?,?,?,?,?,?,?,?,?,?);";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -96,15 +93,13 @@ public class PartnerDao {
 			stmt.setInt(9, p.getStatus().code);
 			stmt.setString(10, p.getInstName());
 			stmt.setString(11, p.getLogoUrl());			
-			stmt.setString(12, Parser.listToString(p.getClassPhotoIdList(), ImgConfig.imgSpliter));
-			stmt.setString(13, Parser.listToString(p.getTeacherIdList(), ServerConfig.normalSpliter));
-			
+
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
 			p.setPartnerId(rs.getInt(1));
 			p.setPassword("");
-			
+
 		} finally  {
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		} 
@@ -114,8 +109,8 @@ public class PartnerDao {
 	public static void updatePartnerInDatabases(Partner p,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		String query = "UPDATE PartnerDao SET name=?,licence=?,organizationNum=?,reference=?,phone=?," +
-				"lastLogin=?,status=?, instName=?, logoUrl=?, classPhotoIdList=?, teacherIdList=? where id=?";
+		String query = "UPDATE Partner SET name=?,licence=?,organizationNum=?,reference=?,phone=?," +
+				"lastLogin=?,status=?, instName=?, logoUrl=? where id=?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -127,11 +122,9 @@ public class PartnerDao {
 			stmt.setString(6, DateUtility.toSQLDateTime(p.getLastLogin()));
 			stmt.setInt(7, p.getStatus().code);
 			stmt.setString(8, p.getInstName());
-			stmt.setString(9, p.getLogoUrl());
-			stmt.setString(10, Parser.listToString(p.getClassPhotoIdList(), ImgConfig.imgSpliter));
-			stmt.setString(11, Parser.listToString(p.getTeacherIdList(), ServerConfig.normalSpliter));			
-			stmt.setInt(12, p.getPartnerId());
-			
+			stmt.setString(9, p.getLogoUrl());					
+			stmt.setInt(10, p.getPartnerId());
+
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new PartnerNotFoundException();
@@ -143,7 +136,7 @@ public class PartnerDao {
 
 
 	public static Partner getPartnerById(int id,Connection...connections) throws PseudoException, SQLException{
-		String query = "SELECT * FROM PartnerDao WHERE id = ?";
+		String query = "SELECT * FROM Partner WHERE id = ?";
 		Partner partner = null;
 		PreparedStatement stmt = null;
 		Connection conn = null;
@@ -172,7 +165,7 @@ public class PartnerDao {
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
-		String query = "SELECT * FROM PartnerDao where id = ? for update";
+		String query = "SELECT * FROM Partner where id = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -181,7 +174,7 @@ public class PartnerDao {
 			if(rs.next()){
 				validOldPassword = PasswordCrypto.validatePassword(oldPassword, rs.getString("password"));
 				if(validOldPassword){
-					query = "UPDATE PartnerDao set password = ? where id = ?";
+					query = "UPDATE Partner set password = ? where id = ?";
 
 					stmt = conn.prepareStatement(query);
 					stmt.setString(1, PasswordCrypto.createHash(newPassword));				
@@ -202,7 +195,7 @@ public class PartnerDao {
 		finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));				
 		}
-		
+
 	}
 
 	public static Partner authenticatePartner(String phone, String password,Connection...connections) throws PseudoException, SQLException{
@@ -211,7 +204,7 @@ public class PartnerDao {
 		ResultSet rs = null;
 		Partner partner = null;
 		boolean validPassword = false;
-		String query = "SELECT * FROM PartnerDao where phone = ? for update";
+		String query = "SELECT * FROM Partner where phone = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -221,7 +214,7 @@ public class PartnerDao {
 				validPassword = PasswordCrypto.validatePassword(password, rs.getString("password"));
 				if(validPassword){
 					partner = createPartnerByResultSet(rs,conn);
-					
+
 					partner.setLastLogin(DateUtility.getCurTimeInstance());
 					updatePartnerInDatabases(partner, conn);
 				}else{
@@ -241,7 +234,7 @@ public class PartnerDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
-		String query = "UPDATE PartnerDao set password = ? where phone = ?";		
+		String query = "UPDATE Partner set password = ? where phone = ?";		
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -257,20 +250,17 @@ public class PartnerDao {
 	}
 
 	private static Partner createPartnerByResultSet(ResultSet rs, Connection...connections) throws SQLException {
-		ArrayList<Long> classPhotoIdList = new ArrayList<Long>();
-		ArrayList<ClassPhoto> classPhotoList = new ArrayList<ClassPhoto>();
-		ArrayList<Long> teacherIdList = new ArrayList<Long>();
+
+		ArrayList<ClassPhoto> classPhotoList = new ArrayList<ClassPhoto>();		
 		ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
-		
-		classPhotoIdList = Parser.stringToList(rs.getString("classPhotoIdList"), ImgConfig.imgSpliterRegex, Long.class);
-		classPhotoList = ClassPhotoDao.getClassPhotos(classPhotoIdList, connections);
-		teacherIdList = Parser.stringToList(rs.getString("teacherIdList"), ServerConfig.normalSpliter, Long.class);
-		teacherList = TeacherDao.getTeachers(teacherIdList, connections);
-		
+
+		classPhotoList = ClassPhotoDao.getPartnerClassPhotos(rs.getInt("id"), connections);	
+		teacherList = TeacherDao.getPartnerTeachers(rs.getInt("id"), connections);
+
 		return new Partner(rs.getInt("id"), rs.getString("name"), rs.getString("licence"), rs.getString("organizationNum"),
 				rs.getString("reference"),rs.getString("password"), rs.getString("phone"), AccountStatus.fromInt(rs.getInt("status")),
-				rs.getString("instName"),rs.getString("logoUrl"),classPhotoIdList,classPhotoList,teacherIdList,teacherList,
-				DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")));
+				rs.getString("instName"),rs.getString("logoUrl"),classPhotoList,teacherList,DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
+				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")));
 	}
 
 }

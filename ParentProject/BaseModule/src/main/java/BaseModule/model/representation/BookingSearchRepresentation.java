@@ -423,7 +423,7 @@ public class BookingSearchRepresentation implements PseudoModel, PseudoRepresent
 	}
 
 	public String getSearchQuery() {
-		String query = "SELECT * from BookingDao ";
+		String query = "SELECT * from Booking ";
 		boolean start = false;
 		
 		/* Note:Make sure the order following is the same as that in Dao */

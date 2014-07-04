@@ -18,7 +18,7 @@ public class CourseCleaner extends CourseDao{
 	public static void clean(){
 		Calendar currentDate = DateUtility.getCurTimeInstance();
 		String ct = DateUtility.toSQLDateTime(currentDate);
-		String query = "SELECT * FROM CourseDao where status = ? and cutoffDate < ? for update";
+		String query = "SELECT * FROM Course where status = ? and cutoffDate < ? for update";
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;	

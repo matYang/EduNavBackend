@@ -71,7 +71,7 @@ public class CreditDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO CreditDao (bookingId,userId,creationTime,expireTime,status,amount)" +
+		String query = "INSERT INTO Credit (bookingId,userId,creationTime,expireTime,status,amount)" +
 				" values (?,?,?,?,?,?);";		
 
 		try{
@@ -98,7 +98,7 @@ public class CreditDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;		
-		String query = "UPDATE CreditDao set expireTime=?,status=?,amount=? where creditId = ?";
+		String query = "UPDATE Credit set expireTime=?,status=?,amount=? where creditId = ?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);		
 			stmt = conn.prepareStatement(query);			
@@ -120,7 +120,7 @@ public class CreditDao {
 		Connection conn = null;
 		ResultSet rs = null;
 		ArrayList<Credit> clist = new ArrayList<Credit>();
-		String query = "SELECT * from CreditDao where userId = ?";
+		String query = "SELECT * from Credit where userId = ?";
 		try{		
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -141,7 +141,7 @@ public class CreditDao {
 		Connection conn = null;
 		ResultSet rs = null;
 		Credit c = null;
-		String query = "SELECT * from CreditDao where creditId = ?";
+		String query = "SELECT * from Credit where creditId = ?";
 		try{		
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);

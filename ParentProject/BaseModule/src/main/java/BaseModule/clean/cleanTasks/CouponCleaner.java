@@ -23,7 +23,7 @@ public class CouponCleaner extends CouponDao{
 		Connection transientConnection = null;
 		
 		String ct = DateUtility.toSQLDateTime(DateUtility.getCurTimeInstance());
-		String query = "SELECT * FROM CouponDao where (status = ? or status = ?) and expireTime < ?";
+		String query = "SELECT * FROM Coupon where (status = ? or status = ?) and expireTime < ?";
 		Coupon coupon = null;		
 		try{
 			conn = EduDaoBasic.getConnection();	

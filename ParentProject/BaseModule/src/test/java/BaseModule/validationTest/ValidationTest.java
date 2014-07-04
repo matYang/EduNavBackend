@@ -876,15 +876,14 @@ public class ValidationTest {
 		}
 		if(fail) fail();
 		
-		fail = true;
+		fail = false;
 		booking = new Booking(scheduledTime,adjustTime, 
 				price,  userId, partnerId, courseId,name, 
 				phone,"sdfj-@hg",reference,BookingStatus.awaiting,cashbackAmount);
 		try{
 			ValidationService.validateBooking(booking);
-		}catch(ValidationException e){
-			//Passed;
-			fail = false;
+		}catch(ValidationException e){			
+			fail = true;
 		}catch(Exception e){
 			e.printStackTrace();
 		}

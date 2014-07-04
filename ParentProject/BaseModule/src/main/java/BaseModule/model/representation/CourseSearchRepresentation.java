@@ -351,9 +351,9 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 
 	public String getSearchQuery() {
 
-		String query = "SELECT * from CourseDao ";		
-		String joinQuery = "JOIN PartnerDao On " +
-				"CourseDao.p_Id = PartnerDao.id ";
+		String query = "SELECT * from Course ";		
+		String joinQuery = "JOIN Partner On " +
+				"Course.p_Id = Partner.id ";
 
 		boolean joinQ = false;		
 		boolean start = false;	
@@ -372,7 +372,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 			query += "where ";
 			start = true;
 
-			query += "PartnerDao.instName = ? ";
+			query += "Partner.instName = ? ";
 		}
 		if(this.getPartnerReference() != null && this.getPartnerReference().length() > 0){
 			if(!joinQ){										
@@ -385,7 +385,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "PartnerDao.reference = ? ";
+			query += "Partner.reference = ? ";
 		}		
 		if(this.getStartCreationTime() != null){
 			if(!start){
@@ -412,7 +412,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.startDate >= ? ";
+			query += "Course.startDate >= ? ";
 		}
 		if(this.getFinishDate() != null){
 			if(start){				
@@ -421,7 +421,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.finishDate <= ? ";
+			query += "Course.finishDate <= ? ";
 		}
 		if(this.getStartPrice() >= 0){
 			if(!start){
@@ -430,7 +430,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}else{
 				query += "and ";
 			}	
-			query += "CourseDao.price >= ? ";
+			query += "Course.price >= ? ";
 		}
 		if(this.getFinishPrice() >= 0){
 			if(!start){
@@ -439,7 +439,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}else{
 				query += "and ";
 			}	
-			query += "CourseDao.price <= ? ";
+			query += "Course.price <= ? ";
 		}
 		if(this.getStatus() != null){
 			if(!start){
@@ -448,7 +448,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 			}else{
 				query += "and ";
 			}	
-			query += "CourseDao.status = ?  ";
+			query += "Course.status = ?  ";
 		}
 		if(this.getCategory()!=null&&this.getCategory().length()>0){
 			if(start){				
@@ -457,7 +457,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.category = ? ";
+			query += "Course.category = ? ";
 		}
 		if(this.getSubCategory()!=null&&this.getSubCategory().length()>0){
 			if(start){				
@@ -466,7 +466,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.subCategory = ? ";
+			query += "Course.subCategory = ? ";
 		}
 		if(this.getSubSubCategory() != null && this.getSubSubCategory().length() > 0){
 			if(start){				
@@ -475,7 +475,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.subSubCategory = ? ";
+			query += "Course.subSubCategory = ? ";
 		}
 		if(this.getProvince() != null && this.getProvince().length() > 0){
 			if(start){				
@@ -484,7 +484,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.province = ? ";
+			query += "Course.province = ? ";
 		}
 		if(this.getCity()!=null&&this.getCity().length()>0){
 			if(start){				
@@ -493,7 +493,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.city = ? ";
+			query += "Course.city = ? ";
 		}
 		if(this.getDistrict()!=null&&this.getDistrict().length()>0){
 			if(start){				
@@ -502,7 +502,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.district = ? ";
+			query += "Course.district = ? ";
 		}
 		if(this.getCourseReference()!=null&&this.getCourseReference().length()>0){
 			if(start){				
@@ -511,7 +511,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.reference = ? ";
+			query += "Course.reference = ? ";
 		}
 		if(this.getCourseId()>0){
 			if(start){				
@@ -520,7 +520,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += " CourseDao.id = ? ";
+			query += " Course.id = ? ";
 		}
 		if(this.getStartClassSize() != -1){
 			if(start){				
@@ -529,7 +529,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.classSize >= ? ";
+			query += "Course.classSize >= ? ";
 		}
 		if(this.getFinishClassSize() != -1){
 			if(start){				
@@ -538,7 +538,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.classSize <= ? ";
+			query += "Course.classSize <= ? ";
 		}
 		if(this.getStartCashback() != -1){
 			if(start){				
@@ -547,7 +547,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.cashback >= ? ";
+			query += "Course.cashback >= ? ";
 		}
 		if(this.getFinishCashback() != -1){
 			if(start){				
@@ -556,7 +556,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.cashback <= ? ";
+			query += "Course.cashback <= ? ";
 		}
 		if(this.getStartUponArrival() != -1){
 			if(start){				
@@ -565,7 +565,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.startUponArrival = ? ";
+			query += "Course.startUponArrival = ? ";
 		}
 		if(this.getStartCutoffDate() != null){
 			if(start){				
@@ -574,7 +574,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.cutoffDate >= ? ";
+			query += "Course.cutoffDate >= ? ";
 		}
 		if(this.getFinishCutoffDate() != null){
 			if(start){				
@@ -583,7 +583,7 @@ public class CourseSearchRepresentation implements PseudoModel, PseudoRepresenta
 				query += "where ";
 				start = true;
 			}
-			query += "CourseDao.cutoffDate <= ? ";
+			query += "Course.cutoffDate <= ? ";
 		}
 
 		return query;

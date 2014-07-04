@@ -284,16 +284,7 @@ public final class ModelDataLoaderService {
 	}
 
 	private static void loadPartners(Connection...connections){
-		try{
-			ArrayList<Long> tlist = new ArrayList<Long>();
-			ArrayList<Long> cplist = new ArrayList<Long>();
-			Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
-			teacher = TeacherDao.addTeacherToDataBases(teacher);
-			tlist.add(teacher.getTeacherId());
-			ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
-			classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-			cplist.add(classPhoto.getClassPhotoId());
-			
+		try{			
 			int partnerNum = 10;
 			for(int i=1;i<=partnerNum;i++){
 				String name = "合作商" + i;
@@ -305,9 +296,7 @@ public final class ModelDataLoaderService {
 				String phone = "DONOTSEND1234567890" + i;
 				AccountStatus status = AccountStatus.activated;
 				Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
-				partner.setLogoUrl("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/1-3-logo.jpg");
-				partner.setClassPhotoIdList(cplist);
-				partner.setTeacherIdList(tlist);
+				partner.setLogoUrl("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/1-3-logo.jpg");				
 				try {
 					PartnerDaoService.createPartner(partner, connections);
 				} catch (SQLException e) {				

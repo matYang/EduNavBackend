@@ -80,7 +80,7 @@ public class CouponDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO CouponDao (userId,creationTime,expireTime,status,amount,couponOrigin,originalAmount)" +
+		String query = "INSERT INTO Coupon (userId,creationTime,expireTime,status,amount,couponOrigin,originalAmount)" +
 				" values (?,?,?,?,?,?,?);";		
 		int stmtInt = 1;
 		try{
@@ -109,7 +109,7 @@ public class CouponDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		
-		String query = "UPDATE CouponDao set expireTime=?,status=?,amount=?,couponOrigin=? where couponId = ?";
+		String query = "UPDATE Coupon set expireTime=?,status=?,amount=?,couponOrigin=? where couponId = ?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			
@@ -134,7 +134,7 @@ public class CouponDao {
 		Connection conn = null;
 		ResultSet rs = null;
 		ArrayList<Coupon> clist = new ArrayList<Coupon>();
-		String query = "SELECT * from CouponDao where userId = ?";
+		String query = "SELECT * from Coupon where userId = ?";
 		try{		
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -155,7 +155,7 @@ public class CouponDao {
 		Connection conn = null;
 		ResultSet rs = null;
 		Coupon c = null;
-		String query = "SELECT * from CouponDao where couponId = ?";
+		String query = "SELECT * from Coupon where couponId = ?";
 		try{		
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);

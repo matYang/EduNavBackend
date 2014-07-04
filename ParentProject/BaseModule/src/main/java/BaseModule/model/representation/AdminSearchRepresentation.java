@@ -106,7 +106,7 @@ public class AdminSearchRepresentation implements PseudoModel, PseudoRepresentat
 	
 	
 	public String getSearchQuery() {
-		String query = "SELECT * from AdminAccountDao ";
+		String query = "SELECT * from AdminAccount ";
 		boolean start = false;
 		
 		/* Note:Make sure the order following is the same as that in Dao */

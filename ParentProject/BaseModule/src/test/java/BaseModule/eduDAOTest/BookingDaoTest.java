@@ -45,16 +45,7 @@ public class BookingDaoTest {
 		User user = new User(userphone, password, "", "","1",status);
 		user.setName(name);
 		user.setEmail(email);		
-		UserDao.addUserToDatabase(user);
-		
-		ArrayList<Long> tlist = new ArrayList<Long>();
-		ArrayList<Long> cplist = new ArrayList<Long>();
-		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
-		teacher = TeacherDao.addTeacherToDataBases(teacher);
-		tlist.add(teacher.getTeacherId());
-		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
-		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-		cplist.add(classPhoto.getClassPhotoId());
+		UserDao.addUserToDatabase(user);		
 		
 		String pname = "XDF";
 		String instName = "xiaofeng";
@@ -63,12 +54,18 @@ public class BookingDaoTest {
 		String reference = "dsf4r";
 		String ppassword = "sdf234r";
 		String phone = "123545451";		
-		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);
-		partner.setClassPhotoIdList(cplist);
-		partner.setTeacherIdList(tlist);
+		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);		
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		int p_Id = partner.getPartnerId();
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
 		finishTime.add(Calendar.DAY_OF_YEAR, 1);		
@@ -224,16 +221,7 @@ public class BookingDaoTest {
 		User user = new User(userphone, password, "", "","1",status);
 		user.setName(name);
 		user.setEmail("xiongchuhanplace@hotmail.com");
-		UserDao.addUserToDatabase(user);
-		
-		ArrayList<Long> tlist = new ArrayList<Long>();
-		ArrayList<Long> cplist = new ArrayList<Long>();
-		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
-		teacher = TeacherDao.addTeacherToDataBases(teacher);
-		tlist.add(teacher.getTeacherId());
-		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
-		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-		cplist.add(classPhoto.getClassPhotoId());
+		UserDao.addUserToDatabase(user);		
 		
 		String pname = "XDF";
 		String instName = "xiaofeng";
@@ -242,9 +230,7 @@ public class BookingDaoTest {
 		String reference = "dsf4r";
 		String ppassword = "sdf234r";
 		String phone = "123545451";		
-		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);
-		partner.setTeacherIdList(tlist);
-		partner.setClassPhotoIdList(cplist);
+		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);		
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		String pname2 = "XD";
@@ -253,12 +239,18 @@ public class BookingDaoTest {
 		String reference2 = "dsfsdfdsr";
 		String ppassword2 = "sdf4r";
 		String phone2 = "12351";		
-		Partner partner2 = new Partner(pname2, instName+"2",licence2, organizationNum2,reference2, ppassword2, phone2,status);
-		partner2.setTeacherIdList(tlist);
-		partner2.setClassPhotoIdList(cplist);
+		Partner partner2 = new Partner(pname2, instName+"2",licence2, organizationNum2,reference2, ppassword2, phone2,status);		
 		PartnerDao.addPartnerToDatabases(partner2);
 		
 		int p_Id = partner.getPartnerId();
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
 		finishTime.add(Calendar.DAY_OF_YEAR, 1);		
@@ -348,16 +340,7 @@ public class BookingDaoTest {
 		User user = new User(userphone, password, "", "","1",status);
 		user.setName(name);
 		user.setEmail("xiongchuhan@uwaterloo.ca");
-		UserDao.addUserToDatabase(user);
-		
-		ArrayList<Long> tlist = new ArrayList<Long>();
-		ArrayList<Long> cplist = new ArrayList<Long>();
-		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
-		teacher = TeacherDao.addTeacherToDataBases(teacher);
-		tlist.add(teacher.getTeacherId());
-		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
-		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-		cplist.add(classPhoto.getClassPhotoId());
+		UserDao.addUserToDatabase(user);	
 		
 		String pname = "XDF";
 		String instName = "Tsetingfeng";
@@ -366,12 +349,18 @@ public class BookingDaoTest {
 		String reference = "dsf4r";
 		String ppassword = "sdf234r";
 		String phone = "123545451";		
-		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);
-		partner.setClassPhotoIdList(cplist);
-		partner.setTeacherIdList(tlist);
+		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);		
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		int p_Id = partner.getPartnerId();
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
 		finishTime.add(Calendar.DAY_OF_YEAR, 1);		
@@ -448,16 +437,7 @@ public class BookingDaoTest {
 		user2.setName(name2);
 		user2.setEmail("kebi@hotmail.com");
 		user2.setInvitationalCode("sdfdsfdsgfg");
-		UserDao.addUserToDatabase(user2);
-		
-		ArrayList<Long> tlist = new ArrayList<Long>();
-		ArrayList<Long> cplist = new ArrayList<Long>();
-		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
-		teacher = TeacherDao.addTeacherToDataBases(teacher);
-		tlist.add(teacher.getTeacherId());
-		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
-		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-		cplist.add(classPhoto.getClassPhotoId());
+		UserDao.addUserToDatabase(user2);	
 		
 		//Partner
 		String pname = "XDF";
@@ -467,9 +447,7 @@ public class BookingDaoTest {
 		String reference = "dsf4r";
 		String ppassword = "sdf234r";
 		String phone = "123545451";		
-		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);
-		partner.setClassPhotoIdList(cplist);
-		partner.setTeacherIdList(tlist);
+		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		
 		String pname2 = "XD";
@@ -478,13 +456,19 @@ public class BookingDaoTest {
 		String reference2 = "dsfsdfdsr";
 		String ppassword2 = "sdf4r";
 		String phone2 = "12351";		
-		Partner partner2 = new Partner(pname2, instName+"dsf",licence2, organizationNum2,reference2, ppassword2, phone2,status);
-		partner2.setClassPhotoIdList(cplist);
-		partner2.setTeacherIdList(tlist);
+		Partner partner2 = new Partner(pname2, instName+"dsf",licence2, organizationNum2,reference2, ppassword2, phone2,status);		
 		partner2 = PartnerDao.addPartnerToDatabases(partner2);
 		
 		//Course
 		int p_Id = partner.getPartnerId();
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
 		finishTime.add(Calendar.DAY_OF_YEAR, 1);		

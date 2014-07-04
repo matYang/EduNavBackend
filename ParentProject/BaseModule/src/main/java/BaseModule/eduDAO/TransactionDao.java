@@ -69,7 +69,7 @@ public class TransactionDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO TransactionDao (userId,bookingId,amount,creationTime,transactionType)" +
+		String query = "INSERT INTO Transaction (userId,bookingId,amount,creationTime,transactionType)" +
 				" values (?,?,?,?,?);";		
 		try{			
 			conn = EduDaoBasic.getConnection(connections);
@@ -95,7 +95,7 @@ public class TransactionDao {
 		Connection conn = null;
 		Transaction transaction = null;
 		
-		String query = "SELECT * from TransactionDao where transactionId = ?";
+		String query = "SELECT * from Transaction where transactionId = ?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -120,7 +120,7 @@ public class TransactionDao {
 		Connection conn = null;
 		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 		
-		String query = "SELECT * from TransactionDao where userId = ?";
+		String query = "SELECT * from Transaction where userId = ?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);

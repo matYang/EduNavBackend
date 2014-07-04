@@ -54,6 +54,12 @@ public class CourseCleanerTest {
 		course.setDistrict(district);
 		course.setReference(reference2);
 		course.setCutoffDate(startTime);
+		ArrayList<Long> list = new ArrayList<Long>();
+		list.add(1L);
+		course.setOutline("sdfdsf");
+		course.setGoal("sdfdsf");
+		course.setClassPhotoIdList(list);
+		course.setTeacherIdList(list);
 		CourseDao.addCourseToDatabases(course);
 		
 		
@@ -65,7 +71,11 @@ public class CourseCleanerTest {
 		course2.setDistrict(district);
 		course2.setReference(reference2+"sdf");
 		course2.setStatus(CourseStatus.consolidated);
-		course2.setCutoffDate(startTime2);
+		course2.setCutoffDate(startTime2);		
+		course2.setClassPhotoIdList(list);
+		course2.setTeacherIdList(list);
+		course2.setOutline("sdfdsf");
+		course2.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course2);
 		
 						
@@ -82,6 +92,10 @@ public class CourseCleanerTest {
 		course3.setReference(reference3);
 		course3.setStatus(CourseStatus.openEnroll);
 		course3.setCutoffDate(startTime3);
+		course3.setClassPhotoIdList(list);
+		course3.setTeacherIdList(list);
+		course3.setOutline("sdfdsf");
+		course3.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course3);
 		
 		Calendar startTime4 = DateUtility.getCurTimeInstance();		
@@ -94,6 +108,10 @@ public class CourseCleanerTest {
 		course4.setReference(reference4);
 		course4.setStatus(CourseStatus.deactivated);
 		course4.setCutoffDate(startTime4);
+		course4.setClassPhotoIdList(list);
+		course4.setTeacherIdList(list);
+		course4.setOutline("sdfdsf");
+		course4.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course4);	
 		
 		Calendar startTime5 = DateUtility.getCurTimeInstance();		
@@ -106,6 +124,10 @@ public class CourseCleanerTest {
 		course5.setReference(reference5);
 		course5.setStatus(CourseStatus.consolidated);
 		course5.setCutoffDate(startTime5);
+		course5.setClassPhotoIdList(list);
+		course5.setTeacherIdList(list);
+		course5.setOutline("sdfdsf");
+		course5.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course5);
 		
 		Calendar startTime6 = DateUtility.getCurTimeInstance();		
@@ -118,6 +140,10 @@ public class CourseCleanerTest {
 		course6.setReference(reference6);
 		course6.setStatus(CourseStatus.openEnroll);
 		course6.setCutoffDate(startTime6);
+		course6.setClassPhotoIdList(list);
+		course6.setTeacherIdList(list);
+		course6.setOutline("sdfdsf");
+		course6.setGoal("sdfdsf");
 		CourseDao.addCourseToDatabases(course6);
 	
 		CourseCleaner.clean();		

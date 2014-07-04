@@ -25,17 +25,21 @@ public class Teacher implements PseudoModel, Serializable{
 	private Visibility visibility;
 	private Calendar creationTime;
 
-	/* for sql */
-	public Teacher(long teacherId, int partnerId, String imgUrl, String name, String intro, Calendar creationTime) {
+	/* for sql */	
+	public Teacher(long teacherId, int partnerId, int popularity,
+			String imgUrl, String name, String intro, Visibility visibility,
+			Calendar creationTime) {
 		super();
 		this.teacherId = teacherId;
 		this.partnerId = partnerId;
+		this.popularity = popularity;
 		this.imgUrl = imgUrl;
 		this.name = name;
 		this.intro = intro;
+		this.visibility = visibility;
 		this.creationTime = creationTime;
 	}
-	
+
 	public Teacher(int partnerId, String imgUrl, String name, String intro) {
 		super();
 		this.teacherId = -1;
@@ -44,6 +48,8 @@ public class Teacher implements PseudoModel, Serializable{
 		this.name = name;
 		this.intro = intro;
 		this.creationTime = DateUtility.getCurTimeInstance();
+		this.visibility = Visibility.visible;
+		this.popularity = 1;
 	}
 	
 	public Teacher() {
@@ -54,6 +60,8 @@ public class Teacher implements PseudoModel, Serializable{
 		this.name = "";
 		this.intro = "";
 		this.creationTime = DateUtility.getCurTimeInstance();
+		this.visibility = Visibility.visible;
+		this.popularity = 1;
 	}
 	
 	public long getTeacherId() {
@@ -98,10 +106,22 @@ public class Teacher implements PseudoModel, Serializable{
 
 	public Calendar getCreationTime() {
 		return creationTime;
+	}	
+
+	public int getPopularity() {
+		return popularity;
 	}
 
-	public void setCreationTime(Calendar creationTime) {
-		this.creationTime = creationTime;
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
+	}
+
+	public Visibility getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(Visibility visibility) {
+		this.visibility = visibility;
 	}
 
 	@Override
@@ -117,7 +137,7 @@ public class Teacher implements PseudoModel, Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Teacher other = (Teacher) obj;
+		Teacher other = (Teacher) obj;		
 		if (imgUrl == null) {
 			if (other.imgUrl != null)
 				return false;
@@ -135,9 +155,14 @@ public class Teacher implements PseudoModel, Serializable{
 			return false;
 		if (partnerId != other.partnerId)
 			return false;
+		if (popularity != other.popularity)
+			return false;
 		if (teacherId != other.teacherId)
+			return false;
+		if (visibility != other.visibility)
 			return false;
 		return true;
 	}
+	
 
 }

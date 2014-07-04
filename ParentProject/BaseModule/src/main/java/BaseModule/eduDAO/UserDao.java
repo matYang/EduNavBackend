@@ -21,7 +21,7 @@ public class UserDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "select * from UserDao where id =? for update";
+		String query = "select * from User where id =? for update";
 		User user = null;
 		try{
 			conn = EduDaoBasic.getConnection(connections);
@@ -116,7 +116,7 @@ public class UserDao {
 	}
 	
 	public static User getUserById(int id,Connection...connections) throws PseudoException, SQLException{
-		String query = "SELECT * FROM UserDao WHERE id = ?";
+		String query = "SELECT * FROM User WHERE id = ?";
 		User user = null;
 		PreparedStatement stmt = null;
 		Connection conn = null;
@@ -143,7 +143,7 @@ public class UserDao {
 	}
 
 	public static ArrayList<User> getAllUsers(Connection...connections) throws SQLException{
-		String query = "SELECT * FROM UserDao";
+		String query = "SELECT * FROM User";
 		User user = null;
 		ArrayList<User> ulist = new ArrayList<User>();
 		PreparedStatement stmt = null;
@@ -171,7 +171,7 @@ public class UserDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO UserDao (name,password,phone,creationTime,lastLogin,status,balance,coupon,credit,email,invitationalCode,appliedInvitationalCode,accountNum)" +
+		String query = "INSERT INTO User (name,password,phone,creationTime,lastLogin,status,balance,coupon,credit,email,invitationalCode,appliedInvitationalCode,accountNum)" +
 				" values (?,?,?,?,?,?,?,?,?,?,?,?,?);";		
 		try{
 			conn = EduDaoBasic.getConnection(connections);
@@ -207,7 +207,7 @@ public class UserDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
-		String query = "UPDATE UserDao SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=?,email=?,invitationalCode=?,appliedInvitationalCode=?,accountNum=? where id=?";
+		String query = "UPDATE User SET name=?,phone=?,lastLogin=?,status=?,balance=?,coupon=?,credit=?,email=?,invitationalCode=?,appliedInvitationalCode=?,accountNum=? where id=?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			
@@ -238,7 +238,7 @@ public class UserDao {
 		String bopr = balance >= 0 ? "+" : "-";
 		String cropr = credit >= 0 ? "+" : "-";
 		String coopr = coupon >= 0 ? "+" : "-";		
-		String query = "UPDATE UserDao set balance = balance " + bopr + " ?, " + "credit = credit "  + cropr + " ?, "
+		String query = "UPDATE User set balance = balance " + bopr + " ?, " + "credit = credit "  + cropr + " ?, "
 				+ "coupon = coupon " + coopr + " ? " + "where id = ?";
 		Connection conn = null;
 		ResultSet rs = null;
@@ -265,7 +265,7 @@ public class UserDao {
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
-		String query = "SELECT * FROM UserDao WHERE id = ? for update";		
+		String query = "SELECT * FROM User WHERE id = ? for update";		
 		try {
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -275,7 +275,7 @@ public class UserDao {
 				validOldPassword = PasswordCrypto.validatePassword(oldPassword, rs.getString("password"));
 			
 				if(validOldPassword){
-					query = "UPDATE UserDao set password = ? where id = ?";
+					query = "UPDATE User set password = ? where id = ?";
 					stmt = conn.prepareStatement(query);
 					stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 					stmt.setInt(2, userId);
@@ -301,7 +301,7 @@ public class UserDao {
 		ResultSet rs = null;
 		User user = null;
 		boolean validPassword = false;
-		String query = "SELECT * FROM UserDao where phone = ? for update";
+		String query = "SELECT * FROM User where phone = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -334,7 +334,7 @@ public class UserDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;			
-		String query = "UPDATE UserDao set password = ? where phone = ?";		
+		String query = "UPDATE User set password = ? where phone = ?";		
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);

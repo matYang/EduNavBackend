@@ -43,6 +43,10 @@ public class TeacherDaoTest {
 			//Passed;
 		}else fail();		
 		
+		tlist = TeacherDao.getPartnerTeachers(p_Id);
+		if(tlist.size()==2 && tlist.get(0).equals(teacher) && tlist.get(1).equals(teacher2)){
+			//Passed;
+		}else fail();
 	}
 	
 	@Test

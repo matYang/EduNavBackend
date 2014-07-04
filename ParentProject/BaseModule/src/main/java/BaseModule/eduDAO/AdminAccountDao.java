@@ -63,7 +63,7 @@ public class AdminAccountDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO AdminAccountDao (creationTime,lastLogin,status,reference,privilege,name,phone,password)" +
+		String query = "INSERT INTO AdminAccount (creationTime,lastLogin,status,reference,privilege,name,phone,password)" +
 				" values (?,?,?,?,?,?,?,?);";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
@@ -90,7 +90,7 @@ public class AdminAccountDao {
 	public static void updateAdminAccountInDatabases(AdminAccount account,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		String query = "UPDATE AdminAccountDao SET lastLogin=?,status=?,reference=?,privilege=?,name=?,phone=? where id = ?";
+		String query = "UPDATE AdminAccount SET lastLogin=?,status=?,reference=?,privilege=?,name=?,phone=? where id = ?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -113,7 +113,7 @@ public class AdminAccountDao {
 
 
 	public static AdminAccount getAdminAccountById(int id,Connection...connections) throws PseudoException, SQLException{
-		String query = "SELECT * FROM AdminAccountDao where id = ?";
+		String query = "SELECT * FROM AdminAccount where id = ?";
 		PreparedStatement stmt = null;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -143,7 +143,7 @@ public class AdminAccountDao {
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		boolean validOldPassword = false;
-		String query = "SELECT * FROM AdminAccountDao where id = ? for update";
+		String query = "SELECT * FROM AdminAccount where id = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
@@ -152,7 +152,7 @@ public class AdminAccountDao {
 			if(rs.next()){
 				validOldPassword = PasswordCrypto.validatePassword(oldPassword, rs.getString("password"));
 				if(validOldPassword){
-					query = "UPDATE AdminAccountDao set password = ? where id = ?";
+					query = "UPDATE AdminAccount set password = ? where id = ?";
 					stmt = conn.prepareStatement(query);
 					stmt.setString(1, PasswordCrypto.createHash(newPassword));				
 					stmt.setInt(2, adminId);
@@ -175,7 +175,7 @@ public class AdminAccountDao {
 		ResultSet rs = null;
 		AdminAccount account = null;
 		boolean validReference = true;
-		String query = "SELECT * FROM AdminAccountDao where reference = ? for update";
+		String query = "SELECT * FROM AdminAccount where reference = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);			
@@ -206,7 +206,7 @@ public class AdminAccountDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
-		String query = "UPDATE AdminAccountDao set password = ? where id = ?";
+		String query = "UPDATE AdminAccount set password = ? where id = ?";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);

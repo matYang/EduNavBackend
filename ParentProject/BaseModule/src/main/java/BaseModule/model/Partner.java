@@ -43,10 +43,9 @@ public class Partner implements PseudoModel, Serializable{
 	public Partner(int partnerId, String wholeName, String licence,
 			String organizationNum, String reference, String password,
 			String phone, AccountStatus status, String instName,
-			String logoUrl, ArrayList<Long> classPhotoIdList,
-			ArrayList<ClassPhoto> classPhotoList,
-			ArrayList<Long> teacherIdList, ArrayList<Teacher> teacherList,
-			Calendar creationTime, Calendar lastLogin) {
+			String logoUrl,ArrayList<ClassPhoto> classPhotoList,
+			ArrayList<Teacher> teacherList,Calendar creationTime, 
+			Calendar lastLogin) {
 		super();
 		this.partnerId = partnerId;
 		this.wholeName = wholeName;
@@ -57,10 +56,8 @@ public class Partner implements PseudoModel, Serializable{
 		this.phone = phone;
 		this.status = status;
 		this.instName = instName;
-		this.logoUrl = logoUrl;
-		this.classPhotoIdList = classPhotoIdList;
-		this.classPhotoList = classPhotoList;
-		this.teacherIdList = teacherIdList;
+		this.logoUrl = logoUrl;		
+		this.classPhotoList = classPhotoList;		
 		this.teacherList = teacherList;
 		this.creationTime = creationTime;
 		this.lastLogin = lastLogin;
@@ -99,11 +96,8 @@ public class Partner implements PseudoModel, Serializable{
 		this.password = "";
 		this.phone = "";
 		this.instName = "";
-		this.logoUrl = "";
-		
-		this.classPhotoIdList = new ArrayList<Long>();
-		this.classPhotoList = new ArrayList<ClassPhoto>();
-		this.teacherIdList = new ArrayList<Long>();
+		this.logoUrl = "";		
+		this.classPhotoList = new ArrayList<ClassPhoto>();		
 		this.teacherList = new ArrayList<Teacher>();
 	}
 
@@ -179,15 +173,7 @@ public class Partner implements PseudoModel, Serializable{
 
 	public Calendar getCreationTime() {
 		return creationTime;
-	}
-	
-	public ArrayList<Long> getClassPhotoIdList() {
-		return classPhotoIdList;
-	}
-
-	public void setClassPhotoIdList(ArrayList<Long> classPhotoIdList) {
-		this.classPhotoIdList = classPhotoIdList;
-	}
+	}	
 
 	public ArrayList<ClassPhoto> getClassPhotoList() {
 		return classPhotoList;
@@ -195,15 +181,7 @@ public class Partner implements PseudoModel, Serializable{
 
 	public void setClassPhotoList(ArrayList<ClassPhoto> classPhotoList) {
 		this.classPhotoList = classPhotoList;
-	}
-
-	public ArrayList<Long> getTeacherIdList() {
-		return teacherIdList;
-	}
-
-	public void setTeacherIdList(ArrayList<Long> teacherIdList) {
-		this.teacherIdList = teacherIdList;
-	}
+	}	
 
 	public ArrayList<Teacher> getTeacherList() {
 		return teacherList;

@@ -44,6 +44,11 @@ public class ClassPhotoTest {
 		if(clist.size()==2 && clist.get(0).equals(classPhoto) && clist.get(1).equals(classPhoto2)){
 			//Passed;
 		}else fail();
+		
+		clist = ClassPhotoDao.getPartnerClassPhotos(p_Id);
+		if(clist.size()==2 && clist.get(0).equals(classPhoto) && clist.get(1).equals(classPhoto2)){
+			//Passed;
+		}else fail();
 	}
 	
 	@Test

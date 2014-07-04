@@ -24,7 +24,7 @@ public class BookingCleaner extends BookingDao{
 	private static void cleanStarted(){
 		Calendar currentDate = DateUtility.getCurTimeInstance();
 		String ct = DateUtility.toSQLDateTime(currentDate);
-		String query = "SELECT * from BookingDao where status = ? and noRefundDate < ? for update";
+		String query = "SELECT * from Booking where status = ? and noRefundDate < ? for update";
 		Connection conn = null;		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -62,7 +62,7 @@ public class BookingCleaner extends BookingDao{
 	private static void cleanSucceed(){
 		Calendar currentDate = DateUtility.getCurTimeInstance();
 		String ct = DateUtility.toSQLDateTime(currentDate);
-		String query = "SELECT * from BookingDao where status = ? and cashbackDate < ?";
+		String query = "SELECT * from Booking where status = ? and cashbackDate < ?";
 		Connection conn = null;
 		Connection transientConnection = null;
 		PreparedStatement stmt = null;

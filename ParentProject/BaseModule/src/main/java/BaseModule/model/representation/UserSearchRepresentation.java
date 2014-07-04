@@ -221,7 +221,7 @@ public class UserSearchRepresentation implements PseudoModel, PseudoRepresentati
 	}
 
 	public String getSearchQuery() {
-		String query = "SELECT * from UserDao ";		
+		String query = "SELECT * from User ";		
 		boolean start = false;	
 		
 		/* Note:Make sure the order following is the same as that in Dao */

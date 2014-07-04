@@ -189,15 +189,17 @@ public class EduDaoBasic {
         Statement stmt = null;
 		Connection conn = null;
         String query0 = "SET FOREIGN_KEY_CHECKS=0 ";       
-        String query1 = "TRUNCATE TABLE AdminAccountDao ";
-        String query2 = "TRUNCATE TABLE UserDao ";
-        String query3 = "TRUNCATE TABLE PartnerDao ";
-        String query4 = "TRUNCATE TABLE CourseDao";
-        String query5 = "TRUNCATE TABLE BookingDao";  
-        String query6 = "TRUNCATE TABLE TransactionDao";
-        String query7 = "TRUNCATE TABLE CouponDao";
-        String query8 = "TRUNCATE TABLE CreditDao";
-        String query9 = "SET FOREIGN_KEY_CHECKS=1;";
+        String query1 = "TRUNCATE TABLE AdminAccount ";
+        String query2 = "TRUNCATE TABLE User ";
+        String query3 = "TRUNCATE TABLE Partner ";
+        String query4 = "TRUNCATE TABLE Course";
+        String query5 = "TRUNCATE TABLE Booking";  
+        String query6 = "TRUNCATE TABLE Transaction";
+        String query7 = "TRUNCATE TABLE Coupon";
+        String query8 = "TRUNCATE TABLE Credit";
+        String query9 = "TRUNCATE TABLE Teacher";
+        String query10 = "TRUNCATE TABLE ClassPhoto";
+        String query11 = "SET FOREIGN_KEY_CHECKS=1;";
         try{
         	conn = getSQLConnection();
         	stmt = conn.createStatement();
@@ -212,6 +214,8 @@ public class EduDaoBasic {
         	stmt.addBatch(query7);  
         	stmt.addBatch(query8);
         	stmt.addBatch(query9);
+        	stmt.addBatch(query10);
+        	stmt.addBatch(query11);
         	stmt.executeBatch();
         	
         	memcached.flush();

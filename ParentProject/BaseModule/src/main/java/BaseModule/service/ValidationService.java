@@ -10,14 +10,14 @@ import BaseModule.model.*;
 
 public final class ValidationService {
 		
-	public static boolean validateName(final String userName){
+	public static boolean validateName(String userName){
 		Pattern NamePattern = Pattern.compile(ValidationConfig.RegexNamePattern);
 		Pattern WhiteSpacePattern = Pattern.compile(ValidationConfig.RegexNameWhiteSpacePattern);
 		if (userName == null || userName.length() == 0 || userName.length() > ValidationConfig.maxUserNameLength){
 			return false;
 		}	
 		if(WhiteSpacePattern.matcher(userName).matches()){
-			userName.replaceAll("\\s+", "");
+			userName = userName.replaceAll("\\s+", "");
 		}
 		if (NamePattern.matcher(userName).matches()){
 			return true;
@@ -102,17 +102,17 @@ public final class ValidationService {
 			throw new ValidationException("课程信息不符合规范");
 		}		
 		if(course.getStartDate() == null || course.getFinishDate() == null ||
-				course.getStartTime1() == -1 || course.getFinishTime1() == -1){
+				course.getStartTime1() == 0 || course.getFinishTime1() == 0){
 			throw new ValidationException("课程开始或完成时间不能为空");
 		}
-		if((course.getStartTime2() == -1 && course.getFinishTime2() != -1) ||
-				(course.getStartTime2() != -1 && course.getFinishTime2() == -1)){
+		if((course.getStartTime2() == 0 && course.getFinishTime2() != 0) ||
+				(course.getStartTime2() != 0 && course.getFinishTime2() == 0)){
 			throw new ValidationException("课程时间安排不合理");
 		}
 		if(DateUtility.compareday(course.getStartDate(), course.getFinishDate()) >= 0 ||
 				(course.getStartTime1() >= course.getFinishTime1()) || 
-				(course.getStartTime2() >= course.getFinishTime2() && (course.getStartTime2() != -1 || course.getFinishTime2() != -1)) ||
-				(course.getStartTime2() <= course.getFinishTime1() && course.getStartTime2() != -1)){
+				(course.getStartTime2() >= course.getFinishTime2() && (course.getStartTime2() != 0 || course.getFinishTime2() != 0)) ||
+				(course.getStartTime2() <= course.getFinishTime1() && course.getStartTime2() != 0)){
 			throw new ValidationException("课程开始或完成时间不合理");
 		}		
 		if(course.getStartTime1()>=2400 || course.getFinishTime1()>=2400 ||

@@ -154,7 +154,7 @@ public class CourseDao {
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
 		int stmtInt = 1;
-		String query = "INSERT INTO CourseDao (p_Id,creationTime,startDate,finishDate,price," +
+		String query = "INSERT INTO Course (p_Id,creationTime,startDate,finishDate,price," +
 				"status,category,subCategory,subSubCategory,location,province,city,district,reference,courseIntro," +
 				"quiz,certification,openCourseRequirement,questionBank,suitableStudent,prerequest,highScoreReward," +
 				"extracurricular,courseName,studyDaysNote,courseHourNum,courseHourLength,partnerCourseReference,partnerQualification,partnerIntro," +
@@ -247,7 +247,7 @@ public class CourseDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		int stmtInt = 1;
-		String query = "UPDATE CourseDao SET p_Id=?,startDate=?,finishDate=?,price=?," +
+		String query = "UPDATE Course SET p_Id=?,startDate=?,finishDate=?,price=?," +
 				"status=?,category=?,subCategory=?,subSubCategory=?,location=?,province=?,city=?,district=?,reference=?,courseIntro=?," +
 				"quiz=?,certification=?,openCourseRequirement=?,questionBank=?,suitableStudent=?,prerequest=?,highScoreReward=?," +
 				"extracurricular=?,courseName=?,studyDaysNote=?,courseHourNum=?,courseHourLength=?,partnerCourseReference=?,partnerQualification=?,partnerIntro=?," +
@@ -336,7 +336,7 @@ public class CourseDao {
 	}
 
 	public static Course getCourseById(int courseId,Connection...connections) throws PseudoException, SQLException{
-		String query = "SELECT * FROM CourseDao where id = ?";
+		String query = "SELECT * FROM Course where id = ?";
 		Course course = null;
 		PreparedStatement stmt = null;
 		Connection conn = null;
@@ -374,7 +374,7 @@ public class CourseDao {
 				return clist;
 			}
 			
-			String query = "SELECT * FROM CourseDao where id = ?";
+			String query = "SELECT * FROM Course where id = ?";
 			for(int i = 1 ; i < idList.size() ; i++){
 				query += " or id = ? ";
 			}

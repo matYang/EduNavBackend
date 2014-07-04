@@ -26,16 +26,7 @@ public class CourseDaoTest {
 
 	@Test
 	public void testCreate() throws SQLException, PseudoException{
-		EduDaoBasic.clearAllDatabase();
-		ArrayList<Long> tlist = new ArrayList<Long>();
-		ArrayList<Long> cplist = new ArrayList<Long>();
-		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
-		teacher = TeacherDao.addTeacherToDataBases(teacher);
-		tlist.add(teacher.getTeacherId());
-		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
-		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-		cplist.add(classPhoto.getClassPhotoId());
-		
+		EduDaoBasic.clearAllDatabase();	
 		String name = "XDF";
 		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -44,9 +35,7 @@ public class CourseDaoTest {
 		String password = "sdf234r";
 		String phone = "123545451";	
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
-		partner.setClassPhotoIdList(cplist);
-		partner.setTeacherIdList(tlist);
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		
 		
@@ -91,7 +80,15 @@ public class CourseDaoTest {
 		studyDays.add(5);
 		studyDays.add(6);
 		studyDays.add(7);
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);		
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
 		course.setClassPhotoIdList(cplist);
 		course.setTeacherIdList(tlist);
 		course.setOutline("sdf");
@@ -103,17 +100,7 @@ public class CourseDaoTest {
 	
 	@Test
 	public void testGetAndUpdate() throws SQLException, PseudoException{
-		EduDaoBasic.clearAllDatabase();
-		
-		ArrayList<Long> tlist = new ArrayList<Long>();
-		ArrayList<Long> cplist = new ArrayList<Long>();
-		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
-		teacher = TeacherDao.addTeacherToDataBases(teacher);
-		tlist.add(teacher.getTeacherId());
-		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
-		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-		cplist.add(classPhoto.getClassPhotoId());
-		
+		EduDaoBasic.clearAllDatabase();		
 		String name = "XDF";
 		String instName = "xiaofeng";
 		String licence = "234fdsfsdgergf-dsv,.!@";
@@ -123,8 +110,6 @@ public class CourseDaoTest {
 		String phone = "123545451";	
 		AccountStatus status = AccountStatus.activated;
 		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
-		partner.setClassPhotoIdList(cplist);
-		partner.setTeacherIdList(tlist);
 		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		int p_Id = partner.getPartnerId();
@@ -137,6 +122,14 @@ public class CourseDaoTest {
 		String subCategory = "sub-Phy";		
 		int price = 1000;				
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
 		String location = "China";
 		String city = "NanJing";
 		String district = "JiangNing";
@@ -221,17 +214,7 @@ public class CourseDaoTest {
 	
 	@Test
 	public void testSearch() throws SQLException, PseudoException{
-		EduDaoBasic.clearAllDatabase();
-		
-		ArrayList<Long> tlist = new ArrayList<Long>();
-		ArrayList<Long> cplist = new ArrayList<Long>();
-		Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
-		teacher = TeacherDao.addTeacherToDataBases(teacher);
-		tlist.add(teacher.getTeacherId());
-		ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
-		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-		cplist.add(classPhoto.getClassPhotoId());
-		
+		EduDaoBasic.clearAllDatabase();		
 		/* Partner part */
 		String name = "partne1";
 		String instName = "instName1";
@@ -241,9 +224,7 @@ public class CourseDaoTest {
 		String password = "password1";
 		String phone = "phone1";	
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
-		partner.setClassPhotoIdList(cplist);
-		partner.setTeacherIdList(tlist);
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		int p_Id = partner.getPartnerId();
 		
@@ -255,9 +236,7 @@ public class CourseDaoTest {
 		String password2 = "password2";
 		String phone2 = "phone2";	
 		AccountStatus status2 = AccountStatus.activated;
-		Partner partner2 = new Partner(name2,instName2, licence2, organizationNum2,reference2, password2, phone2,status2);
-		partner2.setClassPhotoIdList(cplist);
-		partner2.setTeacherIdList(tlist);
+		Partner partner2 = new Partner(name2,instName2, licence2, organizationNum2,reference2, password2, phone2,status2);		
 		partner2 = PartnerDao.addPartnerToDatabases(partner2);
 		int p_Id2 = partner2.getPartnerId();
 		
@@ -269,13 +248,19 @@ public class CourseDaoTest {
 		String password3 = "password3";
 		String phone3 = "phone3";	
 		AccountStatus status3 = AccountStatus.activated;
-		Partner partner3 = new Partner(name3,instName3, licence3, organizationNum3,reference3, password3, phone3,status3);
-		partner3.setClassPhotoIdList(cplist);
-		partner3.setTeacherIdList(tlist);
+		Partner partner3 = new Partner(name3,instName3, licence3, organizationNum3,reference3, password3, phone3,status3);		
 		partner3 = PartnerDao.addPartnerToDatabases(partner3);
 		int p_Id3 = partner3.getPartnerId();
 		
 		/* Course part */
+		ArrayList<Long> tlist = new ArrayList<Long>();
+		ArrayList<Long> cplist = new ArrayList<Long>();
+		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
+		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		tlist.add(teacher.getTeacherId());
+		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
+		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		cplist.add(classPhoto.getClassPhotoId());
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
 		finishTime.add(Calendar.DAY_OF_YEAR, 1);		

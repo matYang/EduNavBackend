@@ -126,6 +126,12 @@ public class SMSTaskTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";	
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		ArrayList<Long> list = new ArrayList<Long>();	
+		list.add(1L);
+		course.setOutline("sdfdsf");
+		course.setGoal("sdfdsf");
+		course.setClassPhotoIdList(list);
+		course.setTeacherIdList(list);
 		CourseDao.addCourseToDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
 		String location = "China";

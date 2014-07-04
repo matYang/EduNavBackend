@@ -24,7 +24,7 @@ public class ClassPhoto implements PseudoModel, Serializable{
 	private Calendar creationTime;
 	
 	
-	public ClassPhoto(long classPhotoId, int partnerId, String imgUrl, String title, String description, Calendar creationTime) {
+	public ClassPhoto(long classPhotoId, int partnerId, String imgUrl, String title, String description, Calendar creationTime,Visibility visibility) {
 		super();
 		this.classPhotoId = classPhotoId;
 		this.partnerId = partnerId;
@@ -32,6 +32,7 @@ public class ClassPhoto implements PseudoModel, Serializable{
 		this.title = title;
 		this.description = description;
 		this.creationTime = creationTime;
+		this.visibility = visibility;
 	}
 	
 
@@ -43,6 +44,7 @@ public class ClassPhoto implements PseudoModel, Serializable{
 		this.title = title;
 		this.description = description;
 		this.creationTime = DateUtility.getCurTimeInstance();
+		this.visibility = Visibility.visible;
 	}
 	
 	public ClassPhoto() {
@@ -99,24 +101,20 @@ public class ClassPhoto implements PseudoModel, Serializable{
 		return creationTime;
 	}
 
+	public Visibility getVisibility() {
+		return visibility;
+	}
+
+
+	public void setVisibility(Visibility visibility) {
+		this.visibility = visibility;
+	}
+
+
 	@Override
 	public JSONObject toJSON() throws Exception {
 		return ModelReflectiveService.toJSON(this);
-	}
-
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (classPhotoId ^ (classPhotoId >>> 32));
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((imgUrl == null) ? 0 : imgUrl.hashCode());
-		result = prime * result + partnerId;
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
-	}
+	}	
 
 
 	@Override
@@ -129,7 +127,7 @@ public class ClassPhoto implements PseudoModel, Serializable{
 			return false;
 		ClassPhoto other = (ClassPhoto) obj;
 		if (classPhotoId != other.classPhotoId)
-			return false;
+			return false;		
 		if (description == null) {
 			if (other.description != null)
 				return false;
@@ -147,9 +145,10 @@ public class ClassPhoto implements PseudoModel, Serializable{
 				return false;
 		} else if (!title.equals(other.title))
 			return false;
+		if (visibility != other.visibility)
+			return false;
 		return true;
 	}
-	
 
 
 }

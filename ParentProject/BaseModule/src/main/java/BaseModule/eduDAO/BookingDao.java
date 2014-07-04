@@ -141,7 +141,7 @@ public class BookingDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;			
-		String query = "INSERT INTO BookingDao (name,phone,creationTime,adjustTime,price," +
+		String query = "INSERT INTO Booking (name,phone,creationTime,adjustTime,price," +
 				"status,u_Id,p_Id,course_Id,reference,transaction_Id,cashbackAmount,note,couponRecord," +
 				"scheduledTime,email,actionRecord,preStatus,noRefundDate,cashbackDate,bookingType,"+ 
 				"serviceFeeStatus,commissionStatus,serviceFeeStatusAdjustTime,commissionStatusAdjustTime,"+
@@ -199,7 +199,7 @@ public class BookingDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		int stmtInt = 1;		
-		String query = "UPDATE BookingDao SET name=?,phone=?,adjustTime=?,price=?," +
+		String query = "UPDATE Booking SET name=?,phone=?,adjustTime=?,price=?," +
 				"status=?,u_Id=?,p_Id=?,course_Id=?,reference=?,transaction_Id=?,cashbackAmount=?,note=?,couponRecord=?," +
 				"scheduledTime=?,email=?,actionRecord=?,preStatus=?,noRefundDate=?,cashbackDate=?,bookingType=?," +
 				"serviceFeeStatus=?,commissionStatus=?,serviceFeeStatusAdjustTime=?,commissionStatusAdjustTime=?,"+ 
@@ -252,7 +252,7 @@ public class BookingDao {
 
 
 	public static Booking getBookingById(int id,Connection...connections) throws PseudoException, SQLException{
-		String query = "SELECT * FROM BookingDao WHERE id = ?";
+		String query = "SELECT * FROM Booking WHERE id = ?";
 		PreparedStatement stmt = null;
 		Connection conn = null;
 		ResultSet rs = null;

@@ -221,26 +221,9 @@ public class CacheTest {
 			String reference = "dsf4r";
 			String password = "sdf234r";
 			String phone = "123545451";
-			AccountStatus status = AccountStatus.activated;
-			ArrayList<Long> tlist = new ArrayList<Long>();
-			ArrayList<Long> cplist = new ArrayList<Long>();
-			Teacher teacher = new Teacher(1, "teacherImgUrl", "teacherName","teacherIntro");	
-			try {
-				teacher = TeacherDao.addTeacherToDataBases(teacher);
-			} catch (SQLException e) {		
-				e.printStackTrace();
-			}
-			tlist.add(teacher.getTeacherId());
-			ClassPhoto classPhoto = new ClassPhoto(1, "classImgUrl", "classPhoto","classDescription");
-			try {
-				classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-			} catch (SQLException e) {			
-				e.printStackTrace();
-			}
-			cplist.add(classPhoto.getClassPhotoId());
+			AccountStatus status = AccountStatus.activated;			
 			Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
-			partner.setClassPhotoIdList(cplist);
-			partner.setTeacherIdList(tlist);
+			
 			
 			try {
 				PartnerDao.addPartnerToDatabases(partner, connections);
@@ -256,9 +239,7 @@ public class CacheTest {
 			String password2 = "sdsdf34r";
 			String phone2 = "12335451";
 			AccountStatus status2 = AccountStatus.deactivated;
-			Partner partner2 = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2, phone2,status2);
-			partner2.setClassPhotoIdList(cplist);
-			partner2.setTeacherIdList(tlist);
+			Partner partner2 = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2, phone2,status2);			
 			try {
 				PartnerDao.addPartnerToDatabases(partner2,connections);
 			} catch (SQLException e) {				
@@ -273,9 +254,7 @@ public class CacheTest {
 			String password3 = "sdf234r";
 			String phone3 = "12354";
 			AccountStatus status3 = AccountStatus.deleted;
-			Partner partner3 = new Partner(name3, instName3,licence3, organizationNum3,reference3, password3, phone3,status3);
-			partner3.setClassPhotoIdList(cplist);
-			partner3.setTeacherIdList(tlist);
+			Partner partner3 = new Partner(name3, instName3,licence3, organizationNum3,reference3, password3, phone3,status3);			
 			try {
 				PartnerDao.addPartnerToDatabases(partner3, connections);
 			} catch (SQLException e) {				
