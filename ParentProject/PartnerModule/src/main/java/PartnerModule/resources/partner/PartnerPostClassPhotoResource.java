@@ -1,4 +1,4 @@
-package AdminModule.resources.partner;
+package PartnerModule.resources.partner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,14 +10,14 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 
-import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
 import BaseModule.dbservice.ClassPhotoDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 import BaseModule.model.ClassPhoto;
+import PartnerModule.resources.PartnerPseudoResource;
 
-public class PartnerPostClassPhotoResource extends AdminPseudoResource {
+public class PartnerPostClassPhotoResource extends PartnerPseudoResource {
 	private final String apiId = PartnerPostClassPhotoResource.class.getSimpleName();
 	
 	@Post
@@ -25,11 +25,10 @@ public class PartnerPostClassPhotoResource extends AdminPseudoResource {
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			final int adminId = this.validateAuthentication();
-			final int partnerId = Integer.parseInt(this.getReqAttr("id"));
+			final int partnerId = this.validateAuthentication();
 			final int totalNumber = Integer.parseInt(this.getQueryVal("total"));
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, adminId, this.getUserAgent(), "<Form>");
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partnerId, this.getUserAgent(), "<Form>");
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");

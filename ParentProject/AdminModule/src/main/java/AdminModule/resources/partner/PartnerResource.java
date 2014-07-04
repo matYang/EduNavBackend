@@ -21,7 +21,6 @@ import BaseModule.generator.JSONGenerator;
 import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.Partner;
 import BaseModule.model.representation.PartnerSearchRepresentation;
-import BaseModule.service.EncodingService;
 
 public final class PartnerResource extends AdminPseudoResource{
 	private final String apiId = PartnerResource.class.getSimpleName();
@@ -72,8 +71,10 @@ public final class PartnerResource extends AdminPseudoResource{
 			//initialize the reference at this earlier step
 			partner.setReference(ReferenceGenerator.generatePartnerReference());
 			partner = PartnerDaoService.createPartner(partner);
-
-			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
+			
+			ArrayList<Long> idList = new ArrayList<Long>();
+			idList.add((long) partner.getPartnerId());
+			props = this.handleMultiForm(entity, idList, props);
 			partner.loadFromMap(props);
 			partner.setStatus(AccountStatus.activated);
 			PartnerDaoService.updatePartner(partner);

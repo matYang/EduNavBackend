@@ -1,4 +1,4 @@
-package AdminModule.resources.partner;
+package PartnerModule.resources.partner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,48 +10,46 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 
-import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
-import BaseModule.dbservice.ClassPhotoDaoService;
+import BaseModule.dbservice.TeacherDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.model.ClassPhoto;
+import BaseModule.model.Teacher;
+import PartnerModule.resources.PartnerPseudoResource;
 
-public class PartnerPostClassPhotoResource extends AdminPseudoResource {
-	private final String apiId = PartnerPostClassPhotoResource.class.getSimpleName();
+public class PartnerPostTeacherResource extends PartnerPseudoResource {
+	private final String apiId = PartnerPostTeacherResource.class.getSimpleName();
 	
 	@Post
-	public Representation postClassPhotoResource(Representation entity){
+	public Representation partnerPostTeacherResource(Representation entity){
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			final int adminId = this.validateAuthentication();
-			final int partnerId = Integer.parseInt(this.getReqAttr("id"));
+			final int partnerId = this.validateAuthentication();
 			final int totalNumber = Integer.parseInt(this.getQueryVal("total"));
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, adminId, this.getUserAgent(), "<Form>");
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partnerId, this.getUserAgent(), "<Form>");
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");
 			}
 			
 			//get all the ids from database, as they are needed in file name to ensure file name uniqueness and record
-			ArrayList<ClassPhoto> modelList = new ArrayList<ClassPhoto>();
+			ArrayList<Teacher> modelList = new ArrayList<Teacher>();
 			for (int i = 0; i < totalNumber; i++){
-				//TODO set visibility
-				ClassPhoto model = new ClassPhoto();
+				Teacher model = new Teacher();
 				modelList.add(model);
 			}
-			modelList = ClassPhotoDaoService.createClassPhotoList(modelList);
+			modelList = TeacherDaoService.createTeacherList(modelList);
 			
 			ArrayList<Long> idList = new ArrayList<Long>();
 			ArrayList<HashMap<String, String>> mapList = new ArrayList<HashMap<String, String>>();
-			for (ClassPhoto model : modelList){
-				idList.add(model.getClassPhotoId());
+			for (Teacher model : modelList){
+				idList.add(model.getTeacherId());
 				mapList.add(new HashMap<String, String>());
 			}
 			
-			props.put("type", "classPhoto");
+			props.put("type", "teacher");
 			props = this.handleMultiForm(entity, idList, props);
 			props.remove("type");
 			
@@ -63,10 +61,9 @@ public class PartnerPostClassPhotoResource extends AdminPseudoResource {
 			for (int i = 0; i < totalNumber; i++){
 				modelList.get(i).loadFromMap(props);
 				modelList.get(i).setPartnerId(partnerId);
-				//TODO set visibility
 			}
 			
-			ClassPhotoDaoService.updateClassPhotoList(modelList);
+			TeacherDaoService.updateTeacherList(modelList);
 			
 			
 		}catch (PseudoException e){
@@ -84,6 +81,4 @@ public class PartnerPostClassPhotoResource extends AdminPseudoResource {
 		this.addCORSHeader();
 		return result;
 	}
-	
-	
 }
