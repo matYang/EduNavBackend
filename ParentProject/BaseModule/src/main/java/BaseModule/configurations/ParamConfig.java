@@ -9,7 +9,7 @@ public class ParamConfig {
 	public static String ACKEY = null;
 	public static String ACIVY = null;
 	
-	public static String MODULE = "user";
+	public static String MODULE = null;
 	
 	public static String SQLMAX = "50";
 
