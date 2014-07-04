@@ -9,6 +9,10 @@ import BaseModule.configurations.ServerConfig;
 import PartnerModule.resources.course.CourseIdResource;
 import PartnerModule.resources.course.CourseResource;
 import PartnerModule.resources.partner.PartnerIdResource;
+import PartnerModule.resources.partner.PartnerPostClassPhotoResource;
+import PartnerModule.resources.partner.PartnerPostTeacherResource;
+import PartnerModule.resources.partner.PartnerUpdateClassPhotoResource;
+import PartnerModule.resources.partner.PartnerUpdateTeacherResource;
 import PartnerModule.resources.partner.auth.PartnerChangePassword;
 import PartnerModule.resources.partner.auth.PartnerForgetPassword;
 import PartnerModule.resources.partner.auth.PartnerLogin;
@@ -52,6 +56,22 @@ public final class RoutingService extends Application {
 		String ForgetPasswordPrefix = "/forgetPassword";
 		//	p-api for partner logout: /p-api/v1.0/partner/forgetPassword
 		router.attach(ServerConfig.partnerApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + ForgetPasswordPrefix, PartnerForgetPassword.class);
+		
+		String PostClassPhotoPrefix = "/postClassPhoto";
+		//  API for partner to post class photo images : /a-api/v1.0/partner/postClassPhoto/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PostClassPhotoPrefix + "/{id}", PartnerPostClassPhotoResource.class);
+		String UpdateClassPhotoPrefix = "/updateClassPhoto";
+		//  API for partner to update class photo images : /a-api/v1.0/partner/updateClassPhoto/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + UpdateClassPhotoPrefix + "/{id}", PartnerUpdateClassPhotoResource.class);
+		
+		String PostTeacherPrefix = "/postTeacher";
+		//  API for partner to post teachers : /a-api/v1.0/partner/postTeacher/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PostTeacherPrefix + "/{id}", PartnerPostTeacherResource.class);
+		String UpdateTeacherPrefix = "/updateTeacher";
+		//  API for partner to update teachers : /a-api/v1.0/partner/updateTeacher/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + UpdateTeacherPrefix + "/{id}", PartnerUpdateTeacherResource.class);
+		
+		
 		
 		/** -------------------- apis for partner module ------------------ **/
 		String courseServicePrefix = "/course";

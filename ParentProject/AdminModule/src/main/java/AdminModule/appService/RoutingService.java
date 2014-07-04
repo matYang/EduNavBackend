@@ -22,7 +22,11 @@ import AdminModule.resources.credit.CreditResource;
 import AdminModule.resources.modelLoader.MemcachedBenchMarkResource;
 import AdminModule.resources.modelLoader.ModelLoaderResource;
 import AdminModule.resources.partner.PartnerIdResource;
+import AdminModule.resources.partner.PartnerPostClassPhotoResource;
+import AdminModule.resources.partner.PartnerPostTeacherResource;
 import AdminModule.resources.partner.PartnerResource;
+import AdminModule.resources.partner.PartnerUpdateClassPhotoResource;
+import AdminModule.resources.partner.PartnerUpdateTeacherResource;
 import AdminModule.resources.transaction.TransactionResource;
 import AdminModule.resources.user.UserResource;
 import AdminModule.resources.user.UserIdResource;
@@ -75,6 +79,19 @@ public final class RoutingService extends Application{
 		//  API for admin to update partner : /a-api/v1.0/partner/partner/:id
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PartnerPrefix + "/{id}", PartnerIdResource.class);
 		
+		String PostClassPhotoPrefix = "/postClassPhoto";
+		//  API for admin to post class photo images : /a-api/v1.0/partner/postClassPhoto/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PostClassPhotoPrefix + "/{id}", PartnerPostClassPhotoResource.class);
+		String UpdateClassPhotoPrefix = "/updateClassPhoto";
+		//  API for admin to update class photo images : /a-api/v1.0/partner/updateClassPhoto/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + UpdateClassPhotoPrefix + "/{id}", PartnerUpdateClassPhotoResource.class);
+		
+		String PostTeacherPrefix = "/postTeacher";
+		//  API for admin to post teachers : /a-api/v1.0/partner/postTeacher/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + PostTeacherPrefix + "/{id}", PartnerPostTeacherResource.class);
+		String UpdateTeacherPrefix = "/updateTeacher";
+		//  API for admin to update teachers : /a-api/v1.0/partner/updateTeacher/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + partnerServicePrefix + UpdateTeacherPrefix + "/{id}", PartnerUpdateTeacherResource.class);
 		
 		
 		/** -------------------- APIs for user module ------------------ **/
