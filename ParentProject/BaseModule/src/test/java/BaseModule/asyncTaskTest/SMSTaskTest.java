@@ -145,10 +145,14 @@ public class SMSTaskTest {
 		ArrayList<Long> tlist = new ArrayList<Long>();
 		ArrayList<Long> clist = new ArrayList<Long>();
 		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
-		teacher = TeacherDao.addTeacherToDataBases(teacher);
+		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+		teachers.add(teacher);
+		teachers = TeacherDao.addTeachersToDataBases(teachers);
 		tlist.add(teacher.getTeacherId());
 		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
-		classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
+		ArrayList<ClassPhoto> classPhotos = new ArrayList<ClassPhoto>();
+		classPhotos.add(classPhoto);
+		classPhotos = ClassPhotoDao.addClassPhotosToDataBases(classPhotos);
 		clist.add(classPhoto.getClassPhotoId());
 		course.setClassPhotoIdList(clist);
 		course.setTeacherIdList(tlist);

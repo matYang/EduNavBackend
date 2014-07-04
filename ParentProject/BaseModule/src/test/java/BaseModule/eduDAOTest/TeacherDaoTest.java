@@ -18,9 +18,11 @@ public class TeacherDaoTest {
 	public void testAdd(){
 		EduDaoBasic.clearAllDatabase();
 		int p_Id = 1;
-		Teacher teacher = new Teacher(p_Id,"teacherImgUrl", "teacherName", "teacherIntro");			
+		Teacher teacher = new Teacher(p_Id,"teacherImgUrl", "teacherName", "teacherIntro");
+		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+		teachers.add(teacher);
 		try {
-			TeacherDao.addTeacherToDataBases(teacher);
+			TeacherDao.addTeachersToDataBases(teachers);
 		} catch (SQLException e) {
 			fail();
 			e.printStackTrace();
@@ -32,9 +34,13 @@ public class TeacherDaoTest {
 		EduDaoBasic.clearAllDatabase();
 		int p_Id = 1;
 		Teacher teacher = new Teacher(p_Id,"teacherImgUrl", "teacherName", "teacherIntro");
-		TeacherDao.addTeacherToDataBases(teacher);
+		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+		teachers.add(teacher);
+		TeacherDao.addTeachersToDataBases(teachers);
 		Teacher teacher2 = new Teacher(p_Id,"teacherImgUrl2", "teacherName2", "teacherIntro2");
-		TeacherDao.addTeacherToDataBases(teacher2);
+		teachers = new ArrayList<Teacher>();
+		teachers.add(teacher2);
+		TeacherDao.addTeachersToDataBases(teachers);
 		ArrayList<Long> teacherIdList = new ArrayList<Long>();
 		teacherIdList.add(teacher.getTeacherId());
 		teacherIdList.add(teacher2.getTeacherId());
@@ -54,9 +60,13 @@ public class TeacherDaoTest {
 		EduDaoBasic.clearAllDatabase();
 		int p_Id = 1;
 		Teacher teacher = new Teacher(p_Id,"teacherImgUrl", "teacherName", "teacherIntro");
-		TeacherDao.addTeacherToDataBases(teacher);
+		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+		teachers.add(teacher);
+		TeacherDao.addTeachersToDataBases(teachers);
 		Teacher teacher2 = new Teacher(p_Id,"teacherImgUrl2", "teacherName2", "teacherIntro2");
-		TeacherDao.addTeacherToDataBases(teacher2);
+		teachers = new ArrayList<Teacher>();
+		teachers.add(teacher2);
+		TeacherDao.addTeachersToDataBases(teachers);
 		teacher.setName("HarryXiong");
 		TeacherDao.updateTeacherInDataBase(teacher);
 		ArrayList<Long> teacherIdList = new ArrayList<Long>();
