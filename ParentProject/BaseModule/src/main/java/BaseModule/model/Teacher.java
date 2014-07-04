@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
 import BaseModule.interfaces.PseudoModel;
+import BaseModule.service.ModelReflectiveService;
 
 public class Teacher implements PseudoModel, Serializable{
 
@@ -102,7 +103,7 @@ public class Teacher implements PseudoModel, Serializable{
 
 	@Override
 	public JSONObject toJSON() throws Exception {
-		return null;
+		return ModelReflectiveService.toJSON(this);
 	}
 
 	@Override
