@@ -214,6 +214,22 @@ public final class EnumConfig {
         }
     }
 	
+	public static enum Visibility implements PseudoEnum{
+		visible(0), invisible(1);
+		public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
+        Visibility(int code){
+            this.code = code;
+        }
+        private final static Visibility[] map = Visibility.values();
+        public static Visibility fromInt(int n){
+            return map[n];
+        }
+	}
+	
 	public static enum ReflectiveOp implements PseudoEnum{
 		TOJSON(0),STOREJSON(1),STOREKVPS(2);
         public int code;

@@ -201,9 +201,6 @@ public class PseudoResource extends ServerResource{
     
 	
     
-    
-    
-    
     public Map<String, String> handleMultiForm(Representation entity, int id, Map<String, String> props) throws FileUploadException, IOException, ValidationException {
     	File imgFile = null;
     	// 1/ Create a factory for disk-based file items
@@ -224,27 +221,11 @@ public class PseudoResource extends ServerResource{
 			if (name == null) {
 				String fieldName = fi.getFieldName();
 				props.put(fieldName, new String(fi.get(), "UTF-8"));
-				if (fieldName.equals("studyDays")){
-					String[] studyDayValues = props.get(fieldName).split("-");
-					int tempIndex = 1;
-					for (String studyDayValue : studyDayValues){
-						props.put("studyDays"+tempIndex, studyDayValue);
-					}
-					props.remove(fieldName);
-				}
-				else if (fieldName.contains("teacherIntro")){
-					props.put("teacherIntros"+fieldName.charAt(fieldName.length()-1), props.get(fieldName));
-					props.remove(fieldName);
-				}
-				else if (fieldName.contains("teacherName")){
-					props.put("teacherNames"+fieldName.charAt(fieldName.length()-1), props.get(fieldName));
-					props.remove(fieldName);
-				}
 			} else {
 				String imgName;
 				String path;
 				String fieldName = fi.getFieldName();
-				if (fieldName.contains("teacherImg")){
+				if (fieldName.contains("teacherImgUrl")){
 					try{
 						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
 						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_HEIGHT, 120, 120, Scalr.OP_ANTIALIAS);
@@ -254,14 +235,14 @@ public class PseudoResource extends ServerResource{
 						ImageIO.write(bufferedImage, "jpg", imgFile);
 						//warning: can only call this upload once, as it will delete the image file before it exits
 						path = FileService.uploadTeacherImg(id, imgFile, imgName);
-						props.put("teacherImgUrls" + fieldName.charAt(fieldName.length()-1), path);
+						props.put("teacherImgUrl" + fieldName.charAt(fieldName.length()-1), path);
 					}
 					catch (NullPointerException e){
 						DebugLog.d(e);
-						//do nothing
+						//nothing to do here
 					}
 				}
-				else if (fieldName.contains("classImg") ){
+				else if (fieldName.contains("classImgUrl") ){
 					try{
 						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
 						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_HEIGHT, 216, 160, Scalr.OP_ANTIALIAS);
@@ -270,11 +251,11 @@ public class PseudoResource extends ServerResource{
 						ImageIO.write(bufferedImage, "jpg", imgFile);
 						//warning: can only call this upload once, as it will delete the image file before it exits
 						path = FileService.uploadBackgroundImg(id, imgFile, imgName);
-						props.put("classImgUrls" + fieldName.charAt(fieldName.length()-1), path);
+						props.put("classImgUrl" + fieldName.charAt(fieldName.length()-1), path);
 					} 
 					catch (NullPointerException e){
 						DebugLog.d(e);
-						//do nothing
+						//nothing to do here
 					}
 				}
 				else if (fieldName.equals("logoUrl")){

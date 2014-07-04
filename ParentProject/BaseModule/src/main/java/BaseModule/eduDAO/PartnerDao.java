@@ -262,12 +262,10 @@ public class PartnerDao {
 		ArrayList<Long> teacherIdList = new ArrayList<Long>();
 		ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
 		
-		if(connections!=null){
-			classPhotoIdList = Parser.stringToList(rs.getString("classPhotoIdList"), ImgConfig.imgSpliterRegex, Long.class);
-			classPhotoList = ClassPhotoDao.getClassPhotos(classPhotoIdList, connections);
-			teacherIdList = Parser.stringToList(rs.getString("teacherIdList"), ServerConfig.normalSpliter, Long.class);
-			teacherList = TeacherDao.getTeachers(teacherIdList, connections);
-		}		
+		classPhotoIdList = Parser.stringToList(rs.getString("classPhotoIdList"), ImgConfig.imgSpliterRegex, Long.class);
+		classPhotoList = ClassPhotoDao.getClassPhotos(classPhotoIdList, connections);
+		teacherIdList = Parser.stringToList(rs.getString("teacherIdList"), ServerConfig.normalSpliter, Long.class);
+		teacherList = TeacherDao.getTeachers(teacherIdList, connections);
 		
 		return new Partner(rs.getInt("id"), rs.getString("name"), rs.getString("licence"), rs.getString("organizationNum"),
 				rs.getString("reference"),rs.getString("password"), rs.getString("phone"), AccountStatus.fromInt(rs.getInt("status")),

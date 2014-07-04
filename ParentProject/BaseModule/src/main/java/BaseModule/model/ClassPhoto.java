@@ -5,6 +5,7 @@ import java.util.Calendar;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
+import BaseModule.configurations.EnumConfig.Visibility;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.ModelReflectiveService;
 
@@ -19,6 +20,7 @@ public class ClassPhoto implements PseudoModel, Serializable{
 	private String title;
 	private String description;
 	
+	private Visibility visibility;
 	private Calendar creationTime;
 	
 	

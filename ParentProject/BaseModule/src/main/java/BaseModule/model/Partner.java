@@ -33,9 +33,7 @@ public class Partner implements PseudoModel, Serializable{
 	private String instName;
 	private String logoUrl;
 	
-	private ArrayList<Long> classPhotoIdList;
 	private ArrayList<ClassPhoto> classPhotoList;
-	private ArrayList<Long> teacherIdList;
 	private ArrayList<Teacher> teacherList;
 	
 	private Calendar creationTime;

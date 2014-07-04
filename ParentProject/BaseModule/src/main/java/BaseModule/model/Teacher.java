@@ -6,6 +6,7 @@ import java.util.Calendar;
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
+import BaseModule.configurations.EnumConfig.Visibility;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.service.ModelReflectiveService;
 
@@ -15,11 +16,13 @@ public class Teacher implements PseudoModel, Serializable{
 	
 	private long teacherId;
 	private int partnerId;
+	private int popularity;
 	
 	private String imgUrl;
 	private String name;
 	private String intro;
 	
+	private Visibility visibility;
 	private Calendar creationTime;
 
 	/* for sql */
