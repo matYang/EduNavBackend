@@ -1,5 +1,6 @@
 package AdminModule.resources.partner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,12 +12,10 @@ import org.restlet.resource.Post;
 
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.dbservice.PartnerDaoService;
+import BaseModule.dbservice.ClassPhotoDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
-import BaseModule.generator.ReferenceGenerator;
-import BaseModule.model.Partner;
+import BaseModule.model.ClassPhoto;
 
 public class PartnerPostClassPhotoResource extends AdminPseudoResource {
 	private final String apiId = PartnerPostClassPhotoResource.class.getSimpleName();
@@ -26,18 +25,48 @@ public class PartnerPostClassPhotoResource extends AdminPseudoResource {
 		Map<String, String> props = new HashMap<String, String>();
 		try{
 			this.checkFileEntity(entity);
-			int adminId = this.validateAuthentication();
-			int partnerId = Integer.parseInt(this.getReqAttr("id"));
-			int totalNumber = Integer.parseInt(this.getQueryVal("total"));
+			final int adminId = this.validateAuthentication();
+			final int partnerId = Integer.parseInt(this.getReqAttr("id"));
+			final int totalNumber = Integer.parseInt(this.getQueryVal("total"));
 			
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, adminId, this.getUserAgent(), "<Form>");
 
 			if (!MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true)){
 				throw new ValidationException("上传数据类型错误");
 			}
-
-			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
 			
+			//get all the ids from database, as they are needed in file name to ensure file name uniqueness and record
+			ArrayList<ClassPhoto> modelList = new ArrayList<ClassPhoto>();
+			for (int i = 0; i < totalNumber; i++){
+				//TODO set visibility
+				ClassPhoto model = new ClassPhoto();
+				modelList.add(model);
+			}
+			modelList = ClassPhotoDaoService.createClassPhotoList(modelList);
+			
+			ArrayList<Long> idList = new ArrayList<Long>();
+			ArrayList<HashMap<String, String>> mapList = new ArrayList<HashMap<String, String>>();
+			for (ClassPhoto model : modelList){
+				idList.add(model.getClassPhotoId());
+				mapList.add(new HashMap<String, String>());
+			}
+			
+			props.put("type", "classPhoto");
+			props = this.handleMultiForm(entity, idList, props);
+			props.remove("type");
+			
+			for (String key : props.keySet()){
+				int index = Integer.parseInt(key.substring(key.length()-1)) - 1;
+				mapList.get(index).put(key.substring(0, key.length() - 1), props.get(key));
+			}
+
+			for (int i = 0; i < totalNumber; i++){
+				modelList.get(i).loadFromMap(props);
+				modelList.get(i).setPartnerId(partnerId);
+				//TODO set visibility
+			}
+			
+			ClassPhotoDaoService.updateClassPhotoList(modelList);
 			
 			
 		}catch (PseudoException e){

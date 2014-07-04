@@ -1,5 +1,6 @@
 package AdminModule.resources.partner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,13 +11,11 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Put;
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.common.DebugLog;
-import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
 
 import BaseModule.model.Partner;
-import BaseModule.service.EncodingService;
 
 public final class PartnerIdResource extends AdminPseudoResource{
 	private final String apiId = PartnerIdResource.class.getSimpleName();
@@ -36,7 +35,9 @@ public final class PartnerIdResource extends AdminPseudoResource{
 			
 			Partner partner = PartnerDaoService.getPartnerById(partnerId);
 
-			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
+			ArrayList<Long> idList = new ArrayList<Long>();
+			idList.add((long) partner.getPartnerId());
+			props = this.handleMultiForm(entity, idList, props);
 			partner.loadFromMap(props);
 			
 			PartnerDaoService.updatePartner(partner);

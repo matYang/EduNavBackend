@@ -2,6 +2,8 @@ package BaseModule.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Map;
+
 import org.json.JSONObject;
 
 import BaseModule.common.DateUtility;
@@ -105,19 +107,13 @@ public class ClassPhoto implements PseudoModel, Serializable{
 	}
 
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (classPhotoId ^ (classPhotoId >>> 32));
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((imgUrl == null) ? 0 : imgUrl.hashCode());
-		result = prime * result + partnerId;
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
+	public void loadFromMap(Map<String, String> kvps) throws Exception{
+		ModelReflectiveService.storeKvps(this, kvps);
 	}
-
+	
+	public void storeJSON(JSONObject jsonModel) throws Exception{
+		ModelReflectiveService.storeJSON(this, jsonModel);
+	}
 
 	@Override
 	public boolean equals(Object obj) {

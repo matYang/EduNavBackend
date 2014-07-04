@@ -17,6 +17,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.imgscalr.Scalr;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Status;
@@ -90,8 +91,17 @@ public class PseudoResource extends ServerResource{
 	
 	public JSONObject getJSONObj(Representation entity)throws ValidationException{
 		try {
-			JSONObject jsonBooking = (new JsonRepresentation(entity)).getJsonObject();
-			return jsonBooking;
+			JSONObject json = (new JsonRepresentation(entity)).getJsonObject();
+			return json;
+		} catch (JSONException | IOException | NullPointerException e) {
+			throw new ValidationException("无效数据格式");
+		}
+	}
+	
+	public JSONArray getJSONArr(Representation entity)throws ValidationException{
+		try {
+			JSONArray json = (new JsonRepresentation(entity)).getJsonArray();
+			return json;
 		} catch (JSONException | IOException | NullPointerException e) {
 			throw new ValidationException("无效数据格式");
 		}
@@ -201,7 +211,7 @@ public class PseudoResource extends ServerResource{
     
 	
     
-    public Map<String, String> handleMultiForm(Representation entity, int id, Map<String, String> props) throws FileUploadException, IOException, ValidationException {
+    public Map<String, String> handleMultiForm(Representation entity, ArrayList<Long> idList, Map<String, String> props) throws FileUploadException, IOException, ValidationException {
     	File imgFile = null;
     	// 1/ Create a factory for disk-based file items
 		DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -225,49 +235,56 @@ public class PseudoResource extends ServerResource{
 				String imgName;
 				String path;
 				String fieldName = fi.getFieldName();
-				if (fieldName.contains("teacherImgUrl")){
-					try{
-						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
-						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_HEIGHT, 120, 120, Scalr.OP_ANTIALIAS);
-						
-						imgName = ImgConfig.teacherImgPrefix + fieldName + "-" + id;
-						imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.imgFolder+ imgName + ".jpg");
-						ImageIO.write(bufferedImage, "jpg", imgFile);
-						//warning: can only call this upload once, as it will delete the image file before it exits
-						path = FileService.uploadTeacherImg(id, imgFile, imgName);
-						props.put("teacherImgUrl" + fieldName.charAt(fieldName.length()-1), path);
+				if (fieldName.contains("imgUrl")){
+					if (props.get("type").equalsIgnoreCase("classPhoto")){
+						try{
+							int index = Integer.parseInt(fieldName.substring(fieldName.length()-1)) - 1;
+							
+							BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
+							bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_HEIGHT, 120, 120, Scalr.OP_ANTIALIAS);
+							
+							imgName = ImgConfig.teacherImgPrefix + fieldName + "-" + idList.get(index);
+							imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.imgFolder+ imgName + ".jpg");
+							ImageIO.write(bufferedImage, "jpg", imgFile);
+							//warning: can only call this upload once, as it will delete the image file before it exits
+							path = FileService.uploadTeacherImg(idList.get(index), imgFile, imgName);
+							props.put("imgUrl" + (index+1), path);
+						}
+						catch (NullPointerException e){
+							DebugLog.d(e);
+							//nothing to do here
+						}
 					}
-					catch (NullPointerException e){
-						DebugLog.d(e);
-						//nothing to do here
+					else if (props.get("type").equalsIgnoreCase("teacher")){
+						try{
+							int index = Integer.parseInt(fieldName.substring(fieldName.length()-1)) - 1;
+									
+							BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
+							bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_HEIGHT, 216, 160, Scalr.OP_ANTIALIAS);
+							imgName = ImgConfig.classImgPrefix + fieldName + "-" + idList.get(index);
+							imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.imgFolder + imgName + ".jpg");
+							ImageIO.write(bufferedImage, "jpg", imgFile);
+							//warning: can only call this upload once, as it will delete the image file before it exits
+							path = FileService.uploadClassPhotoImg(idList.get(index), imgFile, imgName);
+							props.put("imgUrl" + (index+1), path);
+						} 
+						catch (NullPointerException e){
+							DebugLog.d(e);
+							//nothing to do here
+						}
 					}
-				}
-				else if (fieldName.contains("classImgUrl") ){
-					try{
-						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
-						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_HEIGHT, 216, 160, Scalr.OP_ANTIALIAS);
-						imgName = ImgConfig.classImgPrefix + fieldName + "-" + id;
-						imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.imgFolder + imgName + ".jpg");
-						ImageIO.write(bufferedImage, "jpg", imgFile);
-						//warning: can only call this upload once, as it will delete the image file before it exits
-						path = FileService.uploadBackgroundImg(id, imgFile, imgName);
-						props.put("classImgUrl" + fieldName.charAt(fieldName.length()-1), path);
-					} 
-					catch (NullPointerException e){
-						DebugLog.d(e);
-						//nothing to do here
-					}
+					
 				}
 				else if (fieldName.equals("logoUrl")){
 					try{
 						BufferedImage bufferedImage = ImageIO.read(fi.getInputStream());
 						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 100, 100, Scalr.OP_ANTIALIAS);
 
-						imgName = ImgConfig.logoPrefix + id;
+						imgName = ImgConfig.logoPrefix + idList.get(0);
 						imgFile = new File(ServerConfig.resourcePrefix + ImgConfig.imgFolder+ imgName + ".jpg");
 						ImageIO.write(bufferedImage, "jpg", imgFile);
 						//warning: can only call this upload once, as it will delete the image file before it exits
-						path = FileService.uploadLogoImg(id, imgFile, imgName);
+						path = FileService.uploadLogoImg(idList.get(0), imgFile, imgName);
 						props.put(fieldName, path);
 					} 
 					catch (NullPointerException e){

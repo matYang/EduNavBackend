@@ -2,6 +2,7 @@ package BaseModule.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -107,6 +108,14 @@ public class Teacher implements PseudoModel, Serializable{
 	@Override
 	public JSONObject toJSON() throws Exception {
 		return ModelReflectiveService.toJSON(this);
+	}
+	
+	public void loadFromMap(Map<String, String> kvps) throws Exception{
+		ModelReflectiveService.storeKvps(this, kvps);
+	}
+	
+	public void storeJSON(JSONObject jsonModel) throws Exception{
+		ModelReflectiveService.storeJSON(this, jsonModel);
 	}
 
 	@Override

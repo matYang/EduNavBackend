@@ -1,5 +1,6 @@
 package PartnerModule.resources.partner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,8 +65,10 @@ public final class PartnerIdResource extends PartnerPseudoResource{
 			
 			Partner partner = PartnerDaoService.getPartnerById(partnerId);
 			
-			//handle the multi-form, upload images if necessary
-			props = this.handleMultiForm(entity, partner.getPartnerId(), props);
+			//handle the multi-form
+			ArrayList<Long> idList = new ArrayList<Long>();
+			idList.add((long) partner.getPartnerId());
+			props = this.handleMultiForm(entity, idList, props);
 			
 			partner.loadFromMap(props);
 			PartnerDaoService.updatePartner(partner);
