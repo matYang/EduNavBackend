@@ -12,7 +12,7 @@ import BaseModule.model.representation.CourseSearchRepresentation;
 
 public class CourseSearchRepresentationTest {
 
-	//@Test
+	@Test
 	public void test() throws Exception {
 		Map<String, String> kvps= new HashMap<String, String>();
 		

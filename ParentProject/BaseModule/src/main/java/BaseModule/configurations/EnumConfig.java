@@ -212,6 +212,22 @@ public final class EnumConfig {
         public static PartnerQualification fromInt(int n){
             return map[n];
         }
-    }	
+    }
+	
+	public static enum ReflectiveOp implements PseudoEnum{
+		TOJSON(0),STOREJSON(1),STOREKVPS(2);
+        public int code;
+        @Override
+        public int getCode() {
+            return code;
+        }
+        ReflectiveOp(int code){
+            this.code = code;
+        }
+        private final static ReflectiveOp[] map = ReflectiveOp.values();
+        public static ReflectiveOp fromInt(int n){
+            return map[n];
+        }
+	}
 
 }
