@@ -56,7 +56,7 @@ public final class ModelDataLoaderService {
 			loadUsers(conn);//20
 			loadPartners(conn);//10
 			loadAdmins(conn);//10				
-			loadCourses(conn);//30
+			loadCourses(conn);//40
 			loadBookings(conn);//20		
 			loadTransactions(conn);//20
 			loadCredits(conn);//20
@@ -79,65 +79,9 @@ public final class ModelDataLoaderService {
 
 		String outline = "提纲提纲提纲提纲提纲： \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n  提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n";
 		String goal = "提纲提纲提纲提纲提纲： \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n  提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n";
-		ArrayList<String> teacherIntros = new ArrayList<String>();
-		teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍。介绍介绍介绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
-		teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
-		teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍。介绍介绍介介绍介绍介绍介绍。介绍介绍介绍介绍介绍。介绍介绍介绍介绍介绍。介绍绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
-		teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍。介绍介绍介绍介绍介绍介绍。介绍介绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
-		
 		String filler = "--此处为填充字符，在这里的目的是为了展示一下正式内容填充之后的效果。该处字符数为80个字，保持属于同一个段落，内容一致统一，谢谢您的阅读- 填充填充填充填充填充填充填充填充填充填充填充填充填充填充填充填充填充填充-";
-
-		ArrayList<String> teacherNames = new ArrayList<String>();
-		teacherNames.add("张老师");
-		teacherNames.add("李老师");
-		teacherNames.add("谢老师");
-		teacherNames.add("陈老师");
 		
-		ArrayList<String> teacherImgs = new ArrayList<String>();
-		teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
-		teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
-		teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
-		teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
 		
-		// upload Teachers
-		ArrayList<Long> teacherIdList = new ArrayList<Long>();
-		ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
-		for(int i = 0; i < teacherIntros.size(); i++){			
-			Teacher teacher = new Teacher(i+1, teacherImgs.get(i), teacherNames.get(i), teacherIntros.get(i));		
-			ArrayList<Teacher> tlist = new ArrayList<Teacher>();
-			tlist.add(teacher);
-			try {
-				tlist = TeacherDao.addTeachersToDataBases(tlist, connections);
-			} catch (SQLException e) {				
-				e.printStackTrace();
-				DebugLog.d(e);
-			}
-			teacherList.add(teacher);
-			teacherIdList.add(teacher.getTeacherId());
-		}
-		
-		ArrayList<String> classroomImgs = new ArrayList<String>();
-		classroomImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
-		classroomImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
-		classroomImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
-		classroomImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
-		
-		ArrayList<Long> classIdList = new ArrayList<Long>();
-		ArrayList<ClassPhoto> classPhotos = new ArrayList<ClassPhoto>();
-		// upload ClassImgs
-		for(int i = 0; i < classroomImgs.size(); i++){
-			ClassPhoto classPhoto = new ClassPhoto(i+1, classroomImgs.get(i), "classPhoto"+i,"classDescription"+i);
-			ArrayList<ClassPhoto> clist = new ArrayList<ClassPhoto>();
-			clist.add(classPhoto);
-			try {
-				clist = ClassPhotoDao.addClassPhotosToDataBases(clist, connections);
-			} catch (SQLException e) {				
-				e.printStackTrace();
-				DebugLog.d(e);
-			}
-			classIdList.add(classPhoto.getClassPhotoId());
-			classPhotos.add(classPhoto);
-		}
 		
 		ArrayList<Integer> studyDays = new ArrayList<Integer>();
 		studyDays.add(1);
@@ -154,6 +98,22 @@ public final class ModelDataLoaderService {
 			int popularity = i;
 			int p_Id = (i%10)+1;
 			price += 100 + i;
+			
+			Partner partner = null;
+			try {
+				partner = PartnerDaoService.getPartnerById(p_Id);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			} 
+			ArrayList<Long> classPhotoIdList = new ArrayList<Long>();
+			ArrayList<Long> teacherIdList = new ArrayList<Long>();
+			for (ClassPhoto classPhoto : partner.getClassPhotoList()){
+				classPhotoIdList.add(classPhoto.getClassPhotoId());
+			}
+			for (Teacher teacher : partner.getTeacherList()){
+				teacherIdList.add(teacher.getTeacherId());
+			}
+			
 
 			SDTree<String> randomProvinceNode = SDService.getLocationTree().getRandomLeaf();
 			SDTree<String> randomCityNode = randomProvinceNode.getRandomLeaf();
@@ -179,10 +139,8 @@ public final class ModelDataLoaderService {
 			course.setLocation(location);
 			course.setGoal(goal + i);
 			course.setOutline(outline + i);
-			course.setTeacherList(teacherList);
 			course.setTeacherIdList(teacherIdList);
-			course.setClassPhotoIdList(classIdList);
-			course.setClassPhotoList(classPhotos);
+			course.setClassPhotoIdList(classPhotoIdList);
 			course.setCashback(course.getPrice()/10);			
 			course.setStudyDays(studyDays);			
 			course.setClassTeacher(filler);
@@ -302,7 +260,77 @@ public final class ModelDataLoaderService {
 				Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
 				partner.setLogoUrl("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/1-3-logo.jpg");				
 				try {
-					PartnerDaoService.createPartner(partner, connections);
+					Partner resultPartner = PartnerDaoService.createPartner(partner, connections);
+					
+
+					//define all the teachers
+					int teacherCount = 4;
+					ArrayList<String> teacherIntros = new ArrayList<String>();
+					teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍。介绍介绍介绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
+					teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
+					teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍。介绍介绍介介绍介绍介绍介绍。介绍介绍介绍介绍介绍。介绍介绍介绍介绍介绍。介绍绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
+					teacherIntros.add("教师介绍：避免多于200字。 介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍介绍，介绍介绍介绍介绍介绍介绍。介绍介绍介绍介绍介绍介绍。介绍介绍介绍；介绍介绍介绍介绍介绍，介绍介绍介绍介绍、介绍介绍介绍介绍");
+					ArrayList<String> teacherNames = new ArrayList<String>();
+					teacherNames.add("张老师");
+					teacherNames.add("李老师");
+					teacherNames.add("谢老师");
+					teacherNames.add("陈老师");
+					ArrayList<String> teacherImgs = new ArrayList<String>();
+					teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+					teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+					teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+					teacherImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+					// upload Teachers
+					ArrayList<Long> teacherIdList = new ArrayList<Long>();
+					ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
+					for(int j = 0; j < teacherCount; j++){			
+						Teacher teacher = new Teacher(resultPartner.getPartnerId(), teacherImgs.get(j), teacherNames.get(j), teacherIntros.get(j));		
+						ArrayList<Teacher> tlist = new ArrayList<Teacher>();
+						tlist.add(teacher);
+						try {
+							tlist = TeacherDao.addTeachersToDataBases(tlist, connections);
+						} catch (SQLException e) {				
+							e.printStackTrace();
+							DebugLog.d(e);
+						}
+						teacherList.add(teacher);
+						teacherIdList.add(teacher.getTeacherId());
+					}
+					
+					//define all the class photos
+					int classPhotoCount = 4;
+					ArrayList<String> classPhotoImgs = new ArrayList<String>();
+					classPhotoImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+					classPhotoImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+					classPhotoImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+					classPhotoImgs.add("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/classroomImgUrl-1-2-3124123412.jpg");
+					ArrayList<String> classPhotoTitles = new ArrayList<String>();
+					classPhotoTitles.add("示例图片1");
+					classPhotoTitles.add("示例图片2");
+					classPhotoTitles.add("示例图片3");
+					classPhotoTitles.add("示例图片4");
+					ArrayList<String> classPhotoDescriptions = new ArrayList<String>();
+					classPhotoDescriptions.add("教室图片介绍，请在这里避免过多字符，推荐以精短介绍为主");
+					classPhotoDescriptions.add("教室图片介绍，请在这里避免过多字符，推荐以精短介绍为主，示例示例示例示例示例示例示例");
+					classPhotoDescriptions.add("教室图片介绍，请在这里避免过多字符，推荐以精短介绍为主，示例示例示例示例示例示示例示例示例示例示例示示例示例示例示例示例示");
+					classPhotoDescriptions.add("教室图片介绍，请在这里避免过多字符，推荐以精短介绍为主，示例示例示例示例示例");
+					ArrayList<Long> classIdList = new ArrayList<Long>();
+					ArrayList<ClassPhoto> classPhotos = new ArrayList<ClassPhoto>();
+					// upload ClassPhotos
+					for(int j = 0; j < classPhotoCount; j++){
+						ClassPhoto classPhoto = new ClassPhoto(resultPartner.getPartnerId(), classPhotoImgs.get(j), classPhotoTitles.get(j), classPhotoDescriptions.get(j));
+						ArrayList<ClassPhoto> clist = new ArrayList<ClassPhoto>();
+						clist.add(classPhoto);
+						try {
+							clist = ClassPhotoDao.addClassPhotosToDataBases(clist, connections);
+						} catch (SQLException e) {				
+							e.printStackTrace();
+							DebugLog.d(e);
+						}
+						classIdList.add(classPhoto.getClassPhotoId());
+						classPhotos.add(classPhoto);
+					}
+					
 				} catch (SQLException e) {				
 					e.printStackTrace();
 				}
