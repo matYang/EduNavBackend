@@ -31,6 +31,7 @@ import BaseModule.eduDAO.TeacherDao;
 import BaseModule.eduDAO.TransactionDao;
 import BaseModule.eduDAO.UserDao;
 import BaseModule.exception.PseudoException;
+import BaseModule.exception.validation.ValidationException;
 import BaseModule.generator.ReferenceGenerator;
 import BaseModule.model.AdminAccount;
 import BaseModule.model.Booking;
@@ -56,7 +57,7 @@ public final class ModelDataLoaderService {
 			loadUsers(conn);//20
 			loadPartners(conn);//10
 			loadAdmins(conn);//10				
-			loadCourses(conn);//40
+			loadCourses(conn);//30
 			loadBookings(conn);//20		
 			loadTransactions(conn);//20
 			loadCredits(conn);//20
@@ -68,14 +69,20 @@ public final class ModelDataLoaderService {
 		DebugLog.d("Models loaded successfully");
 	}	
 
-	private static void loadCourses(Connection...connections){		
-		Calendar startTime = DateUtility.getCurTimeInstance();
-		Calendar finishTime = DateUtility.getCurTimeInstance();
-		finishTime.add(Calendar.HOUR_OF_DAY, 5);
-		finishTime.add(Calendar.DAY_OF_MONTH, 8);		
+	private static void loadCourses(Connection...connections){			
 		int price = 100;
-		final int courseNum = 20;
+		final int courseNum = 30;
 		
+		Calendar cutoffDate = null;
+		Calendar startDate = null;
+		Calendar finishDate = null;
+		try {
+			cutoffDate = DateUtility.castFromAPIFormat("2014-07-31 01:01:01");
+			startDate = DateUtility.castFromAPIFormat("2014-07-31 01:01:01");
+			finishDate = DateUtility.castFromAPIFormat("2014-08-31 01:01:01");
+		} catch (ValidationException e) {
+			e.printStackTrace();
+		}
 
 		String outline = "提纲提纲提纲提纲提纲： \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n  提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n";
 		String goal = "提纲提纲提纲提纲提纲： \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n  提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲  \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲 \n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n 提纲提纲提纲提纲提纲提纲提纲提纲提纲提纲\n \n 提纲提纲提纲提纲提纲\n";
@@ -93,7 +100,17 @@ public final class ModelDataLoaderService {
 		
 		String location = "上海徐汇万体馆漕溪北路398号";
 		
-		for(int i=1; i <= courseNum; i++){			
+		for(int i=1; i <= courseNum; i++){
+			if (i == 11){
+				cutoffDate.add(Calendar.DAY_OF_MONTH, 31);
+				startDate.add(Calendar.DAY_OF_MONTH, 31);
+				finishDate.add(Calendar.DAY_OF_MONTH, 31);
+			}
+			else if (i == 21){
+				cutoffDate.add(Calendar.DAY_OF_MONTH, 30);
+				startDate.add(Calendar.DAY_OF_MONTH, 30);
+				finishDate.add(Calendar.DAY_OF_MONTH, 30);
+			}
 			int classSize = i;
 			int popularity = i;
 			int p_Id = (i%10)+1;
@@ -130,8 +147,10 @@ public final class ModelDataLoaderService {
 			String subSubCategory = randomSubSubCatNode.getHead();
 			
 			String phone = "DONOTSEND1234567890" + i;		
-			startTime.add(Calendar.MINUTE, i);
-			Course course = new Course(p_Id, startTime, finishTime,price,classSize,popularity,category,subCategory,phone);
+			
+			
+			
+			Course course = new Course(p_Id, startDate, finishDate,price,classSize,popularity,category,subCategory,phone);
 			course.setSubSubCategory(subSubCategory);
 			course.setProvince(province);
 			course.setCity(city);
@@ -171,6 +190,7 @@ public final class ModelDataLoaderService {
 			course.setPassAgreement(filler);
 			course.setCourseHourNum(20);
 			course.setCourseHourLength(60);
+			course.setCutoffDate(cutoffDate);
 			
 			try {
 				course.setReference(ReferenceGenerator.generateCourseReference());
