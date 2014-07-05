@@ -91,7 +91,7 @@ public class CacheTest {
 	
 	
 	
-	private static void loadCourses(Connection...connections){
+	private static void loadCourses(Connection...connections) throws SQLException{
 		int p_Id = 1;
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
@@ -106,18 +106,14 @@ public class CacheTest {
 		ArrayList<Long> tlist = new ArrayList<Long>();
 		ArrayList<Long> cplist = new ArrayList<Long>();
 		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
-		try {
-			teacher = TeacherDao.addTeacherToDataBases(teacher);
-		} catch (SQLException e) {		
-			e.printStackTrace();
-		}
+		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+		teachers.add(teacher);
+		teachers = TeacherDao.addTeachersToDataBases(teachers);
 		tlist.add(teacher.getTeacherId());
 		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
-		try {
-			classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-		} catch (SQLException e) {			
-			e.printStackTrace();
-		}
+		ArrayList<ClassPhoto> classPhotos = new ArrayList<ClassPhoto>();
+		classPhotos.add(classPhoto);
+		classPhotos = ClassPhotoDao.addClassPhotosToDataBases(classPhotos);
 		cplist.add(classPhoto.getClassPhotoId());
 		
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
@@ -169,7 +165,7 @@ public class CacheTest {
 		}
 	}
 	
-	private static void loadIrrelevantCourses(Connection...connections){
+	private static void loadIrrelevantCourses(Connection...connections) throws SQLException{
 		int p_Id = 1;
 		Calendar startTime = DateUtility.getCurTimeInstance();
 		Calendar finishTime = DateUtility.getCurTimeInstance();
@@ -184,18 +180,14 @@ public class CacheTest {
 		ArrayList<Long> tlist = new ArrayList<Long>();
 		ArrayList<Long> cplist = new ArrayList<Long>();
 		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
-		try {
-			teacher = TeacherDao.addTeacherToDataBases(teacher);
-		} catch (SQLException e) {		
-			e.printStackTrace();
-		}
+		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+		teachers.add(teacher);
+		teachers = TeacherDao.addTeachersToDataBases(teachers);
 		tlist.add(teacher.getTeacherId());
 		ClassPhoto classPhoto = new ClassPhoto(p_Id, "classImgUrl", "classPhoto","classDescription");
-		try {
-			classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto);
-		} catch (SQLException e) {			
-			e.printStackTrace();
-		}
+		ArrayList<ClassPhoto> classPhotos = new ArrayList<ClassPhoto>();
+		classPhotos.add(classPhoto);
+		classPhotos = ClassPhotoDao.addClassPhotosToDataBases(classPhotos);
 		cplist.add(classPhoto.getClassPhotoId());
 		
 		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);

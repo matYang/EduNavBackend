@@ -112,7 +112,6 @@ public class ClassPhoto implements PseudoModel, Serializable{
 		this.visibility = visibility;
 	}
 
-
 	@Override
 	public JSONObject toJSON() throws Exception {
 		return ModelReflectiveService.toJSON(this);

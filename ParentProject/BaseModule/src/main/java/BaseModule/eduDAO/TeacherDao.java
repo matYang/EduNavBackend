@@ -13,32 +13,36 @@ import BaseModule.model.Teacher;
 
 public class TeacherDao {
 
-	public static Teacher addTeacherToDataBases(Teacher teacher, Connection...connections) throws SQLException{
+	public static ArrayList<Teacher> addTeachersToDataBases(ArrayList<Teacher> teachers, Connection...connections) throws SQLException{
 		String query = "insert into Teacher (p_Id,imgUrl,name,intro,creationTime,visibility,popularity) values(?,?,?,?,?,?,?)";
 		PreparedStatement stmt = null;
 		Connection conn = null;
 		ResultSet rs = null;
-		int stmtInt = 1;
+		int stmtInt = -1;
 
 		try{
 			conn = EduDaoBasic.getConnection(connections);
-			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			stmt.setInt(stmtInt++, teacher.getPartnerId());
-			stmt.setString(stmtInt++, teacher.getImgUrl());
-			stmt.setString(stmtInt++, teacher.getName());
-			stmt.setString(stmtInt++, teacher.getIntro());
-			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(teacher.getCreationTime()));
-			stmt.setInt(stmtInt++, teacher.getVisibility().code);
-			stmt.setInt(stmtInt++, teacher.getPopularity());
+			for(Teacher teacher : teachers){
+				stmtInt = 1;
+				stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+				stmt.setInt(stmtInt++, teacher.getPartnerId());
+				stmt.setString(stmtInt++, teacher.getImgUrl());
+				stmt.setString(stmtInt++, teacher.getName());
+				stmt.setString(stmtInt++, teacher.getIntro());
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(teacher.getCreationTime()));
+				stmt.setInt(stmtInt++, teacher.getVisibility().code);
+				stmt.setInt(stmtInt++, teacher.getPopularity());
 
-			stmt.executeUpdate();
-			rs = stmt.getGeneratedKeys();
-			rs.next();			
-			teacher.setTeacherId(rs.getLong(1));
+				stmt.executeUpdate();
+				rs = stmt.getGeneratedKeys();
+				rs.next();			
+				teacher.setTeacherId(rs.getLong(1));
+			}
+
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		}
-		return teacher;
+		return teachers;
 	}
 
 	public static ArrayList<Teacher> getTeachers(ArrayList<Long> tlist, Connection...connections) throws SQLException{

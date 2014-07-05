@@ -15,30 +15,34 @@ import BaseModule.model.ClassPhoto;
 public class ClassPhotoDao {
 
 
-	public static ClassPhoto addClassPhotoToDataBases(ClassPhoto classPhoto, Connection...connections) throws SQLException{
+	public static ArrayList<ClassPhoto> addClassPhotosToDataBases(ArrayList<ClassPhoto> classPhotos, Connection...connections) throws SQLException{
 		String query = "insert into ClassPhoto (p_Id,imgUrl,title,description,creationTime,visibility) values(?,?,?,?,?,?)";
 		PreparedStatement stmt = null;
 		Connection conn = null;
 		ResultSet rs = null;
-		int stmtInt = 1;
+		int stmtInt = -1;
 
 		try{
-			conn = EduDaoBasic.getConnection(connections);
-			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			stmt.setInt(stmtInt++, classPhoto.getPartnerId());
-			stmt.setString(stmtInt++, classPhoto.getImgUrl());
-			stmt.setString(stmtInt++, classPhoto.getTitle());
-			stmt.setString(stmtInt++, classPhoto.getDescription());
-			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(classPhoto.getCreationTime()));
-			stmt.setInt(stmtInt++, classPhoto.getVisibility().code);
-			stmt.executeUpdate();
-			rs = stmt.getGeneratedKeys();
-			rs.next();			
-			classPhoto.setClassPhotoId(rs.getLong(1));
+			conn = EduDaoBasic.getConnection(connections);			
+			for(ClassPhoto classPhoto : classPhotos){
+				stmtInt = 1;
+				stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+				stmt.setInt(stmtInt++, classPhoto.getPartnerId());
+				stmt.setString(stmtInt++, classPhoto.getImgUrl());
+				stmt.setString(stmtInt++, classPhoto.getTitle());
+				stmt.setString(stmtInt++, classPhoto.getDescription());
+				stmt.setString(stmtInt++, DateUtility.toSQLDateTime(classPhoto.getCreationTime()));
+				stmt.setInt(stmtInt++, classPhoto.getVisibility().code);
+				stmt.executeUpdate();
+				rs = stmt.getGeneratedKeys();
+				rs.next();			
+				classPhoto.setClassPhotoId(rs.getLong(1));
+			}
+			
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs,EduDaoBasic.shouldConnectionClose(connections));
 		}
-		return classPhoto;
+		return classPhotos;
 	}
 
 	public static ArrayList<ClassPhoto> getClassPhotos(ArrayList<Long> classIdList,Connection...connections) throws SQLException{

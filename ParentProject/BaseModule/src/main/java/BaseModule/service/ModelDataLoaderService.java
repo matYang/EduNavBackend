@@ -103,9 +103,11 @@ public final class ModelDataLoaderService {
 		ArrayList<Long> teacherIdList = new ArrayList<Long>();
 		ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
 		for(int i = 0; i < teacherIntros.size(); i++){			
-			Teacher teacher = new Teacher(i+1, teacherImgs.get(i), teacherNames.get(i), teacherIntros.get(i));			
+			Teacher teacher = new Teacher(i+1, teacherImgs.get(i), teacherNames.get(i), teacherIntros.get(i));		
+			ArrayList<Teacher> tlist = new ArrayList<Teacher>();
+			tlist.add(teacher);
 			try {
-				teacher = TeacherDao.addTeacherToDataBases(teacher, connections);
+				tlist = TeacherDao.addTeachersToDataBases(tlist, connections);
 			} catch (SQLException e) {				
 				e.printStackTrace();
 				DebugLog.d(e);
@@ -125,8 +127,10 @@ public final class ModelDataLoaderService {
 		// upload ClassImgs
 		for(int i = 0; i < classroomImgs.size(); i++){
 			ClassPhoto classPhoto = new ClassPhoto(i+1, classroomImgs.get(i), "classPhoto"+i,"classDescription"+i);
+			ArrayList<ClassPhoto> clist = new ArrayList<ClassPhoto>();
+			clist.add(classPhoto);
 			try {
-				classPhoto = ClassPhotoDao.addClassPhotoToDataBases(classPhoto, connections);
+				clist = ClassPhotoDao.addClassPhotosToDataBases(clist, connections);
 			} catch (SQLException e) {				
 				e.printStackTrace();
 				DebugLog.d(e);
