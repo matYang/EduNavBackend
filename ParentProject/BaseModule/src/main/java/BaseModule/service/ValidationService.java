@@ -75,8 +75,7 @@ public final class ValidationService {
 	}
 	
 	public static boolean validatePartner(final Partner partner) throws ValidationException{
-		if(!validateName(partner.getInstName()) || !validatePassword(partner.getPassword()) ||
-				!validatePhone(partner.getPhone())){
+		if(!validateName(partner.getInstName()) || !validatePassword(partner.getPassword())){
 			throw new ValidationException("合作伙伴输入信息不符合规范");
 		}
 		if(partner.getLicence() == null || partner.getLicence().length() ==0){
@@ -97,8 +96,7 @@ public final class ValidationService {
 	public static boolean validateCourse(final Course course) throws ValidationException{
 		if(course.getPartnerId() <= 0 || course.getClassSize() < 0 || 
 				course.getCourseHourNum() < 0 || course.getPrice() < 0 ||
-				course.getCourseHourLength() < 0 ||
-				!validatePhone(course.getPhone())){
+				course.getCourseHourLength() < 0){
 			throw new ValidationException("课程信息不符合规范");
 		}		
 		if(course.getStartDate() == null || course.getFinishDate() == null ||

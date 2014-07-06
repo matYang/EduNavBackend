@@ -19,30 +19,14 @@ public class PartnerDaoService {
 		return PartnerDao.getPartnerById(id, connections);
 	}
 
-	public static Partner getPartnerByPhone(String phone) throws PartnerNotFoundException, SQLException{
-		PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
-		p_sr.setPhone(phone);
-		ArrayList<Partner> partners = searchPartner(p_sr);
-		if (partners.size() == 0){
-			throw new PartnerNotFoundException();
-		}
-		return partners.get(0);
-	}
-
+	
 	public static void updatePartner(Partner partner,Connection...connections) throws PseudoException, SQLException{
 		PartnerDao.updatePartnerInDatabases(partner,connections);
 	}
 
 	public static Partner createPartner(Partner p,Connection...connections) throws PseudoException, SQLException{
 		return PartnerDao.addPartnerToDatabases(p,connections);
-	}
-
-	public static boolean isCellPhoneAvailable(String phone) throws SQLException{
-		PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
-		p_sr.setPhone(phone);
-		ArrayList<Partner> partners = searchPartner(p_sr);
-		return partners.size() == 0;
-	}
+	}	
 	
 	public static Partner authenticatePartner(String phone,String password) throws PseudoException, SQLException{
 		Connection conn = null;

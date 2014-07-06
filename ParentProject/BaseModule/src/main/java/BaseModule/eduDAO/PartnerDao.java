@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import BaseModule.common.DateUtility;
+import BaseModule.common.Parser;
+import BaseModule.configurations.ServerConfig;
 import BaseModule.configurations.EnumConfig.AccountStatus;
+import BaseModule.configurations.EnumConfig.PartnerQualification;
 import BaseModule.encryption.PasswordCrypto;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
@@ -41,10 +44,7 @@ public class PartnerDao {
 			}
 			if(sr.getWholeName() != null && sr.getWholeName().length() > 0){
 				stmt.setString(stmtInt++, sr.getWholeName());
-			}
-			if(sr.getPhone() != null && sr.getPhone().length() > 0){
-				stmt.setString(stmtInt++, sr.getPhone());
-			}						
+			}									
 			if(sr.getStatus() != null){
 				stmt.setInt(stmtInt++, sr.getStatus().code);
 			}
@@ -76,23 +76,47 @@ public class PartnerDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;	
 		ResultSet rs = null;
-		String query = "INSERT INTO Partner (name,licence,organizationNum,reference,password,phone,creationTime,lastLogin," +
-				"status,instName,logoUrl) values (?,?,?,?,?,?,?,?,?,?,?);";
+		String query = "INSERT INTO Partner (name,licence,organizationNum,reference,password,creationTime,lastLogin," +
+				"status,instName,logoUrl,partnerIntro,partnerDistinction,licenceImgUrl,taxRegistrationImgUrl,eduQualificationImgUrl," +
+				"hqLocation,subLocations,uniformRegistraLocation,hqContact,hqContactPhone,hqContactSecOpt,courseContact,courseContactPhone," +
+				"studentInqueryPhone,registraContact,registraContactPhone,registraContactFax,defaultCutOffDay,defaultCutOffTime," +
+				"partnerQualification) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+		int stmtInt = 1;
+		
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-			stmt.setString(1, p.getWholeName());
-			stmt.setString(2, p.getLicence());
-			stmt.setString(3, p.getOrganizationNum());
-			stmt.setString(4, p.getReference());
-			stmt.setString(5, PasswordCrypto.createHash(p.getPassword()));
-			stmt.setString(6, p.getPhone());
-			stmt.setString(7, DateUtility.toSQLDateTime(p.getCreationTime()));
-			stmt.setString(8, DateUtility.toSQLDateTime(p.getLastLogin()));
-			stmt.setInt(9, p.getStatus().code);
-			stmt.setString(10, p.getInstName());
-			stmt.setString(11, p.getLogoUrl());			
+			stmt.setString(stmtInt++, p.getWholeName());
+			stmt.setString(stmtInt++, p.getLicence());
+			stmt.setString(stmtInt++, p.getOrganizationNum());
+			stmt.setString(stmtInt++, p.getReference());
+			stmt.setString(stmtInt++, PasswordCrypto.createHash(p.getPassword()));			
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(p.getCreationTime()));
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(p.getLastLogin()));
+			stmt.setInt(stmtInt++, p.getStatus().code);
+			stmt.setString(stmtInt++, p.getInstName());
+			stmt.setString(stmtInt++, p.getLogoUrl());	
+			stmt.setString(stmtInt++, p.getPartnerIntro());
+			stmt.setString(stmtInt++, p.getPartnerDistinction());
+			stmt.setString(stmtInt++, p.getLiscenceImgUrl());
+			stmt.setString(stmtInt++, p.getTaxRegistrationImgUrl());
+			stmt.setString(stmtInt++, p.getEduQualificationImgUrl());
+			stmt.setString(stmtInt++, p.getHqLocation());
+			stmt.setString(stmtInt++, Parser.listToString(p.getSubLocations(), ServerConfig.normalSpliter));
+			stmt.setInt(stmtInt++, p.isUniformRegistraLocation() ? 1 : 0);
+			stmt.setString(stmtInt++, p.getHqContact());
+			stmt.setString(stmtInt++, p.getHqContactPhone());
+			stmt.setString(stmtInt++, p.getHqContactSecOpt());
+			stmt.setString(stmtInt++, p.getCourseContact());
+			stmt.setString(stmtInt++, p.getCourseContactPhone());
+			stmt.setString(stmtInt++, p.getStudentInqueryPhone());
+			stmt.setString(stmtInt++, p.getRegistraContact());
+			stmt.setString(stmtInt++, p.getRegistraContactPhone());
+			stmt.setString(stmtInt++, p.getRegistraContactFax());
+			stmt.setInt(stmtInt++, p.getDefaultCutoffDay());
+			stmt.setInt(stmtInt++, p.getDefaultCutoffTime());
+			stmt.setInt(stmtInt++, p.getPartnerQualification().code);
 
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -109,22 +133,47 @@ public class PartnerDao {
 	public static void updatePartnerInDatabases(Partner p,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		String query = "UPDATE Partner SET name=?,licence=?,organizationNum=?,reference=?,phone=?," +
-				"lastLogin=?,status=?, instName=?, logoUrl=? where id=?";
+		String query = "UPDATE Partner SET name=?,licence=?,organizationNum=?,reference=?,password=?,lastLogin=?," +
+				"status=?,instName=?,logoUrl=?,partnerIntro=?,partnerDistinction=?,licenceImgUrl=?,taxRegistrationImgUrl=?,eduQualificationImgUrl=?," +
+				"hqLocation=?,subLocations=?,uniformRegistraLocation=?,hqContact=?,hqContactPhone=?,hqContactSecOpt=?,courseContact=?,courseContactPhone=?," +
+				"studentInqueryPhone=?,registraContact=?,registraContactPhone=?,registraContactFax=?,defaultCutOffDay=?,defaultCutOffTime=?," +
+				"partnerQualification=? where id=?";
+		int stmtInt = 1;
+		
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
-			stmt.setString(1, p.getWholeName());
-			stmt.setString(2, p.getLicence());
-			stmt.setString(3, p.getOrganizationNum());
-			stmt.setString(4, p.getReference());			
-			stmt.setString(5, p.getPhone());			
-			stmt.setString(6, DateUtility.toSQLDateTime(p.getLastLogin()));
-			stmt.setInt(7, p.getStatus().code);
-			stmt.setString(8, p.getInstName());
-			stmt.setString(9, p.getLogoUrl());					
-			stmt.setInt(10, p.getPartnerId());
-
+			stmt.setString(stmtInt++, p.getWholeName());
+			stmt.setString(stmtInt++, p.getLicence());
+			stmt.setString(stmtInt++, p.getOrganizationNum());
+			stmt.setString(stmtInt++, p.getReference());
+			stmt.setString(stmtInt++, PasswordCrypto.createHash(p.getPassword()));						
+			stmt.setString(stmtInt++, DateUtility.toSQLDateTime(p.getLastLogin()));
+			stmt.setInt(stmtInt++, p.getStatus().code);
+			stmt.setString(stmtInt++, p.getInstName());
+			stmt.setString(stmtInt++, p.getLogoUrl());	
+			stmt.setString(stmtInt++, p.getPartnerIntro());
+			stmt.setString(stmtInt++, p.getPartnerDistinction());
+			stmt.setString(stmtInt++, p.getLiscenceImgUrl());
+			stmt.setString(stmtInt++, p.getTaxRegistrationImgUrl());
+			stmt.setString(stmtInt++, p.getEduQualificationImgUrl());
+			stmt.setString(stmtInt++, p.getHqLocation());
+			stmt.setString(stmtInt++, Parser.listToString(p.getSubLocations(), ServerConfig.normalSpliter));
+			stmt.setInt(stmtInt++, p.isUniformRegistraLocation() ? 1 : 0);
+			stmt.setString(stmtInt++, p.getHqContact());
+			stmt.setString(stmtInt++, p.getHqContactPhone());
+			stmt.setString(stmtInt++, p.getHqContactSecOpt());
+			stmt.setString(stmtInt++, p.getCourseContact());
+			stmt.setString(stmtInt++, p.getCourseContactPhone());
+			stmt.setString(stmtInt++, p.getStudentInqueryPhone());
+			stmt.setString(stmtInt++, p.getRegistraContact());
+			stmt.setString(stmtInt++, p.getRegistraContactPhone());
+			stmt.setString(stmtInt++, p.getRegistraContactFax());
+			stmt.setInt(stmtInt++, p.getDefaultCutoffDay());
+			stmt.setInt(stmtInt++, p.getDefaultCutoffTime());
+			stmt.setInt(stmtInt++, p.getPartnerQualification().code);
+			stmt.setInt(stmtInt++, p.getPartnerId());
+			
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
 				throw new PartnerNotFoundException();
@@ -198,27 +247,26 @@ public class PartnerDao {
 
 	}
 
-	public static Partner authenticatePartner(String phone, String password,Connection...connections) throws PseudoException, SQLException{
+	public static Partner authenticatePartner(String reference, String password,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
 		Partner partner = null;
 		boolean validPassword = false;
-		String query = "SELECT * FROM Partner where phone = ? for update";
+		String query = "SELECT * FROM Partner where reference = ? for update";
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
-			stmt.setString(1, phone);			
+			stmt.setString(1, reference);			
 			rs = stmt.executeQuery();		
 			if(rs.next()){
 				validPassword = PasswordCrypto.validatePassword(password, rs.getString("password"));
 				if(validPassword){
 					partner = createPartnerByResultSet(rs,conn);
-
 					partner.setLastLogin(DateUtility.getCurTimeInstance());
 					updatePartnerInDatabases(partner, conn);
 				}else{
-					throw new AuthenticationException("手机号码或密码输入错误");
+					throw new AuthenticationException("商家号或密码输入错误");
 				}				
 			}
 			else{
@@ -230,19 +278,19 @@ public class PartnerDao {
 		return partner;
 	}
 
-	public static void recoverPartnerPassword(String phone, String newPassword,Connection...connections) throws PseudoException, SQLException{
+	public static void recoverPartnerPassword(String reference, String newPassword,Connection...connections) throws PseudoException, SQLException{
 		Connection conn = null;
 		PreparedStatement stmt = null;		
 		ResultSet rs = null;
-		String query = "UPDATE Partner set password = ? where phone = ?";		
+		String query = "UPDATE Partner set password = ? where reference = ?";		
 		try{
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, PasswordCrypto.createHash(newPassword));				
-			stmt.setString(2, phone);
+			stmt.setString(2, reference);
 			int recordsAffected = stmt.executeUpdate();
 			if(recordsAffected==0){
-				throw new AuthenticationException("手机号码或密码输入有误");
+				throw new AuthenticationException("商家号或密码输入有误");
 			}
 		}finally{
 			EduDaoBasic.closeResources(conn, stmt, rs, EduDaoBasic.shouldConnectionClose(connections));			
@@ -257,10 +305,15 @@ public class PartnerDao {
 		classPhotoList = ClassPhotoDao.getPartnerClassPhotos(rs.getInt("id"), connections);	
 		teacherList = TeacherDao.getPartnerTeachers(rs.getInt("id"), connections);
 
-		return new Partner(rs.getInt("id"), rs.getString("name"), rs.getString("licence"), rs.getString("organizationNum"),
-				rs.getString("reference"),rs.getString("password"), rs.getString("phone"), AccountStatus.fromInt(rs.getInt("status")),
-				rs.getString("instName"),rs.getString("logoUrl"),classPhotoList,teacherList,DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),
-				DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")));
+		return new Partner(rs.getInt("id"), rs.getString("name"), rs.getString("instName"),rs.getString("licence"), rs.getString("organizationNum"),
+				rs.getString("logoUrl"),classPhotoList,teacherList,rs.getString("reference"),rs.getString("password"),  AccountStatus.fromInt(rs.getInt("status")),
+				DateUtility.DateToCalendar(rs.getTimestamp("creationTime")),DateUtility.DateToCalendar(rs.getTimestamp("lastLogin")),rs.getString("partnerIntro"),
+				rs.getString("partnerDistinction"),rs.getString("licenceImgUrl"),rs.getString("taxRegistrationImgUrl"),rs.getString("eduQualificationImgUrl"),
+				rs.getString("hqLocation"),Parser.stringToList(rs.getString("subLocations"), ServerConfig.normalSpliter, String.class),
+				rs.getBoolean("uniformRegistraLocation"),rs.getString("hqContact"),rs.getString("hqContactPhone"),rs.getString("hqContactSecOpt"),
+				rs.getString("courseContact"),rs.getString("courseContactPhone"),rs.getString("studentInqueryPhone"),rs.getString("registraContact"),
+				rs.getString("registraContactPhone"),rs.getString("registraContactFax"),rs.getInt("defaultCutOffDay"),rs.getInt("defaultCutOffTime"),
+				PartnerQualification.fromInt(rs.getInt("partnerQualification")));
 	}
 
 }

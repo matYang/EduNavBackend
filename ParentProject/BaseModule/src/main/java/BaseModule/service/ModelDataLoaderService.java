@@ -149,12 +149,8 @@ public final class ModelDataLoaderService {
 			String category = randomCatNode.getHead();
 			String subCategory = randomSubCatNode.getHead();
 			String subSubCategory = randomSubSubCatNode.getHead();
-			
-			String phone = "DONOTSEND1234567890" + i;		
-			
-			
-			
-			Course course = new Course(p_Id, startDate, finishDate,price,classSize,popularity,category,subCategory,phone);
+				
+			Course course = new Course(p_Id, startDate, finishDate,price,classSize,popularity,category,subCategory);
 			course.setSubSubCategory(subSubCategory);
 			course.setProvince(province);
 			course.setCity(city);
@@ -167,8 +163,7 @@ public final class ModelDataLoaderService {
 			course.setCashback(course.getPrice()/10);			
 			course.setStudyDays(studyDays);			
 			course.setClassTeacher(filler);
-			course.setQuestionSession(filler);
-			course.setPartnerCourseReference("342RY65348FRTYH89RU353FW43");
+			course.setQuestionSession(filler);			
 			course.setTeachingAndExercise(filler);
 			course.setTrail("提供试听课一节，40分钟，课后选择是否报名付款");
 			course.setLogoUrl("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/1-3-logo.jpg");
@@ -218,7 +213,7 @@ public final class ModelDataLoaderService {
 				User user = UserDao.getUserById(i, connections);
 				Partner partner = PartnerDao.getPartnerById(partnerId, connections);
 				Booking booking = new Booking(course.getStartDate(),course.getCreationTime(),course.getPrice(), 
-						user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), partner.getPhone(),
+						user.getUserId(), partner.getPartnerId(), course.getCourseId(), user.getName(), user.getPhone(),
 						user.getEmail(),ReferenceGenerator.generateBookingReference(),BookingStatus.fromInt(i%9),cashback+i);
 				try {
 					BookingDaoService.createBooking(booking);
@@ -278,10 +273,9 @@ public final class ModelDataLoaderService {
 				String licence = "证件号" + i;
 				String organizationNum = "机构号" + i;
 				String reference = "partnerReference" + i;
-				String password = "partnerPassword" + i;
-				String phone = "DONOTSEND1234567890" + i;
+				String password = "partnerPassword" + i;				
 				AccountStatus status = AccountStatus.activated;
-				Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
+				Partner partner = new Partner(name, instName,licence, organizationNum,reference, password,status);
 				partner.setLogoUrl("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/1-3-logo.jpg");				
 				try {
 					Partner resultPartner = PartnerDaoService.createPartner(partner, connections);

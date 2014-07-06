@@ -27,23 +27,23 @@ public final class PartnerChangePassword extends PartnerPseudoResource {
 	@Get
 	public Representation changePasswordVerification() {
 		
-		try{
-			int partnerId = this.validateAuthentication();
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, partnerId, this.getUserAgent(), "");
-			
-			String authCode = PartnerChangePasswordVerificationDaoService.openSession(partnerId);
-			Partner partner = PartnerDaoService.getPartnerById(partnerId);
-			
-			SMSService.sendPartnerChangePasswordSMS(partner.getPhone(), authCode);
-			setStatus(Status.SUCCESS_OK);
-
-		} catch(PseudoException e){
-			this.addCORSHeader();
-			return this.doPseudoException(e);
-		} catch (Exception e){
-			this.addCORSHeader();
-			return this.doException(e);
-		}
+//		try{
+//			int partnerId = this.validateAuthentication();
+//			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, partnerId, this.getUserAgent(), "");
+//			
+//			String authCode = PartnerChangePasswordVerificationDaoService.openSession(partnerId);
+//			Partner partner = PartnerDaoService.getPartnerById(partnerId);
+//			
+//			SMSService.sendPartnerChangePasswordSMS(partner.getPhone(), authCode);
+//			setStatus(Status.SUCCESS_OK);
+//
+//		} catch(PseudoException e){
+//			this.addCORSHeader();
+//			return this.doPseudoException(e);
+//		} catch (Exception e){
+//			this.addCORSHeader();
+//			return this.doException(e);
+//		}
 
 		Representation result = new JsonRepresentation(new JSONObject());
 		this.addCORSHeader(); 

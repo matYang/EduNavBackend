@@ -29,39 +29,39 @@ public final class PartnerForgetPassword extends PartnerPseudoResource{
 	@Get
 	public Representation forgetPassword(){
         
-		try{
-			try{
-				this.validateAuthentication();
-				throw new ValidationException("请刷新页面或先登出之前的账户");
-			} catch (AuthenticationException e){
-				//not logged in, proceed
-			}
-			
-			String cellNum = this.getQueryVal("phone");
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), cellNum);
-			
-			if (ValidationService.validatePhone(cellNum)){
-				
-				if (!PartnerDaoService.isCellPhoneAvailable(cellNum)){
-					String authCode = PartnerForgotPasswordDaoService.openSession(cellNum);
-					SMSService.sendPartnerForgetPasswordSMS(cellNum, authCode);
-					setStatus(Status.SUCCESS_OK);
-				}
-				else{
-					throw new ValidationException("手机号码尚未被注册");
-				}
-			}
-			else{
-				throw new ValidationException("手机号码格式不正确");
-			}
-			
-		} catch(PseudoException e){
-			this.addCORSHeader();
-			return this.doPseudoException(e);
-		} catch (Exception e){
-			this.addCORSHeader();
-			return this.doException(e);
-		}
+//		try{
+//			try{
+//				this.validateAuthentication();
+//				throw new ValidationException("请刷新页面或先登出之前的账户");
+//			} catch (AuthenticationException e){
+//				//not logged in, proceed
+//			}
+//			
+//			String cellNum = this.getQueryVal("phone");
+//			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, -1, this.getUserAgent(), cellNum);
+//			
+//			if (ValidationService.validatePhone(cellNum)){
+//				
+//				if (!PartnerDaoService.isCellPhoneAvailable(cellNum)){
+//					String authCode = PartnerForgotPasswordDaoService.openSession(cellNum);
+//					SMSService.sendPartnerForgetPasswordSMS(cellNum, authCode);
+//					setStatus(Status.SUCCESS_OK);
+//				}
+//				else{
+//					throw new ValidationException("手机号码尚未被注册");
+//				}
+//			}
+//			else{
+//				throw new ValidationException("手机号码格式不正确");
+//			}
+//			
+//		} catch(PseudoException e){
+//			this.addCORSHeader();
+//			return this.doPseudoException(e);
+//		} catch (Exception e){
+//			this.addCORSHeader();
+//			return this.doException(e);
+//		}
 
 		Representation result = new JsonRepresentation(new JSONObject());
 		this.addCORSHeader(); 
@@ -105,29 +105,29 @@ public final class PartnerForgetPassword extends PartnerPseudoResource{
 		String[] newPair = new String[2];
 		String quickResponseText = "";
 		
-		try {
-			this.checkEntity(entity);
-			JSONObject jsonPair =  this.getJSONObj(entity);
-			newPair = validateForgetPasswordJSON(jsonPair);
-
-			PartnerDaoService.recoverPassword(newPair[0], newPair[1]);
-			PartnerForgotPasswordDaoService.closeSession(newPair[0]);
-			
-			//open new authentication, log every other client out
-			Partner partner = PartnerDaoService.getPartnerByPhone(newPair[0]);
-			this.closeAuthentication();
-			this.openAuthentication(partner.getPartnerId());
-
-			setStatus(Status.SUCCESS_OK);
-			quickResponseText = "密码修改成功";
-			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partner.getPartnerId(), this.getUserAgent(), "<Password Classified>");
-		} catch (PseudoException e){
-			this.addCORSHeader();
-			return this.doPseudoException(e);
-        } catch (Exception e){
-        	return this.doException(e);
-		}
+//		try {
+//			this.checkEntity(entity);
+//			JSONObject jsonPair =  this.getJSONObj(entity);
+//			newPair = validateForgetPasswordJSON(jsonPair);
+//
+//			PartnerDaoService.recoverPassword(newPair[0], newPair[1]);
+//			PartnerForgotPasswordDaoService.closeSession(newPair[0]);
+//			
+//			//open new authentication, log every other client out
+//			Partner partner = PartnerDaoService.getPartnerByPhone(newPair[0]);
+//			this.closeAuthentication();
+//			this.openAuthentication(partner.getPartnerId());
+//
+//			setStatus(Status.SUCCESS_OK);
+//			quickResponseText = "密码修改成功";
+//			
+//			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partner.getPartnerId(), this.getUserAgent(), "<Password Classified>");
+//		} catch (PseudoException e){
+//			this.addCORSHeader();
+//			return this.doPseudoException(e);
+//        } catch (Exception e){
+//        	return this.doException(e);
+//		}
 		
 		this.addCORSHeader();
 		return this.quickRespond(quickResponseText);

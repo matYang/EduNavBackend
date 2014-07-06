@@ -39,7 +39,7 @@ public final class SMSService {
 		String payload = "确认：" + booking.getName() + DateUtility.castToSMSFormat(booking.getScheduledTime()) + "前完成" + booking.getCourse().getInstName()
 				+ "报到，" + booking.getCourse().getCourseName() + "独享￥" + booking.getCourse().getPrice() + "(原价￥" + booking.getCourse().getOriginalPrice() + ", 优惠"
 						+ (booking.getCourse().getOriginalPrice() - booking.getCourse().getPrice()) + "元)；地址：" + booking.getCourse().getLocation() 
-				+ "；订单查询变更取消，请登录官网iShangke.CN或拨打" + booking.getCourse().getPhone() + "；告知机构您的爱上课用户名（注册手机号）才能享受折扣哦~";
+				+ "；订单查询变更取消，请登录官网iShangke.CN" + "；告知机构您的爱上课用户名（注册手机号）才能享受折扣哦~";
 		SMSTask sms = new SMSTask(SMSEvent.user_bookingConfirmed, booking.getPhone(), payload);
 		ExecutorProvider.executeRelay(sms);
 	}

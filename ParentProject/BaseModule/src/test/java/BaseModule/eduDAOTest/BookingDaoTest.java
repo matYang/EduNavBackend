@@ -53,8 +53,7 @@ public class BookingDaoTest {
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
 		String ppassword = "sdf234r";
-		String phone = "123545451";		
-		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);		
+		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword,status);		
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		int p_Id = partner.getPartnerId();
@@ -78,7 +77,7 @@ public class BookingDaoTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory);
 		course.setClassPhotoIdList(cplist);
 		course.setTeacherIdList(tlist);
 		course.setOutline("sdf");
@@ -184,7 +183,7 @@ public class BookingDaoTest {
 		int backcash = 211;//剩一块
 		
 		Booking booking = new Booking(timeStamp,timeStamp,course.getPrice(),
-				userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				userId, partnerId, courseId, user.getName(), user.getPhone(),
 				email2,partner.getReference(),BookingStatus.confirmed,backcash);
 		try{
 			BookingDaoService.createBooking(booking);		
@@ -232,18 +231,16 @@ public class BookingDaoTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String ppassword = "sdf234r";
-		String phone = "123545451";		
-		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);		
+		String ppassword = "sdf234r";	
+		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword,status);		
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		String pname2 = "XD";
 		String licence2 = "234fdsfsd-dsv,.!@";
 		String organizationNum2 = "124361234";
 		String reference2 = "dsfsdfdsr";
-		String ppassword2 = "sdf4r";
-		String phone2 = "12351";		
-		Partner partner2 = new Partner(pname2, instName+"2",licence2, organizationNum2,reference2, ppassword2, phone2,status);		
+		String ppassword2 = "sdf4r";		
+		Partner partner2 = new Partner(pname2, instName+"2",licence2, organizationNum2,reference2, ppassword2,status);		
 		PartnerDao.addPartnerToDatabases(partner2);
 		
 		int p_Id = partner.getPartnerId();
@@ -267,7 +264,7 @@ public class BookingDaoTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory);
 		course.setClassPhotoIdList(cplist);
 		course.setTeacherIdList(tlist);
 		course.setOutline("sdfds");
@@ -295,7 +292,7 @@ public class BookingDaoTest {
 		int cashbackAmount = 50;		
 		Booking booking = new Booking(timeStamp,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId,
-				user.getName(), partner.getPhone(),
+				user.getName(), user.getPhone(),
 				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking);
 		booking = BookingDao.getBookingById(booking.getBookingId());
@@ -303,7 +300,7 @@ public class BookingDaoTest {
 		String category2 = "English";
 		String subCategory2 = "sub-En";	
 		int price2 = 20000;				
-		Course course2 = new Course(p_Id, startTime, finishTime,price2,seatsTotal, seatsLeft,category2,subCategory2,phone);
+		Course course2 = new Course(p_Id, startTime, finishTime,price2,seatsTotal, seatsLeft,category2,subCategory2);
 		course2.setClassPhotoIdList(cplist);
 		course2.setTeacherIdList(tlist);
 		course2.setOutline("sdfds");
@@ -321,7 +318,7 @@ public class BookingDaoTest {
 		int course2Id = course2.getCourseId();		
 		Booking booking2 = new Booking(timeStamp,timeStamp, 
 				course2.getPrice(),userId, partnerId, 
-				course2Id, user.getName(), partner2.getPhone(),
+				course2Id, user.getName(), user.getPhone(),
 				email,partner2.getReference(),BookingStatus.awaiting,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking2);
 		booking2 = BookingDao.getBookingById(booking2.getBookingId());
@@ -355,9 +352,8 @@ public class BookingDaoTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String ppassword = "sdf234r";
-		String phone = "123545451";		
-		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);		
+		String ppassword = "sdf234r";	
+		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword,status);		
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		int p_Id = partner.getPartnerId();
@@ -381,7 +377,7 @@ public class BookingDaoTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";	
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory);
 		course.setClassPhotoIdList(cplist);
 		course.setTeacherIdList(tlist);
 		course.setOutline("ghgfh");
@@ -410,7 +406,7 @@ public class BookingDaoTest {
 		int cashbackAmount = 50;		
 		Booking booking = new Booking(timeStamp,timeStamp, 
 				course.getPrice(), userId, partnerId, courseId,
-				user.getName(), partner.getPhone(),
+				user.getName(), user.getPhone(),
 				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
 		try{
 			BookingDao.addBookingToDatabases(booking);			
@@ -458,17 +454,15 @@ public class BookingDaoTest {
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
 		String ppassword = "sdf234r";
-		String phone = "123545451";		
-		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);		
+		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword,status);		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		
 		String pname2 = "XD";
 		String licence2 = "234fdsfsd-dsv,.!@";
 		String organizationNum2 = "124361234";
 		String reference2 = "dsfsdfdsr";
-		String ppassword2 = "sdf4r";
-		String phone2 = "12351";		
-		Partner partner2 = new Partner(pname2, instName+"dsf",licence2, organizationNum2,reference2, ppassword2, phone2,status);		
+		String ppassword2 = "sdf4r";		
+		Partner partner2 = new Partner(pname2, instName+"dsf",licence2, organizationNum2,reference2, ppassword2,status);		
 		partner2 = PartnerDao.addPartnerToDatabases(partner2);
 		
 		//Course
@@ -493,7 +487,7 @@ public class BookingDaoTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory);
 		course.setClassPhotoIdList(cplist);
 		course.setTeacherIdList(tlist);
 		course.setOutline("dfgdg");
@@ -518,7 +512,7 @@ public class BookingDaoTest {
 		String category2 = "English";
 		String subCategory2 = "sub-En";			
 		int price2 = 20000;				
-		Course course2 = new Course(p_Id, startTime2, finishTime2,price2,seatsTotal,seatsLeft,category2,subCategory2,phone);
+		Course course2 = new Course(p_Id, startTime2, finishTime2,price2,seatsTotal,seatsLeft,category2,subCategory2);
 		course2.setClassPhotoIdList(cplist);
 		course2.setTeacherIdList(tlist);
 		course2.setOutline("dfgdg");
@@ -540,7 +534,7 @@ public class BookingDaoTest {
 		Calendar finishTime3 = DateUtility.getCurTimeInstance();
 		finishTime.add(Calendar.DAY_OF_YEAR, 15);				
 		int price3 = 2000;	
-		Course course3 = new Course(p_Id2, startTime3, finishTime3,price3,seatsTotal, seatsLeft,category,subCategory,phone);
+		Course course3 = new Course(p_Id2, startTime3, finishTime3,price3,seatsTotal, seatsLeft,category,subCategory);
 		course3.setClassPhotoIdList(cplist);
 		course3.setTeacherIdList(tlist);
 		course3.setOutline("dfgdg");
@@ -562,7 +556,7 @@ public class BookingDaoTest {
 		Calendar finishTime4 = DateUtility.getCurTimeInstance();
 		finishTime2.add(Calendar.DAY_OF_YEAR, 5);			
 		int price4 = 10000;		
-		Course course4 = new Course(p_Id2, startTime4, finishTime4,price4,seatsTotal,seatsLeft,category2,subCategory2,phone);
+		Course course4 = new Course(p_Id2, startTime4, finishTime4,price4,seatsTotal,seatsLeft,category2,subCategory2);
 		course4.setClassPhotoIdList(cplist);
 		course4.setTeacherIdList(tlist);
 		course4.setOutline("dfgdg");
@@ -591,7 +585,7 @@ public class BookingDaoTest {
 		String email = "xiongchuhanplace@hotmail.com";
 		int cashbackAmount = 50;		
 		Booking booking = new Booking(timeStamp0,timeStamp, 
-				2000, userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				2000, userId, partnerId, courseId, user.getName(), "11111111",
 				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);		
 		BookingDao.addBookingToDatabases(booking);		
 		booking = BookingDao.getBookingById(booking.getBookingId());
@@ -599,7 +593,7 @@ public class BookingDaoTest {
 		//Booking II: user, partner, course2
 		int course2Id = course2.getCourseId();			
 		Booking booking2 = new Booking(timeStamp,timeStamp,
-				5000, userId, partnerId, course2Id, user.getName(), partner2.getPhone(),
+				5000, userId, partnerId, course2Id, user.getName(), "2222222",
 				email,partner2.getReference(),BookingStatus.awaiting,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking2);
 		booking2 = BookingDao.getBookingById(booking2.getBookingId());
@@ -608,7 +602,7 @@ public class BookingDaoTest {
 		int partner2Id = partner2.getPartnerId();
 		int course3Id = course3.getCourseId();		
 		Booking booking3 = new Booking(timeStamp,timeStamp, 
-				10000, userId, partner2Id, course3Id, user.getName(), partner2.getPhone(),
+				10000, userId, partner2Id, course3Id, user.getName(), "2222222",
 				email,partner2.getReference()+"3",BookingStatus.awaiting,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking3);
 		booking3 = BookingDao.getBookingById(booking3.getBookingId());
@@ -616,7 +610,7 @@ public class BookingDaoTest {
 		//Booking IV: user2, partner2, course3		
 		int user2Id = user2.getUserId();			
 		Booking booking4 = new Booking(timeStamp,timeStamp,
-				15000, user2Id, partner2Id, course3Id, user2.getName(), partner2.getPhone(),
+				15000, user2Id, partner2Id, course3Id, user2.getName(), "2222222",
 				email,partner2.getReference()+"4",BookingStatus.registered,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking4);
 		booking4 = BookingDao.getBookingById(booking4.getBookingId());
@@ -624,7 +618,7 @@ public class BookingDaoTest {
 		//Booking V: user2, partner2, course4	
 		int course4Id = course4.getCourseId();	
 		Booking booking5 = new Booking(timeStamp,timeStamp,
-				20000, user2Id, partner2Id, course4Id, user2.getName(), partner2.getPhone(),
+				20000, user2Id, partner2Id, course4Id, user2.getName(),"2222222",
 				email,partner2.getReference()+"5",BookingStatus.registered,cashbackAmount);
 		booking5.setPreStatus(BookingStatus.delivered);
 		BookingDao.addBookingToDatabases(booking5);

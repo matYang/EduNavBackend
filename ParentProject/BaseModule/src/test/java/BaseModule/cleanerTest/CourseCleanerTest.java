@@ -30,10 +30,9 @@ public class CourseCleanerTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String password = "sdf234r";
-		String phone = "123545451";
+		String password = "sdf234r";		
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
+		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password,status);
 		PartnerDao.addPartnerToDatabases(partner);
 		int p_Id = partner.getPartnerId();
 		Calendar startTime = DateUtility.getCurTimeInstance();
@@ -44,7 +43,7 @@ public class CourseCleanerTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";			
 		int price = 124;
-		Course course = new Course(p_Id, startTime, finishTime,price,classSize,popularity,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,classSize,popularity,category,subCategory);
 		String location = "China";
 		String city = "NanJing";
 		String district = "JiangNing";
@@ -65,7 +64,7 @@ public class CourseCleanerTest {
 		
 		Calendar startTime2 = DateUtility.getCurTimeInstance();		
 		startTime2.add(Calendar.DAY_OF_YEAR, -1);			
-		Course course2 = new Course(p_Id, startTime2, finishTime,price,classSize,popularity,category,subCategory,phone);
+		Course course2 = new Course(p_Id, startTime2, finishTime,price,classSize,popularity,category,subCategory);
 		course2.setLocation(location);
 		course2.setCity(city);
 		course2.setDistrict(district);
@@ -81,7 +80,7 @@ public class CourseCleanerTest {
 						
 		Calendar startTime3 = DateUtility.getCurTimeInstance();		
 		startTime3.add(Calendar.MINUTE, 1);
-		Course course3 = new Course(p_Id, startTime3, finishTime,price,classSize,popularity,category,subCategory,phone);
+		Course course3 = new Course(p_Id, startTime3, finishTime,price,classSize,popularity,category,subCategory);
 		String location2= "China";
 		String city2 = "ChengDu";
 		String district2 = "ChengHua";
@@ -100,7 +99,7 @@ public class CourseCleanerTest {
 		
 		Calendar startTime4 = DateUtility.getCurTimeInstance();		
 		startTime4.add(Calendar.MINUTE, 1);
-		Course course4 = new Course(p_Id, startTime4, finishTime,price,classSize,popularity,category,subCategory,phone);	
+		Course course4 = new Course(p_Id, startTime4, finishTime,price,classSize,popularity,category,subCategory);	
 		String reference4 = "Tsesdf";
 		course4.setLocation(location2);
 		course4.setCity(city2);
@@ -116,7 +115,7 @@ public class CourseCleanerTest {
 		
 		Calendar startTime5 = DateUtility.getCurTimeInstance();		
 		startTime5.add(Calendar.MINUTE, -1);
-		Course course5 = new Course(p_Id, startTime5, finishTime,price,classSize,popularity,category,subCategory,phone);	
+		Course course5 = new Course(p_Id, startTime5, finishTime,price,classSize,popularity,category,subCategory);	
 		String reference5 = "Tsesdtyuf";
 		course5.setLocation(location2);
 		course5.setCity(city2);
@@ -132,7 +131,7 @@ public class CourseCleanerTest {
 		
 		Calendar startTime6 = DateUtility.getCurTimeInstance();		
 		startTime6.add(Calendar.MINUTE, -1);
-		Course course6 = new Course(p_Id, startTime6, finishTime,price,classSize,popularity,category,subCategory,phone);	
+		Course course6 = new Course(p_Id, startTime6, finishTime,price,classSize,popularity,category,subCategory);	
 		String reference6 = "Tsesdty58uf";
 		course6.setLocation(location2);
 		course6.setCity(city2);

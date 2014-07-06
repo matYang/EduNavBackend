@@ -33,9 +33,8 @@ public class CourseDaoTest {
 		String organizationNum = "1235454361234";
 		String reference = ReferenceGenerator.generateCourseReference();
 		String password = "sdf234r";
-		String phone = "123545451";	
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);		
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password,status);		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		
 		
@@ -48,7 +47,6 @@ public class CourseDaoTest {
 		int price = 1000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		String phone2 = "12344565654";
 		
 		ArrayList<String> teacherIntros = new ArrayList<String>();
 		teacherIntros.add("尊敬的各位考官、各位评委老师： 通过考试，今天，我以本岗位笔试第一的成大神大神绩进入DSA了面试。对我来说，这次机会显得尤为珍贵。我叫陈日安，今年21岁。浙江工业职业技术");
@@ -80,7 +78,7 @@ public class CourseDaoTest {
 		studyDays.add(5);
 		studyDays.add(6);
 		studyDays.add(7);
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory);
 		ArrayList<Long> tlist = new ArrayList<Long>();
 		ArrayList<Long> cplist = new ArrayList<Long>();
 		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
@@ -111,9 +109,8 @@ public class CourseDaoTest {
 		String organizationNum = "1235454361234";
 		String reference = ReferenceGenerator.generateCourseReference();
 		String password = "sdf234r";
-		String phone = "123545451";	
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password,status);
 		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		int p_Id = partner.getPartnerId();
@@ -125,7 +122,7 @@ public class CourseDaoTest {
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
 		int price = 1000;				
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory);
 		ArrayList<Long> tlist = new ArrayList<Long>();
 		ArrayList<Long> cplist = new ArrayList<Long>();
 		Teacher teacher = new Teacher(p_Id, "teacherImgUrl", "teacherName","teacherIntro");	
@@ -169,7 +166,7 @@ public class CourseDaoTest {
 		int seatsLeft2 = 5;
 		String category2 = "Physics";
 		String subCategory2 = "sub-Chin";			
-		Course course2 = new Course(p_Id, startTime2, finishTime2,price,seatsTotal2, seatsLeft2,category2,subCategory2,phone);
+		Course course2 = new Course(p_Id, startTime2, finishTime2,price,seatsTotal2, seatsLeft2,category2,subCategory2);
 		course2.setClassPhotoIdList(cplist);
 		course2.setTeacherIdList(tlist);
 		course2.setOutline("sdf");
@@ -230,9 +227,8 @@ public class CourseDaoTest {
 		String organizationNum = "organizationNum1";
 		String reference = ReferenceGenerator.generatePartnerReference();
 		String password = "password1";
-		String phone = "phone1";	
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);		
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password,status);		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		int p_Id = partner.getPartnerId();
 		
@@ -242,9 +238,8 @@ public class CourseDaoTest {
 		String organizationNum2 = "organizationNum2";
 		String reference2 = ReferenceGenerator.generatePartnerReference();
 		String password2 = "password2";
-		String phone2 = "phone2";	
 		AccountStatus status2 = AccountStatus.activated;
-		Partner partner2 = new Partner(name2,instName2, licence2, organizationNum2,reference2, password2, phone2,status2);		
+		Partner partner2 = new Partner(name2,instName2, licence2, organizationNum2,reference2, password2,status2);		
 		partner2 = PartnerDao.addPartnerToDatabases(partner2);
 		int p_Id2 = partner2.getPartnerId();
 		
@@ -254,9 +249,8 @@ public class CourseDaoTest {
 		String organizationNum3 = "organizationNum3";
 		String reference3 = ReferenceGenerator.generatePartnerReference();
 		String password3 = "password3";
-		String phone3 = "phone3";	
 		AccountStatus status3 = AccountStatus.activated;
-		Partner partner3 = new Partner(name3,instName3, licence3, organizationNum3,reference3, password3, phone3,status3);		
+		Partner partner3 = new Partner(name3,instName3, licence3, organizationNum3,reference3, password3,status3);		
 		partner3 = PartnerDao.addPartnerToDatabases(partner3);
 		int p_Id3 = partner3.getPartnerId();
 		
@@ -285,7 +279,7 @@ public class CourseDaoTest {
 		String city1 = "city1";
 		String district1 = "district1";
 		String coursereference1 = ReferenceGenerator.generateCourseReference();	
-		Course course = new Course(p_Id, startTime, finishTime,price1,classSize, popularity,category1,subCategory1,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price1,classSize, popularity,category1,subCategory1);
 		course.setLocation(location1);
 		course.setCity(city1);
 		course.setDistrict(district1);
@@ -310,7 +304,7 @@ public class CourseDaoTest {
 		String city2 = "city2";
 		String district2 = "district2";
 		String coursereference2 = ReferenceGenerator.generateCourseReference();			
-		Course course2 = new Course(p_Id2, startTime2, finishTime2,price2,classSize, popularity,category2,subCategory2,phone);
+		Course course2 = new Course(p_Id2, startTime2, finishTime2,price2,classSize, popularity,category2,subCategory2);
 		course2.setLocation(location2);
 		course2.setCity(city2);
 		course2.setDistrict(district2);
@@ -335,7 +329,7 @@ public class CourseDaoTest {
 		String city21 = "city2";
 		String district21 = "district2";
 		String coursereference21 = ReferenceGenerator.generateCourseReference();				
-		Course course21 = new Course(p_Id2, startTime21, finishTime21,price21,classSize, popularity,category21,subCategory21,phone);
+		Course course21 = new Course(p_Id2, startTime21, finishTime21,price21,classSize, popularity,category21,subCategory21);
 		course21.setLocation(location21);
 		course21.setCity(city21);
 		course21.setDistrict(district21);
@@ -359,7 +353,7 @@ public class CourseDaoTest {
 		String city3 = "city0";
 		String district3 = "district0";
 		String coursereference3 = ReferenceGenerator.generateCourseReference();		
-		Course course3 = new Course(p_Id3, startTime3, finishTime3,price3,classSize, popularity,category3,subCategory3,phone);
+		Course course3 = new Course(p_Id3, startTime3, finishTime3,price3,classSize, popularity,category3,subCategory3);
 		course3.setLocation(location3);
 		course3.setCity(city3);
 		course3.setDistrict(district3);
@@ -383,7 +377,7 @@ public class CourseDaoTest {
 		String city31 = "city1";
 		String district31 = "district1";
 		String coursereference31 = ReferenceGenerator.generateCourseReference();
-		Course course31 = new Course(p_Id3, startTime31, finishTime31,price31,classSize, popularity,category31,subCategory31,phone);
+		Course course31 = new Course(p_Id3, startTime31, finishTime31,price31,classSize, popularity,category31,subCategory31);
 		course31.setLocation(location31);
 		course31.setCity(city31);
 		course31.setDistrict(district31);
@@ -407,7 +401,7 @@ public class CourseDaoTest {
 		String city32 = "city2";
 		String district32 = "district2";
 		String coursereference32 = ReferenceGenerator.generateCourseReference();		
-		Course course32 = new Course(p_Id3, startTime32, finishTime32,price32,classSize, popularity,category32,subCategory32,phone);
+		Course course32 = new Course(p_Id3, startTime32, finishTime32,price32,classSize, popularity,category32,subCategory32);
 		course32.setLocation(location32);
 		course32.setCity(city32);
 		course32.setDistrict(district32);

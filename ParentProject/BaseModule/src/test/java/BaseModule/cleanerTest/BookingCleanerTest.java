@@ -44,9 +44,8 @@ public class BookingCleanerTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String ppassword = "sdf234r";
-		String phone = "123545451";		
-		Partner partner = new Partner(pname,instName, licence, organizationNum,reference, ppassword, phone,status);
+		String ppassword = "sdf234r";		
+		Partner partner = new Partner(pname,instName, licence, organizationNum,reference, ppassword,status);
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		int p_Id = partner.getPartnerId();
@@ -58,7 +57,7 @@ public class BookingCleanerTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory);
 		course.setReference("courseFGgf");
 		ArrayList<Long> list = new ArrayList<Long>();	
 		list.add(1L);
@@ -95,7 +94,7 @@ public class BookingCleanerTest {
 		
 		//Nothing happen
 		Booking booking = new Booking(timeStamp,timeStamp, 
-				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				course.getPrice(), userId, partnerId, courseId, user.getName(), "123456789",
 				email,partner.getReference(),BookingStatus.awaiting,cashbackAmount);
 		booking.setNoRefundDate(timeStamp);
 		booking.setCashbackDate(timeStamp);
@@ -105,7 +104,7 @@ public class BookingCleanerTest {
 		Calendar finishTime2 = Calendar.getInstance();
 		finishTime2.add(Calendar.DAY_OF_YEAR, -1);			
 		Booking booking2 = new Booking(finishTime2,timeStamp,
-				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				course.getPrice(), userId, partnerId, courseId, user.getName(), "123456789",
 				email,partner.getReference()+"2",BookingStatus.cancelled,cashbackAmount);
 		BookingDao.addBookingToDatabases(booking2);
 		
@@ -113,7 +112,7 @@ public class BookingCleanerTest {
 		Calendar finishTime3 = Calendar.getInstance();
 		finishTime3.add(Calendar.HOUR_OF_DAY, -1);
 		Booking booking3 = new Booking(finishTime3,timeStamp, 
-				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				course.getPrice(), userId, partnerId, courseId, user.getName(), "123456789",
 				email,partner.getReference()+"3",BookingStatus.succeeded,cashbackAmount);
 		booking3.setNoRefundDate(finishTime3);
 		booking3.setCashbackDate(finishTime3);
@@ -123,7 +122,7 @@ public class BookingCleanerTest {
 		Calendar finishTime4 = Calendar.getInstance();
 		finishTime4.add(Calendar.HOUR_OF_DAY, -1);
 		Booking booking4 = new Booking(finishTime4,timeStamp, 
-				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				course.getPrice(), userId, partnerId, courseId, user.getName(), "123456789",
 				email,partner.getReference()+"4",BookingStatus.started,cashbackAmount);
 		booking4.setNoRefundDate(finishTime4);
 		booking4.setCashbackDate(finishTime4);
@@ -133,7 +132,7 @@ public class BookingCleanerTest {
 		Calendar finishTime5 = Calendar.getInstance();
 		finishTime5.add(Calendar.HOUR_OF_DAY, -1);
 		Booking booking5 = new Booking(finishTime4,timeStamp, 
-				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				course.getPrice(), userId, partnerId, courseId, user.getName(), "123456789",
 				email,partner.getReference()+"5",BookingStatus.started,cashbackAmount);
 		booking5.setCashbackDate(finishTime5);
 		BookingDao.addBookingToDatabases(booking5);
@@ -142,7 +141,7 @@ public class BookingCleanerTest {
 		Calendar finishTime6 = Calendar.getInstance();
 		finishTime6.add(Calendar.HOUR_OF_DAY, -1);
 		Booking booking6 = new Booking(finishTime4,timeStamp, 
-				course.getPrice(), userId, partnerId, courseId, user.getName(), partner.getPhone(),
+				course.getPrice(), userId, partnerId, courseId, user.getName(), "123456789",
 				email,partner.getReference()+"6",BookingStatus.succeeded,cashbackAmount);
 		booking6.setNoRefundDate(finishTime6);
 		BookingDao.addBookingToDatabases(booking6);

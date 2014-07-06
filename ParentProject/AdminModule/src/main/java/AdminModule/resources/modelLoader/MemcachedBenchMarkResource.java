@@ -153,10 +153,8 @@ public final class MemcachedBenchMarkResource extends AdminPseudoResource {
 		int seatsLeft = 5;
 		int price = 1000;
 		String category = "Physics";
-		String subCategory = "sub-Phy";		
-		String phone = "12344565654";
-		AccountStatus status = AccountStatus.activated;		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		String subCategory = "sub-Phy";			
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory);
 		try {
 			CourseDao.addCourseToDatabases(course, connections);
 		} catch (SQLException e) {	
@@ -168,9 +166,8 @@ public final class MemcachedBenchMarkResource extends AdminPseudoResource {
 		finishTime = DateUtility.getCurTimeInstance();
 		startTime.add(Calendar.DAY_OF_MONTH, -8);					
 		category = "Chinese";
-		subCategory = "sub-Chin";		
-		status = AccountStatus.deactivated;		
-		Course course2 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		subCategory = "sub-Chin";				
+		Course course2 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory);
 		try {
 			CourseDao.addCourseToDatabases(course2, connections);
 		} catch (SQLException e) {			
@@ -183,9 +180,8 @@ public final class MemcachedBenchMarkResource extends AdminPseudoResource {
 		startTime.add(Calendar.DAY_OF_MONTH, -8);
 		finishTime.add(Calendar.DAY_OF_MONTH, -7);
 		category = "French";
-		subCategory = "sub-French";		
-		status = AccountStatus.deleted;		
-		Course course3 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		subCategory = "sub-French";				
+		Course course3 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory);
 		try {
 			CourseDao.addCourseToDatabases(course3, connections);
 		} catch (SQLException e) {		
@@ -202,10 +198,8 @@ public final class MemcachedBenchMarkResource extends AdminPseudoResource {
 		int seatsLeft = 5;
 		int price = 1000;
 		String category = "Physics";
-		String subCategory = "sub-Phy";		
-		String phone = "12344565654";
-		AccountStatus status = AccountStatus.activated;		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		String subCategory = "sub-Phy";					
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory);
 		try {
 			CourseDao.addCourseToDatabases(course, connections);
 		} catch (SQLException e) {	
@@ -222,10 +216,9 @@ public final class MemcachedBenchMarkResource extends AdminPseudoResource {
 			String licence = "234fdsfsdgergf-dsv,.!@";
 			String organizationNum = "1235454361234";
 			String reference = "dsf4r";
-			String password = "sdf234r";
-			String phone = "123545451";
+			String password = "sdf234r";			
 			AccountStatus status = AccountStatus.activated;
-			Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
+			Partner partner = new Partner(name, instName,licence, organizationNum,reference, password,status);
 			try {
 				PartnerDao.addPartnerToDatabases(partner, connections);
 			} catch (SQLException e) {				
@@ -237,10 +230,9 @@ public final class MemcachedBenchMarkResource extends AdminPseudoResource {
 			String licence2 = "2sdfdsf34545dsfsdgergf-dsv,.!@";
 			String organizationNum2 = "12334361234";
 			String reference2 = "dsdsfr";
-			String password2 = "sdsdf34r";
-			String phone2 = "12335451";
+			String password2 = "sdsdf34r";			
 			AccountStatus status2 = AccountStatus.deactivated;
-			Partner partner2 = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2, phone2,status2);
+			Partner partner2 = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2,status2);
 			try {
 				PartnerDao.addPartnerToDatabases(partner2,connections);
 			} catch (SQLException e) {				
@@ -252,10 +244,9 @@ public final class MemcachedBenchMarkResource extends AdminPseudoResource {
 			String licence3 = "234fdsfv,.!@";
 			String organizationNum3 = "1235454361234";
 			String reference3 = "d4r";
-			String password3 = "sdf234r";
-			String phone3 = "12354";
+			String password3 = "sdf234r";			
 			AccountStatus status3 = AccountStatus.deleted;
-			Partner partner3 = new Partner(name3, instName3,licence3, organizationNum3,reference3, password3, phone3,status3);
+			Partner partner3 = new Partner(name3, instName3,licence3, organizationNum3,reference3, password3,status3);
 			try {
 				PartnerDao.addPartnerToDatabases(partner3, connections);
 			} catch (SQLException e) {				

@@ -385,10 +385,9 @@ public class ValidationTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String password = "sdf234r";
-		String phone = "123545451";
+		String password = "sdf234r";		
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
+		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password,status);
 		try{
 			ValidationService.validatePartner(partner);
 		}catch(ValidationException e){
@@ -398,7 +397,7 @@ public class ValidationTest {
 		}
 
 		boolean fail = true;
-		partner = new Partner(name,"",licence,organizationNum,reference,password,phone,status);
+		partner = new Partner(name,"",licence,organizationNum,reference,password,status);
 		try{
 			ValidationService.validatePartner(partner);
 		}catch(ValidationException e){
@@ -410,7 +409,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		partner = new Partner(name,instName,licence,organizationNum,"",password,phone,status);
+		partner = new Partner(name,instName,licence,organizationNum,"",password,status);
 		try{
 			ValidationService.validatePartner(partner);
 		}catch(ValidationException e){
@@ -422,7 +421,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		partner = new Partner(name,instName,licence,"",reference,password,phone,status);
+		partner = new Partner(name,instName,licence,"",reference,password,status);
 		try{
 			ValidationService.validatePartner(partner);
 		}catch(ValidationException e){
@@ -434,7 +433,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		partner = new Partner(name,instName,"",organizationNum,reference,password,phone,status);
+		partner = new Partner(name,instName,"",organizationNum,reference,password,status);
 		try{
 			ValidationService.validatePartner(partner);
 		}catch(ValidationException e){
@@ -457,9 +456,8 @@ public class ValidationTest {
 		int popularity = 5;
 		int price = 1000;	
 		String category = "Physics";
-		String subCategory = "sub-Phy";			
-		String phone = "12344545";
-		Course course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,phone);
+		String subCategory = "sub-Phy";					
+		Course course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory);
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
 		course.setCourseName("sdlkjoeghjeior");
@@ -473,7 +471,7 @@ public class ValidationTest {
 		}
 
 		boolean fail = true;
-		course = new Course(-1, startTime, finishTime,price,classSize, popularity,category,subCategory,phone);
+		course = new Course(-1, startTime, finishTime,price,classSize, popularity,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -491,7 +489,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course =new Course(p_Id, startTime, startTime,price,classSize, popularity,category,subCategory,phone);
+		course =new Course(p_Id, startTime, startTime,price,classSize, popularity,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -509,7 +507,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,classSize, classSize+1,category,subCategory,phone);
+		course = new Course(p_Id, startTime, finishTime,price,classSize, classSize+1,category,subCategory);
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
 		course.setCourseHourLength(1);
@@ -526,7 +524,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,-1, -2,category,subCategory,phone);
+		course = new Course(p_Id, startTime, finishTime,price,-1, -2,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -544,7 +542,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course =new Course(p_Id, startTime, finishTime,price,classSize, popularity,"",subCategory,phone);
+		course =new Course(p_Id, startTime, finishTime,price,classSize, popularity,"",subCategory);
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
 		course.setCourseHourLength(1);
@@ -561,7 +559,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,-1,classSize, popularity,category,subCategory,phone);
+		course = new Course(p_Id, startTime, finishTime,-1,classSize, popularity,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -579,7 +577,7 @@ public class ValidationTest {
 		if(fail) fail();		
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,"",phone);
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,"");
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -597,7 +595,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, null, finishTime,price,classSize, popularity,category,subCategory,phone);
+		course = new Course(p_Id, null, finishTime,price,classSize, popularity,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -615,7 +613,7 @@ public class ValidationTest {
 		if(fail) fail();
 
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"dsf124");
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -624,8 +622,6 @@ public class ValidationTest {
 		course.setSubSubCategory("xch");
 		try{
 			ValidationService.validateCourse(course);
-		}catch(ValidationException e){
-			//Passed;
 			fail = false;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -633,7 +629,7 @@ public class ValidationTest {
 		if(fail) fail();
 		
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"dsf124");
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -653,7 +649,7 @@ public class ValidationTest {
 		if(fail) fail();		
 		
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"dsf124");
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -673,7 +669,7 @@ public class ValidationTest {
 		if(fail) fail();
 		
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"dsf124");
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -693,7 +689,7 @@ public class ValidationTest {
 		if(fail) fail();
 		
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"dsf124");
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);
@@ -713,7 +709,7 @@ public class ValidationTest {
 		if(fail) fail();
 		
 		fail = true;
-		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory,"13585226500");
+		course = new Course(p_Id, startTime, finishTime,price,classSize, popularity,category,subCategory);
 		course.setCourseName("sdlkjoeghjeior");
 		course.setStartTime1(900);
 		course.setFinishTime1(1200);

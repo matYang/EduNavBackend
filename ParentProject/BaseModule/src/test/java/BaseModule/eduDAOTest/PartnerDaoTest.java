@@ -7,15 +7,11 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 import BaseModule.configurations.EnumConfig.AccountStatus;
-import BaseModule.eduDAO.ClassPhotoDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.PartnerDao;
-import BaseModule.eduDAO.TeacherDao;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.authentication.AuthenticationException;
-import BaseModule.model.ClassPhoto;
 import BaseModule.model.Partner;
-import BaseModule.model.Teacher;
 import BaseModule.model.representation.PartnerSearchRepresentation;
 
 public class PartnerDaoTest {
@@ -29,9 +25,8 @@ public class PartnerDaoTest {
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
 		String password = "sdf234r";
-		String phone = "123545451";
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);		
+		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password,status);		
 		try{
 			PartnerDao.addPartnerToDatabases(partner);
 		}catch(Exception e){
@@ -48,10 +43,9 @@ public class PartnerDaoTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String password = "sdf234r";
-		String phone = "123545451";
+		String password = "sdf234r";		
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);	
+		Partner partner = new Partner(name, instName,licence, organizationNum,reference, password,status);	
 		PartnerDao.addPartnerToDatabases(partner);
 		Partner partner2 = PartnerDao.getPartnerById(partner.getPartnerId());
 		
@@ -65,14 +59,13 @@ public class PartnerDaoTest {
 		String licence2 = "2sdfdsf34545dsfsdgergf-dsv,.!@";
 		String organizationNum2 = "12334361234";
 		String reference2 = "dsdsfr";
-		String password2 = "sdsdf34r";
-		String phone2 = "12335451";
+		String password2 = "sdsdf34r";		
 		AccountStatus status2 = AccountStatus.activated;
-		Partner test = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2, phone2,status2);		
+		Partner test = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2,status2);		
 		PartnerDao.addPartnerToDatabases(test);
 		
 		ArrayList<Partner> plist = new ArrayList<Partner>();
-		plist = PartnerDao.searchPartner(new PartnerSearchRepresentation());
+		plist = PartnerDao.searchPartner(new PartnerSearchRepresentation());		
 		if(plist.size()==2&&plist.get(0).equals(partner2)&&plist.get(1).equals(test)){
 			//Passed;
 		}else fail();
@@ -86,10 +79,9 @@ public class PartnerDaoTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String password = "sdf234r";
-		String phone = "123545451";
+		String password = "sdf234r";		
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);		
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password,status);		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		
 		if(!partner.getWholeName().equals(name)){
@@ -97,15 +89,11 @@ public class PartnerDaoTest {
 		}
 		
 		partner.setWholeName("HQYS");
-		partner.setPassword("dsfdsf23234");
-		
 		PartnerDao.updatePartnerInDatabases(partner);
-		PartnerSearchRepresentation p_sr = new PartnerSearchRepresentation();
-		p_sr.setPhone(phone);
-		partner = PartnerDao.searchPartner(p_sr).get(0);
-		if(partner.getWholeName().equals("HQYS")&&partner.getPassword().equals("dsfds23234")){
-			
-		}
+		partner = PartnerDao.getPartnerById(partner.getPartnerId());
+		if(partner.getWholeName().equals("HQYS")){
+			//Passed;
+		}else fail();
 	}
 	
 	@Test
@@ -117,10 +105,9 @@ public class PartnerDaoTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String password = "sdf234r";
-		String phone = "123545451";
+		String password = "sdf234r";		
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);			
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password,status);			
 		partner = PartnerDao.addPartnerToDatabases(partner);
 
 		try{
@@ -178,26 +165,25 @@ public class PartnerDaoTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String password = "sdf234r";
-		String phone = "123545451";
+		String password = "sdf234r";		
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);		
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password,status);		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		
 		try{
-			PartnerDao.recoverPartnerPassword(phone, "newPassword");
+			PartnerDao.recoverPartnerPassword(reference, "newPassword");
 		}catch(Exception e){
 			e.printStackTrace();
 			fail();
 		}
 		
-		if(PartnerDao.authenticatePartner(phone, "newPassword").equals(partner)){
+		if(PartnerDao.authenticatePartner(reference, "newPassword").equals(partner)){
 			//Passed;
 		}else fail();
 		
 		boolean fail = true;
 		try{
-			PartnerDao.authenticatePartner(phone, "badPassword");
+			PartnerDao.authenticatePartner(reference, "badPassword");
 		}catch(Exception e){
 			//Passed;
 			fail = false;
@@ -214,14 +200,13 @@ public class PartnerDaoTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String password = "sdf234r";
-		String phone = "123545451";
+		String password = "sdf234r";		
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);		
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password,status);		
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		Partner test = null;
 		try {
-			test = PartnerDao.authenticatePartner(phone, password);
+			test = PartnerDao.authenticatePartner(reference, password);
 		} catch (AuthenticationException e) {
 			fail();
 		}
@@ -238,7 +223,7 @@ public class PartnerDaoTest {
 		
 		test = null;
 		try {
-			test = PartnerDao.authenticatePartner(phone, "36krfinai");
+			test = PartnerDao.authenticatePartner(reference, "36krfinai");
 		} catch (AuthenticationException e) {
 			//Passed;
 		}
@@ -255,10 +240,9 @@ public class PartnerDaoTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String password = "sdf234r";
-		String phone = "123545451";
+		String password = "sdf234r";		
 		AccountStatus status = AccountStatus.activated;
-		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password, phone,status);	
+		Partner partner = new Partner(name,instName, licence, organizationNum,reference, password,status);	
 		partner = PartnerDao.addPartnerToDatabases(partner);
 		partner = PartnerDao.getPartnerById(partner.getPartnerId());
 		
@@ -267,7 +251,7 @@ public class PartnerDaoTest {
 		String licence11 = "234fdsfsdgergf-d11sv,.!@";
 		String organizationNum11 = "123545436111234";
 		String reference11 = "ds11f4r";			
-		Partner partner11 = new Partner(name11,instName11, licence11, organizationNum11,reference11, password, phone+"2",status);		
+		Partner partner11 = new Partner(name11,instName11, licence11, organizationNum11,reference11, password, status);		
 		partner11 = PartnerDao.addPartnerToDatabases(partner11);
 		partner11 = PartnerDao.getPartnerById(partner11.getPartnerId());
 		
@@ -278,7 +262,7 @@ public class PartnerDaoTest {
 		String reference2 = "dgt4yt4yf4r";		
 		
 		AccountStatus status2 = AccountStatus.deactivated;
-		Partner partner2 = new Partner(name2,instName2, licence2, organizationNum2,reference2, password, phone+"3",status2);		
+		Partner partner2 = new Partner(name2,instName2, licence2, organizationNum2,reference2, password,status2);		
 		partner2 = PartnerDao.addPartnerToDatabases(partner2);
 		partner2 = PartnerDao.getPartnerById(partner2.getPartnerId());
 		
@@ -289,7 +273,7 @@ public class PartnerDaoTest {
 		String reference3= "reference3";		
 		
 		AccountStatus status3 = AccountStatus.deleted;
-		Partner partner3 = new Partner(name3,instName3, licence3, organizationNum3,reference3, password, phone+"4",status3);		
+		Partner partner3 = new Partner(name3,instName3, licence3, organizationNum3,reference3, password,status3);		
 		partner3 = PartnerDao.addPartnerToDatabases(partner3);
 		partner3 = PartnerDao.getPartnerById(partner3.getPartnerId());
 		
@@ -299,15 +283,9 @@ public class PartnerDaoTest {
 		plist = PartnerDao.searchPartner(sr);
 		if(plist.size()==1 && plist.get(0).equals(partner2)){
 			//Passed;
-		}else fail();
+		}else fail();	
 		
 		sr.setInstName(null);
-		sr.setPhone(phone);
-		plist = PartnerDao.searchPartner(sr);
-		if(plist.size()==1 && plist.get(0).equals(partner)){
-			//Passed;
-		}else fail();
-		
 		sr.setPartnerId(partner.getPartnerId());
 		plist = PartnerDao.searchPartner(sr);
 		if(plist.size()==1 && plist.get(0).equals(partner)){

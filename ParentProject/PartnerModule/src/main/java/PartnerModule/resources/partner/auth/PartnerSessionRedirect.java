@@ -37,7 +37,7 @@ public final class PartnerSessionRedirect extends PartnerPseudoResource{
 			
 			//if not authenticated, return default user with id -1
 			partner = new Partner("default", "default","default", "default",
-					"default", "default", "default",AccountStatus.activated);
+					"default", "default",AccountStatus.activated);
 			partner.setPartnerId(-1);
 			try {
 				jsonObject = JSONGenerator.toJSON(partner);

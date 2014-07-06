@@ -111,9 +111,8 @@ public class SMSTaskTest {
 		String licence = "234fdsfsdgergf-dsv,.!@";
 		String organizationNum = "1235454361234";
 		String reference = "dsf4r";
-		String ppassword = "sdf234r";
-		String phone = "123545451";		
-		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword, phone,status);
+		String ppassword = "sdf234r";			
+		Partner partner = new Partner(pname, instName,licence, organizationNum,reference, ppassword,status);
 		PartnerDao.addPartnerToDatabases(partner);
 		
 		int p_Id = partner.getPartnerId();
@@ -125,7 +124,7 @@ public class SMSTaskTest {
 		int price = 12000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";	
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal, seatsLeft,category,subCategory);
 		ArrayList<Long> list = new ArrayList<Long>();	
 		list.add(1L);
 		course.setOutline("sdfdsf");
@@ -160,8 +159,7 @@ public class SMSTaskTest {
 		course.setPrice(price);
 		course.setOriginalPrice(price+99);
 		course.setCourseName("精品Gay速成班");
-		course.setLocation("南京市雨花台区宁双路28号汇智大厦，908室，邮编xoxo");
-		course.setPhone("40082097155");
+		course.setLocation("南京市雨花台区宁双路28号汇智大厦，908室，邮编xoxo");		
 		CourseDao.updateCourseInDatabases(course);
 		course = CourseDao.getCourseById(course.getCourseId());
 		

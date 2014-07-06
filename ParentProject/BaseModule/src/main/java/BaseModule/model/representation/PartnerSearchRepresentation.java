@@ -17,8 +17,7 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 	private String wholeName;
 	private String licence;
 	private String organizationNum;
-	private String reference;
-	private String phone;
+	private String reference;	
 	private AccountStatus status;	
 	private String instName;
 	private Calendar startCreationTime;
@@ -31,8 +30,7 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 		this.organizationNum = null;
 		this.reference = null;
 		this.startCreationTime = null;
-		this.finishCreationTime = null;
-		this.phone = null;
+		this.finishCreationTime = null;		
 		this.status = null;
 		this.instName = null;
 	}
@@ -95,15 +93,7 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 
 	public void setReference(String reference) {
 		this.reference = reference;
-	}	
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+	}		
 
 	public AccountStatus getStatus() {
 		return status;
@@ -143,8 +133,8 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 				+ ", wholeName=" + wholeName + ", licence=" + licence
 				+ ", organizationNum=" + organizationNum + ", reference="
 				+ reference + ", startCreationTime" + startCreationTime + ", finishCreationTime=" 
-				+ finishCreationTime + ", phone="
-				+ phone + ", status=" + status + ", instName=" + instName + "]";
+				+ finishCreationTime 
+				+ ", status=" + status + ", instName=" + instName + "]";
 	}
 	
 	public String getSearchQuery() {
@@ -185,16 +175,7 @@ public class PartnerSearchRepresentation implements PseudoModel, PseudoRepresent
 				query += "and ";
 			}
 			query += "name = ? ";
-		}
-		if(this.getPhone() != null && this.getPhone().length() > 0){
-			if(!start){
-				query += "where ";
-				start = true;
-			}else{
-				query += "and ";
-			}
-			query += "phone = ? ";
-		}
+		}		
 		if(this.getStatus() != null){
 			if(!start){
 				query += "where ";

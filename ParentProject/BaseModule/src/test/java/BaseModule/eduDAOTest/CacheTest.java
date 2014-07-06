@@ -101,7 +101,7 @@ public class CacheTest {
 		int price = 1000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		String phone = "12344565654";
+	
 		AccountStatus status = AccountStatus.activated;	
 		ArrayList<Long> tlist = new ArrayList<Long>();
 		ArrayList<Long> cplist = new ArrayList<Long>();
@@ -116,7 +116,7 @@ public class CacheTest {
 		classPhotos = ClassPhotoDao.addClassPhotosToDataBases(classPhotos);
 		cplist.add(classPhoto.getClassPhotoId());
 		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory);
 		course.setClassPhotoIdList(cplist);
 		course.setTeacherIdList(tlist);
 		course.setOutline("sdf");
@@ -134,7 +134,7 @@ public class CacheTest {
 		category = "Chinese";
 		subCategory = "sub-Chin";		
 		status = AccountStatus.deactivated;		
-		Course course2 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		Course course2 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory);
 		course2.setClassPhotoIdList(cplist);
 		course2.setTeacherIdList(tlist);
 		course2.setOutline("sdf");
@@ -153,7 +153,7 @@ public class CacheTest {
 		category = "French";
 		subCategory = "sub-French";		
 		status = AccountStatus.deleted;		
-		Course course3 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		Course course3 = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory);
 		course3.setClassPhotoIdList(cplist);
 		course3.setTeacherIdList(tlist);
 		course3.setOutline("sdf");
@@ -175,7 +175,7 @@ public class CacheTest {
 		int price = 1000;
 		String category = "Physics";
 		String subCategory = "sub-Phy";		
-		String phone = "12344565654";
+		
 		AccountStatus status = AccountStatus.activated;
 		ArrayList<Long> tlist = new ArrayList<Long>();
 		ArrayList<Long> cplist = new ArrayList<Long>();
@@ -190,7 +190,7 @@ public class CacheTest {
 		classPhotos = ClassPhotoDao.addClassPhotosToDataBases(classPhotos);
 		cplist.add(classPhoto.getClassPhotoId());
 		
-		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory,phone);
+		Course course = new Course(p_Id, startTime, finishTime,price,seatsTotal,seatsLeft,category,subCategory);
 		course.setClassPhotoIdList(cplist);
 		course.setTeacherIdList(tlist);
 		course.setOutline("sdf");
@@ -212,9 +212,9 @@ public class CacheTest {
 			String organizationNum = "1235454361234";
 			String reference = "dsf4r";
 			String password = "sdf234r";
-			String phone = "123545451";
+			
 			AccountStatus status = AccountStatus.activated;			
-			Partner partner = new Partner(name, instName,licence, organizationNum,reference, password, phone,status);
+			Partner partner = new Partner(name, instName,licence, organizationNum,reference, password,status);
 			
 			
 			try {
@@ -229,9 +229,9 @@ public class CacheTest {
 			String organizationNum2 = "12334361234";
 			String reference2 = "dsdsfr";
 			String password2 = "sdsdf34r";
-			String phone2 = "12335451";
+			
 			AccountStatus status2 = AccountStatus.deactivated;
-			Partner partner2 = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2, phone2,status2);			
+			Partner partner2 = new Partner(name2, instName2,licence2, organizationNum2,reference2, password2,status2);			
 			try {
 				PartnerDao.addPartnerToDatabases(partner2,connections);
 			} catch (SQLException e) {				
@@ -243,10 +243,9 @@ public class CacheTest {
 			String licence3 = "234fdsfv,.!@";
 			String organizationNum3 = "1235454361234";
 			String reference3 = "d4r";
-			String password3 = "sdf234r";
-			String phone3 = "12354";
+			String password3 = "sdf234r";			
 			AccountStatus status3 = AccountStatus.deleted;
-			Partner partner3 = new Partner(name3, instName3,licence3, organizationNum3,reference3, password3, phone3,status3);			
+			Partner partner3 = new Partner(name3, instName3,licence3, organizationNum3,reference3, password3,status3);			
 			try {
 				PartnerDao.addPartnerToDatabases(partner3, connections);
 			} catch (SQLException e) {				
