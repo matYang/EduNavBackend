@@ -28,35 +28,37 @@ public class Course implements PseudoModel, Serializable{
 	private int originalPrice;
 	private int courseHourNum;
 	private int courseHourLength;	
-	
+
 	private int classSize;
 	private int cashback;
 	private int popularity;
-	
+
 	private Calendar creationTime;
 	private Calendar startDate;
 	private Calendar finishDate;
 	private Calendar cutoffDate;
-	
+
 	private Calendar noRefundDate;
 	private Calendar cashbackDate;
 	private BookingType bookingType;
-	
+
 	private int startUponArrival;	//1 means true, 0 means false
 	private int startTime1;
 	private int finishTime1;
 	private int startTime2;
 	private int finishTime2;
-	
+
 	private String category;
 	private String subCategory;
 	private String subSubCategory;
 	private String location;
+	@++
+	private String registraLocation;
 	private String province;
 	private String city;
 	private String district;
 	private String reference;
-	
+
 	private String courseIntro;		
 	private String quiz;
 	private String certification;
@@ -66,18 +68,27 @@ public class Course implements PseudoModel, Serializable{
 	private String highScoreReward;		
 	private String courseName;
 	private String studyDaysNote;
-	private String partnerCourseReference;
-	private String partnerIntro;	
+	@--
+	private String partnerCourseReference;	
 	private String teachingMaterialIntro;
 
 	private String questionBank;
+	@++
+	private String qualityAssurance;
 	private String passAgreement;
 	private String extracurricular;
+
+	@--
 	private String phone;
-	
-	private String partnerDistinction;
+
+	@++
+	private String contact;
+	@++
+	private String registraPhone;
+
 	private String outline;	//text area
 	private String goal;	//text area
+
 	private String classTeacher;
 	private String teachingAndExercise;
 	private String questionSession;
@@ -87,22 +98,30 @@ public class Course implements PseudoModel, Serializable{
 	private String bonusService;
 	private String downloadMaterials;
 	private String teachingMaterialFee;
-	
+
+	@++
+	private String teachingMethod;
+
 	private CourseStatus status;
-	private PartnerQualification partnerQualification;
-	
+
 	private ArrayList<Integer> studyDays = new ArrayList<Integer>();
-	
+
 	private ArrayList<Long> classPhotoIdList;
 	private ArrayList<ClassPhoto> classPhotoList;
 	private ArrayList<Long> teacherIdList;
 	private ArrayList<Teacher> teacherList;
-	
+
+
 	// Partner
 	private String logoUrl;
 	private String instName;
 	private String wholeName;
-
+	@== joined from patner
+	private String partnerIntro;
+	@== joined from partner
+	private PartnerQualification partnerQualification;
+	@== joined from partner
+	private String partnerDistinction;
 	
 	
 	// SQL Construction;

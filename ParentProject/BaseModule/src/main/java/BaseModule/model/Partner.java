@@ -23,19 +23,66 @@ public class Partner implements PseudoModel, Serializable{
 	
 	private int partnerId;
 	private String wholeName;
+	private String instName;
+
+	@++
+	private String partnerIntro;
+	@++
+	private String partnerDistinction;
+
+
 	private String licence;
 	private String organizationNum;
-	private String reference;
-	private String password;
-	
-	private String phone;
-	private AccountStatus status;	
-	private String instName;
+	@++
+	private String liscenceImgUrl;	//营业执照副本扫描件（对内）
+	@++
+	private String taxRegistrationImgUrl;	//税务登记证副本扫描件（对内）
+	@++
+	private String eduQualificationImgUrl;	//教育资质扫描件或复印件（对内）
+
 	private String logoUrl;
-	
 	private ArrayList<ClassPhoto> classPhotoList;
 	private ArrayList<Teacher> teacherList;
+
+	@--
+	private String phone;
 	
+	@++
+	private String hqLocation;	//公司总部地址
+	@++
+	private ArrayList<String> subLocations;	//校区地址
+	@++
+	private boolean uniformRegistraLocation;	//不同课程报名地点是否一致
+	@++
+	private String hqContact;	//总部合作关系对接人
+	@++
+	private String hqContactPhone;	//总部合作关系对接人联系电话
+	@++
+	private String hqContactSecOpt;	//总部合作关系其他联系方式
+	@++
+	private String courseContact;	//课程详情联络人
+	@++
+	private String courseContactPhone;	//课程详情联络人联系电话
+	@++
+	private String studentInqueryPhone;	//学员咨询联系电话
+	@++
+	private String registraContact;	//报名学员入学状态对接人
+	@++
+	private String registraContactPhone;	//报名学员入学状态联系电话
+	@++
+	private String registraContactFax;	//报名学员入学状态传真号码
+	
+	@++
+	private int defaultCutoffDay;	//默认课程开始前多少天前截止
+	@++
+	private int defaultCutoffTime;	//默认截止日几点截止
+	@++
+	private PartnerQualification partnerQualification;
+	
+	
+	private String reference;
+	private String password;
+	private AccountStatus status;
 	private Calendar creationTime;
 	private Calendar lastLogin;
 
