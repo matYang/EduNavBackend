@@ -11,6 +11,7 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
 
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.EnumConfig.Visibility;
 import BaseModule.dbservice.TeacherDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.model.Teacher;
@@ -39,7 +40,7 @@ public class PartnerUpdateTeacherResource extends PartnerPseudoResource {
 			for (Teacher model : modelList){
 				JSONObject jsonObj = jsonMap.get(model.getTeacherId());
 				if (jsonObj == null){
-					//TODO set visibility to invisible
+					model.setVisibility(Visibility.invisible);
 				}
 				else{
 					model.storeJSON(jsonObj);

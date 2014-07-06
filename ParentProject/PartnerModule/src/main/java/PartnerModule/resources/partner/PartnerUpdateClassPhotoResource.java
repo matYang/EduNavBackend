@@ -11,6 +11,7 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
 
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.EnumConfig.Visibility;
 import BaseModule.dbservice.ClassPhotoDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.model.ClassPhoto;
@@ -39,7 +40,7 @@ public class PartnerUpdateClassPhotoResource  extends PartnerPseudoResource {
 			for (ClassPhoto model : modelList){
 				JSONObject jsonObj = jsonMap.get(model.getClassPhotoId());
 				if (jsonObj == null){
-					//TODO set visibility
+					model.setVisibility(Visibility.invisible);
 				}
 				else{
 					model.storeJSON(jsonObj);

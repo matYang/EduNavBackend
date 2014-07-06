@@ -11,6 +11,7 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.EnumConfig.Visibility;
 import BaseModule.dbservice.TeacherDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -38,6 +39,8 @@ public class PartnerPostTeacherResource extends PartnerPseudoResource {
 			ArrayList<Teacher> modelList = new ArrayList<Teacher>();
 			for (int i = 0; i < totalNumber; i++){
 				Teacher model = new Teacher();
+				model.setPartnerId(partnerId);
+				model.setVisibility(Visibility.invisible);
 				modelList.add(model);
 			}
 			modelList = TeacherDaoService.createTeacherList(modelList);
@@ -61,6 +64,7 @@ public class PartnerPostTeacherResource extends PartnerPseudoResource {
 			for (int i = 0; i < totalNumber; i++){
 				modelList.get(i).loadFromMap(props);
 				modelList.get(i).setPartnerId(partnerId);
+				modelList.get(i).setVisibility(Visibility.visible);
 			}
 			
 			TeacherDaoService.updateTeacherList(modelList);
