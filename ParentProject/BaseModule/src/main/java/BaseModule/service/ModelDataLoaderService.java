@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 
 
@@ -97,8 +98,11 @@ public final class ModelDataLoaderService {
 		studyDays.add(6);
 		studyDays.add(7);
 		
-		
-		String location = "上海徐汇万体馆漕溪北路398号";
+		ArrayList<String> locations = new ArrayList<String>();
+		locations.add("南京秦淮区中山南路49号商茂世纪广场");
+		locations.add("南京鼓楼区中山北路81号");
+		locations.add("南京市中山东路90号");
+		locations.add("南京市江东北路399号");
 		
 		for(int i=1; i <= courseNum; i++){
 			if (i == 11){
@@ -155,7 +159,7 @@ public final class ModelDataLoaderService {
 			course.setProvince(province);
 			course.setCity(city);
 			course.setDistrict(district);
-			course.setLocation(location);
+			course.setLocation(locations.get((new Random()).nextInt(locations.size())));
 			course.setGoal(goal + i);
 			course.setOutline(outline + i);
 			course.setTeacherIdList(teacherIdList);
