@@ -11,6 +11,7 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 
 import BaseModule.common.DebugLog;
+import BaseModule.configurations.EnumConfig.Visibility;
 import BaseModule.dbservice.ClassPhotoDaoService;
 import BaseModule.exception.PseudoException;
 import BaseModule.exception.validation.ValidationException;
@@ -37,8 +38,9 @@ public class PartnerPostClassPhotoResource extends PartnerPseudoResource {
 			//get all the ids from database, as they are needed in file name to ensure file name uniqueness and record
 			ArrayList<ClassPhoto> modelList = new ArrayList<ClassPhoto>();
 			for (int i = 0; i < totalNumber; i++){
-				//TODO set visibility
 				ClassPhoto model = new ClassPhoto();
+				model.setPartnerId(partnerId);
+				model.setVisibility(Visibility.invisible);
 				modelList.add(model);
 			}
 			modelList = ClassPhotoDaoService.createClassPhotoList(modelList);
@@ -62,7 +64,7 @@ public class PartnerPostClassPhotoResource extends PartnerPseudoResource {
 			for (int i = 0; i < totalNumber; i++){
 				modelList.get(i).loadFromMap(props);
 				modelList.get(i).setPartnerId(partnerId);
-				//TODO set visibility
+				modelList.get(i).setVisibility(Visibility.visible);
 			}
 			
 			ClassPhotoDaoService.updateClassPhotoList(modelList);
