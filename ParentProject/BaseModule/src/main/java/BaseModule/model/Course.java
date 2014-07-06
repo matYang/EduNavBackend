@@ -26,81 +26,81 @@ public class Course implements PseudoModel, Serializable{
 	private int partnerId;	
 	private int price;
 	private int originalPrice;
-	private int courseHourNum;
+	private int courseHourNum;		//上课课时
 	private int courseHourLength;	
 
-	private int classSize;
-	private int cashback;
+	private int classSize;	//班级类型
+	private int cashback;	//返利
 	private int popularity;
 
 	private Calendar creationTime;
-	private Calendar startDate;
-	private Calendar finishDate;
-	private Calendar cutoffDate;
+	private Calendar startDate;		//开始日期
+	private Calendar finishDate;	//结束日期
+	private Calendar cutoffDate;	//截止日期
 
-	private Calendar noRefundDate;
-	private Calendar cashbackDate;
+	private Calendar noRefundDate;	//退款截止日期
+	private Calendar cashbackDate;	//返利日期
 	private BookingType bookingType;
 
-	private int startUponArrival;	//1 means true, 0 means false
+	private int startUponArrival;	//1 means true, 0 means false	是否即到即学，没有固定开始日期
 	private int startTime1;
 	private int finishTime1;
 	private int startTime2;
 	private int finishTime2;
 
-	private String category;
+	private String category;	
 	private String subCategory;
 	private String subSubCategory;
-	private String location;
+	private String location;			//上课地点
 	@++
-	private String registraLocation;
+	private String registraLocation;	//注册地点 （如果和上课一点不一致）
 	private String province;
 	private String city;
 	private String district;
 	private String reference;
 
-	private String courseIntro;		
-	private String quiz;
-	private String certification;
-	private String openCourseRequirement;	
-	private String suitableStudent;
-	private String prerequest;
-	private String highScoreReward;		
-	private String courseName;
-	private String studyDaysNote;
+	private String courseIntro;			//课程简介
+	private String quiz;				//阶段性评测
+	private String certification;		//结业证书
+	private String openCourseRequirement;	//开课要求
+	private String suitableStudent;			//适合学员
+	private String prerequest;				//先修知识
+	private String highScoreReward;			//高分奖励
+	private String courseName;				//课程名
+	private String studyDaysNote;			//上课日期备注
 	@--
 	private String partnerCourseReference;	
-	private String teachingMaterialIntro;
+	private String teachingMaterialIntro;	//教材介绍
 
-	private String questionBank;
+	private String questionBank;			//题库支持
 	@++
-	private String qualityAssurance;
-	private String passAgreement;
-	private String extracurricular;
+	private String qualityAssurance;		//质量保证
+	private String passAgreement;			//签约保过
+	private String extracurricular;			//课后互动
 
 	@--
 	private String phone;
 
 	@++
-	private String contact;
+	private String contact;					//联系方式
 	@++
-	private String registraPhone;
+	private String registraPhone;			//学员前往贵司报名咨询电话， （用户预定成功前不显示给用户，用户预订成功后，出现在订单详情中）
 
 	private String outline;	//text area
 	private String goal;	//text area
 
-	private String classTeacher;
-	private String teachingAndExercise;
-	private String questionSession;
-	private String trail;
-	private String assignments;
-	private String marking;
-	private String bonusService;
-	private String downloadMaterials;
-	private String teachingMaterialFee;
+	private String classTeacher;			//班主任导学，暂时留空
+	private String teachingAndExercise;		//讲练结合
+	private String questionSession;			//课后答疑
+	private String trail;	//在线试听，暂时留空
+	private String assignments;				//课后作业
+	private String marking;					//作业批改
+	private String bonusService;			//赠送服务
+	private String downloadMaterials;		//课程下载
+	private String teachingMaterialFee;		//教材费用
 
-	@++
-	private String teachingMethod;
+	@++	
+	private String teachingMethod;			//上课形式
 
 	private CourseStatus status;
 
