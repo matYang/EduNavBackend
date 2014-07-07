@@ -28,7 +28,7 @@ public class PartnerDaoService {
 		return PartnerDao.addPartnerToDatabases(p,connections);
 	}	
 	
-	public static Partner authenticatePartner(String phone,String password) throws PseudoException, SQLException{
+	public static Partner authenticatePartner(String reference,String password) throws PseudoException, SQLException{
 		Connection conn = null;
 		boolean ok = false;
 		Partner partner = null;
@@ -36,7 +36,7 @@ public class PartnerDaoService {
 			conn = EduDaoBasic.getConnection();
 			conn.setAutoCommit(false);
 			//in this case Dao layers takes care of locking
-			partner = PartnerDao.authenticatePartner(phone, password, conn);
+			partner = PartnerDao.authenticatePartner(reference, password, conn);
 			ok = true;
 		}finally{
 			EduDaoBasic.handleCommitFinally(conn, ok, true);
