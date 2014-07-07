@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
+import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 
 import AdminModule.resources.AdminPseudoResource;
@@ -22,9 +23,32 @@ import BaseModule.service.ValidationService;
 
 public final class UserIdResource extends AdminPseudoResource{
 	private final String apiId = UserIdResource.class.getSimpleName();
+	
+	@Get 	    
+	public Representation getUserById() {
+	    JSONObject jsonObject = new JSONObject();
+
+	    try {
+			int adminId = this.validateAuthentication();
+			int userId = Integer.parseInt(this.getReqAttr("id"));
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), String.valueOf(userId));
+			
+	    	User user = UserDaoService.getUserById(userId);
+	        jsonObject = JSONGenerator.toJSON(user);
+	        
+		} catch (PseudoException e){
+			this.addCORSHeader();
+			return this.doPseudoException(e);
+	    } catch (Exception e) {
+			return this.doException(e);
+		}
+	    
+	    Representation result = new JsonRepresentation(jsonObject);
+	    this.addCORSHeader();
+	    return result;
+	}
 
 	protected User parseJSON(JSONObject jsonContact, User user) throws ValidationException{
-
 		try {
 			String name = EncodingService.decodeURI(jsonContact.getString("name"));
 			String email = EncodingService.decodeURI(jsonContact.getString("email"));

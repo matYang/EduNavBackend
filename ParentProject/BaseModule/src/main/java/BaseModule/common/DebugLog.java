@@ -39,7 +39,7 @@ public class DebugLog {
 		b_log(message);
 	}
 	
-	public static void b_d(String moduleId, String apiId, String requestId, int initiatorId, String userAgent, String payLoad){
+	public static void b_d(String moduleId, String apiId, String requestId, long initiatorId, String userAgent, String payLoad){
 		try {
 			b_log("[" + moduleId + "] [" + apiId + "] [" + requestId + "] [" + initiatorId + "] [" + userAgent + "] [" + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()) + "] [" + EncodingService.decodeURI(payLoad) + "]");
 		} catch (UnsupportedEncodingException e) {

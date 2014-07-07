@@ -28,17 +28,15 @@ public final class BookingIdResource extends AdminPseudoResource{
 
 	@Get
 	public Representation getBookingById(){
-		int bookingId = -1;
 		JSONObject bookingObject = new JSONObject();
 		try{
-			bookingId = Integer.parseInt(this.getReqAttr("id"));
 			int adminId = this.validateAuthentication();
-			
+			int bookingId = Integer.parseInt(this.getReqAttr("id"));
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId, this.getUserAgent(), String.valueOf(bookingId));
 			
 			Booking booking = BookingDaoService.getBookingById(bookingId);
-
-			bookingObject = JSONGenerator.toJSON(booking);			
+			bookingObject = JSONGenerator.toJSON(booking);
+			
 		}catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);

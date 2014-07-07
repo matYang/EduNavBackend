@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
+import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 
 import AdminModule.resources.AdminPseudoResource;
@@ -23,6 +24,30 @@ import BaseModule.model.Coupon;
 
 public final class CouponIdResource extends AdminPseudoResource{
 	private final String apiId = CouponIdResource.class.getSimpleName();
+	
+	@Get 	    
+	public Representation getCouponById() {
+	    JSONObject jsonObject = new JSONObject();
+
+	    try {
+			int adminId = this.validateAuthentication();
+			int couponId = Integer.parseInt(this.getReqAttr("id"));
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, adminId , this.getUserAgent(), String.valueOf(couponId ));
+			
+			Coupon coupon = CouponDaoService.getCouponByCouponId(couponId);
+	        jsonObject = JSONGenerator.toJSON(coupon);
+	        
+		} catch (PseudoException e){
+			this.addCORSHeader();
+			return this.doPseudoException(e);
+	    } catch (Exception e) {
+			return this.doException(e);
+		}
+	    
+	    Representation result = new JsonRepresentation(jsonObject);
+	    this.addCORSHeader();
+	    return result;
+	}
 	
 	@Put
 	public Representation updateCoupon(Representation entity){
