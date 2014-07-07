@@ -26,7 +26,7 @@ public final class PartnerLogin extends PartnerPseudoResource{
 		JSONObject jsonString = null;
 		Partner partner = null;
 		JSONObject jsonObject = new JSONObject();
-		String phone = "";
+		String reference = "";
 		String password = "";
 		
 
@@ -41,34 +41,31 @@ public final class PartnerLogin extends PartnerPseudoResource{
 
 			jsonString = this.getJSONObj(entity);
 			
-			phone = EncodingService.decodeURI(jsonString.getString("phone"));
+			reference = EncodingService.decodeURI(jsonString.getString("phone"));
 			password = EncodingService.decodeURI(jsonString.getString("password"));
-			if (!RedisAccessControlService.isAbleToLogin(this.moduleId, phone)){
+			if (!RedisAccessControlService.isAbleToLogin(this.moduleId, reference)){
 				throw new ValidationException("您一分钟内已经多次登录失败，请等待一分钟");
-			}
-			if (!ValidationService.validatePhone(phone)){
-				throw new ValidationException("手机号码格式不正确");
 			}
 			if (!ValidationService.validatePassword(password)){
 				throw new ValidationException("密码格式不正确");
 			}
 			
-			DebugLog.d("Log in, receving paramters: " + phone + " " + password);
+			DebugLog.d("Log in, receving paramters: " + reference + " " + password);
 			try{
-				partner = PartnerDaoService.authenticatePartner(phone, password);
+				partner = PartnerDaoService.authenticatePartner(reference, password);
 			} catch (AuthenticationException e){
-				RedisAccessControlService.fail(this.moduleId, phone);
+				RedisAccessControlService.fail(this.moduleId, reference);
 				throw e;
 			}
 			
 			
-			RedisAccessControlService.success(this.moduleId, phone);
+			RedisAccessControlService.success(this.moduleId, reference);
 			this.openAuthentication(partner.getPartnerId());
 
 			jsonObject = JSONGenerator.toJSON(partner);
 			setStatus(Status.SUCCESS_OK);
 			
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partner.getPartnerId(), this.getUserAgent(), phone);
+			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, partner.getPartnerId(), this.getUserAgent(), reference);
 		} catch (PseudoException e){
 			this.addCORSHeader();
 			return this.doPseudoException(e);
