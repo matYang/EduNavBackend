@@ -30,7 +30,7 @@ public final class CourseResource extends PartnerPseudoResource{
 				throw new ValidationException("只能发布属于自己的课程");
 			}
 			
-			Course course = new Course();
+			Course course = Course.getInstance();
 			course.storeJSON(jsonCourse);
 			course.setReference(ReferenceGenerator.generateCourseReference());
 			CourseDaoService.createCourse(course);

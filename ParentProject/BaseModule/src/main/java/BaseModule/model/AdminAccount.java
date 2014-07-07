@@ -31,6 +31,17 @@ public class AdminAccount implements PseudoModel, Serializable{
 	
 	private Calendar creationTime;
 	private Calendar lastLogin;
+	
+	private AdminAccount(){}
+	public static AdminAccount getInstance(){
+		AdminAccount account = new AdminAccount();
+		try {
+			ModelReflectiveService.initialize(account);
+		} catch (Exception e) {
+			return null;
+		}
+		return account;
+	}
 
 	//SQL Retrieving
 	public AdminAccount(int adminId, Calendar creationTime, Calendar lastLogin,

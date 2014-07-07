@@ -44,7 +44,7 @@ public class CourseTest {
 		Course course = null;
 		System.out.println("start time: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));
 		for (int i = 0; i < 100000; i++){
-			course = new Course();
+			course = Course.getInstance();
 			course.storeJSON(json);
 		}
 		System.out.println("100000 refelction finished at: " + DateUtility.castToReadableString(DateUtility.getCurTimeInstance()));

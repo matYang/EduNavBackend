@@ -30,6 +30,18 @@ public class Credit implements PseudoModel, Serializable{
 	
 	private CreditStatus status;
 	
+	
+	private Credit(){}
+	public static Credit getInstance(){
+		Credit credit = new Credit();
+		try {
+			ModelReflectiveService.initialize(credit);
+		} catch (Exception e) {
+			return null;
+		}
+		return credit;
+	}
+	
 	//SQL Construction
 	public Credit(long creditId, int bookingId, int userId, int amount,
 			Calendar creationTime, Calendar expireTime, CreditStatus status) {

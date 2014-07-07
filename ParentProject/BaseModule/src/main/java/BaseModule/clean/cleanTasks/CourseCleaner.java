@@ -32,7 +32,7 @@ public class CourseCleaner extends CourseDao{
 			rs = stmt.executeQuery();
 			
 			//set default course so that CourseDao does not have to pull out partner every single time
-			Partner partner = new Partner();
+			Partner partner = Partner.getInstance();
 			while(rs.next()){
 				//courses are locked, so this can be considered atomic, thus cannot put in a try and commit inside while loop, though cost may be a little higher to lock them all and release at once
 				Course course = CourseDao.createCourseByResultSet(rs,partner,conn);

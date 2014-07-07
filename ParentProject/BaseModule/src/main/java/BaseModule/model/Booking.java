@@ -60,7 +60,18 @@ public class Booking implements PseudoModel, Serializable{
 	private String actionRecord;	//id_action_timestamp-..
 	
 	private transient Course course;
+	
 
+	private Booking(){}
+	public static Booking getInstance(){
+		Booking booking = new Booking();
+		try {
+			ModelReflectiveService.initialize(booking);
+		} catch (Exception e) {
+			return null;
+		}
+		return booking;
+	}
 	
 	//SQL Retrieving
 	public Booking(int bookingId, Calendar creationTime, Calendar adjustTime,

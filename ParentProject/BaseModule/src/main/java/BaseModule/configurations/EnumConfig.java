@@ -215,7 +215,7 @@ public final class EnumConfig {
     }
 	
 	public static enum Visibility implements PseudoEnum{
-		visible(0), invisible(1);
+		invisible(0), visible(1);
 		public int code;
         @Override
         public int getCode() {
@@ -231,7 +231,7 @@ public final class EnumConfig {
 	}
 	
 	public static enum ReflectiveOp implements PseudoEnum{
-		TOJSON(0),STOREJSON(1),STOREKVPS(2);
+		TOJSON(0),STOREJSON(1),STOREKVPS(2), INITIALIZE(3);
         public int code;
         @Override
         public int getCode() {

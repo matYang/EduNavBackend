@@ -14,11 +14,13 @@ import BaseModule.service.EncodingService;
 
 public class IntegerCommand implements PseudoReflectiveCommand {
 	
+	@Override
 	public void toJSON(final Field field, final PseudoModel model, final JSONObject jsonRepresentation) throws Exception{
 		int number = field.getInt(model);
 		jsonRepresentation.put(field.getName(), number);
 	}
 	
+	@Override
 	public void toJSONList(final Field field, final PseudoModel model, final JSONObject jsonRepresentation) throws Exception{
 		Object value = field.get(model);
 		List<?> list = (List<?>)value;
@@ -26,13 +28,15 @@ public class IntegerCommand implements PseudoReflectiveCommand {
 		jsonRepresentation.put(field.getName(),  new JSONArray(list) );
 	}
 	
+	@Override
 	public void storeJSON(final Field field, final PseudoModel model, final JSONObject jsonModel) throws Exception{
 		String key = field.getName();
 		if (jsonModel.has(key)){
 			field.setInt(model, jsonModel.getInt(key));
 		}
 	}
-	
+
+	@Override
 	public void storeJSONList(final Field field, final PseudoModel model, final JSONObject jsonModel) throws Exception{
 		String key = field.getName();
 		if (jsonModel.has(key)){
@@ -44,14 +48,16 @@ public class IntegerCommand implements PseudoReflectiveCommand {
 			field.set(model, realList);
 		}
 	}
-	
+
+	@Override
 	public void storeKvps(final Field field, final PseudoModel model, final Map<String, String> kvps) throws Exception{
 		String value = EncodingService.decodeURI(kvps.get(field.getName()));
 		if (value != null){
 			field.setInt(model, Integer.parseInt(value, 10));
 		}
 	}
-	
+
+	@Override
 	public void storeKvpsList(final Field field, final PseudoModel model, final Map<String, String> kvps) throws Exception{
 		String keyBase = field.getName();
 		
@@ -65,6 +71,18 @@ public class IntegerCommand implements PseudoReflectiveCommand {
 		for (String singleValue : valueList){
 			realList.add(Integer.parseInt(singleValue, 10));
 		}
+		field.set(model, realList);
+	}
+
+	@Override
+	public void initialize(Field field, PseudoModel model) throws Exception {
+		field.set(model, 0);
+		
+	}
+
+	@Override
+	public void initializeList(Field field, PseudoModel model) throws Exception {
+		ArrayList<Integer> realList = new ArrayList<Integer>();
 		field.set(model, realList);
 	}
 

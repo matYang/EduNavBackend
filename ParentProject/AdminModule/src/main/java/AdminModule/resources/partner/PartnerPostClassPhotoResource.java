@@ -39,7 +39,7 @@ public class PartnerPostClassPhotoResource extends AdminPseudoResource {
 			//get all the ids from database, as they are needed in file name to ensure file name uniqueness and record
 			ArrayList<ClassPhoto> modelList = new ArrayList<ClassPhoto>();
 			for (int i = 0; i < totalNumber; i++){
-				ClassPhoto model = new ClassPhoto();
+				ClassPhoto model = ClassPhoto.getInstance();
 				model.setPartnerId(partnerId);
 				model.setVisibility(Visibility.invisible);
 				modelList.add(model);

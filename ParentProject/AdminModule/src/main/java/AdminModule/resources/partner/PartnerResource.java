@@ -66,7 +66,7 @@ public final class PartnerResource extends AdminPseudoResource{
 				throw new ValidationException("上传数据类型错误");
 			}
 			
-			Partner partner = new Partner();
+			Partner partner = Partner.getInstance();
 			partner.setStatus(AccountStatus.deleted);
 			//initialize the reference at this earlier step
 			partner.setReference(ReferenceGenerator.generatePartnerReference());

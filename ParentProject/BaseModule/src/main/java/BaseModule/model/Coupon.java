@@ -29,6 +29,18 @@ public class Coupon implements PseudoModel, Serializable{
 	private Calendar expireTime;
 	private CouponStatus status;
 	private CouponOrigin origin;
+
+
+	private Coupon(){}
+	public static Coupon getInstance(){
+		Coupon coupon = new Coupon();
+		try {
+			ModelReflectiveService.initialize(coupon);
+		} catch (Exception e) {
+			return null;
+		}
+		return coupon;
+	}
 	
 	//SQL Construction
 	public Coupon(long couponId, int userId,

@@ -14,11 +14,13 @@ import BaseModule.service.EncodingService;
 
 public class BooleanCommand implements PseudoReflectiveCommand{
 	
+	@Override
 	public void toJSON(final Field field, final PseudoModel model, final JSONObject jsonRepresentation) throws Exception{
 		boolean val = field.getBoolean(model);
 		jsonRepresentation.put(field.getName(), val);
 	}
 	
+	@Override
 	public void toJSONList(final Field field, final PseudoModel model, final JSONObject jsonRepresentation) throws Exception{
 		Object value = field.get(model);
 		List<?> list = (List<?>)value;
@@ -26,6 +28,7 @@ public class BooleanCommand implements PseudoReflectiveCommand{
 		jsonRepresentation.put(field.getName(),  new JSONArray(list) );
 	}
 	
+	@Override
 	public void storeJSON(final Field field, final PseudoModel model, final JSONObject jsonModel) throws Exception{
 		String key = field.getName();
 		if (jsonModel.has(key)){
@@ -33,6 +36,7 @@ public class BooleanCommand implements PseudoReflectiveCommand{
 		}
 	}
 	
+	@Override
 	public void storeJSONList(final Field field, final PseudoModel model, final JSONObject jsonModel) throws Exception{
 		String key = field.getName();
 		if (jsonModel.has(key)){
@@ -45,6 +49,7 @@ public class BooleanCommand implements PseudoReflectiveCommand{
 		}
 	}
 	
+	@Override
 	public void storeKvps(final Field field, final PseudoModel model, final Map<String, String> kvps) throws Exception{
 		String value = EncodingService.decodeURI(kvps.get(field.getName()));
 		if (value != null){
@@ -52,6 +57,7 @@ public class BooleanCommand implements PseudoReflectiveCommand{
 		}
 	}
 	
+	@Override
 	public void storeKvpsList(final Field field, final PseudoModel model, final Map<String, String> kvps) throws Exception{
 		String keyBase = field.getName();
 		
@@ -65,6 +71,17 @@ public class BooleanCommand implements PseudoReflectiveCommand{
 		for (String singleValue : valueList){
 			realList.add(Boolean.parseBoolean(singleValue));
 		}
+		field.set(model, realList);
+	}
+
+	@Override
+	public void initialize(Field field, PseudoModel model) throws Exception {
+		field.setBoolean(model, false);
+	}
+
+	@Override
+	public void initializeList(Field field, PseudoModel model) throws Exception {
+		ArrayList<Boolean> realList = new ArrayList<Boolean>();
 		field.set(model, realList);
 	}
 

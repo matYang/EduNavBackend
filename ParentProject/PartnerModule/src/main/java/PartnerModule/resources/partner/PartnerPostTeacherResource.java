@@ -38,7 +38,7 @@ public class PartnerPostTeacherResource extends PartnerPseudoResource {
 			//get all the ids from database, as they are needed in file name to ensure file name uniqueness and record
 			ArrayList<Teacher> modelList = new ArrayList<Teacher>();
 			for (int i = 0; i < totalNumber; i++){
-				Teacher model = new Teacher();
+				Teacher model = Teacher.getInstance();
 				model.setPartnerId(partnerId);
 				model.setVisibility(Visibility.invisible);
 				modelList.add(model);

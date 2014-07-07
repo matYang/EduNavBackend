@@ -55,6 +55,17 @@ public class Partner implements PseudoModel, Serializable{
 	private int defaultCutoffDay;	//默认课程开始前多少天前截止
 	private int defaultCutoffTime;	//默认截止日几点截止
 	private PartnerQualification partnerQualification;	
+	
+	private Partner(){}
+	public static Partner getInstance(){
+		Partner partner = new Partner();
+		try {
+			ModelReflectiveService.initialize(partner);
+		} catch (Exception e) {
+			return null;
+		}
+		return partner;
+	}
 
 	public Partner(int partnerId, String wholeName, String instName,
 			String licence, String organizationNum, String logoUrl,
@@ -128,27 +139,7 @@ public class Partner implements PseudoModel, Serializable{
 			this.lastLogin = (Calendar) this.creationTime.clone();
 		}
 	}
-	
-	//default constructor, set minimum default behavior and hand over to reflection for filling in content
-	public Partner(){
-		super();
-		this.creationTime = DateUtility.getCurTimeInstance();
-		this.lastLogin = DateUtility.getCurTimeInstance();
-		this.status = AccountStatus.deactivated;
-		this.partnerId = -1;
-		this.wholeName = "";
-		this.licence = "";
-		this.organizationNum = "";
-		this.reference = "";
-		this.password = "";		
-		this.instName = "";
-		this.logoUrl = "";		
-		this.classPhotoList = new ArrayList<ClassPhoto>();		
-		this.teacherList = new ArrayList<Teacher>();
-		this.subLocations = new ArrayList<String>();
-		this.partnerQualification = PartnerQualification.unverified;
-	}
-	
+
 	public int getPartnerId() {
 		return partnerId;
 	}

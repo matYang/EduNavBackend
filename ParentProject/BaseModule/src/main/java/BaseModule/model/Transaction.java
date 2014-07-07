@@ -23,6 +23,17 @@ public class Transaction implements PseudoModel, Serializable{
 	private int transactionAmount;
 	private TransactionType transactionType;
 	private Calendar creationTime;
+	
+	private Transaction(){}
+	public static Transaction getInstance(){
+		Transaction transaction = new Transaction();
+		try {
+			ModelReflectiveService.initialize(transaction);
+		} catch (Exception e) {
+			return null;
+		}
+		return transaction;
+	}
 
 	//SQL Construction
 	public Transaction(long transactionId,int userId, int bookingId, 

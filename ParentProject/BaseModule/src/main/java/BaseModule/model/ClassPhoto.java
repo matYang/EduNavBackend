@@ -25,6 +25,17 @@ public class ClassPhoto implements PseudoModel, Serializable{
 	private Visibility visibility;
 	private Calendar creationTime;
 	
+
+	private ClassPhoto(){}
+	public static ClassPhoto getInstance(){
+		ClassPhoto classPhoto = new ClassPhoto();
+		try {
+			ModelReflectiveService.initialize(classPhoto);
+		} catch (Exception e) {
+			return null;
+		}
+		return classPhoto;
+	}
 	
 	public ClassPhoto(long classPhotoId, int partnerId, String imgUrl, String title, String description, Calendar creationTime,Visibility visibility) {
 		super();
@@ -49,15 +60,6 @@ public class ClassPhoto implements PseudoModel, Serializable{
 		this.visibility = Visibility.visible;
 	}
 	
-	public ClassPhoto() {
-		super();
-		this.classPhotoId = -1;
-		this.partnerId = -1;
-		this.imgUrl = "";
-		this.title = "";
-		this.description = "";
-		this.creationTime = DateUtility.getCurTimeInstance();
-	}
 
 	public int getPartnerId() {
 		return partnerId;

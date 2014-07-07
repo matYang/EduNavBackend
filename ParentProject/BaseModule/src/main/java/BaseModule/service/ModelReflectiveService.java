@@ -1,6 +1,7 @@
 package BaseModule.service;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,12 +51,29 @@ public final class ModelReflectiveService {
 		apply(strategy);
 	}
 	
-	private static Field[] getFields(final PseudoModel model){
-		return model.getClass().getDeclaredFields();
+	public static void initialize(final PseudoModel model) throws Exception{
+		ReflectiveStrategyFactory factory = new ReflectiveStrategyFactory(ReflectiveOp.INITIALIZE, model, null, null);
+		PseudoReflectiveStrategy strategy = factory.getStrategy();
+		apply(strategy);
+	}
+	
+	private static List<Field> getFields(final PseudoModel model){
+		List<Field> fields = new ArrayList<Field>();
+		
+		Class<?> currentClass = model.getClass();
+		while(currentClass.getSuperclass() != null){
+			for (Field field : currentClass.getDeclaredFields()) {
+			    if (!Modifier.isStatic(field.getModifiers())) {
+			    	fields.add(field);
+			    }
+			}
+			currentClass = currentClass.getSuperclass();
+		}
+		return fields;
 	}
 	
 	private static void apply(final PseudoReflectiveStrategy strategy) throws Exception {
-		Field[] fields = getFields(strategy.getModel());
+		List<Field> fields = getFields(strategy.getModel());
 		
 		try{
 			for (Field field : fields){
@@ -106,7 +124,7 @@ public final class ModelReflectiveService {
 	
 
 	public static ArrayList<String> getKeySet(final PseudoModel model) {
-		Field[] fields = getFields(model);
+		List<Field> fields= getFields(model);
 		ArrayList<String> keyArr = new ArrayList<String>();
 		for (Field field : fields){
 			field.setAccessible(true);
@@ -116,7 +134,7 @@ public final class ModelReflectiveService {
 	}
 	
 	public static boolean isEmpty(final PseudoModel model) {
-		Field[] fields = getFields(model);
+		List<Field> fields = getFields(model);
 
 		try{
 			for (Field field : fields){

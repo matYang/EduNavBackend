@@ -18,4 +18,8 @@ public interface PseudoReflectiveCommand {
 	public void storeKvps(final Field field, final PseudoModel model, final Map<String, String> kvps) throws Exception;
 	
 	public void storeKvpsList(final Field field, final PseudoModel model, final Map<String, String> kvps) throws Exception;
+	
+	public void initialize(final Field field, final PseudoModel model) throws Exception;
+	
+	public void initializeList(final Field field, final PseudoModel model) throws Exception;
 }

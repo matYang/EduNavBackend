@@ -25,6 +25,17 @@ public class Teacher implements PseudoModel, Serializable{
 	
 	private Visibility visibility;
 	private Calendar creationTime;
+	
+	private Teacher(){}
+	public static Teacher getInstance(){
+		Teacher teacher = new Teacher();
+		try {
+			ModelReflectiveService.initialize(teacher);
+		} catch (Exception e) {
+			return null;
+		}
+		return teacher;
+	}
 
 	/* for sql */	
 	public Teacher(long teacherId, int partnerId, int popularity,
@@ -52,18 +63,7 @@ public class Teacher implements PseudoModel, Serializable{
 		this.visibility = Visibility.visible;
 		this.popularity = 1;
 	}
-	
-	public Teacher() {
-		super();
-		this.teacherId = -1;
-		this.partnerId = -1;
-		this.imgUrl = "";
-		this.name = "";
-		this.intro = "";
-		this.creationTime = DateUtility.getCurTimeInstance();
-		this.visibility = Visibility.visible;
-		this.popularity = 1;
-	}
+
 	
 	public long getTeacherId() {
 		return teacherId;

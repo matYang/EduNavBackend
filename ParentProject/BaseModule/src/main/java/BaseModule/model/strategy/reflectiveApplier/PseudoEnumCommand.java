@@ -14,14 +14,16 @@ import BaseModule.interfaces.PseudoReflectiveCommand;
 import BaseModule.service.EncodingService;
 
 public class PseudoEnumCommand implements PseudoReflectiveCommand {
-	
+
+	@Override
 	public void toJSON(final Field field, final PseudoModel model, final JSONObject jsonRepresentation) throws Exception{
 		Object value = field.get(model);
 		if (value != null){
 			jsonRepresentation.put(field.getName(),  ((PseudoEnum) value).getCode() );
 		}
 	}
-	
+
+	@Override
 	public void toJSONList(final Field field, final PseudoModel model, final JSONObject jsonRepresentation) throws Exception{
 		Object value = field.get(model);
 		List<?> list = (List<?>)value;
@@ -32,14 +34,16 @@ public class PseudoEnumCommand implements PseudoReflectiveCommand {
 		}
 		jsonRepresentation.put(field.getName(),  new JSONArray(valArr) );
 	}
-	
+
+	@Override
 	public void storeJSON(final Field field, final PseudoModel model, final JSONObject jsonModel) throws Exception{
 		String key = field.getName();
 		if (jsonModel.has(key)){
 			field.set(model, field.getType().getEnumConstants()[jsonModel.getInt(key)]);
 		}
 	}
-	
+
+	@Override
 	public void storeJSONList(final Field field, final PseudoModel model, final JSONObject jsonModel) throws Exception{
 		String key = field.getName();
 		if (jsonModel.has(key)){
@@ -51,14 +55,16 @@ public class PseudoEnumCommand implements PseudoReflectiveCommand {
 			field.set(model, realList);
 		}
 	}
-	
+
+	@Override
 	public void storeKvps(final Field field, final PseudoModel model, final Map<String, String> kvps) throws Exception{
 		String value = EncodingService.decodeURI(kvps.get(field.getName()));
 		if (value != null){
 			field.set(model, field.getType().getEnumConstants()[Integer.parseInt(value, 10)]);
 		}
 	}
-	
+
+	@Override
 	public void storeKvpsList(final Field field, final PseudoModel model, final Map<String, String> kvps) throws Exception{
 		String keyBase = field.getName();
 		
@@ -73,6 +79,16 @@ public class PseudoEnumCommand implements PseudoReflectiveCommand {
 			realList.add((PseudoEnum)field.getType().getEnumConstants()[Integer.parseInt(singleValue, 10)]);
 		}
 		field.set(model, realList);
+	}
+
+	@Override
+	public void initialize(Field field, PseudoModel model) throws Exception {
+		field.set(model, field.getType().getEnumConstants()[0]);
+	}
+
+	@Override
+	public void initializeList(Field field, PseudoModel model) throws Exception {
+		//cannot to anything here, if not too hacky
 	}
 
 

@@ -24,7 +24,7 @@ public final class CourseResource extends AdminPseudoResource{
 			
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_post, adminId, this.getUserAgent(), jsonCourse.toString());
 
-			Course course = new Course();
+			Course course = Course.getInstance();
 			course.storeJSON(jsonCourse);
 			course.setReference(ReferenceGenerator.generateCourseReference());
 			CourseDaoService.createCourse(course);

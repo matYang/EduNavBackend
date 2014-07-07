@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import BaseModule.configurations.EnumConfig.ReflectiveOp;
 import BaseModule.interfaces.PseudoModel;
 import BaseModule.interfaces.PseudoReflectiveStrategy;
+import BaseModule.model.strategy.reflectiveStrategy.InitializationStrategy;
 import BaseModule.model.strategy.reflectiveStrategy.StoreJSONStrategy;
 import BaseModule.model.strategy.reflectiveStrategy.StoreKvpsStrategy;
 import BaseModule.model.strategy.reflectiveStrategy.ToJSONStrategy;
@@ -35,6 +36,9 @@ public class ReflectiveStrategyFactory {
 				
 			case STOREKVPS:
 				return new StoreKvpsStrategy(this.model, this.kvps);
+			
+			case INITIALIZE:
+				return new InitializationStrategy(this.model);
 				
 			default:
 				throw new RuntimeException("[ERR] ReflectiveStrategyFactory missing type: " + op);

@@ -106,6 +106,17 @@ public class Course implements PseudoModel, Serializable{
 	private String partnerDistinction;
 	
 	
+	private Course(){}
+	public static Course getInstance(){
+		Course course = new Course();
+		try {
+			ModelReflectiveService.initialize(course);
+		} catch (Exception e) {
+			return null;
+		}
+		return course;
+	}
+	
 	// SQL Construction;
 	public Course(int courseId, int partnerId, int price, int originalPrice,
 			int courseHourNum, int courseHourLength, int classSize,
@@ -277,29 +288,6 @@ public class Course implements PseudoModel, Serializable{
 		this.bookingType = BookingType.online;
 		this.originalPrice = 0;
 	}		
-
-	//default constructor, set minimal behavior and hand over to reflection for filling in content
-	public Course(){
-		super();
-		this.creationTime = DateUtility.getCurTimeInstance();
-		this.startDate = DateUtility.getCurTimeInstance();
-		this.finishDate = DateUtility.getCurTimeInstance();
-		this.cutoffDate = DateUtility.getCurTimeInstance();
-		this.noRefundDate = DateUtility.getCurTimeInstance();
-		this.cashbackDate = DateUtility.getCurTimeInstance();
-		this.bookingType = BookingType.online;
-		this.status = CourseStatus.openEnroll;
-		this.partnerQualification = PartnerQualification.unverified;
-		
-		this.studyDays = new ArrayList<Integer>();
-
-		this.classPhotoIdList = new ArrayList<Long>();
-		this.classPhotoList = new ArrayList<ClassPhoto>();
-		this.teacherIdList = new ArrayList<Long>();
-		this.teacherList = new ArrayList<Teacher>();
-		
-		this.originalPrice = 0;
-	}
 	
 
 	public int getCourseId() {

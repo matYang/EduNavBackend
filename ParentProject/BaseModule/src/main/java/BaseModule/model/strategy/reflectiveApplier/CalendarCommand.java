@@ -16,6 +16,7 @@ import BaseModule.service.EncodingService;
 
 public class CalendarCommand implements PseudoReflectiveCommand {
 	
+	@Override
 	public void toJSON(final Field field, final PseudoModel model, final JSONObject jsonRepresentation) throws Exception{
 		Object value = field.get(model);
 		if (value != null){
@@ -23,6 +24,7 @@ public class CalendarCommand implements PseudoReflectiveCommand {
 		}
 	}
 	
+	@Override
 	public void toJSONList(final Field field, final PseudoModel model, final JSONObject jsonRepresentation) throws Exception{
 		Object value = field.get(model);
 		List<?> list = (List<?>)value;
@@ -34,6 +36,7 @@ public class CalendarCommand implements PseudoReflectiveCommand {
 		jsonRepresentation.put(field.getName(),  new JSONArray(valArr) );
 	}
 	
+	@Override
 	public void storeJSON(final Field field, final PseudoModel model, final JSONObject jsonModel) throws Exception{
 		String key = field.getName();
 		if (jsonModel.has(key)){
@@ -41,6 +44,7 @@ public class CalendarCommand implements PseudoReflectiveCommand {
 		}
 	}
 	
+	@Override
 	public void storeJSONList(final Field field, final PseudoModel model, final JSONObject jsonModel) throws Exception{
 		String key = field.getName();
 		if (jsonModel.has(key)){
@@ -53,6 +57,7 @@ public class CalendarCommand implements PseudoReflectiveCommand {
 		}
 	}
 	
+	@Override
 	public void storeKvps(final Field field, final PseudoModel model, final Map<String, String> kvps) throws Exception{
 		String value = EncodingService.decodeURI(kvps.get(field.getName()));
 		if (value != null){
@@ -60,6 +65,7 @@ public class CalendarCommand implements PseudoReflectiveCommand {
 		}
 	}
 	
+	@Override
 	public void storeKvpsList(final Field field, final PseudoModel model, final Map<String, String> kvps) throws Exception{
 		String keyBase = field.getName();
 		
@@ -73,6 +79,17 @@ public class CalendarCommand implements PseudoReflectiveCommand {
 		for (String singleValue : valueList){
 			realList.add(DateUtility.castFromAPIFormat(singleValue));
 		}
+		field.set(model, realList);
+	}
+
+	@Override
+	public void initialize(Field field, PseudoModel model) throws Exception {
+		field.set(model, DateUtility.getCurTimeInstance());
+	}
+
+	@Override
+	public void initializeList(Field field, PseudoModel model) throws Exception {
+		ArrayList<Calendar> realList = new ArrayList<Calendar>();
 		field.set(model, realList);
 	}
 
