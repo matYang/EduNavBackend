@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -14,6 +16,7 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.configurations.EnumConfig.CreditStatus;
+import BaseModule.configurations.EnumConfig.PartnerQualification;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.dbservice.AdminAccountDaoService;
@@ -277,6 +280,33 @@ public final class ModelDataLoaderService {
 				AccountStatus status = AccountStatus.activated;
 				Partner partner = new Partner(name, instName,licence, organizationNum,reference, password,status);
 				partner.setLogoUrl("http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/1-3-logo.jpg");				
+				partner.setPartnerIntro("结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍");
+				partner.setPartnerDistinction("结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍结构介绍");
+				
+				Map<String, String> kvps = new HashMap<String, String>();
+				kvps.put("licenceImgUrl", "http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+				kvps.put("taxRegistrationImgUrl", "http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+				kvps.put("eduQualificationImgUrl", "http://testimgsbucket.oss-cn-hangzhou.aliyuncs.com/teacherImgUrl-3-123124123.jpg");
+				kvps.put("hqLocation", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("subLocations1", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("subLocations2", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("subLocations3", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("subLocations4", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("subLocations5", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("uniformRegistraLocation", "true");
+				kvps.put("hqContact", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("hqContactPhone", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("hqContactSecOpt", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("courseContact", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("courseContactPhone", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("studentInqueryPhone", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("registraContact", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("registraContactPhone", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("registraContactFax", "填充填充填充填充填充填充填充填充填充填充填充填充填充填充，填充填充填充填充填充填充填充，填充填充填充填充填充填充填充填充填充填充");
+				kvps.put("defaultCutoffDay", "3");
+				kvps.put("defaultCutoffTime", "1730");
+				kvps.put("partnerQualification", "1");
+				
 				try {
 					Partner resultPartner = PartnerDaoService.createPartner(partner, connections);
 					
