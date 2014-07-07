@@ -16,7 +16,6 @@ import BaseModule.configurations.EnumConfig.AccountStatus;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.configurations.EnumConfig.CouponStatus;
 import BaseModule.configurations.EnumConfig.CreditStatus;
-import BaseModule.configurations.EnumConfig.PartnerQualification;
 import BaseModule.configurations.EnumConfig.Privilege;
 import BaseModule.configurations.EnumConfig.TransactionType;
 import BaseModule.dbservice.AdminAccountDaoService;
@@ -71,7 +70,7 @@ public final class ModelDataLoaderService {
 		}
 
 		DebugLog.d("Models loaded successfully");
-	}	
+	}
 
 	private static void loadCourses(Connection...connections){			
 		int price = 100;

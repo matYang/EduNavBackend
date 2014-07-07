@@ -18,7 +18,9 @@ import AdminModule.resources.coupon.CouponIdResource;
 import AdminModule.resources.coupon.CouponResource;
 import AdminModule.resources.course.CourseIdResource;
 import AdminModule.resources.course.CourseResource;
+import AdminModule.resources.credit.CreditIdResource;
 import AdminModule.resources.credit.CreditResource;
+import AdminModule.resources.modelLoader.LegitLoaderResource;
 import AdminModule.resources.modelLoader.MemcachedBenchMarkResource;
 import AdminModule.resources.modelLoader.ModelLoaderResource;
 import AdminModule.resources.partner.PartnerIdResource;
@@ -27,6 +29,7 @@ import AdminModule.resources.partner.PartnerPostTeacherResource;
 import AdminModule.resources.partner.PartnerResource;
 import AdminModule.resources.partner.PartnerUpdateClassPhotoResource;
 import AdminModule.resources.partner.PartnerUpdateTeacherResource;
+import AdminModule.resources.transaction.TransactionIdResource;
 import AdminModule.resources.transaction.TransactionResource;
 import AdminModule.resources.user.UserResource;
 import AdminModule.resources.user.UserIdResource;
@@ -148,6 +151,8 @@ public final class RoutingService extends Application{
 		String CreditPrefix = "/credit";
 		//  API for admin to search for credit : /a-api/v1.0/credit/credit
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + creditServicePrefix + CreditPrefix, CreditResource.class);
+		//  API for admin to search for credit : /a-api/v1.0/credit/credit/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + creditServicePrefix + CreditPrefix + "/{id}", CreditIdResource.class);
 		
 		
 		
@@ -157,6 +162,8 @@ public final class RoutingService extends Application{
 		String TransactionPrefix = "/transaction";
 		//  API for admin to search for transaction : /a-api/v1.0/transaction/transaction
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + transactionServicePrefix + TransactionPrefix, TransactionResource.class);
+		//  API for admin to search for transaction : /a-api/v1.0/transaction/transaction/:id
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + transactionServicePrefix + TransactionPrefix + "/{id}", TransactionIdResource.class);
 
 		
 		
@@ -166,6 +173,9 @@ public final class RoutingService extends Application{
 		String ModelLoaderPrefix = "/modelLoader";
 		//  API for model to load : /a-api/v1.0/test/modelLoader
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + testServicePrefix + ModelLoaderPrefix, ModelLoaderResource.class);
+		String LegitLoaderPrefix = "/legitLoader";
+		//  API for model to load : /a-api/v1.0/test/legitLoader
+		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + testServicePrefix + LegitLoaderPrefix, LegitLoaderResource.class);
 		String MemcachedBenchMarkPrefix = "/memcached";
 		//	API for making a memcached bench mark: /a-api/v1.0/test/memcached
 		router.attach(ServerConfig.adminApplicationPrefix + ServerConfig.versionPrefix + testServicePrefix + MemcachedBenchMarkPrefix, MemcachedBenchMarkResource.class);

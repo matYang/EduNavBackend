@@ -31,7 +31,6 @@ public class DataLoaderTest {
 	
 	@Test
 	public void modelLoaderTest(){
-		EduDaoBasic.clearAllDatabase();
 		try{
 			ModelDataLoaderService.load();
 			SystemDataInit.init();
