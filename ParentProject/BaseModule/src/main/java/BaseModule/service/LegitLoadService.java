@@ -174,9 +174,9 @@ public class LegitLoadService {
 			Calendar startDate = null;
 			Calendar finishDate = null;
 			try {
-				cutoffDate = DateUtility.castFromAPIFormat("2014-07-30 17:30:00");
-				startDate = DateUtility.castFromAPIFormat("2014-08-02 00:00:00");
-				finishDate = DateUtility.castFromAPIFormat("2014-08-22 00:00:00");
+				cutoffDate = DateUtility.castFromAPIFormat("2014-06-30 17:30:00");
+				startDate = DateUtility.castFromAPIFormat("2014-07-02 00:00:00");
+				finishDate = DateUtility.castFromAPIFormat("2014-07-22 00:00:00");
 			} catch (ValidationException e) {
 				e.printStackTrace();
 			}
@@ -196,7 +196,7 @@ public class LegitLoadService {
 				 base = 1000;
 			}
 			if (i == 1){
-				 title = "六级提高英语暑假班";
+				 title = "六级提高英语保过班";
 				 cat = "语言培训";
 				 subCat = "英语";
 				 subSubCat = "四六级";
