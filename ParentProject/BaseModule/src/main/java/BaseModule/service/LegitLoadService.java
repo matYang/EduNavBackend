@@ -16,6 +16,7 @@ import BaseModule.dbservice.AdminAccountDaoService;
 import BaseModule.dbservice.CourseDaoService;
 import BaseModule.dbservice.PartnerDaoService;
 import BaseModule.eduDAO.ClassPhotoDao;
+import BaseModule.eduDAO.CourseDao;
 import BaseModule.eduDAO.EduDaoBasic;
 import BaseModule.eduDAO.TeacherDao;
 import BaseModule.exception.PseudoException;
@@ -327,7 +328,7 @@ public class LegitLoadService {
 				
 				try {
 					course.setReference(ReferenceGenerator.generateCourseReference());
-					CourseDaoService.createCourse(course);				
+					CourseDao.addCourseToDatabases(course);			
 				} catch (SQLException | PseudoException e) {	
 					DebugLog.d(e);
 				} 

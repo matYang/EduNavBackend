@@ -195,7 +195,7 @@ public final class ModelDataLoaderService {
 			
 			try {
 				course.setReference(ReferenceGenerator.generateCourseReference());
-				CourseDaoService.createCourse(course);				
+				CourseDao.addCourseToDatabases(course);			
 			} catch (SQLException | PseudoException e) {	
 				DebugLog.d(e);
 			} 
