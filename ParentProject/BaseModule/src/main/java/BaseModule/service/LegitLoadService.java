@@ -170,7 +170,7 @@ public class LegitLoadService {
 		
 		
 		
-		for (int i = 0; i < 6; i++){
+		for (int i = 0; i < 7; i++){
 			Calendar cutoffDate = null;
 			Calendar startDate = null;
 			Calendar finishDate = null;
@@ -187,6 +187,7 @@ public class LegitLoadService {
 			String subSubCat = "";
 			String sST = "";
 			int base = 0;
+			int courseHourNum = 0;
 			
 			if (i == 0){
 				 title = "高中英语提高班";
@@ -195,6 +196,7 @@ public class LegitLoadService {
 				 subSubCat = "基础英语";
 				 sST = "中等英语水平的高中生";
 				 base = 1000;
+				 courseHourNum = 15;
 			}
 			if (i == 1){
 				 title = "六级提高英语保过班";
@@ -203,6 +205,7 @@ public class LegitLoadService {
 				 subSubCat = "四六级";
 				 sST = "备考六级,词汇基础比较薄弱";
 				 base = 500;
+				 courseHourNum = 20;
 			}
 			else if (i == 2){
 				 title = "托福保80冲100精品班";
@@ -211,6 +214,7 @@ public class LegitLoadService {
 				 subSubCat = "托福";
 				 sST = "计划三个月内参加托福考试的同学";
 				 base = 5000;
+				 courseHourNum = 18;
 			}
 			else if (i == 3){
 				 title = "韩语入门基础班";
@@ -219,6 +223,7 @@ public class LegitLoadService {
 				 subSubCat = "韩语";
 				 sST = "对学习韩语有兴趣且缺乏韩语基础的同学";
 				 base = 4000;
+				 courseHourNum = 12;
 			}
 			else if (i == 4){
 				 title = "公务员试题攻关培训";
@@ -227,6 +232,7 @@ public class LegitLoadService {
 				 subSubCat = "公务员";
 				 sST = "希望提高公务员考试成绩且有一定基础的学生";
 				 base = 2000;
+				 courseHourNum = 15;
 			}
 			else if (i == 5){
 				 title = "日语二级专业课";
@@ -235,6 +241,16 @@ public class LegitLoadService {
 				 subSubCat = "日语";
 				 sST = "已经通过日语三级考试，对日语很有兴趣";
 				 base = 8000;
+				 courseHourNum = 20;
+			}
+			else if (i == 6){
+				 title = "雅思6分基础班";
+				 cat = "语言培训";
+				 subCat = "英语";
+				 subSubCat = "雅思";
+				 sST = "准备初次参加雅思考试，仍需提高英语基础的学员";
+				 base = 6500;
+				 courseHourNum = 15;
 			}
 			
 			int price = base + new Random().nextInt(200)*10;
@@ -314,7 +330,7 @@ public class LegitLoadService {
 				course.setTeachingMaterialFee("免费");
 				course.setCertification("结业后，可获得技能证书");
 				course.setPassAgreement("入学签约，不过免费重修");
-				course.setCourseHourNum(20);
+				course.setCourseHourNum(courseHourNum);
 				course.setCourseHourLength(60);
 				course.setCutoffDate(cutoffDate);
 				course.setRegistraLocation(location);
