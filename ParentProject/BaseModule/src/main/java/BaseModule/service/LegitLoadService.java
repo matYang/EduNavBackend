@@ -190,11 +190,11 @@ public class LegitLoadService {
 			int courseHourNum = 0;
 			
 			if (i == 0){
-				 title = "高中英语提高班";
+				 title = "新概念第四册精讲班";
 				 cat = "语言培训";
 				 subCat = "英语";
-				 subSubCat = "基础英语";
-				 sST = "中等英语水平的高中生";
+				 subSubCat = "新概念英语";
+				 sST = "顺利完成新概念第三册的学员";
 				 base = 1000;
 				 courseHourNum = 15;
 			}
