@@ -43,7 +43,7 @@ public final class UserLogin extends UserPseudoResource {
 			phone = EncodingService.decodeURI(jsonString.getString("phone"));
 			password = EncodingService.decodeURI(jsonString.getString("password"));
 			if (!RedisAccessControlService.isAbleToLogin(this.moduleId, phone)){
-				throw new ValidationException("您一分钟内已经多次登录失败，请等待一分钟");
+				throw new ValidationException("您已多次登录失败，请等待一分钟");
 			}
 			if (!ValidationService.validatePhone(phone)){
 				throw new ValidationException("手机号码格式不正确");
