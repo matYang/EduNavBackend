@@ -34,7 +34,7 @@ public final class PartnerLogin extends PartnerPseudoResource{
 			this.checkEntity(entity);
 			try{
 				this.validateAuthentication();
-				throw new ValidationException("您处于已登录状态，请刷新页面或先登出之前的账户");
+				throw new ValidationException("您处于已登录状态，请刷新页面");
 			} catch (AuthenticationException e){
 				//not logged in, proceed
 			}
@@ -44,7 +44,7 @@ public final class PartnerLogin extends PartnerPseudoResource{
 			reference = EncodingService.decodeURI(jsonString.getString("phone"));
 			password = EncodingService.decodeURI(jsonString.getString("password"));
 			if (!RedisAccessControlService.isAbleToLogin(this.moduleId, reference)){
-				throw new ValidationException("您一分钟内已经多次登录失败，请等待一分钟");
+				throw new ValidationException("您已多次登录失败，请等待一分钟");
 			}
 			if (!ValidationService.validatePassword(password)){
 				throw new ValidationException("密码格式不正确");

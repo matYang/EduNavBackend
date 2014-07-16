@@ -99,7 +99,7 @@ public final class RedisAuthenticationService {
 				String redis_authCode = sessionString.split(RedisAuthenticationConfig.redisAuthenticationSeperatorRegex)[0];
 				long redis_timeStamp = DateUtility.getLongFromTimeStamp(sessionString.split(RedisAuthenticationConfig.redisAuthenticationSeperatorRegex)[1]);
 				
-				if(!redis_authCode.equals(authCode)){
+				if(!redis_authCode.equalsIgnoreCase(authCode)){
 					return false;
 				}
 				if((DateUtility.getCurTime() - redis_timeStamp) > config.expireThreshold){
