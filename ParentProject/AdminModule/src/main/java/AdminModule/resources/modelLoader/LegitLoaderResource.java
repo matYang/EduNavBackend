@@ -8,7 +8,6 @@ import org.restlet.resource.Get;
 
 import AdminModule.resources.AdminPseudoResource;
 import BaseModule.service.LegitLoadService;
-import BaseModule.service.ModelDataLoaderService;
 
 public class LegitLoaderResource extends AdminPseudoResource{
 	

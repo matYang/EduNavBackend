@@ -33,7 +33,7 @@ public class BookingDao {
 			conn = EduDaoBasic.getConnection(connections);
 			stmt = conn.prepareStatement(query);
 			if(sr.getBookingId() > 0){
-				stmt.setInt(stmtInt,sr.getBookingId());
+				stmt.setInt(stmtInt++,sr.getBookingId());
 			}
 			if(sr.getCourseId() > 0){
 				stmt.setInt(stmtInt++, sr.getCourseId());
@@ -57,10 +57,10 @@ public class BookingDao {
 				stmt.setString(stmtInt++, sr.getReference());
 			}					
 			if(sr.getEmail() != null){
-				stmt.setString(stmtInt,sr.getEmail());
+				stmt.setString(stmtInt++,sr.getEmail());
 			}	
 			if(sr.getName() != null && sr.getName().length() > 0){
-				stmt.setString(stmtInt,sr.getName());
+				stmt.setString(stmtInt++,sr.getName());
 			}
 			if(sr.getPhone() != null && sr.getPhone().length() > 0){
 				stmt.setString(stmtInt++, sr.getPhone());
