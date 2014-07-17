@@ -40,6 +40,7 @@ public final class BookingResource extends UserPseudoResource{
 		try {
 			int userId = this.validateAuthentication();
 			BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
+			this.loadRepresentation(b_sr);
 			b_sr.setUserId(userId);
 			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), b_sr.toJSON().toString());
 			
