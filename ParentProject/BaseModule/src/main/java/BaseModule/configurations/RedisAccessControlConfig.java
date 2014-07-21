@@ -17,7 +17,7 @@ public final class RedisAccessControlConfig {
 	/* PartnerModule */
 	public static final String partnerAccessControl_keyPrefix = "partnerAccessControl-";
 	public static final int partnerAccessControl_lockCount = 3;
-	public static final long partnerAccessControl_lockThreshold = 120000l;	//1 min
+	public static final long partnerAccessControl_lockThreshold = 120000l;	//2 min
 	
 	
 	/* AdminModule */
