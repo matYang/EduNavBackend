@@ -34,7 +34,9 @@ public class AlipayIdResource extends UserPseudoResource {
                 notifyId = this.getQueryVal("notify_id");
                 String notify_time = EncodingService.decodeURI(this
                         .getQueryVal("notify_time"));
-                if (max.compareTo(notify_time) >= 0) {
+                if (max.compareTo(notify_time) <= 0) {
+                    DebugLog.b_d("max: " + max);
+                    DebugLog.b_d("notify_time: " + notify_time);
                     DebugLog.b_d("too late to check");
                     this.redirectTemporary(AlipayConfig.failureRedirect);
                     return "fail";
