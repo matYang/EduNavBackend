@@ -52,7 +52,7 @@ public class AlipayIdResource extends UserPseudoResource {
                         Booking booking = BookingDaoService
                                 .getBookingByReference(bookingRef);
                         booking.setStatus(BookingStatus.paid);
-                        // BookingDaoService.updateBookingInfo(booking);
+                        BookingDaoService.updateBookingInfo(booking);
                         DebugLog.b_d("get: status verified");
                         this.redirectTemporary(AlipayConfig.successRedirect);
                         return "success";
