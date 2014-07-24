@@ -30,22 +30,22 @@ public class AlipayIdResource extends UserPseudoResource {
         try {
             success = this.getQueryVal("is_success");
             if (success.equals("T")) {
-                DebugLog.b_d("successful");
+                DebugLog.b_d("get: successful");
                 // 成功调取
                 notifyId = this.getQueryVal("notify_id");
                 String notify_time = EncodingService.decodeURI(this
                         .getQueryVal("notify_time"));
                 if (max.compareTo(notify_time) <= 0) {
-                    DebugLog.b_d("max: " + max);
-                    DebugLog.b_d("notify_time: " + notify_time);
-                    DebugLog.b_d("too late to check");
+                    DebugLog.b_d("get: max: " + max);
+                    DebugLog.b_d("get: notify_time: " + notify_time);
+                    DebugLog.b_d("get: too late to check");
                     this.redirectTemporary(AlipayConfig.failureRedirect);
                     return "fail";
                 }
                 verified = AlipayNotify.Verify(notifyId);
                 if (verified.equals("true")) {
                     // 验证通过
-                    DebugLog.b_d("verified");
+                    DebugLog.b_d("get: verified");
                     tradeStatus = this.getQueryVal("trade_status");
                     if (tradeStatus.equals("TRADE_SUCCESS")
                             || tradeStatus.equals("TRADE_FINISHED")) {
@@ -54,18 +54,18 @@ public class AlipayIdResource extends UserPseudoResource {
                                 .getBookingByReference(bookingRef);
                         booking.setStatus(BookingStatus.paid);
                         //BookingDaoService.updateBookingInfo(booking);
-                        DebugLog.b_d("status verified");
+                        DebugLog.b_d("get: status verified");
                         this.redirectTemporary(AlipayConfig.successRedirect);
                         return "success";
                     } else {
-                        DebugLog.b_d("status verify failed");
+                        DebugLog.b_d("get: status verify failed");
                         this.redirectTemporary(AlipayConfig.failureRedirect);
                         return "fail";
                     }
                 }
-                DebugLog.b_d("unverified");
+                DebugLog.b_d("get: unverified");
             }
-            DebugLog.b_d("unsuccessful");
+            DebugLog.b_d("get: unsuccessful");
         } catch (Exception e) {
             DebugLog.b_d(e.getMessage());
             this.redirectTemporary(AlipayConfig.failureRedirect);

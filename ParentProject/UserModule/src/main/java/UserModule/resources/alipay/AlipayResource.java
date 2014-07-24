@@ -3,6 +3,7 @@ package UserModule.resources.alipay;
 import org.restlet.resource.Post;
 import UserModule.resources.UserPseudoResource;
 import BaseModule.alipay.AlipayNotify;
+import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
 import BaseModule.model.Booking;
@@ -21,15 +22,22 @@ public class AlipayResource extends UserPseudoResource{
 			verified = AlipayNotify.Verify(notifyId);
 
 			if(verified.equals("true")){
+			    DebugLog.b_d("post: verified");
 				tradeStatus = this.getQueryVal("trade_status");
 
-				if(tradeStatus.equals("TRADE_SUCCESS") || tradeStatus.equals("TRADE_FINISHED")){					
+				if(tradeStatus.equals("TRADE_SUCCESS") || tradeStatus.equals("TRADE_FINISHED")){	
+				    DebugLog.b_d("post: status verified");
 					String bookingRef = this.getQueryVal("out_trade_no");
 					Booking booking = BookingDaoService.getBookingByReference(bookingRef);
 					booking.setStatus(BookingStatus.paid);
 					BookingDaoService.updateBookingInfo(booking);			
 					feedback = "success";		
+				} else {
+				    DebugLog.b_d("post: status unverified");
 				}
+				
+			} else {
+			    DebugLog.b_d("post: unverified");
 			}
 		} catch (Exception e) {
 			return e.getMessage();
