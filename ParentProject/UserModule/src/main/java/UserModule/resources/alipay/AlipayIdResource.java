@@ -29,17 +29,20 @@ public class AlipayIdResource extends UserPseudoResource {
         try {
             success = this.getQueryVal("is_success");
             if (success.equals("T")) {
+                DebugLog.b_d("successful");
                 // 成功调取
                 notifyId = this.getQueryVal("notify_id");
                 String notify_time = EncodingService.decodeURI(this
                         .getQueryVal("notify_time"));
                 if (max.compareTo(notify_time) >= 0) {
+                    DebugLog.b_d("too late to check");
                     this.redirectTemporary(AlipayConfig.failureRedirect);
                     return "fail";
                 }
                 verified = AlipayNotify.Verify(notifyId);
                 if (verified.equals("true")) {
                     // 验证通过
+                    DebugLog.b_d("verified");
                     tradeStatus = this.getQueryVal("trade_status");
                     if (tradeStatus.equals("TRADE_SUCCESS")
                             || tradeStatus.equals("TRADE_FINISHED")) {
@@ -47,18 +50,23 @@ public class AlipayIdResource extends UserPseudoResource {
                         Booking booking = BookingDaoService
                                 .getBookingByReference(bookingRef);
                         booking.setStatus(BookingStatus.paid);
+                        DebugLog.b_d("status verified");
                         this.redirectTemporary(AlipayConfig.successRedirect);
                         return "success";
                     } else {
+                        DebugLog.b_d("status verify failed");
                         this.redirectTemporary(AlipayConfig.failureRedirect);
                         return "fail";
                     }
                 }
+                DebugLog.b_d("unverified");
             }
+            DebugLog.b_d("unsuccessful");
         } catch (Exception e) {
             DebugLog.b_d(e.getMessage());
-        }
-        this.addCORSHeader();
+        } finally{
+            this.addCORSHeader();
+        }        
         return "fail";
     }
 }
