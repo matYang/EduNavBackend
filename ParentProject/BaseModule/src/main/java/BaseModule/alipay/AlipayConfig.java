@@ -26,8 +26,9 @@ public class AlipayConfig {
 
     // 付完款后跳转的页面 要用 http://格式的完整路径，不允许加?id=123这类自定义参数
     // return_url的域名不能写成http://localhost/js_jsp_utf8/return_url.jsp，否则会导致return_url执行无效
-    public static String return_url = "http://usertest.ishangke.cn/test-api/v1.0/alipay/returnUrl";
-
+    // public static String return_url =
+    // "http://usertest.ishangke.cn/test-api/v1.0/alipay/returnUrl";
+    public static String return_url = "";
     // payment_type 默认为1
     public static String payment_type = "1";
 
