@@ -10,6 +10,7 @@ import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
 import BaseModule.dbservice.BookingDaoService;
+import BaseModule.eduDAO.BookingDao;
 import BaseModule.model.Booking;
 import BaseModule.service.EncodingService;
 import UserModule.resources.UserPseudoResource;
@@ -52,6 +53,7 @@ public class AlipayIdResource extends UserPseudoResource {
                         Booking booking = BookingDaoService
                                 .getBookingByReference(bookingRef);
                         booking.setStatus(BookingStatus.paid);
+                        BookingDao.updateBookingInDatabases(booking);
                         DebugLog.b_d("status verified");
                         this.redirectTemporary(AlipayConfig.successRedirect);
                         return "success";
@@ -66,6 +68,7 @@ public class AlipayIdResource extends UserPseudoResource {
             DebugLog.b_d("unsuccessful");
         } catch (Exception e) {
             DebugLog.b_d(e.getMessage());
+            this.redirectTemporary(AlipayConfig.failureRedirect);
         } finally{
             this.addCORSHeader();
         }        
