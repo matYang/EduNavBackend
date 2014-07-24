@@ -15,11 +15,10 @@ public class AlipayResource extends UserPseudoResource {
         String notifyId = null;
         String tradeStatus = null;
         String verified = null;
-        String feedback = "fail";
+
         try {
             notifyId = this.getQueryVal("notify_id");
-//            verified = AlipayNotify.Verify(notifyId);
-            verified = "true";
+            verified = AlipayNotify.Verify(notifyId);           
             if (verified.equals("true")) {
                 DebugLog.b_d("post: verified");
                 tradeStatus = this.getQueryVal("trade_status");
@@ -32,21 +31,23 @@ public class AlipayResource extends UserPseudoResource {
                             .getBookingByReference(bookingRef);
                     booking.setStatus(BookingStatus.paid);
                     BookingDaoService.updateBookingInfo(booking);
-                    feedback = "success";
+                    return "success";
                 } else {
                     DebugLog.b_d("post: status unverified");
+                    return "fail";
                 }
 
             } else {
                 DebugLog.b_d("post: unverified");
+                return "fail";
             }
         } catch (Exception e) {
             DebugLog.b_d(e.getMessage());
         } finally {
             this.addCORSHeader();
         }
+        return "fail";
 
-        return feedback;
     }
 
 }
