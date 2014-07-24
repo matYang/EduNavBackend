@@ -87,7 +87,7 @@ public final class BookingResource extends UserPseudoResource {
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONGenerator.toJSON(booking);
 			
-			bookingObject.append("alipayForm", AlipaySubmit.BuildForm(booking.getReference(), "Test", "0.01"));
+			bookingObject.put("alipayForm", AlipaySubmit.BuildForm(booking.getReference(), "Test", "0.01"));
 			
 		} catch(PseudoException e){
 			this.addCORSHeader();
