@@ -22,8 +22,8 @@ public class AlipayConfig {
     public static String sign_type = "MD5";
 
     // notify_url 交易过程中服务器通知的页面 要用 http://格式的完整路径，不允许加?id=123这类自定义参数
-    //public static String notify_url = "http://usertest.ishangke.cn/test-api/v1.0/alipay/alipay_notifyUrl";
-    public static String notify_url = "";
+    public static String notify_url = "http://usertest.ishangke.cn/test-api/v1.0/alipay/alipay_notifyUrl";
+
     // 付完款后跳转的页面 要用 http://格式的完整路径，不允许加?id=123这类自定义参数
     // return_url的域名不能写成http://localhost/js_jsp_utf8/return_url.jsp，否则会导致return_url执行无效
     public static String return_url = "http://usertest.ishangke.cn/test-api/v1.0/alipay/alipay_returnUrl";
