@@ -1,7 +1,11 @@
 package UserModule.resources.alipay;
 
-
 import java.util.Calendar;
+
+import org.restlet.data.CharacterSet;
+import org.restlet.data.MediaType;
+import org.restlet.representation.Representation;
+import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
 import BaseModule.alipay.AlipayConfig;
 import BaseModule.alipay.AlipayNotify;
@@ -17,11 +21,12 @@ import UserModule.resources.UserPseudoResource;
 public class AlipayIdResource extends UserPseudoResource {
 
     @Get
-    public String processUserAlipayFeedBack() {
+    public Representation processUserAlipayFeedBack() {
         String success = null;
         String notifyId = null;
         String tradeStatus = null;
         String verified = null;
+        Representation representation = null;
         Calendar now = DateUtility.getCurTimeInstance();
         now.add(Calendar.SECOND, 60);
         String max = DateUtility.toSQLDateTime(now);
@@ -39,7 +44,10 @@ public class AlipayIdResource extends UserPseudoResource {
                     DebugLog.b_d("get: notify_time: " + notify_time);
                     DebugLog.b_d("get: too late to check");
                     this.redirectTemporary(AlipayConfig.failureRedirect);
-                    return "fail";
+                    representation = new StringRepresentation("fail",
+                            MediaType.TEXT_PLAIN);
+                    representation.setCharacterSet(CharacterSet.UTF_8);
+                    return representation;
                 }
                 verified = AlipayNotify.Verify(notifyId);
                 if (verified.equals("true")) {
@@ -55,22 +63,34 @@ public class AlipayIdResource extends UserPseudoResource {
                         BookingDaoService.updateBookingInfo(booking);
                         DebugLog.b_d("get: status verified");
                         this.redirectTemporary(AlipayConfig.successRedirect);
-                        return "success";
+                        representation = new StringRepresentation("success",
+                                MediaType.TEXT_PLAIN);
+                        representation.setCharacterSet(CharacterSet.UTF_8);
+                        return representation;
                     } else {
                         DebugLog.b_d("get: status verify failed");
                         this.redirectTemporary(AlipayConfig.failureRedirect);
-                        return "fail";
+                        representation = new StringRepresentation("fail",
+                                MediaType.TEXT_PLAIN);
+                        representation.setCharacterSet(CharacterSet.UTF_8);
+                        return representation;
                     }
                 } else {
                     DebugLog.b_d("get: unverified");
                     this.redirectTemporary(AlipayConfig.failureRedirect);
-                    return "fail";
+                    representation = new StringRepresentation("fail",
+                            MediaType.TEXT_PLAIN);
+                    representation.setCharacterSet(CharacterSet.UTF_8);
+                    return representation;
                 }
 
             } else {
                 DebugLog.b_d("get: unsuccessful");
                 this.redirectTemporary(AlipayConfig.failureRedirect);
-                return "fail";
+                representation = new StringRepresentation("fail",
+                        MediaType.TEXT_PLAIN);
+                representation.setCharacterSet(CharacterSet.UTF_8);
+                return representation;
             }
         } catch (Exception e) {
             DebugLog.b_d(e.getMessage());
@@ -78,6 +98,8 @@ public class AlipayIdResource extends UserPseudoResource {
         } finally {
             this.addCORSHeader();
         }
-        return "fail";
+        representation = new StringRepresentation("fail", MediaType.TEXT_PLAIN);
+        representation.setCharacterSet(CharacterSet.UTF_8);
+        return representation;
     }
 }

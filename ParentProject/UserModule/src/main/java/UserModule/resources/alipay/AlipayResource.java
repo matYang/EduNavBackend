@@ -1,5 +1,9 @@
 package UserModule.resources.alipay;
 
+import org.restlet.data.CharacterSet;
+import org.restlet.data.MediaType;
+import org.restlet.representation.Representation;
+import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 import UserModule.resources.UserPseudoResource;
 import BaseModule.alipay.AlipayNotify;
@@ -11,14 +15,15 @@ import BaseModule.model.Booking;
 public class AlipayResource extends UserPseudoResource {
 
     @Post
-    public String processAlipayFeedBack() {
+    public Representation processAlipayFeedBack() {
         String notifyId = null;
         String tradeStatus = null;
         String verified = null;
+        Representation representation = null;
 
         try {
             notifyId = this.getQueryVal("notify_id");
-            verified = AlipayNotify.Verify(notifyId);           
+            verified = AlipayNotify.Verify(notifyId);
             if (verified.equals("true")) {
                 DebugLog.b_d("post: verified");
                 tradeStatus = this.getQueryVal("trade_status");
@@ -31,23 +36,33 @@ public class AlipayResource extends UserPseudoResource {
                             .getBookingByReference(bookingRef);
                     booking.setStatus(BookingStatus.paid);
                     BookingDaoService.updateBookingInfo(booking);
-                    return "success";
+                    representation = new StringRepresentation("success",
+                            MediaType.TEXT_PLAIN);
+                    representation.setCharacterSet(CharacterSet.UTF_8);
+                    return representation;
                 } else {
                     DebugLog.b_d("post: status unverified");
-                    return "fail";
+                    representation = new StringRepresentation("fail",
+                            MediaType.TEXT_PLAIN);
+                    representation.setCharacterSet(CharacterSet.UTF_8);
+                    return representation;
                 }
 
             } else {
                 DebugLog.b_d("post: unverified");
-                return "fail";
+                representation = new StringRepresentation("fail",
+                        MediaType.TEXT_PLAIN);
+                representation.setCharacterSet(CharacterSet.UTF_8);
+                return representation;
             }
         } catch (Exception e) {
             DebugLog.b_d(e.getMessage());
         } finally {
             this.addCORSHeader();
         }
-        return "fail";
+        representation = new StringRepresentation("fail", MediaType.TEXT_PLAIN);
+        representation.setCharacterSet(CharacterSet.UTF_8);
+        return representation;
 
     }
-
 }
