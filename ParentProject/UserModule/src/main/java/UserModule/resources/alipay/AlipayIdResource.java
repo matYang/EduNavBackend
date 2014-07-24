@@ -53,7 +53,7 @@ public class AlipayIdResource extends UserPseudoResource {
                         Booking booking = BookingDaoService
                                 .getBookingByReference(bookingRef);
                         booking.setStatus(BookingStatus.paid);
-                        //BookingDaoService.updateBookingInfo(booking);
+                        // BookingDaoService.updateBookingInfo(booking);
                         DebugLog.b_d("get: status verified");
                         this.redirectTemporary(AlipayConfig.successRedirect);
                         return "success";
@@ -62,10 +62,17 @@ public class AlipayIdResource extends UserPseudoResource {
                         this.redirectTemporary(AlipayConfig.failureRedirect);
                         return "fail";
                     }
+                } else {
+                    DebugLog.b_d("get: unverified");
+                    this.redirectTemporary(AlipayConfig.failureRedirect);
+                    return "fail";
                 }
-                DebugLog.b_d("get: unverified");
+
+            } else {
+                DebugLog.b_d("get: unsuccessful");
+                this.redirectTemporary(AlipayConfig.failureRedirect);
+                return "fail";
             }
-            DebugLog.b_d("get: unsuccessful");
         } catch (Exception e) {
             DebugLog.b_d(e.getMessage());
             this.redirectTemporary(AlipayConfig.failureRedirect);
