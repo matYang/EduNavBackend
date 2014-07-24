@@ -115,10 +115,10 @@ public final class RoutingService extends Application {
 		String alipayServicePrefix = "/alipay";
 		String alipayNotifyUrlPrefix = "/alipay_notifyUrl";
 		String alipayReturnUrlPrefix = "/alipay_returnUrl";
-		//  API for ZFB post processing : /api/v1.0/alipay/alipay_notifyUrl
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + alipayServicePrefix + alipayNotifyUrlPrefix, AlipayResource.class);
-		//  API for ZFB get processing: /api/v1.0/ailpay/alipay_returnUrl
-		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + alipayServicePrefix + alipayReturnUrlPrefix, AlipayIdResource.class);
+		//  API for ZFB post processing : /test-api/v1.0/alipay/alipay_notifyUrl
+		router.attach("/test-api/v1.0/alipay/alipay_notifyUrl", AlipayResource.class);
+		//  API for ZFB get processing: /test-api/v1.0/ailpay/alipay_returnUrl
+		router.attach("/test-api/v1.0/ailpay/alipay_returnUrl", AlipayIdResource.class);
 		
 		return router;
 	}

@@ -14,7 +14,8 @@ public class AlipayResource extends UserPseudoResource{
 	public String processAlipayFeedBack(){
 		String notifyId = null;
 		String tradeStatus = null;
-		String verified = null;		
+		String verified = null;	
+		String feedback = "fail";
 		try{
 			notifyId = this.getReqAttr("notify_id");
 			verified = AlipayNotify.Verify(notifyId);
@@ -23,11 +24,11 @@ public class AlipayResource extends UserPseudoResource{
 				tradeStatus = this.getReqAttr("trade_status");
 
 				if(tradeStatus.equals("TRADE_SUCCESS") || tradeStatus.equals("TRADE_FINISHED")){					
-					String bookingRef = this.getReqAttr("out_trade _no");
+					String bookingRef = this.getReqAttr("out_trade_no");
 					Booking booking = BookingDaoService.getBookingByReference(bookingRef);
 					booking.setStatus(BookingStatus.paid);
 					BookingDaoService.updateBookingInfo(booking);			
-					return "success";			
+					feedback = "success";		
 				}
 			}
 		} catch (Exception e) {
@@ -35,7 +36,7 @@ public class AlipayResource extends UserPseudoResource{
 		}
 		
 		this.addCORSHeader();		
-		return "";
+		return feedback;
 	}
 
 }

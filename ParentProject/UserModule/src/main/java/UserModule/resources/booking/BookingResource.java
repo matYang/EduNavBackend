@@ -12,9 +12,8 @@ import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
-
 import BaseModule.alipay.AlipayConfig;
-import BaseModule.alipay.AlipayService;
+import BaseModule.alipay.AlipaySubmit;
 import BaseModule.common.DateUtility;
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.EnumConfig.BookingStatus;
@@ -31,37 +30,36 @@ import BaseModule.service.EncodingService;
 import BaseModule.service.ValidationService;
 import UserModule.resources.UserPseudoResource;
 
-public final class BookingResource extends UserPseudoResource{
-	private final String apiId = BookingResource.class.getSimpleName();
-	
-	@Get
-	public Representation getBookings(){
-		JSONArray jsonArray = null;
-		try {
-			int userId = this.validateAuthentication();
-			BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
-			this.loadRepresentation(b_sr);
-			b_sr.setUserId(userId);
-			DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId, this.getUserAgent(), b_sr.toJSON().toString());
-			
-			ArrayList<Booking> result = BookingDaoService.searchBooking(b_sr);
-			jsonArray = JSONGenerator.toJSON(result);
-			
-			
-		} catch (PseudoException e){
-			this.addCORSHeader();
-			return this.doPseudoException(e);
-		} catch (Exception e) {
-			return this.doException(e);
-		}
-		
-		Representation result = new JsonRepresentation(jsonArray);
-		this.addCORSHeader();
-		return result;
-	}
-	
+public final class BookingResource extends UserPseudoResource {
+    private final String apiId = BookingResource.class.getSimpleName();
 
-	@Post
+    @Get
+    public Representation getBookings() {
+        JSONArray jsonArray = null;
+        try {
+            int userId = this.validateAuthentication();
+            BookingSearchRepresentation b_sr = new BookingSearchRepresentation();
+            this.loadRepresentation(b_sr);
+            b_sr.setUserId(userId);
+            DebugLog.b_d(this.moduleId, this.apiId, this.reqId_get, userId,
+                    this.getUserAgent(), b_sr.toJSON().toString());
+
+            ArrayList<Booking> result = BookingDaoService.searchBooking(b_sr);
+            jsonArray = JSONGenerator.toJSON(result);
+
+        } catch (PseudoException e) {
+            this.addCORSHeader();
+            return this.doPseudoException(e);
+        } catch (Exception e) {
+            return this.doException(e);
+        }
+
+        Representation result = new JsonRepresentation(jsonArray);
+        this.addCORSHeader();
+        return result;
+    }
+
+    @Post
 	public Representation createBooking(Representation entity){
 		Booking booking = null;
 		JSONObject bookingObject = new JSONObject();
@@ -89,11 +87,7 @@ public final class BookingResource extends UserPseudoResource{
 			booking = BookingDaoService.createBooking(booking);
 			bookingObject = JSONGenerator.toJSON(booking);
 			
-			bookingObject.append("alipayForm", AlipayService.BuildForm(AlipayConfig.partner,
-					AlipayConfig.seller_email, AlipayConfig.return_url, AlipayConfig.notify_url,
-					"", booking.getReference(),course.getWholeName(), 
-					"", booking.getPrice()+"", AlipayConfig.paymethod, "", "",	"", "", "", "","", "", 
-					AlipayConfig.key, AlipayConfig.sign_type, AlipayConfig.it_b_pay));
+			bookingObject.append("alipayForm", AlipaySubmit.BuildForm(booking.getReference(), "Test", "0.01"));
 			
 		} catch(PseudoException e){
 			this.addCORSHeader();
@@ -108,35 +102,40 @@ public final class BookingResource extends UserPseudoResource{
 		return result;
 	}
 
-	protected Booking parseJSON(JSONObject jsonBooking) throws ParseException, SQLException, PseudoException {
-		Booking booking = null;
-		try{
-			
-			Calendar adjustTime = DateUtility.getCurTimeInstance();
-			Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking.getString("scheduledTime"));			
-			
-			int userId = jsonBooking.getInt("userId");
-			int partnerId = jsonBooking.getInt("partnerId");
-			int courseId = jsonBooking.getInt("courseId");
-			
-			String name = EncodingService.decodeURI(jsonBooking.getString("name"));
-			String phone = EncodingService.decodeURI(jsonBooking.getString("phone"));
-			String email = EncodingService.decodeURI(jsonBooking.getString("email"));
-			String reference = ReferenceGenerator.generateBookingReference();		
-			
-			BookingStatus status = BookingStatus.awaiting;		
-			
-		    booking = new Booking(scheduledTime,adjustTime, 
-					0,userId, partnerId, courseId, name,
-					phone,email,reference,status,0);
-			
-			ValidationService.validateBooking(booking);
-			
-		}catch (JSONException|IOException e) {
-			throw new ValidationException("无效数据格式");
-		}
-		
-		return booking;
-	}
+    protected Booking parseJSON(JSONObject jsonBooking) throws ParseException,
+            SQLException, PseudoException {
+        Booking booking = null;
+        try {
+
+            Calendar adjustTime = DateUtility.getCurTimeInstance();
+            Calendar scheduledTime = DateUtility.castFromAPIFormat(jsonBooking
+                    .getString("scheduledTime"));
+
+            int userId = jsonBooking.getInt("userId");
+            int partnerId = jsonBooking.getInt("partnerId");
+            int courseId = jsonBooking.getInt("courseId");
+
+            String name = EncodingService.decodeURI(jsonBooking
+                    .getString("name"));
+            String phone = EncodingService.decodeURI(jsonBooking
+                    .getString("phone"));
+            String email = EncodingService.decodeURI(jsonBooking
+                    .getString("email"));
+            String reference = ReferenceGenerator.generateBookingReference();
+
+            BookingStatus status = BookingStatus.awaiting;
+
+            booking = new Booking(scheduledTime, adjustTime, 0, userId,
+                    partnerId, courseId, name, phone, email, reference, status,
+                    0);
+
+            ValidationService.validateBooking(booking);
+
+        } catch (JSONException | IOException e) {
+            throw new ValidationException("无效数据格式");
+        }
+
+        return booking;
+    }
 
 }
