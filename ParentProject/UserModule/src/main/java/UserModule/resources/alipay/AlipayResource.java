@@ -17,14 +17,14 @@ public class AlipayResource extends UserPseudoResource{
 		String verified = null;	
 		String feedback = "fail";
 		try{
-			notifyId = this.getReqAttr("notify_id");
+			notifyId = this.getQueryVal("notify_id");
 			verified = AlipayNotify.Verify(notifyId);
 
 			if(verified.equals("true")){
-				tradeStatus = this.getReqAttr("trade_status");
+				tradeStatus = this.getQueryVal("trade_status");
 
 				if(tradeStatus.equals("TRADE_SUCCESS") || tradeStatus.equals("TRADE_FINISHED")){					
-					String bookingRef = this.getReqAttr("out_trade_no");
+					String bookingRef = this.getQueryVal("out_trade_no");
 					Booking booking = BookingDaoService.getBookingByReference(bookingRef);
 					booking.setStatus(BookingStatus.paid);
 					BookingDaoService.updateBookingInfo(booking);			
