@@ -1,6 +1,7 @@
 package UserModule.resources.alipay;
 
 import org.restlet.data.CharacterSet;
+import org.restlet.data.Form;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
@@ -16,35 +17,36 @@ import BaseModule.model.Booking;
 public class AlipayResource extends UserPseudoResource {
 
     @Post
-    public Representation processAlipayFeedBack() {
+    public Representation processAlipayFeedBack(Representation entity) {
         String notifyId = null;
         String tradeStatus = null;
         String verified = null;
         Representation representation = null;
-
+        Form form = new Form(entity);
+        
         try {
-            notifyId = this.getQueryVal("notify_id");
+            notifyId = form.getFirstValue("notify_id");
             verified = AlipayNotify.Verify(notifyId);
             if (verified.equals("true")) {
                 DebugLog.b_d("post: verified");
-                tradeStatus = this.getQueryVal("trade_status");
+                tradeStatus = form.getFirstValue("trade_status");
 
                 if (tradeStatus.equals("TRADE_SUCCESS")
                         || tradeStatus.equals("TRADE_FINISHED")) {
                     DebugLog.b_d("post: status verified");
-                    String bookingRef = this.getQueryVal("out_trade_no");
+                    String bookingRef = form.getFirstValue("out_trade_no");
                     Booking booking = BookingDaoService
                             .getBookingByReference(bookingRef);
                     booking.setStatus(BookingStatus.paid);
                     BookingDaoService.updateBookingInfo(booking);
                     System.out.println("success");
-                    representation = new StringRepresentation("success",
+                    representation = new StringRepresentation("",
                             MediaType.TEXT_PLAIN);
                     representation.setCharacterSet(CharacterSet.UTF_8);
                     return representation;
                 } else {
                     DebugLog.b_d("post: status unverified");
-                    representation = new StringRepresentation("fail",
+                    representation = new StringRepresentation("",
                             MediaType.TEXT_PLAIN);
                     representation.setCharacterSet(CharacterSet.UTF_8);
                     return representation;
@@ -52,7 +54,7 @@ public class AlipayResource extends UserPseudoResource {
 
             } else {
                 DebugLog.b_d("post: unverified");
-                representation = new StringRepresentation("fail",
+                representation = new StringRepresentation("",
                         MediaType.TEXT_PLAIN);
                 representation.setCharacterSet(CharacterSet.UTF_8);
                 return representation;
@@ -62,7 +64,7 @@ public class AlipayResource extends UserPseudoResource {
         } finally {
             this.addCORSHeader();
         }
-        representation = new StringRepresentation("fail", MediaType.TEXT_PLAIN);
+        representation = new StringRepresentation("", MediaType.TEXT_PLAIN);
         representation.setCharacterSet(CharacterSet.UTF_8);
         return representation;
 
