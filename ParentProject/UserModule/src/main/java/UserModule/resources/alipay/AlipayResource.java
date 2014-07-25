@@ -18,7 +18,7 @@ public class AlipayResource extends UserPseudoResource {
 
     @Post
     public Representation processAlipayFeedBack(Representation entity) {
-        DebugLog.b_d("竟来了");
+        DebugLog.b_d("Enter the Post entity");
         String notifyId = null;
         String tradeStatus = null;
         String verified = null;
@@ -74,7 +74,7 @@ public class AlipayResource extends UserPseudoResource {
     @Get
     public Representation get(){
         System.out.println("success");
-        Representation representation = new StringRepresentation("",
+        Representation representation = new StringRepresentation("success",
                 MediaType.TEXT_PLAIN);
         representation.setCharacterSet(CharacterSet.UTF_8);
         return representation;
