@@ -4,6 +4,7 @@ import org.restlet.data.CharacterSet;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
+import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import UserModule.resources.UserPseudoResource;
 import BaseModule.alipay.AlipayNotify;
@@ -36,6 +37,7 @@ public class AlipayResource extends UserPseudoResource {
                             .getBookingByReference(bookingRef);
                     booking.setStatus(BookingStatus.paid);
                     BookingDaoService.updateBookingInfo(booking);
+                    System.out.println("success");
                     representation = new StringRepresentation("success",
                             MediaType.TEXT_PLAIN);
                     representation.setCharacterSet(CharacterSet.UTF_8);
@@ -64,5 +66,14 @@ public class AlipayResource extends UserPseudoResource {
         representation.setCharacterSet(CharacterSet.UTF_8);
         return representation;
 
+    }
+    
+    @Get
+    public Representation get(){
+        System.out.println("success");
+        Representation representation = new StringRepresentation("success",
+                MediaType.TEXT_PLAIN);
+        representation.setCharacterSet(CharacterSet.UTF_8);
+        return representation;
     }
 }

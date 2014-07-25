@@ -51,8 +51,7 @@ public class PseudoResource extends ServerResource{
 	
 	/*set the response header to allow for CORS*/
 	public void addCORSHeader(){
-		Series<Header> responseHeaders = (Series<Header>) getResponse().getAttributes().get("org.restlet.http.headers");
-        Series<Header> requestHeaders = (Series<Header>) getRequest().getAttributes().get("org.restlet.http.headers");
+		Series<Header> responseHeaders = (Series<Header>) getResponse().getAttributes().get("org.restlet.http.headers");        
         
 		if (responseHeaders == null) { 
 			responseHeaders = new Series(Header.class); 
@@ -65,16 +64,8 @@ public class PseudoResource extends ServerResource{
 		
 		if (responseHeaders != null){
             getResponse().getAttributes().put("org.restlet.http.headers", responseHeaders); 
-        }
+        }		
 		
-		if (requestHeaders == null) {
-		    requestHeaders = new Series(Header.class);
-		    requestHeaders.add("Content-Type", "application/x-www-form-urlencoded; text/html; charset=utf-8");
-		}
-		
-		if (requestHeaders != null) {
-		    getRequest().getAttributes().put("org.restlet.http.headers", requestHeaders);
-		}
 	}
 
 	public void checkEntity(Representation entity) throws ValidationException{
