@@ -18,6 +18,7 @@ public class AlipayResource extends UserPseudoResource {
 
     @Post
     public Representation processAlipayFeedBack(Representation entity) {
+        DebugLog.b_d("竟来了");
         String notifyId = null;
         String tradeStatus = null;
         String verified = null;
