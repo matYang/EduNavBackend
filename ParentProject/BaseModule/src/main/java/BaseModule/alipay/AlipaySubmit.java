@@ -17,6 +17,7 @@ public class AlipaySubmit {
         sPara.put("sign_type", AlipayConfig.sign_type);
         sPara.put("notify_url", AlipayConfig.notify_url);
         sPara.put("return_url", AlipayConfig.return_url);
+        sPara.put("_input_charset", AlipayConfig.input_charset);
         sPara.put("out_trade_no", out_trade_no);
         sPara.put("subject", subject);
         sPara.put("payment_type", AlipayConfig.payment_type);
