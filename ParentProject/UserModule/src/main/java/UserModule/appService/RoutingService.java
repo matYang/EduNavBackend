@@ -112,10 +112,10 @@ public final class RoutingService extends Application {
 		router.attach(ServerConfig.userApplicationPrefix + ServerConfig.versionPrefix + couponServicePrefix + CouponPrefix + "/{id}", CouponIdResource.class);
 				
 		/** -------------------- APIs for alipay module -------------------**/		
-		//  API for ZFB post processing : /test-api/v1.0/alipay/notifyUrl
+		//  API for ZFB post processing : /test-api/v1.0/alipay/alipay/notify_Url
 		router.attach("/test-api/v1.0/alipay/alipay/notify_Url", AlipayResource.class);
-		//  API for ZFB get processing: /test-api/v1.0/ailpay/returnUrl
-		router.attach("/test-api/v1.0/alipay/returnUrl", AlipayIdResource.class);
+		//  API for ZFB get processing: /test-api/v1.0/alipay/alipay/return_Url
+		router.attach("/test-api/v1.0/alipay/alipay/return_Url", AlipayIdResource.class);
 		
 		return router;
 	}
