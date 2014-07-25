@@ -71,7 +71,7 @@ public class AlipayResource extends UserPseudoResource {
     @Get
     public Representation get(){
         System.out.println("success");
-        Representation representation = new StringRepresentation("success",
+        Representation representation = new StringRepresentation("",
                 MediaType.TEXT_PLAIN);
         representation.setCharacterSet(CharacterSet.UTF_8);
         return representation;
