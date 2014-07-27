@@ -109,15 +109,19 @@ public class ServerMain {
 			Series<Header> headers = (Series<Header>) cr.getRequestAttributes().get(
 			                                 "org.restlet.http.headers");
 			if (headers == null) {
+			    DebugLog.d("headers is null");
 			    headers = new Series(Header.class); 
 			    headers.add("Access-Control-Allow-Origin", "*");
 			    headers.add("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
 			    headers.add("Access-Control-Allow-Headers", "Content-Type");
 			    headers.add("Content-Type", "application/json");
+			    headers.add("Content-Type", "x-www-form-urlencoded");
 	            headers.add("Access-Control-Allow-Headers", "authCode");
 	            headers.add("Access-Control-Allow-Headers", "origin, x-requested-with, content-type");
-			} else {
-			    headers.set("Content-Type", "application/json");
+			} 
+			
+			if (headers != null) {
+			    DebugLog.d("headers is not null");
 			    cr.getRequestAttributes().put("org.restlet.http.headers", headers); 
 			}
 			
