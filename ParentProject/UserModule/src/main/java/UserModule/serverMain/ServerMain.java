@@ -7,10 +7,15 @@ import net.spy.memcached.internal.OperationFuture;
 import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
+import org.restlet.engine.header.Header;
+import org.restlet.resource.ClientResource;
+import org.restlet.util.Series;
+
 import BaseModule.common.DebugLog;
 import BaseModule.configurations.ParamConfig;
 import BaseModule.configurations.ServerConfig;
 import BaseModule.eduDAO.EduDaoBasic;
+import BaseModule.resources.PseudoResource;
 import UserModule.appService.RoutingService;
 
 public class ServerMain {
@@ -40,8 +45,7 @@ public class ServerMain {
 		// Add a new HTTP server listening on port
 
 		Server server = component.getServers().add(Protocol.HTTP, portNumber);
-		server.getContext().getParameters().add("maxThreads", "512");
-
+		server.getContext().getParameters().add("maxThreads", "512");		
 		// Attach the sample application
 		RoutingService routingService = new RoutingService();
 
@@ -101,6 +105,22 @@ public class ServerMain {
 		try {
 			ServerMain.getInstance().init(args);
 			ServerMain.getInstance().start();
+			ClientResource cr = new ClientResource("http://usertest.ishangke.cn/test-api/v1.0/alipay/alipay/notify_Url");
+			Series<Header> headers = (Series<Header>) cr.getRequestAttributes().get(
+			                                 "org.restlet.http.headers");
+			if (headers == null) {
+			    headers = new Series(Header.class); 
+			    headers.add("Access-Control-Allow-Origin", "*");
+			    headers.add("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+			    headers.add("Access-Control-Allow-Headers", "Content-Type");
+			    headers.add("Content-Type", "application/json");
+	            headers.add("Access-Control-Allow-Headers", "authCode");
+	            headers.add("Access-Control-Allow-Headers", "origin, x-requested-with, content-type");
+			} else {
+			    headers.set("Content-Type", "application/json");
+			    cr.getRequestAttributes().put("org.restlet.http.headers", headers); 
+			}
+			
 			DebugLog.d("Excuting");
 			DebugLog.b_d("Start Logging Behaviors");
 		} catch (Exception e) {

@@ -67,6 +67,26 @@ public class PseudoResource extends ServerResource{
         }		
 		
 	}
+	
+	public void addRequestHeaders(){
+	    Series<Header> requestHeaders = (Series<Header>) getRequest().getAttributes().get("org.restlet.http.headers");
+	    
+	    if (requestHeaders == null) { 
+	        requestHeaders = new Series(Header.class); 
+	        requestHeaders.add("Access-Control-Allow-Origin", "*");
+	        requestHeaders.add("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+	        requestHeaders.add("Access-Control-Allow-Headers", "Content-Type");
+	        requestHeaders.add("Content-Type", "application/json");
+	        requestHeaders.add("Access-Control-Allow-Headers", "authCode");
+	        requestHeaders.add("Access-Control-Allow-Headers", "origin, x-requested-with, content-type");
+        }
+        
+        if (requestHeaders != null){
+            getRequest().getAttributes().put("org.restlet.http.headers", requestHeaders); 
+        }
+	}
+	
+	
 
 	public void checkEntity(Representation entity) throws ValidationException{
 		if (entity != null && entity.getSize() > ValidationConfig.max_PostLength){
