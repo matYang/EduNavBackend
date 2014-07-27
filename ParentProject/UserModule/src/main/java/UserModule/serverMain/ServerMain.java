@@ -109,7 +109,7 @@ public class ServerMain {
 			Series<Header> headers = (Series<Header>) cr.getRequestAttributes().get(
 			                                 "org.restlet.http.headers");
 			if (headers == null) {
-			    DebugLog.d("headers is null");
+			    DebugLog.b_d("headers is null");
 			    headers = new Series(Header.class); 
 			    headers.add("Access-Control-Allow-Origin", "*");
 			    headers.add("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
@@ -121,7 +121,11 @@ public class ServerMain {
 			} 
 			
 			if (headers != null) {
-			    DebugLog.d("headers is not null");
+			    DebugLog.b_d("headers is not null");
+			    String contentType = headers.getFirstValue("Content-Type");
+			    if (contentType != null) {
+			        DebugLog.b_d("The Content-Type is: " + contentType);
+			    }
 			    cr.getRequestAttributes().put("org.restlet.http.headers", headers); 
 			}
 			
