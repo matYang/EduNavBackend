@@ -16,7 +16,7 @@ import BaseModule.model.Booking;
 
 public class AlipayResource extends UserPseudoResource {
 
-    @Post("application/json")
+    @Post("application/x-www-form-urlencoded")
     public Representation processAlipayFeedBack(Representation entity) {
         DebugLog.b_d("Enter the Post entity");
         String notifyId = null;

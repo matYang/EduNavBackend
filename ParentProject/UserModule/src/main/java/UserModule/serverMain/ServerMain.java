@@ -104,31 +104,7 @@ public class ServerMain {
 		
 		try {
 			ServerMain.getInstance().init(args);
-			ServerMain.getInstance().start();
-			ClientResource cr = new ClientResource("http://usertest.ishangke.cn/test-api/v1.0/alipay/alipay/notify_Url");
-			Series<Header> headers = (Series<Header>) cr.getRequestAttributes().get(
-			                                 "org.restlet.http.headers");
-			if (headers == null) {
-			    DebugLog.b_d("headers is null");
-			    headers = new Series(Header.class); 
-			    headers.add("Access-Control-Allow-Origin", "*");
-			    headers.add("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-			    headers.add("Access-Control-Allow-Headers", "Content-Type");
-			    headers.add("Content-Type", "application/json");
-			    headers.add("Content-Type", "x-www-form-urlencoded");
-	            headers.add("Access-Control-Allow-Headers", "authCode");
-	            headers.add("Access-Control-Allow-Headers", "origin, x-requested-with, content-type");
-			} 
-			
-			if (headers != null) {
-			    DebugLog.b_d("headers is not null");
-			    String contentType = headers.getFirstValue("Content-Type");
-			    if (contentType != null) {
-			        DebugLog.b_d("The Content-Type is: " + contentType);
-			    }
-			    cr.getRequestAttributes().put("org.restlet.http.headers", headers); 
-			}
-			
+			ServerMain.getInstance().start();			
 			DebugLog.d("Excuting");
 			DebugLog.b_d("Start Logging Behaviors");
 		} catch (Exception e) {
