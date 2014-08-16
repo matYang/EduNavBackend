@@ -10,7 +10,7 @@ public final class SMSService {
 	
 	//user sms
 	public static void sendUserCellVerificationSMS(final String cellNum, final String authCode){
-		String payload = "您申请注册爱上课会员的验证码为：" + authCode + "（如非本人操作请忽略）。爱上课，专注培训课程预订~";
+		String payload = "您申请注册爱上课会员的验证码为：" + authCode + "（如非本人操作请忽略）。爱上课，专注课程预订~";
 		SMSTask task = new SMSTask(SMSEvent.user_cellVerification, cellNum, payload);
 		ExecutorProvider.executeRelay(task);
 	}
